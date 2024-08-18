@@ -51,6 +51,7 @@ Join our community of developers creating universal apps.
 
 # Commands
 
-- `npm run android`
-- `npm run ios`
-- `npm run web`
+- Start project: `npx expo start`
+- Run on Android: `npm run android`
+- Run on iOS: `npm run ios`
+- Run on Web: `npm run web`
