@@ -1,0 +1,17 @@
+[
+    {
+      "id": "1",
+      "name": "John",
+      "icon": "Man1"
+    },
+    {
+      "id": "2",
+      "name": "Sarah",
+      "icon": "Woman1"
+    },
+    {
+      "id": "3",
+      "name": "David",
+      "icon": "Man2"
+    }
+  ]
