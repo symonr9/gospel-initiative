@@ -12,6 +12,7 @@ interface IOne {
     meetings: Meeting[];
     prayers: Prayer[];
     actionSteps: ActionStep[];
+    facts: string[];
 }
 
 export default class One implements IOne {
@@ -23,10 +24,11 @@ export default class One implements IOne {
     meetings: Meeting[];
     prayers: Prayer[];
     actionSteps: ActionStep[];
+    facts: string[];
     
     constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
         nextMeetingAt: Date | undefined, meetings: Meeting[], prayers: Prayer[],
-        actionSteps: ActionStep[]
+        actionSteps: ActionStep[], facts: string[]
     ) {
         this.id = id;
         this.name = name;
@@ -36,6 +38,7 @@ export default class One implements IOne {
         this.meetings = meetings;
         this.prayers = prayers;
         this.actionSteps = actionSteps;
+        this.facts = facts;
     }
 
 }
