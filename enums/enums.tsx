@@ -19,3 +19,17 @@ export enum AvatarIcon {
     Woman3 = '../assets/images/avatars/woman3.png',
     Woman4 = '../assets/images/avatars/woman4.png'
 }
+
+export enum PrayerType {
+    ForOne = 1,
+    ForCityMinistry = 2,
+    ForTheWorld
+}
+
+export enum OneStage {
+    Disciple = 1,
+    NewBeliever = 2,
+    Seeking = 3,
+    Curious = 4,
+    Apathetic = 5
+};

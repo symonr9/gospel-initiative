@@ -10,9 +10,7 @@ import { OnesListView } from '@/components/ones/OnesListView';
 
 export default function ShareChrist() {
     return (
-        <PageView
-            headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-            headerImage={<Ionicons size={100} name="chatbubbles" style={tabStyles.headerImage} />}>
+        <PageView>
             <ThemedView style={tabStyles.titleContainer}>
                 <ThemedText type="title">Share Christ</ThemedText>
             </ThemedView>

@@ -9,9 +9,7 @@ import { tabStyles } from '../../styles/styles';
 
 export default function ReachWorld() {
   return (
-    <PageView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={100} name="earth" style={tabStyles.headerImage} />}>
+    <PageView>
       <ThemedView style={tabStyles.titleContainer}>
         <ThemedText type="title">Reach World</ThemedText>
       </ThemedView>

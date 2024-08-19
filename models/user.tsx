@@ -1,5 +1,12 @@
-import { IUser } from "@/interfaces/interfaces";
 import { Role } from "@/enums/enums";
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  role: Role; // Enum for roles
+  createdAt: Date;
+}
 
 export default class User implements IUser {
     id: string;
