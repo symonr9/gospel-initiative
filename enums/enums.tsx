@@ -134,6 +134,8 @@ export enum StoryChapterType {
     Character = 103,
 };
 
-export enum StoryChapterIcon {
-    Man1 = '../assets/images/story/man1.png',
+export enum AppIcon {
+    Man1 = '../assets/images/app-icons/man1.png',
 }
+
+// Prompt

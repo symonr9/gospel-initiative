@@ -1,4 +1,4 @@
-import { StoryChapterType, StoryType, StoryChapterIcon } from "@/enums/enums";
+import { StoryChapterType, StoryType, AppIcon } from "@/enums/enums";
 
 interface IStoryChapter {
     id: string;
@@ -7,7 +7,7 @@ interface IStoryChapter {
     storyType: StoryType;
     title: string;
     notes: string;
-    icon: StoryChapterIcon;
+    icon: AppIcon;
     order: number;
 }
 
@@ -18,11 +18,11 @@ export default class StoryChapter implements IStoryChapter {
     storyType: StoryType;
     title: string;
     notes: string;
-    icon: StoryChapterIcon;
+    icon: AppIcon;
     order: number;
     
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
-        storyType: StoryType, title: string, notes: string, icon: StoryChapterIcon,
+        storyType: StoryType, title: string, notes: string, icon: AppIcon,
         order: number
     ) {
         this.id = id;
