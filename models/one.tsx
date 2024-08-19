@@ -1,7 +1,8 @@
-import { AvatarIcon, OneStage } from "@/enums/enums";
+import { AvatarIcon, OneStage, } from "@/enums/enums";
 import Meeting from "./meeting";
 import Prayer from "./prayer";
 import ActionStep from "./actionStep";
+import OneFact from "./oneFact";
 
 interface IOne {
     id: string;
@@ -12,7 +13,8 @@ interface IOne {
     meetings: Meeting[];
     prayers: Prayer[];
     actionSteps: ActionStep[];
-    facts: string[];
+    facts: OneFact[];
+    prayingSince: Date;
 }
 
 export default class One implements IOne {
@@ -24,11 +26,12 @@ export default class One implements IOne {
     meetings: Meeting[];
     prayers: Prayer[];
     actionSteps: ActionStep[];
-    facts: string[];
+    facts: OneFact[];
+    prayingSince: Date;
     
     constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
         nextMeetingAt: Date | undefined, meetings: Meeting[], prayers: Prayer[],
-        actionSteps: ActionStep[], facts: string[]
+        actionSteps: ActionStep[], facts: OneFact[], prayingSince: Date
     ) {
         this.id = id;
         this.name = name;
@@ -39,6 +42,7 @@ export default class One implements IOne {
         this.prayers = prayers;
         this.actionSteps = actionSteps;
         this.facts = facts;
+        this.prayingSince = prayingSince;
     }
 
 }

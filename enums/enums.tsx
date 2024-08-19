@@ -89,7 +89,8 @@ export enum OneFactType {
     LifeGoals = 9,
     Favorite = 10,
     FaithBackground = 11,
-    CommonGround = 12
+    CommonGround = 12,
+    PrayerPoint = 13,
 };
 
 // Action Steps
@@ -137,6 +138,12 @@ export enum StoryChapterType {
 };
 
 // Prompt
+
+// Journal
+
+export enum JournalEntryType {
+    Prayer = 1,
+}
 
 // Misc
 
