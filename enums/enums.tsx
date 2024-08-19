@@ -89,6 +89,7 @@ export enum OneFactType {
     LifeGoals = 9,
     Favorite = 10,
     FaithBackground = 11,
+    CommonGround = 12
 };
 
 // Action Steps
