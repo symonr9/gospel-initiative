@@ -1,4 +1,4 @@
-import { } from "@/enums/enums";
+import { Priority } from "@/enums/enums";
 import PrayerBeaconSettings from "./prayerBeaconSettings";
 
 interface IPrayerBeacon {
@@ -10,6 +10,7 @@ interface IPrayerBeacon {
     meetingId: string;
     responses: string[];
     targetDate: Date | undefined;
+    priority: Priority;
     settings: PrayerBeaconSettings;
 }
 
@@ -22,10 +23,11 @@ export default class PrayerBeacon implements IPrayerBeacon {
     meetingId: string;
     responses: string[];
     targetDate: Date | undefined;
+    priority: Priority;
     settings: PrayerBeaconSettings;
     
     constructor(id: string, name: string, notes: string, oneId: string,
-        responses: string[], targetDate: Date | undefined,
+        responses: string[], targetDate: Date | undefined, priority: Priority,
         settings: PrayerBeaconSettings, userId: string, meetingId: string,
     ) {
         this.id = id;
@@ -36,6 +38,7 @@ export default class PrayerBeacon implements IPrayerBeacon {
         this.meetingId = meetingId;
         this.responses = responses;
         this.targetDate = targetDate;
+        this.priority = priority;
         this.settings = settings;
     }
 

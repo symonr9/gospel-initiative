@@ -73,22 +73,23 @@ export enum OneStage {
     NewBeliever = 2,
     Seeking = 3,
     Curious = 4,
-    Apathetic = 5
+    Apathetic = 5,
+    Hostile = 6
 };
 
-export enum AvatarIcon {
-    Man1 = '../assets/images/avatars/man1.png',
-    Man2 = '../assets/images/avatars/man2.png',
-    Man3 = '../assets/images/avatars/man3.png',
-    Man4 = '../assets/images/avatars/man4.png',
-    Man5 = '../assets/images/avatars/man5.png',
-    Man6 = '../assets/images/avatars/man6.png',
-    Man7 = '../assets/images/avatars/man7.png',
-    Woman1 = '../assets/images/avatars/woman1.png',
-    Woman2 = '../assets/images/avatars/woman2.png',
-    Woman3 = '../assets/images/avatars/woman3.png',
-    Woman4 = '../assets/images/avatars/woman4.png'
-}
+export enum OneFactType {
+    Background = 1,
+    Family = 2,
+    Likes = 3,
+    Dislikes = 4,
+    Work = 5,
+    Hobbies = 6,
+    Education = 7,
+    SpiritualBeliefs = 8,
+    LifeGoals = 9,
+    Favorite = 10,
+    FaithBackground = 11,
+};
 
 // Action Steps
 
@@ -134,8 +135,30 @@ export enum StoryChapterType {
     Character = 103,
 };
 
+// Prompt
+
+// Misc
+
+export enum Priority {
+    Low = 1,
+    Normal = 2,
+    High = 3
+}
+
 export enum AppIcon {
     Man1 = '../assets/images/app-icons/man1.png',
 }
 
-// Prompt
+export enum AvatarIcon {
+    Man1 = '../assets/images/avatars/man1.png',
+    Man2 = '../assets/images/avatars/man2.png',
+    Man3 = '../assets/images/avatars/man3.png',
+    Man4 = '../assets/images/avatars/man4.png',
+    Man5 = '../assets/images/avatars/man5.png',
+    Man6 = '../assets/images/avatars/man6.png',
+    Man7 = '../assets/images/avatars/man7.png',
+    Woman1 = '../assets/images/avatars/woman1.png',
+    Woman2 = '../assets/images/avatars/woman2.png',
+    Woman3 = '../assets/images/avatars/woman3.png',
+    Woman4 = '../assets/images/avatars/woman4.png'
+}
