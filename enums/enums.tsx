@@ -113,7 +113,27 @@ export enum ActionStepType {
 
 // Stories
 
-export enum StoryChapterType {
+export enum StoryType {
     Yours = 1,
     Gods = 2
 };
+
+export enum StoryChapterType {
+    // Your Story
+    Seeking = 1,
+    Curious = 2,
+    SalvationExperience = 3,
+    Struggle = 4,
+    Highlight = 5,
+    Lowlight = 6,
+    Misc = 7,
+
+    // God's Story
+    CoreGospel = 101,
+    ScriptureHighlight = 102,
+    Character = 103,
+};
+
+export enum StoryChapterIcon {
+    Man1 = '../assets/images/story/man1.png',
+}
