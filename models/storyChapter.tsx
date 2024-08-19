@@ -8,6 +8,7 @@ interface IStoryChapter {
     title: string;
     notes: string;
     icon: StoryChapterIcon;
+    order: number;
 }
 
 export default class StoryChapter implements IStoryChapter {
@@ -18,9 +19,11 @@ export default class StoryChapter implements IStoryChapter {
     title: string;
     notes: string;
     icon: StoryChapterIcon;
+    order: number;
     
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
-        storyType: StoryType, title: string, notes: string, icon: StoryChapterIcon
+        storyType: StoryType, title: string, notes: string, icon: StoryChapterIcon,
+        order: number
     ) {
         this.id = id;
         this.storyId = storyId;
@@ -29,6 +32,7 @@ export default class StoryChapter implements IStoryChapter {
         this.title = title;
         this.notes = notes;
         this.icon = icon;
+        this.order = order;
     }
 
 }
