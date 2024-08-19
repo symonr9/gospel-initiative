@@ -1,4 +1,4 @@
-import One from "./one";
+import { MeetingTag } from "@/enums/enums";
 
 interface IMeeting {
     id: string;
@@ -6,7 +6,7 @@ interface IMeeting {
     notes: string;
     oneId: string;
     userId: string;
-    didMakeDecisionForJesus: boolean;
+    tags: MeetingTag[];
 }
 
 export default class Meeting implements IMeeting {
@@ -15,16 +15,16 @@ export default class Meeting implements IMeeting {
     notes: string;
     oneId: string;
     userId: string;
-    didMakeDecisionForJesus: boolean;
+    tags: MeetingTag[];
 
     constructor(id: string, date: Date, notes: string, oneId: string,
-        userId: string, didMakeDecisionForJesus: boolean
+        userId: string, tags: MeetingTag[]
     ) {
         this.id = id;
         this.meetingDate = date;
         this.notes = notes;
         this.oneId = oneId;
         this.userId = userId;
-        this.didMakeDecisionForJesus = didMakeDecisionForJesus;
+        this.tags = tags;
     }
 }

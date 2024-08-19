@@ -1,4 +1,6 @@
 import { AvatarIcon, OneStage } from "@/enums/enums";
+import Meeting from "./meeting";
+import Prayer from "./prayer";
 
 interface IOne {
     id: string;
@@ -6,7 +8,8 @@ interface IOne {
     icon: AvatarIcon;
     stage: OneStage;
     nextMeetingAt: Date | undefined;
-    lastMeetingtAt: Date | undefined;
+    meetings: Meeting[];
+    prayers: Prayer[];
 }
 
 export default class One implements IOne {
@@ -15,17 +18,19 @@ export default class One implements IOne {
     icon: AvatarIcon;
     stage: OneStage;
     nextMeetingAt: Date | undefined;
-    lastMeetingtAt: Date | undefined;
+    meetings: Meeting[];
+    prayers: Prayer[];
     
     constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
-        nextMeetingAt: Date | undefined, lastMeetingAt: Date | undefined
+        nextMeetingAt: Date | undefined, meetings: Meeting[], prayers: Prayer[]
     ) {
         this.id = id;
         this.name = name;
         this.icon = icon;
         this.stage = stage;
         this.nextMeetingAt = nextMeetingAt;
-        this.lastMeetingtAt = lastMeetingAt;
+        this.meetings = meetings;
+        this.prayers = prayers;
     }
 
 }
