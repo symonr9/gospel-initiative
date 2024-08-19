@@ -15,6 +15,12 @@ export enum PrayerType {
     ForTheWorld = 3
 }
 
+export enum PrayerBeaconType {
+    ToCommunity = 1,
+    ToPrayerGroup = 2,
+    ToLeadershipTeam = 3,
+};
+
 // Meetings
 
 export enum MeetingTag {
@@ -39,7 +45,25 @@ export enum MeetingTag {
     ListenedWell = 19,
     OfferedComfort = 20,
     AddressedMisconceptions = 21,
-    Other = 22
+    Other = 22,
+    Discipleship = 23,
+    Worship = 24
+};
+
+export enum Location {
+    Home = 1,
+    Church = 2,
+    Coffee = 3,
+    Breakfast = 4,
+    Lunch = 5,
+    Dinner = 6,
+    Park = 7,
+    Work = 8,
+    Recreation = 9,
+    Online = 10,
+    Gym = 11,
+    Outdoors = 12,
+    Trip = 13
 };
 
 // One
@@ -65,3 +89,24 @@ export enum AvatarIcon {
     Woman3 = '../assets/images/avatars/woman3.png',
     Woman4 = '../assets/images/avatars/woman4.png'
 }
+
+// Action Steps
+
+export enum ActionStepType {
+    ShareGospel = 1,
+    ShareTestimony = 2,
+    InviteToEvent = 3,
+    SpiritualConversation = 4,
+    OfferPrayer = 5,
+    InviteToGroup = 6,
+    Encouragement = 7,
+    DiscussScripture = 8,
+    HostAtHome = 9,
+    ShareDevotional = 10,
+    ProvideBiblicalCounsel = 11,
+    ConnectWithOtherChristians = 12,
+    ShareWorshipMusisc = 13,
+    BuildRapport = 14,
+    Serve = 15,
+    Other = 16
+};
