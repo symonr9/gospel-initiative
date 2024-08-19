@@ -3,6 +3,8 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
+import { flexStyles } from '@/styles/styles';
+
 import { Colors } from '@/constants/Colors';
 import One from '@/models/one';
 import { ThemedText } from '../common/ThemedText';
@@ -17,17 +19,23 @@ export function OneCardView({ one }: ThemedViewProps) {
 
   return (
     <ThemedView style={styles.container}>
-
-      {/* <Image source={getAvatarIconSrc(one.icon)} style={styles.icon} resizeMode="contain" /> */}
-      <Image source={one.icon} style={styles.icon} resizeMode="contain" />
-
+      <View style={flexStyles.column}>
+      <Image source={one.icon} style={styles.icon} contentFit="contain" />
       <ThemedText type="title">{one.name}</ThemedText>
+      </View>
+      <View style={flexStyles.column}>
+        <ThemedText>Test</ThemedText>
+
+      </View>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     flex: 1,
     backgroundColor: '#F0E68C', // Khaki color
     borderRadius: 4,
