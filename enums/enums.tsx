@@ -110,3 +110,10 @@ export enum ActionStepType {
     Serve = 15,
     Other = 16
 };
+
+// Stories
+
+export enum StoryChapterType {
+    Yours = 1,
+    Gods = 2
+};
