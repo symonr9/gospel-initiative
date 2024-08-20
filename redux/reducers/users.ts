@@ -1,4 +1,4 @@
-import { Action } from "../actions";
+import { Action, ActionPackage } from "../actions";
 
 const initialState = {
     users: []

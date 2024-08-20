@@ -17,7 +17,7 @@ export class ActionPackage {
     }
 }
 
-export const addUser = (item: User) => ({
+export const addUser = (item: object) => ({
     type: Action.AddUser,
     payload: item,
 });
