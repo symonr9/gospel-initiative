@@ -2,27 +2,21 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { addPrayer } from '../../redux/actions';
+import { FlatList, Text, View, StyleSheet, ViewProps } from 'react-native';
 
 import PageView from '@/components/common/PageView';
 import { ThemedText, ThemedTextType } from '@/components/common/ThemedText';
 import { ThemedView } from '@/components/common/ThemedView';
 
 import { tabStyles } from '../../styles/Styles';
-import { OnesListView } from '@/components/ones/OnesListView';
-import Prayer, { generateRandomPrayer } from '@/models/prayer';
+import OnesListView from '@/components/ones/OnesListView';
+import PrayersListView from '@/components/prayers/PrayersListView';
 
-interface IShareChrist {
-    prayers: Prayer[];
-    addPrayer: (prayer: Prayer) => void;
-}
+export type IShareChrist = ViewProps & {
 
-function ShareChrist({ prayers, addPrayer }: IShareChrist) {
+};
 
-    const handleAdd = () => {
-        const newItem = generateRandomPrayer("user1", "one1");
-        addPrayer(newItem);
-    };
+function ShareChrist({ }: IShareChrist) {
 
     return (
         <PageView>
@@ -32,26 +26,17 @@ function ShareChrist({ prayers, addPrayer }: IShareChrist) {
 
             <OnesListView />
 
-            <button onClick={handleAdd}>Add Item</button>
-            <ul>
-                {prayers.map(item => (
-                    <li key={item.id}>
-                        {item.name}
-                    </li>
-                ))}
-            </ul>
-
+            <PrayersListView/>
         </PageView>
     );
 }
 
 const mapStateToProps = (state: IShareChrist) => ({
-    prayers: state.prayers
+
 });
 
-
 const mapDispatchToProps = {
-    addPrayer,
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareChrist);

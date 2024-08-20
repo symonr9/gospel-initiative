@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { FlatList, Text, View, StyleSheet, ViewProps } from 'react-native';
-import { useThemeColor } from '@/hooks/useThemeColor';
 
 import One from '@/models/one';
-import { AvatarIcon } from '@/enums/enums';
-import { Colors } from '@/constants/Colors';
+import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 
 import { OneCardView } from './OneCardView';
 
 const onesData = require('../../data/ones.json');
 
-export type ThemedViewProps = ViewProps & {
+export type IOnesListView = ViewProps & {
 
 };
 
-export function OnesListView({ style, ...otherProps }: ThemedViewProps) {
-    const backgroundColor = useThemeColor({ light: Colors.light.background, dark: Colors.dark.background }, 'background');
+function OnesListView({ style, ...otherProps }: IOnesListView) {
+    const backgroundColor = useBackgroundThemeColor();
 
     const [ones, setOnes] = useState<One[]>([]);
 
-    useEffect(() => {
-        const loadedOnes = onesData.map(item => {
-            const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
-            return new One(item.id, item.name, icon);
-        });
-        setOnes(loadedOnes);
-    }, []);
+    // useEffect(() => {
+    //     const loadedOnes = onesData.map(item => {
+    //         const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
+    //         return new One(item.id, item.name, icon);
+    //     });
+    //     setOnes(loadedOnes);
+    // }, []);
 
     const renderItem = ({ item }: { item: One }) => (
         <OneCardView one={item} />
@@ -40,5 +39,15 @@ export function OnesListView({ style, ...otherProps }: ThemedViewProps) {
             />
         </View>
     );
-
 }
+
+const mapStateToProps = (state: IOnesListView) => ({
+
+});
+
+
+const mapDispatchToProps = {
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OnesListView);

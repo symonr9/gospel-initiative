@@ -5,17 +5,17 @@ import { Image } from 'expo-image';
 
 import { flexStyles } from '@/styles/Styles';
 
+import { Colors } from '@/constants/Colors';
 import One from '@/models/one';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ThemedView } from '../common/ThemedView';
-import { useBackgroundThemeColor } from '@/constants/Colors';
 
-export type IOneCardView = ViewProps & {
+export type IPrayerCardView = ViewProps & {
   one: One;
 };
 
-export function OneCardView({ one }: IOneCardView) {
-  const backgroundColor = useBackgroundThemeColor();
+export function PrayerCardView({ one }: IPrayerCardView) {
+    const backgroundColor = useBackgroundThemeColor();
 
   return (
     <ThemedView style={styles.container}>
