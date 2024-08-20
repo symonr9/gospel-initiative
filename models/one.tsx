@@ -15,6 +15,7 @@ interface IOne {
     actionSteps: ActionStep[];
     facts: OneFact[];
     prayingSince: Date;
+    hidden: boolean;
 }
 
 export default class One implements IOne {
@@ -28,10 +29,12 @@ export default class One implements IOne {
     actionSteps: ActionStep[];
     facts: OneFact[];
     prayingSince: Date;
+    hidden: boolean;
     
     constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
         nextMeetingAt: Date | undefined, meetings: Meeting[], prayers: Prayer[],
-        actionSteps: ActionStep[], facts: OneFact[], prayingSince: Date
+        actionSteps: ActionStep[], facts: OneFact[], prayingSince: Date,
+        hidden: boolean
     ) {
         this.id = id;
         this.name = name;
@@ -43,6 +46,7 @@ export default class One implements IOne {
         this.actionSteps = actionSteps;
         this.facts = facts;
         this.prayingSince = prayingSince;
+        this.hidden = hidden;
     }
 
 }
