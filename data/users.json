@@ -1,0 +1,20 @@
+[
+    {
+      "id": "user1",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "role": "Leader"
+    },
+    {
+      "id": "user2",
+      "name": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "role": "Admin"
+    },
+    {
+      "id": "user3",
+      "name": "Michael Brown",
+      "email": "michael.brown@example.com",
+      "role": "Normal"
+    }
+  ]

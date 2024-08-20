@@ -1,0 +1,35 @@
+[
+    {
+      "id": "meeting1",
+      "notes": "Had coffee with Jane",
+      "meetingAt": "2024-08-15T10:00:00Z",
+      "oneId": "one1",
+      "tag": "Friendship",
+      "userId": "user1"
+    },
+    {
+      "id": "meeting2",
+      "notes": "Discussed life with Tom",
+      "meetingAt": "2024-08-18T14:00:00Z",
+      "oneId": "one2",
+      "tag": "SharedGospel",
+      "userId": "user2"
+    },
+    {
+      "id": "meeting3",
+      "notes": "Lunch with Emma",
+      "meetingAt": "2024-08-20T12:00:00Z",
+      "oneId": "one3",
+      "tag": "ActsOfService",
+      "userId": "user3"
+    },
+    {
+      "id": "meeting4",
+      "notes": "Talked with Chris about faith",
+      "meetingAt": "2024-08-22T09:00:00Z",
+      "oneId": "one4",
+      "tag": "Friendship",
+      "userId": "user1"
+    }
+  ]
+  

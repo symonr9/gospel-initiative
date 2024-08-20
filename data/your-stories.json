@@ -1,0 +1,33 @@
+[
+    {
+      "id": "yourStory1",
+      "title": "My Journey to Faith",
+      "content": "I grew up in a Christian home, but it wasn't until...",
+      "userId": "user1"
+    },
+    {
+      "id": "yourStory2",
+      "title": "Finding Hope in Hard Times",
+      "content": "During a particularly challenging period in my life...",
+      "userId": "user1"
+    },
+    {
+      "id": "yourStory3",
+      "title": "God's Grace in My Life",
+      "content": "I've experienced God's grace in so many ways...",
+      "userId": "user1"
+    },
+    {
+      "id": "yourStory4",
+      "title": "Overcoming Doubt",
+      "content": "I struggled with doubt for many years, but...",
+      "userId": "user1"
+    },
+    {
+      "id": "yourStory5",
+      "title": "A Life Transformed",
+      "content": "My life was completely transformed when I surrendered...",
+      "userId": "user1"
+    }
+  ]
+  

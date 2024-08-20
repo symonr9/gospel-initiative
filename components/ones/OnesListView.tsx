@@ -8,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 
 import { OneCardView } from './OneCardView';
 
-const onesData = require('../../data/sample-ones.json');
+const onesData = require('../../data/ones.json');
 
 export type ThemedViewProps = ViewProps & {
 
