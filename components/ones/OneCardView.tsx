@@ -8,7 +8,7 @@ import { flexStyles } from '@/styles/Styles';
 
 import { Colors } from '@/constants/Colors';
 import One from '@/models/one';
-import { ThemedText } from '../common/ThemedText';
+import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ThemedView } from '../common/ThemedView';
 
 export type ThemedViewProps = ViewProps & {
@@ -21,12 +21,11 @@ export function OneCardView({ one }: ThemedViewProps) {
   return (
     <ThemedView style={styles.container}>
       <View style={flexStyles.column}>
-      <Image source={one.icon} style={styles.icon} contentFit="contain" />
-      <ThemedText type="title">{one.name}</ThemedText>
+        <Image source={one.icon} style={styles.icon} contentFit="contain" />
+        <ThemedText type={ThemedTextType.Title}>{one.name}</ThemedText>
       </View>
       <View style={flexStyles.column}>
         <ThemedText>Test</ThemedText>
-
       </View>
     </ThemedView>
   );
