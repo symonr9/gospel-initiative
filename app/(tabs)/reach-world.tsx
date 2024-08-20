@@ -1,11 +1,9 @@
-
-import Ionicons from '@expo/vector-icons/Ionicons';
-
+import React from 'react';
 import PageView from '@/components/common/PageView';
 import { ThemedText } from '@/components/common/ThemedText';
 import { ThemedView } from '@/components/common/ThemedView';
 
-import { tabStyles } from '../../styles/styles';
+import { tabStyles } from '../../styles/Styles';
 
 export default function ReachWorld() {
   return (

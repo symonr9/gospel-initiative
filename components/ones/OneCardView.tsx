@@ -1,9 +1,10 @@
+import React from 'react';
 import { View, type ViewProps } from 'react-native';
 import { StyleSheet, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-import { flexStyles } from '@/styles/styles';
+import { flexStyles } from '@/styles/Styles';
 
 import { Colors } from '@/constants/Colors';
 import One from '@/models/one';
