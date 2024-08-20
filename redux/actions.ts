@@ -1,3 +1,5 @@
+import Prayer from "@/models/prayer";
+import User from "@/models/user";
 
 export enum Action {
     AddUser,
@@ -17,13 +19,13 @@ export class ActionPackage {
     }
 }
 
-export const addUser = (item: object) => ({
+export const addUser = (item: User) => ({
     type: Action.AddUser,
     payload: item,
 });
 
-export const addPrayer = (item: object) => ({
-    type: Action.AddUser,
+export const addPrayer = (item: Prayer) => ({
+    type: Action.AddPrayer,
     payload: item,
 });
 
