@@ -1,25 +1,38 @@
 
 export enum Action {
     AddUser,
-    AddPrayer
+    AddPrayer,
+
+    SetAppError,
+    ClearAppError
 };
 
 export class ActionPackage {
     type: Action;
-    payload: Object;
+    payload: any;
 
-    constructor(type: Action, payload: Object) {
+    constructor(type: Action, payload: any) {
         this.type = type;
         this.payload = payload;
     }
 }
 
-export const addUser = (item: object) => ({
-  type: Action.AddUser,
-  payload: item,
+export const addUser = (item: User) => ({
+    type: Action.AddUser,
+    payload: item,
 });
 
 export const addPrayer = (item: object) => ({
     type: Action.AddUser,
     payload: item,
-  });
+});
+
+export const setAppError = (msg: string, subMsg: string | "") => ({
+    type: Action.SetAppError,
+    payload: { msg, subMsg }    
+});
+
+export const clearAppError = () => ({
+    type: Action.ClearAppError,
+    payload: null
+});

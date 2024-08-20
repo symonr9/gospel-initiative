@@ -1,11 +1,10 @@
-import { Action, ActionPackage } from "../Actions";
+import { Action } from "../actions";
 
 const initialState = {
-    name: "",
     users: []
 };
 
-export function usersReducer(state = {}, action: ActionPackage) {
+export function usersReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.AddUser:
             return action;

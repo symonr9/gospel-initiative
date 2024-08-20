@@ -1,11 +1,10 @@
-import { Action, ActionPackage } from "../Actions";
+import { Action, ActionPackage } from "../actions";
 
 const initialState = {
-    name: "",
     prayers: []
 };
 
-export function prayersReducer(state = {}, action: ActionPackage) {
+export function prayersReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.AddPrayer:
             return action;
