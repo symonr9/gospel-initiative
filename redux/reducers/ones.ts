@@ -2,19 +2,19 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
-    prayers: []
+    ones: []
 };
 
-export function prayersReducer(state = initialState, action: ActionPackage) {
+export function onesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { prayers } = action.payload;
+            const { ones } = action.payload;
             return update(state, {
                 $set: {
-                    prayers: prayers || []
+                    ones: ones || []
                 }
             });
-        case Action.AddPrayer:
+        case Action.AddOne:
             return action;
         default:
             return state;

@@ -9,8 +9,10 @@ import PrayerRequest from '@/models/prayerRequest';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 
 export type IPrayerRequestsListView = ViewProps & {
-    prayerRequests: PrayerRequest[];
     prayer: Prayer;
+    
+    // Redux
+    prayerRequests: PrayerRequest[];
 };
 
 function PrayerRequestsListView({ style, prayerRequests, prayer, ...otherProps }: IPrayerRequestsListView) {
@@ -31,9 +33,8 @@ function PrayerRequestsListView({ style, prayerRequests, prayer, ...otherProps }
     );
 }
 
-const mapStateToProps = (state: IPrayerRequestsListView) => ({
-    prayerRequests: state.prayerRequests,
-    prayer: state.prayer
+const mapStateToProps = (state: any) => ({
+    prayerRequests: state.prayers.requests,
 });
 
 

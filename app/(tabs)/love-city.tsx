@@ -6,7 +6,7 @@ import { FlatList, View, ViewProps } from 'react-native';
 import { ThemedText, ThemedTextType } from '@/components/common/ThemedText';
 import { ThemedView } from '@/components/common/ThemedView';
 
-import { tabStyles } from '../../styles/Styles';
+import PageHeader from '@/components/common/PageHeader';
 
 export type ILoveCity = ViewProps & {
 
@@ -15,14 +15,12 @@ export type ILoveCity = ViewProps & {
 function LoveCity({ }: ILoveCity) {
     return (
         <PageView>
-            <ThemedView style={tabStyles.titleContainer}>
-                <ThemedText type={ThemedTextType.Title}>Love City</ThemedText>
-            </ThemedView>
+            <PageHeader title={"Love City"}/>
         </PageView>
     );
 }
 
-const mapStateToProps = (state: ILoveCity) => ({
+const mapStateToProps = (state: any) => ({
 
 });
 

@@ -33,9 +33,9 @@ function AddEditStoryForm({ style, storyChapters: initialChapters, story, ...oth
     );
 }
 
-const mapStateToProps = (state: IAddEditStoryForm) => ({
-    storyChapters: state.storyChapters,
-    story: state.story
+const mapStateToProps = (state: any) => ({
+    storyChapters: state.stories.storyChapters,
+    story: state.stories.story
 });
 
 

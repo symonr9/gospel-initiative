@@ -5,28 +5,33 @@ import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
 import One from '@/models/one';
+import OneFact from '@/models/oneFact';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { ThemedText, ThemedTextType } from './ThemedText';
 
-export type IAddEditOneForm = ViewProps & {
-    one: One;
+export type IPageHeader = ViewProps & {
+    title: string
 };
 
-function AddEditOneForm({ style, one, ...otherProps }: IAddEditOneForm) {
+function PageHeader({ style, title, ...otherProps }: IPageHeader) {
     const backgroundColor = useBackgroundThemeColor();
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
-
+            <ThemedText type={ThemedTextType.Title}>
+                {title}
+            </ThemedText>
         </View>
     );
 }
 
 const mapStateToProps = (state: any) => ({
-    one: state.ones.one,
+    oneFacts: state.ones.facts,
 });
+
 
 const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddEditOneForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PageHeader);

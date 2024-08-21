@@ -31,9 +31,9 @@ function ActionStepsListView({ style, actionSteps, one, ...otherProps }: IAction
     );
 }
 
-const mapStateToProps = (state: IActionStepListView) => ({
-    actionSteps: state.actionSteps,
-    one: state.one
+const mapStateToProps = (state: any) => ({
+    actionSteps: state.ones.actionSteps,
+    one: state.ones.one
 });
 
 

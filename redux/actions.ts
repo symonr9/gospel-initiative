@@ -1,16 +1,20 @@
+import One from "@/models/one";
 import Prayer from "@/models/prayer";
 import User from "@/models/user";
 
 export enum Action {
-    AddUser,
-    AddPrayer,
+    AddUser = "ADD_USER",
+    AddPrayer = "ADD_PRAYER",
+    AddOne = "ADD_ONE",
 
-    SetAppError,
-    ClearAppError
+    LoadServerData = "LOAD_SERVER_DATA",
+
+    SetAppError = "SET_APP_ERROR",
+    ClearAppError = "CLEAR_APP_ERROR"
 };
 
 export class ActionPackage {
-    type: Action;
+    type: string;
     payload: any;
 
     constructor(type: Action, payload: any) {
@@ -19,8 +23,20 @@ export class ActionPackage {
     }
 }
 
+export const loadServerData = (data: any) => {
+    return {
+        type: Action.LoadServerData,
+        payload: data,
+    }
+};
+
 export const addUser = (item: User) => ({
     type: Action.AddUser,
+    payload: item,
+});
+
+export const addOne = (item: One) => ({
+    type: Action.AddOne,
     payload: item,
 });
 
@@ -29,9 +45,9 @@ export const addPrayer = (item: Prayer) => ({
     payload: item,
 });
 
-export const setAppError = (msg: string, subMsg: string | "") => ({
+export const setAppError = (error: Error) => ({
     type: Action.SetAppError,
-    payload: { msg, subMsg }    
+    payload: { error }
 });
 
 export const clearAppError = () => ({

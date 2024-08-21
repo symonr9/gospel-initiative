@@ -31,9 +31,9 @@ function StoriesListView({ style, storyChapters, story, ...otherProps }: IStorie
     );
 }
 
-const mapStateToProps = (state: IStoriesListView) => ({
-    storyChapters: state.storyChapters,
-    story: state.story
+const mapStateToProps = (state: any) => ({
+    storyChapters: state.stories.storyChapters,
+    story: state.stories.story
 });
 
 

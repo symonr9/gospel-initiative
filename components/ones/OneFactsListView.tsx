@@ -9,8 +9,10 @@ import OneFact from '@/models/oneFact';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 
 export type IOneFactsListView = ViewProps & {
-    oneFacts: OneFact[];
     one: One;
+
+    // Redux
+    oneFacts: OneFact[];
 };
 
 function OneFactsListView({ style, oneFacts, one, ...otherProps }: IOneFactsListView) {
@@ -31,9 +33,8 @@ function OneFactsListView({ style, oneFacts, one, ...otherProps }: IOneFactsList
     );
 }
 
-const mapStateToProps = (state: IOneFactsListView) => ({
-    oneFacts: state.oneFacts,
-    one: state.one
+const mapStateToProps = (state: any) => ({
+    oneFacts: state.ones.facts,
 });
 
 

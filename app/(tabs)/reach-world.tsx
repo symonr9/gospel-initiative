@@ -6,6 +6,7 @@ import { ThemedText, ThemedTextType } from '@/components/common/ThemedText';
 import { ThemedView } from '@/components/common/ThemedView';
 
 import { tabStyles } from '../../styles/Styles';
+import PageHeader from '@/components/common/PageHeader';
 
 export type IReachWorld = ViewProps & {
 
@@ -15,14 +16,12 @@ function ReachWorld({ }: IReachWorld) {
 
     return (
         <PageView>
-            <ThemedView style={tabStyles.titleContainer}>
-                <ThemedText type={ThemedTextType.Title}>Reach World</ThemedText>
-            </ThemedView>
+            <PageHeader title={"Reach the World"}/>
         </PageView>
     );
 }
 
-const mapStateToProps = (state: IReachWorld) => ({
+const mapStateToProps = (state: any) => ({
 
 });
 

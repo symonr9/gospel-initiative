@@ -11,28 +11,24 @@ import { ThemedView } from '@/components/common/ThemedView';
 import { tabStyles } from '../../styles/Styles';
 import OnesListView from '@/components/ones/OnesListView';
 import PrayersListView from '@/components/prayers/PrayersListView';
+import PageHeader from '@/components/common/PageHeader';
 
 export type IShareChrist = ViewProps & {
-
+    error: string
 };
 
-function ShareChrist({ }: IShareChrist) {
-
+function ShareChrist({ error }: IShareChrist) {
     return (
         <PageView>
-            <ThemedView style={tabStyles.titleContainer}>
-                <ThemedText type={ThemedTextType.Title}>Share Christ</ThemedText>
-            </ThemedView>
-
+            <PageHeader title={"Share Christ"}/>
             <OnesListView />
-
             <PrayersListView/>
         </PageView>
     );
 }
 
-const mapStateToProps = (state: IShareChrist) => ({
-
+const mapStateToProps = (state: any) => ({
+    error: state.errors.error,
 });
 
 const mapDispatchToProps = {

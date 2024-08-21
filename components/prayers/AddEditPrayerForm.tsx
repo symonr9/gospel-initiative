@@ -21,8 +21,8 @@ function AddEditPrayerForm({ style, prayer, ...otherProps }: IAddEditPrayerForm)
     );
 }
 
-const mapStateToProps = (state: IAddEditPrayerForm) => ({
-    prayer: state.prayer,
+const mapStateToProps = (state: any) => ({
+
 });
 
 const mapDispatchToProps = {

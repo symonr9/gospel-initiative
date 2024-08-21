@@ -18,14 +18,6 @@ function OnesListView({ style, ...otherProps }: IOnesListView) {
 
     const [ones, setOnes] = useState<One[]>([]);
 
-    // useEffect(() => {
-    //     const loadedOnes = onesData.map(item => {
-    //         const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
-    //         return new One(item.id, item.name, icon);
-    //     });
-    //     setOnes(loadedOnes);
-    // }, []);
-
     const renderItem = ({ item }: { item: One }) => (
         <OneCardView one={item} />
     );
@@ -41,8 +33,8 @@ function OnesListView({ style, ...otherProps }: IOnesListView) {
     );
 }
 
-const mapStateToProps = (state: IOnesListView) => ({
-
+const mapStateToProps = (state: any) => ({
+    ones: state.ones.ones
 });
 
 

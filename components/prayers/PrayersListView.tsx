@@ -22,6 +22,8 @@ export type IPrayersListView = ViewProps & {
 function PrayersListView({ style, prayers, addPrayer, ...otherProps }: IPrayersListView) {
     const backgroundColor = useBackgroundThemeColor();
 
+    console.log("Prayers: ", prayers);
+
     const handleAdd = () => {
         const newItem = generateRandomPrayer("user1", "one1");
         addPrayer(newItem);
@@ -45,10 +47,11 @@ function PrayersListView({ style, prayers, addPrayer, ...otherProps }: IPrayersL
     );
 }
 
-const mapStateToProps = (state: IPrayersListView) => ({
-    prayers: state.prayers
-});
-
+const mapStateToProps = (state: any) => {
+    return {
+        prayers: state.prayers.prayers
+    };
+};
 
 const mapDispatchToProps = {
     addPrayer,

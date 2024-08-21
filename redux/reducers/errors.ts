@@ -2,18 +2,16 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
-    appErrorMsg: "",
-    appErrorSubMsg: ""
+    error: null,
 };
 
 export function errorsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.SetAppError:            
-            const { msg, subMsg } = action.payload;
+            const { error } = action.payload;
             return update(state, {
 				$set: {
-					appErrorMsg: msg,
-					appErrorSubMsg: subMsg !== undefined ? subMsg : ""
+					error: error
 				}
 			});
         case Action.ClearAppError:

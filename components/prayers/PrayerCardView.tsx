@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 
 import { flexStyles } from '@/styles/Styles';
 
-import { Colors } from '@/constants/Colors';
+import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import One from '@/models/one';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ThemedView } from '../common/ThemedView';
