@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
-import { FlatList, View, ViewProps } from 'react-native';
+import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
 
 import { addPrayer } from '../../redux/actions';
 
@@ -19,10 +19,8 @@ export type IPrayersListView = ViewProps & {
     addPrayer: (prayer: Prayer) => void;
 };
 
-function PrayersListView({ style, prayers, addPrayer, ...otherProps }: IPrayersListView) {
+function PrayersListView({ prayers, addPrayer }: IPrayersListView) {
     const backgroundColor = useBackgroundThemeColor();
-
-    console.log("Prayers: ", prayers);
 
     const handleAdd = () => {
         const newItem = generateRandomPrayer("user1", "one1");
@@ -34,24 +32,34 @@ function PrayersListView({ style, prayers, addPrayer, ...otherProps }: IPrayersL
     );
 
     return (
-        <View style={[{ backgroundColor }, style]} {...otherProps}>
-
+        <ThemedView style={styles.container}>
+            <ThemedText type={ThemedTextType.Subtitle}>
+                Your Prayers ({prayers.length})
+            </ThemedText>
             <button onClick={handleAdd}>Add Item</button>
-
             <FlatList
                 data={prayers}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
-        </View>
+        </ThemedView>
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        prayers: state.prayers.prayers
-    };
-};
+const styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#B1A60E',
+        padding: 16,
+        height: 250,
+        overflow: 'scroll',        
+    },
+});
+
+const mapStateToProps = (state: any) => ({
+    prayers: state.prayers.prayers
+});
 
 const mapDispatchToProps = {
     addPrayer,

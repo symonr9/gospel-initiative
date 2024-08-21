@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
 import { flexStyles } from '@/styles/Styles';
@@ -21,7 +21,7 @@ export function OneCardView({ one }: IOneCardView) {
     <ThemedView style={styles.container}>
       <View style={flexStyles.column}>
         <Image source={one.icon} style={styles.icon} contentFit="contain" />
-        <ThemedText type={ThemedTextType.Title}>{one.name}</ThemedText>
+        <ThemedText type={ThemedTextType.Subtitle}>{one.name}</ThemedText>
       </View>
       <View style={flexStyles.column}>
         <ThemedText>Test</ThemedText>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
     marginBottom: 12, // Space between the icon and the name
   },
 });

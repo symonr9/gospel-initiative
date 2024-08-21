@@ -1,11 +1,28 @@
 
-import { AvatarIcon, OneStage, PrayerType } from '@/enums/enums';
+import { ActionStepType, AvatarIcon, OneStage, PrayerType } from '@/enums/enums';
 import One from '@/models/one';
-import PrayerRequest from '@/models/prayerRequest';
 import { loadServerData } from '@/redux/actions';
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
+
+const actionStepsJson = require('../../data/action-steps.json');
+function getActionStepsJson() {
+    return actionStepsJson.map(item => {    
+        const type = ActionStepType[item.type as keyof typeof ActionStepType];    
+        return {
+            id: item.id,
+            name: item.name,
+            isComplete: item.isComplete,
+            targetDate: item.targetDate ? new Date(item.lastPrayedAt) : undefined,
+            userId: item.userId,
+            oneId: item.oneId,
+            requests: [],
+            type: type
+        };
+    });
+}
+
 
 const prayersJson = require('../../data/prayers.json');
 function getPrayersFromJson() {
@@ -46,16 +63,21 @@ function getOnesFromJson() {
 }
 
 export type IDataRefreshManager = {
+    state: any,
+
     loadServerData: (data: any) => void,
 };
 
-function DataRefreshManager({ loadServerData }: IDataRefreshManager) {
+function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
+
+    console.log("State: ", state);
 
     useEffect(() => {
         console.log("First time page load");
         
         loadServerData({
             ones: getOnesFromJson(),
+            actionSteps: getActionStepsJson(),
             prayers: getPrayersFromJson()
         });
     }, []);
@@ -64,7 +86,7 @@ function DataRefreshManager({ loadServerData }: IDataRefreshManager) {
 }
 
 const mapStateToProps = (state: any) => ({
-
+    state: state
 });
 
 const mapDispatchToProps = {

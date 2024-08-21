@@ -15,7 +15,9 @@ export function prayersReducer(state = initialState, action: ActionPackage) {
                 }
             });
         case Action.AddPrayer:
-            return action;
+            return update(state, {
+                prayers: { $push: [action.payload] }
+            });
         default:
             return state;
     }

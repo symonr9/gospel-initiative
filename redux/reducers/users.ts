@@ -16,8 +16,6 @@ export function usersReducer(state = initialState, action: ActionPackage) {
                     users: users || [],
                 }
             });
-        case Action.AddUser:
-            return action;
         default:
             return state;
     }

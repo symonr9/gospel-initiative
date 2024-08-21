@@ -3,7 +3,6 @@ import Prayer from "@/models/prayer";
 import User from "@/models/user";
 
 export enum Action {
-    AddUser = "ADD_USER",
     AddPrayer = "ADD_PRAYER",
     AddOne = "ADD_ONE",
 
@@ -29,11 +28,6 @@ export const loadServerData = (data: any) => {
         payload: data,
     }
 };
-
-export const addUser = (item: User) => ({
-    type: Action.AddUser,
-    payload: item,
-});
 
 export const addOne = (item: One) => ({
     type: Action.AddOne,
