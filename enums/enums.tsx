@@ -145,6 +145,14 @@ export enum JournalEntryType {
     Prayer = 1,
 }
 
+// Missions Trips, Events, Ministries
+
+export enum LeaderType {
+    LocalMinistry = 1,
+    Event = 2,
+    MissionsTrip = 3
+}
+
 // Misc
 
 export enum Priority {
