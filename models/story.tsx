@@ -1,12 +1,12 @@
 import { StoryType } from "@/enums/enums";
 
-interface IYourStory {
+interface IStory {
     id: string;
     userId: string;
     type: StoryType;
 }
 
-export default class YourStory implements IYourStory {
+export default class Story implements IStory {
     id: string;
     userId: string;
     type: StoryType;
