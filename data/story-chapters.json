@@ -1,83 +1,78 @@
 [
-  {
-    "id": "chapter1",
-    "storyId": "story1",
-    "chapterType": "Introduction",
-    "title": "The Beginning",
-    "content": "This is the start of a great journey.",
-    "icon": "Book",
-    "order": 1
-  },
-  {
-    "id": "chapter2",
-    "storyId": "story1",
-    "chapterType": "Narrative",
-    "title": "The First Challenge",
-    "content": "Our hero faces the first major challenge.",
-    "icon": "Sword",
-    "order": 2
-  },
-  {
-    "id": "chapter3",
-    "storyId": "story1",
-    "chapterType": "Conclusion",
-    "title": "Victory and Reflection",
-    "content": "The hero overcomes and reflects on the journey.",
-    "icon": "Trophy",
-    "order": 3
-  },
-  {
-    "id": "chapter4",
-    "storyId": "story2",
-    "chapterType": "Introduction",
-    "title": "A New Beginning",
-    "content": "A new story begins in a faraway land.",
-    "icon": "Map",
-    "order": 1
-  },
-  {
-    "id": "chapter5",
-    "storyId": "story2",
-    "chapterType": "Narrative",
-    "title": "The Unexpected Turn",
-    "content": "Things take an unexpected turn for our protagonist.",
-    "icon": "Compass",
-    "order": 2
-  },
-  {
-    "id": "chapter6",
-    "storyId": "story2",
-    "chapterType": "Climax",
-    "title": "The Final Battle",
-    "content": "The most intense battle of the story takes place.",
-    "icon": "Shield",
-    "order": 3
-  },
-  {
-    "id": "chapter7",
-    "storyId": "story3",
-    "chapterType": "Prologue",
-    "title": "Before the Story",
-    "content": "Events that set the stage for the story.",
-    "icon": "Scroll",
-    "order": 1
-  },
-  {
-    "id": "chapter8",
-    "storyId": "story3",
-    "chapterType": "Narrative",
-    "title": "A Meeting with Destiny",
-    "content": "The protagonist encounters a mysterious figure.",
-    "icon": "Mask",
-    "order": 2
-  },
-  {
-    "id": "chapter9",
-    "storyId": "story3",
-    "chapterType": "Resolution",
-    "title": "The Calm After the Storm",
-    "content": "The aftermath of the great conflict.",
-    "icon": "Sunrise",
-    "order": 3
-  }
-]
+    {
+      "id": "storyChapter1",
+      "title": "The Early Years",
+      "content": "This chapter covers the early life and upbringing...",
+      "userId": "user1",
+      "oneId": "one1",
+      "order": 1
+    },
+    {
+      "id": "storyChapter2",
+      "title": "A Turning Point",
+      "content": "This chapter describes a significant turning point...",
+      "userId": "user2",
+      "oneId": "one2",
+      "order": 2
+    },
+    {
+      "id": "storyChapter3",
+      "title": "Challenges and Triumphs",
+      "content": "This chapter highlights the challenges faced...",
+      "userId": "user3",
+      "oneId": "one3",
+      "order": 3
+    },
+    {
+      "id": "storyChapter4",
+      "title": "A New Beginning",
+      "content": "This chapter details a new phase of life...",
+      "userId": "user1",
+      "oneId": "one4",
+      "order": 4
+    },
+    {
+      "id": "storyChapter5",
+      "title": "Journey of Faith",
+      "content": "This chapter explores the deepening of faith...",
+      "userId": "user2",
+      "oneId": "one1",
+      "order": 1
+    },
+    {
+      "id": "godsStory1",
+      "title": "Creation",
+      "content": "In the beginning, God created the heavens and the earth...",
+      "userId": "user1",
+      "order": 2
+    },
+    {
+      "id": "godsStory2",
+      "title": "The Fall",
+      "content": "Adam and Eve disobeyed God, leading to the fall of humanity...",
+      "userId": "user1",
+      "order": 3
+    },
+    {
+      "id": "godsStory3",
+      "title": "The Exodus",
+      "content": "God delivered the Israelites from slavery in Egypt...",
+      "userId": "user1",
+      "order": 4
+    },
+    {
+      "id": "godsStory4",
+      "title": "The Life of Jesus",
+      "content": "Jesus Christ, the Son of God, came to earth to save humanity...",
+      "userId": "user1",
+      "order": 5
+    },
+    {
+      "id": "godsStory5",
+      "title": "The Resurrection",
+      "content": "Jesus rose from the dead, conquering sin and death...",
+      "userId": "user1",
+      "order": 6
+    }
+  ]
+  

@@ -13,6 +13,7 @@ export enum Action {
     AddLocalEvent = "ADD_LOCAL_EVENT",
     AddLocalMinistry = "ADD_LOCAL_MINISTRY",
     AddMissionsTrip = "ADD_MISSIONS_TRIP",
+    AddPrompt = "ADD_PROMPT",
 
     LoadServerData = "LOAD_SERVER_DATA",
 
