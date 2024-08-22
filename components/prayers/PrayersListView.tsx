@@ -13,6 +13,7 @@ import { ThemedView } from '@/components/common/ThemedView';
 import { tabStyles } from '../../styles/Styles';
 import Prayer, { generateRandomPrayer } from '@/models/prayer';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { PrayerCardView } from './PrayerCardView';
 
 export type IPrayersListView = ViewProps & {
     prayers: Prayer[];
@@ -28,7 +29,7 @@ function PrayersListView({ prayers, addPrayer }: IPrayersListView) {
     };
 
     const renderItem = ({ item }: { item: Prayer }) => (
-        <div>{item.name}</div>
+        <PrayerCardView prayer={item}/>
     );
 
     return (

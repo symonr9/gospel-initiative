@@ -7,6 +7,7 @@ import { FlatList, View, ViewProps } from 'react-native';
 import Story from '@/models/story';
 import StoryChapter from '@/models/storyChapter';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { StoryChapterCardView } from './StoryCardView';
 
 export type IStoriesListView = ViewProps & {
     storyChapters: StoryChapter[];
@@ -17,7 +18,7 @@ function StoriesListView({ style, storyChapters, story, ...otherProps }: IStorie
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: StoryChapter }) => (
-        <div>{item.title}</div>
+        <StoryChapterCardView storyChapter={item}/>
     );
 
     return (

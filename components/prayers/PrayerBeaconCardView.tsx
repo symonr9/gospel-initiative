@@ -1,24 +1,23 @@
-
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
+import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText } from '../common/ThemedText';
 import { SimpleCardView } from '../common/SimpleCardView';
-import LocalMinistry from '@/models/localMinistry';
 import { AppIcon } from '@/enums/enums';
 
-export type ILocalMinistryCardView = ViewProps & {
-    localMinistry: LocalMinistry;
+export type IPrayerBeaconCardView = ViewProps & {
+  prayerBeacon: PrayerBeacon;
 };
 
-export function LocalMinistryCardView({ localMinistry }: ILocalMinistryCardView) {
+export function PrayerBeaconCardView({ prayerBeacon }: IPrayerBeaconCardView) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
     <SimpleCardView iconSrc={AppIcon.Man1}
-                    title={localMinistry.title}
+                    title={prayerBeacon.name}
                     detailsView={detailsView} />
   );
 }

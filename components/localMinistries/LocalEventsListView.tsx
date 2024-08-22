@@ -7,6 +7,7 @@ import { FlatList, View, ViewProps } from 'react-native';
 
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import LocalEvent from '@/models/localEvent';
+import { LocalEventCardView } from './localEventCardView';
 
 export type IActionStepListView = ViewProps & {
     localEvents: LocalEvent[];
@@ -16,7 +17,7 @@ function LocalEventsListView({ style, localEvents, ...otherProps }: IActionStepL
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: LocalEvent }) => (
-        <div>{item.title}</div>
+        <LocalEventCardView localEvent={item}/>
     );
 
     return (

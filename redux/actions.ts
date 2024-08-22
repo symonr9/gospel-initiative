@@ -7,6 +7,7 @@ import Story from "@/models/story";
 
 export enum Action {
     AddPrayer = "ADD_PRAYER",
+    AddPrayerBeacon = "ADD_PRAYER_BEACON",
     AddOne = "ADD_ONE",
     AddStory = "ADD_STORY",
     AddLocalEvent = "ADD_LOCAL_EVENT",
@@ -43,6 +44,11 @@ export const addOne = (item: One) => ({
 
 export const addPrayer = (item: Prayer) => ({
     type: Action.AddPrayer,
+    payload: item,
+});
+
+export const addPrayerBeacon = (item: Prayer) => ({
+    type: Action.AddPrayerBeacon,
     payload: item,
 });
 

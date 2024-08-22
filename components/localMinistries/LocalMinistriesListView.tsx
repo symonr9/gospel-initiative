@@ -6,6 +6,7 @@ import { FlatList, View, ViewProps } from 'react-native';
 
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import LocalMinistry from '@/models/localMinistry';
+import { LocalMinistryCardView } from './LocalMinistryCardView';
 
 export type IActionStepListView = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -15,7 +16,7 @@ function LocalMinistriesListView({ style, localMinistries, ...otherProps }: IAct
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: LocalMinistry }) => (
-        <div>{item.title}</div>
+        <LocalMinistryCardView localMinistry={item}/>
     );
 
     return (

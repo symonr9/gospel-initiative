@@ -7,6 +7,7 @@ import { FlatList, View, ViewProps } from 'react-native';
 import One from '@/models/one';
 import ActionStep from '@/models/actionStep';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { ActionStepCardView } from './ActionStepCardView';
 
 export type IActionStepListView = ViewProps & {
     actionSteps: ActionStep[];
@@ -17,7 +18,7 @@ function ActionStepsListView({ style, actionSteps, one, ...otherProps }: IAction
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: ActionStep }) => (
-        <div>{item.notes}</div>
+        <ActionStepCardView actionStep={item}/>
     );
 
     return (
