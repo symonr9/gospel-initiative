@@ -1,4 +1,4 @@
-import { ActionStepType, AvatarIcon, OneStage, PrayerType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneStage, PrayerType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 
 
@@ -71,14 +71,18 @@ export function getStoriesFromJson() {
 
 const storyChaptersJson = require('../data/story-chapters.json');
 export function getStoryChaptersFromJson() {
-    return storyChaptersJson.map(item => {    
+    return storyChaptersJson.map(item => {  
+        const chapterType = StoryChapterType[item.chapterType as keyof typeof StoryChapterType];
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
+
         return {
             id: item.id,
+            storyId: item.storyId,
+            chapterType: chapterType,
             title: item.title,
             content: item.content,
-            userId: item.userId,
-            oneId: item.oneId || undefined,
-            order: item.order,
+            icon: icon,
+            order: item.order
         };
     });
 }
