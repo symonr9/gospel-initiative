@@ -149,21 +149,3 @@ export const PromptQuestions = {
         "How do you like to spend your time when you're alone?"
     ],
 };
-
-// Fun Facts
-
-export const FunFactsStringMap = {
-    Background: "Background",
-    Family: "Family",
-    Likes: "Likes",
-    Dislikes: "Dislikes",
-    Work: "Work",
-    Hobbies: "Hobbies",
-    Education: "Education",
-    SpiritualBeliefs: "Spiritual Beliefs",
-    LifeGoals: "Life Goals",
-    Favorite: "Favorite",
-    FaithBackground: "Faith Background",
-    CommonGround: "Common Ground",
-    PrayerPoint: "Prayer Point"
-}

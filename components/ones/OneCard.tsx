@@ -5,11 +5,11 @@ import One from '@/models/one';
 import { ThemedText } from '../common/ThemedText';
 import { SimpleCard } from '../common/SimpleCard';
 
-export type IOneCardView = ViewProps & {
+export type IOneCard = ViewProps & {
   one: One;
 };
 
-export function OneCard({ one }: IOneCardView) {
+export function OneCard({ one }: IOneCard) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
