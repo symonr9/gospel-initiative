@@ -5,8 +5,10 @@ import { prayersReducer } from './prayers';
 import { onesReducer } from './ones';
 import { storiesReducer } from './stories';
 import { promptsReducer } from './prompts';
+import { appReducer } from './app';
 
 export const rootReducer = combineReducers({
+    app: appReducer,
     users: usersReducer,
     errors: errorsReducer,
     prayers: prayersReducer,

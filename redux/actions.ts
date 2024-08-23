@@ -1,3 +1,4 @@
+import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
@@ -12,6 +13,8 @@ import Story from "@/models/story";
 import StoryChapter from "@/models/storyChapter";
 
 export enum Action {
+    OpenPage = "OPEN_PAGE",
+
     AddPrayer = "ADD_PRAYER",
     AddPrayerBeacon = "ADD_PRAYER_BEACON",
     AddOne = "ADD_ONE",
@@ -49,6 +52,12 @@ export const loadServerData = (data: any) => {
         payload: data,
     }
 };
+
+
+export const openPage = (item: Page) => ({
+    type: Action.OpenPage,
+    payload: item,
+});
 
 export const addOne = (item: One) => ({
     type: Action.AddOne,

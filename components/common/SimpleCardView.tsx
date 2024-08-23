@@ -12,14 +12,23 @@ import { useBackgroundThemeColor } from '@/constants/Colors';
 export type IOneCardView = ViewProps & {
   iconSrc: string | null;
   title: string;
-  detailsView: any;
+  detailsView?: any;
+  onClick?: Function;
 }
 
-export function SimpleCardView({ iconSrc = null, title, detailsView = <></> }: IOneCardView) {
+export function SimpleCardView({ iconSrc = null, title, detailsView = <></>,
+  onClick,
+ }: IOneCardView) {
   const backgroundColor = useBackgroundThemeColor();
 
+  const onTouchEnd = () => {
+    if (onClick) {
+      onClick();
+    }
+  }
+
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={styles.container} onTouchEnd={onTouchEnd}>
       <View style={flexStyles.column}>
         {
             iconSrc && (

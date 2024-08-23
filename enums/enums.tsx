@@ -1,4 +1,12 @@
 
+// App
+
+export enum Page {
+    ShareChrist = 1,
+    OnesList = 2,
+    PrayersList = 3,
+}
+
 // Users
 
 export enum Role {

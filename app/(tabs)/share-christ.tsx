@@ -2,27 +2,33 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { FlatList, Text, View, StyleSheet, ViewProps } from 'react-native';
+import { ViewProps } from 'react-native';
 
 import PageView from '@/components/common/PageView';
-import { ThemedText, ThemedTextType } from '@/components/common/ThemedText';
-import { ThemedView } from '@/components/common/ThemedView';
 
-import { tabStyles } from '../../styles/Styles';
-import OnesListView from '@/components/ones/OnesListView';
-import PrayersListView from '@/components/prayers/PrayersListView';
 import PageHeader from '@/components/common/PageHeader';
+import { PageColumn } from '@/components/common/PageColumn';
+import { PageRow } from '@/components/common/PageRow';
+import OpenPrayerCardView from '@/components/prayers/OpenPrayerCardView';
+import OpenOneCardView from '@/components/ones/OpenOneCardView';
 
 export type IShareChrist = ViewProps & {
-    error: string
+    error: string,
 };
 
 function ShareChrist({ error }: IShareChrist) {
+
     return (
         <PageView>
-            <PageHeader title={"Share Christ"}/>
-            <OnesListView />
-            <PrayersListView/>
+            <PageColumn spaceBetween>
+                <PageRow>
+                    <PageHeader title={"Share Christ"}/>
+                </PageRow>
+                <PageRow spaceBetween>
+                    <OpenPrayerCardView />
+                    <OpenOneCardView />
+                </PageRow>
+            </PageColumn>
         </PageView>
     );
 }
@@ -32,7 +38,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareChrist);
