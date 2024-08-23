@@ -8,14 +8,14 @@ import One from '@/models/one';
 import OneFact from '@/models/oneFact';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 
-export type IOneFactsListView = ViewProps & {
+export type IOneFactsList = ViewProps & {
     one: One;
 
     // Redux
     oneFacts: OneFact[];
 };
 
-function OneFactsListView({ style, oneFacts, one, ...otherProps }: IOneFactsListView) {
+function OneFactsList({ style, oneFacts, one, ...otherProps }: IOneFactsList) {
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: OneFact }) => (
@@ -56,4 +56,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OneFactsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(OneFactsList);
