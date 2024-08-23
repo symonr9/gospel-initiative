@@ -8,6 +8,7 @@ interface IStoryChapter {
     content: string;
     icon: AppIcon;
     order: number;
+    isEssential: boolean;
 }
 
 export default class StoryChapter implements IStoryChapter {
@@ -18,9 +19,11 @@ export default class StoryChapter implements IStoryChapter {
     content: string;
     icon: AppIcon;
     order: number;
+    isEssential: boolean;
     
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
-        title: string, content: string, icon: AppIcon, order: number
+        title: string, content: string, icon: AppIcon, order: number,
+        essential: boolean
     ) {
         this.id = id;
         this.storyId = storyId;
@@ -29,6 +32,7 @@ export default class StoryChapter implements IStoryChapter {
         this.content = content;
         this.icon = icon;
         this.order = order;
+        this.isEssential = essential;
     }
 
 }

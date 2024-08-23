@@ -3,21 +3,20 @@ import { View, type ViewProps } from 'react-native';
 
 import { ThemedText } from '../common/ThemedText';
 import { SimpleCardView } from '../common/SimpleCardView';
-import Story from '@/models/story';
-import { AppIcon } from '@/enums/enums';
+import StoryChapter from '@/models/storyChapter';
 
-export type IStoryCardView = ViewProps & {
-    story: Story;
+export type IStoryChapterCardView = ViewProps & {
+    storyChapter: StoryChapter;
 };
 
-export function StoryCardView({ story }: IStoryCardView) {
+export function StoryChapterCardView({ storyChapter }: IStoryChapterCardView) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
-    <SimpleCardView iconSrc={AppIcon.Man1}
-                    title={story.title}
+    <SimpleCardView iconSrc={storyChapter.icon}
+                    title={storyChapter.title}
                     detailsView={detailsView} />
   );
 }

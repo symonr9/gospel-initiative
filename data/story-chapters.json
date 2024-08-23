@@ -5,7 +5,8 @@
       "content": "This chapter covers the early life and upbringing...",
       "userId": "user1",
       "oneId": "one1",
-      "order": 1
+      "order": 1,
+      "isEssential": true
     },
     {
       "id": "storyChapter2",
@@ -13,7 +14,8 @@
       "content": "This chapter describes a significant turning point...",
       "userId": "user2",
       "oneId": "one2",
-      "order": 2
+      "order": 2,
+      "isEssential": true
     },
     {
       "id": "storyChapter3",
@@ -21,7 +23,8 @@
       "content": "This chapter highlights the challenges faced...",
       "userId": "user3",
       "oneId": "one3",
-      "order": 3
+      "order": 3,
+      "isEssential": true
     },
     {
       "id": "storyChapter4",
@@ -37,28 +40,32 @@
       "content": "This chapter explores the deepening of faith...",
       "userId": "user2",
       "oneId": "one1",
-      "order": 1
+      "order": 1,
+      "isEssential": true
     },
     {
       "id": "godsStory1",
       "title": "Creation",
       "content": "In the beginning, God created the heavens and the earth...",
       "userId": "user1",
-      "order": 2
+      "order": 2,
+      "isEssential": true
     },
     {
       "id": "godsStory2",
       "title": "The Fall",
       "content": "Adam and Eve disobeyed God, leading to the fall of humanity...",
       "userId": "user1",
-      "order": 3
+      "order": 3,
+      "isEssential": true
     },
     {
       "id": "godsStory3",
       "title": "The Exodus",
       "content": "God delivered the Israelites from slavery in Egypt...",
       "userId": "user1",
-      "order": 4
+      "order": 4,
+      "isEssential": true
     },
     {
       "id": "godsStory4",
@@ -72,7 +79,8 @@
       "title": "The Resurrection",
       "content": "Jesus rose from the dead, conquering sin and death...",
       "userId": "user1",
-      "order": 6
+      "order": 6,
+      "isEssential": true
     }
   ]
   
