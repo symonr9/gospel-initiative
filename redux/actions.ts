@@ -1,3 +1,4 @@
+import { PrayerType } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import LocalEvent from "@/models/localEvent";
@@ -31,6 +32,10 @@ export enum Action {
     AddActionStep = "ADD_ACTION_STEP",
 
     LoadServerData = "LOAD_SERVER_DATA",
+    LoadPreferences = "LOAD_PREFERENCES",
+
+
+    SetActivePrayerType = "SET_PRAYER_TYPE",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -53,6 +58,12 @@ export const loadServerData = (data: any) => {
     }
 };
 
+export const LOAD_PREFERENCES = (data: any) => {
+    return {
+        type: Action.LoadPreferences,
+        payload: data,
+    }
+};
 
 export const openPage = (item: Page) => ({
     type: Action.OpenPage,
@@ -66,6 +77,11 @@ export const addOne = (item: One) => ({
 
 export const addPrayer = (item: Prayer) => ({
     type: Action.AddPrayer,
+    payload: item,
+});
+
+export const setActivePrayerType = (item: PrayerType) => ({
+    type: Action.SetActivePrayerType,
     payload: item,
 });
 

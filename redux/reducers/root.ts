@@ -6,6 +6,7 @@ import { onesReducer } from './ones';
 import { storiesReducer } from './stories';
 import { promptsReducer } from './prompts';
 import { appReducer } from './app';
+import { preferencesReducer } from './preferences';
 
 export const rootReducer = combineReducers({
     app: appReducer,
@@ -14,5 +15,6 @@ export const rootReducer = combineReducers({
     prayers: prayersReducer,
     ones: onesReducer,
     stories: storiesReducer,
-    prompts: promptsReducer
+    prompts: promptsReducer,
+    preferences: preferencesReducer
 });

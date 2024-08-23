@@ -7,17 +7,30 @@ import { ThemedText, ThemedTextType } from '@/components/common/ThemedText';
 import { ThemedView } from '@/components/common/ThemedView';
 
 import PageHeader from '@/components/common/PageHeader';
+import { PageColumn } from '@/components/common/PageColumn';
+import { PageRow } from '@/components/common/PageRow';
+import NavigateToPrayersCard from '@/components/prayers/NavigateToPrayersCard';
+import { PrayerType } from '@/enums/enums';
 
 export type ILoveCity = ViewProps & {
 
 };
 
 function LoveCity({ }: ILoveCity) {
-    return (
-        <PageView>
-            <PageHeader title={"Love City"}/>
-        </PageView>
-    );
+  return (
+    <PageView>
+      <PageColumn spaceBetween>
+        <PageRow>
+          <PageHeader title={"Love City"} />
+        </PageRow>
+
+        <PageRow spaceBetween>
+          <NavigateToPrayersCard typeToOpen={PrayerType.ForCityMinistry} />
+        </PageRow>
+
+      </PageColumn>
+    </PageView>
+  );
 }
 
 const mapStateToProps = (state: any) => ({

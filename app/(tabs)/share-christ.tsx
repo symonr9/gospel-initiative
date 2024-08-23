@@ -9,8 +9,8 @@ import PageView from '@/components/common/PageView';
 import PageHeader from '@/components/common/PageHeader';
 import { PageColumn } from '@/components/common/PageColumn';
 import { PageRow } from '@/components/common/PageRow';
-import OpenPrayerCard from '@/components/prayers/OpenPrayerCard';
-import OpenOneCard from '@/components/ones/OpenOneCard';
+import NavigateToPrayersCard from '@/components/prayers/NavigateToPrayersCard';
+import NavigateToOnesCard from '@/components/ones/NavigateToOnesCard';
 
 export type IShareChrist = ViewProps & {
     error: string,
@@ -24,9 +24,10 @@ function ShareChrist({ error }: IShareChrist) {
                 <PageRow>
                     <PageHeader title={"Share Christ"}/>
                 </PageRow>
+
                 <PageRow spaceBetween>
-                    <OpenPrayerCard />
-                    <OpenOneCard />
+                    <NavigateToPrayersCard/>
+                    <NavigateToOnesCard/>
                 </PageRow>
             </PageColumn>
         </PageView>

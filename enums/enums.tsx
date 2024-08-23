@@ -5,6 +5,9 @@ export enum Page {
     ShareChrist = 1,
     OnesList = 2,
     PrayersList = 3,
+
+    GodsStory = 4,
+    YourStory = 5,
 }
 
 // Users

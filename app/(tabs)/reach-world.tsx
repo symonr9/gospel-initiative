@@ -2,11 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 import PageView from '@/components/common/PageView';
-import { ThemedText, ThemedTextType } from '@/components/common/ThemedText';
-import { ThemedView } from '@/components/common/ThemedView';
 
-import { tabStyles } from '../../styles/Styles';
 import PageHeader from '@/components/common/PageHeader';
+import { PageColumn } from '@/components/common/PageColumn';
+import { PageRow } from '@/components/common/PageRow';
+import NavigateToPrayersCard from '@/components/prayers/NavigateToPrayersCard';
+import { PrayerType } from '@/enums/enums';
 
 export type IReachWorld = ViewProps & {
 
@@ -14,11 +15,19 @@ export type IReachWorld = ViewProps & {
 
 function ReachWorld({ }: IReachWorld) {
 
-    return (
-        <PageView>
-            <PageHeader title={"Reach the World"}/>
-        </PageView>
-    );
+  return (
+    <PageView>
+      <PageColumn spaceBetween>
+        <PageRow>
+          <PageHeader title={"Reach the World"} />
+        </PageRow>
+        <PageRow spaceBetween>
+          <NavigateToPrayersCard typeToOpen={PrayerType.ForTheWorld} />
+        </PageRow>
+      </PageColumn>
+
+    </PageView>
+  );
 }
 
 const mapStateToProps = (state: any) => ({
