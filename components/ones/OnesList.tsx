@@ -4,17 +4,17 @@ import { FlatList, StyleSheet, ViewProps } from 'react-native';
 
 import One from '@/models/one';
 
-import { OneCardView } from './OneCardView';
+import { OneCard } from './OneCard';
 import { ThemedView } from '../common/ThemedView';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 
-export type IOnesListView = ViewProps & {
+export type IOnesList = ViewProps & {
     ones: One[];
 };
 
-function OnesListView({ ones }: IOnesListView) {
+function OnesList({ ones }: IOnesList) {
     const renderItem = ({ item }: { item: One }) => (
-        <OneCardView one={item} />
+        <OneCard one={item} />
     );
 
     return (
@@ -51,4 +51,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OnesListView);
+export default connect(mapStateToProps, mapDispatchToProps)(OnesList);

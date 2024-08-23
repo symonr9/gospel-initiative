@@ -13,14 +13,14 @@ import { ThemedView } from '@/components/common/ThemedView';
 import { tabStyles } from '../../styles/Styles';
 import Prayer, { generateRandomPrayer } from '@/models/prayer';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import { PrayerCardView } from './PrayerCardView';
+import { PrayerCard } from './PrayerCard';
 
-export type IPrayersListView = ViewProps & {
+export type IPrayersList = ViewProps & {
     prayers: Prayer[];
     addPrayer: (prayer: Prayer) => void;
 };
 
-function PrayersListView({ prayers, addPrayer }: IPrayersListView) {
+function PrayersList({ prayers, addPrayer }: IPrayersList) {
     const backgroundColor = useBackgroundThemeColor();
 
     const handleAdd = () => {
@@ -29,7 +29,7 @@ function PrayersListView({ prayers, addPrayer }: IPrayersListView) {
     };
 
     const renderItem = ({ item }: { item: Prayer }) => (
-        <PrayerCardView prayer={item}/>
+        <PrayerCard prayer={item}/>
     );
 
     return (
@@ -66,4 +66,4 @@ const mapDispatchToProps = {
     addPrayer,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrayersListView);
+export default connect(mapStateToProps, mapDispatchToProps)(PrayersList);

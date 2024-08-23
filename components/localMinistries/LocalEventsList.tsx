@@ -1,31 +1,29 @@
 
+
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
-import Prayer from '@/models/prayer';
-import PrayerRequest from '@/models/prayerRequest';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import LocalEvent from '@/models/localEvent';
+import { LocalEventCard } from './LocalEventCard';
 
-export type IPrayerRequestsListView = ViewProps & {
-    prayer: Prayer;
-    
-    // Redux
-    prayerRequests: PrayerRequest[];
+export type ILocalEventsList = ViewProps & {
+    localEvents: LocalEvent[];
 };
 
-function PrayerRequestsListView({ style, prayerRequests, prayer, ...otherProps }: IPrayerRequestsListView) {
+function LocalEventsList({ style, localEvents, ...otherProps }: ILocalEventsList) {
     const backgroundColor = useBackgroundThemeColor();
 
-    const renderItem = ({ item }: { item: PrayerRequest }) => (
-        <div>{item.name}</div>
+    const renderItem = ({ item }: { item: LocalEvent }) => (
+        <LocalEventCard localEvent={item}/>
     );
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
             <FlatList
-                data={prayerRequests}
+                data={localEvents}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -34,7 +32,7 @@ function PrayerRequestsListView({ style, prayerRequests, prayer, ...otherProps }
 }
 
 const mapStateToProps = (state: any) => ({
-    prayerRequests: state.prayers.requests,
+    localEvents: state.localEvents.localEvents
 });
 
 
@@ -42,4 +40,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequestsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(LocalEventsList);

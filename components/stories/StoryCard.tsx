@@ -2,21 +2,21 @@ import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
 import { ThemedText } from '../common/ThemedText';
-import { SimpleCardView } from '../common/SimpleCardView';
+import { SimpleCard } from '../common/SimpleCard';
 import Story from '@/models/story';
 import { AppIcon } from '@/enums/enums';
 
-export type IStoryCardView = ViewProps & {
+export type IStoryCard = ViewProps & {
     story: Story;
 };
 
-export function StoryCardView({ story }: IStoryCardView) {
+export function StoryCard({ story }: IStoryCard) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
-    <SimpleCardView iconSrc={AppIcon.Man1}
+    <SimpleCard iconSrc={AppIcon.Man1}
                     title={story.title}
                     detailsView={detailsView} />
   );

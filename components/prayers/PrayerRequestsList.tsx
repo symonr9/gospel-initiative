@@ -4,25 +4,28 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
+import Prayer from '@/models/prayer';
+import PrayerRequest from '@/models/prayerRequest';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import Prompt from '@/models/prompt';
-import { PromptCardView } from './PromptCardView';
 
-export type IPromptsListView = ViewProps & {
-    prompts: Prompt[];
+export type IPrayerRequestsList = ViewProps & {
+    prayer: Prayer;
+    
+    // Redux
+    prayerRequests: PrayerRequest[];
 };
 
-function PromptsListView({ style, prompts, ...otherProps }: IPromptsListView) {
+function PrayerRequestsList({ style, prayerRequests, prayer, ...otherProps }: IPrayerRequestsList) {
     const backgroundColor = useBackgroundThemeColor();
 
-    const renderItem = ({ item }: { item: Prompt }) => (
-        <PromptCardView prompt={item}/>
+    const renderItem = ({ item }: { item: PrayerRequest }) => (
+        <div>{item.name}</div>
     );
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
             <FlatList
-                data={prompts}
+                data={prayerRequests}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -31,7 +34,7 @@ function PromptsListView({ style, prompts, ...otherProps }: IPromptsListView) {
 }
 
 const mapStateToProps = (state: any) => ({
-    prompts: state.prompts.prompts
+    prayerRequests: state.prayers.requests,
 });
 
 
@@ -39,4 +42,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PromptsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(PrayerRequestsList);

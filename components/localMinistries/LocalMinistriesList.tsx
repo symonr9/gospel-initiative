@@ -5,24 +5,24 @@ import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import MissionsTrip from '@/models/missionsTrip';
-import { MissionsTripCardView } from './MissionsTripCardView';
+import LocalMinistry from '@/models/localMinistry';
+import { LocalMinistryCard } from './LocalMinistryCard';
 
-export type IActionStepListView = ViewProps & {
-    missionsTrips: MissionsTrip[];
+export type ILocalMinistriesList = ViewProps & {
+    localMinistries: LocalMinistry[];
 };
 
-function MissionsTripsListView({ style, missionsTrips, ...otherProps }: IActionStepListView) {
+function LocalMinistriesList({ style, localMinistries, ...otherProps }: ILocalMinistriesList) {
     const backgroundColor = useBackgroundThemeColor();
 
-    const renderItem = ({ item }: { item: MissionsTrip }) => (
-        <MissionsTripCardView missionsTrip={item}/>
+    const renderItem = ({ item }: { item: LocalMinistry }) => (
+        <LocalMinistryCard localMinistry={item}/>
     );
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
             <FlatList
-                data={missionsTrips}
+                data={localMinistries}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -31,7 +31,7 @@ function MissionsTripsListView({ style, missionsTrips, ...otherProps }: IActionS
 }
 
 const mapStateToProps = (state: any) => ({
-    missionsTrips: state.missionsTrips.missionsTrips
+    missionsTrips: state.localMinistries.localMinistries
 });
 
 
@@ -39,4 +39,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MissionsTripsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(LocalMinistriesList);

@@ -2,20 +2,20 @@ import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
 import { ThemedText } from '../common/ThemedText';
-import { SimpleCardView } from '../common/SimpleCardView';
+import { SimpleCard } from '../common/SimpleCard';
 import Prompt from '@/models/prompt';
 
-export type IPromptCardView = ViewProps & {
+export type IPromptCard = ViewProps & {
   prompt: Prompt;
 };
 
-export function PromptCardView({ prompt }: IPromptCardView) {
+export function PromptCard({ prompt }: IPromptCard) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
-    <SimpleCardView iconSrc={prompt.icon}
+    <SimpleCard iconSrc={prompt.icon}
                     title={prompt.notes}
                     detailsView={detailsView} />
   );

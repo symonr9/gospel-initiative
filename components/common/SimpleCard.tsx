@@ -5,20 +5,20 @@ import { Image } from 'expo-image';
 
 import { flexStyles } from '@/styles/Styles';
 
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { ThemedView } from '../common/ThemedView';
+import { ThemedText, ThemedTextType } from './ThemedText';
+import { ThemedView } from './ThemedView';
 import { useBackgroundThemeColor } from '@/constants/Colors';
 
-export type IOneCardView = ViewProps & {
+export type ISimpleCard = ViewProps & {
   iconSrc: string | null;
   title: string;
   detailsView?: any;
   onClick?: Function;
 }
 
-export function SimpleCardView({ iconSrc = null, title, detailsView = <></>,
+export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
   onClick,
- }: IOneCardView) {
+ }: ISimpleCard) {
   const backgroundColor = useBackgroundThemeColor();
 
   const onTouchEnd = () => {

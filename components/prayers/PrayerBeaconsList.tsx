@@ -1,29 +1,28 @@
 
-
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
+import PrayerBeacon from '@/models/prayerBeacon';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import LocalEvent from '@/models/localEvent';
-import { LocalEventCardView } from './localEventCardView';
+import { PrayerBeaconCard } from './PrayerBeaconCard';
 
-export type IActionStepListView = ViewProps & {
-    localEvents: LocalEvent[];
+export type IPrayerRequestsList = ViewProps & {
+    prayerBeacons: PrayerBeacon[];
 };
 
-function LocalEventsListView({ style, localEvents, ...otherProps }: IActionStepListView) {
+function PrayerBeaconsList({ style, prayerBeacons, ...otherProps }: IPrayerRequestsList) {
     const backgroundColor = useBackgroundThemeColor();
 
-    const renderItem = ({ item }: { item: LocalEvent }) => (
-        <LocalEventCardView localEvent={item}/>
+    const renderItem = ({ item }: { item: PrayerBeacon }) => (
+        <PrayerBeaconCard prayerBeacon={item}/>
     );
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
             <FlatList
-                data={localEvents}
+                data={prayerBeacons}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -32,7 +31,7 @@ function LocalEventsListView({ style, localEvents, ...otherProps }: IActionStepL
 }
 
 const mapStateToProps = (state: any) => ({
-    localEvents: state.localEvents.localEvents
+    prayerBeacons: state.prayers.prayerBeacons,
 });
 
 
@@ -40,4 +39,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocalEventsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(PrayerBeaconsList);

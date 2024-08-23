@@ -3,20 +3,20 @@ import { View, type ViewProps } from 'react-native';
 
 import Prayer from '@/models/prayer';
 import { ThemedText } from '../common/ThemedText';
-import { SimpleCardView } from '../common/SimpleCardView';
+import { SimpleCard } from '../common/SimpleCard';
 import { AppIcon } from '@/enums/enums';
 
-export type IPrayerCardView = ViewProps & {
+export type IPrayerCard = ViewProps & {
   prayer: Prayer;
 };
 
-export function PrayerCardView({ prayer }: IPrayerCardView) {
+export function PrayerCard({ prayer }: IPrayerCard) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
-    <SimpleCardView iconSrc={AppIcon.Man1}
+    <SimpleCard iconSrc={AppIcon.Man1}
                     title={prayer.name}
                     detailsView={detailsView} />
   );

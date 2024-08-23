@@ -4,25 +4,27 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
-import PrayerBeacon from '@/models/prayerBeacon';
+import One from '@/models/one';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import { PrayerBeaconCardView } from './PrayerBeaconCardView';
+import Meeting from '@/models/meeting';
+import { MeetingCard } from './MeetingCard';
 
-export type IPrayerRequestsListView = ViewProps & {
-    prayerBeacons: PrayerBeacon[];
+export type IMeetingsListView = ViewProps & {
+    meetings: Meeting[];
+    one: One;
 };
 
-function PrayerBeaconsListView({ style, prayerBeacons, ...otherProps }: IPrayerRequestsListView) {
+function MeetingsListView({ style, meetings, one, ...otherProps }: IMeetingsListView) {
     const backgroundColor = useBackgroundThemeColor();
 
-    const renderItem = ({ item }: { item: PrayerBeacon }) => (
-        <PrayerBeaconCardView prayerBeacon={item}/>
+    const renderItem = ({ item }: { item: Meeting }) => (
+        <MeetingCard meeting={item} one={one}/>
     );
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
             <FlatList
-                data={prayerBeacons}
+                data={meetings}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -31,7 +33,8 @@ function PrayerBeaconsListView({ style, prayerBeacons, ...otherProps }: IPrayerR
 }
 
 const mapStateToProps = (state: any) => ({
-    prayerBeacons: state.prayers.prayerBeacons,
+    meetings: state.ones.meetings,
+    one: state.ones.one
 });
 
 
@@ -39,4 +42,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrayerBeaconsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(MeetingsListView);

@@ -4,24 +4,24 @@ import { connect } from 'react-redux';
 
 import { View, type ViewProps } from 'react-native';
 
-import { SimpleCardView } from '../common/SimpleCardView';
+import { SimpleCard } from '../common/SimpleCard';
 import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
 import Prayer from '@/models/prayer';
 
-export type IPrayerCardView = ViewProps & {
+export type IOpenPrayerCard = ViewProps & {
     prayers: Prayer[],
 
     openPage: (page: Page) => void;
 };
 
-function OpenPrayerCardView({ prayers, openPage }: IPrayerCardView) {
+function OpenPrayerCard({ prayers, openPage }: IOpenPrayerCard) {
     const handleClick = () => {
         openPage(Page.PrayersList);
     };
     
     return (
-        <SimpleCardView iconSrc={AppIcon.Man1}
+        <SimpleCard iconSrc={AppIcon.Man1}
                         onClick={handleClick}
                         title={'Prayers'} />
     );
@@ -35,4 +35,4 @@ const mapDispatchToProps = {
     openPage
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OpenPrayerCardView);
+export default connect(mapStateToProps, mapDispatchToProps)(OpenPrayerCard);

@@ -7,21 +7,21 @@ import { FlatList, View, ViewProps } from 'react-native';
 
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import Leader from '@/models/leader';
-import { LeaderCardView } from './LeaderCardView';
+import { LeaderCard } from './LeaderCard';
 
-export type ILeadersListView = ViewProps & {
+export type ILeadersList = ViewProps & {
     localMinistryLeaders: Leader[];
     missionsTripLeaders: Leader[];
 };
 
-function LeadersListView({ style, localMinistryLeaders, missionsTripLeaders,
-    ...otherProps }: ILeadersListView) {
+function LeadersList({ style, localMinistryLeaders, missionsTripLeaders,
+    ...otherProps }: ILeadersList) {
     const backgroundColor = useBackgroundThemeColor();
 
     const leaders = localMinistryLeaders.concat(missionsTripLeaders);
 
     const renderItem = ({ item }: { item: Leader }) => (
-        <LeaderCardView leader={item}/>
+        <LeaderCard leader={item}/>
     );
 
     return (
@@ -45,4 +45,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeadersListView);
+export default connect(mapStateToProps, mapDispatchToProps)(LeadersList);

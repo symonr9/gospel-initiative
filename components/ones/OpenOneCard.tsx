@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 import { View, type ViewProps } from 'react-native';
 
 import One from '@/models/one';
-import { SimpleCardView } from '../common/SimpleCardView';
+import { SimpleCard } from '../common/SimpleCard';
 import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
 
-export type IOneCardView = ViewProps & {
+export type IOneCard = ViewProps & {
     ones: One[],
     page: Page,
 
     openPage: (page: Page) => void;
 };
 
-function OpenOneCardView({ ones, page, openPage }: IOneCardView) {
+function OpenOneCard({ ones, page, openPage }: IOneCard) {
     const oneToLoad = ones.length > 0 ? ones[0] : null;
     const icon = oneToLoad ? oneToLoad.icon : AppIcon.Man1;
 
@@ -25,7 +25,7 @@ function OpenOneCardView({ ones, page, openPage }: IOneCardView) {
     };
     
     return (
-        <SimpleCardView iconSrc={icon}
+        <SimpleCard iconSrc={icon}
                         onClick={handleClick}
                         title={'Ones'} />
     );
@@ -40,4 +40,4 @@ const mapDispatchToProps = {
     openPage
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OpenOneCardView);
+export default connect(mapStateToProps, mapDispatchToProps)(OpenOneCard);

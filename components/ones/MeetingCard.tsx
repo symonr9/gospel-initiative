@@ -3,7 +3,7 @@ import { View, type ViewProps } from 'react-native';
 
 import One from '@/models/one';
 import { ThemedText } from '../common/ThemedText';
-import { SimpleCardView } from '../common/SimpleCardView';
+import { SimpleCard } from '../common/SimpleCard';
 import Meeting from '@/models/meeting';
 
 export type IMeetingCardView = ViewProps & {
@@ -11,13 +11,13 @@ export type IMeetingCardView = ViewProps & {
   meeting: Meeting;
 };
 
-export function MeetingCardView({ one, meeting }: IMeetingCardView) {
+export function MeetingCard({ one, meeting }: IMeetingCardView) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
-    <SimpleCardView iconSrc={one.icon}
+    <SimpleCard iconSrc={one.icon}
                     title={meeting.notes}
                     detailsView={detailsView} />
   );

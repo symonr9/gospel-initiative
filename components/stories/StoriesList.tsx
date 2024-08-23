@@ -5,20 +5,18 @@ import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
 import Story from '@/models/story';
-import StoryChapter from '@/models/storyChapter';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import { StoryChapterCardView } from './StoryChapterCardView';
-import { StoryCardView } from './StoryCardView';
+import { StoryCard } from './StoryCard';
 
-export type IStoriesListView = ViewProps & {
+export type IStoriesList = ViewProps & {
     stories: Story[];
 };
 
-function StoriesListView({ style, stories, ...otherProps }: IStoriesListView) {
+function StoriesList({ style, stories, ...otherProps }: IStoriesList) {
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: Story }) => (
-        <StoryCardView story={item}/>
+        <StoryCard story={item}/>
     );
 
     return (
@@ -41,4 +39,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoriesListView);
+export default connect(mapStateToProps, mapDispatchToProps)(StoriesList);

@@ -2,22 +2,22 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import { ThemedText } from '../common/ThemedText';
-import { SimpleCardView } from '../common/SimpleCardView';
+import { ThemedText } from './ThemedText';
+import { SimpleCard } from './SimpleCard';
 import { AppIcon } from '@/enums/enums';
 import Leader from '@/models/leader';
 
-export type ILeaderCardView = ViewProps & {
+export type ILeaderCard = ViewProps & {
     leader: Leader;
 };
 
-export function LeaderCardView({ leader }: ILeaderCardView) {
+export function LeaderCard({ leader }: ILeaderCard) {
   const detailsView = (
     <ThemedText>Test</ThemedText>
   );
 
   return (
-    <SimpleCardView iconSrc={AppIcon.Man1}
+    <SimpleCard iconSrc={AppIcon.Man1}
                     title={leader.name}
                     detailsView={detailsView} />
   );

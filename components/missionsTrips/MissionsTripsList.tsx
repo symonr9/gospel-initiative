@@ -4,27 +4,25 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
-import One from '@/models/one';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import Meeting from '@/models/meeting';
-import { MeetingCardView } from './MeetingCardView';
+import MissionsTrip from '@/models/missionsTrip';
+import { MissionsTripCard } from './MissionsTripCard';
 
-export type IMeetingsListView = ViewProps & {
-    meetings: Meeting[];
-    one: One;
+export type IMissionsTripsList = ViewProps & {
+    missionsTrips: MissionsTrip[];
 };
 
-function MeetingsListView({ style, meetings, one, ...otherProps }: IMeetingsListView) {
+function MissionsTripsList({ style, missionsTrips, ...otherProps }: IMissionsTripsList) {
     const backgroundColor = useBackgroundThemeColor();
 
-    const renderItem = ({ item }: { item: Meeting }) => (
-        <MeetingCardView meeting={item} one={one}/>
+    const renderItem = ({ item }: { item: MissionsTrip }) => (
+        <MissionsTripCard missionsTrip={item}/>
     );
 
     return (
         <View style={[{ backgroundColor }, style]} {...otherProps}>
             <FlatList
-                data={meetings}
+                data={missionsTrips}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -33,8 +31,7 @@ function MeetingsListView({ style, meetings, one, ...otherProps }: IMeetingsList
 }
 
 const mapStateToProps = (state: any) => ({
-    meetings: state.ones.meetings,
-    one: state.ones.one
+    missionsTrips: state.missionsTrips.missionsTrips
 });
 
 
@@ -42,4 +39,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MeetingsListView);
+export default connect(mapStateToProps, mapDispatchToProps)(MissionsTripsList);

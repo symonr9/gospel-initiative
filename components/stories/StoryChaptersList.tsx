@@ -7,18 +7,18 @@ import { FlatList, View, ViewProps } from 'react-native';
 import Story from '@/models/story';
 import StoryChapter from '@/models/storyChapter';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import { StoryChapterCardView } from './StoryChapterCardView';
+import { StoryChapterCard } from './StoryChapterCard';
 
-export type IStoryChaptersListView = ViewProps & {
+export type IStoryChaptersList = ViewProps & {
     storyChapters: StoryChapter[];
     story: Story;
 };
 
-function StoryChaptersListView({ style, storyChapters, story, ...otherProps }: IStoryChaptersListView) {
+function StoryChaptersList({ style, storyChapters, story, ...otherProps }: IStoryChaptersList) {
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: StoryChapter }) => (
-        <StoryChapterCardView storyChapter={item}/>
+        <StoryChapterCard storyChapter={item}/>
     );
 
     return (
@@ -42,4 +42,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoryChaptersListView);
+export default connect(mapStateToProps, mapDispatchToProps)(StoryChaptersList);
