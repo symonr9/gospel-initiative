@@ -1,9 +1,15 @@
+import ActionStep from "@/models/actionStep";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
+import Meeting from "@/models/meeting";
 import MissionsTrip from "@/models/missionsTrip";
 import One from "@/models/one";
+import OneFact from "@/models/oneFact";
 import Prayer from "@/models/prayer";
+import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
+import PrayerRequest from "@/models/prayerRequest";
 import Story from "@/models/story";
+import StoryChapter from "@/models/storyChapter";
 
 export enum Action {
     AddPrayer = "ADD_PRAYER",
@@ -14,6 +20,12 @@ export enum Action {
     AddLocalMinistry = "ADD_LOCAL_MINISTRY",
     AddMissionsTrip = "ADD_MISSIONS_TRIP",
     AddPrompt = "ADD_PROMPT",
+    AddMeeting = "ADD_MEETING",
+    AddOneFact = "ADD_ONE_FACT",
+    AddPrayerBeaconSettings = "ADD_PRAYER_BEACON_SETTINGS",
+    AddPrayerRequest = "ADD_PRAYER_REQUEST",
+    AddStoryChapter = "ADD_STORY_CHAPTER",
+    AddActionStep = "ADD_ACTION_STEP",
 
     LoadServerData = "LOAD_SERVER_DATA",
 
@@ -70,6 +82,36 @@ export const AddLocalMinistry = (item: LocalMinistry) => ({
 
 export const AddMissionsTrip = (item: MissionsTrip) => ({
     type: Action.AddMissionsTrip,
+    payload: item,
+});
+
+export const AddMeeting = (item: Meeting) => ({
+    type: Action.AddMeeting,
+    payload: item,
+});
+
+export const AddActionStep = (item: ActionStep) => ({
+    type: Action.AddActionStep,
+    payload: item,
+});
+
+export const AddOneFact = (item: OneFact) => ({
+    type: Action.AddOneFact,
+    payload: item,
+});
+
+export const AddPrayerBeaconSettings = (item: PrayerBeaconSettings) => ({
+    type: Action.AddPrayerBeaconSettings,
+    payload: item,
+});
+
+export const AddPrayerRequests = (item: PrayerRequest) => ({
+    type: Action.AddPrayerRequest,
+    payload: item,
+});
+
+export const AddStoryChapters = (item: StoryChapter) => ({
+    type: Action.AddStoryChapter,
     payload: item,
 });
 

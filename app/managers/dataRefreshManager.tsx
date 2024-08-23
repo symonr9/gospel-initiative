@@ -21,9 +21,23 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
         console.log("First time page load");
         
         loadServerData({
+            localEvents: [],
+            localMinistries: [],
+            localMinistryLeaders: [],
+            missionsTrips: [],
+            missionsTripLeaders: [],
             ones: JsonFunctions.getOnesFromJson(),
+            meetings: [],
+            oneFacts: [],
             actionSteps: JsonFunctions.getActionStepsJson(),
-            prayers: JsonFunctions.getPrayersFromJson()
+            prayers: JsonFunctions.getPrayersFromJson(),
+            prayerBeacons: [],
+            prayerBeaconSettings: [],
+            prayerRequests: [],
+            prompts: [],
+            stories: [],
+            storyChapters: [],
+            users: [],
         });
     }, []);
 

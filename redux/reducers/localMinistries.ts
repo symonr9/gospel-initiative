@@ -4,16 +4,18 @@ import update from 'immutability-helper';
 const initialState = {
     localEvents: [],
     localMinistries: [],
+    localMinistryLeaders: []
 };
 
 export function localMinistriesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { localMinistries, localEvents } = action.payload;
+            const { localMinistries, localEvents, localMinistryLeaders } = action.payload;
             return update(state, {
                 $set: {
                     localMinistries: localMinistries || [],
-                    localEvents: localEvents || []
+                    localEvents: localEvents || [],
+                    localMinistryLeaders: localMinistryLeaders || []
                 }
             });
         case Action.AddLocalMinistry:

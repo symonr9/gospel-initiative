@@ -3,17 +3,23 @@ import update from 'immutability-helper';
 
 const initialState = {
     prayers: [],
-    prayerBeacons: []
+    prayerBeacons: [],
+    prayerBeaconSettings: [],
+    prayerRequests: []
 };
 
 export function prayersReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { prayers, prayerBeacons } = action.payload;
+            const { prayers, prayerBeacons, prayerBeaconSettings,
+                prayerRequests
+             } = action.payload;
             return update(state, {
                 $set: {
                     prayers: prayers || [],
-                    prayerBeacons: prayerBeacons || []
+                    prayerBeacons: prayerBeacons || [],
+                    prayerBeaconSettings: prayerBeaconSettings || [],
+                    prayerRequests: prayerRequests || []
                 }
             });
         case Action.AddPrayer:
@@ -22,7 +28,15 @@ export function prayersReducer(state = initialState, action: ActionPackage) {
             });
         case Action.AddPrayerBeacon:
             return update(state, {
-                prayers: { $push: [action.payload] }
+                prayerBeacons: { $push: [action.payload] }
+            });
+        case Action.AddPrayerBeaconSettings:
+            return update(state, {
+                prayerBeaconSettings: { $push: [action.payload] }
+            });
+        case Action.AddPrayerRequest:
+            return update(state, {
+                prayerRequests: { $push: [action.payload] }
             });
         default:
             return state;
