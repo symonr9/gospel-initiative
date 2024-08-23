@@ -7,6 +7,7 @@ import { FlatList, View, ViewProps } from 'react-native';
 import Story from '@/models/story';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import { StoryCard } from './StoryCard';
+import useToggle from '@/hooks/useToggle';
 
 export type IStoriesList = ViewProps & {
     stories: Story[];
@@ -14,6 +15,7 @@ export type IStoriesList = ViewProps & {
 
 function StoriesList({ style, stories, ...otherProps }: IStoriesList) {
     const backgroundColor = useBackgroundThemeColor();
+    const [showEssentialsOnly, toggleShowEssentialsOnly] = useToggle(false);
 
     const renderItem = ({ item }: { item: Story }) => (
         <StoryCard story={item}/>
