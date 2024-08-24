@@ -1,4 +1,4 @@
-import { PrayerType } from "@/enums/enums";
+import { PrayerType, ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import LocalEvent from "@/models/localEvent";
@@ -34,6 +34,7 @@ export enum Action {
     LoadServerData = "LOAD_SERVER_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
 
+    SetShareChristPageState = "SET_SHARE_CHRIST_PAGE_STATE",
 
     SetActivePrayerType = "SET_PRAYER_TYPE",
 
@@ -58,7 +59,7 @@ export const loadServerData = (data: any) => {
     }
 };
 
-export const LOAD_PREFERENCES = (data: any) => {
+export const loadPreferences = (data: any) => {
     return {
         type: Action.LoadPreferences,
         payload: data,
@@ -67,6 +68,11 @@ export const LOAD_PREFERENCES = (data: any) => {
 
 export const openPage = (item: Page) => ({
     type: Action.OpenPage,
+    payload: item,
+});
+
+export const setShareChristPageState = (item: ShareChristPageState) => ({
+    type: Action.SetShareChristPageState,
     payload: item,
 });
 

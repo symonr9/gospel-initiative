@@ -1,37 +1,50 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
+import { connect } from 'react-redux';
 
 import { ThemedText, ThemedTextType } from './ThemedText';
 import { useBackgroundThemeColor } from '@/constants/Colors';
+import { Page } from '@/enums/enums';
+import { openPage } from '@/redux/actions';
 
 export type ISimpleIconButton = {
   iconSrc: string | null;
   title: string;
-  onClick?: () => void; // Changed to a more specific type
+  pageToOpen?: Page;
+  onClick?: () => void;
+  
+  openPage: (page: Page) => void;
 }
 
-export function SimpleIconButton({ iconSrc = null, title, onClick }: ISimpleIconButton) {
-  const backgroundColor = useBackgroundThemeColor(); // Assuming you use this for theming
+export function SimpleIconButton({ iconSrc = null, title, 
+  pageToOpen, openPage, onClick }: ISimpleIconButton) {
+  const backgroundColor = useBackgroundThemeColor();
 
-  const onTouchEnd = () => {
+  const onPress = () => {
     if (onClick) {
       onClick();
+    }
+    
+    if (pageToOpen) {
+      openPage(pageToOpen);
     }
   }
 
   return (
-    <TouchableOpacity style={[styles.container, { backgroundColor }]} onPress={onTouchEnd}>
-      <View style={styles.iconContainer}>
-        {
-          iconSrc && (
-            <Image source={iconSrc} style={styles.icon} contentFit="contain" />
-          )
-        }
+    <TouchableOpacity onPress={onPress} style={[styles.container, { backgroundColor }]}>
+      <View style={styles.content}>
+        <View style={styles.iconContainer}>
+          {
+            iconSrc && (
+              <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+            )
+          }
+        </View>
+        <ThemedText type={ThemedTextType.Subtitle} style={styles.title}>
+          {title}
+        </ThemedText>
       </View>
-      <ThemedText type={ThemedTextType.Subtitle} style={styles.title}>
-        {title}
-      </ThemedText>
     </TouchableOpacity>
   );
 }
@@ -41,11 +54,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  content: {
+    alignItems: 'center',
+  },
   iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40, // Circle
-    backgroundColor: '#FFF', // Background for icon
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8, // Space between the icon and the title
@@ -56,11 +72,24 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#555',
+    textAlign: 'center',
   },
 });
+
+
+const mapStateToProps = (state: any) => ({
+
+});
+
+const mapDispatchToProps = {
+  openPage
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SimpleIconButton);

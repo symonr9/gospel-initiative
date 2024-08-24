@@ -1,15 +1,25 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet, ViewProps } from 'react-native';
 
-export type IAnimatedPageRow = ViewProps & {
+export type IAnimatedPageColumn = ViewProps & {
   itemsToRender: React.ReactNode[];
 };
 
-export function AnimatedPageColumn({ itemsToRender }: IAnimatedPageRow) {
-  const animations = useRef(itemsToRender.map(() => new Animated.Value(0))).current;
+export function AnimatedPageColumn({ itemsToRender }: IAnimatedPageColumn) {
+  const [refresh, setRefresh] = useState(false); // State to trigger re-render
+  const animations = useRef<Animated.Value[]>(itemsToRender.map(() => new Animated.Value(0)));
 
+  // Reset animations when itemsToRender changes
   useEffect(() => {
-    const animationsArray = animations.map((anim, index) => {
+    if (animations.current.length !== itemsToRender.length) {
+      animations.current = itemsToRender.map(() => new Animated.Value(0));
+    } else {
+      // Reset animation values
+      animations.current.forEach(anim => anim.setValue(0));
+    }
+
+    // Trigger animations after reset
+    const animationsArray = animations.current.map((anim, index) => {
       return Animated.timing(anim, {
         toValue: 1,
         duration: 500,
@@ -19,7 +29,13 @@ export function AnimatedPageColumn({ itemsToRender }: IAnimatedPageRow) {
     });
 
     Animated.stagger(100, animationsArray).start();
-  }, [animations]);
+
+    return triggerRerender(setRefresh);
+  }, [itemsToRender]);
+
+  if (animations.current.length !== itemsToRender.length) {
+    return <></>;
+  }
 
   return (
     <View style={styles.rowContainer}>
@@ -29,16 +45,16 @@ export function AnimatedPageColumn({ itemsToRender }: IAnimatedPageRow) {
           style={[
             styles.card,
             {
-              opacity: animations[index],
+              opacity: animations.current[index],
               transform: [
                 {
-                  translateY: animations[index].interpolate({
+                  translateY: animations.current[index].interpolate({
                     inputRange: [0, 1],
-                    outputRange: [-50, 0]
+                    outputRange: [-50, 0],
                   }),
                 },
                 {
-                  scale: animations[index].interpolate({
+                  scale: animations.current[index].interpolate({
                     inputRange: [0, 1],
                     outputRange: [0.8, 1], // Scale up
                   }),
@@ -52,6 +68,15 @@ export function AnimatedPageColumn({ itemsToRender }: IAnimatedPageRow) {
       ))}
     </View>
   );
+}
+
+function triggerRerender(setRefresh: Function) {
+    // This is just an example of triggering a re-render after 2 seconds
+    const timer = setTimeout(() => {
+      setRefresh((prev: any) => !prev); // Toggle the refresh state
+    }, 100);
+
+    return () => clearTimeout(timer); // Clean up the timer if the component unmounts
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, type ViewProps } from 'react-native';
-import { StyleSheet } from 'react-native';
+import { GestureResponderEvent, View, type ViewProps } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
 import { flexStyles } from '@/styles/Styles';
@@ -18,29 +18,32 @@ export type ISimpleCard = ViewProps & {
 
 export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
   onClick,
- }: ISimpleCard) {
+}: ISimpleCard) {
   const backgroundColor = useBackgroundThemeColor();
 
-  const onTouchEnd = () => {
+  const onPress = (e: GestureResponderEvent) => {
     if (onClick) {
+      e.stopPropagation();
       onClick();
     }
   }
 
   return (
-    <ThemedView style={styles.container} onTouchEnd={onTouchEnd}>
-      <View style={flexStyles.column}>
-        {
+    <TouchableOpacity onPress={onPress}>
+      <ThemedView style={styles.container}>
+        <View style={flexStyles.column}>
+          {
             iconSrc && (
-                <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+              <Image source={iconSrc} style={styles.icon} contentFit="contain" />
             )
-        }
-        <ThemedText type={ThemedTextType.Subtitle}>{title}</ThemedText>
-      </View>
-      <View style={flexStyles.column}>
-        {detailsView}
-      </View>
-    </ThemedView>
+          }
+          <ThemedText type={ThemedTextType.Subtitle}>{title}</ThemedText>
+        </View>
+        <View style={flexStyles.column}>
+          {detailsView}
+        </View>
+      </ThemedView>
+    </TouchableOpacity>
   );
 }
 
