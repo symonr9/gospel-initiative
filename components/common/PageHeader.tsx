@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
-import { FlatList, View, ViewProps } from 'react-native';
+import { FlatList, View, ViewProps, StyleSheet, Dimensions } from 'react-native';
 
 import One from '@/models/one';
 import OneFact from '@/models/oneFact';
@@ -13,17 +13,27 @@ export type IPageHeader = ViewProps & {
     title: string
 };
 
-function PageHeader({ style, title, ...otherProps }: IPageHeader) {
+function PageHeader({ style, title }: IPageHeader) {
     const backgroundColor = useBackgroundThemeColor();
 
     return (
-        <View style={[{ backgroundColor }, style]} {...otherProps}>
+        <View style={[{ backgroundColor }, styles.container]}>
             <ThemedText type={ThemedTextType.Title}>
                 {title}
             </ThemedText>
         </View>
     );
 }
+
+const { height: viewportHeight } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+    container: {
+        height: viewportHeight * 0.05,
+        paddingTop: 4,
+        paddingStart: 4,
+    }
+});
 
 const mapStateToProps = (state: any) => ({
     oneFacts: state.ones.facts,

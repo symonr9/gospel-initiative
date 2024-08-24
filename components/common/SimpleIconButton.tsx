@@ -1,23 +1,18 @@
 import React from 'react';
-import { View, type ViewProps } from 'react-native';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
-import { flexStyles } from '@/styles/Styles';
-
 import { ThemedText, ThemedTextType } from './ThemedText';
-import { ThemedView } from './ThemedView';
 import { useBackgroundThemeColor } from '@/constants/Colors';
 
-export type ISimpleIconButton = ViewProps & {
+export type ISimpleIconButton = {
   iconSrc: string | null;
   title: string;
-  onClick?: Function;
+  onClick?: () => void; // Changed to a more specific type
 }
 
-export function SimpleIconButton({ iconSrc = null, title, onClick,
- }: ISimpleIconButton) {
-  const backgroundColor = useBackgroundThemeColor();
+export function SimpleIconButton({ iconSrc = null, title, onClick }: ISimpleIconButton) {
+  const backgroundColor = useBackgroundThemeColor(); // Assuming you use this for theming
 
   const onTouchEnd = () => {
     if (onClick) {
@@ -26,39 +21,46 @@ export function SimpleIconButton({ iconSrc = null, title, onClick,
   }
 
   return (
-    <ThemedView style={styles.container} onTouchEnd={onTouchEnd}>
-      <View style={flexStyles.column}>
+    <TouchableOpacity style={[styles.container, { backgroundColor }]} onPress={onTouchEnd}>
+      <View style={styles.iconContainer}>
         {
-            iconSrc && (
-                <Image source={iconSrc} style={styles.icon} contentFit="contain" />
-            )
+          iconSrc && (
+            <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+          )
         }
-        <ThemedText type={ThemedTextType.Subtitle}>{title}</ThemedText>
       </View>
-    </ThemedView>
+      <ThemedText type={ThemedTextType.Subtitle} style={styles.title}>
+        {title}
+      </ThemedText>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-    backgroundColor: '#F0E68C', // Khaki color
-    borderRadius: 4,
-    padding: 16,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40, // Circle
+    backgroundColor: '#FFF', // Background for icon
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8, // Space between the icon and the title
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
-    shadowRadius: 6, // Shadow radius for a softer shadow
+    shadowRadius: 6,
     elevation: 4,
   },
   icon: {
     width: 60,
     height: 60,
-    marginBottom: 12, // Space between the icon and the name
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

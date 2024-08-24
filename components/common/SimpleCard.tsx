@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F0E68C', // Khaki color
     borderRadius: 4,
-    padding: 16,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    padding: 8,
+    marginVertical: 4,
+    marginHorizontal: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,

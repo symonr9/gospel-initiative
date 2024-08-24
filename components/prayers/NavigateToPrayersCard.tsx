@@ -10,7 +10,7 @@ import { SimpleCard } from '../common/SimpleCard';
 import { openPage, setActivePrayerType } from '@/redux/actions';
 
 export type INavigateToPrayersCard = ViewProps & {
-    typeToOpen?: PrayerType,
+    typeToOpen: PrayerType,
 
     // Redux
     prayers: Prayer[],
@@ -18,12 +18,12 @@ export type INavigateToPrayersCard = ViewProps & {
     setActivePrayerType: (type: PrayerType) => void;
 };
 
-function NavigateToPrayersCard({ typeToOpen = PrayerType.ForOne, prayers,
+function NavigateToPrayersCard({ typeToOpen, prayers,
     openPage, setActivePrayerType }: INavigateToPrayersCard) {
 
     const onClick = () => {
         setActivePrayerType(typeToOpen);
-        openPage(Page.OnesList);
+        openPage(Page.PrayersList);
     }
 
     return (

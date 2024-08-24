@@ -174,6 +174,20 @@ export enum Priority {
 
 export enum AppIcon {
     Man1 = '../assets/images/app-icons/man1.png',
+    Bird = '../assets/images/app-icons/bird.png',
+    Cherries = '../assets/images/app-icons/cherries.png',
+    Christ = '../assets/images/app-icons/christ.png',
+    Church = '../assets/images/app-icons/church.png',
+    ChurchValentines = '../assets/images/app-icons/churchValentines.png',
+    City = '../assets/images/app-icons/city.png',
+    CrossChurch = '../assets/images/app-icons/crossChurch.png',
+    Globe = '../assets/images/app-icons/globe.png',
+    Prayer = '../assets/images/app-icons/prayer.png',
+    Tree = '../assets/images/app-icons/tree.png',
+    Skull = '../assets/images/app-icons/skull.png',
+    NetworkPeople = '../assets/images/app-icons/networkPeople.png',
+    ArrowBack = '../assets/images/app-icons/arrowBack.png'
+
 }
 
 export enum AvatarIcon {

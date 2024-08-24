@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     spaceBetween: {
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
 });

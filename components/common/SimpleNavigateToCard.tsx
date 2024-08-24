@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 import { connect } from 'react-redux';
-import { useBackgroundThemeColor } from '@/constants/Colors';
 import { SimpleCard } from './SimpleCard';
 import { Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
@@ -18,10 +17,9 @@ export type ISimpleNavigateToCard = ViewProps & {
 function SimpleNavigateToCard({ iconSrc = null, title,
   detailsView = <></>, pageToOpen, openPage
 }: ISimpleNavigateToCard) {
-  const backgroundColor = useBackgroundThemeColor();
 
   const onClick = () => {
-    openPage(Page.OnesList);
+    openPage(pageToOpen);
   }
 
   return (
