@@ -28,7 +28,7 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             missionsTripLeaders: [],
             ones: JsonFunctions.getOnesFromJson(),
             meetings: [],
-            oneFacts: [],
+            oneFacts: JsonFunctions.getOneFactsFromJson(),
             actionSteps: JsonFunctions.getActionStepsJson(),
             prayers: JsonFunctions.getPrayersFromJson(),
             prayerBeacons: [],

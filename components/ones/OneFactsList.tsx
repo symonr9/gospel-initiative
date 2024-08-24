@@ -7,6 +7,7 @@ import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
 import One from '@/models/one';
 import OneFact from '@/models/oneFact';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { ThemedText, ThemedTextType } from '../common/ThemedText';
 
 export type IOneFactsList = ViewProps & {
     one: One;
@@ -15,15 +16,24 @@ export type IOneFactsList = ViewProps & {
     oneFacts: OneFact[];
 };
 
-function OneFactsList({ style, oneFacts, one, ...otherProps }: IOneFactsList) {
-    const backgroundColor = useBackgroundThemeColor();
+function OneFactsList({ oneFacts, one }: IOneFactsList) {
+
+    console.log(oneFacts);
+    console.log(one);
 
     const renderItem = ({ item }: { item: OneFact }) => (
-        <View style={styles.factView}>{item.notes}</View>
+        <View style={styles.factView}>
+            <ThemedText type={ThemedTextType.Default}>
+                {item.notes}
+            </ThemedText>
+        </View>
     );
 
     return (
-        <View style={[{ backgroundColor }, style]} {...otherProps}>
+        <View style={styles.container}>
+            <ThemedText type={ThemedTextType.Subtitle}>
+                Fun Facts
+            </ThemedText>,
             <FlatList
                 data={oneFacts}
                 keyExtractor={(item) => item.id}
@@ -35,12 +45,13 @@ function OneFactsList({ style, oneFacts, one, ...otherProps }: IOneFactsList) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#B1E68C',
-        padding: 16,
-        height: 250,
-        overflow: 'scroll',        
+        padding: 12,
+        minHeight: 200,
+        overflow: 'scroll',
     },
     factView: {
 
@@ -48,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    oneFacts: state.ones.facts,
+    oneFacts: state.ones.oneFacts,
 });
 
 

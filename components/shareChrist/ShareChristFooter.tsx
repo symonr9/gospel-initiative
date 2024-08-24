@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
-import { AnimatedPageRow } from '../common/AnimatedPageRow';
+import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { AppIcon, Page, PrayerType, ShareChristPageState } from '@/enums/enums';
 import NavigateToOnesCard from '../ones/NavigateToOnesCard';
 import NavigateToPrayersCard from '../prayers/NavigateToPrayersCard';
@@ -23,7 +23,7 @@ function ShareChristFooter({ page,
     setShareChristPageState }: IShareChristFooter) {
 
     return (
-        <AnimatedPageRow itemsToRender={getItemsToRender(page, pageState, setShareChristPageState)} />
+        <AnimatedPageSection itemsToRender={getItemsToRender(page, pageState, setShareChristPageState)} />
     );
 }
 

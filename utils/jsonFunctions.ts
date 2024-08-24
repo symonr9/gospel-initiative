@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneStage, PrayerType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 
 
@@ -54,6 +54,24 @@ export function getOnesFromJson() {
             new Date(item.prayingSince),
             false // hidden (set this based on your logic)
         );
+    });
+}
+
+const onesFactsJson = require('../data/one-facts.json');
+export function getOneFactsFromJson() {
+    return onesFactsJson.map(item => {
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
+        const type = OneFactType[item.type as keyof typeof OneFactType];
+
+        return {
+            id: item.id,
+            notes: item.notes,
+            icon: icon,
+            priority: item.priority,
+            type: type,
+            oneId: item.oneId,
+            userId: item.userId,
+        }
     });
 }
 

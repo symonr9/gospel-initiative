@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { AnimatedPageRow } from '../common/AnimatedPageRow';
+import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AnimatedPageColumn } from '../common/AnimatedPageColumn';
 import { Page, ShareChristPageState } from '@/enums/enums';
 import { PageContainer } from '../common/PageContainer';
+import OnesLayout from '../ones/OnesLayout';
 
 export type IShareChristContainer = ViewProps & {
     page: Page,
@@ -16,12 +16,11 @@ export type IShareChristContainer = ViewProps & {
 };
 
 export function ShareChristContainer({ page, pageState }: IShareChristContainer) {
-
-
-
     return (
         <PageContainer>
-            <AnimatedPageColumn itemsToRender={getItemsToRender(page, pageState)}></AnimatedPageColumn>
+            <AnimatedPageSection column 
+                                 durationPerEach={800}
+                                 itemsToRender={getItemsToRender(page, pageState)}/>
         </PageContainer>
     );
 }
@@ -33,7 +32,7 @@ const getItemsToRender = (page: Page, pageState: ShareChristPageState) => {
                 <ThemedText type={ThemedTextType.Subtitle}>
                     Editing for...
                 </ThemedText>,
-                <AnimatedPageRow itemsToRender={[
+                <AnimatedPageSection itemsToRender={[
                     <ThemedText type={ThemedTextType.Default}>
                         Text Goes here
                     </ThemedText>,
@@ -62,7 +61,7 @@ const getItemsToRender = (page: Page, pageState: ShareChristPageState) => {
                 <ThemedText type={ThemedTextType.Subtitle}>
                     Prayer Beacon
                 </ThemedText>,
-                <AnimatedPageRow itemsToRender={[
+                <AnimatedPageSection itemsToRender={[
                     <ThemedText type={ThemedTextType.Default}>
                         Text Goes here
                     </ThemedText>,
@@ -74,7 +73,7 @@ const getItemsToRender = (page: Page, pageState: ShareChristPageState) => {
         }
 
         return [
-
+            <OnesLayout/>
         ];
     }
 
@@ -82,7 +81,7 @@ const getItemsToRender = (page: Page, pageState: ShareChristPageState) => {
         <ThemedText type={ThemedTextType.Subtitle}>
             Share Christ
         </ThemedText>,
-        <AnimatedPageRow itemsToRender={[
+        <AnimatedPageSection itemsToRender={[
             <ThemedText type={ThemedTextType.Default}>
                 Text Goes here
             </ThemedText>,

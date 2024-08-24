@@ -9,6 +9,15 @@
       "userId": "user1"
     },
     {
+      "id": "oneFact10",
+      "notes": "Jane loves arts and crafts",
+      "icon": "Activity",
+      "priority": 1,
+      "type": "Hobby",
+      "oneId": "one1",
+      "userId": "user1"
+    },
+    {
       "id": "oneFact2",
       "notes": "Tom enjoys cooking",
       "icon": "Activity",
