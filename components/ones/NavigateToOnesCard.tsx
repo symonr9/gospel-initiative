@@ -7,19 +7,29 @@ import { View, type ViewProps } from 'react-native';
 import One from '@/models/one';
 import { AppIcon, Page } from '@/enums/enums';
 import SimpleNavigateToCard from '../common/SimpleNavigateToCard';
+import { SimpleCard } from '../common/SimpleCard';
+import { openPage, setSelectedOne } from '@/redux/actions';
 
 export type INavigateToOnesCard = ViewProps & {
     ones: One[],
+
+    openPage: Function,
+    setSelectedOne: Function
 };
 
-function NavigateToOnesCard({ ones }: INavigateToOnesCard) {
+function NavigateToOnesCard({ ones, openPage, setSelectedOne }: INavigateToOnesCard) {
     const oneToLoad = ones.length > 0 ? ones[0] : null;
     const icon = oneToLoad ? oneToLoad.icon : AppIcon.Man1;
+    
+    const onClick = () => {
+        setSelectedOne(oneToLoad);
+        openPage(Page.OnesList);
+    };
 
     return (
-        <SimpleNavigateToCard iconSrc={icon} 
-                       title={'Ones'} 
-                       pageToOpen={Page.OnesList}/>
+        <SimpleCard iconSrc={icon} 
+                    title={'Ones'} 
+                    onClick={onClick}/>
     );
 }
 
@@ -28,7 +38,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-
+    openPage,
+    setSelectedOne,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigateToOnesCard);

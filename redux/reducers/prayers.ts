@@ -5,7 +5,9 @@ const initialState = {
     prayers: [],
     prayerBeacons: [],
     prayerBeaconSettings: [],
-    prayerRequests: []
+    prayerRequests: [],
+
+    selectedBeaconId: null,
 };
 
 export function prayersReducer(state = initialState, action: ActionPackage) {
@@ -19,8 +21,13 @@ export function prayersReducer(state = initialState, action: ActionPackage) {
                     prayers: prayers || [],
                     prayerBeacons: prayerBeacons || [],
                     prayerBeaconSettings: prayerBeaconSettings || [],
-                    prayerRequests: prayerRequests || []
+                    prayerRequests: prayerRequests || [],
+                    selectedBeaconId: null
                 }
+            });
+        case Action.SetSelectedBeaconId:
+            return update(state, {
+                selectedBeaconId: { $set: action.payload}
             });
         case Action.AddPrayer:
             return update(state, {

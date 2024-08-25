@@ -10,10 +10,11 @@ export type IPageSubHeader = ViewProps & {
     iconSrc?: string | null;
     title: string;
     onClick?: Function;
+    style?: any;
 }
 
 export function PageSubHeader({ iconSrc = null, title,
-    onClick,
+    onClick, style = {},
 }: IPageSubHeader) {
     const onPress = (e: GestureResponderEvent) => {
         if (onClick) {
@@ -24,7 +25,7 @@ export function PageSubHeader({ iconSrc = null, title,
 
     return (
         <TouchableOpacity onPress={onPress}>
-            <ThemedView style={styles.container}>
+            <ThemedView style={[styles.container, style]}>
                 {
                     iconSrc && (
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
@@ -39,6 +40,9 @@ export function PageSubHeader({ iconSrc = null, title,
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 8,
         backgroundColor: 'khaki',
         borderRadius: 4,
         padding: 8,
@@ -50,8 +54,8 @@ const styles = StyleSheet.create({
         flexShrink: 1, // Prevent children from overflowing
     },
     icon: {
-        width: 40,
-        height: 40,
+        width: 38,
+        height: 38,
         marginBottom: 12,
     },
 });

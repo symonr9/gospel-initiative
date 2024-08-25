@@ -5,6 +5,7 @@ import { TabBarIcon } from '@/components/common/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import DataRefreshManager from '../managers/dataRefreshManager';
+import AppStateManager from '../managers/appStateManager';
 
 
 
@@ -22,6 +23,7 @@ export default function TabLayout() {
   return (
     <>
       <DataRefreshManager />
+      <AppStateManager/>
       <Tabs
         screenOptions={tabScreenOptions}>
         <Tabs.Screen

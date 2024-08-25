@@ -14,30 +14,38 @@ import { PageRow } from '../common/PageRow';
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { setShareChristPageState } from '@/redux/actions';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { isEditing } from '@/utils/appUtils';
+import { listStyles } from '@/styles/Styles';
 
 export type IActionStepsList = ViewProps & {
-    one: One;
-
+    selectedOne: One;
+    shareChristPageState: ShareChristPageState;
     
     setShareChristPageState: Function;
 };
 
-function ActionStepsList({ one, setShareChristPageState }: IActionStepsList) {
-    const actionSteps = useSelector(selectActionStepsByOneId(one.id));
+function ActionStepsList({ selectedOne, shareChristPageState, 
+    setShareChristPageState }: IActionStepsList) {
+    const actionSteps = useSelector(selectActionStepsByOneId(selectedOne.id));
+    const editing = isEditing(shareChristPageState);
 
     const renderItem = ({ item }: { item: ActionStep }) => (
         <ActionStepCard actionStep={item} />
     );
 
     return (
-        <View style={styles.container}>
+        <View style={[listStyles.container, styles.container]}>
             <PageRow spaceBetween>
                 <ThemedText type={ThemedTextType.Subtitle}>
                     Action Steps
                 </ThemedText>
-                <SimpleIconButton iconSrc={AppIcon.Edit}
-                                  small
-                                  onClick={() => setShareChristPageState(ShareChristPageState.EditActionSteps)}/>
+                {
+                    editing && (
+                        <SimpleIconButton iconSrc={AppIcon.Edit}
+                        small
+                        onClick={() => setShareChristPageState(ShareChristPageState.EditActionSteps)}/>
+                    )
+                }
             </PageRow>
             <FlatList
                 data={actionSteps}
@@ -50,24 +58,13 @@ function ActionStepsList({ one, setShareChristPageState }: IActionStepsList) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'whitesmoke',
-        padding: 8,
-        minHeight: 100,
-        overflow: 'scroll',
-        borderColor: 'gray',
-        borderWidth: 2,
-        borderRadius: 4,
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 4 },
-        marginBottom: 8,
-    },
+        maxHeight: 120,
+    }
 });
 
 const mapStateToProps = (state: any) => ({
+    selectedOne: state.ones.selectedOne,
+    shareChristPageState: state.app.shareChristPageState,
 });
 
 

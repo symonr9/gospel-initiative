@@ -1,0 +1,36 @@
+[
+    {
+        "id": "beacon1",
+        "name": "Meeting",
+        "message": "I will be meeting this person soon.",
+        "userId": "user1",
+        "oneId": "one1",
+        "meetingId": null,
+        "responses": [
+            "Praying!",
+            "Hope it goes well. Prayers out!",
+            "Thanks for sharing. Praying now."
+        ],
+        "targetDate": "2024-10-01T00:00:00Z",
+        "priority": 2,
+        "type": 1,
+        "settingsId": "beaconSettings1"
+    },
+    {
+        "id": "beacon2",
+        "name": "Conversation",
+        "message": "I had a spiritual conversation with this person.",
+        "userId": "user1",
+        "oneId": "one1",
+        "meetingId": null,
+        "responses": [
+            "Praying!",
+            "Hope it goes well. Prayers out!",
+            "Thanks for sharing. Praying now."
+        ],
+        "targetDate": "2024-10-01T00:00:00Z",
+        "priority": 3,
+        "type": 1,
+        "settingsId": "beaconSettings1"
+    }
+]

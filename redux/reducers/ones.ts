@@ -2,6 +2,7 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
+    selectedOne: null,
     ones: [],
     actionSteps: [],
     meetings: [],
@@ -14,11 +15,16 @@ export function onesReducer(state = initialState, action: ActionPackage) {
             const { ones, actionSteps, meetings, oneFacts } = action.payload;
             return update(state, {
                 $set: {
+                    selectedOne: null,
                     ones: ones || [],
                     actionSteps: actionSteps || [],
                     meetings: meetings || [],
                     oneFacts: oneFacts || [],
                 }
+            });
+        case Action.SetSelectedOne:
+            return update(state, {
+                selectedOne: { $set: action.payload }
             });
         case Action.AddOne:
             const { one } = action.payload;

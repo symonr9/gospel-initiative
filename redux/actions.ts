@@ -8,6 +8,7 @@ import MissionsTrip from "@/models/missionsTrip";
 import One from "@/models/one";
 import OneFact from "@/models/oneFact";
 import Prayer from "@/models/prayer";
+import PrayerBeacon from "@/models/prayerBeacon";
 import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
 import PrayerRequest from "@/models/prayerRequest";
 import Story from "@/models/story";
@@ -37,6 +38,9 @@ export enum Action {
     SetShareChristPageState = "SET_SHARE_CHRIST_PAGE_STATE",
 
     SetActivePrayerType = "SET_PRAYER_TYPE",
+
+    SetSelectedOne = "SET_SELECTED_ONE",
+    SetSelectedBeaconId = "SET_SELECTED_BEACON",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -88,6 +92,16 @@ export const addPrayer = (item: Prayer) => ({
 
 export const setActivePrayerType = (item: PrayerType) => ({
     type: Action.SetActivePrayerType,
+    payload: item,
+});
+
+export const setSelectedOne = (item: One) => ({
+    type: Action.SetSelectedOne,
+    payload: item,
+});
+
+export const setSelectedBeaconId = (item: string) => ({
+    type: Action.SetSelectedBeaconId,
     payload: item,
 });
 

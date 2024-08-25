@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 
@@ -95,5 +95,39 @@ export function getStoryChaptersFromJson() {
             icon: icon,
             order: item.order
         };
+    });
+}
+
+const prayerBeaconsJson = require('../data/prayer-beacons.json');
+export function getPrayerBeaconsFromJson() {
+    return prayerBeaconsJson.map(item => {        
+        const type: PrayerBeaconType = item.type as PrayerBeaconType;
+
+        return {
+            id: item.id,
+            name: item.name,
+            message: item.message,
+            userId: item.userId,
+            oneId: item.oneId,
+            meetingId: item.meetingId,
+            responses: item.responses,
+            targetDate: item.targetDate ? new Date(item.targetDate) : undefined,
+            priority: item.priority,
+            type: type,
+            settingsId: item.settingsId
+        }
+    });
+}
+
+const prayerBeaconSettingsJson = require('../data/prayer-beacon-settings.json');
+export function getPrayerBeaconSettingsFromJson() {
+    return prayerBeaconSettingsJson.map(item => {        
+        return {
+            id: item.id,
+            name: item.name,
+            userId: item.userId,
+            shareOneName: item.shareOneName,
+            shareOwnName: item.shareOwnName
+        }
     });
 }

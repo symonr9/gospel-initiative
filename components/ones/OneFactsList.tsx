@@ -13,29 +13,35 @@ import { AppIcon, ShareChristPageState } from '@/enums/enums';
 import { setShareChristPageState } from '@/redux/actions';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { isEditing } from '@/utils/appUtils';
+import { listStyles } from '@/styles/Styles';
 
 export type IOneFactsList = ViewProps & {
-    one: One;
-
-    // Redux
+    selectedOne: One;
+    shareChristPageState: ShareChristPageState;
 };
 
-function OneFactsList({ one }: IOneFactsList) {
-    const oneFacts = useSelector(selectOneFactsByOneId(one.id));
+function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
+    const oneFacts = useSelector(selectOneFactsByOneId(selectedOne.id));
+    const editing = isEditing(shareChristPageState);
 
     const renderItem = ({ item }: { item: OneFact }) => (
         <OneFactCard oneFact={item}/>
     );
 
     return (
-        <View style={styles.container}>
+        <View style={[listStyles.container, styles.container]}>
             <PageRow spaceBetween>
                 <ThemedText type={ThemedTextType.Subtitle}>
                     Fun Facts
                 </ThemedText>
-                <SimpleIconButton iconSrc={AppIcon.Edit}
-                                  small
-                                  onClick={() => setShareChristPageState(ShareChristPageState.EditOneFacts)}/>
+                {
+                    editing && (
+                        <SimpleIconButton iconSrc={AppIcon.Edit}
+                        small
+                        onClick={() => setShareChristPageState(ShareChristPageState.EditOneFacts)}/>
+                    )
+                }
             </PageRow>
             <FlatList
                 data={oneFacts}
@@ -48,24 +54,13 @@ function OneFactsList({ one }: IOneFactsList) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'whitesmoke',
-        padding: 8,
-        minHeight: 200,
-        overflow: 'scroll',
-        borderColor: 'gray',
-        borderWidth: 2,
-        borderRadius: 4,
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 4 },
+        maxHeight: 200,
     },
 });
 
 const mapStateToProps = (state: any) => ({
-
+    selectedOne: state.ones.selectedOne,
+    shareChristPageState: state.app.shareChristPageState,
 });
 
 

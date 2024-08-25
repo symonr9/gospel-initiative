@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, type TextProps, StyleSheet } from 'react-native';
+import { Text, type TextProps, StyleSheet, View } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -30,9 +30,7 @@ export function ThemedText({
     <Text
       style={[
         { color },
-        {
-          textAlignVertical: 'top',
-        },
+        { flexShrink: 1 },
         type === ThemedTextType.Default ? styles.default : undefined,
         type === ThemedTextType.Title ? styles.title : undefined,
         type === ThemedTextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
@@ -49,6 +47,7 @@ const styles = StyleSheet.create({
   default: {
     fontSize: 16,
     lineHeight: 24,
+    flexShrink: 1,
   },
   defaultSemiBold: {
     fontSize: 16,

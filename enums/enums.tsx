@@ -8,7 +8,7 @@ export enum Page {
 
     GodsStory = 4,
     YourStory = 5,
-    
+
     PrayerBeacon = 6,
     AddEditOnes = 7,
     AddEditActionStep = 8,
@@ -17,10 +17,13 @@ export enum Page {
 export enum ShareChristPageState {
     Default = 1,
     Edit = 2,
-    PrayerBeacon = 3,
-
-    EditActionSteps = 4,
-    EditOneFacts = 5,
+    EditActionSteps = 3,
+    EditOneFacts = 4,
+    
+    PrayerBeacon = 5,
+    AddPrayerBeacon = 6,
+    EditPrayerBeacon = 7,
+    SavePrayerBeacon = 8,
 }
 
 // Users
@@ -200,7 +203,10 @@ export enum AppIcon {
     Skull = '../assets/images/app-icons/skull.png',
     NetworkPeople = '../assets/images/app-icons/networkPeople.png',
     ArrowBack = '../assets/images/app-icons/arrowBack.png',
-    Edit = "../assets/images/app-icons/edit.png"
+    Edit = "../assets/images/app-icons/edit.png",
+    Plus = "../assets/images/app-icons/plus.png",
+    Pencil = "../assets/images/app-icons/pencil.png",
+    Save = "../assets/images/app-icons/save.png"
 }
 
 export enum AvatarIcon {

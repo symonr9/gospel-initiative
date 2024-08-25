@@ -1,4 +1,4 @@
-import { AppIcon, OneFactType, OneStage } from "@/enums/enums";
+import { AppIcon, OneFactType, OneStage, ShareChristPageState } from "@/enums/enums";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
@@ -56,4 +56,12 @@ export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
         default:
             return AppIcon.Globe;
     }
+}
+
+export function isEditing(pageState: ShareChristPageState) {
+    return [
+        ShareChristPageState.Edit,
+        ShareChristPageState.EditActionSteps,
+        ShareChristPageState.EditOneFacts
+    ].includes(pageState);
 }

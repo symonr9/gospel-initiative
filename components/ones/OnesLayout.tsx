@@ -6,48 +6,38 @@ import { connect } from 'react-redux';
 import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import One from '@/models/one';
-import { AppIcon } from '@/enums/enums';
-import { SimpleIcon } from '../common/SimpleIcon';
-import { PageRow } from '../common/PageRow';
 import OneFactsList from './OneFactsList';
 import ActionStepsList from './ActionStepsList';
-import { PageColumn } from '../common/PageColumn';
-import { PageTag } from '../common/PageTag';
-import { mapStageToText } from '@/utils/appUtils';
-import { PageSubHeader } from '../common/PageSubHeader';
+import OnesLayoutHeader from './OnesLayoutHeader';
+import { ShareChristPageState } from '@/enums/enums';
 
 export type IOnesLayout = ViewProps & {
+    selectedOne: One,
+    shareChristPageState: ShareChristPageState,
     ones: One[],
 };
 
-function OnesLayout({ ones }: IOnesLayout) {
-    const [oneToShow, setOneToShow] = useState(ones.length > 0 ? ones[0] : null);
-
-    if (!oneToShow) {
-        return [
+function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
+    if (!selectedOne) {
+        return (
             <ThemedText type={ThemedTextType.Subtitle}>
                 No One found, add!
-            </ThemedText>,
-        ]
+            </ThemedText>
+        );
     }
 
-    const stageTagText = mapStageToText(oneToShow.stage);
-
-    return [
-        <PageRow flexStart>
-            <SimpleIcon iconSrc={oneToShow.icon} large />,
-            <PageColumn>
-                <PageSubHeader title={oneToShow.name} />
-                <PageTag iconSrc={AppIcon.Globe} title={stageTagText} />
-            </PageColumn>
-        </PageRow>,
-
-        <ActionStepsList one={oneToShow} />,
-        <OneFactsList one={oneToShow} />
-    ];
+    return (
+        <>
+            <OnesLayoutHeader />
+            <ActionStepsList />
+            <OneFactsList />
+        </>
+    );
 }
 
 const mapStateToProps = (state: any) => ({
+    selectedOne: state.ones.selectedOne,
+    shareChristPageState: state.app.shareChristPageState,
     ones: state.ones.ones,
 });
 

@@ -1,4 +1,4 @@
-import { Priority } from "@/enums/enums";
+import { PrayerBeaconType, Priority } from "@/enums/enums";
 import PrayerBeaconSettings from "./prayerBeaconSettings";
 
 interface IPrayerBeacon {
@@ -6,12 +6,13 @@ interface IPrayerBeacon {
     name: string;
     message: string;
     userId: string;
-    oneId: string;
-    meetingId: string;
+    oneId: string | null;
+    meetingId: string | null;
     responses: string[];
     targetDate: Date | undefined;
     priority: Priority;
-    settings: PrayerBeaconSettings;
+    type: PrayerBeaconType;
+    settingsId: string;
 }
 
 export default class PrayerBeacon implements IPrayerBeacon {
@@ -19,16 +20,18 @@ export default class PrayerBeacon implements IPrayerBeacon {
     name: string;
     message: string;
     userId: string;
-    oneId: string;
-    meetingId: string;
+    oneId: string | null;
+    meetingId: string | null;
     responses: string[];
     targetDate: Date | undefined;
     priority: Priority;
-    settings: PrayerBeaconSettings;
-    
-    constructor(id: string, name: string, notes: string, oneId: string,
+    type: PrayerBeaconType;
+    settingsId: string;
+
+    constructor(id: string, name: string, notes: string, oneId: string | null,
         responses: string[], targetDate: Date | undefined, priority: Priority,
-        settings: PrayerBeaconSettings, userId: string, meetingId: string,
+        settingsId: string, userId: string, meetingId: string | null,
+        type: PrayerBeaconType,
     ) {
         this.id = id;
         this.name = name;
@@ -39,7 +42,24 @@ export default class PrayerBeacon implements IPrayerBeacon {
         this.responses = responses;
         this.targetDate = targetDate;
         this.priority = priority;
-        this.settings = settings;
+        this.settingsId = settingsId;
+        this.type = type;
+    }
+
+    static createNew() {
+        return new PrayerBeacon(
+            "",
+            "New Beacon",
+            "",
+            null,
+            [],
+            undefined,
+            Priority.Normal,
+            "",
+            "",
+            null,
+            PrayerBeaconType.ToCommunity
+        );
     }
 
 }
