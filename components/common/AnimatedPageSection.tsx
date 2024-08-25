@@ -102,7 +102,7 @@ function getTranslateXTransformObj(animations: any, index: number) {
   return {
     translateX: animations.current[index].interpolate({
       inputRange: [0, 1],
-      outputRange: [50, 0], // Right to left
+      outputRange: index === 0 ? [-50, 0] : [50, 0], // Right to left
     }),
   };
 };
@@ -139,7 +139,5 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    marginHorizontal: 10, // Space between the cards
-    // Add other card-specific styling here
   },
 });

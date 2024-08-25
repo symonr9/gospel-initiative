@@ -10,40 +10,47 @@ import { openPage } from '@/redux/actions';
 
 export type ISimpleIconButton = {
   iconSrc: string | null;
-  title: string;
+  title?: string | undefined;
   pageToOpen?: Page;
   onClick?: () => void;
-  
+  small?: boolean;
+
   openPage: (page: Page) => void;
 }
 
-export function SimpleIconButton({ iconSrc = null, title, 
-  pageToOpen, openPage, onClick }: ISimpleIconButton) {
+function SimpleIconButton({ iconSrc = null, title,
+  pageToOpen, small = false, openPage, onClick }: ISimpleIconButton) {
   const backgroundColor = useBackgroundThemeColor();
 
   const onPress = () => {
     if (onClick) {
       onClick();
     }
-    
+
     if (pageToOpen) {
       openPage(pageToOpen);
     }
   }
 
+  const stylesToUse = small ? smallStyles : styles;
+
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.container, { backgroundColor }]}>
-      <View style={styles.content}>
-        <View style={styles.iconContainer}>
+    <TouchableOpacity onPress={onPress} style={[stylesToUse.container, { backgroundColor }]}>
+      <View style={stylesToUse.content}>
+        <View style={stylesToUse.iconContainer}>
           {
             iconSrc && (
-              <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+              <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
             )
           }
         </View>
-        <ThemedText type={ThemedTextType.Subtitle} style={styles.title}>
-          {title}
-        </ThemedText>
+        {
+          title && (
+            <ThemedText type={ThemedTextType.Subtitle} style={stylesToUse.title}>
+              {title}
+            </ThemedText>
+          )
+        }
       </View>
     </TouchableOpacity>
   );
@@ -82,6 +89,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+const smallStyles = StyleSheet.create({
+  ...styles,
+  container: {
+      ...styles.container,
+      marginBottom: 8,
+  },
+  iconContainer: {
+      ...styles.iconContainer,
+      width: 32,
+      height: 32,
+      borderRadius: 60,
+  },
+  icon: {
+      ...styles.icon,
+      width: 24,
+      height: 24,
+  },
+  title: {
+      ...styles.title,
+      fontSize: 24,
+  },
+});
+
 
 
 const mapStateToProps = (state: any) => ({

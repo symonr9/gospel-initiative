@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
 import { ThemedText, ThemedTextType } from './ThemedText';
-import { useBackgroundThemeColor } from '@/constants/Colors';
 
 export type ISimpleIcon = {
     iconSrc: string | null;
@@ -12,9 +11,7 @@ export type ISimpleIcon = {
 }
 
 export function SimpleIcon({ iconSrc = null, title = '', large }: ISimpleIcon) {
-    const backgroundColor = useBackgroundThemeColor();
-
-    let stylesToUse = large ? largeStyles : styles;
+    const stylesToUse = large ? largeStyles : styles;
 
     return (
         <View style={stylesToUse.container}>
@@ -34,15 +31,15 @@ export function SimpleIcon({ iconSrc = null, title = '', large }: ISimpleIcon) {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
+        flex: 1,
         justifyContent: 'center',
     },
     content: {
-        alignItems: 'center',
+
     },
     iconContainer: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 30,
         backgroundColor: '#FFF',
         justifyContent: 'center',
@@ -55,8 +52,8 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     icon: {
-        width: 40,
-        height: 40,
+        width: 42,
+        height: 42,
     },
     title: {
         fontSize: 16,
@@ -74,14 +71,14 @@ const largeStyles = StyleSheet.create({
     },
     iconContainer: {
         ...styles.iconContainer,
-        width: 140,
-        height: 140,
+        width: 120,
+        height: 120,
         borderRadius: 60,
     },
     icon: {
         ...styles.icon,
-        width: 120,
-        height: 120,
+        width: 100,
+        height: 100,
     },
     title: {
         ...styles.title,

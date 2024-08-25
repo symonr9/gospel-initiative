@@ -10,6 +10,11 @@ import { AppIcon } from '@/enums/enums';
 import { SimpleIcon } from '../common/SimpleIcon';
 import { PageRow } from '../common/PageRow';
 import OneFactsList from './OneFactsList';
+import ActionStepsList from './ActionStepsList';
+import { PageColumn } from '../common/PageColumn';
+import { PageTag } from '../common/PageTag';
+import { mapStageToText } from '@/utils/appUtils';
+import { PageSubHeader } from '../common/PageSubHeader';
 
 export type IOnesLayout = ViewProps & {
     ones: One[],
@@ -26,27 +31,19 @@ function OnesLayout({ ones }: IOnesLayout) {
         ]
     }
 
-    const icon = oneToShow ? oneToShow.icon : AppIcon.Man1;
-
-    const itemsToRender = [];
-
-    itemsToRender.push(
-        <SimpleIcon iconSrc={icon} title={oneToShow.name} large />
-    );
+    const stageTagText = mapStageToText(oneToShow.stage);
 
     return [
-        <AnimatedPageSection column
-            itemsToRender={itemsToRender} />,
+        <PageRow flexStart>
+            <SimpleIcon iconSrc={oneToShow.icon} large />,
+            <PageColumn>
+                <PageSubHeader title={oneToShow.name} />
+                <PageTag iconSrc={AppIcon.Globe} title={stageTagText} />
+            </PageColumn>
+        </PageRow>,
 
-        <AnimatedPageSection column itemsToRender={[
-            <ThemedText type={ThemedTextType.Subtitle}>
-                Action Steps
-            </ThemedText>
-        ]} />,
-
-        <AnimatedPageSection column itemsToRender={[
-            <OneFactsList one={oneToShow} />
-        ]} />
+        <ActionStepsList one={oneToShow} />,
+        <OneFactsList one={oneToShow} />
     ];
 }
 

@@ -1,14 +1,8 @@
 import { createSelector } from 'reselect';
 import OneFact from '@/models/oneFact';
-import { Priority, OneFactType } from '@/enums/enums';
+import ActionStep from '@/models/actionStep';
 
 export const selectAllOneFacts = (state: any): OneFact[] => state.ones.oneFacts;
-
-export const selectOneFactById = (id: string) =>
-  createSelector(
-    [selectAllOneFacts],
-    (oneFacts: OneFact[]) => oneFacts.find((oneFact) => oneFact.id === id)
-  );
 
 export const selectOneFactsByOneId = (oneId: string) =>
   createSelector(
@@ -16,14 +10,10 @@ export const selectOneFactsByOneId = (oneId: string) =>
     (oneFacts) => oneFacts.filter((fact) => fact.oneId === oneId)
   );
 
-export const selectOneFactsByPriority = (priority: Priority) =>
-  createSelector(
-    [selectAllOneFacts],
-    (oneFacts: OneFact[]) => oneFacts.filter((oneFact) => oneFact.priority === priority)
-  );
+export const selectAllActionSteps = (state: any): ActionStep[] => state.ones.actionSteps;
 
-export const selectOneFactsByType = (type: OneFactType) =>
+export const selectActionStepsByOneId = (oneId: string) =>
   createSelector(
-    [selectAllOneFacts],
-    (oneFacts: OneFact[]) => oneFacts.filter((oneFact) => oneFact.type === type)
+    [selectAllActionSteps],
+    (actionSteps) => actionSteps.filter((actionStep) => actionStep.oneId === oneId)
   );

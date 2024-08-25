@@ -11,12 +11,16 @@ export enum Page {
     
     PrayerBeacon = 6,
     AddEditOnes = 7,
+    AddEditActionStep = 8,
 }
 
 export enum ShareChristPageState {
     Default = 1,
     Edit = 2,
     PrayerBeacon = 3,
+
+    EditActionSteps = 4,
+    EditOneFacts = 5,
 }
 
 // Users

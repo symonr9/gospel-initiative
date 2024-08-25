@@ -3,39 +3,9 @@
     "id": "one1",
     "name": "Jane Smith",
     "icon": "Woman3",
-    "stage": "Stage1",
-    "nextMeetingAt": "2024-09-01T10:00:00Z",
+    "stage": 4,
+    "nextMeetingAt": "2024-10-01T10:00:00Z",
     "prayingSince": "2023-06-01T00:00:00Z",
-    "userId": "user1",
-    "hidden": "false"
-  },
-  {
-    "id": "one2",
-    "name": "Tom White",
-    "icon": "Man2",
-    "stage": "Stage2",
-    "nextMeetingAt": "2024-08-25T14:00:00Z",
-    "prayingSince": "2023-07-10T00:00:00Z",
-    "userId": "user2",
-    "hidden": "false"
-  },
-  {
-    "id": "one3",
-    "name": "Emma Green",
-    "icon": "Woman1",
-    "stage": "Stage3",
-    "nextMeetingAt": "2024-10-01T18:00:00Z",
-    "prayingSince": "2023-05-15T00:00:00Z",
-    "userId": "user3",
-    "hidden": "false"
-  },
-  {
-    "id": "one4",
-    "name": "Chris Blue",
-    "icon": "Man3",
-    "stage": "Stage4",
-    "nextMeetingAt": "2024-11-10T09:00:00Z",
-    "prayingSince": "2023-04-20T00:00:00Z",
     "userId": "user1",
     "hidden": "false"
   }

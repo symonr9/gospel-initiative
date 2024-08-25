@@ -21,8 +21,7 @@ export function PageColumn({ spaceBetween, children }: IPageColumn) {
 const styles = StyleSheet.create({
     rowContainer: {
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
+        flexDirection: 'column'
     },
     spaceBetween: {
         justifyContent: 'space-between'

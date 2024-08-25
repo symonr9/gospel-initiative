@@ -4,36 +4,16 @@
       "notes": "Invite Jane to church",
       "isComplete": false,
       "targetDate": "2024-09-15T00:00:00Z",
-      "type": "InviteToEvent",
-      "userId": "user1",
+      "type": 3,
       "oneId": "one1"
     },
     {
-      "id": "actionStep2",
-      "notes": "Share a book with Tom",
-      "isComplete": true,
-      "targetDate": "2024-08-20T00:00:00Z",
-      "type": "ShareResource",
-      "userId": "user2",
-      "oneId": "one2"
-    },
-    {
       "id": "actionStep3",
-      "notes": "Follow up with Emma about her job",
+      "notes": "Follow up with Jane about her new job",
       "isComplete": false,
       "targetDate": "2024-09-05T00:00:00Z",
-      "type": "FollowUp",
-      "userId": "user3",
-      "oneId": "one3"
-    },
-    {
-      "id": "actionStep4",
-      "notes": "Invite Chris to Bible study",
-      "isComplete": true,
-      "targetDate": "2024-09-10T00:00:00Z",
-      "type": "InviteToEvent",
-      "userId": "user1",
-      "oneId": "one4"
+      "type": 14,
+      "oneId": "one1"
     }
   ]
   

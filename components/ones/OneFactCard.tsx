@@ -14,12 +14,9 @@ export type IOneFactCard = ViewProps & {
 };
 
 export function OneFactCard({ oneFact }: IOneFactCard) {
-
     return (
         <View style={styles.container}>
-            {oneFact.icon && (
-                <Image source={oneFact.icon} style={styles.icon} />
-            )}
+            <Image source={oneFact.icon} style={styles.icon} />
             <ThemedText type={ThemedTextType.DefaultSemiBold}>
                 {oneFact.notes}
             </ThemedText>
@@ -33,22 +30,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'whitesmoke',
         padding: 4,
-        borderColor: 'gray',
-        marginBottom: 4,
-        borderWidth: 2,
-        borderRadius: 4,
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 4 },
     },
     icon: {
         width: 24,
         height: 24,
         marginRight: 8,
-    },
-    text: {
-        flex: 1,
-        fontSize: 16,
-        color: '#333',
     },
 });

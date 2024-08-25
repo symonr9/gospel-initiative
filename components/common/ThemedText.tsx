@@ -30,6 +30,9 @@ export function ThemedText({
     <Text
       style={[
         { color },
+        {
+          textAlignVertical: 'top',
+        },
         type === ThemedTextType.Default ? styles.default : undefined,
         type === ThemedTextType.Title ? styles.title : undefined,
         type === ThemedTextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
@@ -58,8 +61,8 @@ const styles = StyleSheet.create({
     lineHeight: 32,
   },
   subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: 'bold'
   },
   link: {
     lineHeight: 30,

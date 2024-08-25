@@ -1,4 +1,5 @@
 import { AppIcon, Priority, OneFactType } from "@/enums/enums";
+import { mapOneFactTypeToAppIcon } from "@/utils/appUtils";
 
 interface IOneFact {
     id: string;
@@ -18,14 +19,14 @@ export default class OneFact implements IOneFact {
     type: OneFactType;
     
     constructor(id: string, oneId: string, notes: string, 
-        icon: AppIcon, priority: Priority, type: OneFactType
+        priority: Priority, type: OneFactType, icon: AppIcon
     ) {
         this.id = id;
         this.oneId = oneId;
         this.notes = notes;
-        this.icon = icon;
         this.priority = priority;
         this.type = type;
+        this.icon = icon;
     }
 
 }

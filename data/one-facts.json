@@ -3,55 +3,41 @@
       "id": "oneFact1",
       "notes": "Jane loves hiking",
       "icon": "Activity",
-      "priority": 1,
-      "type": "Hobby",
-      "oneId": "one1",
-      "userId": "user1"
-    },
-    {
-      "id": "oneFact10",
-      "notes": "Jane loves arts and crafts",
-      "icon": "Activity",
-      "priority": 1,
-      "type": "Hobby",
-      "oneId": "one1",
-      "userId": "user1"
+      "priority": 3,
+      "type": 6,
+      "oneId": "one1"
     },
     {
       "id": "oneFact2",
-      "notes": "Tom enjoys cooking",
+      "notes": "Jane loves arts and crafts",
       "icon": "Activity",
       "priority": 2,
-      "type": "Interest",
-      "oneId": "one2",
-      "userId": "user2"
+      "type": 6,
+      "oneId": "one1"
     },
     {
       "id": "oneFact3",
-      "notes": "Emma is a cat lover",
-      "icon": "Animal",
-      "priority": 3,
-      "type": "Pet",
-      "oneId": "one3",
-      "userId": "user3"
-    },
-    {
-      "id": "oneFact4",
-      "notes": "Chris is an avid reader",
-      "icon": "Book",
-      "priority": 1,
-      "type": "Hobby",
-      "oneId": "one4",
-      "userId": "user1"
-    },
-    {
-      "id": "oneFact5",
       "notes": "Jane plays the guitar",
       "icon": "Music",
       "priority": 2,
-      "type": "Talent",
-      "oneId": "one1",
-      "userId": "user1"
+      "type": 3,
+      "oneId": "one1"
+    },
+    {
+      "id": "oneFact4",
+      "notes": "Jane has family in Virginia",
+      "icon": "Music",
+      "priority": 2,
+      "type": 2,
+      "oneId": "one1"
+    },
+    {
+      "id": "oneFact4",
+      "notes": "Jane grew up in a Catholic church",
+      "icon": "Music",
+      "priority": 3,
+      "type": 11,
+      "oneId": "one1"
     }
   ]
   

@@ -1,8 +1,4 @@
 import { AvatarIcon, OneStage, } from "@/enums/enums";
-import Meeting from "./meeting";
-import Prayer from "./prayer";
-import ActionStep from "./actionStep";
-import OneFact from "./oneFact";
 
 interface IOne {
     id: string;
@@ -10,11 +6,7 @@ interface IOne {
     icon: AvatarIcon;
     stage: OneStage;
     nextMeetingAt: Date | undefined;
-    meetings: Meeting[];
-    prayers: Prayer[];
-    actionSteps: ActionStep[];
-    facts: OneFact[];
-    prayingSince: Date;
+    prayingSince: Date | undefined;
     hidden: boolean;
 }
 
@@ -24,16 +16,11 @@ export default class One implements IOne {
     icon: AvatarIcon;
     stage: OneStage;
     nextMeetingAt: Date | undefined;
-    meetings: Meeting[];
-    prayers: Prayer[];
-    actionSteps: ActionStep[];
-    facts: OneFact[];
-    prayingSince: Date;
+    prayingSince: Date | undefined;
     hidden: boolean;
     
     constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
-        nextMeetingAt: Date | undefined, meetings: Meeting[], prayers: Prayer[],
-        actionSteps: ActionStep[], facts: OneFact[], prayingSince: Date,
+        nextMeetingAt: Date | undefined, prayingSince: Date | undefined,
         hidden: boolean
     ) {
         this.id = id;
@@ -41,10 +28,6 @@ export default class One implements IOne {
         this.icon = icon;
         this.stage = stage;
         this.nextMeetingAt = nextMeetingAt;
-        this.meetings = meetings;
-        this.prayers = prayers;
-        this.actionSteps = actionSteps;
-        this.facts = facts;
         this.prayingSince = prayingSince;
         this.hidden = hidden;
     }

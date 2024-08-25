@@ -1,19 +1,18 @@
 import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
+import { mapOneFactTypeToAppIcon } from "./appUtils";
 
 
 const actionStepsJson = require('../data/action-steps.json');
 export function getActionStepsJson() {
-    return actionStepsJson.map(item => {    
-        const type = ActionStepType[item.type as keyof typeof ActionStepType];    
+    return actionStepsJson.map(item => {
+        const type: ActionStepType = item.type as ActionStepType;
         return {
             id: item.id,
-            name: item.name,
-            isComplete: item.isComplete,
-            targetDate: item.targetDate ? new Date(item.lastPrayedAt) : undefined,
-            userId: item.userId,
+            notes: item.notes,
             oneId: item.oneId,
-            requests: [],
+            isComplete: item.isComplete,
+            targetDate: item.targetDate ? new Date(item.targetDate) : undefined,
             type: type
         };
     });
@@ -39,7 +38,7 @@ const onesData = require('../data/ones.json');
 export function getOnesFromJson() {
     return onesData.map(item => {
         const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
-        const stage = OneStage[item.stage as keyof typeof OneStage];
+        const stage: OneStage = item.stage as OneStage;
         
         return new One(
             item.id,
@@ -47,30 +46,24 @@ export function getOnesFromJson() {
             icon,
             stage,
             item.nextMeetingAt ? new Date(item.nextMeetingAt) : undefined,
-            [],  // meetings (assuming you populate this later)
-            [],  // prayers (assuming you populate this later)
-            [],  // actionSteps (assuming you populate this later)
-            [],  // facts (assuming you populate this later)
-            new Date(item.prayingSince),
-            false // hidden (set this based on your logic)
+            item.prayingSince ? new Date(item.prayingSince) : undefined,
+            false
         );
     });
 }
 
 const onesFactsJson = require('../data/one-facts.json');
 export function getOneFactsFromJson() {
-    return onesFactsJson.map(item => {
-        const icon = AppIcon[item.icon as keyof typeof AppIcon];
-        const type = OneFactType[item.type as keyof typeof OneFactType];
+    return onesFactsJson.map(item => {        
+        const type: OneFactType = item.type as OneFactType;
 
         return {
             id: item.id,
             notes: item.notes,
-            icon: icon,
             priority: item.priority,
-            type: type,
+            type: item.type,
             oneId: item.oneId,
-            userId: item.userId,
+            icon: mapOneFactTypeToAppIcon(type)
         }
     });
 }

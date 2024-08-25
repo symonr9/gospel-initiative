@@ -1,24 +1,39 @@
 
 import React from 'react';
-import { View, type ViewProps } from 'react-native';
+import { View, type ViewProps, StyleSheet } from 'react-native';
+import { Image } from 'expo-image';
 
-import { ThemedText } from '../common/ThemedText';
+import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
 
 export type IActionStepCard = ViewProps & {
-    actionStep: ActionStep;
+  actionStep: ActionStep;
 };
 
 export function ActionStepCard({ actionStep }: IActionStepCard) {
-  const detailsView = (
-    <ThemedText>Test</ThemedText>
-  );
 
   return (
-    <SimpleCard iconSrc={AppIcon.Man1}
-                    title={actionStep.notes}
-                    detailsView={detailsView} />
+    <View style={styles.container}>
+      <Image source={AppIcon.ArrowBack} style={styles.icon} />
+      <ThemedText type={ThemedTextType.DefaultSemiBold}>
+        {actionStep.notes}
+      </ThemedText>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'whitesmoke',
+    padding: 4,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+});
