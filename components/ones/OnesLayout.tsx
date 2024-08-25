@@ -28,27 +28,25 @@ function OnesLayout({ ones }: IOnesLayout) {
 
     const icon = oneToShow ? oneToShow.icon : AppIcon.Man1;
 
-
     const itemsToRender = [];
 
     itemsToRender.push(
-        <SimpleIcon iconSrc={icon} title={oneToShow.name} large/>
+        <SimpleIcon iconSrc={icon} title={oneToShow.name} large />
     );
 
     return [
         <AnimatedPageSection column
-                             itemsToRender={itemsToRender}/>,
-        <PageRow spaceBetween>
-            <AnimatedPageSection column itemsToRender={[
-                <ThemedText type={ThemedTextType.Subtitle}>
-                    Action Steps
-                </ThemedText>
-            ]}/>
+            itemsToRender={itemsToRender} />,
 
-            <AnimatedPageSection column itemsToRender={[
-                <OneFactsList one={oneToShow}/>
-            ]}/>
-        </PageRow>
+        <AnimatedPageSection column itemsToRender={[
+            <ThemedText type={ThemedTextType.Subtitle}>
+                Action Steps
+            </ThemedText>
+        ]} />,
+
+        <AnimatedPageSection column itemsToRender={[
+            <OneFactsList one={oneToShow} />
+        ]} />
     ];
 }
 

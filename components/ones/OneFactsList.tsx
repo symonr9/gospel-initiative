@@ -1,32 +1,29 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
 
 import One from '@/models/one';
 import OneFact from '@/models/oneFact';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { selectOneFactsByOneId } from '@/redux/selectors';
+import { OneFactCard } from './OneFactCard';
 
 export type IOneFactsList = ViewProps & {
     one: One;
 
     // Redux
-    oneFacts: OneFact[];
 };
 
-function OneFactsList({ oneFacts, one }: IOneFactsList) {
+function OneFactsList({ one }: IOneFactsList) {
+    const oneFactsForUser = useSelector(selectOneFactsByOneId(one.id));
 
-    console.log(oneFacts);
-    console.log(one);
+    console.log("oneFactsForUser: ", oneFactsForUser);
 
     const renderItem = ({ item }: { item: OneFact }) => (
-        <View style={styles.factView}>
-            <ThemedText type={ThemedTextType.Default}>
-                {item.notes}
-            </ThemedText>
-        </View>
+        <OneFactCard oneFact={item}/>
     );
 
     return (
@@ -35,7 +32,7 @@ function OneFactsList({ oneFacts, one }: IOneFactsList) {
                 Fun Facts
             </ThemedText>,
             <FlatList
-                data={oneFacts}
+                data={oneFactsForUser}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -48,18 +45,15 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#B1E68C',
-        padding: 12,
+        backgroundColor: 'whitesmoke',
+        padding: 8,
         minHeight: 200,
         overflow: 'scroll',
-    },
-    factView: {
-
     },
 });
 
 const mapStateToProps = (state: any) => ({
-    oneFacts: state.ones.oneFacts,
+
 });
 
 
