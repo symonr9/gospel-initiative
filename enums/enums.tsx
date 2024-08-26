@@ -45,9 +45,9 @@ export enum PrayerType {
 }
 
 export enum PrayerBeaconType {
-    ToCommunity = 1,
-    ToPrayerGroup = 2,
-    ToLeadershipTeam = 3,
+    Normal = 1,
+    Active = 2,
+    Archived = 3,
 };
 
 // Meetings

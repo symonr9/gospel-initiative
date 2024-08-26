@@ -1,4 +1,4 @@
-import { PrayerType, ShareChristPageState } from "@/enums/enums";
+import { PrayerBeaconType, PrayerType, ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import LocalEvent from "@/models/localEvent";
@@ -40,7 +40,9 @@ export enum Action {
     SetActivePrayerType = "SET_PRAYER_TYPE",
 
     SetSelectedOne = "SET_SELECTED_ONE",
-    SetSelectedBeaconId = "SET_SELECTED_BEACON",
+    SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
+    UpdateBeacon = "UPDATE_BEACON",
+    SetBeaconType = "SET_BEACON_TYPE",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -102,6 +104,16 @@ export const setSelectedOne = (item: One) => ({
 
 export const setSelectedBeaconId = (item: string) => ({
     type: Action.SetSelectedBeaconId,
+    payload: item,
+});
+
+export const setBeaconType = (id: string, type: PrayerBeaconType) => ({
+    type: Action.SetBeaconType,
+    payload: { id, type },
+});
+
+export const updateBeacon = (item: PrayerBeacon) => ({
+    type: Action.UpdateBeacon,
     payload: item,
 });
 

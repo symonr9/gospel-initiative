@@ -4,7 +4,7 @@ import { View, ViewProps, Animated, TextInput, Button, StyleSheet, Picker } from
 
 import PrayerBeacon from '@/models/prayerBeacon';
 import { formStyles } from '@/styles/Styles';
-import { setSelectedBeaconId } from '@/redux/actions';
+import { setSelectedBeaconId, updateBeacon } from '@/redux/actions';
 import { PageSubHeader } from '../common/PageSubHeader';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ThemedView } from '../common/ThemedView';
@@ -15,6 +15,7 @@ export type IAddEditPrayerBeaconForm = ViewProps & {
     selectedBeaconId: string | null;
     beacons: PrayerBeacon[];
     setSelectedBeaconId: Function;
+    updateBeacon: Function;
 };
 
 function AddEditPrayerBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaconId }: IAddEditPrayerBeaconForm) {
@@ -44,8 +45,8 @@ function AddEditPrayerBeaconForm({ adding, selectedBeaconId, beacons, setSelecte
     };
 
     const handleSave = () => {
-        // Handle the save logic here, e.g., dispatch an action or update state
         console.log('Saved Prayer Beacon:', formBeacon);
+        updateBeacon(formBeacon);
     };
 
     return (
@@ -144,6 +145,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
     setSelectedBeaconId,
+    updateBeacon
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddEditPrayerBeaconForm);

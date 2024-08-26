@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, type ViewProps, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, type ViewProps, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
 import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, PrayerBeaconType } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
@@ -19,13 +19,30 @@ export type IPrayerBeaconCard = ViewProps & {
 };
 
 export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId }: IPrayerBeaconCard) {
+  const [bgColor, setBgColor] = useState(new Animated.Value(0));
+
+  const isActive = prayerBeacon.type == PrayerBeaconType.Active;
+
+  useEffect(() => {
+    Animated.timing(bgColor, {
+      toValue: isActive ? 1 : 0,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  }, [isActive]);
+
+  const interpolatedBgColor = bgColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['white', 'lightgreen']
+  });
+
   if (selectedBeaconId != null) {
     if (prayerBeacon.id !== selectedBeaconId) {
       return <></>;
     }
     return (
-      <PrayerBeaconDetails prayerBeacon={prayerBeacon} 
-                           selectedBeaconId={selectedBeaconId}/>
+      <PrayerBeaconDetails prayerBeacon={prayerBeacon}
+        selectedBeaconId={selectedBeaconId} />
     );
   }
 
@@ -35,20 +52,20 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <ThemedView style={[cardStyles.container, flexStyles.row]}>
+      <Animated.View style={[cardStyles.container, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
         <Image source={AppIcon.NetworkPeople}
           style={styles.icon}
           contentFit="contain" />
 
         <PageColumn>
           <ThemedText type={ThemedTextType.Subtitle}>
-            {prayerBeacon.name}
+            {prayerBeacon.name} { isActive && "(Active)"}
           </ThemedText>
           <ThemedText type={ThemedTextType.Default}>
             {prayerBeacon.message}
           </ThemedText>
         </PageColumn>
-      </ThemedView>
+      </Animated.View>
     </TouchableOpacity>
   );
 }

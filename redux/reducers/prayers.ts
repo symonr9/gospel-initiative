@@ -15,7 +15,7 @@ export function prayersReducer(state = initialState, action: ActionPackage) {
         case Action.LoadServerData:
             const { prayers, prayerBeacons, prayerBeaconSettings,
                 prayerRequests
-             } = action.payload;
+            } = action.payload;
             return update(state, {
                 $set: {
                     prayers: prayers || [],
@@ -27,8 +27,31 @@ export function prayersReducer(state = initialState, action: ActionPackage) {
             });
         case Action.SetSelectedBeaconId:
             return update(state, {
-                selectedBeaconId: { $set: action.payload}
+                selectedBeaconId: { $set: action.payload }
             });
+        case Action.SetBeaconType:
+            const { id, type } = action.payload;
+            const setBeaconTypeIdx = state.prayerBeacons.findIndex(beacon => beacon.id === id);
+            if (setBeaconTypeIdx !== -1) {
+                return update(state, {
+                    prayerBeacons: {
+                        [setBeaconTypeIdx]: {
+                            type: { $set: type }
+                        }
+                    }
+                });
+            }
+            return state;
+        case Action.UpdateBeacon:
+            const updatedBeaconIdx = state.prayerBeacons.findIndex(beacon => beacon.id === action.payload.id);
+            if (updatedBeaconIdx !== -1) {
+                return update(state, {
+                    prayerBeacons: {
+                        [updatedBeaconIdx]: { $set: action.payload }
+                    }
+                });
+            }
+            return state;
         case Action.AddPrayer:
             return update(state, {
                 prayers: { $push: [action.payload] }

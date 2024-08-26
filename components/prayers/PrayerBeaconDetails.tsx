@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, type ViewProps, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, type ViewProps, StyleSheet, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
 import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, PrayerBeaconType } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
-import { cardStyles } from '@/styles/Styles';
+import { cardStyles, flexStyles } from '@/styles/Styles';
 import { useSelector } from 'react-redux';
 import { selectPrayerBeaconDetailsById } from '@/redux/selectors';
 import { PageRow } from '../common/PageRow';
@@ -20,6 +20,23 @@ export type IPrayerBeaconCard = ViewProps & {
 };
 
 export function PrayerBeaconDetails({ prayerBeacon, selectedBeaconId }: IPrayerBeaconCard) {
+    const [bgColor, setBgColor] = useState(new Animated.Value(0));
+
+    const isActive = prayerBeacon.type == PrayerBeaconType.Active;
+
+    useEffect(() => {
+        Animated.timing(bgColor, {
+            toValue: isActive ? 1 : 0,
+            duration: 500,
+            useNativeDriver: false,
+        }).start();
+    }, [isActive]);
+
+    const interpolatedBgColor = bgColor.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['white', 'lightgreen']
+    });
+
     const details = useSelector((state: any) => selectPrayerBeaconDetailsById(state, selectedBeaconId));
     if (!details) {
         console.error("Something went wrong");
@@ -31,19 +48,23 @@ export function PrayerBeaconDetails({ prayerBeacon, selectedBeaconId }: IPrayerB
 
     return (
         <ThemedView style={[styles.container]}>
-            <PageRow style={styles.header}>
+
+            <Animated.View style={[styles.header, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
                 <Image source={AppIcon.NetworkPeople}
                     style={styles.icon}
                     contentFit="contain" />
                 <PageColumn>
                     <ThemedText type={ThemedTextType.Subtitle}>
-                        {prayerBeacon.name}
+                        {prayerBeacon.name} {isActive && "(Active)"}
                     </ThemedText>
                     <ThemedText type={ThemedTextType.Default}>
                         {prayerBeacon.message}
                     </ThemedText>
                 </PageColumn>
-            </PageRow>
+
+
+            </Animated.View>
+
 
             <PageColumn style={styles.section}>
                 <ThemedText type={ThemedTextType.Subtitle}>
@@ -60,12 +81,10 @@ export function PrayerBeaconDetails({ prayerBeacon, selectedBeaconId }: IPrayerB
                         <ThemedText type={ThemedTextType.Subtitle}>
                             {settings.name}
                         </ThemedText>
-
-                        <PageChip iconSrc={getShowHideIcon(settings.shareOneName)} 
-                                  title={`Share One Name: ${settings.shareOneName ? "Yes" : 'No'}`} />
-                        <PageChip iconSrc={getShowHideIcon(settings.shareOwnName)} 
-                                  title={`Share Own Name: ${settings.shareOwnName ? "Yes" : 'No'}`} />
-
+                        <PageChip iconSrc={getShowHideIcon(settings.shareOneName)}
+                            title={`Share One Name: ${settings.shareOneName ? "Yes" : 'No'}`} />
+                        <PageChip iconSrc={getShowHideIcon(settings.shareOwnName)}
+                            title={`Share Own Name: ${settings.shareOwnName ? "Yes" : 'No'}`} />
                     </PageColumn>
                 )
             }
