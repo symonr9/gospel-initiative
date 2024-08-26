@@ -5,7 +5,6 @@ interface IMeeting {
     meetingDate: Date;
     notes: string;
     oneId: string;
-    userId: string;
     tags: MeetingTag[];
     location: Location;
 }
@@ -15,7 +14,6 @@ export default class Meeting implements IMeeting {
     meetingDate: Date;
     notes: string;
     oneId: string;
-    userId: string;
     tags: MeetingTag[];
     location: Location;
 
@@ -26,7 +24,6 @@ export default class Meeting implements IMeeting {
         this.meetingDate = date;
         this.notes = notes;
         this.oneId = oneId;
-        this.userId = userId;
         this.tags = tags;
         this.location = location;
     }

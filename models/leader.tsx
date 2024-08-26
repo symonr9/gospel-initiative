@@ -1,3 +1,5 @@
+import { LeaderType } from "@/enums/enums";
+
 interface ILeader {
     id: string;
     name: string;

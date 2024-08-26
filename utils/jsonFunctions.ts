@@ -1,9 +1,29 @@
 import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
-
+import { JournalEntryType } from "@/enums/enums";
+import { LeaderType } from "@/enums/enums";
+import { MeetingTag } from "@/enums/enums";
 
 const actionStepsJson = require('../data/action-steps.json');
+const journalEntriesJson = require('../data/journal-entries.json');
+const leadersJson = require('../data/leaders.json');
+const localEventsJson = require('../data/local-events.json');
+const localMinistriesJson = require('../data/local-ministries.json');
+const meetingsJson = require('../data/meetings.json');
+const missionsTripsJson = require('../data/missions-trips.json');
+const onesFactsJson = require('../data/one-facts.json');
+const onesData = require('../data/ones.json');
+const prayerBeaconSettingsJson = require('../data/prayer-beacon-settings.json');
+const prayerBeaconsJson = require('../data/prayer-beacons.json');
+const prayerRequestsJson = require('../data/prayer-requests.json');
+const prayersJson = require('../data/prayers.json');
+const preferencesJson = require('../data/preferences.json');
+const promptsJson = require('../data/prompts.json');
+const storiesJson = require('../data/stories.json');
+const storyChaptersJson = require('../data/story-chapters.json');
+const usersJson = require('../data/users.json');
+
 export function getActionStepsJson() {
     return actionStepsJson.map(item => {
         const type: ActionStepType = item.type as ActionStepType;
@@ -18,23 +38,78 @@ export function getActionStepsJson() {
     });
 }
 
-const prayersJson = require('../data/prayers.json');
-export function getPrayersFromJson() {
-    return prayersJson.map(item => {    
-        const type = PrayerType[item.type as keyof typeof PrayerType];    
+export function getJournalEntriesJson() {
+    return journalEntriesJson.map(item => {
+        const type: JournalEntryType = item.type as JournalEntryType;
+        return {
+            id: item.id,
+            type: String,
+            details: String,
+            userId: item.userId,
+            createdAt: item.targetDate ? new Date(item.targetDate) : undefined,
+            entryType: type
+        };
+    });
+}
+
+export function getLeadersJson() {
+    return leadersJson.map(item => {
+        const type: LeaderType = item.type as LeaderType;
         return {
             id: item.id,
             name: item.name,
-            lastPrayedAt: item.lastPrayedAt ? new Date(item.lastPrayedAt) : undefined,
-            userId: item.userId,
-            oneId: item.oneId,
-            requests: [],
+            details: item.details,
             type: type
         };
     });
 }
 
-const onesData = require('../data/ones.json');
+export function getLocalEventsJson() {
+    return localEventsJson.map(item => {
+        return {
+            id: item.id,
+            title: item.title,
+            details: item.details        
+        };
+    });
+}
+
+export function getLocalMinistriesJson() {
+    return localMinistriesJson.map(item => {
+        return {
+            id: item.id,
+            title: item.title,
+            details: item.details       
+        };
+    });
+}
+
+export function getMeetingsJson() {
+    return meetingsJson.map(item => {
+        const location: Location = item.type as Location;
+        const tags: MeetingTag[] = item.tags.map((tag) => MeetingTag[tag as keyof typeof MeetingTag]);
+
+        return {
+            id: item.id,
+            meetingDate: item.meetingDate ? new Date(item.meetingDate) : undefined,
+            notes: item.notes,
+            oneId: item.oneId,
+            tags: tags,
+            location: location
+        };
+    });
+}
+
+export function getMissionsTripsJson() {
+    return missionsTripsJson.map(item => {
+        return {
+            id: item.id,
+            title: item.title,
+            details: item.details       
+        };
+    });
+}
+
 export function getOnesFromJson() {
     return onesData.map(item => {
         const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
@@ -52,53 +127,21 @@ export function getOnesFromJson() {
     });
 }
 
-const onesFactsJson = require('../data/one-facts.json');
-export function getOneFactsFromJson() {
-    return onesFactsJson.map(item => {        
-        const type: OneFactType = item.type as OneFactType;
-
+export function getPrayersFromJson() {
+    return prayersJson.map(item => {    
+        const type = PrayerType[item.type as keyof typeof PrayerType];    
         return {
             id: item.id,
-            notes: item.notes,
-            priority: item.priority,
-            type: item.type,
-            oneId: item.oneId,
-            icon: mapOneFactTypeToAppIcon(type)
-        }
-    });
-}
-
-const storiesJson = require('../data/stories.json');
-export function getStoriesFromJson() {
-    return storiesJson.map(item => {    
-        return {
-            id: item.id,
-            title: item.title,
-            content: item.content,
+            name: item.name,
+            lastPrayedAt: item.lastPrayedAt ? new Date(item.lastPrayedAt) : undefined,
             userId: item.userId,
+            oneId: item.oneId,
+            requests: [],
+            type: type
         };
     });
 }
 
-const storyChaptersJson = require('../data/story-chapters.json');
-export function getStoryChaptersFromJson() {
-    return storyChaptersJson.map(item => {  
-        const chapterType = StoryChapterType[item.chapterType as keyof typeof StoryChapterType];
-        const icon = AppIcon[item.icon as keyof typeof AppIcon];
-
-        return {
-            id: item.id,
-            storyId: item.storyId,
-            chapterType: chapterType,
-            title: item.title,
-            content: item.content,
-            icon: icon,
-            order: item.order
-        };
-    });
-}
-
-const prayerBeaconsJson = require('../data/prayer-beacons.json');
 export function getPrayerBeaconsFromJson() {
     return prayerBeaconsJson.map(item => {        
         const type: PrayerBeaconType = item.type as PrayerBeaconType;
@@ -119,7 +162,6 @@ export function getPrayerBeaconsFromJson() {
     });
 }
 
-const prayerBeaconSettingsJson = require('../data/prayer-beacon-settings.json');
 export function getPrayerBeaconSettingsFromJson() {
     return prayerBeaconSettingsJson.map(item => {        
         return {
@@ -130,4 +172,63 @@ export function getPrayerBeaconSettingsFromJson() {
             shareOwnName: item.shareOwnName
         }
     });
+}
+
+export function getPrayerRequestsFromJson() {
+
+}
+
+export function getPreferencesFromJson() {
+    
+}
+
+export function getPromptsFromJson() {
+    
+}
+
+export function getOneFactsFromJson() {
+    return onesFactsJson.map(item => {        
+        const type: OneFactType = item.type as OneFactType;
+
+        return {
+            id: item.id,
+            notes: item.notes,
+            priority: item.priority,
+            type: item.type,
+            oneId: item.oneId,
+            icon: mapOneFactTypeToAppIcon(type)
+        }
+    });
+}
+
+export function getStoriesFromJson() {
+    return storiesJson.map(item => {    
+        return {
+            id: item.id,
+            title: item.title,
+            content: item.content,
+            userId: item.userId,
+        };
+    });
+}
+
+export function getStoryChaptersFromJson() {
+    return storyChaptersJson.map(item => {  
+        const chapterType = StoryChapterType[item.chapterType as keyof typeof StoryChapterType];
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
+
+        return {
+            id: item.id,
+            storyId: item.storyId,
+            chapterType: chapterType,
+            title: item.title,
+            content: item.content,
+            icon: icon,
+            order: item.order
+        };
+    });
+}
+
+export function getUsersFromJson() {
+    
 }
