@@ -4,6 +4,7 @@ import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
 import { LeaderType } from "@/enums/enums";
 import { MeetingTag } from "@/enums/enums";
+import { Role } from "@/enums/enums";
 
 const actionStepsJson = require('../data/action-steps.json');
 const journalEntriesJson = require('../data/journal-entries.json');
@@ -175,15 +176,37 @@ export function getPrayerBeaconSettingsFromJson() {
 }
 
 export function getPrayerRequestsFromJson() {
-
+    return prayerRequestsJson.map(item => {
+        return {
+            id: item.id,
+            name: item.name,
+            text: item.text,
+            prayerId: item.prayerId,
+            createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
+        };
+    });
 }
 
 export function getPreferencesFromJson() {
-    
+    return preferencesJson.map(item => {
+        return {
+            
+        };
+    });
 }
 
 export function getPromptsFromJson() {
-    
+    return promptsJson.map(item => {
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
+        return {
+            id: item.id,
+            userId: item.userId,
+            title: item.title,
+            notes: item.notes,
+            icon: icon,
+            order: item.order            
+        };
+    });
 }
 
 export function getOneFactsFromJson() {
@@ -214,7 +237,7 @@ export function getStoriesFromJson() {
 
 export function getStoryChaptersFromJson() {
     return storyChaptersJson.map(item => {  
-        const chapterType = StoryChapterType[item.chapterType as keyof typeof StoryChapterType];
+        const chapterType: StoryChapterType = item.chapterType as StoryChapterType;
         const icon = AppIcon[item.icon as keyof typeof AppIcon];
 
         return {
@@ -230,5 +253,14 @@ export function getStoryChaptersFromJson() {
 }
 
 export function getUsersFromJson() {
-    
+    return usersJson.map(item => {
+        const role: Role = item.type as Role;
+        return {
+            id: item.id,
+            name: item.name,
+            email: item.email,
+            role: role,
+            createdAt: item.createdAt ? new Date(item.createdAt) : undefined,   
+        };
+    });
 }
