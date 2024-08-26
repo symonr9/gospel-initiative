@@ -17,7 +17,7 @@ export function ActionStepCard({ actionStep }: IActionStepCard) {
   return (
     <View style={styles.container}>
       <Image source={AppIcon.ArrowBack} style={styles.icon} />
-      <ThemedText type={ThemedTextType.DefaultSemiBold}>
+      <ThemedText type={ThemedTextType.Link}>
         {actionStep.notes}
       </ThemedText>
     </View>
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'whitesmoke',
-    padding: 4,
   },
   icon: {
     width: 24,

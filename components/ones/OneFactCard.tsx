@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'whitesmoke',
-        padding: 4,
     },
     icon: {
         width: 24,

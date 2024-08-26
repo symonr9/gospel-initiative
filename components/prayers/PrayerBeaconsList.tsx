@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { connect, useSelector } from 'react-redux';
-import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
+import { FlatList, View, ViewProps, StyleSheet, Dimensions } from 'react-native';
 
 import PrayerBeacon from '@/models/prayerBeacon';
 import { PrayerBeaconCard } from './PrayerBeaconCard';
@@ -50,9 +50,11 @@ function PrayerBeaconsList({ selectedOne, shareChristPageState, selectedBeaconId
     );
 }
 
+const { height: viewportHeight } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
-        maxHeight: 280,
+        height: viewportHeight * 0.05,
     },
 });
 

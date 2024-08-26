@@ -10,6 +10,7 @@ import OneFactsList from './OneFactsList';
 import ActionStepsList from './ActionStepsList';
 import OnesLayoutHeader from './OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
+import { ThemedView } from '../common/ThemedView';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One,
@@ -29,11 +30,20 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
     return (
         <>
             <OnesLayoutHeader />
-            <ActionStepsList />
-            <OneFactsList />
+
+            <ThemedView style={styles.container}>
+                <ActionStepsList />
+                <OneFactsList />
+            </ThemedView>
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        gap: 12,
+    }
+});
 
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
