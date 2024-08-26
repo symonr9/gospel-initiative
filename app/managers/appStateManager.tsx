@@ -14,12 +14,12 @@ export type IAppStateManager = {
 
 function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBeaconId }: IAppStateManager) {
 
-    useEffect(() => {
-        console.log("shareChristPageState: ", shareChristPageState);
-        if (selectedBeaconId != null && shareChristPageState == ShareChristPageState.PrayerBeacon) {
-            setSelectedBeaconId(null);
-        }
-    }, [shareChristPageState]);
+    // useEffect(() => {
+    //     console.log("shareChristPageState: ", shareChristPageState);
+    //     if (selectedBeaconId != null && shareChristPageState == ShareChristPageState.PrayerBeacon) {
+    //         setSelectedBeaconId(null);
+    //     }
+    // }, [shareChristPageState]);
 
     return <></>;
 }

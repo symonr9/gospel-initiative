@@ -34,7 +34,9 @@ const getBody = (page: Page, pageState: ShareChristPageState) => {
             ShareChristPageState.PrayerBeacon,
             ShareChristPageState.AddPrayerBeacon,
             ShareChristPageState.EditPrayerBeacon,
-            ShareChristPageState.SavePrayerBeacon
+            ShareChristPageState.SavePrayerBeacon,
+            ShareChristPageState.SendPrayerBeacon,
+            ShareChristPageState.ConfirmSendPrayerBeacon,
         ].includes(pageState)) {
             return (
                 <PrayerBeaconLayout />

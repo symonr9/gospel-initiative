@@ -1,9 +1,23 @@
-import { AppIcon, OneFactType, OneStage, ShareChristPageState } from "@/enums/enums";
+import { AppIcon, OneFactType, OneStage, Priority, ShareChristPageState } from "@/enums/enums";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
     const enumKey = Object.keys(enumObj).find(key => enumObj[key as keyof T] === enumValue);
     return enumKey ? enumKey.replace(/([a-z])([A-Z])/g, '$1 $2') : '';
+}
+
+
+export const getShowHideIcon = (show: boolean) => show ? AppIcon.Show : AppIcon.Hide;
+
+export function mapPriorityToText(priority: Priority) {
+    switch (priority) {
+        case Priority.Low:
+            return "Low";
+        case Priority.Normal:
+            return "Normal";
+        case Priority.High:
+            return "High";
+    }
 }
 
 export function mapStageToText(stage: OneStage) {

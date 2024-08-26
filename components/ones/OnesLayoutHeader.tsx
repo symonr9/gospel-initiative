@@ -9,7 +9,7 @@ import { AppIcon } from '@/enums/enums';
 import { SimpleIcon } from '../common/SimpleIcon';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
-import { PageTag } from '../common/PageTag';
+import { PageChip } from '../common/PageChip';
 import { mapStageToText } from '@/utils/appUtils';
 import { PageSubHeader } from '../common/PageSubHeader';
 
@@ -24,7 +24,7 @@ function OnesLayoutHeader({ selectedOne }: IOnesLayoutHeader) {
             <SimpleIcon iconSrc={selectedOne.icon} large />
             <PageColumn>
                 <PageSubHeader title={selectedOne.name} />
-                <PageTag iconSrc={AppIcon.Globe} title={stageTagText} />
+                <PageChip iconSrc={AppIcon.Globe} title={stageTagText} />
             </PageColumn>
         </PageRow>
     );

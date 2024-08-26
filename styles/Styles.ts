@@ -20,9 +20,8 @@ export const listStyles = StyleSheet.create({
 export const cardStyles = StyleSheet.create({
   container: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flex: 1,
-    backgroundColor: 'lightgray',
     borderRadius: 4,
     padding: 4,
     shadowColor: '#000',
@@ -49,7 +48,16 @@ export const formStyles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 4 },
-  }
+  },
+  header: {
+    padding: 10,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: 'lightgray',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+  },
 });
 
 export const flexStyles = StyleSheet.create({

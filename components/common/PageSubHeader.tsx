@@ -43,15 +43,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         gap: 8,
-        backgroundColor: 'khaki',
-        borderRadius: 4,
+        backgroundColor: 'whitesmoke',
+        borderRadius: 8,
         padding: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 6, // Shadow radius for a softer shadow
         elevation: 4,
-        flexShrink: 1, // Prevent children from overflowing
+        flexShrink: 1, // Prevent children from overflowing,
+        marginBottom: 4,
     },
     icon: {
         width: 38,

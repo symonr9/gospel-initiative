@@ -62,7 +62,10 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
                 }),
                 getEditButton(() => {
                     setPageState(ShareChristPageState.EditPrayerBeacon);
-                })
+                }),
+                getSendButton(() => {
+                    setPageState(ShareChristPageState.SendPrayerBeacon);
+                }),
             ];
         } else { // View All Beacons
             return [
@@ -74,13 +77,28 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
                 })
             ];
         }
+    } else if (pageState == ShareChristPageState.SendPrayerBeacon) {
+        return [
+            getCancelButton(() => {
+                setPageState(ShareChristPageState.PrayerBeacon);
+            }),
+            getConfirmButton(() => {
+                setPageState(ShareChristPageState.ConfirmSendPrayerBeacon);
+            })
+        ];
+    } else if (pageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
+        return [
+            getBackButton(() => {
+                setPageState(ShareChristPageState.PrayerBeacon);
+            }),
+        ];
     } else if ([
         ShareChristPageState.AddPrayerBeacon,
         ShareChristPageState.EditPrayerBeacon
     ].includes(pageState)) { // Add/Edit Beacon
         return [
             getBackButton(() => {
-                if (hasSelectedBeacon && setSelectedBeaconId) {
+                if (hasSelectedBeacon && setSelectedBeaconId && pageState == ShareChristPageState.AddPrayerBeacon) {
                     setSelectedBeaconId(null);
                 }
                 setPageState(ShareChristPageState.PrayerBeacon);
@@ -143,6 +161,30 @@ const getSaveButton = (onClick: () => void) => {
             title={'Save'} />
     );
 }
+
+const getSendButton = (onClick: () => void) => {
+    return (
+        <SimpleIconButton iconSrc={AppIcon.Send}
+            onClick={onClick}
+            title={'Send'} />
+    );
+};
+
+const getConfirmButton = (onClick: () => void) => {
+    return (
+        <SimpleIconButton iconSrc={AppIcon.Checkmark}
+            onClick={onClick}
+            title={'Confirm'} />
+    );
+};
+
+const getCancelButton = (onClick: () => void) => {
+    return (
+        <SimpleIconButton iconSrc={AppIcon.Cancel}
+            onClick={onClick}
+            title={'Cancel'} />
+    );
+};
 
 const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function, setPageState: Function) => {
 

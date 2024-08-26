@@ -7,6 +7,8 @@ import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import PrayerBeaconsList from './PrayerBeaconsList';
 import { ShareChristPageState } from '@/enums/enums';
 import AddEditPrayerBeaconForm from './AddEditPrayerBeaconForm';
+import { PrayerBeaconDetails } from './PrayerBeaconDetails';
+import PageResponse from '../common/PageResponse';
 
 export type IOnesLayout = ViewProps & {
     shareChristPageState: ShareChristPageState;
@@ -19,8 +21,20 @@ function PrayerBeaconLayout({ shareChristPageState }: IOnesLayout) {
     } else if (shareChristPageState == ShareChristPageState.EditPrayerBeacon) {
         Layout.push(<AddEditPrayerBeaconForm adding={false}/>);
     } else if (shareChristPageState == ShareChristPageState.SavePrayerBeacon) {
-        Layout.push(<View><Text>Saving...</Text></View>);
-    } else { // View All, View One
+        Layout.push(
+            <View>
+                <PageResponse title={'Saving Beacon'} 
+                              details={'Please wait...'}/>
+            </View>
+        );
+    } else if (shareChristPageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
+        Layout.push(
+            <View>
+                <PageResponse title={'Beacon successful!'} 
+                              details={'Your church community is praying for you. Please check in later.'}/>
+            </View>
+        );
+    } else { // View All, View One, Send Prayer Beacon
         Layout.push(<PrayerBeaconsList/>);
     }
 

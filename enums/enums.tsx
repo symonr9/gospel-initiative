@@ -24,6 +24,8 @@ export enum ShareChristPageState {
     AddPrayerBeacon = 6,
     EditPrayerBeacon = 7,
     SavePrayerBeacon = 8,
+    SendPrayerBeacon = 9,
+    ConfirmSendPrayerBeacon = 10
 }
 
 // Users
@@ -206,7 +208,12 @@ export enum AppIcon {
     Edit = "../assets/images/app-icons/edit.png",
     Plus = "../assets/images/app-icons/plus.png",
     Pencil = "../assets/images/app-icons/pencil.png",
-    Save = "../assets/images/app-icons/save.png"
+    Save = "../assets/images/app-icons/save.png",
+    Hide = "../assets/images/app-icons/hide.png",
+    Show = "../assets/images/app-icons/show.png",
+    Send = "../assets/images/app-icons/send.png",
+    Checkmark = "../assets/images/app-icons/checkmark.png",
+    Cancel = "../assets/images/app-icons/cancel.png",
 }
 
 export enum AvatarIcon {

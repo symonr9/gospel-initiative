@@ -149,3 +149,7 @@ export const PromptQuestions = {
         "How do you like to spend your time when you're alone?"
     ],
 };
+
+export const PrayerBeaconOptions = {
+    
+};

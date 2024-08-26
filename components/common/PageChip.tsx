@@ -12,7 +12,7 @@ export type IPageTag = ViewProps & {
     onClick?: Function;
 }
 
-export function PageTag({ iconSrc = null, title,
+export function PageChip({ iconSrc = null, title,
     onClick,
 }: IPageTag) {
     const onPress = (e: GestureResponderEvent) => {
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 6, // Shadow radius for a softer shadow
         elevation: 4,
-        marginTop: 12,
-        marginBottom: 12
+        marginTop: 4,
+        marginBottom: 4
     },
     icon: {
         width: 24,
