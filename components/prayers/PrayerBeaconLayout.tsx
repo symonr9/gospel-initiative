@@ -7,7 +7,6 @@ import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import PrayerBeaconsList from './PrayerBeaconsList';
 import { ShareChristPageState } from '@/enums/enums';
 import AddEditPrayerBeaconForm from './AddEditPrayerBeaconForm';
-import { PrayerBeaconDetails } from './PrayerBeaconDetails';
 import PageResponse from '../common/PageResponse';
 
 export type IOnesLayout = ViewProps & {

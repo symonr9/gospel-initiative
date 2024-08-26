@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 
 import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AppIcon, PrayerBeaconType } from '@/enums/enums';
+import { AppIcon, PrayerBeaconType, ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
@@ -16,9 +16,11 @@ export type IPrayerBeaconCard = ViewProps & {
   prayerBeacon: PrayerBeacon;
   selectedBeaconId: string | null;
   setSelectedBeaconId: Function;
+  shareChristPageState: ShareChristPageState;
 };
 
-export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId }: IPrayerBeaconCard) {
+export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId,
+  shareChristPageState }: IPrayerBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
   const isActive = prayerBeacon.type == PrayerBeaconType.Active;
@@ -42,6 +44,7 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
     }
     return (
       <PrayerBeaconDetails prayerBeacon={prayerBeacon}
+        shareChristPageState={shareChristPageState}
         selectedBeaconId={selectedBeaconId} />
     );
   }
@@ -59,7 +62,7 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
 
         <PageColumn>
           <ThemedText type={ThemedTextType.Subtitle}>
-            {prayerBeacon.name} { isActive && "(Active)"}
+            {prayerBeacon.name} {isActive && "(Active)"}
           </ThemedText>
           <ThemedText type={ThemedTextType.Default}>
             {prayerBeacon.message}

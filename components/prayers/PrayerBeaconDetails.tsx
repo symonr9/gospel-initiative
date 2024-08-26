@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 
 import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AppIcon, PrayerBeaconType } from '@/enums/enums';
+import { AppIcon, PrayerBeaconType, ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
@@ -17,12 +17,14 @@ import { PageChip } from '../common/PageChip';
 export type IPrayerBeaconCard = ViewProps & {
     prayerBeacon: PrayerBeacon;
     selectedBeaconId: string;
+    shareChristPageState: ShareChristPageState;
 };
 
-export function PrayerBeaconDetails({ prayerBeacon, selectedBeaconId }: IPrayerBeaconCard) {
+export function PrayerBeaconDetails({ shareChristPageState, prayerBeacon, selectedBeaconId }: IPrayerBeaconCard) {
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
     const isActive = prayerBeacon.type == PrayerBeaconType.Active;
+    const shouldConfirm = shareChristPageState == ShareChristPageState.SendPrayerBeacon;
 
     useEffect(() => {
         Animated.timing(bgColor, {

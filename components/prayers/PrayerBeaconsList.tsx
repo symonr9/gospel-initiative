@@ -45,13 +45,14 @@ function PrayerBeaconsList({ selectedOne, shareChristPageState, selectedBeaconId
 
     const renderItem = ({ item }: { item: PrayerBeacon }) => (
         <PrayerBeaconCard prayerBeacon={item}
+        shareChristPageState={shareChristPageState}
             setSelectedBeaconId={setSelectedBeaconId}
             selectedBeaconId={selectedBeaconId} />
     );
 
     const headerText = {
         title: shouldConfirm ? 'Send Beacon Confirmation?' : 'Prayer Beacons',
-        details: shouldConfirm ? 'Are you sure you want to send this beacon?' : 'Select a beacon to view and/or send.'
+        details: shouldConfirm ? `Are you sure you want to send this beacon?` : 'Select a beacon to view and/or send.'
     }
 
     return (

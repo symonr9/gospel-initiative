@@ -17,7 +17,11 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
+    CrimsonText: require('../assets/fonts/CrimsonText-Regular.ttf'),
+    Lato: require('../assets/fonts/Lato-Regular.ttf'),
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    CormorantGaramond: require('../assets/fonts/CormorantGaramond-Regular.ttf'),
+    DMSerifText: require('../assets/fonts/DMSerifText-Regular.ttf'),
   });
 
   useEffect(() => {
