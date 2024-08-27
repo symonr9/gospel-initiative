@@ -30,7 +30,6 @@ function ShareChrist({ page, shareChristPageState, error }: IShareChrist) {
 }
 
 const mapStateToProps = (state: any) => {
-    console.log('state; ', state);
     return {
         page: state.app.page,
         shareChristPageState: state.app.shareChristPageState,

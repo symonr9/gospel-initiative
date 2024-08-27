@@ -17,10 +17,11 @@ export type IPrayerBeaconCard = ViewProps & {
   selectedBeaconId: string | null;
   setSelectedBeaconId: Function;
   shareChristPageState: ShareChristPageState;
+  onlyActive: boolean;
 };
 
 export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId,
-  shareChristPageState }: IPrayerBeaconCard) {
+  shareChristPageState, onlyActive }: IPrayerBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
   const isActive = prayerBeacon.type == PrayerBeaconType.Active;
@@ -28,14 +29,14 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
   useEffect(() => {
     Animated.timing(bgColor, {
       toValue: isActive ? 1 : 0,
-      duration: 500,
+      duration: 400,
       useNativeDriver: false,
     }).start();
   }, [isActive]);
 
   const interpolatedBgColor = bgColor.interpolate({
     inputRange: [0, 1],
-    outputRange: ['white', 'lightgreen']
+    outputRange: ['white', 'whitesmoke']
   });
 
   if (selectedBeaconId != null) {
@@ -53,6 +54,8 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
     setSelectedBeaconId(prayerBeacon.id);
   };
 
+  const titleTextType = onlyActive ? ThemedTextType.DefaultSemiBold : ThemedTextType.Subtitle;
+
   return (
     <TouchableOpacity onPress={onPress}>
       <Animated.View style={[cardStyles.container, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
@@ -61,7 +64,7 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
           contentFit="contain" />
 
         <PageColumn>
-          <ThemedText type={ThemedTextType.Subtitle}>
+          <ThemedText type={titleTextType}>
             {prayerBeacon.name} {isActive && "(Active)"}
           </ThemedText>
           <ThemedText type={ThemedTextType.Default}>
@@ -76,6 +79,7 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
 const styles = StyleSheet.create({
   selectedContainer: {
     height: 800,
+    flex: 1,
   },
   icon: {
     margin: 8,

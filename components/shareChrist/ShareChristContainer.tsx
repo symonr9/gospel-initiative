@@ -17,14 +17,6 @@ export type IShareChristContainer = ViewProps & {
 };
 
 export function ShareChristContainer({ page, pageState }: IShareChristContainer) {
-    return (
-        <PageContainer>
-            {getBody(page, pageState)}
-        </PageContainer>
-    );
-}
-
-const getBody = (page: Page, pageState: ShareChristPageState) => {
     if (page == Page.OnesList) {
         if (pageState == ShareChristPageState.Edit) {
             return (

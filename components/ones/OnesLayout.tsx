@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import One from '@/models/one';
@@ -11,6 +11,12 @@ import ActionStepsList from './ActionStepsList';
 import OnesLayoutHeader from './OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
+import { PageColumn } from '../common/PageColumn';
+import { PageRow } from '../common/PageRow';
+import { PageContainer } from '../common/PageContainer';
+import PrayerBeaconsList from '../prayers/PrayerBeaconsList';
+import { ActiveBeaconsInfoCard } from '../prayers/ActiveBeaconsInfoCard';
+import { selectActivePrayerBeaconsByOneId } from '@/redux/selectors';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One,
@@ -19,6 +25,9 @@ export type IOnesLayout = ViewProps & {
 };
 
 function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
+    
+    const prayerBeacons = useSelector(selectActivePrayerBeaconsByOneId(selectedOne.id || ""));
+    
     if (!selectedOne) {
         return (
             <ThemedText type={ThemedTextType.Subtitle}>
@@ -31,10 +40,21 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
         <>
             <OnesLayoutHeader />
 
-            <ThemedView style={styles.container}>
-                <ActionStepsList />
-                <OneFactsList />
-            </ThemedView>
+            <PageContainer>
+                <PageColumn style={styles.container}>
+                    <ActionStepsList />
+                    <OneFactsList />
+                </PageColumn>
+
+                <PageRow spaceBetween>
+                    <ThemedView style={{ flex: 1 }}>
+                        <ThemedText type={ThemedTextType.Subtitle}>
+                            Test
+                        </ThemedText>
+                    </ThemedView>
+                    <ActiveBeaconsInfoCard activeBeacons={prayerBeacons} />
+                </PageRow>
+            </PageContainer>
         </>
     );
 }

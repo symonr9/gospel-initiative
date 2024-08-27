@@ -6,6 +6,7 @@ import One from '@/models/one';
 import Meeting from '@/models/meeting';
 import PrayerBeaconSettings from '@/models/prayerBeaconSettings';
 import User from '@/models/user';
+import { PrayerBeaconType } from '@/enums/enums';
 
 export const selectAllUsers = (state: any): User[] => state.users.users;
 export const selectAllOnes = (state: any): One[] => state.ones.ones;
@@ -47,7 +48,15 @@ export const selectPrayerBeaconsByOneId = (oneId: string) =>
       .sort((a, b) => b.priority - a.priority)
   );
 
-  // Selector to find a specific PrayerBeacon by ID
+export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
+  createSelector(
+    [selectAllPrayerBeacons],
+    (beacons) => beacons
+      .filter((beacon) => beacon.oneId === oneId && beacon.type === PrayerBeaconType.Active)
+      .sort((a, b) => b.priority - a.priority)
+  );
+
+// Selector to find a specific PrayerBeacon by ID
 export const selectPrayerBeaconById = (state: any, id: string): PrayerBeacon | undefined =>
   selectAllPrayerBeacons(state).find(beacon => beacon.id === id);
 
@@ -68,7 +77,7 @@ export const selectPrayerBeaconSettingsById = (state: any, id: string): PrayerBe
 
 export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
   const prayerBeacon = selectPrayerBeaconById(state, id);
-  
+
   if (!prayerBeacon) {
     return null; // or return an empty object, depending on your needs
   }

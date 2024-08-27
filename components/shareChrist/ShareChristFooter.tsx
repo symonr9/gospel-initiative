@@ -89,7 +89,8 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
     } else if (pageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
         return [
             getBackButton(() => {
-                setPageState(ShareChristPageState.PrayerBeacon);
+                setSelectedBeaconId(null);
+                setPageState(ShareChristPageState.Default);
             }),
         ];
     } else if ([

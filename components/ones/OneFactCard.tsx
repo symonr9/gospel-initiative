@@ -17,7 +17,7 @@ export function OneFactCard({ oneFact }: IOneFactCard) {
     return (
         <View style={styles.container}>
             <Image source={oneFact.icon} style={styles.icon} />
-            <ThemedText type={ThemedTextType.DefaultSemiBold}>
+            <ThemedText type={ThemedTextType.Default}>
                 {oneFact.notes}
             </ThemedText>
         </View>

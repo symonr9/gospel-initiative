@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import OnesLayoutHeader from '../ones/OnesLayoutHeader';
-import PrayerBeaconsList from './PrayerBeaconsList';
 import { ShareChristPageState } from '@/enums/enums';
 import AddEditPrayerBeaconForm from './AddEditPrayerBeaconForm';
 import PageResponse from '../common/PageResponse';
+import PrayerBeaconsList from './PrayerBeaconsList';
 
 export type IOnesLayout = ViewProps & {
     shareChristPageState: ShareChristPageState;
