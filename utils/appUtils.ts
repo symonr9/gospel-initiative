@@ -1,4 +1,5 @@
 import { AppIcon, OneFactType, OneStage, Priority, ShareChristPageState } from "@/enums/enums";
+import PrayerBeacon from "@/models/prayerBeacon";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
@@ -11,6 +12,19 @@ export function getTomorrow() {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
     return tomorrow;
+}
+
+export function isWithinNext24Hours(date: Date): boolean {
+    const now = new Date();
+    const future24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    return date && date > now && date <= future24Hours;
+}
+
+export function isBeaconActive(beacon: PrayerBeacon): boolean {
+    if (!beacon.activeUntil) {
+        return false;
+    }
+    return isWithinNext24Hours(beacon.activeUntil);
 }
 
 

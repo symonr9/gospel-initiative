@@ -2,37 +2,37 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { View, type ViewProps } from 'react-native';
 
-import { selectPromptsByUserId } from '@/redux/selectors';
-import User from '@/models/user';
+import { selectFirstPromptByUserId, selectPromptsByUserId } from '@/redux/selectors';
 import { AppIcon } from '@/enums/enums';
-import { SimpleBanner } from '../common/SimpleBanner';
+import { AnimatedBanner } from '../common/AnimatedBanner';
+import Prompt from '@/models/prompt';
 
 export type IPromptBanner = ViewProps & {
-    executor: User,
+    firstPrompt: Prompt,
 };
 
-function PromptBanner({ executor }: IPromptBanner) {
-    if (!executor) {
+function PromptBanner({ firstPrompt }: IPromptBanner) {
+    if (!firstPrompt) {
         return <></>;
     }
-
-    const prompts = useSelector(selectPromptsByUserId(executor.id));
-    if (!prompts || prompts.length === 0) {
-        return <></>;
-    }
-
-    const firstPrompt = prompts[0];
 
     return (
-        <SimpleBanner text={firstPrompt.response}
+        <AnimatedBanner text={firstPrompt.response}
                       iconSrc={AppIcon.Chat}
                       prefixText={firstPrompt.question}/>
     );
 }
 
-const mapStateToProps = (state: any) => ({
-    executor: state.users.executor
-});
+const mapStateToProps = (state: any) => {
+    const executor = state.users.executor;
+    if (!executor)
+        return {};
+
+    const firstPrompt = selectFirstPromptByUserId(state, executor.id);
+    return {
+        firstPrompt
+    };
+}
 
 const mapDispatchToProps = {
 

@@ -8,6 +8,8 @@ import PrayerBeaconSettings from '@/models/prayerBeaconSettings';
 import User from '@/models/user';
 import { PrayerBeaconType } from '@/enums/enums';
 import Prompt from '@/models/prompt';
+import Prayer from '@/models/prayer';
+import { isBeaconActive } from '@/utils/appUtils';
 
 export const selectExecutor = (state: any): User => state.users.executor;
 export const selectAllUsers = (state: any): User[] => state.users.users;
@@ -58,9 +60,14 @@ export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
   createSelector(
     [selectAllPrayerBeacons],
     (beacons) => beacons
-      .filter((beacon) => beacon.oneId === oneId && beacon.type === PrayerBeaconType.Active)
+      .filter((beacon) => {
+        console.log("bdf: ", beacon);
+        return beacon.oneId === oneId && isBeaconActive(beacon)})
       .sort((a, b) => b.priority - a.priority)
   );
+
+export const selectAllActivePrayerBeacons = (state: any): PrayerBeacon[] =>
+  selectAllPrayerBeacons(state).filter(beacon => isBeaconActive(beacon));
 
 export const selectPrayerBeaconById = (state: any, id: string): PrayerBeacon | undefined =>
   selectAllPrayerBeacons(state).find(beacon => beacon.id === id);
@@ -113,13 +120,13 @@ export const selectMeetingById = (state: any, id: string): Meeting | undefined =
 
 // Prompts
 
-export const selectPromptsByUserId = (userId: string) =>
-  createSelector(
-    [selectAllPrompts],
-    (prompts) => prompts
-      .filter((prompt) => { return prompt.userId === userId })
-      .sort((a, b) => b.order > a.order ? 1 : 0)
-  );
+export const selectPromptsByUserId = (state: any, userId: string): Prompt[] =>
+  selectAllPrompts(state).filter(prompt => prompt.userId === userId);
+
+export const selectFirstPromptByUserId = createSelector(
+  [selectPromptsByUserId],
+  (prompts) => prompts.length > 0 ? prompts[0] : undefined
+);
 
 // Mixed
 
@@ -129,7 +136,7 @@ export const selectFirstOneAndActionStepsByUserId = createSelector(
     if (!firstOne) {
       return { firstOne: undefined, actionSteps: [] };
     }
-    
+
     const actionSteps = selectActionStepsByOneId(state, firstOne.id);
     return { firstOne, actionSteps };
   }

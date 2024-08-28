@@ -6,7 +6,7 @@ import { ThemedText, ThemedTextType } from './ThemedText';
 import { flexStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 
-export type ISimpleBanner = {
+export type IAnimatedBanner = {
     iconSrc: string | null;
     prefixText?: string | null;
     text: string;
@@ -17,9 +17,9 @@ export type ISimpleBanner = {
     textDelay?: number;
 }
 
-export function SimpleBanner({ iconSrc = null, prefixText = null, text, onClick,
+export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClick,
     bannerDuration = 200, bannerDelay = 0, textDuration = 200, textDelay = 400
- }: ISimpleBanner) {
+ }: IAnimatedBanner) {
     const onPress = (e) => {
         if (onClick) {
             e.stopPropagation();

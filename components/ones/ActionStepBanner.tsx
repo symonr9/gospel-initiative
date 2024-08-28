@@ -5,7 +5,7 @@ import { View, type ViewProps } from 'react-native';
 import { selectFirstOneAndActionStepsByUserId, selectOnesByUserId } from '@/redux/selectors';
 import User from '@/models/user';
 import { AppIcon } from '@/enums/enums';
-import { SimpleBanner } from '../common/SimpleBanner';
+import { AnimatedBanner } from '../common/AnimatedBanner';
 import ActionStep from '@/models/actionStep';
 import One from '@/models/one';
 
@@ -26,7 +26,7 @@ function ActionStepBanner({ firstOne, actionSteps }: IActionStepBanner) {
     const firstActionStep = actionSteps[0];
 
     return (
-        <SimpleBanner text={firstActionStep.notes}
+        <AnimatedBanner text={firstActionStep.notes}
                       iconSrc={AppIcon.Chat}
                       bannerDelay={400}
                       textDelay={600}
