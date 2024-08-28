@@ -1,8 +1,8 @@
 
 import { ActionStepType, AvatarIcon, OneStage, PrayerBeaconType, PrayerType, ShareChristPageState } from '@/enums/enums';
 import One from '@/models/one';
-import { updateBeacon, setSelectedBeaconId, setBeaconType } from '@/redux/actions';
-import { selectPrayerBeaconById } from '@/redux/selectors';
+import {  setSelectedBeaconId, setBeaconActiveUntil } from '@/redux/actions';
+import { getTomorrow } from '@/utils/appUtils';
 import React, { useState, useEffect } from 'react';
 
 import { connect, useSelector } from 'react-redux';
@@ -11,15 +11,15 @@ export type IAppStateManager = {
     shareChristPageState: ShareChristPageState;
     selectedBeaconId: string | null;
     setSelectedBeaconId: Function;
-    setBeaconType: Function;
+    setBeaconActiveUntil: Function;
 };
 
-function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBeaconId, setBeaconType }: IAppStateManager) {
+function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBeaconId, setBeaconActiveUntil }: IAppStateManager) {
 
     useEffect(() => {
         console.log("shareChristPageState: ", shareChristPageState);
         if (selectedBeaconId != null && shareChristPageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
-            setBeaconType(selectedBeaconId, PrayerBeaconType.Active);
+            setBeaconActiveUntil(selectedBeaconId, getTomorrow());
             setSelectedBeaconId(null);
         }
     }, [shareChristPageState]);
@@ -34,7 +34,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
     setSelectedBeaconId,
-    setBeaconType
+    setBeaconActiveUntil
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppStateManager);

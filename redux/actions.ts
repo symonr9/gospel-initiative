@@ -42,7 +42,7 @@ export enum Action {
     SetSelectedOne = "SET_SELECTED_ONE",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
     UpdateBeacon = "UPDATE_BEACON",
-    SetBeaconType = "SET_BEACON_TYPE",
+    SetBeaconActiveUntil = "SET_BEACON_ACTIVE_UNTIL",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -107,9 +107,9 @@ export const setSelectedBeaconId = (item: string) => ({
     payload: item,
 });
 
-export const setBeaconType = (id: string, type: PrayerBeaconType) => ({
-    type: Action.SetBeaconType,
-    payload: { id, type },
+export const setBeaconActiveUntil = (id: string, date: Date | undefined) => ({
+    type: Action.SetBeaconActiveUntil,
+    payload: { id, date },
 });
 
 export const updateBeacon = (item: PrayerBeacon) => ({

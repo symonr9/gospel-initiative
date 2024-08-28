@@ -46,8 +46,7 @@ export enum PrayerType {
 
 export enum PrayerBeaconType {
     Normal = 1,
-    Active = 2,
-    Archived = 3,
+    Archived = 2,
 };
 
 // Meetings

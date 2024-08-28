@@ -29,14 +29,14 @@ export function prayersReducer(state = initialState, action: ActionPackage) {
             return update(state, {
                 selectedBeaconId: { $set: action.payload }
             });
-        case Action.SetBeaconType:
-            const { id, type } = action.payload;
+        case Action.SetBeaconActiveUntil:
+            const { id, date } = action.payload;
             const setBeaconTypeIdx = state.prayerBeacons.findIndex(beacon => beacon.id === id);
             if (setBeaconTypeIdx !== -1) {
                 return update(state, {
                     prayerBeacons: {
                         [setBeaconTypeIdx]: {
-                            type: { $set: type }
+                            activeUntil: { $set: date }
                         }
                     }
                 });

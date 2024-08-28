@@ -6,6 +6,13 @@ export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
     return enumKey ? enumKey.replace(/([a-z])([A-Z])/g, '$1 $2') : '';
 }
 
+export function getTomorrow() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    return tomorrow;
+}
+
 
 export const getShowHideIcon = (show: boolean) => show ? AppIcon.Show : AppIcon.Hide;
 
