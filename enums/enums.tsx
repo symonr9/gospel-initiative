@@ -217,7 +217,13 @@ export enum AppIcon {
     Send = "../assets/images/app-icons/send.png",
     Checkmark = "../assets/images/app-icons/checkmark.png",
     Cancel = "../assets/images/app-icons/cancel.png",
+    Chart = "../assets/images/app-icons/chart.png",
+    Search = "../assets/images/app-icons/search.png",
     Chat = "../assets/images/app-icons/chat.png",
+    ShieldSecure = "../assets/images/app-icons/shieldSecure.png",
+    WirelessSignal = "../assets/images/app-icons/wirelessSignal.png",
+    Lock = "../assets/images/app-icons/lock.png",
+    Trash = "../assets/images/app-icons/trash.png"
 }
 
 export enum AvatarIcon {
