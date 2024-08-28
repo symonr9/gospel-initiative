@@ -159,7 +159,8 @@ export function getPrayerBeaconsFromJson() {
             targetDate: item.targetDate ? new Date(item.targetDate) : undefined,
             priority: item.priority,
             type: type,
-            settingsId: item.settingsId
+            settingsId: item.settingsId,
+            activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
         }
     });
 }

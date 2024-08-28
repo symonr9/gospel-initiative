@@ -14,7 +14,8 @@
         "targetDate": "2024-10-01T00:00:00Z",
         "priority": 2,
         "type": 1,
-        "settingsId": "beaconSettings1"
+        "settingsId": "beaconSettings1",
+        "activeUntil": null
     },
     {
         "id": "beacon2",
@@ -31,6 +32,7 @@
         "targetDate": "2024-10-01T00:00:00Z",
         "priority": 3,
         "type": 2,
-        "settingsId": "beaconSettings1"
+        "settingsId": "beaconSettings1",
+        "activeUntil": null
     }
 ]
