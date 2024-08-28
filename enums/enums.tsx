@@ -168,6 +168,10 @@ export enum StoryChapterType {
 
 // Prompt
 
+export enum PromptType {
+    Normal = 1,
+};
+
 // Journal
 
 export enum JournalEntryType {
@@ -214,6 +218,7 @@ export enum AppIcon {
     Send = "../assets/images/app-icons/send.png",
     Checkmark = "../assets/images/app-icons/checkmark.png",
     Cancel = "../assets/images/app-icons/cancel.png",
+    Chat = "../assets/images/app-icons/chat.png",
 }
 
 export enum AvatarIcon {

@@ -21,8 +21,6 @@ function ShareChrist({ page, shareChristPageState, error }: IShareChrist) {
 
     return (
         <PageView>
-            <PageHeader title={"Share Christ"} />
-
             <ShareChristContainer page={page} pageState={shareChristPageState} />
             <ShareChristFooter page={page} pageState={shareChristPageState} />
         </PageView>

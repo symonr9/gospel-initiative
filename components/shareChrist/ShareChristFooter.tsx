@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { AppIcon, Page, PrayerType, ShareChristPageState } from '@/enums/enums';
-import NavigateToOnesCard from '../ones/NavigateToOnesCard';
-import NavigateToPrayersCard from '../prayers/NavigateToPrayersCard';
+import NavigateToOnesButton from '../ones/NavigateToOnesButton';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { openPage, setSelectedBeaconId, setShareChristPageState } from '@/redux/actions';
+import NavigateToPrayersButton from '../prayers/NavigateToPrayersButton';
 
 export type IShareChristFooter = ViewProps & {
     page: Page;
@@ -198,8 +198,8 @@ const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function,
 
 const getDefaultItems = () => {
     return [
-        <NavigateToPrayersCard typeToOpen={PrayerType.ForOne} />,
-        <NavigateToOnesCard />
+        <NavigateToPrayersButton typeToOpen={PrayerType.ForOne} />,
+        <NavigateToOnesButton />
     ];
 }
 

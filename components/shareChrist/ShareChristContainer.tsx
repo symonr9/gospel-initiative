@@ -4,12 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { AnimatedPageSection } from '../common/AnimatedPageSection';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { Page, ShareChristPageState } from '@/enums/enums';
-import { PageContainer } from '../common/PageContainer';
 import OnesLayout from '../ones/OnesLayout';
 import PrayerBeaconLayout from '../prayers/PrayerBeaconLayout';
+import ShareChristHomeLayout from './ShareChristHomeLayout';
 
 export type IShareChristContainer = ViewProps & {
     page: Page,
@@ -41,9 +39,7 @@ export function ShareChristContainer({ page, pageState }: IShareChristContainer)
     }
 
     return (
-        <ThemedText type={ThemedTextType.Subtitle}>
-            Share Christ
-        </ThemedText>
+        <ShareChristHomeLayout/>
     );
 }
 

@@ -8,6 +8,7 @@ interface IOne {
     nextMeetingAt: Date | undefined;
     prayingSince: Date | undefined;
     hidden: boolean;
+    userId: string;
 }
 
 export default class One implements IOne {
@@ -18,10 +19,11 @@ export default class One implements IOne {
     nextMeetingAt: Date | undefined;
     prayingSince: Date | undefined;
     hidden: boolean;
+    userId: string;
     
     constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
         nextMeetingAt: Date | undefined, prayingSince: Date | undefined,
-        hidden: boolean
+        hidden: boolean, userId: string
     ) {
         this.id = id;
         this.name = name;
@@ -30,6 +32,7 @@ export default class One implements IOne {
         this.nextMeetingAt = nextMeetingAt;
         this.prayingSince = prayingSince;
         this.hidden = hidden;
+        this.userId = userId;
     }
 
 }

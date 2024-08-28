@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
-import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import One from '@/models/one';
 import OneFactsList from './OneFactsList';

@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -123,7 +123,8 @@ export function getOnesFromJson() {
             stage,
             item.nextMeetingAt ? new Date(item.nextMeetingAt) : undefined,
             item.prayingSince ? new Date(item.prayingSince) : undefined,
-            false
+            false,
+            item.userId
         );
     });
 }
@@ -197,14 +198,13 @@ export function getPreferencesFromJson() {
 
 export function getPromptsFromJson() {
     return promptsJson.map(item => {
-        const icon = AppIcon[item.icon as keyof typeof AppIcon];
+        const type: PromptType = item.type as PromptType;
         return {
             id: item.id,
             userId: item.userId,
-            title: item.title,
-            notes: item.notes,
-            icon: icon,
-            order: item.order            
+            question: item.question,
+            response: item.response,
+            type: type       
         };
     });
 }
@@ -212,7 +212,6 @@ export function getPromptsFromJson() {
 export function getOneFactsFromJson() {
     return onesFactsJson.map(item => {        
         const type: OneFactType = item.type as OneFactType;
-
         return {
             id: item.id,
             notes: item.notes,

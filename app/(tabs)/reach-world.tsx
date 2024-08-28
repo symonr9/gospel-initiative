@@ -6,7 +6,7 @@ import PageView from '@/components/common/PageView';
 import PageHeader from '@/components/common/PageHeader';
 import { PageColumn } from '@/components/common/PageColumn';
 import { PageRow } from '@/components/common/PageRow';
-import NavigateToPrayersCard from '@/components/prayers/NavigateToPrayersCard';
+import NavigateToPrayersButton from '@/components/prayers/NavigateToPrayersButton';
 import { PrayerType } from '@/enums/enums';
 
 export type IReachWorld = ViewProps & {
@@ -22,7 +22,7 @@ function ReachWorld({ }: IReachWorld) {
           <PageHeader title={"Reach the World"} />
         </PageRow>
         <PageRow spaceBetween>
-          <NavigateToPrayersCard typeToOpen={PrayerType.ForTheWorld} />
+          <NavigateToPrayersButton typeToOpen={PrayerType.ForTheWorld} />
         </PageRow>
       </PageColumn>
 

@@ -20,6 +20,8 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
     useEffect(() => {
         console.log("First time page load");
         
+        const usersJson = JsonFunctions.getUsersFromJson();
+
         loadServerData({
             localEvents: [],
             localMinistries: [],
@@ -34,10 +36,11 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             prayerBeacons: JsonFunctions.getPrayerBeaconsFromJson(),
             prayerBeaconSettings: JsonFunctions.getPrayerBeaconSettingsFromJson(),
             prayerRequests: [],
-            prompts: [],
+            prompts: JsonFunctions.getPromptsFromJson(),
             stories: [],
             storyChapters: [],
-            users: [],
+            users: usersJson,
+            executor: usersJson[0]
         });
     }, []);
 

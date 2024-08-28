@@ -3,18 +3,21 @@
       "id": "user1",
       "name": "John Doe",
       "email": "john.doe@example.com",
-      "role": "Leader"
+      "role": "Leader",
+      "createdAt": "2024-08-19T08:00:00Z"
     },
     {
       "id": "user2",
       "name": "Alice Johnson",
       "email": "alice.johnson@example.com",
-      "role": "Admin"
+      "role": "Admin",
+      "createdAt": "2024-08-19T08:00:00Z"
     },
     {
       "id": "user3",
       "name": "Michael Brown",
       "email": "michael.brown@example.com",
-      "role": "Normal"
+      "role": "Normal",
+      "createdAt": "2024-08-19T08:00:00Z"
     }
   ]

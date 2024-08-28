@@ -7,7 +7,9 @@ import Meeting from '@/models/meeting';
 import PrayerBeaconSettings from '@/models/prayerBeaconSettings';
 import User from '@/models/user';
 import { PrayerBeaconType } from '@/enums/enums';
+import Prompt from '@/models/prompt';
 
+export const selectExecutor = (state: any): User => state.users.executor;
 export const selectAllUsers = (state: any): User[] => state.users.users;
 export const selectAllOnes = (state: any): One[] => state.ones.ones;
 export const selectAllOneFacts = (state: any): OneFact[] => state.ones.oneFacts;
@@ -15,6 +17,9 @@ export const selectAllActionSteps = (state: any): ActionStep[] => state.ones.act
 export const selectAllMeetings = (state: any): Meeting[] => state.ones.meetings;
 export const selectAllPrayerBeacons = (state: any): PrayerBeacon[] => state.prayers.prayerBeacons;
 export const selectAllPrayerBeaconSettings = (state: any): PrayerBeaconSettings[] => state.prayers.prayerBeaconSettings;
+export const selectAllPrompts = (state: any): Prompt[] => state.prompts.prompts;
+
+// One Facts
 
 export const selectOneFactsByOneId = (oneId: string) =>
   createSelector(
@@ -25,12 +30,13 @@ export const selectOneFactsByOneId = (oneId: string) =>
   );
 
 
-export const selectActionStepsByOneId = (oneId: string) =>
-  createSelector(
-    [selectAllActionSteps],
-    (actionSteps) => actionSteps.filter((actionStep) => actionStep.oneId === oneId)
-  );
+// Action Steps 
 
+export const selectActionStepsByOneId = (state: any, oneId: string): ActionStep[] =>
+  selectAllActionSteps(state).filter(actionStep => actionStep.oneId === oneId);
+
+
+// Prayer beacons 
 
 export const selectPrayerBeaconsByUserId = (userId: string) =>
   createSelector(
@@ -56,21 +62,8 @@ export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
       .sort((a, b) => b.priority - a.priority)
   );
 
-// Selector to find a specific PrayerBeacon by ID
 export const selectPrayerBeaconById = (state: any, id: string): PrayerBeacon | undefined =>
   selectAllPrayerBeacons(state).find(beacon => beacon.id === id);
-
-// Selector to find a specific User by ID
-export const selectUserById = (state: any, id: string): User | undefined =>
-  selectAllUsers(state).find(user => user.id === id);
-
-// Selector to find a specific One by ID
-export const selectOneById = (state: any, id: string): One | undefined =>
-  selectAllOnes(state).find(one => one.id === id);
-
-// Selector to find a specific Meeting by ID
-export const selectMeetingById = (state: any, id: string): Meeting | undefined =>
-  selectAllMeetings(state).find(meeting => meeting.id === id);
 
 export const selectPrayerBeaconSettingsById = (state: any, id: string): PrayerBeaconSettings | undefined =>
   selectAllPrayerBeaconSettings(state).find(settings => settings.id === id);
@@ -95,3 +88,49 @@ export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
     settings
   };
 };
+
+// Users
+export const selectUserById = (state: any, id: string): User | undefined =>
+  selectAllUsers(state).find(user => user.id === id);
+
+
+// One
+export const selectOneById = (state: any, id: string): One | undefined =>
+  selectAllOnes(state).find(one => one.id === id);
+
+export const selectOnesByUserId = (state: any, userId: string): One[] =>
+  selectAllOnes(state).filter(one => one.userId === userId);
+
+export const selectFirstOneByUserId = createSelector(
+  [selectOnesByUserId],
+  (ones) => ones.length > 0 ? ones[0] : undefined
+);
+
+// Meetings
+
+export const selectMeetingById = (state: any, id: string): Meeting | undefined =>
+  selectAllMeetings(state).find(meeting => meeting.id === id);
+
+// Prompts
+
+export const selectPromptsByUserId = (userId: string) =>
+  createSelector(
+    [selectAllPrompts],
+    (prompts) => prompts
+      .filter((prompt) => { return prompt.userId === userId })
+      .sort((a, b) => b.order > a.order ? 1 : 0)
+  );
+
+// Mixed
+
+export const selectFirstOneAndActionStepsByUserId = createSelector(
+  [selectFirstOneByUserId, (state, userId) => state],
+  (firstOne, state) => {
+    if (!firstOne) {
+      return { firstOne: undefined, actionSteps: [] };
+    }
+    
+    const actionSteps = selectActionStepsByOneId(state, firstOne.id);
+    return { firstOne, actionSteps };
+  }
+);

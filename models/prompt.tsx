@@ -1,31 +1,28 @@
-import { AppIcon } from "@/enums/enums";
+import { AppIcon, PromptType } from "@/enums/enums";
 
 interface IPrompt {
     id: string;
     userId: string;
-    title: string;
-    notes: string;
-    icon: AppIcon;
-    order: number;
+    question: string;
+    response: string;
+    type: PromptType;
 }
 
 export default class Prompt implements IPrompt {
     id: string;
     userId: string;
-    title: string;
-    notes: string;
-    icon: AppIcon;
-    order: number;
+    question: string;
+    response: string;
+    type: PromptType;
     
-    constructor(id: string, userId: string, title: string,
-        notes: string, icon: AppIcon, order: number
+    constructor(id: string, userId: string, question: string,
+        response: string, type: PromptType
     ) {
         this.id = id;
         this.userId = userId;
-        this.title = title;
-        this.notes = notes;
-        this.icon = icon;
-        this.order = order;
+        this.question = question;
+        this.response = response;
+        this.type = type;
     }
 
 }

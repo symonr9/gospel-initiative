@@ -6,10 +6,10 @@ import { View, type ViewProps } from 'react-native';
 
 import { AppIcon, Page, PrayerType } from '@/enums/enums';
 import Prayer from '@/models/prayer';
-import { SimpleCard } from '../common/SimpleCard';
 import { openPage, setActivePrayerType } from '@/redux/actions';
+import SimpleIconButton from '../common/SimpleIconButton';
 
-export type INavigateToPrayersCard = ViewProps & {
+export type INavigateToPrayersButton = ViewProps & {
     typeToOpen: PrayerType,
 
     // Redux
@@ -18,8 +18,8 @@ export type INavigateToPrayersCard = ViewProps & {
     setActivePrayerType: (type: PrayerType) => void;
 };
 
-function NavigateToPrayersCard({ typeToOpen, prayers,
-    openPage, setActivePrayerType }: INavigateToPrayersCard) {
+function NavigateToPrayersButton({ typeToOpen, prayers,
+    openPage, setActivePrayerType }: INavigateToPrayersButton) {
 
     const onClick = () => {
         setActivePrayerType(typeToOpen);
@@ -27,9 +27,9 @@ function NavigateToPrayersCard({ typeToOpen, prayers,
     }
 
     return (
-        <SimpleCard iconSrc={AppIcon.Man1}
-            title={'Prayers'}
-            onClick={onClick} />
+        <SimpleIconButton iconSrc={AppIcon.Prayer}
+                          title={'Prayers'}
+                          onClick={onClick} />
     );
 }
 
@@ -42,4 +42,4 @@ const mapDispatchToProps = {
     setActivePrayerType
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigateToPrayersCard);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigateToPrayersButton);

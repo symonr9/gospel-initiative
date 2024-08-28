@@ -9,7 +9,7 @@ import { ThemedView } from '@/components/common/ThemedView';
 import PageHeader from '@/components/common/PageHeader';
 import { PageColumn } from '@/components/common/PageColumn';
 import { PageRow } from '@/components/common/PageRow';
-import NavigateToPrayersCard from '@/components/prayers/NavigateToPrayersCard';
+import NavigateToPrayersButton from '@/components/prayers/NavigateToPrayersButton';
 import { PrayerType } from '@/enums/enums';
 
 export type ILoveCity = ViewProps & {
@@ -25,7 +25,7 @@ function LoveCity({ }: ILoveCity) {
         </PageRow>
 
         <PageRow spaceBetween>
-          <NavigateToPrayersCard typeToOpen={PrayerType.ForCityMinistry} />
+          <NavigateToPrayersButton typeToOpen={PrayerType.ForCityMinistry} />
         </PageRow>
 
       </PageColumn>

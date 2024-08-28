@@ -11,11 +11,11 @@ export type IAddEditPrayerForm = ViewProps & {
     prayer: Prayer;
 };
 
-function AddEditPrayerForm({ style, prayer, ...otherProps }: IAddEditPrayerForm) {
+function AddEditPrayerForm({ style, prayer }: IAddEditPrayerForm) {
     const backgroundColor = useBackgroundThemeColor();
 
     return (
-        <View style={[{ backgroundColor }, style]} {...otherProps}>
+        <View style={[{ backgroundColor }, style]}>
 
         </View>
     );

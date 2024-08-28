@@ -17,16 +17,16 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { isEditing } from '@/utils/appUtils';
 import { listStyles } from '@/styles/Styles';
 
+
 export type IActionStepsList = ViewProps & {
-    selectedOne: One;
+    actionSteps: ActionStep[];
     shareChristPageState: ShareChristPageState;
     
     setShareChristPageState: Function;
 };
 
-function ActionStepsList({ selectedOne, shareChristPageState, 
+function ActionStepsList({ actionSteps, shareChristPageState, 
     setShareChristPageState }: IActionStepsList) {
-    const actionSteps = useSelector(selectActionStepsByOneId(selectedOne.id));
     const editing = isEditing(shareChristPageState);
 
     const renderItem = ({ item }: { item: ActionStep }) => (
@@ -62,10 +62,14 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = (state: any) => ({
-    selectedOne: state.ones.selectedOne,
-    shareChristPageState: state.app.shareChristPageState,
-});
+const mapStateToProps = (state: any) => {
+    const selectedOne = state.ones.selectedOne;
+    const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
+    return {
+      actionSteps,
+      shareChristPageState: state.app.shareChristPageState
+    };
+};
 
 
 const mapDispatchToProps = {

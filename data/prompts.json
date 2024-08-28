@@ -1,33 +1,10 @@
 [
     {
       "id": "prompt1",
-      "question": "What has God been teaching you lately?",
-      "example": "I've been learning to trust in God's timing.",
-      "category": "DevotionalLife"
-    },
-    {
-      "id": "prompt2",
-      "question": "How are you growing in your prayer life?",
-      "example": "I've started praying more intentionally for others.",
-      "category": "SpiritualGrowth"
-    },
-    {
-      "id": "prompt3",
-      "question": "In what ways have you seen God's provision?",
-      "example": "God provided for my financial needs in a miraculous way.",
-      "category": "Testimony"
-    },
-    {
-      "id": "prompt4",
-      "question": "How do you see God at work in your community?",
-      "example": "I've seen God bringing people together to serve the homeless.",
-      "category": "Missions"
-    },
-    {
-      "id": "prompt5",
-      "question": "What scriptures have been impactful for you recently?",
-      "example": "Psalm 23 has been a source of comfort and guidance.",
-      "category": "ScriptureReflection"
+      "userId": "user1",
+      "question": "What did you do this weekend?",
+      "response": "I was at church! The message was really good...",
+      "type": 1
     }
   ]
   

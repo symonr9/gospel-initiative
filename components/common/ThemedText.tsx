@@ -8,7 +8,8 @@ export enum ThemedTextType {
   Title = 'title',
   DefaultSemiBold = 'defaultSemiBold',
   Subtitle = 'subtitle',
-  Link = 'link'
+  Link = 'link',
+  Prefix = 'prefix'
 };
 
 export type ThemedTextProps = TextProps & {
@@ -36,6 +37,7 @@ export function ThemedText({
         type === ThemedTextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
         type === ThemedTextType.Subtitle ? styles.subtitle : undefined,
         type === ThemedTextType.Link ? styles.link : undefined,
+        type === ThemedTextType.Prefix ? styles.prefix : undefined,
         style,
       ]}
       {...rest}
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     lineHeight: 32,
-    fontFamily: 'DMSerifText'
   },
   subtitle: {
     fontSize: 24,
@@ -69,4 +70,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0a7ea4',
   },
+  prefix: {
+    fontSize: 14,
+    color: '#5b5b5b',
+    fontStyle: 'italic'
+  }
 });

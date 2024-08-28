@@ -120,7 +120,7 @@ function getScaleTransformObj(animations: any, index: number) {
   return {
     scale: animations.current[index].interpolate({
       inputRange: [0, 1],
-      outputRange: [0.8, 1], // Scale up
+      outputRange: [0.5, 1], // Scale up
     }),
   };
 }
@@ -138,6 +138,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   card: {
-    flex: 1,
+    flex: 2,
   },
 });
