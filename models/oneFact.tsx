@@ -1,5 +1,4 @@
 import { AppIcon, Priority, OneFactType } from "@/enums/enums";
-import { mapOneFactTypeToAppIcon } from "@/utils/appUtils";
 
 interface IOneFact {
     id: string;
