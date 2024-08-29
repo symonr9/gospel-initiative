@@ -61,7 +61,9 @@ export function getLeadersJson() {
             id: item.id,
             name: item.name,
             details: item.details,
-            type: type
+            type: type,
+            email: item.email,
+            phone: item.phone
         };
     });
 }

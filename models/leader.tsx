@@ -5,6 +5,8 @@ interface ILeader {
     name: string;
     details: string;
     type: LeaderType;
+    email: string;
+    phone: string;
 }
 
 export default class Leader implements ILeader {
@@ -12,13 +14,18 @@ export default class Leader implements ILeader {
     name: string;
     details: string;
     type: LeaderType;
+    email: string;
+    phone: string;
 
-    constructor(id: string, name: string, details: string, type: LeaderType
+    constructor(id: string, name: string, details: string, type: LeaderType,
+        email: string, phone: string
     ) {
         this.id = id;
         this.name = name;
         this.details = details;
         this.type = type;
+        this.email = email;
+        this.phone = phone;
     }
 
 }
