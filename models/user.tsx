@@ -1,4 +1,4 @@
-import { Role } from "@/enums/enums";
+import { AppIcon, AvatarIcon, Role } from "@/enums/enums";
 
 interface IUser {
   id: string;
@@ -6,6 +6,10 @@ interface IUser {
   email: string;
   role: Role; // Enum for roles
   createdAt: Date;
+  icon: AvatarIcon;
+
+  // Add another class 'activity', // name, volunteer hours, (icon generates from name), date
+  // Goals Class - measured by action steps, activities, etc.
 }
 
 export default class User implements IUser {
@@ -14,13 +18,15 @@ export default class User implements IUser {
     email: string;
     role: Role;
     createdAt: Date;
+    icon: AvatarIcon;
   
-    constructor(id: string, name: string, email: string, role: Role) {
+    constructor(id: string, name: string, email: string, role: Role, icon: AvatarIcon) {
       this.id = id;
       this.name = name;
       this.email = email;
       this.role = role;
       this.createdAt = new Date();
+      this.icon = icon;
     }
   
     displayUser(): string {

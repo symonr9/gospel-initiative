@@ -4,20 +4,23 @@
       "name": "John Doe",
       "email": "john.doe@example.com",
       "role": "Leader",
-      "createdAt": "2024-08-19T08:00:00Z"
+      "createdAt": "2024-08-19T08:00:00Z",
+      "icon": "Man4"
     },
     {
       "id": "user2",
       "name": "Alice Johnson",
       "email": "alice.johnson@example.com",
       "role": "Admin",
-      "createdAt": "2024-08-19T08:00:00Z"
+      "createdAt": "2024-08-19T08:00:00Z",
+      "icon": "Woman2"
     },
     {
       "id": "user3",
       "name": "Michael Brown",
       "email": "michael.brown@example.com",
       "role": "Normal",
-      "createdAt": "2024-08-19T08:00:00Z"
+      "createdAt": "2024-08-19T08:00:00Z",
+      "icon": "Man5"
     }
   ]

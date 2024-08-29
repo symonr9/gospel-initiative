@@ -254,13 +254,15 @@ export function getStoryChaptersFromJson() {
 
 export function getUsersFromJson() {
     return usersJson.map(item => {
+        const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
         const role: Role = item.type as Role;
         return {
             id: item.id,
             name: item.name,
             email: item.email,
             role: role,
-            createdAt: item.createdAt ? new Date(item.createdAt) : undefined,   
+            createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
+            icon: icon
         };
     });
 }
