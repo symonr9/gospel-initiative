@@ -8,7 +8,6 @@ interface IUser {
   createdAt: Date;
   icon: AvatarIcon;
 
-  // Add another class 'activity', // name, volunteer hours, (icon generates from name), date
   // Goals Class - measured by action steps, activities, etc.
 }
 

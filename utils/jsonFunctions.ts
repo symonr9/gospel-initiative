@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, ActivityType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -272,6 +272,7 @@ export function getUsersFromJson() {
 
 export function getActivitiesFromJson() {
     return activitiesJson.map(item => {
+        const type: ActivityType = item.type as ActivityType;
         return {
             id: item.id,
             name: item.name,
@@ -279,7 +280,10 @@ export function getActivitiesFromJson() {
             date: item.date ? new Date(item.date) : undefined,
             localEventId: item.localEventId,
             localMinistryId: item.localMinistryId,
-            missionsTripId: item.missionsTripId
+            missionsTripId: item.missionsTripId,
+            userId: item.userId,
+            beaconId: item.beaconId,
+            type: item.type
         };
     });
 }
