@@ -7,6 +7,7 @@ import { storiesReducer } from './stories';
 import { promptsReducer } from './prompts';
 import { appReducer } from './app';
 import { preferencesReducer } from './preferences';
+import { activitiesReducer } from './activities';
 
 export const rootReducer = combineReducers({
     app: appReducer,
@@ -16,5 +17,6 @@ export const rootReducer = combineReducers({
     ones: onesReducer,
     stories: storiesReducer,
     prompts: promptsReducer,
-    preferences: preferencesReducer
+    preferences: preferencesReducer,
+    activities: activitiesReducer
 });

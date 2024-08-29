@@ -40,7 +40,8 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             stories: [],
             storyChapters: [],
             users: usersJson,
-            executor: usersJson[0]
+            executor: usersJson[0],
+            activities: JsonFunctions.getActivitiesFromJson()
         });
     }, []);
 

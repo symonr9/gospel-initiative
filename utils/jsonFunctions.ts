@@ -24,6 +24,7 @@ const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
 const storyChaptersJson = require('../data/story-chapters.json');
 const usersJson = require('../data/users.json');
+const activitiesJson = require('../data/activities.json');
 
 export function getActionStepsJson() {
     return actionStepsJson.map(item => {
@@ -263,6 +264,20 @@ export function getUsersFromJson() {
             role: role,
             createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
             icon: icon
+        };
+    });
+}
+
+export function getActivitiesFromJson() {
+    return activitiesJson.map(item => {
+        return {
+            id: item.id,
+            name: item.name,
+            hours: item.hours,
+            date: item.date ? new Date(item.date) : undefined,
+            localEventId: item.localEventId,
+            localMinistryId: item.localMinistryId,
+            missionsTripId: item.missionsTripId
         };
     });
 }
