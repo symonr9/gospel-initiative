@@ -5,12 +5,10 @@ import { Image } from 'expo-image';
 import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { AppIcon, PrayerBeaconType, ShareChristPageState } from '@/enums/enums';
-import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
-import { useSelector } from 'react-redux';
-import { selectPrayerBeaconDetailsById } from '@/redux/selectors';
 import { PrayerBeaconDetails } from './PrayerBeaconDetails';
+import { isBeaconActive } from '@/utils/appUtils';
 
 export type IPrayerBeaconCard = ViewProps & {
   prayerBeacon: PrayerBeacon;
@@ -24,7 +22,7 @@ export function PrayerBeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBe
   shareChristPageState, onlyActive }: IPrayerBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
-  const isActive = prayerBeacon.type == PrayerBeaconType.Active;
+  const isActive = isBeaconActive(prayerBeacon);
 
   useEffect(() => {
     Animated.timing(bgColor, {

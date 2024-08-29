@@ -61,7 +61,6 @@ export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
     [selectAllPrayerBeacons],
     (beacons) => beacons
       .filter((beacon) => {
-        console.log("bdf: ", beacon);
         return beacon.oneId === oneId && isBeaconActive(beacon)})
       .sort((a, b) => b.priority - a.priority)
   );
@@ -95,6 +94,23 @@ export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
     settings
   };
 };
+
+export const selectAllActivePrayerBeaconsEnhanced = createSelector(
+  [selectAllPrayerBeacons, selectAllOnes, selectAllUsers],
+  (prayerBeacons, ones, users) => {
+    return prayerBeacons
+      .filter((beacon: any) => isBeaconActive(beacon))
+      .map((beacon: any) => {
+        const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
+        const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
+        return {
+          ...beacon,
+          one,
+          user
+        };
+      });
+  }
+);
 
 // Users
 export const selectUserById = (state: any, id: string): User | undefined =>

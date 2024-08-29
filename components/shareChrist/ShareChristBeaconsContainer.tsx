@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { View, type ViewProps } from 'react-native';
 
-import { selectAllActivePrayerBeacons } from '@/redux/selectors';
-import { AppIcon } from '@/enums/enums';
-import PrayerBeacon from '@/models/prayerBeacon';
-import { AnimatedItemContainer } from '../common/AniamtedItemContainer';
-import { SimpleIcon } from '../common/SimpleIcon';
+import { selectAllActivePrayerBeaconsEnhanced } from '@/redux/selectors';
+import { AppIcon, ShareChristPageState } from '@/enums/enums';
+import { PrayerBeaconWithOneAndUser as PrayerBeaconEnhanced } from '@/models/prayerBeacon';
+import { AnimatedItemContainer } from '../common/AnimatedItemContainer';
+import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 
 export type IShareChristBeaconsContainer = ViewProps & {
-    activeBeacons: PrayerBeacon[];
+    activePrayerBeaconsEnhanced: PrayerBeaconEnhanced[];
+    shareChristPageState: ShareChristPageState;
 };
 
-function ShareChristBeaconsContainer({ activeBeacons }: IShareChristBeaconsContainer) {
-    const itemsToRender = activeBeacons ? activeBeacons.map((beacon) => (
-        <SimpleIcon title={beacon.name} iconSrc={AppIcon.NetworkPeople}/>
+function ShareChristBeaconsContainer({ activePrayerBeaconsEnhanced, shareChristPageState }: IShareChristBeaconsContainer) {
+    console.log("Active Beacons: ", activePrayerBeaconsEnhanced);
+
+    const [selectedIdx, setSelectedIdx] = useState(null);
+
+    const itemsToRender = activePrayerBeaconsEnhanced ? activePrayerBeaconsEnhanced.map((beacon, idx) => (
+        <ShareChristBeaconCard prayerBeacon={beacon}
+                               one={beacon.one}
+                               user={beacon.user}
+                               idx={idx}
+                               selectedIdx={selectedIdx}
+                               setSelectedIdx={setSelectedIdx}/>
     )) : [];
 
     return (
@@ -25,10 +35,10 @@ function ShareChristBeaconsContainer({ activeBeacons }: IShareChristBeaconsConta
 }
 
 const mapStateToProps = (state: any) => {
-    const activePrayerBeacons = selectAllActivePrayerBeacons(state);
-    console.log(activePrayerBeacons);
+    const activePrayerBeaconsEnhanced = selectAllActivePrayerBeaconsEnhanced(state);
     return {
-        activePrayerBeacons
+        activePrayerBeaconsEnhanced,
+        shareChristPageState: state.app.shareChristPageState
     };
 }
 

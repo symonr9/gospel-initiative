@@ -1,5 +1,11 @@
 import { PrayerBeaconType, Priority } from "@/enums/enums";
-import { isWithinNext24Hours } from "@/utils/appUtils";
+import One from "./one";
+import User from "./user";
+
+export type PrayerBeaconWithOneAndUser = PrayerBeacon & {
+    one: One | null;
+    user: User | null;
+};
 
 interface IPrayerBeacon {
     id: string;

@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { ThemedText, ThemedTextType } from './ThemedText';
-import { flexStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 
 export type IAnimatedItemContainer = {
@@ -25,16 +24,21 @@ export function AnimatedItemContainer({ iconSrc = null, title = '',
         <Animated.View entering={FadeInDown.duration(containerDuration).delay(containerDelay)}>
             <TouchableOpacity>
                 <ThemedView style={styles.container}>
-                    <View style={flexStyles.row}>
-                        <View style={flexStyles.column}>
-                            <Animated.Text
-                                entering={FadeInUp.duration(itemDuration).delay(itemDelay)}
-                                style={[]} >
-                                <ThemedText type={ThemedTextType.Prefix}>
-                                    {title}
-                                </ThemedText>
-                            </Animated.Text>
-                        </View>
+                    <View style={[styles.header]}>
+                        {
+                            iconSrc && (
+                                <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+                            )
+                        }
+                        <ThemedText type={ThemedTextType.Subtitle}>
+                            {title}
+                        </ThemedText>
+                    </View>
+
+                    <View style={styles.itemsContainer}>
+                        {
+                            itemsToRender.map((itemToRender) => itemToRender)
+                        }
                     </View>
                 </ThemedView>
             </TouchableOpacity>
@@ -45,10 +49,9 @@ export function AnimatedItemContainer({ iconSrc = null, title = '',
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         flex: 1,
-        backgroundColor: '#d9ead3',
+        backgroundColor: 'lightgray',
         borderRadius: 4,
         padding: 4,
         shadowColor: '#000',
@@ -58,6 +61,22 @@ const styles = StyleSheet.create({
         elevation: 4,
         marginTop: 12,
         marginBottom: 12
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginBottom: 12,  
+    },
+    itemsContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: 20,
+        overflow: 'scroll',
+        maxHeight: 400,
+        zIndex: 4,
     },
     icon: {
         width: 32,
