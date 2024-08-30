@@ -1,6 +1,3 @@
-
-import { ActionStepType, AvatarIcon, OneStage, PrayerType } from '@/enums/enums';
-import One from '@/models/one';
 import { loadServerData } from '@/redux/actions';
 import React, { useState, useEffect } from 'react';
 
@@ -32,7 +29,6 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             meetings: [],
             oneFacts: JsonFunctions.getOneFactsFromJson(),
             actionSteps: JsonFunctions.getActionStepsJson(),
-            prayers: JsonFunctions.getPrayersFromJson(),
             beacons: JsonFunctions.getBeaconsFromJson(),
             beaconSettings: JsonFunctions.getBeaconSettingsFromJson(),
             prompts: JsonFunctions.getPromptsFromJson(),

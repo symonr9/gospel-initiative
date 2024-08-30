@@ -1,4 +1,4 @@
-import { BeaconType, PrayerType, ShareChristPageState } from "@/enums/enums";
+import { ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
@@ -9,14 +9,12 @@ import Meeting from "@/models/meeting";
 import MissionsTrip from "@/models/missionsTrip";
 import One from "@/models/one";
 import OneFact from "@/models/oneFact";
-import Prayer from "@/models/prayer";
 import Story from "@/models/story";
 import StoryChapter from "@/models/storyChapter";
 
 export enum Action {
     OpenPage = "OPEN_PAGE",
 
-    AddPrayer = "ADD_PRAYER",
     AddBeacon = "ADD_BEACON",
     AddOne = "ADD_ONE",
     AddStory = "ADD_STORY",
@@ -34,8 +32,6 @@ export enum Action {
     LoadPreferences = "LOAD_PREFERENCES",
 
     SetShareChristPageState = "SET_SHARE_CHRIST_PAGE_STATE",
-
-    SetActivePrayerType = "SET_PRAYER_TYPE",
 
     SetSelectedOne = "SET_SELECTED_ONE",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
@@ -85,16 +81,6 @@ export const addOne = (item: One) => ({
     payload: item,
 });
 
-export const addPrayer = (item: Prayer) => ({
-    type: Action.AddPrayer,
-    payload: item,
-});
-
-export const setActivePrayerType = (item: PrayerType) => ({
-    type: Action.SetActivePrayerType,
-    payload: item,
-});
-
 export const setSelectedOne = (item: One) => ({
     type: Action.SetSelectedOne,
     payload: item,
@@ -115,7 +101,7 @@ export const updateBeacon = (item: Beacon) => ({
     payload: item,
 });
 
-export const addBeacon = (item: Prayer) => ({
+export const addBeacon = (item: Beacon) => ({
     type: Action.AddBeacon,
     payload: item,
 });

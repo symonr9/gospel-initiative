@@ -6,8 +6,7 @@ import { ViewProps } from 'react-native';
 
 import PageView from '@/components/common/PageView';
 
-import PageHeader from '@/components/common/PageHeader';
-import { Page, PrayerType, ShareChristPageState } from '@/enums/enums';
+import { Page, ShareChristPageState } from '@/enums/enums';
 import { ShareChristContainer } from '@/components/shareChrist/ShareChristContainer';
 import ShareChristFooter from '@/components/shareChrist/ShareChristFooter';
 

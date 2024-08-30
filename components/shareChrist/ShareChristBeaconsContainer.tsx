@@ -7,7 +7,6 @@ import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { AnimatedRoadItemContainer } from '../common/AnimatedRoadItemContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ShareChristBeaconDetails } from './ShareChristBeaconDetails';
 import { EnhancedBeacon } from '@/models/beacon';
 

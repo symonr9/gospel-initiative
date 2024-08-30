@@ -38,14 +38,14 @@ function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaco
         outputRange: ['white', 'lightgreen']
     });
 
-    const headerText = adding ? `Adding New Prayer Beacon` : `Editing Prayer Beacon`;
+    const headerText = adding ? `Adding New Beacon` : `Editing Beacon`;
 
     const handleInputChange = (field: keyof Beacon, value: any) => {
         setFormBeacon({ ...formBeacon, [field]: value });
     };
 
     const handleSave = () => {
-        console.log('Saved Prayer Beacon:', formBeacon);
+        console.log('Saved Beacon:', formBeacon);
         updateBeacon(formBeacon);
     };
 

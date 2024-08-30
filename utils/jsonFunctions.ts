@@ -1,4 +1,4 @@
-import { ActionStepType, ActivityType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, BeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -17,7 +17,6 @@ const onesFactsJson = require('../data/one-facts.json');
 const onesData = require('../data/ones.json');
 const beaconSettingsJson = require('../data/beacon-settings.json');
 const beaconsJson = require('../data/beacons.json');
-const prayersJson = require('../data/prayers.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
@@ -130,21 +129,6 @@ export function getOnesFromJson() {
             false,
             item.userId
         );
-    });
-}
-
-export function getPrayersFromJson() {
-    return prayersJson.map(item => {    
-        const type = PrayerType[item.type as keyof typeof PrayerType];    
-        return {
-            id: item.id,
-            name: item.name,
-            lastPrayedAt: item.lastPrayedAt ? new Date(item.lastPrayedAt) : undefined,
-            userId: item.userId,
-            oneId: item.oneId,
-            requests: [],
-            type: type
-        };
     });
 }
 

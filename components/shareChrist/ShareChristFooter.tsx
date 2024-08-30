@@ -2,13 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { View, ViewProps, StyleSheet } from 'react-native';
+import { View, ViewProps } from 'react-native';
 import { AnimatedPageSection } from '../common/AnimatedPageSection';
-import { AppIcon, Page, PrayerType, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import NavigateToOnesButton from '../ones/NavigateToOnesButton';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { openPage, setSelectedBeaconId, setShareChristPageState } from '@/redux/actions';
-import NavigateToPrayersButton from '../beacons/NavigateToPrayersButton';
 
 export type IShareChristFooter = ViewProps & {
     page: Page;
@@ -29,7 +28,7 @@ function ShareChristFooter({ page, pageState, selectedBeaconId, setSelectedBeaco
     } else if (page == Page.ShareChristPrayers) {
         itemsToRender = getPrayersListItems(selectedBeaconId, openPage, setShareChristPageState);
     } else {
-        itemsToRender = getDefaultItems();
+        itemsToRender = getDefaultItems(openPage);
     }
 
     return (
@@ -124,17 +123,14 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
 };
 
 const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function, setPageState: Function) => {
-
-    return [
-        // <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-        //     pageToOpen={Page.ShareChrist}
-        //     title={'Back'} />,
-    ];
+    return [];
 }
 
-const getDefaultItems = () => {
+const getDefaultItems = (openPage: Function) => {
     return [
-        <NavigateToPrayersButton typeToOpen={PrayerType.ForOne} />,
+        <SimpleIconButton iconSrc={AppIcon.Prayer}
+            onClick={() => openPage(Page.ShareChristPrayers)}
+            title={'Pray'} />,
         <NavigateToOnesButton />
     ];
 }

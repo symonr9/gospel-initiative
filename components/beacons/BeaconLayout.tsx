@@ -5,7 +5,7 @@ import { View, ViewProps, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
-import AddEditBeaconForm from './AddEditPrayerBeaconForm';
+import AddEditBeaconForm from './AddEditBeaconForm';
 import PageResponse from '../common/PageResponse';
 import BeaconsList from './BeaconsList';
 
@@ -33,7 +33,7 @@ function BeaconLayout({ shareChristPageState }: IBeaconLayout) {
                               details={'Your church community is praying for you. Please check in later.'}/>
             </View>
         );
-    } else { // View All, View One, Send Prayer Beacon
+    } else { // View All, View One, Send Beacon
         Layout.push(<BeaconsList/>);
     }
 

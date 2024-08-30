@@ -36,13 +36,7 @@ export enum Role {
     Guest = 'GUEST',
 };
 
-// Prayers
-
-export enum PrayerType {
-    ForOne = 1,
-    ForCityMinistry = 2,
-    ForTheWorld = 3
-}
+// Beacons
 
 export enum BeaconType {
     Normal = 1,
@@ -202,7 +196,7 @@ export enum PromptType {
 // Journal
 
 export enum JournalEntryType {
-    Prayer = 1,
+    Beacon = 1,
 }
 
 // Missions Trips, Events, Ministries
