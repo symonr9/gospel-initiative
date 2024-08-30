@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 
-import { selectAllActivePrayerBeaconsEnhanced, selectPartitionedActiveEnhancedPrayerBeacons } from '@/redux/selectors';
+import { selectPartitionedActiveEnhancedPrayerBeacons } from '@/redux/selectors';
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { PrayerBeaconEnhanced } from '@/models/prayerBeacon';
 import { AnimatedItemContainer } from '../common/AnimatedItemContainer';

@@ -9,6 +9,13 @@ const initialState = {
 
 export function preferencesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
+        case Action.LoadServerData:
+            const { preferences } = action.payload;
+            return update(state, {
+                $set: {
+                    preferences: preferences,
+                }
+            });
         case Action.LoadPreferences:
             return update(state, {
 				$set: {

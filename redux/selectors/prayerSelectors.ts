@@ -69,40 +69,12 @@ export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
     };
 };
 
-export const selectAllActivePrayerBeaconsEnhanced = createSelector(
-    [selectAllPrayerBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
-    (prayerBeacons, ones, users, beaconActivities, executor) => {
-        return prayerBeacons
-            .filter((beacon: any) => isBeaconActive(beacon))
-            .map((beacon: any) => {
-                const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
-                const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
-                const partitionedActivities = beaconActivities
-                    .filter((activity) => activity.beaconId === beacon.id)
-                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                    .reduce(
-                        (acc, activity: BeaconActivity) => {
-                            if (activity.userId === executor.id) {
-                                acc.withExecutor.push(activity);
-                            } else {
-                                acc.withoutExecutor.push(activity);
-                            }
-                            return acc;
-                        },
-                        { withExecutor: [], withoutExecutor: [] }
-                    );
-                return {
-                    ...beacon,
-                    one,
-                    user,
-                    incomingActivities: partitionedActivities.withoutExecutor,
-                    completedActivities: partitionedActivities.withExecutor
-                };
-            });
-    }
-);
 
-
+/**
+ * Smartly partitions all prayer beacons to all where the executor has created a beaconActivity for and
+ * all that have not done so. Two arrays. The one, user, and the subsequent activities for a given beacon
+ * are all appended into an enhanced object.
+ */
 export const selectPartitionedActiveEnhancedPrayerBeacons = createSelector(
     [selectAllPrayerBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
     (prayerBeacons, ones, users, beaconActivities, executor) => {
