@@ -1,4 +1,4 @@
-import { ActionStepType, ActivityType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, PrayerBeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, ActivityType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, BeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -15,8 +15,8 @@ const meetingsJson = require('../data/meetings.json');
 const missionsTripsJson = require('../data/missions-trips.json');
 const onesFactsJson = require('../data/one-facts.json');
 const onesData = require('../data/ones.json');
-const prayerBeaconSettingsJson = require('../data/prayer-beacon-settings.json');
-const prayerBeaconsJson = require('../data/prayer-beacons.json');
+const beaconSettingsJson = require('../data/beacon-settings.json');
+const beaconsJson = require('../data/beacons.json');
 const prayersJson = require('../data/prayers.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
@@ -148,9 +148,9 @@ export function getPrayersFromJson() {
     });
 }
 
-export function getPrayerBeaconsFromJson() {
-    return prayerBeaconsJson.map(item => {        
-        const type: PrayerBeaconType = item.type as PrayerBeaconType;
+export function getBeaconsFromJson() {
+    return beaconsJson.map(item => {        
+        const type: BeaconType = item.type as BeaconType;
 
         return {
             id: item.id,
@@ -168,8 +168,8 @@ export function getPrayerBeaconsFromJson() {
     });
 }
 
-export function getPrayerBeaconSettingsFromJson() {
-    return prayerBeaconSettingsJson.map(item => {        
+export function getBeaconSettingsFromJson() {
+    return beaconSettingsJson.map(item => {        
         return {
             id: item.id,
             name: item.name,

@@ -1,5 +1,5 @@
 
-import { ActionStepType, AvatarIcon, OneStage, PrayerBeaconType, PrayerType, ShareChristPageState } from '@/enums/enums';
+import { ShareChristPageState } from '@/enums/enums';
 import One from '@/models/one';
 import {  setSelectedBeaconId, setBeaconActiveUntil } from '@/redux/actions';
 import { getTomorrow } from '@/utils/appUtils';
@@ -18,7 +18,7 @@ function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBe
 
     useEffect(() => {
         console.log("shareChristPageState: ", shareChristPageState);
-        if (selectedBeaconId != null && shareChristPageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
+        if (selectedBeaconId != null && shareChristPageState == ShareChristPageState.ConfirmSendBeacon) {
             setBeaconActiveUntil(selectedBeaconId, getTomorrow());
             setSelectedBeaconId(null);
         }

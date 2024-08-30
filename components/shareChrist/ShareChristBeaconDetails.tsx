@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { PrayerBeaconEnhanced } from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { EnhancedBeacon } from '@/models/beacon';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number | null;
     completedCursorIdx: number | null;
-    completedBeacons: PrayerBeaconEnhanced[];
-    incomingBeacons: PrayerBeaconEnhanced[];
+    completedBeacons: EnhancedBeacon[];
+    incomingBeacons: EnhancedBeacon[];
 };
 
 export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
@@ -48,8 +48,8 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
 }
 
 function getBeacon(incomingCursorIdx: number | null, completedCursorIdx: number | null,
-    completedBeacons: PrayerBeaconEnhanced[], incomingBeacons: PrayerBeaconEnhanced[]
-): PrayerBeaconEnhanced | null {
+    completedBeacons: EnhancedBeacon[], incomingBeacons: EnhancedBeacon[]
+): EnhancedBeacon | null {
     if (incomingCursorIdx !== null) {
         return incomingBeacons[incomingCursorIdx] || null;
     }

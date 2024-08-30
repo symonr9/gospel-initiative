@@ -9,7 +9,7 @@ export enum Page {
     GodsStory = 4,
     YourStory = 5,
 
-    PrayerBeacon = 6,
+    Beacon = 6,
     AddEditOnes = 7,
     AddEditActionStep = 8,
 }
@@ -20,12 +20,12 @@ export enum ShareChristPageState {
     EditActionSteps = 3,
     EditOneFacts = 4,
     
-    PrayerBeacon = 5,
-    AddPrayerBeacon = 6,
-    EditPrayerBeacon = 7,
-    SavePrayerBeacon = 8,
-    SendPrayerBeacon = 9,
-    ConfirmSendPrayerBeacon = 10
+    Beacon = 5,
+    AddBeacon = 6,
+    EditBeacon = 7,
+    SaveBeacon = 8,
+    SendBeacon = 9,
+    ConfirmSendBeacon = 10
 }
 
 // Users
@@ -44,7 +44,7 @@ export enum PrayerType {
     ForTheWorld = 3
 }
 
-export enum PrayerBeaconType {
+export enum BeaconType {
     Normal = 1,
     Archived = 2,
 };

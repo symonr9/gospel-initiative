@@ -4,15 +4,15 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Dimensions, Animated } from 'react-native';
 
-import PrayerBeacon from '@/models/prayerBeacon';
 import { BeaconCard } from './BeaconCard';
 import { formStyles, listStyles } from '@/styles/Styles';
 import { isEditing } from '@/utils/appUtils';
 import { ShareChristPageState } from '@/enums/enums';
 import One from '@/models/one';
-import { selectActivePrayerBeaconsByOneId, selectPrayerBeaconsByOneId } from '@/redux/selectors';
+import { selectActiveBeaconsByOneId, selectBeaconsByOneId } from '@/redux/selectors';
 import { setSelectedBeaconId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
+import Beacon from '@/models/beacon';
 
 export type IBeaconsList = ViewProps & {
     onlyActive?: boolean;
@@ -26,16 +26,16 @@ export type IBeaconsList = ViewProps & {
 function BeaconsList({ selectedOne, shareChristPageState, selectedBeaconId,
     setSelectedBeaconId, onlyActive = false }: IBeaconsList) {
     const selector = onlyActive 
-        ? selectActivePrayerBeaconsByOneId(selectedOne.id)
-        : selectPrayerBeaconsByOneId(selectedOne.id);
-    const prayerBeacons = useSelector(selector);
+        ? selectActiveBeaconsByOneId(selectedOne.id)
+        : selectBeaconsByOneId(selectedOne.id);
+    const beacons = useSelector(selector);
 
-    const renderItem = ({ item }: { item: PrayerBeacon }) => (
-        <BeaconCard prayerBeacon={item}
-                          onlyActive={onlyActive}
-                          shareChristPageState={shareChristPageState}
-                          setSelectedBeaconId={setSelectedBeaconId}
-                          selectedBeaconId={selectedBeaconId} />
+    const renderItem = ({ item }: { item: Beacon }) => (
+        <BeaconCard beacon={item}
+                    onlyActive={onlyActive}
+                    shareChristPageState={shareChristPageState}
+                    setSelectedBeaconId={setSelectedBeaconId}
+                    selectedBeaconId={selectedBeaconId} />
     );
 
     return (
@@ -43,7 +43,7 @@ function BeaconsList({ selectedOne, shareChristPageState, selectedBeaconId,
             <BeaconsListHeader shareChristPageState={shareChristPageState} 
                                      onlyActive={onlyActive}/>
             <FlatList
-                data={prayerBeacons}
+                data={beacons}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />

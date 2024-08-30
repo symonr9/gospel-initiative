@@ -3,14 +3,11 @@ import { Animated, GestureResponderEvent, View, type ViewProps } from 'react-nat
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
-import { formStyles } from '@/styles/Styles';
-import { ShareChristPageState } from '@/enums/enums';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import PrayerBeacon from '@/models/prayerBeacon';
 import { AnimatedCount } from '../common/AnimatedCount';
+import Beacon from '@/models/beacon';
 
 export type IActiveBeaconsInfoCard = ViewProps & {
-    activeBeacons: PrayerBeacon[];
+    activeBeacons: Beacon[];
 }
 
 export function ActiveBeaconsInfoCard({ activeBeacons,

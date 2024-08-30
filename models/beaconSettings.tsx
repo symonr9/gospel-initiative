@@ -1,6 +1,5 @@
-import { PrayerBeaconType } from "@/enums/enums";
 
-interface IPrayerBeaconSettings {
+interface IBeaconSettings {
     id: string;
     name: string;
     userId: string;
@@ -8,7 +7,7 @@ interface IPrayerBeaconSettings {
     shareOwnName: boolean | true;
 }
 
-export default class PrayerBeaconSettings implements IPrayerBeaconSettings {
+export default class BeaconSettings implements IBeaconSettings {
     id: string;
     name: string;
     userId: string;

@@ -1,37 +1,37 @@
 import { createSelector } from 'reselect';
 
-import PrayerBeacon from "@/models/prayerBeacon";
-import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
 import { isBeaconActive } from "@/utils/appUtils";
 import { selectAllUsers, selectExecutor, selectUserById } from "./userSelectors";
 import { selectAllOnes, selectMeetingById, selectOneById } from './oneSelectors';
 import { selectAllBeaconActivities } from './activitySelectors';
 import BeaconActivity from '@/models/beaconActivity';
+import Beacon from '@/models/beacon';
+import BeaconSettings from '@/models/beaconSettings';
 
 
-export const selectAllPrayerBeacons = (state: any): PrayerBeacon[] => state.beacons.prayerBeacons;
-export const selectAllPrayerBeaconSettings = (state: any): PrayerBeaconSettings[] => state.beacons.prayerBeaconSettings;
+export const selectAllBeacons = (state: any): Beacon[] => state.beacons.beacons;
+export const selectAllBeaconSettings = (state: any): BeaconSettings[] => state.beacons.beaconSettings;
 
 
-export const selectPrayerBeaconsByUserId = (userId: string) =>
+export const selectBeaconsByUserId = (userId: string) =>
     createSelector(
-        [selectAllPrayerBeacons],
+        [selectAllBeacons],
         (beacons) => beacons
             .filter((beacon) => beacon.userId === userId)
             .sort((a, b) => b.priority - a.priority)
     );
 
-export const selectPrayerBeaconsByOneId = (oneId: string) =>
+export const selectBeaconsByOneId = (oneId: string) =>
     createSelector(
-        [selectAllPrayerBeacons],
+        [selectAllBeacons],
         (beacons) => beacons
             .filter((beacon) => beacon.oneId === oneId)
             .sort((a, b) => b.priority - a.priority)
     );
 
-export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
+export const selectActiveBeaconsByOneId = (oneId: string) =>
     createSelector(
-        [selectAllPrayerBeacons],
+        [selectAllBeacons],
         (beacons) => beacons
             .filter((beacon) => {
                 return beacon.oneId === oneId && isBeaconActive(beacon)
@@ -39,9 +39,9 @@ export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
             .sort((a, b) => new Date(b.activeUntil).getTime() - new Date(a.activeUntil).getTime())
     );
 
-export const selectActivePrayerBeaconsByUserId = (userId: string) =>
+export const selectActiveBeaconsByUserId = (userId: string) =>
     createSelector(
-        [selectAllPrayerBeacons],
+        [selectAllBeacons],
         (beacons) => beacons
             .filter((beacon) => {
                 return beacon.userId === userId && isBeaconActive(beacon)
@@ -50,29 +50,29 @@ export const selectActivePrayerBeaconsByUserId = (userId: string) =>
     );
 
 
-export const selectAllActivePrayerBeacons = (state: any): PrayerBeacon[] =>
-    selectAllPrayerBeacons(state).filter(beacon => isBeaconActive(beacon));
+export const selectAllActiveBeacons = (state: any): Beacon[] =>
+    selectAllBeacons(state).filter(beacon => isBeaconActive(beacon));
 
-export const selectPrayerBeaconById = (state: any, id: string): PrayerBeacon | undefined =>
-    selectAllPrayerBeacons(state).find(beacon => beacon.id === id);
+export const selectBeaconById = (state: any, id: string): Beacon | undefined =>
+    selectAllBeacons(state).find(beacon => beacon.id === id);
 
-export const selectPrayerBeaconSettingsById = (state: any, id: string): PrayerBeaconSettings | undefined =>
-    selectAllPrayerBeaconSettings(state).find(settings => settings.id === id);
+export const selectBeaconSettingsById = (state: any, id: string): BeaconSettings | undefined =>
+    selectAllBeaconSettings(state).find(settings => settings.id === id);
 
-export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
-    const prayerBeacon = selectPrayerBeaconById(state, id);
+export const selectBeaconDetailsById = (state: any, id: string) => {
+    const beacon = selectBeaconById(state, id);
 
-    if (!prayerBeacon) {
+    if (!beacon) {
         return null; // or return an empty object, depending on your needs
     }
 
-    const user = selectUserById(state, prayerBeacon.userId);
-    const one = prayerBeacon.oneId ? selectOneById(state, prayerBeacon.oneId) : null;
-    const meeting = prayerBeacon.meetingId ? selectMeetingById(state, prayerBeacon.meetingId) : null;
-    const settings = selectPrayerBeaconSettingsById(state, prayerBeacon.settingsId);
+    const user = selectUserById(state, beacon.userId);
+    const one = beacon.oneId ? selectOneById(state, beacon.oneId) : null;
+    const meeting = beacon.meetingId ? selectMeetingById(state, beacon.meetingId) : null;
+    const settings = selectBeaconSettingsById(state, beacon.settingsId);
 
     return {
-        prayerBeacon,
+        prayerBeacon: beacon,
         user,
         one,
         meeting,
@@ -86,10 +86,10 @@ export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
  * all that have not done so. Two arrays. The one, user, and the subsequent activities for a given beacon
  * are all appended into an enhanced object.
  */
-export const selectPartitionedActiveEnhancedPrayerBeacons = createSelector(
-    [selectAllPrayerBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
-    (prayerBeacons, ones, users, beaconActivities, executor) => {
-        const partitionedBeacons = prayerBeacons
+export const selectPartitionedActiveEnhancedBeacons = createSelector(
+    [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
+    (beacons, ones, users, beaconActivities, executor) => {
+        const partitionedBeacons = beacons
             .filter((beacon: any) => isBeaconActive(beacon))
             .map((beacon: any) => {
                 const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;

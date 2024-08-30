@@ -1,6 +1,8 @@
-import { PrayerBeaconType, PrayerType, ShareChristPageState } from "@/enums/enums";
+import { BeaconType, PrayerType, ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
+import Beacon from "@/models/beacon";
+import BeaconSettings from "@/models/beaconSettings";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
 import Meeting from "@/models/meeting";
@@ -8,8 +10,6 @@ import MissionsTrip from "@/models/missionsTrip";
 import One from "@/models/one";
 import OneFact from "@/models/oneFact";
 import Prayer from "@/models/prayer";
-import PrayerBeacon from "@/models/prayerBeacon";
-import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
 import Story from "@/models/story";
 import StoryChapter from "@/models/storyChapter";
 
@@ -17,7 +17,7 @@ export enum Action {
     OpenPage = "OPEN_PAGE",
 
     AddPrayer = "ADD_PRAYER",
-    AddPrayerBeacon = "ADD_PRAYER_BEACON",
+    AddBeacon = "ADD_BEACON",
     AddOne = "ADD_ONE",
     AddStory = "ADD_STORY",
     AddLocalEvent = "ADD_LOCAL_EVENT",
@@ -26,7 +26,7 @@ export enum Action {
     AddPrompt = "ADD_PROMPT",
     AddMeeting = "ADD_MEETING",
     AddOneFact = "ADD_ONE_FACT",
-    AddPrayerBeaconSettings = "ADD_PRAYER_BEACON_SETTINGS",
+    AddBeaconSettings = "ADD_BEACON_SETTINGS",
     AddStoryChapter = "ADD_STORY_CHAPTER",
     AddActionStep = "ADD_ACTION_STEP",
 
@@ -110,13 +110,13 @@ export const setBeaconActiveUntil = (id: string, date: Date | undefined) => ({
     payload: { id, date },
 });
 
-export const updateBeacon = (item: PrayerBeacon) => ({
+export const updateBeacon = (item: Beacon) => ({
     type: Action.UpdateBeacon,
     payload: item,
 });
 
-export const addPrayerBeacon = (item: Prayer) => ({
-    type: Action.AddPrayerBeacon,
+export const addBeacon = (item: Prayer) => ({
+    type: Action.AddBeacon,
     payload: item,
 });
 
@@ -155,8 +155,8 @@ export const AddOneFact = (item: OneFact) => ({
     payload: item,
 });
 
-export const AddPrayerBeaconSettings = (item: PrayerBeaconSettings) => ({
-    type: Action.AddPrayerBeaconSettings,
+export const AddBeaconSettings = (item: BeaconSettings) => ({
+    type: Action.AddBeaconSettings,
     payload: item,
 });
 

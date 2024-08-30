@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 
-import { selectPartitionedActiveEnhancedPrayerBeacons } from '@/redux/selectors';
+import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
-import { PrayerBeaconEnhanced } from '@/models/prayerBeacon';
-import { AnimatedItemContainer } from '../common/AnimatedItemContainer';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { AnimatedRoadItemContainer } from '../common/AnimatedRoadItemContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ShareChristBeaconDetails } from './ShareChristBeaconDetails';
+import { EnhancedBeacon } from '@/models/beacon';
 
 export type IShareChristBeaconsContainer = ViewProps & {
-    completedBeacons: PrayerBeaconEnhanced[];
-    incomingBeacons: PrayerBeaconEnhanced[];
+    completedBeacons: EnhancedBeacon[];
+    incomingBeacons: EnhancedBeacon[];
     shareChristPageState: ShareChristPageState;
 };
 
@@ -45,7 +44,7 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
     }, [incomingCursorIdx]);
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon, idx) => (
-        <ShareChristBeaconCard prayerBeacon={beacon}
+        <ShareChristBeaconCard beacon={beacon}
                                one={beacon.one}
                                user={beacon.user}
                                activities={beacon.activities}
@@ -55,7 +54,7 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
     )) : [];
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
-        <ShareChristBeaconCard prayerBeacon={beacon}
+        <ShareChristBeaconCard beacon={beacon}
                                one={beacon.one}
                                user={beacon.user}
                                activities={beacon.activities}
@@ -135,7 +134,7 @@ const incomingStyle = {
 };
 
 const mapStateToProps = (state: any) => {
-    const { completedBeacons, incomingBeacons } = selectPartitionedActiveEnhancedPrayerBeacons(state);
+    const { completedBeacons, incomingBeacons } = selectPartitionedActiveEnhancedBeacons(state);
     return {
         completedBeacons,
         incomingBeacons,

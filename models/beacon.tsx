@@ -1,15 +1,15 @@
-import { PrayerBeaconType, Priority } from "@/enums/enums";
+import { BeaconType, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity from "./beaconActivity";
 
-export type PrayerBeaconEnhanced = PrayerBeacon & {
+export type EnhancedBeacon = Beacon & {
     one: One | null;
     user: User | null;
     activities: BeaconActivity[];
 };
 
-interface IPrayerBeacon {
+interface IBeacon {
     id: string;
     name: string;
     message: string;
@@ -18,12 +18,12 @@ interface IPrayerBeacon {
     meetingId: string | null;
     targetDate: Date | undefined;
     priority: Priority;
-    type: PrayerBeaconType;
+    type: BeaconType;
     activeUntil: Date | undefined;
     settingsId: string;
 }
 
-export default class PrayerBeacon implements IPrayerBeacon {
+export default class Beacon implements IBeacon {
     id: string;
     name: string;
     message: string;
@@ -32,14 +32,14 @@ export default class PrayerBeacon implements IPrayerBeacon {
     meetingId: string | null;
     targetDate: Date | undefined;
     priority: Priority;
-    type: PrayerBeaconType;
+    type: BeaconType;
     activeUntil: Date | undefined;
     settingsId: string;
 
     constructor(id: string, name: string, notes: string, oneId: string | null,
         targetDate: Date | undefined, priority: Priority,
         settingsId: string, userId: string, meetingId: string | null,
-        type: PrayerBeaconType, activeUntil: Date | undefined
+        type: BeaconType, activeUntil: Date | undefined
     ) {
         this.id = id;
         this.name = name;
@@ -55,7 +55,7 @@ export default class PrayerBeacon implements IPrayerBeacon {
     }
 
     static createNew() {
-        return new PrayerBeacon(
+        return new Beacon(
             "",
             "New Beacon",
             "",
@@ -66,7 +66,7 @@ export default class PrayerBeacon implements IPrayerBeacon {
             "",
             "",
             null,
-            PrayerBeaconType.Normal,
+            BeaconType.Normal,
             undefined
         );
     }

@@ -2,28 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { View, type ViewProps, StyleSheet, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
-import PrayerBeacon from '@/models/prayerBeacon';
+
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AppIcon, PrayerBeaconType, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, BeaconType, ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
 import { useSelector } from 'react-redux';
-import { selectPrayerBeaconDetailsById } from '@/redux/selectors';
+import { selectBeaconDetailsById } from '@/redux/selectors';
 import { PageRow } from '../common/PageRow';
 import { getShowHideIcon, isBeaconActive, mapPriorityToText } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
+import Beacon from '@/models/beacon';
 
 export type IBeaconDetails = ViewProps & {
-    prayerBeacon: PrayerBeacon;
+    beacon: Beacon;
     selectedBeaconId: string;
     shareChristPageState: ShareChristPageState;
 };
 
-export function BeaconDetails({ shareChristPageState, prayerBeacon, selectedBeaconId }: IBeaconDetails) {
+export function BeaconDetails({ shareChristPageState, beacon, selectedBeaconId }: IBeaconDetails) {
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
-    const isActive = isBeaconActive(prayerBeacon);
+    const isActive = isBeaconActive(beacon);
 
     useEffect(() => {
         Animated.timing(bgColor, {
@@ -38,7 +39,7 @@ export function BeaconDetails({ shareChristPageState, prayerBeacon, selectedBeac
         outputRange: ['white', 'lightgreen']
     });
 
-    const details = useSelector((state: any) => selectPrayerBeaconDetailsById(state, selectedBeaconId));
+    const details = useSelector((state: any) => selectBeaconDetailsById(state, selectedBeaconId));
     if (!details) {
         console.error("Something went wrong");
         return <></>;
@@ -56,10 +57,10 @@ export function BeaconDetails({ shareChristPageState, prayerBeacon, selectedBeac
                     contentFit="contain" />
                 <PageColumn>
                     <ThemedText type={ThemedTextType.Subtitle}>
-                        {prayerBeacon.name} {isActive && "(Active)"}
+                        {beacon.name} {isActive && "(Active)"}
                     </ThemedText>
                     <ThemedText type={ThemedTextType.Default}>
-                        {prayerBeacon.message}
+                        {beacon.message}
                     </ThemedText>
                 </PageColumn>
 
@@ -72,7 +73,7 @@ export function BeaconDetails({ shareChristPageState, prayerBeacon, selectedBeac
                     Priority
                 </ThemedText>
                 <ThemedText type={ThemedTextType.DefaultSemiBold}>
-                    {mapPriorityToText(prayerBeacon.priority)}
+                    {mapPriorityToText(beacon.priority)}
                 </ThemedText>
             </PageColumn>
 

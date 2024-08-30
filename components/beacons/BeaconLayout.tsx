@@ -5,7 +5,7 @@ import { View, ViewProps, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
-import AddEditPrayerBeaconForm from './AddEditPrayerBeaconForm';
+import AddEditBeaconForm from './AddEditPrayerBeaconForm';
 import PageResponse from '../common/PageResponse';
 import BeaconsList from './BeaconsList';
 
@@ -15,18 +15,18 @@ export type IBeaconLayout = ViewProps & {
 
 function BeaconLayout({ shareChristPageState }: IBeaconLayout) {
     const Layout: any[] = [];
-    if (shareChristPageState == ShareChristPageState.AddPrayerBeacon) {
-        Layout.push(<AddEditPrayerBeaconForm adding/>);
-    } else if (shareChristPageState == ShareChristPageState.EditPrayerBeacon) {
-        Layout.push(<AddEditPrayerBeaconForm adding={false}/>);
-    } else if (shareChristPageState == ShareChristPageState.SavePrayerBeacon) {
+    if (shareChristPageState == ShareChristPageState.AddBeacon) {
+        Layout.push(<AddEditBeaconForm adding/>);
+    } else if (shareChristPageState == ShareChristPageState.EditBeacon) {
+        Layout.push(<AddEditBeaconForm adding={false}/>);
+    } else if (shareChristPageState == ShareChristPageState.SaveBeacon) {
         Layout.push(
             <View>
                 <PageResponse title={'Saving Beacon'} 
                               details={'Please wait...'}/>
             </View>
         );
-    } else if (shareChristPageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
+    } else if (shareChristPageState == ShareChristPageState.ConfirmSendBeacon) {
         Layout.push(
             <View>
                 <PageResponse title={'Beacon successful!'} 

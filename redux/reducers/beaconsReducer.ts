@@ -3,8 +3,8 @@ import update from 'immutability-helper';
 
 const initialState = {
     prayers: [],
-    prayerBeacons: [],
-    prayerBeaconSettings: [],
+    beacons: [],
+    beaconSettings: [],
     beaconLogs: [],
 
     selectedBeaconId: null,
@@ -13,14 +13,14 @@ const initialState = {
 export function beaconsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { prayers, prayerBeacons, prayerBeaconSettings,
+            const { prayers, beacons, beaconSettings,
                 beaconLogs
             } = action.payload;
             return update(state, {
                 $set: {
                     prayers: prayers || [],
-                    prayerBeacons: prayerBeacons || [],
-                    prayerBeaconSettings: prayerBeaconSettings || [],
+                    beacons: beacons || [],
+                    beaconSettings: beaconSettings || [],
                     beaconLogs: beaconLogs || [],
                     selectedBeaconId: null
                 }
@@ -31,10 +31,10 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
             });
         case Action.SetBeaconActiveUntil:
             const { id, date } = action.payload;
-            const setBeaconTypeIdx = state.prayerBeacons.findIndex(beacon => beacon.id === id);
+            const setBeaconTypeIdx = state.beacons.findIndex(beacon => beacon.id === id);
             if (setBeaconTypeIdx !== -1) {
                 return update(state, {
-                    prayerBeacons: {
+                    beacons: {
                         [setBeaconTypeIdx]: {
                             activeUntil: { $set: date }
                         }
@@ -43,10 +43,10 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
             }
             return state;
         case Action.UpdateBeacon:
-            const updatedBeaconIdx = state.prayerBeacons.findIndex(beacon => beacon.id === action.payload.id);
+            const updatedBeaconIdx = state.beacons.findIndex(beacon => beacon.id === action.payload.id);
             if (updatedBeaconIdx !== -1) {
                 return update(state, {
-                    prayerBeacons: {
+                    beacons: {
                         [updatedBeaconIdx]: { $set: action.payload }
                     }
                 });
@@ -56,13 +56,13 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
             return update(state, {
                 prayers: { $push: [action.payload] }
             });
-        case Action.AddPrayerBeacon:
+        case Action.AddBeacon:
             return update(state, {
-                prayerBeacons: { $push: [action.payload] }
+                beacons: { $push: [action.payload] }
             });
-        case Action.AddPrayerBeaconSettings:
+        case Action.AddBeaconSettings:
             return update(state, {
-                prayerBeaconSettings: { $push: [action.payload] }
+                beaconSettings: { $push: [action.payload] }
             });
         default:
             return state;

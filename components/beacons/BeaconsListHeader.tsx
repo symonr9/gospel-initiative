@@ -17,7 +17,7 @@ export function BeaconsListHeader({ shareChristPageState, onlyActive,
 }: IBeaconsListHeader) {
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
-    const shouldConfirm = shareChristPageState == ShareChristPageState.SendPrayerBeacon;
+    const shouldConfirm = shareChristPageState == ShareChristPageState.SendBeacon;
 
     useEffect(() => {
         Animated.timing(bgColor, {

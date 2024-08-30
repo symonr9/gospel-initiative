@@ -18,12 +18,12 @@ export type IShareChristContainer = ViewProps & {
 export function ShareChristContainer({ page, pageState }: IShareChristContainer) {
     if (page == Page.ShareChristOnes) {
         if ([
-            ShareChristPageState.PrayerBeacon,
-            ShareChristPageState.AddPrayerBeacon,
-            ShareChristPageState.EditPrayerBeacon,
-            ShareChristPageState.SavePrayerBeacon,
-            ShareChristPageState.SendPrayerBeacon,
-            ShareChristPageState.ConfirmSendPrayerBeacon,
+            ShareChristPageState.Beacon,
+            ShareChristPageState.AddBeacon,
+            ShareChristPageState.EditBeacon,
+            ShareChristPageState.SaveBeacon,
+            ShareChristPageState.SendBeacon,
+            ShareChristPageState.ConfirmSendBeacon,
         ].includes(pageState)) {
             return (
                 <BeaconLayout />

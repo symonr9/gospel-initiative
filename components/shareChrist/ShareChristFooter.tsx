@@ -54,17 +54,17 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
         return [
             getBackButton(onBackDefaultClick),
         ];
-    } else if (pageState == ShareChristPageState.PrayerBeacon) {
+    } else if (pageState == ShareChristPageState.Beacon) {
         if (hasSelectedBeacon) { // View Selected Beacon
             return [
                 getBackButton(() => {
                     setSelectedBeaconId(null);
                 }),
                 getEditButton(() => {
-                    setPageState(ShareChristPageState.EditPrayerBeacon);
+                    setPageState(ShareChristPageState.EditBeacon);
                 }),
                 getSendButton(() => {
-                    setPageState(ShareChristPageState.SendPrayerBeacon);
+                    setPageState(ShareChristPageState.SendBeacon);
                 }),
             ];
         } else { // View All Beacons
@@ -73,20 +73,20 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
                     onBackDefaultClick();
                 }),
                 getAddButton(() => {
-                    setPageState(ShareChristPageState.AddPrayerBeacon);
+                    setPageState(ShareChristPageState.AddBeacon);
                 })
             ];
         }
-    } else if (pageState == ShareChristPageState.SendPrayerBeacon) {
+    } else if (pageState == ShareChristPageState.SendBeacon) {
         return [
             getCancelButton(() => {
-                setPageState(ShareChristPageState.PrayerBeacon);
+                setPageState(ShareChristPageState.Beacon);
             }),
             getConfirmButton(() => {
-                setPageState(ShareChristPageState.ConfirmSendPrayerBeacon);
+                setPageState(ShareChristPageState.ConfirmSendBeacon);
             })
         ];
-    } else if (pageState == ShareChristPageState.ConfirmSendPrayerBeacon) {
+    } else if (pageState == ShareChristPageState.ConfirmSendBeacon) {
         return [
             getBackButton(() => {
                 setSelectedBeaconId(null);
@@ -94,29 +94,29 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
             }),
         ];
     } else if ([
-        ShareChristPageState.AddPrayerBeacon,
-        ShareChristPageState.EditPrayerBeacon
+        ShareChristPageState.AddBeacon,
+        ShareChristPageState.EditBeacon
     ].includes(pageState)) { // Add/Edit Beacon
         return [
             getBackButton(() => {
-                if (hasSelectedBeacon && setSelectedBeaconId && pageState == ShareChristPageState.AddPrayerBeacon) {
+                if (hasSelectedBeacon && setSelectedBeaconId && pageState == ShareChristPageState.AddBeacon) {
                     setSelectedBeaconId(null);
                 }
-                setPageState(ShareChristPageState.PrayerBeacon);
+                setPageState(ShareChristPageState.Beacon);
             }),
             getSaveButton(() => {
-                setPageState(ShareChristPageState.SavePrayerBeacon);
+                setPageState(ShareChristPageState.SaveBeacon);
             })
         ];
     } else if ([
-        ShareChristPageState.SavePrayerBeacon
+        ShareChristPageState.SaveBeacon
     ].includes(pageState)) { // Saving...
         return [];
     }
 
     return [
         getBackButton(onBackDefaultClick),
-        getPrayerBeaconButton(setPageState),
+        getBeaconButton(setPageState),
         getEditButton(() => {
             setPageState(ShareChristPageState.Edit);
         })
@@ -147,10 +147,10 @@ const getBackButton = (onClick: () => void) => {
     )
 }
 
-const getPrayerBeaconButton = (setPageState: Function) => {
+const getBeaconButton = (setPageState: Function) => {
     return (
         <SimpleIconButton iconSrc={AppIcon.Prayer}
-            onClick={() => setPageState(ShareChristPageState.PrayerBeacon)}
+            onClick={() => setPageState(ShareChristPageState.Beacon)}
             title={'Prayer Beacon'} />
     );
 }

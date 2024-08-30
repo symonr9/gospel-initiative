@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { View, type ViewProps, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
-import PrayerBeacon from '@/models/prayerBeacon';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
-import { AppIcon, PrayerBeaconType, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, BeaconType, ShareChristPageState } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
 import { BeaconDetails } from './BeaconDetails';
 import { isBeaconActive } from '@/utils/appUtils';
+import Beacon from '@/models/beacon';
 
 export type IBeaconCard = ViewProps & {
-  prayerBeacon: PrayerBeacon;
+  beacon: Beacon;
   selectedBeaconId: string | null;
   setSelectedBeaconId: Function;
   shareChristPageState: ShareChristPageState;
   onlyActive: boolean;
 };
 
-export function BeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId,
+export function BeaconCard({ beacon, selectedBeaconId, setSelectedBeaconId,
   shareChristPageState, onlyActive }: IBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
-  const isActive = isBeaconActive(prayerBeacon);
+  const isActive = isBeaconActive(beacon);
 
   useEffect(() => {
     Animated.timing(bgColor, {
@@ -38,18 +38,18 @@ export function BeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId
   });
 
   if (selectedBeaconId != null) {
-    if (prayerBeacon.id !== selectedBeaconId) {
+    if (beacon.id !== selectedBeaconId) {
       return <></>;
     }
     return (
-      <BeaconDetails prayerBeacon={prayerBeacon}
+      <BeaconDetails beacon={beacon}
         shareChristPageState={shareChristPageState}
         selectedBeaconId={selectedBeaconId} />
     );
   }
 
   const onPress = () => {
-    setSelectedBeaconId(prayerBeacon.id);
+    setSelectedBeaconId(beacon.id);
   };
 
   const titleTextType = onlyActive ? ThemedTextType.DefaultSemiBold : ThemedTextType.Subtitle;
@@ -63,10 +63,10 @@ export function BeaconCard({ prayerBeacon, selectedBeaconId, setSelectedBeaconId
 
         <PageColumn>
           <ThemedText type={titleTextType}>
-            {prayerBeacon.name} {isActive && "(Active)"}
+            {beacon.name} {isActive && "(Active)"}
           </ThemedText>
           <ThemedText type={ThemedTextType.Default}>
-            {prayerBeacon.message}
+            {beacon.message}
           </ThemedText>
         </PageColumn>
       </Animated.View>

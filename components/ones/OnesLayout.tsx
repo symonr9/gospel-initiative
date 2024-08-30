@@ -13,9 +13,8 @@ import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { PageContainer } from '../common/PageContainer';
-import BeaconsList from '../beacons/BeaconsList';
 import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
-import { selectActivePrayerBeaconsByOneId } from '@/redux/selectors';
+import { selectActiveBeaconsByOneId } from '@/redux/selectors';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One,
@@ -25,7 +24,7 @@ export type IOnesLayout = ViewProps & {
 
 function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
     
-    const prayerBeacons = useSelector(selectActivePrayerBeaconsByOneId(selectedOne.id || ""));
+    const prayerBeacons = useSelector(selectActiveBeaconsByOneId(selectedOne.id || ""));
     
     if (!selectedOne) {
         return (

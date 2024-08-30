@@ -2,25 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { View, ViewProps, Animated, TextInput, Button, StyleSheet, Picker } from 'react-native';
 
-import PrayerBeacon from '@/models/prayerBeacon';
 import { formStyles } from '@/styles/Styles';
 import { setSelectedBeaconId, updateBeacon } from '@/redux/actions';
 import { PageSubHeader } from '../common/PageSubHeader';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { ThemedView } from '../common/ThemedView';
-import { AppIcon, PrayerBeaconType, Priority } from '@/enums/enums';
+import { AppIcon, BeaconType, Priority } from '@/enums/enums';
+import Beacon from '@/models/beacon';
 
-export type IAddEditPrayerBeaconForm = ViewProps & {
+export type IAddEditBeaconForm = ViewProps & {
     adding: boolean;
     selectedBeaconId: string | null;
-    beacons: PrayerBeacon[];
+    beacons: Beacon[];
     setSelectedBeaconId: Function;
     updateBeacon: Function;
 };
 
-function AddEditPrayerBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaconId }: IAddEditPrayerBeaconForm) {
-    const [formBeacon, setFormBeacon] = useState<PrayerBeacon>(
-        (beacons.filter((beacon) => beacon.id === selectedBeaconId))[0] || PrayerBeacon.createNew()
+function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaconId }: IAddEditBeaconForm) {
+    const [formBeacon, setFormBeacon] = useState<Beacon>(
+        (beacons.filter((beacon) => beacon.id === selectedBeaconId))[0] || Beacon.createNew()
     );
     
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
@@ -40,7 +40,7 @@ function AddEditPrayerBeaconForm({ adding, selectedBeaconId, beacons, setSelecte
 
     const headerText = adding ? `Adding New Prayer Beacon` : `Editing Prayer Beacon`;
 
-    const handleInputChange = (field: keyof PrayerBeacon, value: any) => {
+    const handleInputChange = (field: keyof Beacon, value: any) => {
         setFormBeacon({ ...formBeacon, [field]: value });
     };
 
@@ -106,9 +106,7 @@ function AddEditPrayerBeaconForm({ adding, selectedBeaconId, beacons, setSelecte
                         style={styles.picker}
                         onValueChange={(itemValue: any) => handleInputChange('type', itemValue)}
                     >
-                        <Picker.Item label="To Community" value={PrayerBeaconType.ToCommunity} />
-                        <Picker.Item label="To Leadership Team" value={PrayerBeaconType.ToLeadershipTeam} />
-                        <Picker.Item label="To Prayer Group" value={PrayerBeaconType.ToPrayerGroup} />
+                        <Picker.Item label="To Community" value={BeaconType.Normal} />
                     </Picker>
                 </View>
 
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
     selectedBeaconId: state.beacons.selectedBeaconId,
-    beacons: state.beacons.prayerBeacons,
+    beacons: state.beacons.beacons,
 });
 
 const mapDispatchToProps = {
@@ -148,4 +146,4 @@ const mapDispatchToProps = {
     updateBeacon
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddEditPrayerBeaconForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddEditBeaconForm);

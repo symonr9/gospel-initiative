@@ -150,6 +150,6 @@ export const PromptQuestions = {
     ],
 };
 
-export const PrayerBeaconOptions = {
+export const BeaconOptions = {
     
 };
