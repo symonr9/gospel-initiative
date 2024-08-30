@@ -10,7 +10,6 @@ import OneFact from "@/models/oneFact";
 import Prayer from "@/models/prayer";
 import PrayerBeacon from "@/models/prayerBeacon";
 import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
-import PrayerRequest from "@/models/prayerRequest";
 import Story from "@/models/story";
 import StoryChapter from "@/models/storyChapter";
 
@@ -28,7 +27,6 @@ export enum Action {
     AddMeeting = "ADD_MEETING",
     AddOneFact = "ADD_ONE_FACT",
     AddPrayerBeaconSettings = "ADD_PRAYER_BEACON_SETTINGS",
-    AddPrayerRequest = "ADD_PRAYER_REQUEST",
     AddStoryChapter = "ADD_STORY_CHAPTER",
     AddActionStep = "ADD_ACTION_STEP",
 
@@ -159,11 +157,6 @@ export const AddOneFact = (item: OneFact) => ({
 
 export const AddPrayerBeaconSettings = (item: PrayerBeaconSettings) => ({
     type: Action.AddPrayerBeaconSettings,
-    payload: item,
-});
-
-export const AddPrayerRequests = (item: PrayerRequest) => ({
-    type: Action.AddPrayerRequest,
     payload: item,
 });
 

@@ -8,7 +8,7 @@ import { AppIcon, Page, PrayerType, ShareChristPageState } from '@/enums/enums';
 import NavigateToOnesButton from '../ones/NavigateToOnesButton';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { openPage, setSelectedBeaconId, setShareChristPageState } from '@/redux/actions';
-import NavigateToPrayersButton from '../prayers/NavigateToPrayersButton';
+import NavigateToPrayersButton from '../beacons/NavigateToPrayersButton';
 
 export type IShareChristFooter = ViewProps & {
     page: Page;
@@ -205,7 +205,7 @@ const getCancelButton = (onClick: () => void) => {
 
 
 const mapStateToProps = (state: any) => ({
-    selectedBeaconId: state.prayers.selectedBeaconId
+    selectedBeaconId: state.beacons.selectedBeaconId
 });
 
 const mapDispatchToProps = {

@@ -5,17 +5,16 @@ import { connect, useSelector } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Dimensions, Animated } from 'react-native';
 
 import PrayerBeacon from '@/models/prayerBeacon';
-import { PrayerBeaconCard } from './PrayerBeaconCard';
+import { BeaconCard } from './BeaconCard';
 import { formStyles, listStyles } from '@/styles/Styles';
 import { isEditing } from '@/utils/appUtils';
 import { ShareChristPageState } from '@/enums/enums';
 import One from '@/models/one';
 import { selectActivePrayerBeaconsByOneId, selectPrayerBeaconsByOneId } from '@/redux/selectors';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
 import { setSelectedBeaconId } from '@/redux/actions';
-import { PrayerBeaconsListHeader } from './PrayerBeaconsListHeader';
+import { BeaconsListHeader } from './BeaconsListHeader';
 
-export type IPrayerRequestsList = ViewProps & {
+export type IBeaconsList = ViewProps & {
     onlyActive?: boolean;
 
     selectedOne: One;
@@ -24,15 +23,15 @@ export type IPrayerRequestsList = ViewProps & {
     setSelectedBeaconId: Function;
 };
 
-function PrayerBeaconsList({ selectedOne, shareChristPageState, selectedBeaconId,
-    setSelectedBeaconId, onlyActive = false }: IPrayerRequestsList) {
+function BeaconsList({ selectedOne, shareChristPageState, selectedBeaconId,
+    setSelectedBeaconId, onlyActive = false }: IBeaconsList) {
     const selector = onlyActive 
         ? selectActivePrayerBeaconsByOneId(selectedOne.id)
         : selectPrayerBeaconsByOneId(selectedOne.id);
     const prayerBeacons = useSelector(selector);
 
     const renderItem = ({ item }: { item: PrayerBeacon }) => (
-        <PrayerBeaconCard prayerBeacon={item}
+        <BeaconCard prayerBeacon={item}
                           onlyActive={onlyActive}
                           shareChristPageState={shareChristPageState}
                           setSelectedBeaconId={setSelectedBeaconId}
@@ -41,7 +40,7 @@ function PrayerBeaconsList({ selectedOne, shareChristPageState, selectedBeaconId
 
     return (
         <View style={[listStyles.container, styles.container]}>
-            <PrayerBeaconsListHeader shareChristPageState={shareChristPageState} 
+            <BeaconsListHeader shareChristPageState={shareChristPageState} 
                                      onlyActive={onlyActive}/>
             <FlatList
                 data={prayerBeacons}
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
     shareChristPageState: state.app.shareChristPageState,
-    selectedBeaconId: state.prayers.selectedBeaconId
+    selectedBeaconId: state.beacons.selectedBeaconId
 });
 
 
@@ -70,4 +69,4 @@ const mapDispatchToProps = {
     setSelectedBeaconId
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrayerBeaconsList);
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconsList);

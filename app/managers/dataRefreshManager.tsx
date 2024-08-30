@@ -35,7 +35,6 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             prayers: JsonFunctions.getPrayersFromJson(),
             prayerBeacons: JsonFunctions.getPrayerBeaconsFromJson(),
             prayerBeaconSettings: JsonFunctions.getPrayerBeaconSettingsFromJson(),
-            prayerRequests: [],
             prompts: JsonFunctions.getPromptsFromJson(),
             stories: [],
             storyChapters: [],
@@ -43,7 +42,7 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             executor: usersJson[0],
             ministryActivities: JsonFunctions.getMinistryActivitiesFromJson(),
             beaconActivities: JsonFunctions.getBeaconActivitiesFromJson(),
-            prayerBeaconLogs: JsonFunctions.getBeaconLogsFromJson()
+            beaconLogs: JsonFunctions.getBeaconLogsFromJson()
         });
     }, []);
 

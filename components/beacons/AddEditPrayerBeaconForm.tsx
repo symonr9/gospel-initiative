@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
-    selectedBeaconId: state.prayers.selectedBeaconId,
-    beacons: state.prayers.prayerBeacons,
+    selectedBeaconId: state.beacons.selectedBeaconId,
+    beacons: state.beacons.prayerBeacons,
 });
 
 const mapDispatchToProps = {

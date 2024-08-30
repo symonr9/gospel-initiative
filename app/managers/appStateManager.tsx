@@ -29,7 +29,7 @@ function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBe
 
 const mapStateToProps = (state: any) => ({
     shareChristPageState: state.app.shareChristPageState,
-    selectedBeaconId: state.prayers.selectedBeaconId,
+    selectedBeaconId: state.beacons.selectedBeaconId,
 });
 
 const mapDispatchToProps = {

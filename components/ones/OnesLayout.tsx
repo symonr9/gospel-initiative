@@ -13,8 +13,8 @@ import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { PageContainer } from '../common/PageContainer';
-import PrayerBeaconsList from '../prayers/PrayerBeaconsList';
-import { ActiveBeaconsInfoCard } from '../prayers/ActiveBeaconsInfoCard';
+import BeaconsList from '../beacons/BeaconsList';
+import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
 import { selectActivePrayerBeaconsByOneId } from '@/redux/selectors';
 
 export type IOnesLayout = ViewProps & {

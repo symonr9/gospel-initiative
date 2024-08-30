@@ -6,7 +6,7 @@ import PageView from '@/components/common/PageView';
 import PageHeader from '@/components/common/PageHeader';
 import { PageColumn } from '@/components/common/PageColumn';
 import { PageRow } from '@/components/common/PageRow';
-import NavigateToPrayersButton from '@/components/prayers/NavigateToPrayersButton';
+import NavigateToPrayersButton from '@/components/beacons/NavigateToPrayersButton';
 import { PrayerType } from '@/enums/enums';
 
 export type IReachWorld = ViewProps & {

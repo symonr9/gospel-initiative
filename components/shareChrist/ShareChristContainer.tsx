@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { Page, ShareChristPageState } from '@/enums/enums';
 import OnesLayout from '../ones/OnesLayout';
-import PrayerBeaconLayout from '../prayers/PrayerBeaconLayout';
+import BeaconLayout from '../beacons/BeaconLayout';
 import ShareChristHomeLayout from './ShareChristHomeLayout';
 import ShareChristBeaconsContainer from './ShareChristBeaconsContainer';
 
@@ -26,7 +26,7 @@ export function ShareChristContainer({ page, pageState }: IShareChristContainer)
             ShareChristPageState.ConfirmSendPrayerBeacon,
         ].includes(pageState)) {
             return (
-                <PrayerBeaconLayout />
+                <BeaconLayout />
             );
         }
 

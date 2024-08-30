@@ -17,7 +17,6 @@ const onesFactsJson = require('../data/one-facts.json');
 const onesData = require('../data/ones.json');
 const prayerBeaconSettingsJson = require('../data/prayer-beacon-settings.json');
 const prayerBeaconsJson = require('../data/prayer-beacons.json');
-const prayerRequestsJson = require('../data/prayer-requests.json');
 const prayersJson = require('../data/prayers.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
@@ -178,18 +177,6 @@ export function getPrayerBeaconSettingsFromJson() {
             shareOneName: item.shareOneName,
             shareOwnName: item.shareOwnName
         }
-    });
-}
-
-export function getPrayerRequestsFromJson() {
-    return prayerRequestsJson.map(item => {
-        return {
-            id: item.id,
-            name: item.name,
-            text: item.text,
-            prayerId: item.prayerId,
-            createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
-        };
     });
 }
 

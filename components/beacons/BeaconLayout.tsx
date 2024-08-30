@@ -7,13 +7,13 @@ import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
 import AddEditPrayerBeaconForm from './AddEditPrayerBeaconForm';
 import PageResponse from '../common/PageResponse';
-import PrayerBeaconsList from './PrayerBeaconsList';
+import BeaconsList from './BeaconsList';
 
-export type IOnesLayout = ViewProps & {
+export type IBeaconLayout = ViewProps & {
     shareChristPageState: ShareChristPageState;
 };
 
-function PrayerBeaconLayout({ shareChristPageState }: IOnesLayout) {
+function BeaconLayout({ shareChristPageState }: IBeaconLayout) {
     const Layout: any[] = [];
     if (shareChristPageState == ShareChristPageState.AddPrayerBeacon) {
         Layout.push(<AddEditPrayerBeaconForm adding/>);
@@ -34,7 +34,7 @@ function PrayerBeaconLayout({ shareChristPageState }: IOnesLayout) {
             </View>
         );
     } else { // View All, View One, Send Prayer Beacon
-        Layout.push(<PrayerBeaconsList/>);
+        Layout.push(<BeaconsList/>);
     }
 
     return (
@@ -53,4 +53,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrayerBeaconLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconLayout);

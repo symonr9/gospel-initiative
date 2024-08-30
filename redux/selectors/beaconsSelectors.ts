@@ -5,12 +5,12 @@ import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
 import { isBeaconActive } from "@/utils/appUtils";
 import { selectAllUsers, selectExecutor, selectUserById } from "./userSelectors";
 import { selectAllOnes, selectMeetingById, selectOneById } from './oneSelectors';
-import { selectAllBeaconActivities, selectBeaconActivitiesById } from './activitySelectors';
+import { selectAllBeaconActivities } from './activitySelectors';
 import BeaconActivity from '@/models/beaconActivity';
 
 
-export const selectAllPrayerBeacons = (state: any): PrayerBeacon[] => state.prayers.prayerBeacons;
-export const selectAllPrayerBeaconSettings = (state: any): PrayerBeaconSettings[] => state.prayers.prayerBeaconSettings;
+export const selectAllPrayerBeacons = (state: any): PrayerBeacon[] => state.beacons.prayerBeacons;
+export const selectAllPrayerBeaconSettings = (state: any): PrayerBeaconSettings[] => state.beacons.prayerBeaconSettings;
 
 
 export const selectPrayerBeaconsByUserId = (userId: string) =>
@@ -36,8 +36,19 @@ export const selectActivePrayerBeaconsByOneId = (oneId: string) =>
             .filter((beacon) => {
                 return beacon.oneId === oneId && isBeaconActive(beacon)
             })
-            .sort((a, b) => b.priority - a.priority)
+            .sort((a, b) => new Date(b.activeUntil).getTime() - new Date(a.activeUntil).getTime())
     );
+
+export const selectActivePrayerBeaconsByUserId = (userId: string) =>
+    createSelector(
+        [selectAllPrayerBeacons],
+        (beacons) => beacons
+            .filter((beacon) => {
+                return beacon.userId === userId && isBeaconActive(beacon)
+            })
+            .sort((a, b) => new Date(b.activeUntil).getTime() - new Date(a.activeUntil).getTime())
+    );
+
 
 export const selectAllActivePrayerBeacons = (state: any): PrayerBeacon[] =>
     selectAllPrayerBeacons(state).filter(beacon => isBeaconActive(beacon));

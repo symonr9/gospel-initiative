@@ -34,7 +34,7 @@ function NavigateToPrayersButton({ typeToOpen, prayers,
 }
 
 const mapStateToProps = (state: any) => ({
-    prayers: state.prayers.prayers,
+    prayers: state.beacons.prayers,
 });
 
 const mapDispatchToProps = {

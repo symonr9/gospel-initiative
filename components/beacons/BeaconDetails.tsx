@@ -11,20 +11,19 @@ import { cardStyles, flexStyles } from '@/styles/Styles';
 import { useSelector } from 'react-redux';
 import { selectPrayerBeaconDetailsById } from '@/redux/selectors';
 import { PageRow } from '../common/PageRow';
-import { getShowHideIcon, mapPriorityToText } from '@/utils/appUtils';
+import { getShowHideIcon, isBeaconActive, mapPriorityToText } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 
-export type IPrayerBeaconCard = ViewProps & {
+export type IBeaconDetails = ViewProps & {
     prayerBeacon: PrayerBeacon;
     selectedBeaconId: string;
     shareChristPageState: ShareChristPageState;
 };
 
-export function PrayerBeaconDetails({ shareChristPageState, prayerBeacon, selectedBeaconId }: IPrayerBeaconCard) {
+export function BeaconDetails({ shareChristPageState, prayerBeacon, selectedBeaconId }: IBeaconDetails) {
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
-    const isActive = prayerBeacon.type == PrayerBeaconType.Active;
-    const shouldConfirm = shareChristPageState == ShareChristPageState.SendPrayerBeacon;
+    const isActive = isBeaconActive(prayerBeacon);
 
     useEffect(() => {
         Animated.timing(bgColor, {

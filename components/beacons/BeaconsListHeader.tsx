@@ -7,14 +7,14 @@ import { formStyles } from '@/styles/Styles';
 import { ShareChristPageState } from '@/enums/enums';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
 
-export type IPrayerBeaconsListHeader = ViewProps & {
+export type IBeaconsListHeader = ViewProps & {
     shareChristPageState: ShareChristPageState;
     onlyActive: boolean;
 }
 
-export function PrayerBeaconsListHeader({ shareChristPageState, onlyActive,
+export function BeaconsListHeader({ shareChristPageState, onlyActive,
     style = {},
-}: IPrayerBeaconsListHeader) {
+}: IBeaconsListHeader) {
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
     const shouldConfirm = shareChristPageState == ShareChristPageState.SendPrayerBeacon;

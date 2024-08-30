@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    prayers: state.prayers.prayers
+    prayers: state.beacons.prayers
 });
 
 const mapDispatchToProps = {
