@@ -8,6 +8,7 @@ import { Page, ShareChristPageState } from '@/enums/enums';
 import OnesLayout from '../ones/OnesLayout';
 import PrayerBeaconLayout from '../prayers/PrayerBeaconLayout';
 import ShareChristHomeLayout from './ShareChristHomeLayout';
+import ShareChristBeaconsContainer from './ShareChristBeaconsContainer';
 
 export type IShareChristContainer = ViewProps & {
     page: Page,
@@ -15,12 +16,8 @@ export type IShareChristContainer = ViewProps & {
 };
 
 export function ShareChristContainer({ page, pageState }: IShareChristContainer) {
-    if (page == Page.OnesList) {
-        if (pageState == ShareChristPageState.Edit) {
-            return (
-                <OnesLayout/>
-            );
-        } else if ([
+    if (page == Page.ShareChristOnes) {
+        if ([
             ShareChristPageState.PrayerBeacon,
             ShareChristPageState.AddPrayerBeacon,
             ShareChristPageState.EditPrayerBeacon,
@@ -35,6 +32,10 @@ export function ShareChristContainer({ page, pageState }: IShareChristContainer)
 
         return (
             <OnesLayout/>
+        );
+    } else if (page === Page.ShareChristPrayers) {
+        return (
+            <ShareChristBeaconsContainer/>
         );
     }
 

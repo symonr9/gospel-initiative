@@ -3,8 +3,8 @@
 
 export enum Page {
     ShareChrist = 1,
-    OnesList = 2,
-    PrayersList = 3,
+    ShareChristOnes = 2,
+    ShareChristPrayers = 3,
 
     GodsStory = 4,
     YourStory = 5,

@@ -18,7 +18,6 @@ function ShareChristHomeLayout({ }: IShareChristHomeLayout) {
         <AnimatedHeader title="Share Christ" delay={200}/>
         <PromptBanner/>
         <ActionStepBanner/>
-        <ShareChristBeaconsContainer/>
     </View>
   );
 }

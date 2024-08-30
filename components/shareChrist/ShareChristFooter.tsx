@@ -24,9 +24,9 @@ export type IShareChristFooter = ViewProps & {
 function ShareChristFooter({ page, pageState, selectedBeaconId, setSelectedBeaconId, openPage, setShareChristPageState }: IShareChristFooter) {
 
     let itemsToRender;
-    if (page == Page.OnesList) {
+    if (page == Page.ShareChristOnes) {
         itemsToRender = getOnesListItems(pageState, setShareChristPageState, openPage, selectedBeaconId !== null, setSelectedBeaconId);
-    } else if (page == Page.PrayersList) {
+    } else if (page == Page.ShareChristPrayers) {
         itemsToRender = getPrayersListItems(selectedBeaconId, openPage, setShareChristPageState);
     } else {
         itemsToRender = getDefaultItems();
@@ -123,6 +123,22 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
     ];
 };
 
+const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function, setPageState: Function) => {
+
+    return [
+        <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+            pageToOpen={Page.ShareChrist}
+            title={'Back'} />,
+    ];
+}
+
+const getDefaultItems = () => {
+    return [
+        <NavigateToPrayersButton typeToOpen={PrayerType.ForOne} />,
+        <NavigateToOnesButton />
+    ];
+}
+
 const getBackButton = (onClick: () => void) => {
     return (
         <SimpleIconButton iconSrc={AppIcon.ArrowBack}
@@ -187,21 +203,6 @@ const getCancelButton = (onClick: () => void) => {
     );
 };
 
-const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function, setPageState: Function) => {
-
-    return [
-        <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-            pageToOpen={Page.ShareChrist}
-            title={'Back'} />,
-    ];
-}
-
-const getDefaultItems = () => {
-    return [
-        <NavigateToPrayersButton typeToOpen={PrayerType.ForOne} />,
-        <NavigateToOnesButton />
-    ];
-}
 
 const mapStateToProps = (state: any) => ({
     selectedBeaconId: state.prayers.selectedBeaconId

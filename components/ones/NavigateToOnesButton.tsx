@@ -22,7 +22,7 @@ function NavigateToOnesButton({ ones, openPage, setSelectedOne }: INavigateToOne
     
     const onClick = () => {
         setSelectedOne(oneToLoad);
-        openPage(Page.OnesList);
+        openPage(Page.ShareChristOnes);
     };
 
     return (

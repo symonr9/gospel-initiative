@@ -23,7 +23,7 @@ function NavigateToPrayersButton({ typeToOpen, prayers,
 
     const onClick = () => {
         setActivePrayerType(typeToOpen);
-        openPage(Page.PrayersList);
+        openPage(Page.ShareChristPrayers);
     }
 
     return (
