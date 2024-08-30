@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 
@@ -10,6 +10,7 @@ import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { AnimatedRoadItemContainer } from '../common/AnimatedRoadItemContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { ShareChristBeaconDetails } from './ShareChristBeaconDetails';
 
 export type IShareChristBeaconsContainer = ViewProps & {
     completedBeacons: PrayerBeaconEnhanced[];
@@ -21,7 +22,27 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
     console.log("completedBeacons: ", completedBeacons);
     console.log("incomingBeacons: ", incomingBeacons);
 
-    const [selectedIdx, setSelectedIdx] = useState(null);
+    const [completedCursorIdx, setCompletedCursorIdx] = useState(null);
+    const [incomingCursorIdx, setIncomingCursorIdx] = useState(null);
+    const [togglingCursor, setTogglingCursor] = useState(true);
+
+    useEffect(() => {
+        if (incomingCursorIdx !== null && togglingCursor) {
+            setTogglingCursor(false);
+            setIncomingCursorIdx(null);
+        } else {
+            setTogglingCursor(true);
+        }
+    }, [completedCursorIdx]);
+
+    useEffect(() => {
+        if (completedCursorIdx !== null && togglingCursor) {
+            setTogglingCursor(false);
+            setCompletedCursorIdx(null);
+        } else {
+            setTogglingCursor(true);
+        }
+    }, [incomingCursorIdx]);
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon, idx) => (
         <ShareChristBeaconCard prayerBeacon={beacon}
@@ -29,8 +50,8 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                                user={beacon.user}
                                activities={beacon.activities}
                                idx={idx}
-                               selectedIdx={selectedIdx}
-                               setSelectedIdx={setSelectedIdx}/>
+                               selectedIdx={completedCursorIdx}
+                               setSelectedIdx={setCompletedCursorIdx}/>
     )) : [];
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
@@ -39,8 +60,8 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                                user={beacon.user}
                                activities={beacon.activities}
                                idx={idx}
-                               selectedIdx={selectedIdx}
-                               setSelectedIdx={setSelectedIdx}/>
+                               selectedIdx={incomingCursorIdx}
+                               setSelectedIdx={setIncomingCursorIdx}/>
     )) : [];
 
     return (
@@ -55,11 +76,11 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                         }
 
                     }}/>
-                <View style={styles.beaconDetails}>
-                    <ThemedText type={ThemedTextType.Title}>
-                        Hello
-                    </ThemedText>
-                </View>
+
+                <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx} 
+                                          completedCursorIdx={completedCursorIdx} 
+                                          completedBeacons={completedBeacons} 
+                                          incomingBeacons={incomingBeacons}/>
             </View>
 
             <View>
@@ -86,9 +107,6 @@ const styles = StyleSheet.create({
     header: {
         display: 'flex',
         flexDirection: 'column',
-    },
-    beaconDetails: {
-        flex: 1,
     },
 });
 
