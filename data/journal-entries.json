@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "id": "entry1",
+        "note": "Sample log entry",
+        "date": "2024-08-29T10:00:00Z",
+        "userId": "user1",
+        "beaconId": "beacon1",
+        "tags": [2, 4, 6, 7]
+    }
+]

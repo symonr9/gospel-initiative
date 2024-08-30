@@ -1,4 +1,4 @@
-import { ActionStepType, ActivityType, AppIcon, AvatarIcon, OneFactType, OneStage, PrayerBeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, ActivityType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, PrayerBeaconType, PrayerType, PromptType, StoryChapterType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -26,6 +26,7 @@ const storyChaptersJson = require('../data/story-chapters.json');
 const usersJson = require('../data/users.json');
 const ministryActivitiesJson = require('../data/ministry-activities.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
+const beaconLogsJson = require('../data/beacon-logs.json');
 
 export function getActionStepsJson() {
     return actionStepsJson.map(item => {
@@ -159,7 +160,6 @@ export function getPrayerBeaconsFromJson() {
             userId: item.userId,
             oneId: item.oneId,
             meetingId: item.meetingId,
-            responses: item.responses,
             targetDate: item.targetDate ? new Date(item.targetDate) : undefined,
             priority: item.priority,
             type: type,
@@ -294,6 +294,21 @@ export function getBeaconActivitiesFromJson() {
             date: item.date ? new Date(item.date) : undefined,
             userId: item.userId,
             beaconId: item.beaconId
+        };
+    });
+}
+
+
+export function getBeaconLogsFromJson() {
+    return beaconLogsJson.map(item => {
+        const tags: BeaconLogTag[] = item.tags?.map((tagValue: number) => tagValue as BeaconLogTag) || [];
+        return {
+            id: item.id,
+            note: item.note,
+            date: item.date ? new Date(item.date) : undefined,
+            userId: item.userId,
+            beaconId: item.beaconId,
+            tags: tags
         };
     });
 }

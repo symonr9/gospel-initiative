@@ -16,7 +16,6 @@ interface IPrayerBeacon {
     userId: string;
     oneId: string | null;
     meetingId: string | null;
-    responses: string[];
     targetDate: Date | undefined;
     priority: Priority;
     type: PrayerBeaconType;
@@ -31,7 +30,6 @@ export default class PrayerBeacon implements IPrayerBeacon {
     userId: string;
     oneId: string | null;
     meetingId: string | null;
-    responses: string[];
     targetDate: Date | undefined;
     priority: Priority;
     type: PrayerBeaconType;
@@ -39,7 +37,7 @@ export default class PrayerBeacon implements IPrayerBeacon {
     settingsId: string;
 
     constructor(id: string, name: string, notes: string, oneId: string | null,
-        responses: string[], targetDate: Date | undefined, priority: Priority,
+        targetDate: Date | undefined, priority: Priority,
         settingsId: string, userId: string, meetingId: string | null,
         type: PrayerBeaconType, activeUntil: Date | undefined
     ) {
@@ -49,7 +47,6 @@ export default class PrayerBeacon implements IPrayerBeacon {
         this.userId = userId;
         this.oneId = oneId;
         this.meetingId = meetingId;
-        this.responses = responses;
         this.targetDate = targetDate;
         this.priority = priority;
         this.settingsId = settingsId;

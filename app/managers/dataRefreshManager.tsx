@@ -42,7 +42,8 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             users: usersJson,
             executor: usersJson[0],
             ministryActivities: JsonFunctions.getMinistryActivitiesFromJson(),
-            beaconActivities: JsonFunctions.getBeaconActivitiesFromJson()
+            beaconActivities: JsonFunctions.getBeaconActivitiesFromJson(),
+            prayerBeaconLogs: JsonFunctions.getBeaconLogsFromJson()
         });
     }, []);
 
