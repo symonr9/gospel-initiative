@@ -14,12 +14,13 @@ export type ISimpleIconButton = {
   pageToOpen?: Page;
   onClick?: () => void;
   small?: boolean;
+  customStyles?: any;
 
   openPage: (page: Page) => void;
 }
 
 function SimpleIconButton({ iconSrc = null, title,
-  pageToOpen, small = false, openPage, onClick }: ISimpleIconButton) {
+  pageToOpen, small = false, customStyles = {}, openPage, onClick }: ISimpleIconButton) {
   const backgroundColor = useBackgroundThemeColor();
 
   const onPress = () => {
@@ -35,9 +36,9 @@ function SimpleIconButton({ iconSrc = null, title,
   const stylesToUse = small ? smallStyles : styles;
 
   return (
-    <TouchableOpacity onPress={onPress} style={[stylesToUse.container, { backgroundColor }]}>
-      <View style={stylesToUse.content}>
-        <View style={stylesToUse.iconContainer}>
+    <TouchableOpacity onPress={onPress} style={[stylesToUse.container, customStyles.container, { backgroundColor }]}>
+      <View style={[stylesToUse.content, customStyles.content]}>
+        <View style={[stylesToUse.iconContainer, customStyles.iconContainer]}>
           {
             iconSrc && (
               <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
@@ -46,7 +47,7 @@ function SimpleIconButton({ iconSrc = null, title,
         </View>
         {
           title && (
-            <ThemedText type={ThemedTextType.Subtitle} style={stylesToUse.title}>
+            <ThemedText type={ThemedTextType.Subtitle} style={[stylesToUse.title, customStyles.title]}>
               {title}
             </ThemedText>
           )

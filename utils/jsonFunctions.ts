@@ -24,7 +24,8 @@ const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
 const storyChaptersJson = require('../data/story-chapters.json');
 const usersJson = require('../data/users.json');
-const activitiesJson = require('../data/activities.json');
+const ministryActivitiesJson = require('../data/ministry-activities.json');
+const beaconActivitiesJson = require('../data/beacon-activities.json');
 
 export function getActionStepsJson() {
     return actionStepsJson.map(item => {
@@ -270,20 +271,29 @@ export function getUsersFromJson() {
     });
 }
 
-export function getActivitiesFromJson() {
-    return activitiesJson.map(item => {
-        const type: ActivityType = item.type as ActivityType;
+export function getMinistryActivitiesFromJson() {
+    return ministryActivitiesJson.map(item => {
         return {
             id: item.id,
-            name: item.name,
+            note: item.note,
             hours: item.hours,
             date: item.date ? new Date(item.date) : undefined,
             localEventId: item.localEventId,
             localMinistryId: item.localMinistryId,
             missionsTripId: item.missionsTripId,
+            userId: item.userId
+        };
+    });
+}
+
+export function getBeaconActivitiesFromJson() {
+    return beaconActivitiesJson.map(item => {
+        return {
+            id: item.id,
+            note: item.note,
+            date: item.date ? new Date(item.date) : undefined,
             userId: item.userId,
-            beaconId: item.beaconId,
-            type: item.type
+            beaconId: item.beaconId
         };
     });
 }

@@ -2,16 +2,18 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
-    activites: []
+    ministryActivities: [],
+    beaconActivities: []
 };
 
 export function activitiesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { activites } = action.payload;
+            const { ministryActivities, beaconActivities } = action.payload;
             return update(state, {
                 $set: {
-                    activites: activites || []
+                    ministryActivities: ministryActivities || [],
+                    beaconActivities: beaconActivities || []
                 }
             });
         default:

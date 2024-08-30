@@ -3,8 +3,10 @@ import { createSelector } from 'reselect';
 import PrayerBeacon from "@/models/prayerBeacon";
 import PrayerBeaconSettings from "@/models/prayerBeaconSettings";
 import { isBeaconActive } from "@/utils/appUtils";
-import { selectAllUsers, selectUserById } from "./userSelectors";
+import { selectAllUsers, selectExecutor, selectUserById } from "./userSelectors";
 import { selectAllOnes, selectMeetingById, selectOneById } from './oneSelectors';
+import { selectAllBeaconActivities, selectBeaconActivitiesById } from './activitySelectors';
+import BeaconActivity from '@/models/beaconActivity';
 
 
 export const selectAllPrayerBeacons = (state: any): PrayerBeacon[] => state.prayers.prayerBeacons;
@@ -68,18 +70,83 @@ export const selectPrayerBeaconDetailsById = (state: any, id: string) => {
 };
 
 export const selectAllActivePrayerBeaconsEnhanced = createSelector(
-    [selectAllPrayerBeacons, selectAllOnes, selectAllUsers],
-    (prayerBeacons, ones, users) => {
+    [selectAllPrayerBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
+    (prayerBeacons, ones, users, beaconActivities, executor) => {
         return prayerBeacons
             .filter((beacon: any) => isBeaconActive(beacon))
             .map((beacon: any) => {
                 const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
                 const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
+                const partitionedActivities = beaconActivities
+                    .filter((activity) => activity.beaconId === beacon.id)
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                    .reduce(
+                        (acc, activity: BeaconActivity) => {
+                            if (activity.userId === executor.id) {
+                                acc.withExecutor.push(activity);
+                            } else {
+                                acc.withoutExecutor.push(activity);
+                            }
+                            return acc;
+                        },
+                        { withExecutor: [], withoutExecutor: [] }
+                    );
                 return {
                     ...beacon,
                     one,
-                    user
+                    user,
+                    incomingActivities: partitionedActivities.withoutExecutor,
+                    completedActivities: partitionedActivities.withExecutor
                 };
             });
+    }
+);
+
+
+export const selectPartitionedActiveEnhancedPrayerBeacons = createSelector(
+    [selectAllPrayerBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
+    (prayerBeacons, ones, users, beaconActivities, executor) => {
+        const partitionedBeacons = prayerBeacons
+            .filter((beacon: any) => isBeaconActive(beacon))
+            .map((beacon: any) => {
+                const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
+                const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
+                const activitiesForBeacon = beaconActivities
+                    .filter((activity) => activity.beaconId === beacon.id)
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+                const hasExecutorActivity = activitiesForBeacon.some(
+                    (activity) => activity.userId === executor.id
+                );
+
+                const partitionedActivities = activitiesForBeacon.reduce(
+                    (acc, activity: BeaconActivity) => {
+                        if (activity.userId === executor.id) {
+                            acc.withExecutor.push(activity);
+                        } else {
+                            acc.withoutExecutor.push(activity);
+                        }
+                        return acc;
+                    },
+                    { withExecutor: [], withoutExecutor: [] }
+                );
+
+                return {
+                    ...beacon,
+                    one,
+                    user,
+                    incomingActivities: partitionedActivities.withoutExecutor,
+                    completedActivities: partitionedActivities.withExecutor,
+                    hasExecutorActivity,
+                };
+            });
+
+        const completedBeacons = partitionedBeacons.filter((beacon) => beacon.hasExecutorActivity);
+        const incomingBeacons = partitionedBeacons.filter((beacon) => !beacon.hasExecutorActivity);
+
+        return {
+            completedBeacons,
+            incomingBeacons,
+        };
     }
 );

@@ -1,44 +1,37 @@
-import { ActivityType } from "@/enums/enums";
 
-interface IActivity {
+interface IMinistryActivity {
     id: string;
-    name: string;
+    note: string;
     hours: number;
     date: Date;
     userId: string;
-    beaconId: string | null;
     localEventId: string | null;
     localMinistryId: string | null;
     missionsTripId: string | null;
-    type: ActivityType;
 }
 
-export default class Activity implements IActivity {
+export default class MinistryActivity implements IMinistryActivity {
     id: string;
-    name: string;
+    note: string;
     hours: number;
     date: Date;
     userId: string;
-    beaconId: string | null;
     localEventId: string | null;
     localMinistryId: string | null;
     missionsTripId: string | null;
-    type: ActivityType
 
-    constructor(id: string, name: string, hours: number, date: Date,
+    constructor(id: string, note: string, hours: number, date: Date,
         localEventId: string | null, localMinistryId: string | null, missionsTripId: string | null,
-        userId: string, beaconId: string | null, type: ActivityType
+        userId: string
     ) {
         this.id = id;
-        this.name = name;
+        this.note = note;
         this.hours = hours;
         this.date = date;
         this.localEventId = localEventId;
         this.localMinistryId = localMinistryId;
         this.missionsTripId = missionsTripId;
         this.userId = userId;
-        this.beaconId = beaconId;
-        this.type = type;
     }
 
 }

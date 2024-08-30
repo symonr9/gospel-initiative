@@ -36,15 +36,6 @@ export enum Role {
     Guest = 'GUEST',
 };
 
-// Activity
-
-export enum ActivityType {
-    Beacon = 1,
-    LocalEvent = 2,
-    LocalMinistry = 3,
-    MissionsTrip = 4
-};
-
 // Prayers
 
 export enum PrayerType {

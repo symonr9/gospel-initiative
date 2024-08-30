@@ -126,9 +126,9 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
 const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function, setPageState: Function) => {
 
     return [
-        <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-            pageToOpen={Page.ShareChrist}
-            title={'Back'} />,
+        // <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+        //     pageToOpen={Page.ShareChrist}
+        //     title={'Back'} />,
     ];
 }
 

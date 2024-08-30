@@ -41,7 +41,8 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             storyChapters: [],
             users: usersJson,
             executor: usersJson[0],
-            activities: JsonFunctions.getActivitiesFromJson()
+            ministryActivities: JsonFunctions.getMinistryActivitiesFromJson(),
+            beaconActivities: JsonFunctions.getBeaconActivitiesFromJson()
         });
     }, []);
 

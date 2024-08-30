@@ -1,10 +1,12 @@
 import { PrayerBeaconType, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
+import BeaconActivity from "./beaconActivity";
 
-export type PrayerBeaconWithOneAndUser = PrayerBeacon & {
+export type PrayerBeaconEnhanced = PrayerBeacon & {
     one: One | null;
     user: User | null;
+    activities: BeaconActivity[];
 };
 
 interface IPrayerBeacon {
