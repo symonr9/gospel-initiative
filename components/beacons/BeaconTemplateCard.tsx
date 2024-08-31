@@ -9,47 +9,54 @@ import { cardStyles, flexStyles } from '@/styles/Styles';
 import { BeaconDetails } from './BeaconDetails';
 import { isBeaconActive } from '@/utils/appUtils';
 import Beacon from '@/models/beacon';
+import BeaconTemplate from '@/models/beaconTemplate';
 
 export type IBeaconCard = ViewProps & {
-  beacon: Beacon;
-  selectedBeaconId: string | null;
-  setSelectedBeaconId: Function;
+  template: BeaconTemplate;
+  selectedTemplateId: string | null;
+  setSelectedTemplateId: Function;
   shareChristPageState: ShareChristPageState;
   onlyActive: boolean;
 };
 
-export function BeaconCard({ beacon, selectedBeaconId, setSelectedBeaconId,
+export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId: setSelectedTemplateId,
   shareChristPageState, onlyActive }: IBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
-  const isActive = isBeaconActive(beacon);
-
   useEffect(() => {
+    const isMatch = selectedTemplateId != null && template.id !== selectedTemplateId;
     Animated.timing(bgColor, {
-      toValue: isActive ? 1 : 0,
+      toValue: isMatch ? 1 : 0,
       duration: 400,
       useNativeDriver: false,
     }).start();
-  }, [isActive]);
+  }, [selectedTemplateId]);
 
   const interpolatedBgColor = bgColor.interpolate({
     inputRange: [0, 1],
     outputRange: ['white', 'whitesmoke']
   });
 
-  if (selectedBeaconId != null) {
-    if (beacon.id !== selectedBeaconId) {
+  if (selectedTemplateId != null) {
+    if (template.id !== selectedTemplateId) {
       return <></>;
     }
+
     return (
-      <BeaconDetails beacon={beacon}
-        shareChristPageState={shareChristPageState}
-        selectedBeaconId={selectedBeaconId} />
+      <View>
+        TEST
+      </View>
     );
+
+    // return (
+    //   <BeaconDetails beacon={beacon}
+    //     shareChristPageState={shareChristPageState}
+    //     selectedTemplateId={selectedTemplateId} />
+    // );
   }
 
   const onPress = () => {
-    setSelectedBeaconId(beacon.id);
+    setSelectedTemplateId(template.id);
   };
 
   const titleTextType = onlyActive ? TextType.DefaultSemiBold : TextType.Subtitle;
@@ -57,16 +64,16 @@ export function BeaconCard({ beacon, selectedBeaconId, setSelectedBeaconId,
   return (
     <TouchableOpacity onPress={onPress}>
       <Animated.View style={[cardStyles.container, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
-        <Image source={AppIcon.NetworkPeople}
+        <Image source={template.icon}
           style={styles.icon}
           contentFit="contain" />
 
         <PageColumn>
           <AppText type={titleTextType}>
-            {beacon.name} {isActive && "(Active)"}
+            {template.name}
           </AppText>
           <AppText type={TextType.Default}>
-            {beacon.message}
+            {template.message}
           </AppText>
         </PageColumn>
       </Animated.View>
@@ -80,9 +87,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    margin: 8,
-    width: 48,
-    height: 48,
+    width: 36,
+    height: 36,
+    marginTop: 8,
     marginEnd: 8,
   },
 });

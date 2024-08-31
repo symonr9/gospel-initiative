@@ -1,7 +1,9 @@
 
-import { ShareChristPageState } from '@/enums/enums';
+import { Priority, ShareChristPageState } from '@/enums/enums';
+import Beacon from '@/models/beacon';
+import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
-import {  setSelectedBeaconId, setBeaconActiveUntil } from '@/redux/actions';
+import {  setSelectedTemplateId, setBeaconActiveUntil, addBeacon } from '@/redux/actions';
 import { getTomorrow } from '@/utils/appUtils';
 import React, { useState, useEffect } from 'react';
 
@@ -9,18 +11,44 @@ import { connect, useSelector } from 'react-redux';
 
 export type IAppStateManager = {
     shareChristPageState: ShareChristPageState;
-    selectedBeaconId: string | null;
-    setSelectedBeaconId: Function;
+    selectedTemplateId: string | null;
+    beaconTemplates: BeaconTemplate[];
+    setSelectedTemplateId: Function;
     setBeaconActiveUntil: Function;
+    addBeacon: Function;
 };
 
-function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBeaconId, setBeaconActiveUntil }: IAppStateManager) {
+function AppStateManager({ shareChristPageState, selectedTemplateId, beaconTemplates, 
+    setSelectedTemplateId, setBeaconActiveUntil, addBeacon }: IAppStateManager) {
 
     useEffect(() => {
         console.log("shareChristPageState: ", shareChristPageState);
-        if (selectedBeaconId != null && shareChristPageState == ShareChristPageState.ConfirmSendBeacon) {
-            setBeaconActiveUntil(selectedBeaconId, getTomorrow());
-            setSelectedBeaconId(null);
+        if (selectedTemplateId != null && shareChristPageState == ShareChristPageState.ConfirmSendBeacon) {
+            const selectedTemplate = beaconTemplates.find((template) => template.id === selectedTemplateId);
+            if (!selectedTemplate) {
+                console.error("Failed to find matching template: ", selectedTemplateId);
+                return;
+            }
+
+            console.log("Adding new beacon");
+
+            addBeacon(
+                new Beacon(
+                    "beacon3",
+                    selectedTemplate.name,
+                    selectedTemplate.message,
+                    null, // oneId,
+                    Priority.Normal,
+                    "settings1",
+                    "user1",
+                    null,
+                    selectedTemplate.type,
+                    getTomorrow()
+                )
+            );
+
+            // setBeaconActiveUntil(selectedTemplateId, getTomorrow());
+            setSelectedTemplateId(null);
         }
     }, [shareChristPageState]);
 
@@ -29,12 +57,14 @@ function AppStateManager({ shareChristPageState, selectedBeaconId, setSelectedBe
 
 const mapStateToProps = (state: any) => ({
     shareChristPageState: state.app.shareChristPageState,
-    selectedBeaconId: state.beacons.selectedBeaconId,
+    selectedTemplateId: state.beacons.selectedTemplateId,
+    beaconTemplates: state.beacons.beaconTemplates
 });
 
 const mapDispatchToProps = {
-    setSelectedBeaconId,
-    setBeaconActiveUntil
+    setSelectedTemplateId,
+    setBeaconActiveUntil,
+    addBeacon
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppStateManager);

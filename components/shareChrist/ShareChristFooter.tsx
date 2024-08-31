@@ -7,26 +7,26 @@ import { AnimatedPageSection } from '../common/AnimatedPageSection';
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import NavigateToOnesButton from '../ones/NavigateToOnesButton';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { openPage, setSelectedBeaconId, setShareChristPageState } from '@/redux/actions';
+import { openPage, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
 
 export type IShareChristFooter = ViewProps & {
     page: Page;
     pageState: ShareChristPageState;
-    selectedBeaconId: string | null;
+    selectedTemplateId: string | null;
 
     openPage: Function;
-    setSelectedBeaconId: Function;
+    setSelectedTemplateId: Function;
     setShareChristPageState: Function;
 };
 
 
-function ShareChristFooter({ page, pageState, selectedBeaconId, setSelectedBeaconId, openPage, setShareChristPageState }: IShareChristFooter) {
+function ShareChristFooter({ page, pageState, selectedTemplateId, setSelectedTemplateId, openPage, setShareChristPageState }: IShareChristFooter) {
 
     let itemsToRender;
     if (page == Page.ShareChristOnes) {
-        itemsToRender = getOnesListItems(pageState, setShareChristPageState, openPage, selectedBeaconId !== null, setSelectedBeaconId);
+        itemsToRender = getOnesListItems(pageState, setShareChristPageState, openPage, selectedTemplateId !== null, setSelectedTemplateId);
     } else if (page == Page.ShareChristPrayers) {
-        itemsToRender = getPrayersListItems(selectedBeaconId, openPage, setShareChristPageState);
+        itemsToRender = getPrayersListItems(selectedTemplateId, openPage, setShareChristPageState);
     } else {
         itemsToRender = getDefaultItems(openPage);
     }
@@ -38,7 +38,7 @@ function ShareChristFooter({ page, pageState, selectedBeaconId, setSelectedBeaco
 
 
 const getOnesListItems = (pageState: ShareChristPageState, setPageState: Function,
-    openPage: Function, hasSelectedBeacon: boolean, setSelectedBeaconId: Function
+    openPage: Function, hasSelectedBeacon: boolean, setSelectedTemplateId: Function
 ) => {
     const onBackDefaultClick = () => {
         if (pageState == ShareChristPageState.Default) {
@@ -57,7 +57,7 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
         if (hasSelectedBeacon) { // View Selected Beacon
             return [
                 getBackButton(() => {
-                    setSelectedBeaconId(null);
+                    setSelectedTemplateId(null);
                 }),
                 getEditButton(() => {
                     setPageState(ShareChristPageState.EditBeacon);
@@ -70,9 +70,6 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
             return [
                 getBackButton(() => {
                     onBackDefaultClick();
-                }),
-                getAddButton(() => {
-                    setPageState(ShareChristPageState.AddBeacon);
                 })
             ];
         }
@@ -88,7 +85,7 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
     } else if (pageState == ShareChristPageState.ConfirmSendBeacon) {
         return [
             getBackButton(() => {
-                setSelectedBeaconId(null);
+                setSelectedTemplateId(null);
                 setPageState(ShareChristPageState.Default);
             }),
         ];
@@ -98,8 +95,8 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
     ].includes(pageState)) { // Add/Edit Beacon
         return [
             getBackButton(() => {
-                if (hasSelectedBeacon && setSelectedBeaconId && pageState == ShareChristPageState.AddBeacon) {
-                    setSelectedBeaconId(null);
+                if (hasSelectedBeacon && setSelectedTemplateId && pageState == ShareChristPageState.AddBeacon) {
+                    setSelectedTemplateId(null);
                 }
                 setPageState(ShareChristPageState.Beacon);
             }),
@@ -122,7 +119,7 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
     ];
 };
 
-const getPrayersListItems = (selectedBeaconId: string | null, setPage: Function, setPageState: Function) => {
+const getPrayersListItems = (selectedTemplateId: string | null, setPage: Function, setPageState: Function) => {
     return [];
 }
 
@@ -201,12 +198,12 @@ const getCancelButton = (onClick: () => void) => {
 
 
 const mapStateToProps = (state: any) => ({
-    selectedBeaconId: state.beacons.selectedBeaconId
+    selectedTemplateId: state.beacons.selectedTemplateId
 });
 
 const mapDispatchToProps = {
     setShareChristPageState,
-    setSelectedBeaconId,
+    setSelectedTemplateId,
     openPage
 };
 

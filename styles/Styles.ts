@@ -6,14 +6,7 @@ export const listStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: 'whitesmoke',
-    padding: 8,
     overflow: 'scroll',
-    borderColor: 'gray',
-    borderWidth: 2,
-    borderRadius: 4,
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 4 },
   }
 });
 
@@ -24,6 +17,8 @@ export const cardStyles = StyleSheet.create({
     flex: 1,
     borderRadius: 4,
     padding: 4,
+    marginStart: 12,
+    marginEnd: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,

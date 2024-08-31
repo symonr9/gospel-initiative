@@ -7,11 +7,12 @@ import { selectAllBeaconActivities } from './activitySelectors';
 import BeaconActivity from '@/models/beaconActivity';
 import Beacon from '@/models/beacon';
 import BeaconSettings from '@/models/beaconSettings';
+import BeaconTemplate from '@/models/beaconTemplate';
 
 
 export const selectAllBeacons = (state: any): Beacon[] => state.beacons.beacons;
 export const selectAllBeaconSettings = (state: any): BeaconSettings[] => state.beacons.beaconSettings;
-
+export const selectAllBeaconTemplates = (state: any): BeaconTemplate[] => state.beacons.beaconTemplates;
 
 export const selectBeaconsByUserId = (userId: string) =>
     createSelector(

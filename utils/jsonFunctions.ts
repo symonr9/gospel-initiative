@@ -17,6 +17,7 @@ const onesFactsJson = require('../data/one-facts.json');
 const onesData = require('../data/ones.json');
 const beaconSettingsJson = require('../data/beacon-settings.json');
 const beaconsJson = require('../data/beacons.json');
+const beaconTemplatesJson = require('../data/beacon-templates.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
@@ -147,6 +148,20 @@ export function getBeaconsFromJson() {
             settingsId: item.settingsId,
             activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
         }
+    });
+}
+
+export function getBeaconTemplatesFromJson() {
+    return beaconTemplatesJson.map(item => {
+        const type: BeaconType = item.type as BeaconType;
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
+        return {
+            id: item.id,
+            name: item.name,
+            message: item.message,
+            icon: icon,
+            type: type
+        };
     });
 }
 

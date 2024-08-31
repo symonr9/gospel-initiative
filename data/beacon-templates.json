@@ -1,0 +1,9 @@
+[
+    {
+        "id": "template1",
+        "name": "Meeting",
+        "message": "You are about to meet with your One.",
+        "icon": "Coffee",
+        "type": 1
+    }
+]

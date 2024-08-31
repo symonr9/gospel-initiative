@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, ViewProps, Animated, TextInput, Button, StyleSheet, Picker } from 'react-native';
 
 import { formStyles } from '@/styles/Styles';
-import { setSelectedBeaconId, updateBeacon } from '@/redux/actions';
+import { setSelectedTemplateId, updateBeacon } from '@/redux/actions';
 import { PageSubHeader } from '../common/PageSubHeader';
 import { AppText, TextType } from '../common/AppText';
 import { ThemedView } from '../common/ThemedView';
@@ -12,15 +12,15 @@ import Beacon from '@/models/beacon';
 
 export type IAddEditBeaconForm = ViewProps & {
     adding: boolean;
-    selectedBeaconId: string | null;
+    selectedTemplateId: string | null;
     beacons: Beacon[];
-    setSelectedBeaconId: Function;
+    setSelectedTemplateId: Function;
     updateBeacon: Function;
 };
 
-function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaconId }: IAddEditBeaconForm) {
+function AddEditBeaconForm({ adding, selectedTemplateId, beacons, setSelectedTemplateId }: IAddEditBeaconForm) {
     const [formBeacon, setFormBeacon] = useState<Beacon>(
-        (beacons.filter((beacon) => beacon.id === selectedBeaconId))[0] || Beacon.createNew()
+        (beacons.filter((beacon) => beacon.id === selectedTemplateId))[0] || Beacon.createNew()
     );
     
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
@@ -127,12 +127,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
-    selectedBeaconId: state.beacons.selectedBeaconId,
+    selectedTemplateId: state.beacons.selectedTemplateId,
     beacons: state.beacons.beacons,
 });
 
 const mapDispatchToProps = {
-    setSelectedBeaconId,
+    setSelectedTemplateId,
     updateBeacon
 };
 

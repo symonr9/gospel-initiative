@@ -5,26 +5,28 @@ const initialState = {
     beacons: [],
     beaconSettings: [],
     beaconLogs: [],
+    beaconTemplates: [],
 
-    selectedBeaconId: null,
+    selectedTemplateId: null,
 };
 
 export function beaconsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { beacons, beaconSettings, beaconLogs
+            const { beacons, beaconSettings, beaconTemplates, beaconLogs
             } = action.payload;
             return update(state, {
                 $set: {
                     beacons: beacons || [],
                     beaconSettings: beaconSettings || [],
                     beaconLogs: beaconLogs || [],
-                    selectedBeaconId: null
+                    beaconTemplates: beaconTemplates || [],
+                    selectedTemplateId: null
                 }
             });
         case Action.SetSelectedBeaconId:
             return update(state, {
-                selectedBeaconId: { $set: action.payload }
+                selectedTemplateId: { $set: action.payload }
             });
         case Action.SetBeaconActiveUntil:
             const { id, date } = action.payload;

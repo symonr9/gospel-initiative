@@ -17,11 +17,11 @@ import Beacon from '@/models/beacon';
 
 export type IBeaconDetails = ViewProps & {
     beacon: Beacon;
-    selectedBeaconId: string;
+    selectedTemplateId: string;
     shareChristPageState: ShareChristPageState;
 };
 
-export function BeaconDetails({ shareChristPageState, beacon, selectedBeaconId }: IBeaconDetails) {
+export function BeaconDetails({ shareChristPageState, beacon, selectedTemplateId }: IBeaconDetails) {
     const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
     const isActive = isBeaconActive(beacon);
@@ -39,7 +39,7 @@ export function BeaconDetails({ shareChristPageState, beacon, selectedBeaconId }
         outputRange: ['white', 'lightgreen']
     });
 
-    const details = useSelector((state: any) => selectBeaconDetailsById(state, selectedBeaconId));
+    const details = useSelector((state: any) => selectBeaconDetailsById(state, selectedTemplateId));
     if (!details) {
         console.error("Something went wrong");
         return <></>;

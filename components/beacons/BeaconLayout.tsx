@@ -7,7 +7,7 @@ import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
 import AddEditBeaconForm from './AddEditBeaconForm';
 import PageResponse from '../common/PageResponse';
-import BeaconsList from './BeaconsList';
+import BeaconTemplatesList from './BeaconTemplatesList';
 
 export type IBeaconLayout = ViewProps & {
     shareChristPageState: ShareChristPageState;
@@ -34,7 +34,7 @@ function BeaconLayout({ shareChristPageState }: IBeaconLayout) {
             </View>
         );
     } else { // View All, View One, Send Beacon
-        Layout.push(<BeaconsList/>);
+        Layout.push(<BeaconTemplatesList/>);
     }
 
     return (

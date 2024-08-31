@@ -4,38 +4,35 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Dimensions, Animated } from 'react-native';
 
-import { BeaconCard } from './BeaconCard';
+import { BeaconTemplateCard } from './BeaconTemplateCard';
 import { formStyles, listStyles } from '@/styles/Styles';
 import { isEditing } from '@/utils/appUtils';
 import { ShareChristPageState } from '@/enums/enums';
 import One from '@/models/one';
-import { selectActiveBeaconsByOneId, selectBeaconsByOneId } from '@/redux/selectors';
-import { setSelectedBeaconId } from '@/redux/actions';
+import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import Beacon from '@/models/beacon';
+import BeaconTemplate from '@/models/beaconTemplate';
 
-export type IBeaconsList = ViewProps & {
+export type IBeaconTemplatesList = ViewProps & {
     onlyActive?: boolean;
 
     selectedOne: One;
     shareChristPageState: ShareChristPageState;
-    selectedBeaconId: string | null;
-    setSelectedBeaconId: Function;
+    selectedTemplateId: string | null;
+    beaconTemplates: BeaconTemplate[];
+    setSelectedTemplateId: Function;
 };
 
-function BeaconsList({ selectedOne, shareChristPageState, selectedBeaconId,
-    setSelectedBeaconId, onlyActive = false }: IBeaconsList) {
-    const selector = onlyActive 
-        ? selectActiveBeaconsByOneId(selectedOne.id)
-        : selectBeaconsByOneId(selectedOne.id);
-    const beacons = useSelector(selector);
+function BeaconTemplatesList({ selectedOne, shareChristPageState, selectedTemplateId,
+    beaconTemplates, setSelectedTemplateId, onlyActive = false }: IBeaconTemplatesList) {
 
-    const renderItem = ({ item }: { item: Beacon }) => (
-        <BeaconCard beacon={item}
-                    onlyActive={onlyActive}
-                    shareChristPageState={shareChristPageState}
-                    setSelectedBeaconId={setSelectedBeaconId}
-                    selectedBeaconId={selectedBeaconId} />
+    const renderItem = ({ item }: { item: BeaconTemplate }) => (
+        <BeaconTemplateCard template={item}
+                            onlyActive={onlyActive}
+                            shareChristPageState={shareChristPageState}
+                            setSelectedTemplateId={setSelectedTemplateId}
+                            selectedTemplateId={selectedTemplateId} />
     );
 
     return (
@@ -43,15 +40,13 @@ function BeaconsList({ selectedOne, shareChristPageState, selectedBeaconId,
             <BeaconsListHeader shareChristPageState={shareChristPageState} 
                                      onlyActive={onlyActive}/>
             <FlatList
-                data={beacons}
+                data={beaconTemplates}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
         </View>
     );
 }
-
-const { height: viewportHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -61,12 +56,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
     shareChristPageState: state.app.shareChristPageState,
-    selectedBeaconId: state.beacons.selectedBeaconId
+    selectedTemplateId: state.beacons.selectedTemplateId,
+    beaconTemplates: state.beacons.beaconTemplates
 });
 
 
 const mapDispatchToProps = {
-    setSelectedBeaconId
+    setSelectedTemplateId
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BeaconsList);
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconTemplatesList);

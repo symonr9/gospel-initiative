@@ -86,7 +86,7 @@ export const setSelectedOne = (item: One) => ({
     payload: item,
 });
 
-export const setSelectedBeaconId = (item: string) => ({
+export const setSelectedTemplateId = (item: string) => ({
     type: Action.SetSelectedBeaconId,
     payload: item,
 });

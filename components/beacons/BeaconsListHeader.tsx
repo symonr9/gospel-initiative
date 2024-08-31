@@ -12,25 +12,8 @@ export type IBeaconsListHeader = ViewProps & {
     onlyActive: boolean;
 }
 
-export function BeaconsListHeader({ shareChristPageState, onlyActive,
-    style = {},
-}: IBeaconsListHeader) {
-    const [bgColor, setBgColor] = useState(new Animated.Value(0));
-
+export function BeaconsListHeader({ shareChristPageState, onlyActive, style = {} }: IBeaconsListHeader) {
     const shouldConfirm = shareChristPageState == ShareChristPageState.SendBeacon;
-
-    useEffect(() => {
-        Animated.timing(bgColor, {
-            toValue: shouldConfirm ? 1 : 0,
-            duration: 500,
-            useNativeDriver: false,
-        }).start();
-    }, [shouldConfirm]);
-
-    const interpolatedBgColor = bgColor.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['white', 'lightgreen']
-    });
 
     const getTitle = () => {
         if (shouldConfirm) {
@@ -52,7 +35,7 @@ export function BeaconsListHeader({ shareChristPageState, onlyActive,
     }
 
     return (
-        <Animated.View style={[formStyles.header, { backgroundColor: interpolatedBgColor }, style]}>
+        <Animated.View style={[styles.container, style]}>
             <AppText type={TextType.DefaultSemiBold}>
                 {getTitle()}
             </AppText>
@@ -67,18 +50,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         display: 'flex',
-        flexDirection: 'row',
-        gap: 8,
-        backgroundColor: 'whitesmoke',
-        borderRadius: 8,
+        flexDirection: 'column',
         padding: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6, // Shadow radius for a softer shadow
-        elevation: 4,
         flexShrink: 1, // Prevent children from overflowing,
-        marginBottom: 4,
+        marginBottom: 24,
     },
     icon: {
         width: 38,
