@@ -87,6 +87,7 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
             getBackButton(() => {
                 setSelectedTemplateId(null);
                 setPageState(ShareChristPageState.Default);
+                openPage(Page.ShareChrist);
             }),
         ];
     } else if ([

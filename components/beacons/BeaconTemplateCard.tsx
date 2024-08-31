@@ -3,24 +3,21 @@ import { View, type ViewProps, StyleSheet, TouchableOpacity, Animated } from 're
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, BeaconType, ShareChristPageState } from '@/enums/enums';
+import { ShareChristPageState } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
-import { BeaconDetails } from './BeaconDetails';
-import { isBeaconActive } from '@/utils/appUtils';
-import Beacon from '@/models/beacon';
+import { BeaconTemplateDetails } from './BeaconTemplateDetails';
 import BeaconTemplate from '@/models/beaconTemplate';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;
   selectedTemplateId: string | null;
-  setSelectedTemplateId: Function;
+  setSelectedTemplateId?: Function;
   shareChristPageState: ShareChristPageState;
-  onlyActive: boolean;
 };
 
-export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId: setSelectedTemplateId,
-  shareChristPageState, onlyActive }: IBeaconCard) {
+export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId,
+  shareChristPageState }: IBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -43,23 +40,19 @@ export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTe
     }
 
     return (
-      <View>
-        TEST
-      </View>
+      <BeaconTemplateDetails template={template}
+                     shareChristPageState={shareChristPageState}
+                     selectedTemplateId={selectedTemplateId} />
     );
-
-    // return (
-    //   <BeaconDetails beacon={beacon}
-    //     shareChristPageState={shareChristPageState}
-    //     selectedTemplateId={selectedTemplateId} />
-    // );
   }
 
   const onPress = () => {
-    setSelectedTemplateId(template.id);
+    if (setSelectedTemplateId) {
+      setSelectedTemplateId(template.id);
+    }
   };
 
-  const titleTextType = onlyActive ? TextType.DefaultSemiBold : TextType.Subtitle;
+  const titleTextType = TextType.Subtitle;
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -68,7 +61,7 @@ export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTe
           style={styles.icon}
           contentFit="contain" />
 
-        <PageColumn>
+        <PageColumn style={{ width: '80%'}}>
           <AppText type={titleTextType}>
             {template.name}
           </AppText>

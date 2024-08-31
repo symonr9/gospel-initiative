@@ -5,7 +5,6 @@ import { View, ViewProps, StyleSheet } from 'react-native';
 
 export type IPageColumn = ViewProps & {
     spaceBetween?: boolean,
-    style?: any
 };
 
 export function PageColumn({ spaceBetween, style, children }: IPageColumn) {

@@ -9,27 +9,21 @@ import { AppText, TextType } from '../common/AppText';
 
 export type IBeaconsListHeader = ViewProps & {
     shareChristPageState: ShareChristPageState;
-    onlyActive: boolean;
 }
 
-export function BeaconsListHeader({ shareChristPageState, onlyActive, style = {} }: IBeaconsListHeader) {
+export function BeaconsListHeader({ shareChristPageState, style = {} }: IBeaconsListHeader) {
     const shouldConfirm = shareChristPageState == ShareChristPageState.SendBeacon;
 
     const getTitle = () => {
         if (shouldConfirm) {
             return 'Send Beacon Confirmation';
-        } else if (onlyActive) {
-            return 'Active Beacons';
         }
-
         return 'Prayer Beacons';
     }
 
     const getDetails = () => {
         if (shouldConfirm) {
             return 'Are you sure you want to send this beacon?';
-        } else if (onlyActive) {
-            return '';
         }
         return 'Use beacons to ask for prayer from your church community.';
     }

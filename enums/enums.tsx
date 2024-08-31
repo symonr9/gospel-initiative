@@ -39,8 +39,16 @@ export enum Role {
 // Beacons
 
 export enum BeaconType {
+    Archived = 0,
     Meeting = 1,
-    Archived = 2,
+    SpiritualConversation = 2,
+    PrayerNeed = 3,
+    SharingGospel = 4,
+    InvitedToChurch = 5,
+    OfferedHelp = 6,
+    AttendedEventTogether = 7,
+    GaveTestimony = 8,
+    FollowedUp = 9
 };
 
 export enum BeaconLogTag {
@@ -259,6 +267,13 @@ export enum AppIcon {
     LightHouse = "../assets/images/app-icons/lighthouse.png",
     Coffee = "../assets/images/app-icons/coffee.png",
     Boat = "../assets/images/app-icons/boat.png",
+    Conversation = "../assets/images/app-icons/conversation.png",
+    Rapport = "../assets/images/app-icons/rapport.png",
+    Book = "../assets/images/app-icons/book.png",
+    FollowUp = "../assets/images/app-icons/follow-up.png",
+    Car = "../assets/images/app-icons/car.png",
+    Phone = "../assets/images/app-icons/phone.png",
+    FastResponse = "../assets/images/app-icons/fast-response.png",
     StageSeeking = "../assets/images/app-icons/stage-seeking.png",
     StageCurious = "../assets/images/app-icons/stage-curious.png",
     StageFriendly = "../assets/images/app-icons/stage-friendly.png",

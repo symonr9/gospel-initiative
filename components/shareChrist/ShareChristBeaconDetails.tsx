@@ -6,10 +6,8 @@ import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, BeaconType } from '@/enums/enums';
 import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon } from '@/utils/appUtils';
-import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
 import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { AnimatedBanner } from '../common/AnimatedBanner';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
 
@@ -27,7 +25,8 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
     if (incomingCursorIdx === null && completedCursorIdx === null) {
         return (
             <View style={[styles.center, styles.column]}>
-                <AnimatedHeader title='Prayer Beacons' subtitle='Select a beacon below to begin.'/>
+                <AnimatedHeader title='Prayer Beacons' 
+                                subtitle='Select a beacon below to begin.'/>
             </View>
         );
     }

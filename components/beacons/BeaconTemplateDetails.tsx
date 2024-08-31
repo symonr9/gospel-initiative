@@ -14,25 +14,30 @@ import { PageRow } from '../common/PageRow';
 import { getShowHideIcon, isBeaconActive, mapPriorityToText } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 import Beacon from '@/models/beacon';
+import BeaconTemplate from '@/models/beaconTemplate';
+import { BeaconTemplateCard } from './BeaconTemplateCard';
 
-export type IBeaconDetails = ViewProps & {
-    beacon: Beacon;
+export type IBeaconTemplateDetails = ViewProps & {
+    template: BeaconTemplate;
     selectedTemplateId: string;
     shareChristPageState: ShareChristPageState;
 };
 
-export function BeaconDetails({ shareChristPageState, beacon, selectedTemplateId }: IBeaconDetails) {
-    const [bgColor, setBgColor] = useState(new Animated.Value(0));
+// TODO: make this redux-supported, add function call for 
+// setSelectedTemplate and import things like beacon settings
+// here, and create a beacon in use state to fill out...
+// The beacon will have to be going in through redux.
 
-    const isActive = isBeaconActive(beacon);
+export function BeaconTemplateDetails({ shareChristPageState, template, selectedTemplateId }: IBeaconTemplateDetails) {
+    const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
     useEffect(() => {
         Animated.timing(bgColor, {
-            toValue: isActive ? 1 : 0,
+            toValue: 1,
             duration: 500,
             useNativeDriver: false,
         }).start();
-    }, [isActive]);
+    }, []);
 
     const interpolatedBgColor = bgColor.interpolate({
         inputRange: [0, 1],
@@ -50,6 +55,9 @@ export function BeaconDetails({ shareChristPageState, beacon, selectedTemplateId
 
     return (
         <ThemedView style={[styles.container]}>
+            <BeaconTemplateCard template={template} 
+                                selectedTemplateId={selectedTemplateId}
+                                shareChristPageState={shareChristPageState}/>
 
             <Animated.View style={[styles.header, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
                 <Image source={AppIcon.NetworkPeople}
@@ -57,14 +65,12 @@ export function BeaconDetails({ shareChristPageState, beacon, selectedTemplateId
                     contentFit="contain" />
                 <PageColumn>
                     <AppText type={TextType.Subtitle}>
-                        {beacon.name} {isActive && "(Active)"}
+                        {template.name}
                     </AppText>
                     <AppText type={TextType.Default}>
                         {beacon.message}
                     </AppText>
                 </PageColumn>
-
-
             </Animated.View>
 
 

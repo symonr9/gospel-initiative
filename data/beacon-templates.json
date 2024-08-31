@@ -5,5 +5,61 @@
         "message": "You are about to meet with your One.",
         "icon": "Coffee",
         "type": 1
+    },
+    {
+        "id": "template2",
+        "name": "Spiritual Conversation",
+        "message": "You want to have a meaningful spiritual conversation with your One.",
+        "icon": "Conversation",
+        "type": 2
+    },
+    {
+        "id": "template3",
+        "name": "Prayer Need",
+        "message": "Your One has a specific prayer need.",
+        "icon": "Prayer",
+        "type": 3
+    },
+    {
+        "id": "template4",
+        "name": "Share about Faith",
+        "message": "You want to share an aspect of your faith with your One.",
+        "icon": "FastResponse",
+        "type": 4
+    },
+    {
+        "id": "template5",
+        "name": "Invite to Church",
+        "message": "You want to invite your One to church.",
+        "icon": "Church",
+        "type": 5
+    },
+    {
+        "id": "template6",
+        "name": "Offered Help",
+        "message": "You offered help or assistance to your One.",
+        "icon": "Car",
+        "type": 6
+    },
+    {
+        "id": "template7",
+        "name": "Building Rapport",
+        "message": "You want to build rapport with your One.",
+        "icon": "Rapport",
+        "type": 7
+    },
+    {
+        "id": "template8",
+        "name": "Gave Testimony",
+        "message": "You shared your personal testimony with your One.",
+        "icon": "Book",
+        "type": 8
+    },
+    {
+        "id": "template10",
+        "name": "Follow Up",
+        "message": "You want to follow up on a previous conversation with your One.",
+        "icon": "Phone",
+        "type": 9
     }
 ]

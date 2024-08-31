@@ -5,18 +5,14 @@ import { connect, useSelector } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Dimensions, Animated } from 'react-native';
 
 import { BeaconTemplateCard } from './BeaconTemplateCard';
-import { formStyles, listStyles } from '@/styles/Styles';
-import { isEditing } from '@/utils/appUtils';
+import { listStyles } from '@/styles/Styles';
 import { ShareChristPageState } from '@/enums/enums';
 import One from '@/models/one';
 import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
-import Beacon from '@/models/beacon';
 import BeaconTemplate from '@/models/beaconTemplate';
 
 export type IBeaconTemplatesList = ViewProps & {
-    onlyActive?: boolean;
-
     selectedOne: One;
     shareChristPageState: ShareChristPageState;
     selectedTemplateId: string | null;
@@ -25,11 +21,10 @@ export type IBeaconTemplatesList = ViewProps & {
 };
 
 function BeaconTemplatesList({ selectedOne, shareChristPageState, selectedTemplateId,
-    beaconTemplates, setSelectedTemplateId, onlyActive = false }: IBeaconTemplatesList) {
+    beaconTemplates, setSelectedTemplateId }: IBeaconTemplatesList) {
 
     const renderItem = ({ item }: { item: BeaconTemplate }) => (
         <BeaconTemplateCard template={item}
-                            onlyActive={onlyActive}
                             shareChristPageState={shareChristPageState}
                             setSelectedTemplateId={setSelectedTemplateId}
                             selectedTemplateId={selectedTemplateId} />
@@ -37,8 +32,7 @@ function BeaconTemplatesList({ selectedOne, shareChristPageState, selectedTempla
 
     return (
         <View style={[listStyles.container, styles.container]}>
-            <BeaconsListHeader shareChristPageState={shareChristPageState} 
-                                     onlyActive={onlyActive}/>
+            <BeaconsListHeader shareChristPageState={shareChristPageState} />
             <FlatList
                 data={beaconTemplates}
                 keyExtractor={(item) => item.id}
@@ -50,6 +44,9 @@ function BeaconTemplatesList({ selectedOne, shareChristPageState, selectedTempla
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
+        height: 200,
+        overflow: 'scroll'
     },
 });
 
