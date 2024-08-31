@@ -9,6 +9,9 @@ import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText
 import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
 import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { AnimatedBanner } from '../common/AnimatedBanner';
+import { AnimatedHeader } from '../common/AnimatedHeader';
+import { AnimatedElement } from '../common/AnimatedElement';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number | null;
@@ -113,26 +116,34 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
         </View>
     );
 
-    rows.push(
-        <View style={styles.buttonRow}>
-            <SimpleIconButton iconSrc={AppIcon.Prayer} title={'Pray'} customStyles={customPrayButtonStyles}/>
-            <SimpleIconButton iconSrc={AppIcon.Mail} title={'Message'} customStyles={customPrayButtonStyles}/>
-        </View>
-    );
+    // rows.push(
+
+    // );
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.row}>
-                    <Image source={user.icon} style={styles.profileIcon} />
-                    <Image source={one.icon} style={styles.profileIcon} />
+                    <AnimatedElement element={
+                        <Image source={user.icon} style={styles.profileIcon} />
+                    } delay={200}/>
+                    <AnimatedElement element={
+                        <Image source={one.icon} style={styles.profileIcon} />
+                    } delay={400}/>
                 </View>
-                <AppText type={TextType.Title} style={{ textAlign: 'center' }}>{titleText}</AppText>
+                <AnimatedHeader title={titleText} delay={600} style={{ textAlign: 'center' }}/>
             </View>
 
-            {rows.map((row, index) => (
-                <View key={index}>{row}</View>
-            ))}
+            <AnimatedElement element={
+                rows.map((row, index) => (
+                    <View key={index}>{row}</View>
+                ))
+            } delay={800}/>
+
+            <View style={styles.buttonRow}>
+                <SimpleIconButton iconSrc={AppIcon.Mail} title={'Message'} customStyles={customPrayButtonStyles}/>
+                <SimpleIconButton iconSrc={AppIcon.Prayer} title={'Pray'} customStyles={customPrayButtonStyles}/>
+            </View>
         </View>
     );
 }
@@ -150,7 +161,7 @@ function getBeacon(incomingCursorIdx: number | null, completedCursorIdx: number 
 }
 
 function getTitleText(beacon: EnhancedBeacon): string | undefined {
-    const { name, message, user, one, settings, activeUntil, type } = beacon;
+    const { user, one, settings, activeUntil, type } = beacon;
     if (!user || !one || !settings || !activeUntil) {
         return undefined;
     }
@@ -176,7 +187,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 8,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 2, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
         elevation: 4,
@@ -211,9 +222,9 @@ const styles = StyleSheet.create({
     },
     buttonRow: {
         display: 'flex',
-        flexDirection: 'row-reverse'
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
     },
-
 });
 
 const customPrayButtonStyles = {

@@ -21,7 +21,7 @@ export type ISimpleIconButton = {
 
 function SimpleIconButton({ iconSrc = null, title,
   pageToOpen, small = false, customStyles = {}, openPage, onClick }: ISimpleIconButton) {
-
+    
   const onPress = () => {
     if (onClick) {
       onClick();
@@ -65,13 +65,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconContainer: {
-    width: 60,
-    height: 60,
+    width: 46,
+    height: 46,
     borderRadius: 30,
     backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8, // Space between the icon and the title
+    marginBottom: 2, // Space between the icon and the title
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
   },
   title: {
     fontSize: 16,
