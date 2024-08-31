@@ -6,7 +6,7 @@ import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
 
 import One from '@/models/one';
 import OneFact from '@/models/oneFact';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { selectOneFactsByOneId } from '@/redux/selectors';
 import { OneFactCard } from './OneFactCard';
 import { AppIcon, ShareChristPageState } from '@/enums/enums';
@@ -32,9 +32,9 @@ function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
     return (
         <View style={[listStyles.container, styles.container]}>
             <PageRow spaceBetween>
-                <ThemedText type={ThemedTextType.Subtitle}>
+                <AppText type={TextType.Subtitle}>
                     Fun Facts
-                </ThemedText>
+                </AppText>
                 {
                     editing && (
                         <SimpleIconButton iconSrc={AppIcon.Edit}

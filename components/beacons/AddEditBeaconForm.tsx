@@ -5,7 +5,7 @@ import { View, ViewProps, Animated, TextInput, Button, StyleSheet, Picker } from
 import { formStyles } from '@/styles/Styles';
 import { setSelectedBeaconId, updateBeacon } from '@/redux/actions';
 import { PageSubHeader } from '../common/PageSubHeader';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { ThemedView } from '../common/ThemedView';
 import { AppIcon, BeaconType, Priority } from '@/enums/enums';
 import Beacon from '@/models/beacon';
@@ -57,7 +57,7 @@ function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaco
 
             <ThemedView>
                 <View style={styles.inputGroup}>
-                    <ThemedText type={ThemedTextType.Default}>Beacon Name</ThemedText>
+                    <AppText type={TextType.Default}>Beacon Name</AppText>
                     <TextInput
                         style={styles.input}
                         placeholder="Beacon Name"
@@ -67,7 +67,7 @@ function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaco
                 </View>
 
                 <View style={styles.inputGroup}>
-                    <ThemedText type={ThemedTextType.Default}>Message</ThemedText>
+                    <AppText type={TextType.Default}>Message</AppText>
                     <TextInput
                         style={styles.input}
                         placeholder="Message"
@@ -77,17 +77,7 @@ function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaco
                 </View>
 
                 <View style={styles.inputGroup}>
-                    <ThemedText type={ThemedTextType.Default}>Target Date</ThemedText>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="YYYY-MM-DD"
-                        value={formBeacon.targetDate?.toISOString().split('T')[0] || ''}
-                        onChangeText={(text) => handleInputChange('targetDate', new Date(text))}
-                    />
-                </View>
-
-                <View style={styles.inputGroup}>
-                    <ThemedText type={ThemedTextType.Default}>Priority</ThemedText>
+                    <AppText type={TextType.Default}>Priority</AppText>
                     <Picker
                         selectedValue={formBeacon.priority}
                         style={styles.picker}
@@ -100,7 +90,7 @@ function AddEditBeaconForm({ adding, selectedBeaconId, beacons, setSelectedBeaco
                 </View>
 
                 <View style={styles.inputGroup}>
-                    <ThemedText type={ThemedTextType.Default}>Beacon Type</ThemedText>
+                    <AppText type={TextType.Default}>Beacon Type</AppText>
                     <Picker
                         selectedValue={formBeacon.type}
                         style={styles.picker}

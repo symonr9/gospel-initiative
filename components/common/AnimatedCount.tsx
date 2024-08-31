@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing, Dimensions } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 
 const { width } = Dimensions.get('window');
 const CIRCLE_SIZE = 60;
@@ -64,8 +64,8 @@ export function AnimatedCount({ count, label, style = {} }: IAnimatedCount) {
           fill="none"
         />
       </Svg>
-      <ThemedText type={ThemedTextType.DefaultSemiBold} style={styles.countText}>{count}</ThemedText>
-      <ThemedText type={ThemedTextType.DefaultSemiBold}>{label}</ThemedText>
+      <AppText type={TextType.DefaultSemiBold} style={styles.countText}>{count}</AppText>
+      <AppText type={TextType.DefaultSemiBold}>{label}</AppText>
     </View>
   );
 }

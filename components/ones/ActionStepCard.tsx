@@ -3,7 +3,7 @@ import React from 'react';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
@@ -17,9 +17,9 @@ export function ActionStepCard({ actionStep }: IActionStepCard) {
   return (
     <View style={styles.container}>
       <Image source={AppIcon.ArrowBack} style={styles.icon} />
-      <ThemedText type={ThemedTextType.Link}>
+      <AppText type={TextType.Link}>
         {actionStep.notes}
-      </ThemedText>
+      </AppText>
     </View>
   );
 }

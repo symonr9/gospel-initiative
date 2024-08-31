@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import One from '@/models/one';
 import OneFactsList from './OneFactsList';
 import ActionStepsList from './ActionStepsList';
@@ -28,9 +28,9 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
     
     if (!selectedOne) {
         return (
-            <ThemedText type={ThemedTextType.Subtitle}>
+            <AppText type={TextType.Subtitle}>
                 No One found, add!
-            </ThemedText>
+            </AppText>
         );
     }
 
@@ -46,9 +46,9 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
 
                 <PageRow spaceBetween>
                     <ThemedView style={{ flex: 1 }}>
-                        <ThemedText type={ThemedTextType.Subtitle}>
+                        <AppText type={TextType.Subtitle}>
                             Test
-                        </ThemedText>
+                        </AppText>
                     </ThemedView>
                     <ActiveBeaconsInfoCard activeBeacons={prayerBeacons} />
                 </PageRow>

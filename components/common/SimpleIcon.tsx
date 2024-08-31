@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 
 export type ISimpleIcon = {
     iconSrc: string | null;
@@ -21,9 +21,9 @@ export function SimpleIcon({ iconSrc = null, title = '', large }: ISimpleIcon) {
                         <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
                     )}
                 </View>
-                <ThemedText type={ThemedTextType.Subtitle} style={stylesToUse.title}>
+                <AppText type={TextType.Subtitle} style={stylesToUse.title}>
                     {title}
-                </ThemedText>
+                </AppText>
             </View>
         </View>
     );

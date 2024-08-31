@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Dimensions } from 'react-native';
 
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 
 export type IPageHeader = ViewProps & {
     title: string;
@@ -15,12 +15,12 @@ function PageResponse({ title, details }: IPageHeader) {
 
     return (
         <View style={[styles.container]}>
-            <ThemedText type={ThemedTextType.Title}>
+            <AppText type={TextType.Title}>
                 {title}
-            </ThemedText>
-            <ThemedText type={ThemedTextType.Default}>
+            </AppText>
+            <AppText type={TextType.Default}>
                 {details}
-            </ThemedText>
+            </AppText>
         </View>
     );
 }

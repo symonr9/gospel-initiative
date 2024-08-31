@@ -27,7 +27,6 @@ export type IShareChristBeaconCard = {
 export function ShareChristBeaconCard({ beacon, one, user, activities,
     idx, selectedIdx, setSelectedIdx }: IShareChristBeaconCard) {
     const progress = useSharedValue(0);
-    const [showDialog, setShowDialog] = useState(false);
 
     const animatedStyle = useAnimatedStyle(() => {
         const backgroundColor = interpolateColor(
@@ -65,7 +64,7 @@ export function ShareChristBeaconCard({ beacon, one, user, activities,
                 exiting={ZoomOut.duration(250)}
                 style={[styles.iconContainer, animatedStyle]}
             >
-                <Image source={AppIcon.Man1} style={styles.icon} contentFit="contain" />
+                <Image source={user.icon} style={styles.icon} contentFit="contain" />
             </Animated.View>
         </TouchableOpacity>
     );

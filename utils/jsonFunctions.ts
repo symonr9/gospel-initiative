@@ -124,7 +124,6 @@ export function getOnesFromJson() {
             item.name,
             icon,
             stage,
-            item.nextMeetingAt ? new Date(item.nextMeetingAt) : undefined,
             item.prayingSince ? new Date(item.prayingSince) : undefined,
             false,
             item.userId
@@ -143,7 +142,6 @@ export function getBeaconsFromJson() {
             userId: item.userId,
             oneId: item.oneId,
             meetingId: item.meetingId,
-            targetDate: item.targetDate ? new Date(item.targetDate) : undefined,
             priority: item.priority,
             type: type,
             settingsId: item.settingsId,

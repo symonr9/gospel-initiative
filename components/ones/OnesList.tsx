@@ -6,7 +6,7 @@ import One from '@/models/one';
 
 import { OneCard } from './OneCard';
 import { ThemedView } from '../common/ThemedView';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 
 export type IOnesList = ViewProps & {
     ones: One[];
@@ -19,9 +19,9 @@ function OnesList({ ones }: IOnesList) {
 
     return (
         <ThemedView style={styles.container}>
-            <ThemedText type={ThemedTextType.Subtitle}>
+            <AppText type={TextType.Subtitle}>
                 Your Ones ({ones.length})
-            </ThemedText>
+            </AppText>
             <FlatList
                 data={ones}
                 keyExtractor={(item) => item.id}

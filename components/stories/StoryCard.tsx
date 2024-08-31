@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import { ThemedText } from '../common/ThemedText';
+import { AppText } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import Story from '@/models/story';
 import { AppIcon } from '@/enums/enums';
@@ -12,7 +12,7 @@ export type IStoryCard = ViewProps & {
 
 export function StoryCard({ story }: IStoryCard) {
   const detailsView = (
-    <ThemedText>Test</ThemedText>
+    <AppText>Test</AppText>
   );
 
   return (

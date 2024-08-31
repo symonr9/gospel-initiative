@@ -7,7 +7,7 @@ import { FlatList, View, ViewProps, StyleSheet, Dimensions } from 'react-native'
 import One from '@/models/one';
 import OneFact from '@/models/oneFact';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 
 export type IPageHeader = ViewProps & {
     title: string
@@ -18,9 +18,9 @@ function PageHeader({ style, title }: IPageHeader) {
 
     return (
         <View style={[{ backgroundColor }, styles.container]}>
-            <ThemedText type={ThemedTextType.Title}>
+            <AppText type={TextType.Title}>
                 {title}
-            </ThemedText>
+            </AppText>
         </View>
     );
 }

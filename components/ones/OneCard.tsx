@@ -2,7 +2,7 @@ import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
 import One from '@/models/one';
-import { ThemedText } from '../common/ThemedText';
+import { AppText } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 
 export type IOneCard = ViewProps & {
@@ -11,7 +11,7 @@ export type IOneCard = ViewProps & {
 
 export function OneCard({ one }: IOneCard) {
   const detailsView = (
-    <ThemedText>Test</ThemedText>
+    <AppText>Test</AppText>
   );
 
   return (

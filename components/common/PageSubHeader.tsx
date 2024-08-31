@@ -3,7 +3,7 @@ import { GestureResponderEvent, View, type ViewProps } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 
 export type IPageSubHeader = ViewProps & {
@@ -31,7 +31,7 @@ export function PageSubHeader({ iconSrc = null, title,
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                     )
                 }
-                <ThemedText type={ThemedTextType.Subtitle}>{title}</ThemedText>
+                <AppText type={TextType.Subtitle}>{title}</AppText>
             </ThemedView>
         </TouchableOpacity>
     );

@@ -3,28 +3,31 @@ import { Text, type TextProps, StyleSheet, View } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-export enum ThemedTextType {
+export enum TextType {
   Default = 'default',
   Title = 'title',
   DefaultSemiBold = 'defaultSemiBold',
   Subtitle = 'subtitle',
   Link = 'link',
-  Prefix = 'prefix'
+  Prefix = 'prefix',
+  Body = 'body',
+  BodyBold = 'boldBold',
+  Italic = 'italic'
 };
 
-export type ThemedTextProps = TextProps & {
+export type IAppText = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: ThemedTextType;
+  type?: TextType;
 };
 
-export function ThemedText({
+export function AppText({
   style,
   lightColor,
   darkColor,
-  type = ThemedTextType.Default,
+  type = TextType.Default,
   ...rest
-}: ThemedTextProps) {
+}: IAppText) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
@@ -32,12 +35,15 @@ export function ThemedText({
       style={[
         { color },
         { flexShrink: 1 },
-        type === ThemedTextType.Default ? styles.default : undefined,
-        type === ThemedTextType.Title ? styles.title : undefined,
-        type === ThemedTextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
-        type === ThemedTextType.Subtitle ? styles.subtitle : undefined,
-        type === ThemedTextType.Link ? styles.link : undefined,
-        type === ThemedTextType.Prefix ? styles.prefix : undefined,
+        type === TextType.Default ? styles.default : undefined,
+        type === TextType.Title ? styles.title : undefined,
+        type === TextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
+        type === TextType.Subtitle ? styles.subtitle : undefined,
+        type === TextType.Link ? styles.link : undefined,
+        type === TextType.Prefix ? styles.prefix : undefined,
+        type === TextType.Body ? styles.body : undefined,
+        type === TextType.BodyBold ? styles.bodyBold : undefined,
+        type === TextType.Italic ? styles.italic : undefined,
         style,
       ]}
       {...rest}
@@ -74,5 +80,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#5b5b5b',
     fontStyle: 'italic'
-  }
+  },
+  body: {
+    fontSize: 14,
+  },
+  bodyBold: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  italic: {
+    fontSize: 14,
+    fontStyle: 'italic'
+  },
 });

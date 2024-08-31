@@ -3,7 +3,7 @@
         "id":  "beaconSettings1",
         "name": "Default Settings",
         "userId": "user1",
-        "shareOneName": true,
+        "shareOneName": false,
         "shareOwnName": false
     }
 ]

@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import { ThemedText } from '../common/ThemedText';
+import { AppText } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import MissionsTrip from '@/models/missionsTrip';
 import { AppIcon } from '@/enums/enums';
@@ -13,7 +13,7 @@ export type IMissionsTripCard = ViewProps & {
 
 export function MissionsTripCard({ missionsTrip }: IMissionsTripCard) {
   const detailsView = (
-    <ThemedText>Test</ThemedText>
+    <AppText>Test</AppText>
   );
 
   return (

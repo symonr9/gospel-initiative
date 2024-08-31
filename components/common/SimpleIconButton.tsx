@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 import { useBackgroundThemeColor } from '@/constants/Colors';
 import { Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
@@ -47,9 +47,9 @@ function SimpleIconButton({ iconSrc = null, title,
         </View>
         {
           title && (
-            <ThemedText type={ThemedTextType.Subtitle} style={[stylesToUse.title, customStyles.title]}>
+            <AppText type={TextType.Subtitle} style={[stylesToUse.title, customStyles.title]}>
               {title}
-            </ThemedText>
+            </AppText>
           )
         }
       </View>

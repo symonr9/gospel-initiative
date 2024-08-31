@@ -2,10 +2,12 @@ import { BeaconType, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity from "./beaconActivity";
+import BeaconSettings from "./beaconSettings";
 
 export type EnhancedBeacon = Beacon & {
     one: One | null;
     user: User | null;
+    settings: BeaconSettings | null;
     activities: BeaconActivity[];
 };
 
@@ -16,7 +18,6 @@ interface IBeacon {
     userId: string;
     oneId: string | null;
     meetingId: string | null;
-    targetDate: Date | undefined;
     priority: Priority;
     type: BeaconType;
     activeUntil: Date | undefined;
@@ -30,15 +31,13 @@ export default class Beacon implements IBeacon {
     userId: string;
     oneId: string | null;
     meetingId: string | null;
-    targetDate: Date | undefined;
     priority: Priority;
     type: BeaconType;
     activeUntil: Date | undefined;
     settingsId: string;
 
     constructor(id: string, name: string, notes: string, oneId: string | null,
-        targetDate: Date | undefined, priority: Priority,
-        settingsId: string, userId: string, meetingId: string | null,
+        priority: Priority, settingsId: string, userId: string, meetingId: string | null,
         type: BeaconType, activeUntil: Date | undefined
     ) {
         this.id = id;
@@ -47,7 +46,6 @@ export default class Beacon implements IBeacon {
         this.userId = userId;
         this.oneId = oneId;
         this.meetingId = meetingId;
-        this.targetDate = targetDate;
         this.priority = priority;
         this.settingsId = settingsId;
         this.type = type;

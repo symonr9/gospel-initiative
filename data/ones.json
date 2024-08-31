@@ -4,7 +4,6 @@
     "name": "Jane Smith",
     "icon": "Woman3",
     "stage": 4,
-    "nextMeetingAt": "2024-10-01T10:00:00Z",
     "prayingSince": "2023-06-01T00:00:00Z",
     "userId": "user1",
     "hidden": "false"

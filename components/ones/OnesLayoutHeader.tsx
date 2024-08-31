@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import One from '@/models/one';
 import { AppIcon } from '@/enums/enums';
 import { SimpleIcon } from '../common/SimpleIcon';

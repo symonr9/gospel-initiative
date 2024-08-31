@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 import { flexStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 
@@ -44,14 +44,14 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                                 style={[styles.textContainer]} >
                                 {
                                     prefixText && (
-                                        <ThemedText type={ThemedTextType.Prefix}>
+                                        <AppText type={TextType.Prefix}>
                                             {prefixText}
-                                        </ThemedText>
+                                        </AppText>
                                     )
                                 }
-                                <ThemedText type={ThemedTextType.Default}>
+                                <AppText type={TextType.Default}>
                                     {text}
-                                </ThemedText>
+                                </AppText>
                             </Animated.Text>
                         </View>
                     </View>

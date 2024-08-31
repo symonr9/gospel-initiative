@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import { ThemedText } from './ThemedText';
+import { AppText } from './AppText';
 import { SimpleCard } from './SimpleCard';
 import { AppIcon } from '@/enums/enums';
 import Leader from '@/models/leader';
@@ -13,7 +13,7 @@ export type ILeaderCard = ViewProps & {
 
 export function LeaderCard({ leader }: ILeaderCard) {
   const detailsView = (
-    <ThemedText>Test</ThemedText>
+    <AppText>Test</AppText>
   );
 
   return (

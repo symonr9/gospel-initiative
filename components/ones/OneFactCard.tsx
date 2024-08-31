@@ -3,7 +3,7 @@ import { View, type ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
 import One from '@/models/one';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import Meeting from '@/models/meeting';
 import OneFact from '@/models/oneFact';
@@ -17,9 +17,9 @@ export function OneFactCard({ oneFact }: IOneFactCard) {
     return (
         <View style={styles.container}>
             <Image source={oneFact.icon} style={styles.icon} />
-            <ThemedText type={ThemedTextType.Default}>
+            <AppText type={TextType.Default}>
                 {oneFact.notes}
-            </ThemedText>
+            </AppText>
         </View>
     );
 }

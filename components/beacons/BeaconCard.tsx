@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, type ViewProps, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { AppIcon, BeaconType, ShareChristPageState } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
@@ -52,7 +52,7 @@ export function BeaconCard({ beacon, selectedBeaconId, setSelectedBeaconId,
     setSelectedBeaconId(beacon.id);
   };
 
-  const titleTextType = onlyActive ? ThemedTextType.DefaultSemiBold : ThemedTextType.Subtitle;
+  const titleTextType = onlyActive ? TextType.DefaultSemiBold : TextType.Subtitle;
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -62,12 +62,12 @@ export function BeaconCard({ beacon, selectedBeaconId, setSelectedBeaconId,
           contentFit="contain" />
 
         <PageColumn>
-          <ThemedText type={titleTextType}>
+          <AppText type={titleTextType}>
             {beacon.name} {isActive && "(Active)"}
-          </ThemedText>
-          <ThemedText type={ThemedTextType.Default}>
+          </AppText>
+          <AppText type={TextType.Default}>
             {beacon.message}
-          </ThemedText>
+          </AppText>
         </PageColumn>
       </Animated.View>
     </TouchableOpacity>

@@ -3,7 +3,7 @@ import { View, type ViewProps, StyleSheet, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
 
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { AppIcon, BeaconType, ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
@@ -56,12 +56,12 @@ export function BeaconDetails({ shareChristPageState, beacon, selectedBeaconId }
                     style={styles.icon}
                     contentFit="contain" />
                 <PageColumn>
-                    <ThemedText type={ThemedTextType.Subtitle}>
+                    <AppText type={TextType.Subtitle}>
                         {beacon.name} {isActive && "(Active)"}
-                    </ThemedText>
-                    <ThemedText type={ThemedTextType.Default}>
+                    </AppText>
+                    <AppText type={TextType.Default}>
                         {beacon.message}
-                    </ThemedText>
+                    </AppText>
                 </PageColumn>
 
 
@@ -69,20 +69,20 @@ export function BeaconDetails({ shareChristPageState, beacon, selectedBeaconId }
 
 
             <PageColumn style={styles.section}>
-                <ThemedText type={ThemedTextType.Subtitle}>
+                <AppText type={TextType.Subtitle}>
                     Priority
-                </ThemedText>
-                <ThemedText type={ThemedTextType.DefaultSemiBold}>
+                </AppText>
+                <AppText type={TextType.DefaultSemiBold}>
                     {mapPriorityToText(beacon.priority)}
-                </ThemedText>
+                </AppText>
             </PageColumn>
 
             {
                 settings && (
                     <PageColumn style={styles.section}>
-                        <ThemedText type={ThemedTextType.Subtitle}>
+                        <AppText type={TextType.Subtitle}>
                             {settings.name}
-                        </ThemedText>
+                        </AppText>
                         <PageChip iconSrc={getShowHideIcon(settings.shareOneName)}
                             title={`Share One Name: ${settings.shareOneName ? "Yes" : 'No'}`} />
                         <PageChip iconSrc={getShowHideIcon(settings.shareOwnName)}
@@ -92,13 +92,13 @@ export function BeaconDetails({ shareChristPageState, beacon, selectedBeaconId }
             }
 
             <PageColumn style={styles.section}>
-                <ThemedText type={ThemedTextType.Subtitle}>
+                <AppText type={TextType.Subtitle}>
                     When you send...
-                </ThemedText>
-                <ThemedText type={ThemedTextType.Default}>
+                </AppText>
+                <AppText type={TextType.Default}>
                     Your beacon will be delivered to friends in your community and will
                     be active for 24 hours.
-                </ThemedText>
+                </AppText>
             </PageColumn>
         </ThemedView>
     );

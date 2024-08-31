@@ -39,7 +39,7 @@ export enum Role {
 // Beacons
 
 export enum BeaconType {
-    Normal = 1,
+    Meeting = 1,
     Archived = 2,
 };
 
@@ -123,8 +123,9 @@ export enum OneStage {
     NewBeliever = 2,
     Seeking = 3,
     Curious = 4,
-    Apathetic = 5,
-    Hostile = 6
+    Friendly = 5,
+    Apathetic = 6,
+    Hostile = 7
 };
 
 export enum OneFactType {
@@ -245,7 +246,25 @@ export enum AppIcon {
     ShieldSecure = "../assets/images/app-icons/shieldSecure.png",
     WirelessSignal = "../assets/images/app-icons/wirelessSignal.png",
     Lock = "../assets/images/app-icons/lock.png",
-    Trash = "../assets/images/app-icons/trash.png"
+    Trash = "../assets/images/app-icons/trash.png",
+    Document = "../assets/images/app-icons/document.png",
+    Heart = "../assets/images/app-icons/heart.png",
+    Mail = "../assets/images/app-icons/mail.png",
+    Hourglass = "../assets/images/app-icons/hourglass.png",
+    Menu = "../assets/images/app-icons/menu.png",
+    Image = "../assets/images/app-icons/image.png",
+    Settings = "../assets/images/app-icons/settings.png",
+    House = "../assets/images/app-icons/house.png",
+    Dove = "../assets/images/app-icons/dove.png",
+    LightHouse = "../assets/images/app-icons/lighthouse.png",
+    Coffee = "../assets/images/app-icons/coffee.png",
+    StageSeeking = "../assets/images/app-icons/stage-seeking.png",
+    StageCurious = "../assets/images/app-icons/stage-curious.png",
+    StageFriendly = "../assets/images/app-icons/stage-friendly.png",
+    StageApathetic = "../assets/images/app-icons/stage-apathetic.png",
+    StageHostile = "../assets/images/app-icons/stage-hostile.png",
+    StageNewBeliever = "../assets/images/app-icons/stage-new-believer.png",
+    StageDisciple = "../assets/images/app-icons/stage-disciple.png",
 }
 
 export enum AvatarIcon {

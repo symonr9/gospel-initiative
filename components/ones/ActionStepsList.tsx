@@ -8,7 +8,7 @@ import One from '@/models/one';
 import ActionStep from '@/models/actionStep';
 import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
 import { ActionStepCard } from './ActionStepCard';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { PageRow } from '../common/PageRow';
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
@@ -36,9 +36,9 @@ function ActionStepsList({ actionSteps, shareChristPageState,
     return (
         <View style={[listStyles.container, styles.container]}>
             <PageRow spaceBetween>
-                <ThemedText type={ThemedTextType.Subtitle}>
+                <AppText type={TextType.Subtitle}>
                     Action Steps
-                </ThemedText>
+                </AppText>
                 {
                     editing && (
                         <SimpleIconButton iconSrc={AppIcon.Edit}

@@ -87,13 +87,14 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
  * are all appended into an enhanced object.
  */
 export const selectPartitionedActiveEnhancedBeacons = createSelector(
-    [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
-    (beacons, ones, users, beaconActivities, executor) => {
+    [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectAllBeaconSettings, selectExecutor],
+    (beacons, ones, users, beaconActivities, beaconSettings, executor) => {
         const partitionedBeacons = beacons
             .filter((beacon: any) => isBeaconActive(beacon))
             .map((beacon: any) => {
                 const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
                 const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
+                const settings = beacon.settingsId ? beaconSettings.find((setting: any) => setting.id === beacon.settingsId) : null;
                 const activitiesForBeacon = beaconActivities
                     .filter((activity) => activity.beaconId === beacon.id)
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -118,6 +119,7 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
                     ...beacon,
                     one,
                     user,
+                    settings,
                     incomingActivities: partitionedActivities.withoutExecutor,
                     completedActivities: partitionedActivities.withExecutor,
                     hasExecutorActivity,

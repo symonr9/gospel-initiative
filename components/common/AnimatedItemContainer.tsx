@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 
 export type IAnimatedItemContainer = {
@@ -30,9 +30,9 @@ export function AnimatedItemContainer({ iconSrc = null, title = '',
                                 <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                             )
                         }
-                        <ThemedText type={ThemedTextType.Subtitle}>
+                        <AppText type={TextType.Subtitle}>
                             {title}
-                        </ThemedText>
+                        </AppText>
                     </View>
 
                     <View style={styles.itemsContainer}>

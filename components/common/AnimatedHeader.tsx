@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Easing, Dimensions } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 
 type IAnimatedHeader = {
     title: string;
@@ -18,9 +18,9 @@ export function AnimatedHeader({ title, duration = 400, delay = 0, style = {} }:
             entering={FadeInUp.duration(duration).delay(delay)}
             exiting={FadeOutDown.duration(duration).delay(delay)}
             style={[]} >
-            <ThemedText type={ThemedTextType.Title}>
+            <AppText type={TextType.Title}>
                 {title}
-            </ThemedText>
+            </AppText>
         </Animated.Text>
     );
 }

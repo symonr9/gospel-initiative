@@ -3,7 +3,7 @@ import { GestureResponderEvent, View, type ViewProps } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
-import { ThemedText, ThemedTextType } from './ThemedText';
+import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 
 export type IPageTag = ViewProps & {
@@ -30,7 +30,7 @@ export function PageChip({ iconSrc = null, title,
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                     )
                 }
-                <ThemedText type={ThemedTextType.DefaultSemiBold}>{title}</ThemedText>
+                <AppText type={TextType.DefaultSemiBold}>{title}</AppText>
             </ThemedView>
         </TouchableOpacity>
     );

@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-import { ThemedText } from '../common/ThemedText';
+import { AppText } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import LocalEvent from '@/models/localEvent';
 import { AppIcon } from '@/enums/enums';
@@ -13,7 +13,7 @@ export type ILocalEventCard = ViewProps & {
 
 export function LocalEventCard({ localEvent }: ILocalEventCard) {
   const detailsView = (
-    <ThemedText>Test</ThemedText>
+    <AppText>Test</AppText>
   );
 
   return (

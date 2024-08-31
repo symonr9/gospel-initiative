@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 
 import { formStyles } from '@/styles/Styles';
 import { ShareChristPageState } from '@/enums/enums';
-import { ThemedText, ThemedTextType } from '../common/ThemedText';
+import { AppText, TextType } from '../common/AppText';
 
 export type IBeaconsListHeader = ViewProps & {
     shareChristPageState: ShareChristPageState;
@@ -53,12 +53,12 @@ export function BeaconsListHeader({ shareChristPageState, onlyActive,
 
     return (
         <Animated.View style={[formStyles.header, { backgroundColor: interpolatedBgColor }, style]}>
-            <ThemedText type={ThemedTextType.DefaultSemiBold}>
+            <AppText type={TextType.DefaultSemiBold}>
                 {getTitle()}
-            </ThemedText>
-            <ThemedText type={ThemedTextType.Default}>
+            </AppText>
+            <AppText type={TextType.Default}>
                 {getDetails()}
-            </ThemedText>
+            </AppText>
         </Animated.View>
     );
 }
