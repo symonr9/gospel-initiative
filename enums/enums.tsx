@@ -258,6 +258,7 @@ export enum AppIcon {
     Dove = "../assets/images/app-icons/dove.png",
     LightHouse = "../assets/images/app-icons/lighthouse.png",
     Coffee = "../assets/images/app-icons/coffee.png",
+    Boat = "../assets/images/app-icons/boat.png",
     StageSeeking = "../assets/images/app-icons/stage-seeking.png",
     StageCurious = "../assets/images/app-icons/stage-curious.png",
     StageFriendly = "../assets/images/app-icons/stage-friendly.png",

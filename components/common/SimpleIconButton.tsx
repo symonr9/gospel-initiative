@@ -21,7 +21,6 @@ export type ISimpleIconButton = {
 
 function SimpleIconButton({ iconSrc = null, title,
   pageToOpen, small = false, customStyles = {}, openPage, onClick }: ISimpleIconButton) {
-  const backgroundColor = useBackgroundThemeColor();
 
   const onPress = () => {
     if (onClick) {
@@ -36,7 +35,7 @@ function SimpleIconButton({ iconSrc = null, title,
   const stylesToUse = small ? smallStyles : styles;
 
   return (
-    <TouchableOpacity onPress={onPress} style={[stylesToUse.container, customStyles.container, { backgroundColor }]}>
+    <TouchableOpacity onPress={onPress} style={[stylesToUse.container, customStyles.container]}>
       <View style={[stylesToUse.content, customStyles.content]}>
         <View style={[stylesToUse.iconContainer, customStyles.iconContainer]}>
           {

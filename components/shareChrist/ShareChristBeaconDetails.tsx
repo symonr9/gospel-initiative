@@ -1,11 +1,14 @@
-import React from 'react';
-import { StyleSheet, View, type ViewProps } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { StyleSheet, View, Animated, Easing, type ViewProps, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, BeaconType } from '@/enums/enums';
 import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon } from '@/utils/appUtils';
+import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
+import { AnimatedCount } from '../common/AnimatedCount';
+import SimpleIconButton from '../common/SimpleIconButton';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number | null;
@@ -16,11 +19,11 @@ export type IShareChristBeaconDetails = ViewProps & {
 
 export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons
- }: IShareChristBeaconDetails) {
+}: IShareChristBeaconDetails) {
 
     if (incomingCursorIdx === null && completedCursorIdx === null) {
         return (
-            <View>
+            <View style={styles.center}>
                 <AppText type={TextType.Title}>
                     None Selected
                 </AppText>
@@ -31,7 +34,7 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     if (!beacon) {
         return (
-            <View>
+            <View style={styles.center}>
                 <AppText type={TextType.Title}>
                     Whaaa something went wrong
                 </AppText>
@@ -41,8 +44,8 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
 
     console.log("BEACON: ", beacon);
 
-    const { name, message, user, one, settings, activeUntil, type } = beacon;
-    if (!user || !one || !settings || !activeUntil) {
+    const { name, message, user, one, settings, activeUntil, completedActivities } = beacon;
+    if (!user || !one || !settings || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
     }
@@ -66,13 +69,13 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
     if (one.prayingSince) {
         rows.push(
             <View style={styles.section}>
-            <View style={styles.row}>
-                <View>
-                    <AppText type={TextType.Body}>{user.name} has...</AppText>
-                    <AppText type={TextType.BodyBold}>{getDaysPrayedForText(one.prayingSince)}</AppText>
+                <View style={styles.row}>
+                    <View>
+                        <AppText type={TextType.Body}>{user.name} has...</AppText>
+                        <AppText type={TextType.BodyBold}>{getDaysPrayedForText(one.prayingSince)}</AppText>
+                    </View>
                 </View>
             </View>
-        </View>
         );
     }
 
@@ -85,32 +88,51 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
                     <AppText type={TextType.Body}>{stagePrefix}</AppText>
                     <AppText type={TextType.BodyBold}>{mapStageToText(one.stage)}</AppText>
                 </View>
+                <View style={[styles.column, { marginTop: 0 }]}>
+                    <AnimatedCount count={completedActivities.length} label={'Completed Prayers'}/>
+                </View>
+            </View>
+            <View>
             </View>
         </View>
     );
 
 
+    rows.push(
+        <View style={styles.section}>
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <AppText type={TextType.DefaultSemiBold}>
+                        {getAppTimeAgoText(activeUntil)}
+                    </AppText>
+                    <AppText type={TextType.Body}>
+                        {formatDateTime(activeUntil)}
+                    </AppText>
+                </View>
+            </View>
+        </View>
+    );
+
+    rows.push(
+        <View style={styles.buttonRow}>
+            <SimpleIconButton iconSrc={AppIcon.Prayer} title={'Pray'} customStyles={customPrayButtonStyles}/>
+            <SimpleIconButton iconSrc={AppIcon.Mail} title={'Message'} customStyles={customPrayButtonStyles}/>
+        </View>
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.row}>
-                    <Image source={user.icon} style={styles.profileIcon} />            
+                    <Image source={user.icon} style={styles.profileIcon} />
                     <Image source={one.icon} style={styles.profileIcon} />
                 </View>
-                <AppText type={TextType.Title} style={{textAlign: 'center'}}>{titleText}</AppText>
+                <AppText type={TextType.Title} style={{ textAlign: 'center' }}>{titleText}</AppText>
             </View>
 
-            {rows.map((row) => row)}
-
-            <View style={styles.section}>
-                <AppText type={TextType.Body}>Active Until:</AppText>
-                <AppText type={TextType.BodyBold}>
-                    {getAppTimeAgoText(activeUntil)}
-                </AppText>
-                <AppText type={TextType.Default}>
-                    {formatDateTime(activeUntil)}
-                </AppText>
-            </View>
+            {rows.map((row, index) => (
+                <View key={index}>{row}</View>
+            ))}
         </View>
     );
 }
@@ -124,7 +146,7 @@ function getBeacon(incomingCursorIdx: number | null, completedCursorIdx: number 
     if (completedCursorIdx !== null) {
         return completedBeacons[completedCursorIdx] || null;
     }
-    return null;    
+    return null;
 }
 
 function getTitleText(beacon: EnhancedBeacon): string | undefined {
@@ -148,6 +170,7 @@ function getTitleText(beacon: EnhancedBeacon): string | undefined {
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
         flex: 1,
         padding: 16,
         backgroundColor: '#fff',
@@ -168,7 +191,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     section: {
-        marginBottom: 16,
+        marginBottom: 8,
     },
     row: {
         flexDirection: 'row',
@@ -186,4 +209,16 @@ const styles = StyleSheet.create({
         height: 32,
         marginRight: 12,
     },
-})
+    buttonRow: {
+        display: 'flex',
+        flexDirection: 'row-reverse'
+    },
+
+});
+
+const customPrayButtonStyles = {
+    container: {
+        alignSelf: 'flex-end',
+        marginStart: 16
+    }
+}

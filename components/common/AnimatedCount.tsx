@@ -4,21 +4,25 @@ import Svg, { Circle } from 'react-native-svg';
 import { AppText, TextType } from './AppText';
 
 const { width } = Dimensions.get('window');
-const CIRCLE_SIZE = 60;
-const STROKE_WIDTH = 7;
+const CIRCLE_SIZE = 50;
+const STROKE_WIDTH = 5;
 const RADIUS = (CIRCLE_SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 type IAnimatedCount = {
   count: number;
-  label: string;
-  style: any;
+  label?: string | undefined;
+  style?: any;
+  low?: number;
+  medium?: number;
+  high?: number;
 };
 
 // Create an animated version of the Svg.Circle component
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export function AnimatedCount({ count, label, style = {} }: IAnimatedCount) {
+export function AnimatedCount({ count, label = undefined, style = {},
+  low = 1, medium = 3, high = 5 }: IAnimatedCount) {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -41,6 +45,20 @@ export function AnimatedCount({ count, label, style = {} }: IAnimatedCount) {
     outputRange: [CIRCUMFERENCE, 0],
   });
 
+
+  const strokeColor = (() => {
+    if (count >= high) {
+      return 'lightgreen';
+    } else if (count >= medium) {
+      return 'lightyellow';
+    } else if (count >= low) {
+      return 'lightblue';
+    }
+    return 'lightgray';
+  })();
+
+
+
   return (
     <View style={[styles.container, style]}>
       <Svg height={CIRCLE_SIZE} width={CIRCLE_SIZE}>
@@ -56,7 +74,7 @@ export function AnimatedCount({ count, label, style = {} }: IAnimatedCount) {
           cx={CIRCLE_SIZE / 2}
           cy={CIRCLE_SIZE / 2}
           r={RADIUS}
-          stroke="#4CAF50"
+          stroke={strokeColor}
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={strokeDashoffset}
@@ -65,7 +83,11 @@ export function AnimatedCount({ count, label, style = {} }: IAnimatedCount) {
         />
       </Svg>
       <AppText type={TextType.DefaultSemiBold} style={styles.countText}>{count}</AppText>
-      <AppText type={TextType.DefaultSemiBold}>{label}</AppText>
+      {
+        label && (
+          <AppText type={TextType.Italic}>{label}</AppText>
+        )
+      }
     </View>
   );
 }
@@ -78,13 +100,8 @@ const styles = StyleSheet.create({
   },
   countText: {
     position: 'absolute',
-    fontSize: 32,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#4CAF50',
-    marginBottom: 25,
-  },
-  labelText: {
-    marginTop: 10,
-    fontSize: 18,
+    marginBottom: 22,
   },
 });

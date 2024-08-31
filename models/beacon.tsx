@@ -8,7 +8,8 @@ export type EnhancedBeacon = Beacon & {
     one: One | null;
     user: User | null;
     settings: BeaconSettings | null;
-    activities: BeaconActivity[];
+    incomingActivities: BeaconActivity[];
+    completedActivities: BeaconActivity[];
 };
 
 interface IBeacon {

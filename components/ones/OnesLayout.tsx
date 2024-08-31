@@ -14,7 +14,7 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { PageContainer } from '../common/PageContainer';
 import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
-import { selectActiveBeaconsByOneId } from '@/redux/selectors';
+import { selectActiveBeaconsByOneId } from '@/redux/selectors/beaconSelectors';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One,
