@@ -26,10 +26,8 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
 
     if (incomingCursorIdx === null && completedCursorIdx === null) {
         return (
-            <View style={styles.center}>
-                <AppText type={TextType.Title}>
-                    None Selected
-                </AppText>
+            <View style={[styles.center, styles.column]}>
+                <AnimatedHeader title='Prayer Beacons' subtitle='Select a beacon below to begin.'/>
             </View>
         );
     }
@@ -116,10 +114,6 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
         </View>
     );
 
-    // rows.push(
-
-    // );
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -195,7 +189,7 @@ const styles = StyleSheet.create({
     center: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     header: {
         marginBottom: 16,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, Animated, Easing, type ViewProps, Dimensions } from 'react-native';
-import { Image } from 'expo-image';
 
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
@@ -10,6 +9,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { ShareChristBeaconDetails } from './ShareChristBeaconDetails';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
+import { BoatLighthouseSection } from '../common/BoatLighthouseElement';
 
 export type IShareChristBeaconsContainer = ViewProps & {
     completedBeacons: EnhancedBeacon[];
@@ -20,9 +20,6 @@ export type IShareChristBeaconsContainer = ViewProps & {
 function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareChristPageState }: IShareChristBeaconsContainer) {
     console.log("completedBeacons: ", completedBeacons);
     console.log("incomingBeacons: ", incomingBeacons);
-
-    const screenWidth = Dimensions.get('window').width;
-    const boatRotation = useRef(new Animated.Value(0)).current;
 
     const [completedCursorIdx, setCompletedCursorIdx] = useState(null);
     const [incomingCursorIdx, setIncomingCursorIdx] = useState(null);
@@ -46,48 +43,11 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
         }
     }, [incomingCursorIdx]);
 
-    const getTimingAnim = (value: number) => (
-        Animated.timing(boatRotation, {
-            toValue: value,
-            duration: 2000 + Math.random() * 500, // Slight variation in duration
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-        })
-    );
-
-    useEffect(() => {
-        const startSwaying = () => {
-            Animated.loop(
-                Animated.sequence([
-                    getTimingAnim(-0.8),
-                    getTimingAnim(0.8),
-                    getTimingAnim(-0.4),
-                    getTimingAnim(0.6),
-                    getTimingAnim(-0.2),
-                    getTimingAnim(0.4),
-                    getTimingAnim(0)
-                ])
-            ).start();
-        };
-
-        startSwaying();
-    }, [boatRotation]);
-
-    const boatInterpolate = boatRotation.interpolate({
-        inputRange: [-1, 1],
-        outputRange: ['-5deg', '5deg'], // Gentle rocking motion
-    });
-
-    const boatStyle = {
-        transform: [{ rotate: boatInterpolate }],
-    };
-
-
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon, idx) => (
         <ShareChristBeaconCard beacon={beacon}
                                one={beacon.one}
                                user={beacon.user}
-                               activities={beacon.activities}
+                               activities={beacon.completedActivities}
                                idx={idx}
                                selectedIdx={completedCursorIdx}
                                setSelectedIdx={setCompletedCursorIdx}/>
@@ -97,11 +57,14 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
         <ShareChristBeaconCard beacon={beacon}
                                one={beacon.one}
                                user={beacon.user}
-                               activities={beacon.activities}
+                               activities={beacon.incomingActivities}
                                idx={idx}
                                selectedIdx={incomingCursorIdx}
                                setSelectedIdx={setIncomingCursorIdx}/>
     )) : [];
+
+    const completedCount = completedBeacons.length;
+    const incomingCount = incomingBeacons.length;
 
     return (
         <View style={styles.container}>
@@ -122,21 +85,14 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                                           incomingBeacons={incomingBeacons}/>
             </View>
 
-            <View style={styles.boatLightHouseContainer}>
-                <Animated.View style={[styles.lighthouseContainer]}>
-                    <Image source={AppIcon.LightHouse} style={styles.lightHouse}/>
-                </Animated.View>
-                <Animated.View style={[styles.boatContainer, boatStyle]}>
-                    <Image source={AppIcon.Boat} style={styles.boat} />
-                </Animated.View>
-            </View>
+            <BoatLighthouseSection/>
 
             <View>
-                <AnimatedRoadItemContainer title={'Completed'} 
+                <AnimatedRoadItemContainer title={`Completed (${completedCount})`} 
                                         iconSrc={AppIcon.Checkmark} 
                                         itemsToRender={completedItemsToRender} 
                                         customStyles={completedStyle}/>
-                <AnimatedRoadItemContainer title={'Incoming'} 
+                <AnimatedRoadItemContainer title={`Incoming (${incomingCount})`} 
                             iconSrc={AppIcon.Send} 
                             itemsToRender={incomingItemsToRender} 
                             customStyles={incomingStyle}/>
@@ -155,35 +111,6 @@ const styles = StyleSheet.create({
     header: {
         display: 'flex',
         flexDirection: 'column',
-    },
-    boatLightHouseContainer: {
-        position: 'absolute',
-        bottom: 220,
-        right: 0,
-        display: 'flex',
-    },
-    boatContainer: {
-        position: 'absolute',
-        bottom: 0,
-        right: 60,
-        height: 10,
-        width: 80,
-    },
-    boat: {
-        width: 48,
-        height: 48,
-    },
-    lighthouseContainer: {
-        position: 'absolute',
-        bottom: 0,
-        right: 340,
-        height: 80,
-        width: 80,
-    },
-    lightHouse: {
-        width: 120,
-        height: 120,
-        opacity: 0.8,
     },
 });
 

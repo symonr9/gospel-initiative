@@ -12,30 +12,6 @@
         "activeUntil": "2024-08-31T10:03:00Z"
     },
     {
-        "id": "beacon3",
-        "name": "Meeting",
-        "message": "I will be meeting this person soon.",
-        "userId": "user1",
-        "oneId": "one1",
-        "meetingId": null,
-        "priority": 2,
-        "type": 1,
-        "settingsId": "beaconSettings1",
-        "activeUntil": "2024-08-31T10:03:00Z"
-    },
-    {
-        "id": "beacon4",
-        "name": "Meeting",
-        "message": "I will be meeting this person soon.",
-        "userId": "user1",
-        "oneId": "one1",
-        "meetingId": null,
-        "priority": 2,
-        "type": 1,
-        "settingsId": "beaconSettings1",
-        "activeUntil": "2024-08-31T10:03:00Z"
-    },
-    {
         "id": "beacon2",
         "name": "Conversation",
         "message": "I had a spiritual conversation with this person.",

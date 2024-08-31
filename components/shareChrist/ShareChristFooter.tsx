@@ -115,10 +115,10 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
 
     return [
         getBackButton(onBackDefaultClick),
-        getBeaconButton(setPageState),
         getEditButton(() => {
             setPageState(ShareChristPageState.Edit);
-        })
+        }),
+        getBeaconButton(setPageState),
     ];
 };
 

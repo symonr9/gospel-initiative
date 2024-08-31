@@ -8,6 +8,7 @@ export enum TextType {
   Title = 'title',
   DefaultSemiBold = 'defaultSemiBold',
   Subtitle = 'subtitle',
+  Subtitle2 = 'subtitle2',
   Link = 'link',
   Prefix = 'prefix',
   Body = 'body',
@@ -39,6 +40,7 @@ export function AppText({
         type === TextType.Title ? styles.title : undefined,
         type === TextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
         type === TextType.Subtitle ? styles.subtitle : undefined,
+        type === TextType.Subtitle2 ? styles.subtitle2 : undefined,
         type === TextType.Link ? styles.link : undefined,
         type === TextType.Prefix ? styles.prefix : undefined,
         type === TextType.Body ? styles.body : undefined,
@@ -70,6 +72,9 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 24,
     fontWeight: 'bold',
+  },
+  subtitle2: {
+    fontSize: 18,
   },
   link: {
     lineHeight: 30,

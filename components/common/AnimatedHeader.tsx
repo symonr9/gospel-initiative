@@ -5,29 +5,46 @@ import { AppText, TextType } from './AppText';
 
 type IAnimatedHeader = {
     title: string;
+    subtitle?: string | null;
     duration?: number;
     delay?: number;
 
     style?: any;
 };
 
-export function AnimatedHeader({ title, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
+export function AnimatedHeader({ title, subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
 
     return (
-        <Animated.Text
-            entering={FadeInUp.duration(duration).delay(delay)}
-            exiting={FadeOutDown.duration(duration).delay(delay)}
-            style={[]} >
-            <AppText type={TextType.Title}>
-                {title}
-            </AppText>
-        </Animated.Text>
+        <View style={styles.container}>
+            <Animated.Text
+                entering={FadeInUp.duration(duration).delay(delay)}
+                exiting={FadeOutDown.duration(duration)}
+                style={[]} >
+                <AppText type={TextType.Title}>
+                    {title}
+                </AppText>
+            </Animated.Text>
+            {
+                subtitle && (
+                    <Animated.Text
+                        entering={FadeInUp.duration(duration).delay(delay + 500)}
+                        exiting={FadeOutDown.duration(duration)}
+                        style={[]} >
+                        <AppText type={TextType.Subtitle2}>
+                            {subtitle}
+                        </AppText>
+                    </Animated.Text>
+                )
+            }
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginTop: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
     },
 });
