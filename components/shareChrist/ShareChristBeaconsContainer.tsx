@@ -84,8 +84,6 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                                           incomingBeacons={incomingBeacons}/>
             </View>
 
-            <BoatLighthouseSection/>
-
             <View>
                 <AnimatedRoadItemContainer title={`Completed (${completedCount})`} 
                                         iconSrc={AppIcon.Checkmark} 
@@ -105,6 +103,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        gap: 16,
         height: 820,
     },
     header: {

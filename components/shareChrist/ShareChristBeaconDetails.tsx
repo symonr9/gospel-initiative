@@ -10,6 +10,7 @@ import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
+import { BoatLighthouseSection } from '../common/BoatLighthouseElement';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number | null;
@@ -138,6 +139,10 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
             } delay={800} style={styles.detailsContainer}/>
 
             <View style={styles.buttonRow}>
+                <Animated.View style={[styles.lighthouseContainer]}>
+                    <Image source={AppIcon.LightHouse} style={styles.lightHouse} />
+                </Animated.View>
+
                 <SimpleIconButton iconSrc={AppIcon.Mail} title={'Message'} customStyles={customPrayButtonStyles}/>
                 <SimpleIconButton iconSrc={AppIcon.Prayer} title={'Pray'} customStyles={customPrayButtonStyles}/>
             </View>
@@ -169,7 +174,6 @@ function getTitleText(beacon: EnhancedBeacon): string | undefined {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        flex: 1,
         padding: 16,
         backgroundColor: '#fff',
         borderRadius: 8,
@@ -208,13 +212,24 @@ const styles = StyleSheet.create({
         marginRight: 12,
     },
     detailsContainer: {
-        maxHeight: 240,
-        overflow: 'scroll'
+        height: 300,
     },
     buttonRow: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end'
+    },
+    lighthouseContainer: {
+        position: 'absolute',
+        bottom: 30,
+        right: 320,
+        height: 80,
+        width: 80,
+    },
+    lightHouse: {
+        width: 120,
+        height: 120,
+        opacity: 0.5,
     },
 });
 
