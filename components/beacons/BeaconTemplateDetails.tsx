@@ -1,101 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { View, type ViewProps, StyleSheet, Animated } from 'react-native';
 import { Image } from 'expo-image';
-
+import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, BeaconType, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
-import { cardStyles, flexStyles } from '@/styles/Styles';
-import { useSelector } from 'react-redux';
-import { selectBeaconDetailsById } from '@/redux/selectors';
-import { PageRow } from '../common/PageRow';
-import { getShowHideIcon, isBeaconActive, mapPriorityToText } from '@/utils/appUtils';
+import { getShowHideIcon } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
-import Beacon from '@/models/beacon';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { BeaconTemplateCard } from './BeaconTemplateCard';
+import One from '@/models/one';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
-    selectedTemplateId: string;
     shareChristPageState: ShareChristPageState;
+    selectedOne: One;
 };
 
-// TODO: make this redux-supported, add function call for 
-// setSelectedTemplate and import things like beacon settings
-// here, and create a beacon in use state to fill out...
-// The beacon will have to be going in through redux.
-
-export function BeaconTemplateDetails({ shareChristPageState, template, selectedTemplateId }: IBeaconTemplateDetails) {
-    const [bgColor, setBgColor] = useState(new Animated.Value(0));
-
-    useEffect(() => {
-        Animated.timing(bgColor, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: false,
-        }).start();
-    }, []);
-
-    const interpolatedBgColor = bgColor.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['white', 'lightgreen']
-    });
-
-    const details = useSelector((state: any) => selectBeaconDetailsById(state, selectedTemplateId));
-    if (!details) {
-        console.error("Something went wrong");
-        return <></>;
-    }
-
-    const settings = details.settings;
-    console.log(details);
+function BeaconTemplateDetails({ shareChristPageState, template, selectedOne }: IBeaconTemplateDetails) {
+    const [shareOneName, setShareOneName] = useState(false);
+    const [shareOwnName, setShareOwnName] = useState(true);
 
     return (
         <ThemedView style={[styles.container]}>
-            <BeaconTemplateCard template={template} 
-                                selectedTemplateId={selectedTemplateId}
-                                shareChristPageState={shareChristPageState}/>
-
-            <Animated.View style={[styles.header, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
-                <Image source={AppIcon.NetworkPeople}
-                    style={styles.icon}
-                    contentFit="contain" />
-                <PageColumn>
-                    <AppText type={TextType.Subtitle}>
-                        {template.name}
-                    </AppText>
-                    <AppText type={TextType.Default}>
-                        {beacon.message}
-                    </AppText>
-                </PageColumn>
-            </Animated.View>
-
+            <BeaconTemplateCard template={template}
+                selectedTemplateId={template.id} />
 
             <PageColumn style={styles.section}>
-                <AppText type={TextType.Subtitle}>
-                    Priority
-                </AppText>
-                <AppText type={TextType.DefaultSemiBold}>
-                    {mapPriorityToText(beacon.priority)}
-                </AppText>
+                <PageChip iconSrc={getShowHideIcon(shareOneName)}
+                    style={{ width: 240 }}
+                    onClick={() => setShareOneName(val => !val)}
+                    title={shareOneName ? `Show One's name` : `Hide One's name`} />
+                <PageChip iconSrc={getShowHideIcon(shareOwnName)}
+                    style={{ width: 240 }}                    
+                    onClick={() => setShareOwnName(val => !val)}
+                    title={shareOwnName ? `Show your name` : `Hide your name`} />
             </PageColumn>
-
-            {
-                settings && (
-                    <PageColumn style={styles.section}>
-                        <AppText type={TextType.Subtitle}>
-                            {settings.name}
-                        </AppText>
-                        <PageChip iconSrc={getShowHideIcon(settings.shareOneName)}
-                            title={`Share One Name: ${settings.shareOneName ? "Yes" : 'No'}`} />
-                        <PageChip iconSrc={getShowHideIcon(settings.shareOwnName)}
-                            title={`Share Own Name: ${settings.shareOwnName ? "Yes" : 'No'}`} />
-                    </PageColumn>
-                )
-            }
 
             <PageColumn style={styles.section}>
                 <AppText type={TextType.Subtitle}>
@@ -114,16 +56,13 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         flex: 1,
         borderRadius: 4,
         padding: 4,
         marginTop: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6, // Shadow radius for a softer shadow
         elevation: 4,
-        height: 400,
+        height: 600,
     },
     header: {
         backgroundColor: 'lightgreen',
@@ -139,6 +78,7 @@ const styles = StyleSheet.create({
     section: {
         marginTop: 8,
         marginBottom: 8,
+        marginStart: 12,
     },
     icon: {
         margin: 8,
@@ -147,3 +87,16 @@ const styles = StyleSheet.create({
         marginEnd: 8,
     },
 });
+
+const mapStateToProps = (state: any) => {
+    return {
+        shareChristPageState: state.app.shareChristPageState,
+        selectedOne: state.ones.selectedOne
+    };
+};
+
+const mapDispatchToProps = {
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconTemplateDetails);

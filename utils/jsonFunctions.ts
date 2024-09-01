@@ -15,7 +15,6 @@ const meetingsJson = require('../data/meetings.json');
 const missionsTripsJson = require('../data/missions-trips.json');
 const onesFactsJson = require('../data/one-facts.json');
 const onesData = require('../data/ones.json');
-const beaconSettingsJson = require('../data/beacon-settings.json');
 const beaconsJson = require('../data/beacons.json');
 const beaconTemplatesJson = require('../data/beacon-templates.json');
 const preferencesJson = require('../data/preferences.json');
@@ -135,7 +134,6 @@ export function getOnesFromJson() {
 export function getBeaconsFromJson() {
     return beaconsJson.map(item => {        
         const type: BeaconType = item.type as BeaconType;
-
         return {
             id: item.id,
             name: item.name,
@@ -145,8 +143,9 @@ export function getBeaconsFromJson() {
             meetingId: item.meetingId,
             priority: item.priority,
             type: type,
-            settingsId: item.settingsId,
             activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
+            shareOneName: item.shareOneName,
+            shareOwnName: item.shareOwnName
         }
     });
 }
@@ -162,18 +161,6 @@ export function getBeaconTemplatesFromJson() {
             icon: icon,
             type: type
         };
-    });
-}
-
-export function getBeaconSettingsFromJson() {
-    return beaconSettingsJson.map(item => {        
-        return {
-            id: item.id,
-            name: item.name,
-            userId: item.userId,
-            shareOneName: item.shareOneName,
-            shareOwnName: item.shareOwnName
-        }
     });
 }
 

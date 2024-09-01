@@ -1,5 +1,7 @@
-import { AppIcon, OneFactType, OneStage, Priority, ShareChristPageState } from "@/enums/enums";
+import { AppIcon, BeaconType, OneFactType, OneStage, Priority, ShareChristPageState } from "@/enums/enums";
 import Beacon from "@/models/beacon";
+import One from "@/models/one";
+import User from "@/models/user";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
@@ -187,6 +189,33 @@ export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
     }
 }
 
+export function mapBeaconTypeToTitleText(type: BeaconType, shareOneName: boolean, 
+    shareOwnName: boolean, user: User, one: One) {
+    const userName = shareOwnName ? user.name : 'A User';
+    const oneName = shareOneName ? one.name :'their One';
+    switch (type) {
+        case BeaconType.SpiritualConversation:
+            return `${userName} would like a spiritual conversation with ${oneName}.`;
+        case BeaconType.PrayerNeed:
+            return `${userName} heard about a prayer need from ${oneName}.`;
+        case BeaconType.SharingGospel:
+            return `${userName} would like to share an aspect of their faith with ${oneName}.`;
+        case BeaconType.InvitedToChurch:
+            return `${userName} is planning to invite ${oneName} to church.`;
+        case BeaconType.OfferedHelp:
+            return `${userName} wants to serve ${oneName} in some way.`;
+        case BeaconType.AttendedEventTogether:
+            return `${userName} wants to build rapport with ${oneName}.`;
+        case BeaconType.GaveTestimony:
+            return `${userName} wants to share their personal testimoney with ${oneName}.`;
+        case BeaconType.FollowedUp:
+            return `${userName} wants to follow-up on a previous conversation with ${oneName}.`;
+        case BeaconType.Meeting:
+        default:
+            return `${userName} is meeting with ${oneName}`;
+    }
+}
+
 export function isEditing(pageState: ShareChristPageState) {
     return [
         ShareChristPageState.Edit,
@@ -194,3 +223,13 @@ export function isEditing(pageState: ShareChristPageState) {
         ShareChristPageState.EditOneFacts
     ].includes(pageState);
 }
+
+export function generateRandomId(length: number = 10): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+    return result;
+  }

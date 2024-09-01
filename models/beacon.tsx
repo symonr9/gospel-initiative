@@ -2,12 +2,10 @@ import { BeaconType, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity from "./beaconActivity";
-import BeaconSettings from "./beaconSettings";
 
 export type EnhancedBeacon = Beacon & {
     one: One | null;
     user: User | null;
-    settings: BeaconSettings | null;
     incomingActivities: BeaconActivity[];
     completedActivities: BeaconActivity[];
 };
@@ -22,7 +20,8 @@ interface IBeacon {
     priority: Priority;
     type: BeaconType;
     activeUntil: Date | undefined;
-    settingsId: string;
+    shareOneName: boolean | false;
+    shareOwnName: boolean | true;
 }
 
 export default class Beacon implements IBeacon {
@@ -35,22 +34,25 @@ export default class Beacon implements IBeacon {
     priority: Priority;
     type: BeaconType;
     activeUntil: Date | undefined;
-    settingsId: string;
+    shareOneName: boolean | false;
+    shareOwnName: boolean | true;
 
-    constructor(id: string, name: string, notes: string, oneId: string | null,
-        priority: Priority, settingsId: string, userId: string, meetingId: string | null,
-        type: BeaconType, activeUntil: Date | undefined
+    constructor(id: string, name: string, message: string, oneId: string | null,
+        priority: Priority, userId: string, meetingId: string | null,
+        type: BeaconType, activeUntil: Date | undefined, shareOneName: boolean | false,
+        shareOwnName: boolean | true
     ) {
         this.id = id;
         this.name = name;
-        this.message = notes;
+        this.message = message;
         this.userId = userId;
         this.oneId = oneId;
         this.meetingId = meetingId;
         this.priority = priority;
-        this.settingsId = settingsId;
         this.type = type;
         this.activeUntil = activeUntil;
+        this.shareOneName = shareOneName;
+        this.shareOwnName = shareOwnName;
     }
 
     static createNew() {
@@ -59,14 +61,13 @@ export default class Beacon implements IBeacon {
             "New Beacon",
             "",
             null,
-            [],
-            undefined,
             Priority.Normal,
             "",
             "",
-            null,
-            BeaconType.Normal,
-            undefined
+            BeaconType.Meeting,
+            new Date(),
+            false,
+            true
         );
     }
 

@@ -13,7 +13,7 @@ export type IPageTag = ViewProps & {
 }
 
 export function PageChip({ iconSrc = null, title,
-    onClick,
+    onClick, style
 }: IPageTag) {
     const onPress = (e: GestureResponderEvent) => {
         if (onClick) {
@@ -24,7 +24,7 @@ export function PageChip({ iconSrc = null, title,
 
     return (
         <TouchableOpacity onPress={onPress}>
-            <ThemedView style={styles.container}>
+            <ThemedView style={[styles.container, style]}>
                 {
                     iconSrc && (
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
         shadowRadius: 6, // Shadow radius for a softer shadow
         elevation: 4,
         marginTop: 4,
-        marginBottom: 4
+        marginBottom: 4,
     },
     icon: {
         width: 24,
         height: 24,
         alignSelf: 'center',
-        marginEnd: 8,
+        marginEnd: 4,
     },
 });

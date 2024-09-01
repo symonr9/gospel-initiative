@@ -6,12 +6,9 @@ import { selectAllOnes, selectMeetingById, selectOneById } from './oneSelectors'
 import { selectAllBeaconActivities } from './activitySelectors';
 import BeaconActivity from '@/models/beaconActivity';
 import Beacon from '@/models/beacon';
-import BeaconSettings from '@/models/beaconSettings';
 import BeaconTemplate from '@/models/beaconTemplate';
 
-
 export const selectAllBeacons = (state: any): Beacon[] => state.beacons.beacons;
-export const selectAllBeaconSettings = (state: any): BeaconSettings[] => state.beacons.beaconSettings;
 export const selectAllBeaconTemplates = (state: any): BeaconTemplate[] => state.beacons.beaconTemplates;
 
 export const selectBeaconsByUserId = (userId: string) =>
@@ -57,9 +54,6 @@ export const selectAllActiveBeacons = (state: any): Beacon[] =>
 export const selectBeaconById = (state: any, id: string): Beacon | undefined =>
     selectAllBeacons(state).find(beacon => beacon.id === id);
 
-export const selectBeaconSettingsById = (state: any, id: string): BeaconSettings | undefined =>
-    selectAllBeaconSettings(state).find(settings => settings.id === id);
-
 export const selectBeaconDetailsById = (state: any, id: string) => {
     const beacon = selectBeaconById(state, id);
 
@@ -70,17 +64,14 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
     const user = selectUserById(state, beacon.userId);
     const one = beacon.oneId ? selectOneById(state, beacon.oneId) : null;
     const meeting = beacon.meetingId ? selectMeetingById(state, beacon.meetingId) : null;
-    const settings = selectBeaconSettingsById(state, beacon.settingsId);
 
     return {
         prayerBeacon: beacon,
         user,
         one,
-        meeting,
-        settings
+        meeting
     };
 };
-
 
 /**
  * Smartly partitions all prayer beacons to all where the executor has created a beaconActivity for and
@@ -88,14 +79,13 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
  * are all appended into an enhanced object.
  */
 export const selectPartitionedActiveEnhancedBeacons = createSelector(
-    [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectAllBeaconSettings, selectExecutor],
-    (beacons, ones, users, beaconActivities, beaconSettings, executor) => {
+    [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
+    (beacons, ones, users, beaconActivities, executor) => {
         const partitionedBeacons = beacons
             .filter((beacon: any) => isBeaconActive(beacon))
             .map((beacon: any) => {
                 const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
                 const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
-                const settings = beacon.settingsId ? beaconSettings.find((setting: any) => setting.id === beacon.settingsId) : null;
                 const activitiesForBeacon = beaconActivities
                     .filter((activity) => activity.beaconId === beacon.id)
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -120,7 +110,6 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
                     ...beacon,
                     one,
                     user,
-                    settings,
                     incomingActivities: partitionedActivities.withoutExecutor,
                     completedActivities: partitionedActivities.withExecutor,
                     hasExecutorActivity,

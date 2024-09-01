@@ -36,22 +36,22 @@
     },
     {
         "id": "template6",
-        "name": "Offered Help",
-        "message": "You offered help or assistance to your One.",
+        "name": "Offer Help",
+        "message": "You want to offer help or assistance to your One.",
         "icon": "Car",
         "type": 6
     },
     {
         "id": "template7",
-        "name": "Building Rapport",
+        "name": "Build Rapport",
         "message": "You want to build rapport with your One.",
         "icon": "Rapport",
         "type": 7
     },
     {
         "id": "template8",
-        "name": "Gave Testimony",
-        "message": "You shared your personal testimony with your One.",
+        "name": "Give Testimony",
+        "message": "You want to share your personal testimony with your One.",
         "icon": "Book",
         "type": 8
     },

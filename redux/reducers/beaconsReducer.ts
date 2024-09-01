@@ -3,7 +3,6 @@ import update from 'immutability-helper';
 
 const initialState = {
     beacons: [],
-    beaconSettings: [],
     beaconLogs: [],
     beaconTemplates: [],
 
@@ -13,12 +12,11 @@ const initialState = {
 export function beaconsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { beacons, beaconSettings, beaconTemplates, beaconLogs
+            const { beacons, beaconTemplates, beaconLogs
             } = action.payload;
             return update(state, {
                 $set: {
                     beacons: beacons || [],
-                    beaconSettings: beaconSettings || [],
                     beaconLogs: beaconLogs || [],
                     beaconTemplates: beaconTemplates || [],
                     selectedTemplateId: null
@@ -54,10 +52,6 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
         case Action.AddBeacon:
             return update(state, {
                 beacons: { $push: [action.payload] }
-            });
-        case Action.AddBeaconSettings:
-            return update(state, {
-                beaconSettings: { $push: [action.payload] }
             });
         default:
             return state;

@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, BeaconType } from '@/enums/enums';
-import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon } from '@/utils/appUtils';
+import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText } from '@/utils/appUtils';
 import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
@@ -44,14 +44,15 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
 
     console.log("BEACON: ", beacon);
 
-    const { name, message, user, one, settings, activeUntil, completedActivities } = beacon;
-    if (!user || !one || !settings || !activeUntil || !completedActivities) {
+    const { name, message, user, one, activeUntil, completedActivities } = beacon;
+    if (!user || !one || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
     }
 
     const titleText = getTitleText(beacon);
     if (!titleText) {
+        console.error("missing title...");
         return <></>;
     }
 
@@ -79,7 +80,7 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
         );
     }
 
-    const stagePrefix = settings.shareOneName ? `${one.name}...` : `Their One is...`;
+    const stagePrefix = beacon.shareOneName ? `${one.name}...` : `Their One is...`;
     rows.push(
         <View style={styles.section}>
             <View style={styles.row}>
@@ -131,7 +132,7 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
                 rows.map((row, index) => (
                     <View key={index}>{row}</View>
                 ))
-            } delay={800}/>
+            } delay={800} style={styles.detailsContainer}/>
 
             <View style={styles.buttonRow}>
                 <SimpleIconButton iconSrc={AppIcon.Mail} title={'Message'} customStyles={customPrayButtonStyles}/>
@@ -154,22 +155,12 @@ function getBeacon(incomingCursorIdx: number | null, completedCursorIdx: number 
 }
 
 function getTitleText(beacon: EnhancedBeacon): string | undefined {
-    const { user, one, settings, activeUntil, type } = beacon;
-    if (!user || !one || !settings || !activeUntil) {
+    const { user, one, activeUntil, type, shareOneName, shareOwnName } = beacon;
+    if (!user || !one || !activeUntil) {
         return undefined;
     }
 
-    let text;
-    if (type === BeaconType.Meeting) {
-        text = `${user.name} is meeting with `;
-        if (settings.shareOneName) {
-            text += `${one.name}.`;
-        } else {
-            text += `their One.`;
-        }
-    }
-
-    return text;
+    return mapBeaconTypeToTitleText(type, shareOneName, shareOwnName, user, one);
 }
 
 const styles = StyleSheet.create({
@@ -212,6 +203,10 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
         marginRight: 12,
+    },
+    detailsContainer: {
+        maxHeight: 240,
+        overflow: 'scroll'
     },
     buttonRow: {
         display: 'flex',

@@ -59,9 +59,6 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
                 getBackButton(() => {
                     setSelectedTemplateId(null);
                 }),
-                getEditButton(() => {
-                    setPageState(ShareChristPageState.EditBeacon);
-                }),
                 getSendButton(() => {
                     setPageState(ShareChristPageState.SendBeacon);
                 }),
@@ -112,7 +109,6 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
     }
 
     return [
-        getBackButton(onBackDefaultClick),
         getEditButton(() => {
             setPageState(ShareChristPageState.Edit);
         }),

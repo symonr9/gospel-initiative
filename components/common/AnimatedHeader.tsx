@@ -15,7 +15,7 @@ type IAnimatedHeader = {
 export function AnimatedHeader({ title, subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <Animated.Text
                 entering={FadeInUp.duration(duration).delay(delay)}
                 exiting={FadeOutDown.duration(duration)}

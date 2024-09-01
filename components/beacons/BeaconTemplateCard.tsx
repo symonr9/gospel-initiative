@@ -6,18 +6,16 @@ import { AppText, TextType } from '../common/AppText';
 import { ShareChristPageState } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
-import { BeaconTemplateDetails } from './BeaconTemplateDetails';
 import BeaconTemplate from '@/models/beaconTemplate';
+import BeaconTemplateDetails from './BeaconTemplateDetails';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;
   selectedTemplateId: string | null;
   setSelectedTemplateId?: Function;
-  shareChristPageState: ShareChristPageState;
 };
 
-export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId,
-  shareChristPageState }: IBeaconCard) {
+export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId }: IBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -34,25 +32,11 @@ export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTe
     outputRange: ['white', 'whitesmoke']
   });
 
-  if (selectedTemplateId != null) {
-    if (template.id !== selectedTemplateId) {
-      return <></>;
-    }
-
-    return (
-      <BeaconTemplateDetails template={template}
-                     shareChristPageState={shareChristPageState}
-                     selectedTemplateId={selectedTemplateId} />
-    );
-  }
-
   const onPress = () => {
     if (setSelectedTemplateId) {
       setSelectedTemplateId(template.id);
     }
   };
-
-  const titleTextType = TextType.Subtitle;
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -62,7 +46,7 @@ export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTe
           contentFit="contain" />
 
         <PageColumn style={{ width: '80%'}}>
-          <AppText type={titleTextType}>
+          <AppText type={TextType.Subtitle}>
             {template.name}
           </AppText>
           <AppText type={TextType.Default}>

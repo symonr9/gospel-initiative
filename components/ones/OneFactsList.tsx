@@ -54,7 +54,7 @@ function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
 
 const styles = StyleSheet.create({
     container: {
-        maxHeight: 200,
+        maxHeight: 500,
     },
 });
 

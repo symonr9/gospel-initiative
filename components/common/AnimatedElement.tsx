@@ -14,7 +14,7 @@ export function AnimatedElement({ element, duration = 400, delay = 0, style = {}
         <Animated.Text
             entering={FadeInUp.duration(duration).delay(delay)}
             exiting={FadeOutDown.duration(duration)}
-            style={[]} >
+            style={[style]} >
             {element}
         </Animated.Text>
     );

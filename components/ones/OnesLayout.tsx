@@ -7,14 +7,16 @@ import { AppText, TextType } from '../common/AppText';
 import One from '@/models/one';
 import OneFactsList from './OneFactsList';
 import ActionStepsList from './ActionStepsList';
-import OnesLayoutHeader from './OnesLayoutHeader';
-import { ShareChristPageState } from '@/enums/enums';
+import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { PageContainer } from '../common/PageContainer';
 import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
 import { selectActiveBeaconsByOneId } from '@/redux/selectors/beaconSelectors';
+import { AnimatedHeader } from '../common/AnimatedHeader';
+import { SimpleIcon } from '../common/SimpleIcon';
+import SimpleIconButton from '../common/SimpleIconButton';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One,
@@ -36,7 +38,22 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
 
     return (
         <>
-            <OnesLayoutHeader />
+        <PageRow>
+            <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                        pageToOpen={Page.ShareChrist}
+                        customStyles={{
+                            container: {
+                                alignSelf: 'flex-start',
+                                marginBottom: 16
+                            }
+                        }}/>
+        </PageRow>
+            <PageRow flexStart>
+                <SimpleIcon iconSrc={selectedOne.icon} large />
+                <AnimatedHeader title={selectedOne.name}
+                                style={{ alignItems: 'flex-start', marginStart: 8 }}
+                                subtitle='Your One'/>
+            </PageRow>
 
             <PageContainer>
                 <PageColumn style={styles.container}>
@@ -45,11 +62,6 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
                 </PageColumn>
 
                 <PageRow spaceBetween>
-                    <ThemedView style={{ flex: 1 }}>
-                        <AppText type={TextType.Subtitle}>
-                            Test
-                        </AppText>
-                    </ThemedView>
                     <ActiveBeaconsInfoCard activeBeacons={prayerBeacons} />
                 </PageRow>
             </PageContainer>

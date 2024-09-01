@@ -8,8 +8,9 @@
         "meetingId": null,
         "priority": 2,
         "type": 1,
-        "settingsId": "beaconSettings1",
-        "activeUntil": "2024-08-31T10:03:00Z"
+        "activeUntil": "2024-08-31T10:03:00Z",
+        "shareOneName": false,
+        "shareOwnName": true
     },
     {
         "id": "beacon2",
@@ -20,7 +21,8 @@
         "meetingId": null,
         "priority": 3,
         "type": 2,
-        "settingsId": "beaconSettings1",
-        "activeUntil": null
+        "activeUntil": null,
+        "shareOneName": false,
+        "shareOwnName": true
     }
 ]

@@ -2,7 +2,6 @@ import { ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
-import BeaconSettings from "@/models/beaconSettings";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
 import Meeting from "@/models/meeting";
@@ -24,7 +23,6 @@ export enum Action {
     AddPrompt = "ADD_PROMPT",
     AddMeeting = "ADD_MEETING",
     AddOneFact = "ADD_ONE_FACT",
-    AddBeaconSettings = "ADD_BEACON_SETTINGS",
     AddStoryChapter = "ADD_STORY_CHAPTER",
     AddActionStep = "ADD_ACTION_STEP",
 
@@ -138,11 +136,6 @@ export const AddActionStep = (item: ActionStep) => ({
 
 export const AddOneFact = (item: OneFact) => ({
     type: Action.AddOneFact,
-    payload: item,
-});
-
-export const AddBeaconSettings = (item: BeaconSettings) => ({
-    type: Action.AddBeaconSettings,
     payload: item,
 });
 

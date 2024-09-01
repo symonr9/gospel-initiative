@@ -76,7 +76,6 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                             alignSelf: 'flex-start',
                             marginBottom: 16
                         }
-
                     }}/>
 
                 <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx} 

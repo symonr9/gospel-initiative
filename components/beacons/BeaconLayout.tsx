@@ -8,12 +8,16 @@ import { ShareChristPageState } from '@/enums/enums';
 import AddEditBeaconForm from './AddEditBeaconForm';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from './BeaconTemplatesList';
+import { AnimatedHeader } from '../common/AnimatedHeader';
+import { PageRow } from '../common/PageRow';
+import { SimpleIcon } from '../common/SimpleIcon';
 
 export type IBeaconLayout = ViewProps & {
+    selectedOne: One;
     shareChristPageState: ShareChristPageState;
 };
 
-function BeaconLayout({ shareChristPageState }: IBeaconLayout) {
+function BeaconLayout({ selectedOne, shareChristPageState }: IBeaconLayout) {
     const Layout: any[] = [];
     if (shareChristPageState == ShareChristPageState.AddBeacon) {
         Layout.push(<AddEditBeaconForm adding/>);
@@ -39,13 +43,19 @@ function BeaconLayout({ shareChristPageState }: IBeaconLayout) {
 
     return (
         <>
-            <OnesLayoutHeader />
+            <PageRow flexStart>
+                <SimpleIcon iconSrc={selectedOne.icon} large />
+                <AnimatedHeader title={selectedOne.name}
+                                style={{ alignItems: 'flex-start', marginStart: 8 }}
+                                subtitle='Your One'/>
+            </PageRow>
             {Layout.map((item) => item)}
         </>
     );
 }
 
 const mapStateToProps = (state: any) => ({
+    selectedOne: state.ones.selectedOne,
     shareChristPageState: state.app.shareChristPageState,
 });
 

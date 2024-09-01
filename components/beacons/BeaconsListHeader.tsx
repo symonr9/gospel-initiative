@@ -8,15 +8,19 @@ import { ShareChristPageState } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
 
 export type IBeaconsListHeader = ViewProps & {
+    selectedTemplateId: string | null;
     shareChristPageState: ShareChristPageState;
 }
 
-export function BeaconsListHeader({ shareChristPageState, style = {} }: IBeaconsListHeader) {
+export function BeaconsListHeader({ shareChristPageState, selectedTemplateId, style = {} }: IBeaconsListHeader) {
+
     const shouldConfirm = shareChristPageState == ShareChristPageState.SendBeacon;
 
     const getTitle = () => {
         if (shouldConfirm) {
             return 'Send Beacon Confirmation';
+        } else if (selectedTemplateId !== null) {
+            return 'Edit Beacon Settings';
         }
         return 'Prayer Beacons';
     }
@@ -24,6 +28,8 @@ export function BeaconsListHeader({ shareChristPageState, style = {} }: IBeacons
     const getDetails = () => {
         if (shouldConfirm) {
             return 'Are you sure you want to send this beacon?';
+        } else if (selectedTemplateId !== null) {
+            return 'Make changes to your beacon before continuing.';
         }
         return 'Use beacons to ask for prayer from your church community.';
     }
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 8,
         flexShrink: 1, // Prevent children from overflowing,
-        marginBottom: 24,
+        marginBottom: 64,
     },
     icon: {
         width: 38,

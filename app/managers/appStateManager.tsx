@@ -5,7 +5,7 @@ import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
 import User from '@/models/user';
 import {  setSelectedTemplateId, addBeacon, setSelectedOne } from '@/redux/actions';
-import { getTomorrow } from '@/utils/appUtils';
+import { generateRandomId, getTomorrow } from '@/utils/appUtils';
 import React, { useState, useEffect } from 'react';
 
 import { connect, useSelector } from 'react-redux';
@@ -41,16 +41,17 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
 
             addBeacon(
                 new Beacon(
-                    "beacon3",
+                    generateRandomId(),
                     selectedTemplate.name,
                     selectedTemplate.message,
                     selectedOne.id,
                     Priority.Normal,
-                    "beaconSettings1",
                     executor.id,
                     null,
                     selectedTemplate.type,
-                    getTomorrow()
+                    getTomorrow(),
+                    false,
+                    true
                 )
             );
 

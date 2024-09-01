@@ -30,7 +30,6 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             oneFacts: JsonFunctions.getOneFactsFromJson(),
             actionSteps: JsonFunctions.getActionStepsJson(),
             beacons: JsonFunctions.getBeaconsFromJson(),
-            beaconSettings: JsonFunctions.getBeaconSettingsFromJson(),
             beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),
             prompts: JsonFunctions.getPromptsFromJson(),
             stories: [],
