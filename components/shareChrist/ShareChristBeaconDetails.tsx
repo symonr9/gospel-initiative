@@ -125,7 +125,10 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
                         <Image source={one.icon} style={styles.profileIcon} />
                     } delay={400}/>
                 </View>
-                <AnimatedHeader title={titleText} delay={600} style={{ textAlign: 'center' }}/>
+                <AnimatedHeader title={beacon.name} 
+                                subtitle={titleText}
+                                delay={600} 
+                                style={{ textAlign: 'center' }}/>
             </View>
 
             <AnimatedElement element={
