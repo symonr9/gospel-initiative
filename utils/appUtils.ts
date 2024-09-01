@@ -9,6 +9,10 @@ export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
     return enumKey ? enumKey.replace(/([a-z])([A-Z])/g, '$1 $2') : '';
 }
 
+export function getNow() {
+    return new Date();
+}
+
 export function getTomorrow() {
     const today = new Date();
     const tomorrow = new Date(today);

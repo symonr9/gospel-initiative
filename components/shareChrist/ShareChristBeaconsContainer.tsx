@@ -6,10 +6,10 @@ import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { AnimatedRoadItemContainer } from '../common/AnimatedRoadItemContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { ShareChristBeaconDetails } from './ShareChristBeaconDetails';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import { BoatLighthouseSection } from '../common/BoatLighthouseElement';
+import ShareChristBeaconDetails from './ShareChristBeaconDetails';
 
 export type IShareChristBeaconsContainer = ViewProps & {
     completedBeacons: EnhancedBeacon[];
@@ -17,13 +17,16 @@ export type IShareChristBeaconsContainer = ViewProps & {
     shareChristPageState: ShareChristPageState;
 };
 
-function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareChristPageState }: IShareChristBeaconsContainer) {
-    console.log("completedBeacons: ", completedBeacons);
-    console.log("incomingBeacons: ", incomingBeacons);
+export enum RoadContainerType {
+    Completed = 1,
+    Incoming = 2
+};
 
+function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareChristPageState }: IShareChristBeaconsContainer) {
     const [completedCursorIdx, setCompletedCursorIdx] = useState(null);
     const [incomingCursorIdx, setIncomingCursorIdx] = useState(null);
     const [togglingCursor, setTogglingCursor] = useState(true);
+    const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
     useEffect(() => {
         if (incomingCursorIdx !== null && togglingCursor) {
@@ -86,11 +89,17 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
 
             <View>
                 <AnimatedRoadItemContainer title={`Completed (${completedCount})`} 
-                                        iconSrc={AppIcon.Checkmark} 
+                                        iconSrc={AppIcon.Checkmark}
+                                        type={RoadContainerType.Completed}                                   
+                                        activeType={activeRoadType}
+                                        setActiveType={setActiveRoadType}
                                         itemsToRender={completedItemsToRender} 
                                         customStyles={completedStyle}/>
                 <AnimatedRoadItemContainer title={`Incoming (${incomingCount})`} 
                             iconSrc={AppIcon.Send} 
+                            type={RoadContainerType.Incoming}
+                            activeType={activeRoadType}
+                            setActiveType={setActiveRoadType}
                             itemsToRender={incomingItemsToRender} 
                             customStyles={incomingStyle}/>
             </View>

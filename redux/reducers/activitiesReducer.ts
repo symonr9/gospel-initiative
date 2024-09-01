@@ -16,6 +16,10 @@ export function activitiesReducer(state = initialState, action: ActionPackage) {
                     beaconActivities: beaconActivities || []
                 }
             });
+        case Action.PrayForBeacon:
+            return update(state, {
+                beaconActivities: { $push: [action.payload] }
+            });
         default:
             return state;
     }

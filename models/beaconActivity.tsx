@@ -1,3 +1,6 @@
+import { generateRandomId, getNow } from "@/utils/appUtils";
+import Beacon from "./beacon";
+import User from "./user";
 
 interface IBeaconActivity {
     id: string;
@@ -22,6 +25,18 @@ export default class BeaconActivity implements IBeaconActivity {
         this.date = date;
         this.userId = userId;
         this.beaconId = beaconId;
+    }
+
+    static createBeaconActivity(note: string, executor: User,
+        beacon: Beacon
+    ): BeaconActivity {
+        return new BeaconActivity(
+            generateRandomId(),
+            note,
+            getNow(),
+            executor.id,
+            beacon.id
+        );
     }
 
 }

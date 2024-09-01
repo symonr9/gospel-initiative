@@ -1,48 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
-import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withTiming,
+    interpolate
+} from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
+import { RoadContainerType } from '../shareChrist/ShareChristBeaconsContainer';
 
 export type IAnimatedRoadItemContainer = {
     iconSrc: string | null;
     title: string;
     itemsToRender: React.ReactNode[];
     customStyles?: any;
+
+    type: RoadContainerType;
+    activeType: RoadContainerType;
+    setActiveType: (type: RoadContainerType) => void;
 }
 
-export function AnimatedRoadItemContainer({ iconSrc = null, title = '',
-    itemsToRender, customStyles
- }: IAnimatedRoadItemContainer) {
+export function AnimatedRoadItemContainer({
+    iconSrc = null,
+    title = '',
+    itemsToRender,
+    customStyles,
+    type,
+    activeType,
+    setActiveType
+}: IAnimatedRoadItemContainer) {
+    const progress = useSharedValue(0);
+
+    const animatedStyle = useAnimatedStyle(() => {
+        const height = interpolate(
+            progress.value,
+            [0, 1],
+            [0, 90]
+        );
+        return {
+            height: withTiming(height, { duration: 400 }), // Animate height change
+        }
+    });
+
+    const isActive = type === activeType;
+    const onPress = () => {
+        if (!isActive) {
+            setActiveType(type);
+        }
+    };
+
+    useEffect(() => {
+        progress.value = withTiming(isActive ? 1 : 0, { duration: 200 });
+    }, [activeType]);
 
     return (
-        <Animated.View>
-            <TouchableOpacity>
-                <ThemedView style={[styles.container, customStyles.container]}>
-                    <View style={[styles.header, customStyles.header]}>
-                        {
-                            iconSrc && (
-                                <Image source={iconSrc} style={styles.icon} contentFit="contain" />
-                            )
-                        }
-                        <AppText type={TextType.DefaultSemiBold}>
-                            {title}
-                        </AppText>
-                    </View>
+        <TouchableOpacity onPress={onPress}>
+            <ThemedView style={[styles.container, customStyles?.container]}>
+                <View style={[styles.header, customStyles?.header]}>
+                    {iconSrc && (
+                        <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+                    )}
+                    <AppText type={TextType.DefaultSemiBold}>
+                        {title}
+                    </AppText>
+                </View>
 
-                    <View style={[styles.itemsContainer, customStyles.itemsContainer]}>
-                        {
-                            itemsToRender.map((itemToRender) => itemToRender)
-                        }
-                    </View>
-                </ThemedView>
-            </TouchableOpacity>
-        </Animated.View>
+                <Animated.View
+                    style={[styles.itemsContainer, customStyles?.itemsContainer, animatedStyle]}>
+                    {itemsToRender.map((item, index) => (
+                        <View key={index}>{item}</View>
+                    ))}
+                </Animated.View>
+            </ThemedView>
+        </TouchableOpacity>
     );
 }
-
-const { height: viewportHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -59,7 +93,7 @@ const styles = StyleSheet.create({
     header: {
         display: 'flex',
         flexDirection: 'row',
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     itemsContainer: {
         display: 'flex',

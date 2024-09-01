@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { StyleSheet, View, Animated, Easing, type ViewProps, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
+import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
@@ -10,20 +11,38 @@ import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
-import { BoatLighthouseSection } from '../common/BoatLighthouseElement';
+import { prayForBeacon } from '@/redux/actions';
+import User from '@/models/user';
+import BeaconActivity from '@/models/beaconActivity';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number | null;
     completedCursorIdx: number | null;
     completedBeacons: EnhancedBeacon[];
     incomingBeacons: EnhancedBeacon[];
+
+    executor: User;
+    beaconActivities: BeaconActivity[];
+
+    prayForBeacon: Function;
 };
 
-export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
-    completedBeacons, incomingBeacons
-}: IShareChristBeaconDetails) {
+function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
+    completedBeacons, incomingBeacons, executor, prayForBeacon, beaconActivities }: IShareChristBeaconDetails) {
 
-    if (incomingCursorIdx === null && completedCursorIdx === null) {
+    const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
+    if (!beacon || (incomingCursorIdx === null && completedCursorIdx === null)) {
+        const hasCompleted = completedBeacons.find((beacon) => beacon.userId === executor.id) !== undefined 
+            && incomingBeacons.find((beacon) => beacon.userId === executor.id) === undefined;
+        if (hasCompleted) {
+            return (
+                <View style={[styles.center, styles.column]}>
+                    <AnimatedHeader title='All Beacons Completed!' 
+                                    subtitle='Please check back later for new beacons.'/>
+                </View>
+            );
+        }
+
         return (
             <View style={[styles.center, styles.column]}>
                 <AnimatedHeader title='Prayer Beacons' 
@@ -32,24 +51,15 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
         );
     }
 
-    const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
-    if (!beacon) {
-        return (
-            <View style={styles.center}>
-                <AppText type={TextType.Title}>
-                    Whaaa something went wrong
-                </AppText>
-            </View>
-        )
-    }
-
     console.log("BEACON: ", beacon);
 
-    const { name, message, user, one, activeUntil, completedActivities } = beacon;
+    const { message, user, one, activeUntil, completedActivities } = beacon;
     if (!user || !one || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
     }
+    
+    const hasUserAlreadyPrayed = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon.id) !== undefined;
 
     const titleText = getTitleText(beacon);
     if (!titleText) {
@@ -115,6 +125,27 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
         </View>
     );
 
+    const onMessageClick = () => {
+        if (hasUserAlreadyPrayed) {
+            return;
+        }
+
+    };
+
+    const onPrayClick = () => {
+        if (hasUserAlreadyPrayed) {
+            return;
+        }
+
+        prayForBeacon(
+            BeaconActivity.createBeaconActivity(
+                "Note",
+                executor,
+                beacon
+            )
+        );
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -143,8 +174,16 @@ export function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx
                     <Image source={AppIcon.LightHouse} style={styles.lightHouse} />
                 </Animated.View>
 
-                <SimpleIconButton iconSrc={AppIcon.Mail} title={'Message'} customStyles={customPrayButtonStyles}/>
-                <SimpleIconButton iconSrc={AppIcon.Prayer} title={'Pray'} customStyles={customPrayButtonStyles}/>
+                <SimpleIconButton iconSrc={AppIcon.Mail} 
+                                  title={'Message'}
+                                  disabled={hasUserAlreadyPrayed}
+                                  onClick={onMessageClick}
+                                  customStyles={customPrayButtonStyles}/>
+                <SimpleIconButton iconSrc={AppIcon.Prayer} 
+                                  title={'Pray'} 
+                                  disabled={hasUserAlreadyPrayed}
+                                  onClick={onPrayClick}
+                                  customStyles={customPrayButtonStyles}/>
             </View>
         </View>
     );
@@ -239,3 +278,14 @@ const customPrayButtonStyles = {
         marginStart: 16
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    executor: state.users.executor,
+    beaconActivities: state.activities.beaconActivities,
+});
+
+const mapDispatchToProps = {
+    prayForBeacon
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShareChristBeaconDetails);

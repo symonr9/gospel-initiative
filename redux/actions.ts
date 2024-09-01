@@ -2,6 +2,8 @@ import { ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
+import BeaconActivity from "@/models/beaconActivity";
+import BeaconLog from "@/models/beaconLog";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
 import Meeting from "@/models/meeting";
@@ -35,6 +37,8 @@ export enum Action {
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
     UpdateBeacon = "UPDATE_BEACON",
     SetBeaconActiveUntil = "SET_BEACON_ACTIVE_UNTIL",
+
+    PrayForBeacon = "PRAY_FOR_BEACON",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -142,6 +146,11 @@ export const AddOneFact = (item: OneFact) => ({
 export const AddStoryChapters = (item: StoryChapter) => ({
     type: Action.AddStoryChapter,
     payload: item,
+});
+
+export const prayForBeacon = (item: BeaconActivity) => ({
+    type: Action.PrayForBeacon,
+    payload: item
 });
 
 export const setAppError = (error: Error) => ({
