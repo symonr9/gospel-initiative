@@ -1,6 +1,7 @@
 
 import { Priority, ShareChristPageState } from '@/enums/enums';
 import Beacon from '@/models/beacon';
+import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
 import User from '@/models/user';
@@ -16,13 +17,14 @@ export type IAppStateManager = {
     shareChristPageState: ShareChristPageState;
     selectedTemplateId: string | null;
     beaconTemplates: BeaconTemplate[];
+    beaconForm: BeaconForm | null;
     setSelectedTemplateId: Function;
     setSelectedOne: Function;
     addBeacon: Function;
 };
 
 function AppStateManager({ executor, selectedOne, shareChristPageState, selectedTemplateId, beaconTemplates, 
-    setSelectedTemplateId, setSelectedOne, addBeacon }: IAppStateManager) {
+    setSelectedTemplateId, setSelectedOne, addBeacon, beaconForm }: IAppStateManager) {
 
     useEffect(() => {
         const shouldAddBeacon = selectedTemplateId != null 
@@ -35,6 +37,9 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
             if (!selectedTemplate) {
                 console.error("Failed to find matching template: ", selectedTemplateId);
                 return;
+            } else if (!beaconForm) {
+                console.error("Failed to find beacon form...");
+                return;
             }
 
             console.log("Adding new beacon");
@@ -43,15 +48,15 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
                 new Beacon(
                     generateRandomId(),
                     selectedTemplate.name,
-                    selectedTemplate.message,
+                    beaconForm.notes || selectedTemplate.message,
                     selectedOne.id,
                     Priority.Normal,
                     executor.id,
                     null,
                     selectedTemplate.type,
                     getTomorrow(),
-                    false,
-                    true
+                    beaconForm.shareOneName,
+                    beaconForm.shareOwnName
                 )
             );
 
@@ -67,7 +72,8 @@ const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
     shareChristPageState: state.app.shareChristPageState,
     selectedTemplateId: state.beacons.selectedTemplateId,
-    beaconTemplates: state.beacons.beaconTemplates
+    beaconTemplates: state.beacons.beaconTemplates,
+    beaconForm: state.beacons.beaconForm
 });
 
 const mapDispatchToProps = {

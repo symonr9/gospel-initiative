@@ -3,6 +3,7 @@ import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import BeaconActivity from "@/models/beaconActivity";
+import BeaconForm from "@/models/beaconForm";
 import BeaconLog from "@/models/beaconLog";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
@@ -38,6 +39,7 @@ export enum Action {
     UpdateBeacon = "UPDATE_BEACON",
     SetBeaconActiveUntil = "SET_BEACON_ACTIVE_UNTIL",
 
+    SetBeaconForm = "SET_BEACON_FORM",
     PrayForBeacon = "PRAY_FOR_BEACON",
 
     SetAppError = "SET_APP_ERROR",
@@ -146,6 +148,11 @@ export const AddOneFact = (item: OneFact) => ({
 export const AddStoryChapters = (item: StoryChapter) => ({
     type: Action.AddStoryChapter,
     payload: item,
+});
+
+export const setBeaconForm = (item: BeaconForm) => ({
+    type: Action.SetBeaconForm,
+    payload: item
 });
 
 export const prayForBeacon = (item: BeaconActivity) => ({

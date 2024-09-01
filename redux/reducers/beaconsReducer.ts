@@ -7,6 +7,7 @@ const initialState = {
     beaconTemplates: [],
 
     selectedTemplateId: null,
+    beaconForm: null
 };
 
 export function beaconsReducer(state = initialState, action: ActionPackage) {
@@ -52,6 +53,10 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
         case Action.AddBeacon:
             return update(state, {
                 beacons: { $push: [action.payload] }
+            });
+        case Action.SetBeaconForm:
+            return update(state, {
+                beaconForm: { $set: action.payload }
             });
         default:
             return state;

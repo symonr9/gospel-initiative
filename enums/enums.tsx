@@ -273,6 +273,7 @@ export enum AppIcon {
     FollowUp = "../assets/images/app-icons/follow-up.png",
     Car = "../assets/images/app-icons/car.png",
     Phone = "../assets/images/app-icons/phone.png",
+    Star = "../assets/images/app-icons/star.png",
     FastResponse = "../assets/images/app-icons/fast-response.png",
     StageSeeking = "../assets/images/app-icons/stage-seeking.png",
     StageCurious = "../assets/images/app-icons/stage-curious.png",

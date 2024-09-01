@@ -14,6 +14,7 @@ import { AnimatedElement } from '../common/AnimatedElement';
 import { prayForBeacon } from '@/redux/actions';
 import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
+import { PageRow } from '../common/PageRow';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number | null;
@@ -51,8 +52,6 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    console.log("BEACON: ", beacon);
-
     const { message, user, one, activeUntil, completedActivities } = beacon;
     if (!user || !one || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
@@ -70,21 +69,22 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const rows = [(
         <View style={styles.section}>
             <View style={styles.row}>
-                <View>
+                <View style={styles.notesSection}>
                     <AppText type={TextType.Body}>Notes:</AppText>
-                    <AppText type={TextType.Italic}>{message}</AppText>
+                    <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
                 </View>
             </View>
         </View>
     )];
 
     if (one.prayingSince) {
+        const prayingSincePrefix = beacon.shareOwnName ? user.name : 'The user';
         rows.push(
             <View style={styles.section}>
                 <View style={styles.row}>
                     <View>
-                        <AppText type={TextType.Body}>{user.name} has...</AppText>
-                        <AppText type={TextType.BodyBold}>{getDaysPrayedForText(one.prayingSince)}</AppText>
+                        <AppText type={TextType.Body}>{prayingSincePrefix} has...</AppText>
+                        <AppText type={TextType.DefaultSemiBold}>{getDaysPrayedForText(one.prayingSince)}</AppText>
                     </View>
                 </View>
             </View>
@@ -98,7 +98,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 <Image source={mapStageToIcon(one.stage)} style={styles.icon} />
                 <View style={styles.column}>
                     <AppText type={TextType.Body}>{stagePrefix}</AppText>
-                    <AppText type={TextType.BodyBold}>{mapStageToText(one.stage)}</AppText>
+                    <AppText type={TextType.DefaultSemiBold}>{mapStageToText(one.stage)}</AppText>
                 </View>
                 <View style={[styles.column, { marginTop: 0 }]}>
                     <AnimatedCount count={completedActivities.length} label={'Completed Prayers'}/>
@@ -109,26 +109,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         </View>
     );
 
-
-    rows.push(
-        <View style={styles.section}>
-            <View style={styles.row}>
-                <View style={styles.column}>
-                    <AppText type={TextType.DefaultSemiBold}>
-                        {getAppTimeAgoText(activeUntil)}
-                    </AppText>
-                    <AppText type={TextType.Body}>
-                        {formatDateTime(activeUntil)}
-                    </AppText>
-                </View>
-            </View>
-        </View>
-    );
-
     const onMessageClick = () => {
-        if (hasUserAlreadyPrayed) {
-            return;
-        }
 
     };
 
@@ -149,6 +130,12 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+                <View style={styles.timeAgo}>
+                    <AppText type={TextType.Italic}>
+                        {getAppTimeAgoText(activeUntil)}
+                    </AppText>
+                </View>
+
                 <View style={styles.row}>
                     <AnimatedElement element={
                         <Image source={user.icon} style={styles.profileIcon} />
@@ -176,7 +163,6 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                 <SimpleIconButton iconSrc={AppIcon.Mail} 
                                   title={'Message'}
-                                  disabled={hasUserAlreadyPrayed}
                                   onClick={onMessageClick}
                                   customStyles={customPrayButtonStyles}/>
                 <SimpleIconButton iconSrc={AppIcon.Prayer} 
@@ -213,6 +199,7 @@ function getTitleText(beacon: EnhancedBeacon): string | undefined {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
+        flexDirection: 'column',
         padding: 16,
         backgroundColor: '#fff',
         borderRadius: 8,
@@ -252,6 +239,8 @@ const styles = StyleSheet.create({
     },
     detailsContainer: {
         height: 300,
+        display: 'flex',
+        flexDirection: 'column',
     },
     buttonRow: {
         display: 'flex',
@@ -270,6 +259,21 @@ const styles = StyleSheet.create({
         height: 120,
         opacity: 0.5,
     },
+    notesSection: {
+        width: '100%',
+        maxHeight: 120,
+        backgroundColor: 'whitesmoke',
+        padding: 8,
+        borderRadius: 4,
+        overflow: 'scroll',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+    },
+    timeAgo: {
+        alignSelf: 'flex-end'
+    }
 });
 
 const customPrayButtonStyles = {
