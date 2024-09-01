@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
-import { AppIcon, BeaconType } from '@/enums/enums';
+import { AppIcon, BeaconType, FadeDirection } from '@/enums/enums';
 import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
@@ -118,7 +118,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     );
 
     const onMessageClick = () => {
-
+        
     };
 
     const onPrayClick = () => {
@@ -147,14 +147,14 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 <View style={[styles.row, { gap: 12 }]}>
                     <AnimatedElement element={
                         <Image source={user.icon} style={styles.profileIcon} />
-                    } delay={200} />
+                    } delay={300} direction={FadeDirection.Left}/>
                     <AnimatedElement element={
                         <Image source={mapBeaconTypeToAppIcon(beacon.type)} 
                                style={[styles.profileIcon, { width: 42, height: 42 }]} />
-                    } delay={200} />
+                    } delay={900} direction={FadeDirection.Up}/>
                     <AnimatedElement element={
                         <Image source={one.icon} style={styles.profileIcon} />
-                    } delay={400} />
+                    } delay={600} direction={FadeDirection.Right}/>
                 </View>
                 <AnimatedHeader title={beacon.name}
                     subtitle={titleText}
