@@ -71,7 +71,7 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
 
 const styles = StyleSheet.create({
     container: {
-        gap: 12,
+        gap: 8,
     }
 });
 

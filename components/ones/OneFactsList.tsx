@@ -30,7 +30,7 @@ function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
     );
 
     return (
-        <View style={[listStyles.container, styles.container]}>
+        <View style={[styles.container]}>
             <PageRow spaceBetween>
                 <AppText type={TextType.Subtitle}>
                     Fun Facts
