@@ -141,7 +141,7 @@ const getBeaconButton = (setPageState: Function) => {
     return (
         <SimpleIconButton iconSrc={AppIcon.Prayer}
             onClick={() => setPageState(ShareChristPageState.Beacon)}
-            title={'Prayer Beacon'} />
+            title={'Send New Beacon'} />
     );
 }
 

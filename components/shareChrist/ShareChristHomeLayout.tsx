@@ -5,25 +5,43 @@ import { connect } from 'react-redux';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import PromptBanner from '../prompts/PromptBanner';
 import ActionStepBanner from '../ones/ActionStepBanner';
+import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
+import { EnhancedBeacon } from '@/models/beacon';
+import { AnimatedCountCard } from '../common/AnimatedCountCard';
+import { PageRow } from '../common/PageRow';
+import { FadeDirection } from '@/enums/enums';
 
 export type IShareChristHomeLayout = ViewProps & {
-
+  completedBeacons: EnhancedBeacon[];
+  incomingBeacons: EnhancedBeacon[];
 };
 
-function ShareChristHomeLayout({ }: IShareChristHomeLayout) {
-
+function ShareChristHomeLayout({ completedBeacons, incomingBeacons }: IShareChristHomeLayout) {
   return (
     <View>
         <AnimatedHeader title="Share Christ" delay={200}/>
         <PromptBanner/>
         <ActionStepBanner/>
+
+        <PageRow>
+          <AnimatedCountCard count={incomingBeacons.length}
+                             direction={FadeDirection.Left}
+                             label='Beacons to Pray for'/>
+          <AnimatedCountCard count={completedBeacons.length}
+                             direction={FadeDirection.Right} 
+                             label='Beacons Prayed for Today'/>
+        </PageRow>
     </View>
   );
 }
 
-const mapStateToProps = (state: any) => ({
-
-});
+const mapStateToProps = (state: any) => {
+  const { completedBeacons, incomingBeacons } = selectPartitionedActiveEnhancedBeacons(state);
+  return {
+    completedBeacons,
+    incomingBeacons,
+};
+};
 
 const mapDispatchToProps = {
 

@@ -8,7 +8,6 @@ import { AnimatedRoadItemContainer } from '../common/AnimatedRoadItemContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
-import { BoatLighthouseSection } from '../common/BoatLighthouseElement';
 import ShareChristBeaconDetails from './ShareChristBeaconDetails';
 
 export type IShareChristBeaconsContainer = ViewProps & {

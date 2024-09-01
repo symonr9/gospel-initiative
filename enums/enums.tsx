@@ -19,7 +19,7 @@ export enum ShareChristPageState {
     Edit = 2,
     EditActionSteps = 3,
     EditOneFacts = 4,
-    
+
     Beacon = 5,
     AddBeacon = 6,
     EditBeacon = 7,
@@ -27,6 +27,14 @@ export enum ShareChristPageState {
     SendBeacon = 9,
     ConfirmSendBeacon = 10
 }
+
+
+export enum FadeDirection {
+    Up,
+    Down,
+    Left,
+    Right
+};
 
 // Users
 

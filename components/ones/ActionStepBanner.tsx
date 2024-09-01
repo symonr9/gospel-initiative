@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { View, type ViewProps } from 'react-native';
 
-import { selectFirstOneAndActionStepsByUserId, selectOnesByUserId } from '@/redux/selectors';
-import User from '@/models/user';
+import { selectFirstOneAndActionStepsByUserId } from '@/redux/selectors';
 import { AppIcon } from '@/enums/enums';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ActionStep from '@/models/actionStep';
