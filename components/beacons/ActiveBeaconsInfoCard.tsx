@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, GestureResponderEvent, View, type ViewProps } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import Svg, { Circle } from 'react-native-svg';
 
 import { AnimatedCount } from '../common/AnimatedCount';
 import Beacon from '@/models/beacon';
@@ -13,21 +12,6 @@ export type IActiveBeaconsInfoCard = ViewProps & {
 export function ActiveBeaconsInfoCard({ activeBeacons,
     style = {},
 }: IActiveBeaconsInfoCard) {
-    const [bgColor, setBgColor] = useState(new Animated.Value(0));
-
-    useEffect(() => {
-        Animated.timing(bgColor, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: false,
-        }).start();
-    }, []);
-
-    const interpolatedBgColor = bgColor.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['white', 'whitesmoke']
-    });
-
     const count = activeBeacons.length;
     if (count === 0) {
         return <></>;
@@ -38,7 +22,7 @@ export function ActiveBeaconsInfoCard({ activeBeacons,
     return (
         <AnimatedCount count={count} 
                        label={label}
-                       style={styles.count}/>
+                       customStyles={{ countText: { left: 19, top: 12 }}}/>
     );
 }
 

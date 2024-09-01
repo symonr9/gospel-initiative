@@ -42,13 +42,11 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
                 return;
             }
 
-            console.log("Adding new beacon");
-
             addBeacon(
                 new Beacon(
                     generateRandomId(),
                     selectedTemplate.name,
-                    beaconForm.notes || selectedTemplate.message,
+                    beaconForm.notes || null,
                     selectedOne.id,
                     Priority.Normal,
                     executor.id,

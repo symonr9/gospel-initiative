@@ -193,6 +193,31 @@ export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
     }
 }
 
+export function mapBeaconTypeToAppIcon(type: BeaconType) {
+    switch (type) {
+        case BeaconType.SpiritualConversation:
+            return AppIcon.Conversation;
+        case BeaconType.PrayerNeed:
+            return AppIcon.Prayer;
+        case BeaconType.SharingGospel:
+            return AppIcon.FastResponse;
+        case BeaconType.InvitedToChurch:
+            return AppIcon.Church;
+        case BeaconType.OfferedHelp:
+            return AppIcon.Car;
+        case BeaconType.AttendedEventTogether:
+            return AppIcon.Rapport;
+        case BeaconType.GaveTestimony:
+            return AppIcon.Book;
+        case BeaconType.FollowedUp:
+            return AppIcon.Phone;
+        case BeaconType.Meeting:
+        case BeaconType.Archived:
+        default:
+            return AppIcon.Coffee;
+    }
+}
+
 export function mapBeaconTypeToTitleText(type: BeaconType, shareOneName: boolean, 
     shareOwnName: boolean, user: User, one: One) {
     const userName = shareOwnName ? user.name : 'A User';

@@ -1,7 +1,12 @@
 import { BeaconType, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
-import BeaconActivity from "./beaconActivity";
+import BeaconActivity, { ActivityWithUser } from "./beaconActivity";
+
+
+export type BeaconWithActivities = Beacon & {
+    activities: ActivityWithUser[];
+}
 
 export type EnhancedBeacon = Beacon & {
     one: One | null;
@@ -13,7 +18,7 @@ export type EnhancedBeacon = Beacon & {
 interface IBeacon {
     id: string;
     name: string;
-    message: string;
+    message: string | null;
     userId: string;
     oneId: string | null;
     meetingId: string | null;
@@ -27,7 +32,7 @@ interface IBeacon {
 export default class Beacon implements IBeacon {
     id: string;
     name: string;
-    message: string;
+    message: string | null;
     userId: string;
     oneId: string | null;
     meetingId: string | null;
@@ -37,7 +42,7 @@ export default class Beacon implements IBeacon {
     shareOneName: boolean | false;
     shareOwnName: boolean | true;
 
-    constructor(id: string, name: string, message: string, oneId: string | null,
+    constructor(id: string, name: string, message: string | null, oneId: string | null,
         priority: Priority, userId: string, meetingId: string | null,
         type: BeaconType, activeUntil: Date | undefined, shareOneName: boolean | false,
         shareOwnName: boolean | true

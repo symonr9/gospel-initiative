@@ -9,13 +9,14 @@ export type IPageRow = ViewProps & {
     fillSpace?: boolean;
 };
 
-export function PageRow({ spaceBetween, flexStart, fillSpace, children }: IPageRow) {
+export function PageRow({ spaceBetween, flexStart, fillSpace, style, children }: IPageRow) {
     return (
         <View style={[
             styles.rowContainer,
             spaceBetween && styles.spaceBetween,
             flexStart && styles.flexStart,
-            fillSpace && styles.fillSpace
+            fillSpace && styles.fillSpace,
+            style
         ]}>
             {children}
         </View>

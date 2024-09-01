@@ -73,6 +73,30 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
     };
 };
 
+export const selectActiveBeaconsWithActivities = (oneId: string) =>
+    createSelector(
+        [selectAllBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
+        (beacons, executor, beaconActivities, users) => {
+            return beacons
+                .filter((beacon: any) => beacon.userId === executor.id && beacon.oneId === oneId && isBeaconActive(beacon))
+                .map((beacon: any) => {
+                    const activities = beaconActivities
+                        .filter((activity) => activity.beaconId === beacon.id)
+                        .map((activity) => {
+                            const user = users.find((user) => user.id === activity.userId) || null;
+                            return {
+                                ...activity,
+                                user
+                            };
+                        })
+                        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                    return {
+                        ...beacon,
+                        activities
+                    };
+                });
+        });
+
 /**
  * Smartly partitions all prayer beacons to all where the executor has created a beaconActivity for and
  * all that have not done so. Two arrays. The one, user, and the subsequent activities for a given beacon

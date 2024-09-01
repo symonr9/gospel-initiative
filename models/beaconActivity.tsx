@@ -2,6 +2,11 @@ import { generateRandomId, getNow } from "@/utils/appUtils";
 import Beacon from "./beacon";
 import User from "./user";
 
+
+export type ActivityWithUser = BeaconActivity & {
+    user: User | null;
+};
+
 interface IBeaconActivity {
     id: string;
     note: string;

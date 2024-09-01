@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, BeaconType } from '@/enums/enums';
-import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText } from '@/utils/appUtils';
+import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
@@ -33,21 +33,21 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     if (!beacon || (incomingCursorIdx === null && completedCursorIdx === null)) {
-        const hasCompleted = completedBeacons.find((beacon) => beacon.userId === executor.id) !== undefined 
+        const hasCompleted = completedBeacons.find((beacon) => beacon.userId === executor.id) !== undefined
             && incomingBeacons.find((beacon) => beacon.userId === executor.id) === undefined;
         if (hasCompleted) {
             return (
                 <View style={[styles.center, styles.column]}>
-                    <AnimatedHeader title='All Beacons Completed!' 
-                                    subtitle='Please check back later for new beacons.'/>
+                    <AnimatedHeader title='All Beacons Completed!'
+                        subtitle='Please check back later for new beacons.' />
                 </View>
             );
         }
 
         return (
             <View style={[styles.center, styles.column]}>
-                <AnimatedHeader title='Prayer Beacons' 
-                                subtitle='Select a beacon below to begin.'/>
+                <AnimatedHeader title='Prayer Beacons'
+                    subtitle='Select a beacon below to begin.' />
             </View>
         );
     }
@@ -57,7 +57,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         console.error("Missing props for beacon...");
         return <></>;
     }
-    
+
     const hasUserAlreadyPrayed = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon.id) !== undefined;
 
     const titleText = getTitleText(beacon);
@@ -66,16 +66,20 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         return <></>;
     }
 
-    const rows = [(
-        <View style={styles.section}>
-            <View style={styles.row}>
-                <View style={styles.notesSection}>
-                    <AppText type={TextType.Body}>Notes:</AppText>
-                    <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
+    const rows = [];
+
+    if (message) {
+        rows.push(
+            <View style={styles.section}>
+                <View style={styles.row}>
+                    <View style={styles.notesSection}>
+                        <AppText type={TextType.Body}>Notes:</AppText>
+                        <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
+                    </View>
                 </View>
             </View>
-        </View>
-    )];
+        );
+    }
 
     if (one.prayingSince) {
         const prayingSincePrefix = beacon.shareOwnName ? user.name : 'The user';
@@ -94,16 +98,20 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const stagePrefix = beacon.shareOneName ? `${one.name}...` : `Their One is...`;
     rows.push(
         <View style={styles.section}>
-            <View style={styles.row}>
-                <Image source={mapStageToIcon(one.stage)} style={styles.icon} />
-                <View style={styles.column}>
-                    <AppText type={TextType.Body}>{stagePrefix}</AppText>
-                    <AppText type={TextType.DefaultSemiBold}>{mapStageToText(one.stage)}</AppText>
+            <PageRow spaceBetween>
+                <View style={styles.row}>
+                    <Image source={mapStageToIcon(one.stage)} style={styles.icon} />
+                    <View style={styles.column}>
+                        <AppText type={TextType.Body}>{stagePrefix}</AppText>
+                        <AppText type={TextType.DefaultSemiBold}>{mapStageToText(one.stage)}</AppText>
+                    </View>
                 </View>
                 <View style={[styles.column, { marginTop: 0 }]}>
-                    <AnimatedCount count={completedActivities.length} label={'Completed Prayers'}/>
+                    <AnimatedCount count={completedActivities.length}
+                        customStyles={{ container: { justifyContent: 'center', alignItems: 'center', } }}
+                        label={'Completed Prayers'} />
                 </View>
-            </View>
+            </PageRow>
             <View>
             </View>
         </View>
@@ -136,40 +144,44 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     </AppText>
                 </View>
 
-                <View style={styles.row}>
+                <View style={[styles.row, { gap: 12 }]}>
                     <AnimatedElement element={
                         <Image source={user.icon} style={styles.profileIcon} />
-                    } delay={200}/>
+                    } delay={200} />
+                    <AnimatedElement element={
+                        <Image source={mapBeaconTypeToAppIcon(beacon.type)} 
+                               style={[styles.profileIcon, { width: 42, height: 42 }]} />
+                    } delay={200} />
                     <AnimatedElement element={
                         <Image source={one.icon} style={styles.profileIcon} />
-                    } delay={400}/>
+                    } delay={400} />
                 </View>
-                <AnimatedHeader title={beacon.name} 
-                                subtitle={titleText}
-                                delay={600} 
-                                style={{ textAlign: 'center' }}/>
+                <AnimatedHeader title={beacon.name}
+                    subtitle={titleText}
+                    delay={600}
+                    style={{ textAlign: 'center' }} />
             </View>
 
             <AnimatedElement element={
                 rows.map((row, index) => (
                     <View key={index}>{row}</View>
                 ))
-            } delay={800} style={styles.detailsContainer}/>
+            } delay={800} style={styles.detailsContainer} />
 
             <View style={styles.buttonRow}>
                 <Animated.View style={[styles.lighthouseContainer]}>
                     <Image source={AppIcon.LightHouse} style={styles.lightHouse} />
                 </Animated.View>
 
-                <SimpleIconButton iconSrc={AppIcon.Mail} 
-                                  title={'Message'}
-                                  onClick={onMessageClick}
-                                  customStyles={customPrayButtonStyles}/>
-                <SimpleIconButton iconSrc={AppIcon.Prayer} 
-                                  title={'Pray'} 
-                                  disabled={hasUserAlreadyPrayed}
-                                  onClick={onPrayClick}
-                                  customStyles={customPrayButtonStyles}/>
+                <SimpleIconButton iconSrc={AppIcon.Mail}
+                    title={'Message'}
+                    onClick={onMessageClick}
+                    customStyles={customPrayButtonStyles} />
+                <SimpleIconButton iconSrc={AppIcon.Prayer}
+                    title={'Pray'}
+                    disabled={hasUserAlreadyPrayed}
+                    onClick={onPrayClick}
+                    customStyles={customPrayButtonStyles} />
             </View>
         </View>
     );
@@ -229,8 +241,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     profileIcon: {
-        width: 64,
-        height: 64,
+        width: 60,
+        height: 60,
     },
     icon: {
         width: 32,

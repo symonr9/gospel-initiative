@@ -8,24 +8,25 @@ import One from '@/models/one';
 import OneFactsList from './OneFactsList';
 import ActionStepsList from './ActionStepsList';
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
-import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { PageContainer } from '../common/PageContainer';
 import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
-import { selectActiveBeaconsByOneId } from '@/redux/selectors/beaconSelectors';
+import { selectActiveBeaconsByOneId, selectActiveBeaconsWithActivities } from '@/redux/selectors/beaconSelectors';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { BeaconWithActivities } from '@/models/beacon';
+import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One,
     shareChristPageState: ShareChristPageState,
     ones: One[],
+    activeBeaconsWithActivities: BeaconWithActivities[]
 };
 
-function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
-    
+function OnesLayout({ selectedOne, shareChristPageState, ones, activeBeaconsWithActivities }: IOnesLayout) {    
     const prayerBeacons = useSelector(selectActiveBeaconsByOneId(selectedOne.id || ""));
     
     if (!selectedOne) {
@@ -61,8 +62,9 @@ function OnesLayout({ selectedOne, shareChristPageState, ones }: IOnesLayout) {
                     <OneFactsList />
                 </PageColumn>
 
-                <PageRow spaceBetween>
+                <PageRow spaceBetween style={{ marginTop: 16}}>
                     <ActiveBeaconsInfoCard activeBeacons={prayerBeacons} />
+                    <ActiveBeaconsActivityCard activeBeaconsWithActivities={activeBeaconsWithActivities}/>
                 </PageRow>
             </PageContainer>
         </>
@@ -75,11 +77,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = (state: any) => ({
-    selectedOne: state.ones.selectedOne,
-    shareChristPageState: state.app.shareChristPageState,
-    ones: state.ones.ones,
-});
+const mapStateToProps = (state: any) => {
+    const selectedOne = state.ones.selectedOne;
+    const activeBeaconsWithActivities = selectedOne ? useSelector(selectActiveBeaconsWithActivities(selectedOne.id)) : [];
+    return {
+        selectedOne,
+        shareChristPageState: state.app.shareChristPageState,
+        ones: state.ones.ones,
+        activeBeaconsWithActivities: activeBeaconsWithActivities,
+    };
+};
 
 const mapDispatchToProps = {
 

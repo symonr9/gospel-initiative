@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Animated, Easing, Dimensions } from 'react-nati
 import Svg, { Circle } from 'react-native-svg';
 import { AppText, TextType } from './AppText';
 
-const { width } = Dimensions.get('window');
 const CIRCLE_SIZE = 50;
 const STROKE_WIDTH = 5;
 const RADIUS = (CIRCLE_SIZE - STROKE_WIDTH) / 2;
@@ -12,7 +11,7 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 type IAnimatedCount = {
   count: number;
   label?: string | undefined;
-  style?: any;
+  customStyles?: any;
   low?: number;
   medium?: number;
   high?: number;
@@ -21,7 +20,7 @@ type IAnimatedCount = {
 // Create an animated version of the Svg.Circle component
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export function AnimatedCount({ count, label = undefined, style = {},
+export function AnimatedCount({ count, label = undefined, customStyles = {},
   low = 1, medium = 3, high = 5 }: IAnimatedCount) {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -60,7 +59,7 @@ export function AnimatedCount({ count, label = undefined, style = {},
 
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, customStyles.container]}>
       <Svg height={CIRCLE_SIZE} width={CIRCLE_SIZE}>
         <Circle
           cx={CIRCLE_SIZE / 2}
@@ -82,7 +81,7 @@ export function AnimatedCount({ count, label = undefined, style = {},
           fill="none"
         />
       </Svg>
-      <AppText type={TextType.DefaultSemiBold} style={styles.countText}>{count}</AppText>
+      <AppText type={TextType.DefaultSemiBold} style={[styles.countText, customStyles.countText]}>{count}</AppText>
       {
         label && (
           <AppText type={TextType.Italic}>{label}</AppText>
@@ -94,9 +93,7 @@ export function AnimatedCount({ count, label = undefined, style = {},
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: width * 0.8,
+    
   },
   countText: {
     position: 'absolute',
