@@ -20,12 +20,13 @@ export type IShareChristBeaconCard = {
     user: any;
     activities: BeaconActivity[];
     idx: number;
+    activeBeaconId: string | null;
     selectedIdx: number | null;
-    setSelectedIdx: Function;
+    setActiveBeaconId: Function;
 };
 
 export function ShareChristBeaconCard({ beacon, one, user, activities,
-    idx, selectedIdx, setSelectedIdx }: IShareChristBeaconCard) {
+    activeBeaconId, idx, selectedIdx, setActiveBeaconId }: IShareChristBeaconCard) {
     const progress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -35,7 +36,7 @@ export function ShareChristBeaconCard({ beacon, one, user, activities,
             ['#FFF', 'lightgreen']
         );
 
-        const opacity = selectedIdx === null || selectedIdx === idx
+        const opacity = selectedIdx === -1 || selectedIdx === idx
             ? withTiming(1, { duration: 250 })
             : withTiming(0.5, { duration: 250 });
 
@@ -46,7 +47,7 @@ export function ShareChristBeaconCard({ beacon, one, user, activities,
     });
 
     useEffect(() => {
-        if (selectedIdx !== null && idx === selectedIdx) {
+        if (selectedIdx !== -1 && idx === selectedIdx) {
             progress.value = withTiming(1, { duration: 250 });
         } else if (idx !== selectedIdx) {
             progress.value = withTiming(0, { duration: 250 });
@@ -54,7 +55,7 @@ export function ShareChristBeaconCard({ beacon, one, user, activities,
     }, [selectedIdx]);
 
     const onPress = () => {
-        setSelectedIdx(selectedIdx === idx ? null : idx);
+        setActiveBeaconId(beacon.id === activeBeaconId ? null : beacon.id);
     };
 
     return (

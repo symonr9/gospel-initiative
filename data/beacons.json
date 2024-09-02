@@ -8,7 +8,7 @@
         "meetingId": null,
         "priority": 2,
         "type": 1,
-        "activeUntil": "2024-09-02T10:03:00Z",
+        "activeUntil": "2024-09-03T10:03:00Z",
         "shareOneName": false,
         "shareOwnName": true
     },
@@ -21,7 +21,7 @@
         "meetingId": null,
         "priority": 3,
         "type": 2,
-        "activeUntil": "2024-09-02T10:03:00Z",
+        "activeUntil": "2024-09-03T10:03:00Z",
         "shareOneName": false,
         "shareOwnName": true
     }

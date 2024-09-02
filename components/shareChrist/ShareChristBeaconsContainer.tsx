@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { StyleSheet, View, Animated, Easing, type ViewProps, Dimensions } from 'react-native';
+import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
@@ -22,28 +22,13 @@ export enum RoadContainerType {
 };
 
 function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareChristPageState }: IShareChristBeaconsContainer) {
-    const [completedCursorIdx, setCompletedCursorIdx] = useState(null);
-    const [incomingCursorIdx, setIncomingCursorIdx] = useState(null);
-    const [togglingCursor, setTogglingCursor] = useState(true);
+    const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
-    useEffect(() => {
-        if (incomingCursorIdx !== null && togglingCursor) {
-            setTogglingCursor(false);
-            setIncomingCursorIdx(null);
-        } else {
-            setTogglingCursor(true);
-        }
-    }, [completedCursorIdx]);
-
-    useEffect(() => {
-        if (completedCursorIdx !== null && togglingCursor) {
-            setTogglingCursor(false);
-            setCompletedCursorIdx(null);
-        } else {
-            setTogglingCursor(true);
-        }
-    }, [incomingCursorIdx]);
+    const incomingCursorIdx = incomingBeacons.findIndex((beacon) => beacon.id === activeBeaconId);
+    const completedCursorIdx = completedBeacons.findIndex((beacon) => beacon.id === activeBeaconId);
+    const completedCount = completedBeacons.length;
+    const incomingCount = incomingBeacons.length;
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon, idx) => (
         <ShareChristBeaconCard beacon={beacon}
@@ -51,8 +36,9 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                                user={beacon.user}
                                activities={beacon.completedActivities}
                                idx={idx}
-                               selectedIdx={completedCursorIdx}
-                               setSelectedIdx={setCompletedCursorIdx}/>
+                               activeBeaconId={activeBeaconId}
+                               setActiveBeaconId={setActiveBeaconId}
+                               selectedIdx={completedCursorIdx}/>
     )) : [];
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
@@ -61,12 +47,10 @@ function ShareChristBeaconsContainer({ completedBeacons, incomingBeacons, shareC
                                user={beacon.user}
                                activities={beacon.incomingActivities}
                                idx={idx}
-                               selectedIdx={incomingCursorIdx}
-                               setSelectedIdx={setIncomingCursorIdx}/>
+                               activeBeaconId={activeBeaconId}
+                               setActiveBeaconId={setActiveBeaconId}
+                               selectedIdx={incomingCursorIdx}/>
     )) : [];
-
-    const completedCount = completedBeacons.length;
-    const incomingCount = incomingBeacons.length;
 
     return (
         <View style={styles.container}>

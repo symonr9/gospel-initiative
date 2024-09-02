@@ -20,6 +20,23 @@ export function activitiesReducer(state = initialState, action: ActionPackage) {
             return update(state, {
                 beaconActivities: { $push: [action.payload] }
             });
+        case Action.AddNoteToActivity: 
+            const { activityId, note } = action.payload;
+            const activityIndex = state.beaconActivities.findIndex(
+                (activity) => activity.id === activityId
+            );
+            if (activityIndex !== -1) {
+                return update(state, {
+                    beaconActivities: {
+                        [activityIndex]: {
+                            note: { $set: note }
+                        }
+                    }
+                });
+            } else {
+                console.error("No matching activity found for beaconId and userId.");
+                return state;
+            }
         default:
             return state;
     }

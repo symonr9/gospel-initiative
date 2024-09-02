@@ -41,6 +41,7 @@ export enum Action {
 
     SetBeaconForm = "SET_BEACON_FORM",
     PrayForBeacon = "PRAY_FOR_BEACON",
+    AddNoteToActivity = "ADD_NOTE_TO_ACTIVITY",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -158,6 +159,11 @@ export const setBeaconForm = (item: BeaconForm) => ({
 export const prayForBeacon = (item: BeaconActivity) => ({
     type: Action.PrayForBeacon,
     payload: item
+});
+
+export const addNoteToActivity = (activityId: string, note: string) => ({
+    type: Action.AddNoteToActivity,
+    payload: { activityId, note }
 });
 
 export const setAppError = (error: Error) => ({

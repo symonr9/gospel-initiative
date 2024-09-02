@@ -153,3 +153,22 @@ export const PromptQuestions = {
 export const BeaconOptions = {
     
 };
+
+export const ActivityNoteOptions = [
+    "You are not alone; I'm praying for you.",
+    "Lifting you up in prayer.",
+    "May you find peace and strength.",
+    "May you feel God's presence.",
+    "Praying for comfort and guidance.",
+    "You are in my thoughts and prayers.",
+    "May your faith be strengthened.",
+    "Sending prayers for your well-being.",
+    "Believing for a breakthrough.",
+    "Praying for wisdom and clarity.",
+    "Praying for healing and peace.",
+    "Trusting in God's plan for you.",
+    "May you find hope and courage.",
+    "Asking God to bless you today.",
+    "May you experience God's peace.",
+    "Custom"
+];

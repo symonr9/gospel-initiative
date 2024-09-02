@@ -17,11 +17,13 @@ export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style =
 
     const itemsToRender = activeBeaconsWithActivities.map((beaconWithActivity) => {
         const activities = beaconWithActivity.activities;
-
         return (
-            <View>
-                <AppText type={TextType.DefaultSemiBold}>
+            <View style={styles.beaconCard}>
+                <AppText type={TextType.DefaultSemiBold} style={styles.beaconNameText}>
                     {beaconWithActivity.name}
+                </AppText>
+                <AppText type={TextType.Italic} style={styles.beaconDetailsText}>
+                    {beaconWithActivity.message}
                 </AppText>
                 <View>
                     {
@@ -44,7 +46,7 @@ export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style =
 
     return (
         <Animated.View entering={FadeInRight.duration(duration).delay(delay)} style={[styles.container, style]}>
-            <AppText type={TextType.Body}>Beacon Activity</AppText>
+            <AppText type={TextType.Italic}>Beacon Activity</AppText>
             {itemsToRender.map((item) => item)}
         </Animated.View>
     );
@@ -56,17 +58,28 @@ const styles = StyleSheet.create({
         width: 240,
         display: 'flex',
         flexDirection: 'column',
-        // backgroundColor: 'whitesmoke',
-        // shadowColor: '#000',
-        // shadowOffset: { width: 0, height: 3 },
-        // shadowOpacity: 0.3,
-        // shadowRadius: 6,
-        // borderRadius: 4,
         margin: 4,
         maxHeight: 200,
         overflow: 'scroll'
     },
     activityView: {
-        marginStart: 16
+        margin: 2,
+        marginStart: 16,
+        backgroundColor: 'lightyellow',
+        borderRadius: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        padding: 4,
+    },
+    beaconNameText: {
+        marginTop: 2,
+    },
+    beaconDetailsText: {
+        marginBottom: 4,
+    },
+    beaconCard: {
+        padding: 4,
     },
 });

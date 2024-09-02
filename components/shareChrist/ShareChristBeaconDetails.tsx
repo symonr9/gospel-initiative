@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { StyleSheet, View, Animated, Easing, type ViewProps, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Animated, Modal, type ViewProps, TouchableOpacity, Picker, Button, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 
@@ -11,28 +11,35 @@ import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
-import { prayForBeacon } from '@/redux/actions';
+import { addNoteToActivity, prayForBeacon } from '@/redux/actions';
 import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
+import { ActivityNoteOptions } from '@/constants/Strings';
 
 export type IShareChristBeaconDetails = ViewProps & {
-    incomingCursorIdx: number | null;
-    completedCursorIdx: number | null;
+    incomingCursorIdx: number;
+    completedCursorIdx: number;
     completedBeacons: EnhancedBeacon[];
     incomingBeacons: EnhancedBeacon[];
 
     executor: User;
     beaconActivities: BeaconActivity[];
 
+    addNoteToActivity: Function;
     prayForBeacon: Function;
 };
 
 function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
-    completedBeacons, incomingBeacons, executor, prayForBeacon, beaconActivities }: IShareChristBeaconDetails) {
+    completedBeacons, incomingBeacons, executor, prayForBeacon, addNoteToActivity,
+    beaconActivities }: IShareChristBeaconDetails) {
+
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [selectedNoteIdx, setSelectedNoteIdx] = useState(0);
+    const [customNote, setCustomNote] = useState('');
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
-    if (!beacon || (incomingCursorIdx === null && completedCursorIdx === null)) {
+    if (!beacon || (incomingCursorIdx === -1 && completedCursorIdx === -1)) {
         const hasCompleted = completedBeacons.find((beacon) => beacon.userId === executor.id) !== undefined
             && incomingBeacons.find((beacon) => beacon.userId === executor.id) === undefined;
         if (hasCompleted) {
@@ -58,7 +65,8 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         return <></>;
     }
 
-    const hasUserAlreadyPrayed = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon.id) !== undefined;
+    const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon.id);
+    const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
 
     const titleText = getTitleText(beacon);
     if (!titleText) {
@@ -117,8 +125,31 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         </View>
     );
 
-    const onMessageClick = () => {
-        
+    const onNoteClick = () => {
+        setModalVisible(true);
+    };
+
+    const onSaveClick  = () => {
+        setModalVisible(false);
+        if (!hasUserAlreadyPrayed && !userActivityForBeacon) {
+            return;
+        }
+
+        const note = (() => {
+            if (customNote !== '') 
+                return customNote;
+            if (selectedNoteIdx >= 0 && selectedNoteIdx < ActivityNoteOptions.length)
+                return ActivityNoteOptions[selectedNoteIdx];
+            return null;
+        })();
+
+        if (!note) {
+            console.error('Failed to get note');
+            return;
+        }
+        addNoteToActivity(userActivityForBeacon.id, note);
+        setCustomNote('');
+        setSelectedNoteIdx(0);
     };
 
     const onPrayClick = () => {
@@ -128,7 +159,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         prayForBeacon(
             BeaconActivity.createBeaconActivity(
-                "Note",
+                "",
                 executor,
                 beacon
             )
@@ -137,6 +168,46 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     return (
         <View style={styles.container}>
+
+            <Modal
+                transparent={true}
+                visible={isModalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                            <AppText type={TextType.DefaultSemiBold} style={styles.closeButtonText}>X</AppText>
+                        </TouchableOpacity>
+
+                        <AppText type={TextType.Body}>Select a note:</AppText>
+                        <Picker
+                            style={styles.picker}
+                            selectedValue={selectedNoteIdx}
+                            onValueChange={(idx) => setSelectedNoteIdx(idx)}>
+                            {
+                                ActivityNoteOptions.map((value, idx) => (                            
+                                    <Picker.Item label={value} value={idx} key={value} />
+                                ))
+                            }
+                        </Picker>
+
+                        {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="Enter your custom note"
+                                placeholderTextColor={'lightgray'}
+                                value={customNote}
+                                maxLength={80}
+                                onChangeText={setCustomNote}
+                            />
+                        )}
+
+                        <Button title="Save" onPress={onSaveClick} />
+                    </View>
+                </View>
+            </Modal>
+
             <View style={styles.header}>
                 <View style={styles.timeAgo}>
                     <AppText type={TextType.Italic}>
@@ -173,9 +244,23 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     <Image source={AppIcon.LightHouse} style={styles.lightHouse} />
                 </Animated.View>
 
+                {
+                    (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
+                        <View style={styles.myNoteForBeacon}>
+                            <AppText type={TextType.Body}>
+                                Your Note:
+                            </AppText>
+                            <AppText type={TextType.Italic}>
+                                {userActivityForBeacon.note}
+                            </AppText>
+                        </View>
+                    )
+                }
+
                 <SimpleIconButton iconSrc={AppIcon.Mail}
-                    title={'Message'}
-                    onClick={onMessageClick}
+                    title={'Leave a Note'}
+                    disabled={!hasUserAlreadyPrayed}
+                    onClick={onNoteClick}
                     customStyles={customPrayButtonStyles} />
                 <SimpleIconButton iconSrc={AppIcon.Prayer}
                     title={'Pray'}
@@ -187,13 +272,13 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     );
 }
 
-function getBeacon(incomingCursorIdx: number | null, completedCursorIdx: number | null,
+function getBeacon(incomingCursorIdx: number, completedCursorIdx: number,
     completedBeacons: EnhancedBeacon[], incomingBeacons: EnhancedBeacon[]
 ): EnhancedBeacon | null {
-    if (incomingCursorIdx !== null) {
+    if (incomingCursorIdx !== -1) {
         return incomingBeacons[incomingCursorIdx] || null;
     }
-    if (completedCursorIdx !== null) {
+    if (completedCursorIdx !== -1) {
         return completedBeacons[completedCursorIdx] || null;
     }
     return null;
@@ -285,7 +370,57 @@ const styles = StyleSheet.create({
     },
     timeAgo: {
         alignSelf: 'flex-end'
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 300,
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 1,
+    },
+    closeButtonText: {
+        fontSize: 18,
+    },
+    textInput: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        marginTop: 10,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+    },
+    picker: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        marginTop: 10,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        backgroundColor: 'whitesmoke',
+    },
+    myNoteForBeacon: {
+        maxWidth: 140
+    },
 });
 
 const customPrayButtonStyles = {
@@ -301,7 +436,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-    prayForBeacon
+    prayForBeacon,
+    addNoteToActivity
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareChristBeaconDetails);
