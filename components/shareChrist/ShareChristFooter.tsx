@@ -25,8 +25,10 @@ function ShareChristFooter({ page, pageState, selectedTemplateId, setSelectedTem
     let itemsToRender;
     if (page == Page.ShareChristOnes) {
         itemsToRender = getOnesListItems(pageState, setShareChristPageState, openPage, selectedTemplateId !== null, setSelectedTemplateId);
-    } else if (page == Page.ShareChristPrayers) {
+    } else if (page == Page.ShareChristBeacons) {
         itemsToRender = getPrayersListItems(selectedTemplateId, openPage, setShareChristPageState);
+    } else if (page == Page.ShareChristStories) {
+        itemsToRender = getStoriesListItems(openPage, setShareChristPageState);
     } else {
         itemsToRender = getDefaultItems(openPage);
     }
@@ -88,21 +90,6 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
             }),
         ];
     } else if ([
-        ShareChristPageState.AddBeacon,
-        ShareChristPageState.EditBeacon
-    ].includes(pageState)) { // Add/Edit Beacon
-        return [
-            getBackButton(() => {
-                if (hasSelectedBeacon && setSelectedTemplateId && pageState == ShareChristPageState.AddBeacon) {
-                    setSelectedTemplateId(null);
-                }
-                setPageState(ShareChristPageState.Beacon);
-            }),
-            getSaveButton(() => {
-                setPageState(ShareChristPageState.SaveBeacon);
-            })
-        ];
-    } else if ([
         ShareChristPageState.SaveBeacon
     ].includes(pageState)) { // Saving...
         return [];
@@ -120,11 +107,16 @@ const getPrayersListItems = (selectedTemplateId: string | null, setPage: Functio
     return [];
 }
 
+const getStoriesListItems = (openPage: Function, setPageState: Function) => {
+    return [];
+};
+
 const getDefaultItems = (openPage: Function) => {
     return [
         <SimpleIconButton iconSrc={AppIcon.Prayer}
-            onClick={() => openPage(Page.ShareChristPrayers)}
+            onClick={() => openPage(Page.ShareChristBeacons)}
             title={'Pray'} />,
+        getStoryButton(() => openPage(Page.ShareChristStories)),
         <NavigateToOnesButton />
     ];
 }
@@ -190,6 +182,14 @@ const getCancelButton = (onClick: () => void) => {
         <SimpleIconButton iconSrc={AppIcon.Cancel}
             onClick={onClick}
             title={'Cancel'} />
+    );
+};
+
+const getStoryButton = (onClick: () => void) => {
+    return (
+        <SimpleIconButton iconSrc={AppIcon.Book}
+            onClick={onClick}
+            title={'Stories'} />
     );
 };
 

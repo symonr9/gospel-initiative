@@ -7,6 +7,7 @@ import { AppIcon } from '@/enums/enums';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ActionStep from '@/models/actionStep';
 import One from '@/models/one';
+import { AnimatedCard } from '../common/AnimatedCard';
 
 export type IActionStepBanner = ViewProps & {
     firstOne: One,
@@ -25,11 +26,9 @@ function ActionStepBanner({ firstOne, actionSteps }: IActionStepBanner) {
     const firstActionStep = actionSteps[0];
 
     return (
-        <AnimatedBanner text={firstActionStep.notes}
-                      iconSrc={AppIcon.Chat}
-                      bannerDelay={400}
-                      textDelay={600}
-                      prefixText={`Action Step for ${firstOne.name}`}/>
+        <AnimatedCard text={firstActionStep.notes}
+                      icon={AppIcon.Chat}
+                      label={`Action Step for ${firstOne.name}`}/>
     );
 }
 

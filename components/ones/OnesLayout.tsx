@@ -26,9 +26,7 @@ export type IOnesLayout = ViewProps & {
     activeBeaconsWithActivities: BeaconWithActivities[]
 };
 
-function OnesLayout({ selectedOne, shareChristPageState, ones, activeBeaconsWithActivities }: IOnesLayout) {    
-    const prayerBeacons = useSelector(selectActiveBeaconsByOneId(selectedOne.id || ""));
-    
+function OnesLayout({ selectedOne, shareChristPageState, ones, activeBeaconsWithActivities }: IOnesLayout) {        
     if (!selectedOne) {
         return (
             <AppText type={TextType.Subtitle}>
@@ -63,7 +61,7 @@ function OnesLayout({ selectedOne, shareChristPageState, ones, activeBeaconsWith
                 </PageColumn>
 
                 <PageRow spaceBetween style={{ marginTop: 16}}>
-                    <ActiveBeaconsInfoCard activeBeacons={prayerBeacons} />
+                    <ActiveBeaconsInfoCard activeBeacons={activeBeaconsWithActivities} />
                     <ActiveBeaconsActivityCard activeBeaconsWithActivities={activeBeaconsWithActivities}/>
                 </PageRow>
             </PageContainer>

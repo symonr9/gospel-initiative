@@ -6,6 +6,7 @@ import { selectFirstPromptByUserId, selectPromptsByUserId } from '@/redux/select
 import { AppIcon } from '@/enums/enums';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import Prompt from '@/models/prompt';
+import { AnimatedCard } from '../common/AnimatedCard';
 
 export type IPromptBanner = ViewProps & {
     firstPrompt: Prompt,
@@ -17,9 +18,19 @@ function PromptBanner({ firstPrompt }: IPromptBanner) {
     }
 
     return (
-        <AnimatedBanner text={firstPrompt.response}
-                      iconSrc={AppIcon.Chat}
-                      prefixText={firstPrompt.question}/>
+        <AnimatedCard text={'Quick Prompt'}
+                      icon={AppIcon.Chat}
+                      customStyle={{
+                        label: {
+                            fontSize: 14,
+                            fontStyle: 'italic'
+                        },
+                        label2: {
+                            fontSize: 14
+                        },
+                      }}
+                      label={`${firstPrompt.question}`} 
+                      label2={firstPrompt.response}/>
     );
 }
 

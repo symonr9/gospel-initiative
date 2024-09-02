@@ -7,11 +7,11 @@ import Animated, {
     withTiming,
     interpolate
 } from 'react-native-reanimated';
-import { AppText, TextType } from './AppText';
-import { ThemedView } from './ThemedView';
-import { RoadContainerType } from '../shareChrist/ShareChristBeaconsContainer';
+import { AppText, TextType } from '../common/AppText';
+import { ThemedView } from '../common/ThemedView';
+import { RoadContainerType } from './ShareChristBeaconsLayout';
 
-export type IAnimatedRoadItemContainer = {
+export type IShareChristRoadContainer = {
     iconSrc: string | null;
     title: string;
     itemsToRender: React.ReactNode[];
@@ -22,7 +22,7 @@ export type IAnimatedRoadItemContainer = {
     setActiveType: (type: RoadContainerType) => void;
 }
 
-export function AnimatedRoadItemContainer({
+export function ShareChristRoadContainer({
     iconSrc = null,
     title = '',
     itemsToRender,
@@ -30,7 +30,7 @@ export function AnimatedRoadItemContainer({
     type,
     activeType,
     setActiveType
-}: IAnimatedRoadItemContainer) {
+}: IShareChristRoadContainer) {
     const progress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {

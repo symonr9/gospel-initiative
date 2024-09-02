@@ -1,6 +1,7 @@
-import { AppIcon, BeaconType, OneFactType, OneStage, Priority, ShareChristPageState } from "@/enums/enums";
+import { AppIcon, BeaconType, OneFactType, OneStage, Priority, ShareChristPageState, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
+import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
@@ -261,4 +262,52 @@ export function generateRandomId(length: number = 10): string {
       result += characters.charAt(randomIndex);
     }
     return result;
+  }
+
+  export function mapStoryTypeToText(type: StoryType): string {
+    switch (type) {
+        case StoryType.Personal:
+            return "My Story";
+        case StoryType.Gods:
+            return "Gods Story";
+    }
+    return "";
+  }
+
+  export function mapStoryChapterTypeToAppIcon(type: StoryChapterType) : AppIcon {
+    switch (type) {
+        case StoryChapterType.Background:
+            return AppIcon.Bird;
+        case StoryChapterType.Seeking:
+            return AppIcon.StageSeeking;
+        case StoryChapterType.Curious:
+            return AppIcon.StageCurious;
+        case StoryChapterType.SalvationExperience:
+            return AppIcon.OpenHands;
+        case StoryChapterType.Struggle:
+            return AppIcon.Fighting;
+        case StoryChapterType.Highlight:
+            return AppIcon.Dove;
+        case StoryChapterType.Lowlight:
+            return AppIcon.Rainy;
+        case StoryChapterType.GrowingInFaith:
+            return AppIcon.PlantGrow;
+        case StoryChapterType.Creation:
+            return AppIcon.Tree;
+        case StoryChapterType.Sin:
+            return AppIcon.Skull;
+        case StoryChapterType.Jesus:
+        case StoryChapterType.Crucifixion:
+            return AppIcon.Christ;
+        case StoryChapterType.Resurrection:
+            return AppIcon.CrossChurch;
+        case StoryChapterType.Church:
+            return AppIcon.Church;
+        case StoryChapterType.OldTestament:
+        case StoryChapterType.ScriptureHighlight:
+        case StoryChapterType.Character:
+        case StoryChapterType.Misc:
+        default:
+            return AppIcon.Book;
+    }
   }

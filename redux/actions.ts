@@ -4,7 +4,6 @@ import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import BeaconActivity from "@/models/beaconActivity";
 import BeaconForm from "@/models/beaconForm";
-import BeaconLog from "@/models/beaconLog";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
 import Meeting from "@/models/meeting";

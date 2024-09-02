@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -201,11 +201,14 @@ export function getOneFactsFromJson() {
 
 export function getStoriesFromJson() {
     return storiesJson.map(item => {    
+        const type: StoryType = item.type as StoryType;
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
         return {
             id: item.id,
-            title: item.title,
-            content: item.content,
             userId: item.userId,
+            type: type,
+            title: item.title,
+            icon: icon
         };
     });
 }

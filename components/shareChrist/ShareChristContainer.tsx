@@ -8,7 +8,8 @@ import { Page, ShareChristPageState } from '@/enums/enums';
 import OnesLayout from '../ones/OnesLayout';
 import BeaconLayout from '../beacons/BeaconLayout';
 import ShareChristHomeLayout from './ShareChristHomeLayout';
-import ShareChristBeaconsContainer from './ShareChristBeaconsContainer';
+import ShareChristBeaconsLayout from './ShareChristBeaconsLayout';
+import ShareChristStoriesLayout from './ShareChristStoriesLayout';
 
 export type IShareChristContainer = ViewProps & {
     page: Page,
@@ -19,8 +20,6 @@ export function ShareChristContainer({ page, pageState }: IShareChristContainer)
     if (page == Page.ShareChristOnes) {
         if ([
             ShareChristPageState.Beacon,
-            ShareChristPageState.AddBeacon,
-            ShareChristPageState.EditBeacon,
             ShareChristPageState.SaveBeacon,
             ShareChristPageState.SendBeacon,
             ShareChristPageState.ConfirmSendBeacon,
@@ -33,9 +32,13 @@ export function ShareChristContainer({ page, pageState }: IShareChristContainer)
         return (
             <OnesLayout/>
         );
-    } else if (page === Page.ShareChristPrayers) {
+    } else if (page === Page.ShareChristBeacons) {
         return (
-            <ShareChristBeaconsContainer/>
+            <ShareChristBeaconsLayout/>
+        );
+    } else if (page === Page.ShareChristStories) {
+        return (
+            <ShareChristStoriesLayout/>
         );
     }
 

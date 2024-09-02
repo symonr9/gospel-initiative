@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 
 import { View, ViewProps, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
-import OnesLayoutHeader from '../ones/OnesLayoutHeader';
 import { ShareChristPageState } from '@/enums/enums';
-import AddEditBeaconForm from './AddEditBeaconForm';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from './BeaconTemplatesList';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageRow } from '../common/PageRow';
 import { SimpleIcon } from '../common/SimpleIcon';
+import One from '@/models/one';
 
 export type IBeaconLayout = ViewProps & {
     selectedOne: One;
@@ -19,11 +18,7 @@ export type IBeaconLayout = ViewProps & {
 
 function BeaconLayout({ selectedOne, shareChristPageState }: IBeaconLayout) {
     const Layout: any[] = [];
-    if (shareChristPageState == ShareChristPageState.AddBeacon) {
-        Layout.push(<AddEditBeaconForm adding/>);
-    } else if (shareChristPageState == ShareChristPageState.EditBeacon) {
-        Layout.push(<AddEditBeaconForm adding={false}/>);
-    } else if (shareChristPageState == ShareChristPageState.SaveBeacon) {
+    if (shareChristPageState == ShareChristPageState.SaveBeacon) {
         Layout.push(
             <View>
                 <PageResponse title={'Saving Beacon'} 

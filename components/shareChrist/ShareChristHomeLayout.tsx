@@ -7,7 +7,7 @@ import PromptBanner from '../prompts/PromptBanner';
 import ActionStepBanner from '../ones/ActionStepBanner';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { EnhancedBeacon } from '@/models/beacon';
-import { AnimatedCountCard } from '../common/AnimatedCountCard';
+import { AnimatedCard } from '../common/AnimatedCard';
 import { PageRow } from '../common/PageRow';
 import { FadeDirection } from '@/enums/enums';
 
@@ -24,10 +24,10 @@ function ShareChristHomeLayout({ completedBeacons, incomingBeacons }: IShareChri
         <ActionStepBanner/>
 
         <PageRow>
-          <AnimatedCountCard count={incomingBeacons.length}
+          <AnimatedCard text={incomingBeacons.length}
                              direction={FadeDirection.Left}
                              label='Beacons to Pray for'/>
-          <AnimatedCountCard count={completedBeacons.length}
+          <AnimatedCard text={completedBeacons.length}
                              direction={FadeDirection.Right} 
                              label='Beacons Prayed for Today'/>
         </PageRow>

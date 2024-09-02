@@ -168,7 +168,6 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     return (
         <View style={styles.container}>
-
             <Modal
                 transparent={true}
                 visible={isModalVisible}

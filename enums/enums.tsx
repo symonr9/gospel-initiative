@@ -4,7 +4,7 @@
 export enum Page {
     ShareChrist = 1,
     ShareChristOnes = 2,
-    ShareChristPrayers = 3,
+    ShareChristBeacons = 3,
 
     GodsStory = 4,
     YourStory = 5,
@@ -12,6 +12,8 @@ export enum Page {
     Beacon = 6,
     AddEditOnes = 7,
     AddEditActionStep = 8,
+
+    ShareChristStories = 9
 }
 
 export enum ShareChristPageState {
@@ -21,11 +23,11 @@ export enum ShareChristPageState {
     EditOneFacts = 4,
 
     Beacon = 5,
-    AddBeacon = 6,
-    EditBeacon = 7,
     SaveBeacon = 8,
     SendBeacon = 9,
-    ConfirmSendBeacon = 10
+    ConfirmSendBeacon = 10,
+
+    AllStories = 11
 }
 
 
@@ -184,24 +186,33 @@ export enum ActionStepType {
 // Stories
 
 export enum StoryType {
-    Yours = 1,
-    Gods = 2
+    Personal = 1,
+    Gods = 2,
 };
 
 export enum StoryChapterType {
     // Your Story
-    Seeking = 1,
-    Curious = 2,
-    SalvationExperience = 3,
-    Struggle = 4,
-    Highlight = 5,
-    Lowlight = 6,
-    Misc = 7,
+    Background = 1,
+    Seeking = 2,
+    Curious = 3,
+    SalvationExperience = 4,
+    Struggle = 5,
+    Highlight = 6,
+    Lowlight = 7,
+    Misc = 8,
+    GrowingInFaith = 9,
 
     // God's Story
-    CoreGospel = 101,
-    ScriptureHighlight = 102,
-    Character = 103,
+    Creation = 101,
+    Sin = 102,
+    OldTestament = 103,
+    Jesus = 104,
+    Resurrection = 105,
+    Crucifixion = 106,
+    Church = 107,
+
+    ScriptureHighlight = 202,
+    Character = 203,
 };
 
 // Prompt
@@ -282,6 +293,11 @@ export enum AppIcon {
     Car = "../assets/images/app-icons/car.png",
     Phone = "../assets/images/app-icons/phone.png",
     Star = "../assets/images/app-icons/star.png",
+    Sheep = "../assets/images/app-icons/sheep.png",
+    OpenHands = "../assets/images/app-icons/open-hands.png",
+    Fighting = "../assets/images/app-icons/fighting.png",
+    Rainy = "../assets/images/app-icons/rainy.png",
+    PlantGrow = "../assets/images/app-icons/plant-grow.png",
     FastResponse = "../assets/images/app-icons/fast-response.png",
     StageSeeking = "../assets/images/app-icons/stage-seeking.png",
     StageCurious = "../assets/images/app-icons/stage-curious.png",

@@ -7,6 +7,8 @@ import { selectAllBeaconActivities } from './activitySelectors';
 import BeaconActivity from '@/models/beaconActivity';
 import Beacon from '@/models/beacon';
 import BeaconTemplate from '@/models/beaconTemplate';
+import One from '@/models/one';
+import User from '@/models/user';
 
 export const selectAllBeacons = (state: any): Beacon[] => state.beacons.beacons;
 export const selectAllBeaconTemplates = (state: any): BeaconTemplate[] => state.beacons.beaconTemplates;
@@ -106,10 +108,10 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
     [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
     (beacons, ones, users, beaconActivities, executor) => {
         const partitionedBeacons = beacons
-            .filter((beacon: any) => isBeaconActive(beacon))
-            .map((beacon: any) => {
-                const one = beacon.oneId ? ones.find((one: any) => one.id === beacon.oneId) : null;
-                const user = beacon.userId ? users.find((user: any) => user.id === beacon.userId) : null;
+            .filter((beacon: Beacon) => isBeaconActive(beacon))
+            .map((beacon: Beacon) => {
+                const one = beacon.oneId ? ones.find((one: One) => one.id === beacon.oneId) : null;
+                const user = beacon.userId ? users.find((user: User) => user.id === beacon.userId) : null;
                 const activitiesForBeacon = beaconActivities
                     .filter((activity) => activity.beaconId === beacon.id)
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -119,7 +121,7 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
                 );
 
                 const partitionedActivities = activitiesForBeacon.reduce(
-                    (acc, activity: BeaconActivity) => {
+                    (acc: any, activity: BeaconActivity) => {
                         if (activity.userId === executor.id) {
                             acc.withExecutor.push(activity);
                         } else {
@@ -142,7 +144,6 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
 
         const completedBeacons = partitionedBeacons.filter((beacon) => beacon.hasExecutorActivity);
         const incomingBeacons = partitionedBeacons.filter((beacon) => !beacon.hasExecutorActivity);
-
         return {
             completedBeacons,
             incomingBeacons,

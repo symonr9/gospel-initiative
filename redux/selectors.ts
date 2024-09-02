@@ -4,3 +4,4 @@ export * from "./selectors/oneSelectors";
 export * from "./selectors/beaconSelectors";
 export * from "./selectors/promptSelectors";
 export * from "./selectors/userSelectors";
+export * from "./selectors/storySelectors";

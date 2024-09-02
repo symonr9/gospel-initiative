@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "id": "localministry1",
+        "title": "Love, Inc.",
+        "details": "Love Inc is a...",
+        "icon": "Heart"
+    }
+]

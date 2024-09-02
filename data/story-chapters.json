@@ -1,86 +1,122 @@
 [
-    {
-      "id": "storyChapter1",
-      "title": "The Early Years",
-      "content": "This chapter covers the early life and upbringing...",
-      "userId": "user1",
-      "oneId": "one1",
-      "order": 1,
-      "isEssential": true
-    },
-    {
-      "id": "storyChapter2",
-      "title": "A Turning Point",
-      "content": "This chapter describes a significant turning point...",
-      "userId": "user2",
-      "oneId": "one2",
-      "order": 2,
-      "isEssential": true
-    },
-    {
-      "id": "storyChapter3",
-      "title": "Challenges and Triumphs",
-      "content": "This chapter highlights the challenges faced...",
-      "userId": "user3",
-      "oneId": "one3",
-      "order": 3,
-      "isEssential": true
-    },
-    {
-      "id": "storyChapter4",
-      "title": "A New Beginning",
-      "content": "This chapter details a new phase of life...",
-      "userId": "user1",
-      "oneId": "one4",
-      "order": 4
-    },
-    {
-      "id": "storyChapter5",
-      "title": "Journey of Faith",
-      "content": "This chapter explores the deepening of faith...",
-      "userId": "user2",
-      "oneId": "one1",
-      "order": 1,
-      "isEssential": true
-    },
-    {
-      "id": "godsStory1",
-      "title": "Creation",
-      "content": "In the beginning, God created the heavens and the earth...",
-      "userId": "user1",
-      "order": 2,
-      "isEssential": true
-    },
-    {
-      "id": "godsStory2",
-      "title": "The Fall",
-      "content": "Adam and Eve disobeyed God, leading to the fall of humanity...",
-      "userId": "user1",
-      "order": 3,
-      "isEssential": true
-    },
-    {
-      "id": "godsStory3",
-      "title": "The Exodus",
-      "content": "God delivered the Israelites from slavery in Egypt...",
-      "userId": "user1",
-      "order": 4,
-      "isEssential": true
-    },
-    {
-      "id": "godsStory4",
-      "title": "The Life of Jesus",
-      "content": "Jesus Christ, the Son of God, came to earth to save humanity...",
-      "userId": "user1",
-      "order": 5
-    },
-    {
-      "id": "godsStory5",
-      "title": "The Resurrection",
-      "content": "Jesus rose from the dead, conquering sin and death...",
-      "userId": "user1",
-      "order": 6,
-      "isEssential": true
-    }
-  ]
-  
+  {
+    "id": "storyChapter1",
+    "storyId": "yourStory1",
+    "chapterType": 1,
+    "title": "My Background",
+    "content": "I grew up in a Christian home, but it wasn't until I faced some personal challenges in my teenage years that I began to seriously consider my faith. My upbringing provided a strong foundation, but it took some time for me to fully embrace it.",
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "storyChapter2",
+    "storyId": "yourStory1",
+    "chapterType": 7,
+    "title": "Finding Hope in Hard Times",
+    "content": "During a particularly challenging period in my life, I felt completely lost and alone. It was during this time that I turned to prayer and began to experience a profound sense of peace and hope that I had never known before.",
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "storyChapter3",
+    "storyId": "yourStory1",
+    "chapterType": 3,
+    "title": "God's Grace in My Life",
+    "content": "God's grace became evident in my life when I least expected it. Through a series of events that I couldn't have orchestrated on my own, I saw His hand guiding me toward a deeper relationship with Him.",
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "storyChapter4",
+    "storyId": "yourStory1",
+    "chapterType": 4,
+    "title": "Invited to Church",
+    "content": "One weekend, I was invited to church by a close friend. That invitation changed the course of my life. It was there that I encountered a community of believers who supported and encouraged me in my faith journey.",
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "storyChapter5",
+    "storyId": "yourStory1",
+    "chapterType": 9,
+    "title": "Radical Change in My Life",
+    "content": "From then on, I experienced a radical change in my life. My priorities shifted, and I found myself drawn to serve others and share the love that I had found in Christ.",
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  },
+  {
+    "id": "storyChapter6",
+    "storyId": "yourStory1",
+    "chapterType": 5,
+    "title": "Overcoming Doubt",
+    "content": "There was one season where I was faced with doubt about God's goodness. During that time, I struggled with my faith, but through prayer, reading Scripture, and the support of others, I was able to overcome those doubts and strengthen my trust in God.",
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "storyChapter7",
+    "storyId": "yourStory1",
+    "chapterType": 9,
+    "title": "A New Man Today",
+    "content": "I'm not a perfect person now, but I know that God's grace is with me every step of the way. Each day, I strive to live out my faith and grow closer to the person God has called me to be.",
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "godsStory1",
+    "storyId": "GodsStory2",
+    "chapterType": 101,
+    "title": "Creation",
+    "content": "In the beginning, God created the heavens and the earth. Everything was made according to His perfect design, and it was all declared good.",
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "godsStory2",
+    "storyId": "GodsStory2",
+    "chapterType": 102,
+    "title": "The Fall",
+    "content": "Adam and Eve disobeyed God, leading to the fall of humanity. This brought sin into the world, separating us from God and affecting all of creation.",
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "godsStory3",
+    "storyId": "GodsStory2",
+    "chapterType": 103,
+    "title": "The Exodus",
+    "content": "God delivered the Israelites from slavery in Egypt, demonstrating His power and faithfulness. Through Moses, God led His people to freedom and established a covenant with them.",
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "godsStory4",
+    "storyId": "GodsStory2",
+    "chapterType": 104,
+    "title": "The Life of Jesus",
+    "content": "Jesus Christ, the Son of God, came to earth to save humanity. He lived a sinless life, taught about God's kingdom, performed miracles, and ultimately sacrificed Himself for our sins.",
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "godsStory5",
+    "storyId": "GodsStory2",
+    "chapterType": 105,
+    "title": "The Resurrection",
+    "content": "Jesus rose from the dead, conquering sin and death. His resurrection is the cornerstone of the Christian faith, offering eternal life to all who believe in Him.",
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  }
+]
