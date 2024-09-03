@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
@@ -12,7 +12,22 @@ export type IShareChristStoryDetails = {
 };
 
 function ShareChristStoryDetails({ activeStory }: IShareChristStoryDetails) {
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!activeStory) {
+      return;
+    }
+    setOpenedChapterIds([]);
+  }, [activeStory]);
+
+  useEffect(() => {
+    if (expandedCardId === null || openedChapterIds.includes(expandedCardId)) {
+      return;
+    }
+    setOpenedChapterIds(prev => [...prev, expandedCardId]);
+  }, [expandedCardId]);
 
   if (!activeStory) {
     return <></>;
@@ -20,18 +35,19 @@ function ShareChristStoryDetails({ activeStory }: IShareChristStoryDetails) {
 
   const toggleExpand = (id: string) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setExpandedCard(expandedCard === id ? null : id);
+    setExpandedCardId(expandedCardId === id ? null : id);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.timelineContainer}>
         {activeStory.chapters.map((chapter, index) => {
-          const isExpanded = expandedCard === chapter.id;
+          const isExpanded = expandedCardId === chapter.id;
+          const hasBeenOpened = openedChapterIds.includes(chapter.id);
 
           const icon = (() => {
             if (chapter.icon && chapter.icon !== AppIcon.Book) {
-                return chapter.icon;
+              return chapter.icon;
             }
             return mapStoryChapterTypeToAppIcon(chapter.chapterType);
           })();
@@ -40,8 +56,10 @@ function ShareChristStoryDetails({ activeStory }: IShareChristStoryDetails) {
             <View
               key={chapter.id}
               style={[
-                styles.timelineItem,
-                { flexDirection: index % 2 === 0 ? 'row' : 'row-reverse' },
+                styles.timelineRow,
+                {
+                  flexDirection: index % 2 === 0 ? 'row' : 'row-reverse'
+                },
               ]}
             >
               <View style={styles.timelineMarker} />
@@ -49,32 +67,34 @@ function ShareChristStoryDetails({ activeStory }: IShareChristStoryDetails) {
                 onPress={() => toggleExpand(chapter.id)}
                 style={[
                   styles.timelineContent,
+                  hasBeenOpened && !isExpanded ? styles.openedContent : null,
                   isExpanded ? styles.expandedContent : null,
                 ]}
               >
                 <Image source={icon} style={styles.chapterIcon} />
+                <View style={styles.spine} />
                 <AppText type={TextType.BodyBold} style={styles.chapterTitle}>
                   {chapter.title}
                 </AppText>
                 {
-                    isExpanded ? (
-                        <>
-                            <AppText type={TextType.Body} style={[styles.chapterContent, { marginBottom: 12 }]}>
-                                {chapter.content}
-                            </AppText>
-                            {
-                                chapter.questions.map((question) => (
-                                    <AppText type={TextType.Italic} style={styles.questionsContent}>
-                                        {question}
-                                    </AppText>
-                                ))
-                            }
-                        </>
-                    ) : (
-                        <AppText type={TextType.Italic} style={styles.chapterContent}>
-                            Tap to Open
-                        </AppText>
-                    )
+                  isExpanded ? (
+                    <>
+                      <AppText type={TextType.Body} style={[styles.chapterContent, { marginBottom: 12 }]}>
+                        {chapter.content}
+                      </AppText>
+                      {
+                        chapter.questions.map((question) => (
+                          <AppText type={TextType.Italic} style={styles.questionsContent}>
+                            {question}
+                          </AppText>
+                        ))
+                      }
+                    </>
+                  ) : (
+                    <AppText type={TextType.Italic} style={styles.chapterContent}>
+                      Tap to Open
+                    </AppText>
+                  )
                 }
 
               </TouchableOpacity>
@@ -91,6 +111,16 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#f7f7f7',
   },
+  spine: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 12,
+    backgroundColor: '#8B4513',
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+},
   header: {
     alignItems: 'center',
     marginBottom: 24,
@@ -99,7 +129,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     paddingVertical: 16,
   },
-  timelineItem: {
+  timelineRow: {
     alignItems: 'center',
     marginBottom: 32,
     width: '100%',
@@ -107,13 +137,21 @@ const styles = StyleSheet.create({
   timelineContent: {
     padding: 16,
     borderRadius: 8,
-    backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 6,
-    elevation: 4,
+    elevation: 5,
     maxWidth: '45%',
+    backgroundColor: '#F5F5DC',
+    paddingVertical: 4,
+    paddingHorizontal: 28,
+    marginHorizontal: 4,
+    position: 'relative',
+  },
+  openedContent: {
+    opacity: 0.7,
+    backgroundColor: '#eeeeee'
   },
   expandedContent: {
     maxWidth: '95%',

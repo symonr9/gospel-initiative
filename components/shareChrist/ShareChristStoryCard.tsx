@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#F5F5DC',
-        paddingVertical: 12,
+        paddingVertical: 4,
         paddingHorizontal: 16,
         marginHorizontal: 4,
         borderRadius: 8,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 5,
         position: 'relative',
-        marginVertical: 8,
+        height: 100,
     },
     spine: {
         position: 'absolute',
@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
     },
     titleText: {
         color: '#2F4F4F', // Dark Slate Gray
-        fontSize: 20,
+        fontSize: 16,
     },
 });

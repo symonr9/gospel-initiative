@@ -668,6 +668,119 @@
     "icon": "Book",
     "order": 8,
     "isEssential": true
+  },
+
+  {
+    "id": "gospelWithBuddhistCreation",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 101,
+    "title": "Creation and the Universe",
+    "content": "Christianity teaches that God is the Creator of the universe, with a purposeful design. Buddhism, while less focused on creation, often sees the universe as cyclical, with no beginning or end. Christianity offers a personal Creator, while Buddhism emphasizes the impermanence and interconnectedness of all things.",
+    "questions": [
+      "How do you view the idea of a Creator versus the cyclical nature of the universe?",
+      "How does the concept of impermanence shape your understanding of life and the world?"
+    ],
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistSuffering",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 102,
+    "title": "The Problem of Suffering",
+    "content": "Christianity teaches that suffering entered the world through sin and offers redemption through Jesus. Buddhism views suffering as an inherent part of existence, arising from desire and attachment. Christianity offers a path to overcome suffering through Jesus, while Buddhism offers a path to enlightenment and the cessation of suffering through the Eightfold Path.",
+    "questions": [
+      "How do you approach the problem of suffering in your life?",
+      "What are your thoughts on the Christian perspective of sin as the cause of suffering compared to the Buddhist understanding?"
+    ],
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistEnlightenment",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 103,
+    "title": "Enlightenment and Salvation",
+    "content": "Christianity teaches salvation through faith in Jesus Christ as the path to eternal life. Buddhism seeks enlightenment, a state of liberation from the cycle of rebirth, achieved through self-discipline, meditation, and wisdom. Christianity offers salvation as a gift from God, while Buddhism emphasizes self-effort and personal transformation.",
+    "questions": [
+      "How do you understand the concept of enlightenment compared to salvation?",
+      "What practices do you find most helpful in your spiritual journey towards liberation or enlightenment?"
+    ],
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistJesus",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 104,
+    "title": "Jesus Christ and the Bodhisattva Ideal",
+    "content": "Christianity sees Jesus as the Son of God and Savior of humanity, offering salvation through His sacrifice. In Buddhism, the Bodhisattva is an enlightened being who helps others attain enlightenment. Christianity presents Jesus as uniquely divine, while Buddhism reveres the Bodhisattva's compassion and selflessness.",
+    "questions": [
+      "How do you see the role of Jesus compared to the Bodhisattva ideal?",
+      "What are your thoughts on the Christian belief in Jesus as the exclusive path to salvation?"
+    ],
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistTeachings",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 105,
+    "title": "Teachings and Miracles of Jesus",
+    "content": "Christianity views Jesus' teachings and miracles as divine acts that reveal God's love and power. Buddhism often interprets miraculous events as symbolic or as expressions of deeper spiritual truths. Christianity emphasizes the authority of Jesus' miracles as evidence of His divinity.",
+    "questions": [
+      "How do you interpret the miracles and teachings of Jesus in comparison to Buddhist teachings?",
+      "What significance do you find in miraculous events or extraordinary experiences in your spiritual practice?"
+    ],
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistAtonement",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 106,
+    "title": "Atonement and Karma",
+    "content": "Christianity teaches that Jesus' death and resurrection provide atonement for sin, offering reconciliation with God. Buddhism emphasizes karma, the law of cause and effect, where actions in this life affect future rebirths. Christianity offers forgiveness through Jesus' sacrifice, while Buddhism teaches personal responsibility for one's actions and their consequences.",
+    "questions": [
+      "How do you view the Christian concept of atonement compared to the Buddhist understanding of karma?",
+      "What role do forgiveness and responsibility play in your spiritual journey?"
+    ],
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistResurrection",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 107,
+    "title": "Resurrection and Rebirth",
+    "content": "Christianity teaches Jesus' resurrection as the victory over death and the promise of eternal life. Buddhism believes in rebirth, where beings are reincarnated based on their karma until they attain enlightenment. Christianity offers hope for eternal life through Jesus, while Buddhism seeks liberation from the cycle of rebirth.",
+    "questions": [
+      "How do you view the Christian belief in resurrection compared to the Buddhist concept of rebirth?",
+      "What are your thoughts on the afterlife and the possibility of eternal life?"
+    ],
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithBuddhistCommunity",
+    "storyId": "GospelWithBuddhist",
+    "chapterType": 108,
+    "title": "Spiritual Community and the Sangha",
+    "content": "Christianity values the Church as the body of Christ, a community of believers united in faith. Buddhism holds the Sangha, the community of monks, nuns, and lay followers, in high regard as a source of support and guidance on the path to enlightenment. Christianity emphasizes the Church's role in fulfilling Jesus' mission, while Buddhism stresses the Sangha's role in preserving and transmitting the Dharma.",
+    "questions": [
+      "How do you view the role of spiritual communities like the Church and the Sangha?",
+      "What importance do you place on communal support in your spiritual journey?"
+    ],
+    "icon": "Book",
+    "order": 8,
+    "isEssential": true
   }
   
   

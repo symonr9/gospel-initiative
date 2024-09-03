@@ -7,13 +7,6 @@
       "icon": "Book"
     },
     {
-      "id": "yourStory3",
-      "title": "Relating to Jonah",
-      "userId": "user1",
-      "type": 1,
-      "icon": "Book"
-    },
-    {
       "id": "GodsStory2",
       "title": "The Gospel",
       "userId": "user1",
@@ -25,28 +18,35 @@
       "title": "The Gospel for Muslims",
       "userId": "user1",
       "type": 2,
-      "icon": "Book"
+      "icon": "Muslim"
     },
     {
       "id": "GospelWithMormon",
       "title": "The Gospel for Mormons",
       "userId": "user1",
       "type": 2,
-      "icon": "Book"
+      "icon": "Mormon"
     },
     {
       "id": "GospelWithHindu",
       "title": "The Gospel for Hindus",
       "userId": "user1",
       "type": 2,
-      "icon": "Book"
+      "icon": "Hindu"
+    },
+    {
+      "id": "GospelWithBuddhist",
+      "title": "The Gospel for Buddhists",
+      "userId": "user1",
+      "type": 2,
+      "icon": "Buddhist"
     },
     {
       "id": "GospelWithAtheist",
       "title": "The Gospel for Atheists",
       "userId": "user1",
       "type": 2,
-      "icon": "Book"
+      "icon": "Atheist"
     }
   ]
   

@@ -3,22 +3,20 @@ import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
-import { ShareChristBeaconCard } from './ShareChristBeaconCard';
-import { ShareChristRoadContainer } from './ShareChristRoadContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
-import Story from '@/models/story';
+import Story, { EnhancedStory } from '@/models/story';
 import { AppText } from '../common/AppText';
 import { ShareChristStoriesContainer } from './ShareChristStoriesContainer';
 import { AnimatedHeader } from '../common/AnimatedHeader';
-import { selectAllGodsStories, selectAllPersonalStories, selectPartionedEnhancedStories } from '@/redux/selectors';
+import { selectPartionedEnhancedStories } from '@/redux/selectors';
 import { ShareChristStoryCard } from './ShareChristStoryCard';
 import { openPage } from '@/redux/actions';
 import { mapStoryTypeToText } from '@/utils/appUtils';
 import ShareChristStoryDetails from './ShareChristStoryDetails';
 
 export type IShareChristStoriesLayout = ViewProps & {
-    personalStories: Story[];
-    GodsStories: Story[];
+    personalStories: EnhancedStory[];
+    GodsStories: EnhancedStory[];
     shareChristPageState: ShareChristPageState;
     openPage: Function;
 };
@@ -39,8 +37,6 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
 
     const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
     const GodsStoryCursorIdx = GodsStories.findIndex((story) => story.id === activeStoryId);
-    const personalStoryCount = personalStories.length;
-    const GodsStoryCount = GodsStories.length;
 
     const activeStory = (() => {
         if (personalStoryCursorIdx !== -1) 
@@ -89,7 +85,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                 delay={0}
                 style={{ textAlign: 'center' }} />
 
-            <ShareChristStoryDetails activeStory={activeStory}/>
+            <ShareChristStoryDetails activeStory={activeStory} />
 
             <View style={styles.storiesListContainer}>
                 <ShareChristStoriesContainer title={`My Story`}
