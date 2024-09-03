@@ -296,6 +296,8 @@ export function generateRandomId(length: number = 10): string {
             return AppIcon.Tree;
         case StoryChapterType.Sin:
             return AppIcon.Skull;
+        case StoryChapterType.JesusMinistry:
+            return AppIcon.Sheep;
         case StoryChapterType.Jesus:
         case StoryChapterType.Crucifixion:
             return AppIcon.Christ;
@@ -303,6 +305,8 @@ export function generateRandomId(length: number = 10): string {
             return AppIcon.CrossChurch;
         case StoryChapterType.Church:
             return AppIcon.Church;
+        case StoryChapterType.ChosenPeople:
+            return AppIcon.Exodus;
         case StoryChapterType.OldTestament:
         case StoryChapterType.ScriptureHighlight:
         case StoryChapterType.Character:

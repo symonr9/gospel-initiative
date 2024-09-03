@@ -58,9 +58,18 @@ function ShareChristStoryDetails({ activeStory }: IShareChristStoryDetails) {
                 </AppText>
                 {
                     isExpanded ? (
-                        <AppText type={TextType.Body} style={styles.chapterContent}>
-                            {chapter.content}
-                        </AppText>
+                        <>
+                            <AppText type={TextType.Body} style={[styles.chapterContent, { marginBottom: 12 }]}>
+                                {chapter.content}
+                            </AppText>
+                            {
+                                chapter.questions.map((question) => (
+                                    <AppText type={TextType.Italic} style={styles.questionsContent}>
+                                        {question}
+                                    </AppText>
+                                ))
+                            }
+                        </>
                     ) : (
                         <AppText type={TextType.Italic} style={styles.chapterContent}>
                             Tap to Open
@@ -107,7 +116,7 @@ const styles = StyleSheet.create({
     maxWidth: '45%',
   },
   expandedContent: {
-    maxWidth: '90%',
+    maxWidth: '95%',
   },
   chapterIcon: {
     width: 48,
@@ -122,6 +131,11 @@ const styles = StyleSheet.create({
   chapterContent: {
     fontSize: 16,
     color: '#666',
+  },
+  questionsContent: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 8
   },
   timelineMarker: {
     position: 'absolute',

@@ -19,6 +19,34 @@
       "userId": "user1",
       "type": 2,
       "icon": "Book"
+    },
+    {
+      "id": "GospelWithMuslim",
+      "title": "The Gospel for Muslims",
+      "userId": "user1",
+      "type": 2,
+      "icon": "Book"
+    },
+    {
+      "id": "GospelWithMormon",
+      "title": "The Gospel for Mormons",
+      "userId": "user1",
+      "type": 2,
+      "icon": "Book"
+    },
+    {
+      "id": "GospelWithHindu",
+      "title": "The Gospel for Hindus",
+      "userId": "user1",
+      "type": 2,
+      "icon": "Book"
+    },
+    {
+      "id": "GospelWithAtheist",
+      "title": "The Gospel for Atheists",
+      "userId": "user1",
+      "type": 2,
+      "icon": "Book"
     }
   ]
   

@@ -210,6 +210,8 @@ export enum StoryChapterType {
     Resurrection = 105,
     Crucifixion = 106,
     Church = 107,
+    ChosenPeople = 108,
+    JesusMinistry = 109,
 
     ScriptureHighlight = 202,
     Character = 203,
@@ -297,6 +299,7 @@ export enum AppIcon {
     OpenHands = "../assets/images/app-icons/open-hands.png",
     Fighting = "../assets/images/app-icons/fighting.png",
     Rainy = "../assets/images/app-icons/rainy.png",
+    Exodus = "../assets/images/app-icons/exodus.png",
     PlantGrow = "../assets/images/app-icons/plant-grow.png",
     FastResponse = "../assets/images/app-icons/fast-response.png",
     StageSeeking = "../assets/images/app-icons/stage-seeking.png",

@@ -5,6 +5,9 @@
     "chapterType": 1,
     "title": "My Background",
     "content": "I grew up in a Christian home, but it wasn't until I faced some personal challenges in my teenage years that I began to seriously consider my faith. My upbringing provided a strong foundation, but it took some time for me to fully embrace it.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 1,
     "isEssential": true
@@ -15,6 +18,9 @@
     "chapterType": 7,
     "title": "Finding Hope in Hard Times",
     "content": "During a particularly challenging period in my life, I felt completely lost and alone. It was during this time that I turned to prayer and began to experience a profound sense of peace and hope that I had never known before.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 2,
     "isEssential": true
@@ -25,6 +31,9 @@
     "chapterType": 3,
     "title": "God's Grace in My Life",
     "content": "God's grace became evident in my life when I least expected it. Through a series of events that I couldn't have orchestrated on my own, I saw His hand guiding me toward a deeper relationship with Him.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 3,
     "isEssential": true
@@ -35,6 +44,9 @@
     "chapterType": 4,
     "title": "Invited to Church",
     "content": "One weekend, I was invited to church by a close friend. That invitation changed the course of my life. It was there that I encountered a community of believers who supported and encouraged me in my faith journey.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 4,
     "isEssential": true
@@ -45,6 +57,9 @@
     "chapterType": 9,
     "title": "Radical Change in My Life",
     "content": "From then on, I experienced a radical change in my life. My priorities shifted, and I found myself drawn to serve others and share the love that I had found in Christ.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 5,
     "isEssential": true
@@ -55,6 +70,9 @@
     "chapterType": 5,
     "title": "Overcoming Doubt",
     "content": "There was one season where I was faced with doubt about God's goodness. During that time, I struggled with my faith, but through prayer, reading Scripture, and the support of others, I was able to overcome those doubts and strengthen my trust in God.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 6,
     "isEssential": true
@@ -65,58 +83,584 @@
     "chapterType": 9,
     "title": "A New Man Today",
     "content": "I'm not a perfect person now, but I know that God's grace is with me every step of the way. Each day, I strive to live out my faith and grow closer to the person God has called me to be.",
+    "questions": [
+
+    ],
     "icon": "Book",
     "order": 7,
     "isEssential": true
   },
   {
-    "id": "godsStory1",
+    "id": "godsStoryCreation",
     "storyId": "GodsStory2",
     "chapterType": 101,
     "title": "Creation",
-    "content": "In the beginning, God created the heavens and the earth. Everything was made according to His perfect design, and it was all declared good.",
+    "content": "In the beginning, God created the heavens and the earth. Everything was made according to His perfect design, from the stars in the sky to the creatures on the earth, all reflecting His glory and goodness.",
+    "questions": [
+      "Have you ever wondered about the origin of the universe and life? What do you think is the purpose behind it all?",
+      "When you look at the beauty and complexity of nature, what does it make you think about the Creator?",
+      "Do you believe that everything in the world, including your life, has a specific design and purpose?"
+    ],
     "icon": "Book",
     "order": 1,
     "isEssential": true
   },
   {
-    "id": "godsStory2",
+    "id": "godsStoryFall",
     "storyId": "GodsStory2",
     "chapterType": 102,
     "title": "The Fall",
-    "content": "Adam and Eve disobeyed God, leading to the fall of humanity. This brought sin into the world, separating us from God and affecting all of creation.",
+    "content": "Adam and Eve disobeyed God, leading to the fall of humanity and the entrance of sin and evil into the world. This act of rebellion broke the perfect harmony of creation, separating humanity from God and bringing suffering and death.",
+    "questions": [
+      "What do you think about the idea that humanity is separated from God because of sin?",
+      "Do you see evidence of brokenness and suffering in the world around you? What do you think is the cause?",
+      "How do you think this separation from God can be mended, if at all?"
+    ],
     "icon": "Book",
     "order": 2,
     "isEssential": true
   },
   {
-    "id": "godsStory3",
+    "id": "godsStoryGodsPeople",
     "storyId": "GodsStory2",
-    "chapterType": 103,
-    "title": "The Exodus",
-    "content": "God delivered the Israelites from slavery in Egypt, demonstrating His power and faithfulness. Through Moses, God led His people to freedom and established a covenant with them.",
+    "chapterType": 108,
+    "title": "God's People",
+    "content": "But God still loved humanity and through a chosen people, Israel, He promised a Messiah who would save and restore what was lost. This covenant showed God's unwavering love and His plan to redeem humanity.",
+    "questions": [
+      "Why do you think God would choose a specific people to work through? What might that say about His plan for the world?",
+      "What do you think it means to be in a covenant relationship with God?"
+    ],
     "icon": "Book",
     "order": 3,
     "isEssential": true
   },
   {
-    "id": "godsStory4",
+    "id": "godsStoryJesus",
     "storyId": "GodsStory2",
     "chapterType": 104,
-    "title": "The Life of Jesus",
-    "content": "Jesus Christ, the Son of God, came to earth to save humanity. He lived a sinless life, taught about God's kingdom, performed miracles, and ultimately sacrificed Himself for our sins.",
+    "title": "Jesus",
+    "content": "God's people waited, and the Messiah finally came in the form of Jesus, who was the Son of God. Jesus was born into humble circumstances, fulfilling the prophecies of old, and brought the light of God's kingdom to earth.",
+    "questions": [
+      "How do you view Jesus? What do you think about His claim to be the Son of God?",
+      "What do you think it means for Jesus to bring God's kingdom to earth?"
+    ],
     "icon": "Book",
     "order": 4,
     "isEssential": true
   },
   {
-    "id": "godsStory5",
+    "id": "godsStoryJesusActs",
     "storyId": "GodsStory2",
-    "chapterType": 105,
-    "title": "The Resurrection",
-    "content": "Jesus rose from the dead, conquering sin and death. His resurrection is the cornerstone of the Christian faith, offering eternal life to all who believe in Him.",
+    "chapterType": 109,
+    "title": "Jesus Acts",
+    "content": "He was so compassionate towards those around him. He deeply cared about others, healing the sick, feeding the hungry, and teaching about God's love and grace. Through His actions, Jesus revealed the heart of God to the world.",
+    "questions": [
+      "What do you think motivated Jesus to perform miracles and show such compassion?",
+      "How do you think Jesus' actions reflect the nature of God?",
+      "What impact do you think Jesus' teachings and acts have on the world today?"
+    ],
     "icon": "Book",
     "order": 5,
     "isEssential": true
+  },
+  {
+    "id": "godsStoryCross",
+    "storyId": "GodsStory2",
+    "chapterType": 106,
+    "title": "The Cross",
+    "content": "His love ultimately led to Him sacrificing Himself on the cross to pay the debt that humanity had because of the fall. Jesus took upon Himself the sins of the world, offering forgiveness and reconciliation to all who believe in Him.",
+    "questions": [
+      "What do you think about the idea of Jesus dying on the cross for the sins of the world?",
+      "How do you feel about the concept of forgiveness and reconciliation with God through Jesus?",
+      "Why do you think the cross is such a central symbol in Christianity?"
+    ],
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "godsStoryResurrection",
+    "storyId": "GodsStory2",
+    "chapterType": 105,
+    "title": "The Resurrection",
+    "content": "His sacrifice was so powerful that it broke the power of death, and now He is crowned King, and is still alive today. Through His resurrection, Jesus conquered death, offering eternal life to all who trust in Him.",
+    "questions": [
+      "What do you think about the claim that Jesus rose from the dead?",
+      "How do you understand the concept of eternal life? What does it mean to you?",
+      "Why do you think the resurrection is so important to the Christian faith?"
+    ],
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "godsStoryChurch",
+    "storyId": "GodsStory2",
+    "chapterType": 107,
+    "title": "The Church",
+    "content": "He is working through His people, the Church, to share the message of His love and the hope of His return. One day, He will come back to wipe away every tear, bringing the fullness of His kingdom and making all things new.",
+    "questions": [
+      "What do you think about the idea of a community of believers continuing the work of Jesus?",
+      "How do you see the role of the Church in the world today?",
+      "What are your thoughts on the promise of Jesus' return and the restoration of all things?"
+    ],
+    "icon": "Book",
+    "order": 8,
+    "isEssential": true
+  },
+
+  {
+    "id": "gospelWithMuslimCreation",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 101,
+    "title": "Creation",
+    "content": "In the beginning, God created the heavens and the earth. We both believe in a single, all-powerful Creator who made everything with purpose and wisdom.",
+    "questions": [
+      "How do you see the role of God in creation?",
+      "Have you ever wondered why God created us and what His plan is for humanity?"
+    ],
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimFall",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 102,
+    "title": "The Fall",
+    "content": "Adam and Eve disobeyed God, leading to the fall of humanity and the entrance of sin and evil into the world. Both Islam and Christianity acknowledge this event as a turning point in human history.",
+    "questions": [
+      "What do you think are the consequences of this disobedience?", 
+      "How does Islam address the issue of sin and reconciliation with God?"
+    ],
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimProphets",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 103,
+    "title": "The Prophets",
+    "content": "Islam and Christianity share a belief in many of the same prophets, such as Abraham, Moses, and David. These prophets were chosen by God to guide people back to His ways. In both faiths, these prophets foretold the coming of a final Messenger or Messiah.",
+    "questions": [
+      "How do you view the role of the prophets?",
+      "What do you think their ultimate message was?"
+    ],
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimJesus",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 104,
+    "title": "Jesus (Isa)",
+    "content": "In Islam, Jesus (Isa) is highly respected as a prophet, born of the Virgin Mary, performing miracles by God’s permission. Christianity also honors Jesus but recognizes Him as more than a prophet—He is the Messiah, the Word of God made flesh.",
+    "questions": [
+      "What do you believe about Jesus' mission?",
+      "Have you ever considered why Christians view Him as more than just a prophet?"
+    ],
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimJesusActs",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 109,
+    "title": "Jesus' Teachings and Acts",
+    "content": "Jesus taught about God’s kingdom and demonstrated God’s love through His actions, such as healing the sick and forgiving sins. Islam respects Jesus' teachings but does not consider Him divine.",
+    "questions": [
+      "Why do you think Jesus had such a profound impact on the world?",
+      "What do you believe was His primary message?"
+    ],
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimCross",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 106,
+    "title": "The Cross",
+    "content": "Christianity teaches that Jesus willingly sacrificed Himself on the cross to pay the debt of humanity's sins, reconciling us with God. Islam teaches that Jesus was not crucified but was taken up to heaven. This is a significant difference.",
+    "questions": [
+      "Why do you think Christians believe in the crucifixion?",
+      "How do you understand the concept of atonement in your faith?"
+    ],
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimResurrection",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 105,
+    "title": "The Resurrection",
+    "content": "Christians believe that Jesus rose from the dead, proving His victory over sin and death, and offering eternal life to all who believe in Him. This is central to Christian faith. Islam does not share this belief, but both faiths look forward to Jesus' return.",
+    "questions": [
+      "Have you ever thought about the significance of the resurrection?",
+      "What do you think will happen when Jesus returns?"
+    ],
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMuslimChurch",
+    "storyId": "GospelWithMuslim",
+    "chapterType": 107,
+    "title": "The Church and the Future",
+    "content": "Christians believe that Jesus established His Church to continue His work until He returns. The Church's mission is to share His message of love, forgiveness, and hope. Islam teaches that God will judge all people at the end of time.",
+    "questions": [
+      "What do you think our purpose is in this life?",
+      "How do you believe we should prepare for the day of judgment?"
+    ],
+    "icon": "Book",
+    "order": 8,
+    "isEssential": true
+  },
+
+  {
+    "id": "gospelWithMormonCreation",
+    "storyId": "GospelWithMormon",
+    "chapterType": 101,
+    "title": "Creation",
+    "content": "Christianity teaches that God created everything perfectly and with purpose. Mormonism also believes in a Creator but adds that humans existed before this life. Both agree on a Creator but differ on the nature of creation.",
+    "questions": [
+      "How do you reconcile pre-earthly existence with the idea that creation was perfect?",
+      "How does seeing creation as a reflection of God's goodness affect your view of Him?"
+    ],
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonFall",
+    "storyId": "GospelWithMormon",
+    "chapterType": 102,
+    "title": "The Fall",
+    "content": "Christianity views the Fall as the cause of sin and separation from God, needing Jesus’ sacrifice for redemption. Mormonism sees it as a step for human growth. Both recognize the Fall but differ on its impact and remedy.",
+    "questions": [
+      "How does viewing the Fall as necessary for progression compare to seeing it as separation from God?",
+      "What does your faith say about needing a savior to overcome the Fall?"
+    ],
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonProphets",
+    "storyId": "GospelWithMormon",
+    "chapterType": 103,
+    "title": "The Prophets",
+    "content": "Christianity believes Jesus and the apostles completed the prophetic message. Mormonism continues to value modern prophets. This highlights a difference in views on ongoing revelation versus completed revelation.",
+    "questions": [
+      "How do modern prophets relate to the revelation given by Jesus and the apostles?",
+      "Is ongoing revelation necessary, or is Christ’s message enough?"
+    ],
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonJesus",
+    "storyId": "GospelWithMormon",
+    "chapterType": 104,
+    "title": "Jesus Christ",
+    "content": "Christianity teaches that Jesus is both fully God and fully human, and the only Savior. Mormonism sees Jesus as divine but among other divine beings. This difference emphasizes Christ’s unique role in salvation.",
+    "questions": [
+      "How do you view Jesus’ role as both God and Savior in relation to multiple divine beings?",
+      "What does recognizing Jesus as the only Savior mean for your understanding of salvation?"
+    ],
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonJesusActs",
+    "storyId": "GospelWithMormon",
+    "chapterType": 109,
+    "title": "Jesus' Teachings and Acts",
+    "content": "Christianity sees Jesus’ teachings and miracles as proof of His divine authority and core to the gospel. Mormonism acknowledges these but places them in a broader context of divine progression.",
+    "questions": [
+      "How do Jesus’ miracles and teachings fit with divine progression and salvation?",
+      "What is the significance of Jesus’ acts in showing His divine authority?"
+    ],
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonAtonement",
+    "storyId": "GospelWithMormon",
+    "chapterType": 106,
+    "title": "The Atonement",
+    "content": "Christianity teaches that Jesus’ sacrifice fully atones for sin, offering forgiveness through faith alone. Mormonism also values the Atonement but adds that personal works are needed for full reconciliation.",
+    "questions": [
+      "How does your faith balance personal works with belief in Jesus’ complete atonement?",
+      "What role does Jesus’ sacrifice play in reconciliation with God compared to personal effort?"
+    ],
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonResurrection",
+    "storyId": "GospelWithMormon",
+    "chapterType": 105,
+    "title": "The Resurrection",
+    "content": "Christianity views Jesus’ resurrection as proof of victory over death and assurance of eternal life. Mormonism also teaches about resurrection but within a broader progression plan. Christianity emphasizes faith alone for eternal life.",
+    "questions": [
+      "How does your belief in resurrection fit with eternal progression and its impact on eternal life?",
+      "What does Jesus’ resurrection mean for you in terms of assurance of eternal life?"
+    ],
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithMormonChurch",
+    "storyId": "GospelWithMormon",
+    "chapterType": 107,
+    "title": "The Church and the Future",
+    "content": "Christianity teaches that the Church, established by Jesus, continues His mission. Mormonism believes the Church was restored through Joseph Smith with a distinct mission. This shows a difference in views on the Church's establishment and mission.",
+    "questions": [
+      "How do you reconcile the restored Church through Joseph Smith with the belief in a complete Church established by Jesus?",
+      "What is your perspective on the Church’s future role given these differing views?"
+    ],
+    "icon": "Book",
+    "order": 8,
+    "isEssential": true
+  },
+  
+
+  {
+    "id": "gospelWithHinduCreation",
+    "storyId": "GospelWithHindu",
+    "chapterType": 101,
+    "title": "Creation",
+    "content": "Christianity sees God as the sole Creator with a purposeful plan. Hinduism describes creation through multiple deities and cycles. Both see a divine role, but Christianity emphasizes a single, omnipotent Creator.",
+    "questions": [
+      "How does Hindu creation compare to the Christian view of a single, purposeful Creator?",
+      "What does Hindu cyclical creation reveal about the universe's purpose?"
+    ],
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduFall",
+    "storyId": "GospelWithHindu",
+    "chapterType": 102,
+    "title": "The Fall",
+    "content": "Christianity teaches humanity fell into sin through Adam and Eve, needing redemption through Jesus. Hinduism views suffering through karma and reincarnation. Christianity offers reconciliation with God through Jesus.",
+    "questions": [
+      "How does Hindu karma address suffering compared to Christian sin and redemption?",
+      "What role does personal action play in overcoming suffering and achieving spiritual growth?"
+    ],
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduProphets",
+    "storyId": "GospelWithHindu",
+    "chapterType": 103,
+    "title": "The Prophets",
+    "content": "Christianity views Jesus as the final prophet and ultimate revelation of God. Hinduism has various spiritual teachers and deities. This highlights Christianity’s belief in Jesus’ unique role as God’s ultimate revelation.",
+    "questions": [
+      "How do Hindu spiritual teachers compare to Jesus as the final prophet in Christianity?",
+      "What is the role of spiritual teachers in guiding us to understand the divine?"
+    ],
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduJesus",
+    "storyId": "GospelWithHindu",
+    "chapterType": 104,
+    "title": "Jesus Christ",
+    "content": "Christianity sees Jesus as the Son of God and the Savior. Hinduism may view Him as a revered teacher but not the exclusive path to salvation. This underscores Christianity’s belief in Jesus’ unique role in offering eternal life.",
+    "questions": [
+      "How do you see Jesus’ role in relation to other spiritual figures in Hinduism?",
+      "How does Christian salvation compare to Hindu spiritual liberation?"
+    ],
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduJesusActs",
+    "storyId": "GospelWithHindu",
+    "chapterType": 109,
+    "title": "Jesus' Teachings and Acts",
+    "content": "Jesus’ teachings and miracles are central in Christianity, showing His divine authority. Hinduism has its own miracles and teachings from various leaders. Christianity sees Jesus’ acts as central to understanding God’s love and salvation.",
+    "questions": [
+      "How do you view Jesus’ miracles compared to other spiritual leaders’ teachings in Hinduism?",
+      "What do miracles and divine acts in various traditions say about divine intervention?"
+    ],
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduAtonement",
+    "storyId": "GospelWithHindu",
+    "chapterType": 106,
+    "title": "The Atonement",
+    "content": "Christianity teaches Jesus’ death and resurrection as atonement for sin. Hinduism views atonement through karma and reincarnation. This highlights Christianity’s belief in Jesus’ sacrifice for reconciliation with God.",
+    "questions": [
+      "How does Hindu karma address atonement compared to Jesus’ sacrifice in Christianity?",
+      "What role do personal effort and spiritual practice play in reconciling with the divine?"
+    ],
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduResurrection",
+    "storyId": "GospelWithHindu",
+    "chapterType": 105,
+    "title": "The Resurrection",
+    "content": "Jesus’ resurrection in Christianity confirms victory over sin and death, offering eternal life. Hinduism views life after death through reincarnation. Christianity sees the resurrection as a guarantee of eternal life through faith in Jesus.",
+    "questions": [
+      "How does Hindu reincarnation compare to Christian resurrection and eternal life?",
+      "What does Jesus’ resurrection mean for you in terms of hope for life after death?"
+    ],
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithHinduChurch",
+    "storyId": "GospelWithHindu",
+    "chapterType": 107,
+    "title": "The Church and the Future",
+    "content": "Christianity views the Church as continuing Jesus’ mission and spreading salvation. Hinduism sees various paths to spiritual growth. Christianity expects the Church to fulfill Jesus’ promises and carry out God’s mission.",
+    "questions": [
+      "How do you compare the role of spiritual paths in Hinduism to the Christian view of the Church’s mission?",
+      "What are your thoughts on the future of spiritual guidance and fulfillment of promises?"
+    ],
+    "icon": "Book",
+    "order": 8,
+    "isEssential": true
+  },
+
+  {
+    "id": "gospelWithAtheistCreation",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 101,
+    "title": "Creation",
+    "content": "Christianity sees God as the intentional Creator. Atheism generally holds that the universe resulted from natural processes without divine purpose. Christianity emphasizes a purposeful Creator, while atheism seeks meaning through naturalistic explanations.",
+    "questions": [
+      "How do you view the idea of a purposeful Creator versus naturalistic origins?",
+      "How do you find meaning and purpose in life from a naturalistic perspective?"
+    ],
+    "icon": "Book",
+    "order": 1,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistFall",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 102,
+    "title": "The Fall",
+    "content": "Christianity teaches humanity fell into sin and needs redemption through Jesus. Atheism may see sin and redemption as human constructs. Christianity offers a moral view and reconciliation with God through Jesus.",
+    "questions": [
+      "How do you see morality and human imperfection compared to Christian sin and redemption?",
+      "What role do personal responsibility and societal norms play in addressing human shortcomings?"
+    ],
+    "icon": "Book",
+    "order": 2,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistProphets",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 103,
+    "title": "The Prophets",
+    "content": "Christianity regards Jesus as the ultimate revelation of God. Atheism views religious figures as influential leaders, not divinely inspired. Christianity emphasizes Jesus’ unique role in revealing God’s will.",
+    "questions": [
+      "How do you view historical religious figures compared to Jesus as the final prophet?",
+      "What criteria do you use to assess the significance of philosophical or spiritual teachings?"
+    ],
+    "icon": "Book",
+    "order": 3,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistJesus",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 104,
+    "title": "Jesus Christ",
+    "content": "Christianity views Jesus as the Son of God and Savior. Atheism may see Jesus as a historical or moral figure but not divine. This highlights Christianity’s belief in Jesus’ unique role in offering salvation.",
+    "questions": [
+      "How do you interpret Jesus’ life and teachings compared to His divine role in Christianity?",
+      "What are your thoughts on the concept of salvation and its implications for human life?"
+    ],
+    "icon": "Book",
+    "order": 4,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistJesusActs",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 109,
+    "title": "Jesus' Teachings and Acts",
+    "content": "Christianity sees Jesus’ miracles as evidence of divine authority. Atheism may view these as symbolic or allegorical. Christianity sees these acts as central to understanding God’s love and salvation.",
+    "questions": [
+      "What is your view on Jesus’ miracles compared to other extraordinary claims?",
+      "How do you interpret teachings and actions of influential figures in terms of human values?"
+    ],
+    "icon": "Book",
+    "order": 5,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistAtonement",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 106,
+    "title": "The Atonement",
+    "content": "Christianity teaches Jesus’ death and resurrection as atonement for sin. Atheism may view atonement as a human concept. Christianity offers a perspective of reconciliation with God through Jesus’ sacrifice.",
+    "questions": [
+      "How do you see concepts of atonement and forgiveness in a secular context?",
+      "What role do personal actions and societal values play in addressing human mistakes?"
+    ],
+    "icon": "Book",
+    "order": 6,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistResurrection",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 105,
+    "title": "The Resurrection",
+    "content": "Christianity teaches Jesus’ resurrection as proof of victory over death. Atheism typically views death as a natural end. Christianity offers hope for eternal life through Jesus’ resurrection.",
+    "questions": [
+      "How does the concept of resurrection compare to secular views on life after death?",
+      "What significance do you find in concepts of immortality or continuation of life?"
+    ],
+    "icon": "Book",
+    "order": 7,
+    "isEssential": true
+  },
+  {
+    "id": "gospelWithAtheistChurch",
+    "storyId": "GospelWithAtheist",
+    "chapterType": 107,
+    "title": "The Church and the Future",
+    "content": "Christianity views the Church as continuing Jesus’ mission and spreading salvation. Atheism may see religious institutions as social organizations. Christianity expects the Church to fulfill Jesus’ mission and promises.",
+    "questions": [
+      "How do you view the role of religious institutions compared to their perceived social functions?",
+      "What are your thoughts on the future of spiritual guidance and its impact on society?"
+    ],
+    "icon": "Book",
+    "order": 8,
+    "isEssential": true
   }
+  
+  
 ]

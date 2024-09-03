@@ -224,6 +224,7 @@ export function getStoryChaptersFromJson() {
             chapterType: chapterType,
             title: item.title,
             content: item.content,
+            questions: item.questions,
             icon: icon,
             order: item.order
         };
