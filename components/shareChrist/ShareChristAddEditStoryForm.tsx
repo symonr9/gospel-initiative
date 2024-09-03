@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, TextInput, LayoutAnimation } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { EnhancedStory } from '@/models/story';
@@ -8,14 +8,15 @@ import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
 import { StoryLayoutType } from './ShareChristStoriesLayout';
 
-export type IShareChristStoryDetails = {
+export type IShareChristAddEditStoryForm = {
   activeStory: EnhancedStory | null;
   activeLayoutType: StoryLayoutType;
 };
 
-function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChristStoryDetails) {
+function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareChristAddEditStoryForm) {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
+  const [chapterEdits, setChapterEdits] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
     if (!activeStory) {
@@ -31,14 +32,39 @@ function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChrist
     setOpenedChapterIds(prev => [...prev, expandedCardId]);
   }, [expandedCardId]);
 
-  if (!activeStory || activeLayoutType !== StoryLayoutType.Normal) {
-    return <></>;
-  }
-
   const toggleExpand = (id: string) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpandedCardId(expandedCardId === id ? null : id);
   };
+
+  const handleInputChange = (chapterId: string, field: string, value: string | string[]) => {
+    setChapterEdits(prev => ({
+      ...prev,
+      [chapterId]: {
+        ...prev[chapterId],
+        [field]: value,
+      },
+    }));
+  };
+
+  const renderQuestions = (chapterId: string, questions: string[]) => {
+    return questions.map((question, index) => (
+      <TextInput
+        key={`${chapterId}-question-${index}`}
+        style={styles.questionsContent}
+        value={chapterEdits[chapterId]?.questions?.[index] ?? question}
+        onChangeText={text => {
+          const updatedQuestions = [...questions];
+          updatedQuestions[index] = text;
+          handleInputChange(chapterId, 'questions', updatedQuestions);
+        }}
+      />
+    ));
+  };
+
+  if (!activeStory || ![StoryLayoutType.Editing, StoryLayoutType.Adding].includes(activeLayoutType)) {
+    return null;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -47,12 +73,9 @@ function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChrist
           const isExpanded = expandedCardId === chapter.id;
           const hasBeenOpened = openedChapterIds.includes(chapter.id);
 
-          const icon = (() => {
-            if (chapter.icon && chapter.icon !== AppIcon.Book) {
-              return chapter.icon;
-            }
-            return mapStoryChapterTypeToAppIcon(chapter.chapterType);
-          })();
+          const icon = chapter.icon && chapter.icon !== AppIcon.Book
+            ? chapter.icon
+            : mapStoryChapterTypeToAppIcon(chapter.chapterType);
 
           return (
             <View
@@ -60,13 +83,14 @@ function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChrist
               style={[
                 styles.timelineRow,
                 {
-                  flexDirection: index % 2 === 0 ? 'row' : 'row-reverse'
+                  flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
                 },
               ]}
             >
               <View style={styles.timelineMarker} />
               <TouchableOpacity
                 onPress={() => toggleExpand(chapter.id)}
+                activeOpacity={1}
                 style={[
                   styles.timelineContent,
                   hasBeenOpened && !isExpanded ? styles.openedContent : null,
@@ -75,30 +99,28 @@ function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChrist
               >
                 <Image source={icon} style={styles.chapterIcon} />
                 <View style={styles.spine} />
-                <AppText type={TextType.BodyBold} style={styles.chapterTitle}>
-                  {chapter.title}
-                </AppText>
+                <TextInput
+                  style={styles.chapterTitleInput}
+                  value={chapterEdits[chapter.id]?.title ?? chapter.title}
+                  onChangeText={text => handleInputChange(chapter.id, 'title', text)}
+                />
                 {
                   isExpanded ? (
                     <>
-                      <AppText type={TextType.Body} style={[styles.chapterContent, { marginBottom: 12 }]}>
-                        {chapter.content}
-                      </AppText>
-                      {
-                        chapter.questions.map((question) => (
-                          <AppText type={TextType.Italic} style={styles.questionsContent}>
-                            {question}
-                          </AppText>
-                        ))
-                      }
+                      <TextInput
+                        style={[styles.chapterContentInput, { marginBottom: 12 }]}
+                        value={chapterEdits[chapter.id]?.content ?? chapter.content}
+                        multiline
+                        onChangeText={text => handleInputChange(chapter.id, 'content', text)}
+                      />
+                      {renderQuestions(chapter.id, chapter.questions)}
                     </>
                   ) : (
                     <AppText type={TextType.Italic} style={styles.chapterContent}>
-                      Tap to Open
+                      Tap to Edit
                     </AppText>
                   )
                 }
-
               </TouchableOpacity>
             </View>
           );
@@ -122,10 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#8B4513',
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
-},
-  header: {
-    alignItems: 'center',
-    marginBottom: 24,
   },
   timelineContainer: {
     position: 'relative',
@@ -153,7 +171,7 @@ const styles = StyleSheet.create({
   },
   openedContent: {
     opacity: 0.7,
-    backgroundColor: '#eeeeee'
+    backgroundColor: '#eeeeee',
   },
   expandedContent: {
     maxWidth: '95%',
@@ -163,19 +181,20 @@ const styles = StyleSheet.create({
     height: 48,
     marginBottom: 8,
   },
-  chapterTitle: {
+  chapterTitleInput: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  chapterContent: {
+  chapterContentInput: {
     fontSize: 16,
     color: '#666',
+    marginBottom: 8,
   },
   questionsContent: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 8
+    marginBottom: 8,
   },
   timelineMarker: {
     position: 'absolute',
@@ -194,4 +213,4 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristStoryDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ShareChristAddEditStoryForm);

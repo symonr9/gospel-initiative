@@ -14,9 +14,7 @@ export type IShareChristStoriesContainer = {
     customStyles?: any;
     activeStoryId: string | null;
 
-    type: StoryLayoutType;
-    activeType: StoryLayoutType;
-    setActiveType: (type: StoryLayoutType) => void;
+    activeLayoutType: StoryLayoutType;
 }
 
 export function ShareChristStoriesContainer({
@@ -25,11 +23,9 @@ export function ShareChristStoriesContainer({
     itemsToRender,
     customStyles,
     activeStoryId,
-    type,
-    activeType,
-    setActiveType
+    activeLayoutType,
 }: IShareChristStoriesContainer) {
-    if (activeStoryId !== null) {
+    if (activeStoryId !== null || activeLayoutType !== StoryLayoutType.Normal) {
         return <></>;
     }
 

@@ -13,6 +13,7 @@ import { ShareChristStoryCard } from './ShareChristStoryCard';
 import { openPage } from '@/redux/actions';
 import { mapStoryTypeToText } from '@/utils/appUtils';
 import ShareChristStoryDetails from './ShareChristStoryDetails';
+import ShareChristAddEditStoryForm from './ShareChristAddEditStoryForm';
 
 export type IShareChristStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
@@ -22,26 +23,23 @@ export type IShareChristStoriesLayout = ViewProps & {
 };
 
 export enum StoryLayoutType {
-    ListAll,
-    MyStory,
-    GodsStory
+    Normal,
+    Editing,
+    Adding
 };
 
 function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPageState, openPage }: IShareChristStoriesLayout) {
-
-    console.log(personalStories);
-    console.log(GodsStories);
-
     const [activeStoryId, setActiveStoryId] = useState(null);
-    const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.ListAll);
+    const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
+    const [editing, setEditing] = useState()
 
     const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
     const GodsStoryCursorIdx = GodsStories.findIndex((story) => story.id === activeStoryId);
 
     const activeStory = (() => {
-        if (personalStoryCursorIdx !== -1) 
+        if (personalStoryCursorIdx !== -1)
             return personalStories[personalStoryCursorIdx];
-        else if (GodsStoryCursorIdx !== -1) 
+        else if (GodsStoryCursorIdx !== -1)
             return GodsStories[GodsStoryCursorIdx];
         return null;
     })();
@@ -61,12 +59,18 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
     const title = activeStory !== null ? activeStory.title : 'Stories';
     const subtitle = activeStory !== null ? mapStoryTypeToText(activeStory.type) : 'Select a story to begin.';
 
+    const onEditStoryClick = () => {
+        setActiveLayoutType(StoryLayoutType.Editing);
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
-                        if (activeStoryId != null) {
+                        if (activeLayoutType === StoryLayoutType.Editing) {
+                            setActiveLayoutType(StoryLayoutType.Normal);
+                        } else if (activeStoryId != null) {
                             setActiveStoryId(null);
                             return;
                         }
@@ -78,6 +82,18 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                             marginBottom: 16
                         }
                     }} />
+                {
+                    activeStory && (
+                        <SimpleIconButton iconSrc={AppIcon.Pencil}
+                            onClick={onEditStoryClick}
+                            customStyles={{
+                                container: {
+                                    alignSelf: 'flex-end',
+                                    marginBottom: 16
+                                }
+                            }} />
+                    )
+                }
             </View>
 
             <AnimatedHeader title={title}
@@ -85,22 +101,19 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                 delay={0}
                 style={{ textAlign: 'center' }} />
 
-            <ShareChristStoryDetails activeStory={activeStory} />
+            <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType}/>
+            <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
             <View style={styles.storiesListContainer}>
                 <ShareChristStoriesContainer title={`My Story`}
                     iconSrc={AppIcon.Book}
-                    type={StoryLayoutType.MyStory}
-                    activeType={activeLayoutType}
-                    setActiveType={setActiveLayoutType}
+                    activeLayoutType={activeLayoutType}
                     itemsToRender={personalStoryItemsToRender}
                     activeStoryId={activeStoryId}
                     customStyles={myStoryStyle} />
                 <ShareChristStoriesContainer title={`God's Story`}
                     iconSrc={AppIcon.Book}
-                    type={StoryLayoutType.GodsStory}
-                    activeType={activeLayoutType}
-                    setActiveType={setActiveLayoutType}
+                    activeLayoutType={activeLayoutType}
                     itemsToRender={GodsStoryItemsToRender}
                     activeStoryId={activeStoryId}
                     customStyles={GodsStoryStyle} />
@@ -124,7 +137,8 @@ const styles = StyleSheet.create({
     },
     header: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
 });
 
