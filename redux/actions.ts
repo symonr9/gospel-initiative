@@ -39,7 +39,9 @@ export enum Action {
     SetBeaconActiveUntil = "SET_BEACON_ACTIVE_UNTIL",
 
     SetBeaconForm = "SET_BEACON_FORM",
-    PrayForBeacon = "PRAY_FOR_BEACON",
+    AddBeaconActivity = "ADD_BEACON_ACTIVITY",
+    AddMinistryActivity = "ADD_MINISTRY_ACTIVITY",
+    AddStoryActivity = "ADD_STORY_ACTIVITY",
     AddNoteToActivity = "ADD_NOTE_TO_ACTIVITY",
 
     SetAppError = "SET_APP_ERROR",
@@ -155,8 +157,18 @@ export const setBeaconForm = (item: BeaconForm) => ({
     payload: item
 });
 
-export const prayForBeacon = (item: BeaconActivity) => ({
-    type: Action.PrayForBeacon,
+export const addBeaconActivity = (item: BeaconActivity) => ({
+    type: Action.AddBeaconActivity,
+    payload: item
+});
+
+export const addMinistryActivity = (item: BeaconActivity) => ({
+    type: Action.AddMinistryActivity,
+    payload: item
+});
+
+export const addStoryActivity = (item: BeaconActivity) => ({
+    type: Action.AddStoryActivity,
     payload: item
 });
 

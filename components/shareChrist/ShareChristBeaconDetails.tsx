@@ -11,7 +11,7 @@ import { AnimatedCount } from '../common/AnimatedCount';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
-import { addNoteToActivity, prayForBeacon } from '@/redux/actions';
+import { addNoteToActivity, addBeaconActivity } from '@/redux/actions';
 import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
@@ -27,11 +27,11 @@ export type IShareChristBeaconDetails = ViewProps & {
     beaconActivities: BeaconActivity[];
 
     addNoteToActivity: Function;
-    prayForBeacon: Function;
+    addBeaconActivity: Function;
 };
 
 function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
-    completedBeacons, incomingBeacons, executor, prayForBeacon, addNoteToActivity,
+    completedBeacons, incomingBeacons, executor, addBeaconActivity, addNoteToActivity,
     beaconActivities }: IShareChristBeaconDetails) {
 
     const [isModalVisible, setModalVisible] = useState(false);
@@ -157,7 +157,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
             return;
         }
 
-        prayForBeacon(
+        addBeaconActivity(
             BeaconActivity.createBeaconActivity(
                 "",
                 executor,
@@ -435,7 +435,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-    prayForBeacon,
+    addBeaconActivity,
     addNoteToActivity
 };
 

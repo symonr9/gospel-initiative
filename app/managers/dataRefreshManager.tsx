@@ -34,6 +34,7 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             prompts: JsonFunctions.getPromptsFromJson(),
             stories: JsonFunctions.getStoriesFromJson(),
             storyChapters: JsonFunctions.getStoryChaptersFromJson(),
+            storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
             users: usersJson,
             executor: usersJson[0],
             ministryActivities: JsonFunctions.getMinistryActivitiesFromJson(),

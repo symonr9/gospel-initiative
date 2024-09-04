@@ -21,6 +21,7 @@ const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
 const storyChaptersJson = require('../data/story-chapters.json');
+const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
 const ministryActivitiesJson = require('../data/ministry-activities.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
@@ -227,6 +228,18 @@ export function getStoryChaptersFromJson() {
             questions: item.questions,
             icon: icon,
             order: item.order
+        };
+    });
+}
+
+export function getStoryActivitiesFromJson() {
+    return storyActivitiesJson.map(item => {
+        return {
+            id: item.id,
+            note: item.note,
+            date: item.date ? new Date(item.date) : undefined,
+            userId: item.userId,
+            storyId: item.storyId
         };
     });
 }
