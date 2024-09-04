@@ -239,7 +239,9 @@ export function getStoryActivitiesFromJson() {
             note: item.note,
             date: item.date ? new Date(item.date) : undefined,
             userId: item.userId,
-            storyId: item.storyId
+            storyId: item.storyId,
+            openedChapters: item.openedChapters,
+            totalChapters: item.totalChapters
         };
     });
 }

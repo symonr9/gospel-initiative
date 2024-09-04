@@ -14,6 +14,8 @@ interface IStoryActivity {
     date: Date;
     userId: string;
     storyId: string;
+    openedChapters: number;
+    totalChapters: number;
 }
 
 export default class StoryActivity implements IStoryActivity {
@@ -22,26 +24,33 @@ export default class StoryActivity implements IStoryActivity {
     date: Date;
     userId: string;
     storyId: string;
+    openedChapters: number;
+    totalChapters: number;
 
     constructor(id: string, note: string, date: Date,
-        userId: string, storyId: string
+        userId: string, storyId: string, openedChapters: number,
+        totalChapters: number
     ) {
         this.id = id;
         this.note = note;
         this.date = date;
         this.userId = userId;
         this.storyId = storyId;
+        this.openedChapters = openedChapters;
+        this.totalChapters = totalChapters;
     }
 
     static createStoryActivity(note: string, executor: User,
-        story: Story
+        story: Story, openedChapters: number, totalChapters: number
     ): StoryActivity {
         return new StoryActivity(
             generateRandomId(),
             note,
             getNow(),
             executor.id,
-            story.id
+            story.id,
+            openedChapters,
+            totalChapters
         );
     }
 
