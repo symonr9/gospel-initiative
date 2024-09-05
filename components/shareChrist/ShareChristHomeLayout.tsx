@@ -19,18 +19,18 @@ export type IShareChristHomeLayout = ViewProps & {
 function ShareChristHomeLayout({ completedBeacons, incomingBeacons }: IShareChristHomeLayout) {
   return (
     <View>
-        <AnimatedHeader title="Share Christ" delay={200}/>
-        <PromptBanner/>
-        <ActionStepBanner/>
+      <AnimatedHeader title="Share Christ" delay={200} />
+      <PromptBanner />
+      <ActionStepBanner />
 
-        <PageRow>
-          <AnimatedCard text={incomingBeacons.length}
-                             direction={FadeDirection.Left}
-                             label='Beacons to Pray for'/>
-          <AnimatedCard text={completedBeacons.length}
-                             direction={FadeDirection.Right} 
-                             label='Beacons Prayed for Today'/>
-        </PageRow>
+      <PageRow>
+        <AnimatedCard text={incomingBeacons.length}
+          direction={FadeDirection.Left}
+          label='Beacons to Pray for' />
+        <AnimatedCard text={completedBeacons.length}
+          direction={FadeDirection.Right}
+          label='Beacons Prayed for Today' />
+      </PageRow>
     </View>
   );
 }
@@ -40,7 +40,7 @@ const mapStateToProps = (state: any) => {
   return {
     completedBeacons,
     incomingBeacons,
-};
+  };
 };
 
 const mapDispatchToProps = {

@@ -7,29 +7,25 @@ import { ViewProps } from 'react-native';
 import PageView from '@/components/common/PageView';
 
 import { Page, ShareChristPageState } from '@/enums/enums';
-import { ShareChristContainer } from '@/components/shareChrist/ShareChristContainer';
 import ShareChristFooter from '@/components/shareChrist/ShareChristFooter';
+import ShareChristContainer from '@/components/shareChrist/ShareChristContainer';
 
 export type IShareChrist = ViewProps & {
-    page: Page,
-    shareChristPageState: ShareChristPageState,
     error: string,
 };
 
-function ShareChrist({ page, shareChristPageState, error }: IShareChrist) {
+function ShareChrist({ error }: IShareChrist) {
 
     return (
         <PageView>
-            <ShareChristContainer page={page} pageState={shareChristPageState} />
-            <ShareChristFooter page={page} pageState={shareChristPageState} />
+            <ShareChristContainer/>
+            <ShareChristFooter />
         </PageView>
     );
 }
 
 const mapStateToProps = (state: any) => {
     return {
-        page: state.app.page,
-        shareChristPageState: state.app.shareChristPageState,
         error: state.errors.error,
     };
 };

@@ -43,7 +43,7 @@ function ActionStepsList({ actionSteps, shareChristPageState,
                     editing && (
                         <SimpleIconButton iconSrc={AppIcon.Edit}
                         small
-                        onClick={() => setShareChristPageState(ShareChristPageState.EditActionSteps)}/>
+                        onClick={() => console.log("Edit here!")}/>
                     )
                 }
             </PageRow>

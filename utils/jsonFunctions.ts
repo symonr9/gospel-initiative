@@ -71,20 +71,24 @@ export function getLeadersJson() {
 
 export function getLocalEventsJson() {
     return localEventsJson.map(item => {
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
         return {
             id: item.id,
             title: item.title,
-            details: item.details        
+            details: item.details,
+            icon: icon,  
         };
     });
 }
 
 export function getLocalMinistriesJson() {
     return localMinistriesJson.map(item => {
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
         return {
             id: item.id,
             title: item.title,
-            details: item.details       
+            details: item.details,
+            icon: icon     
         };
     });
 }
@@ -107,10 +111,12 @@ export function getMeetingsJson() {
 
 export function getMissionsTripsJson() {
     return missionsTripsJson.map(item => {
+        const icon = AppIcon[item.icon as keyof typeof AppIcon];
         return {
             id: item.id,
             title: item.title,
-            details: item.details       
+            details: item.details,
+            icon: icon,
         };
     });
 }

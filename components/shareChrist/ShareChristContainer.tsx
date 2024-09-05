@@ -16,13 +16,13 @@ export type IShareChristContainer = ViewProps & {
     pageState: ShareChristPageState,
 };
 
-export function ShareChristContainer({ page, pageState }: IShareChristContainer) {
+function ShareChristContainer({ page, pageState }: IShareChristContainer) {
     if (page == Page.ShareChristOnes) {
         if ([
-            ShareChristPageState.Beacon,
-            ShareChristPageState.SaveBeacon,
-            ShareChristPageState.SendBeacon,
-            ShareChristPageState.ConfirmSendBeacon,
+            ShareChristPageState.AllBeaconTemplates,
+            ShareChristPageState.SavingBeaconForm,
+            ShareChristPageState.ConfirmBeacon,
+            ShareChristPageState.SentBeaconResponse,
         ].includes(pageState)) {
             return (
                 <BeaconLayout />
@@ -48,7 +48,8 @@ export function ShareChristContainer({ page, pageState }: IShareChristContainer)
 }
 
 const mapStateToProps = (state: any) => ({
-
+    page: state.app.page,
+    pageState: state.app.shareChristPageState,
 });
 
 const mapDispatchToProps = {

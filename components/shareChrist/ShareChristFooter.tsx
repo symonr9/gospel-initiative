@@ -55,14 +55,14 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
         return [
             getBackButton(onBackDefaultClick),
         ];
-    } else if (pageState == ShareChristPageState.Beacon) {
+    } else if (pageState == ShareChristPageState.AllBeaconTemplates) {
         if (hasSelectedBeacon) { // View Selected Beacon
             return [
                 getBackButton(() => {
                     setSelectedTemplateId(null);
                 }),
                 getSendButton(() => {
-                    setPageState(ShareChristPageState.SendBeacon);
+                    setPageState(ShareChristPageState.ConfirmBeacon);
                 }),
             ];
         } else { // View All Beacons
@@ -72,16 +72,16 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
                 })
             ];
         }
-    } else if (pageState == ShareChristPageState.SendBeacon) {
+    } else if (pageState == ShareChristPageState.ConfirmBeacon) {
         return [
             getCancelButton(() => {
-                setPageState(ShareChristPageState.Beacon);
+                setPageState(ShareChristPageState.AllBeaconTemplates);
             }),
             getConfirmButton(() => {
-                setPageState(ShareChristPageState.ConfirmSendBeacon);
+                setPageState(ShareChristPageState.SentBeaconResponse);
             })
         ];
-    } else if (pageState == ShareChristPageState.ConfirmSendBeacon) {
+    } else if (pageState == ShareChristPageState.SentBeaconResponse) {
         return [
             getBackButton(() => {
                 setSelectedTemplateId(null);
@@ -90,7 +90,7 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
             }),
         ];
     } else if ([
-        ShareChristPageState.SaveBeacon
+        ShareChristPageState.SavingBeaconForm
     ].includes(pageState)) { // Saving...
         return [];
     }
@@ -132,7 +132,7 @@ const getBackButton = (onClick: () => void) => {
 const getBeaconButton = (setPageState: Function) => {
     return (
         <SimpleIconButton iconSrc={AppIcon.Prayer}
-            onClick={() => setPageState(ShareChristPageState.Beacon)}
+            onClick={() => setPageState(ShareChristPageState.AllBeaconTemplates)}
             title={'Send New Beacon'} />
     );
 }
@@ -195,6 +195,8 @@ const getStoryButton = (onClick: () => void) => {
 
 
 const mapStateToProps = (state: any) => ({
+    page: state.app.page,
+    pageState: state.app.shareChristPageState,
     selectedTemplateId: state.beacons.selectedTemplateId
 });
 

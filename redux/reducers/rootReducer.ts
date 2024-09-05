@@ -8,6 +8,8 @@ import { promptsReducer } from './promptsReducer';
 import { appReducer } from './appReducer';
 import { preferencesReducer } from './preferencesReducer';
 import { activitiesReducer } from './activitiesReducer';
+import { localMinistriesReducer } from './localMinistriesReducer';
+import { missionsTripsReducer } from './missionsTripsReducer';
 
 export const rootReducer = combineReducers({
     app: appReducer,
@@ -18,5 +20,7 @@ export const rootReducer = combineReducers({
     stories: storiesReducer,
     prompts: promptsReducer,
     preferences: preferencesReducer,
-    activities: activitiesReducer
+    activities: activitiesReducer,
+    ministries: localMinistriesReducer,
+    missionsTrips: missionsTripsReducer
 });

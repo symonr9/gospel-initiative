@@ -249,8 +249,6 @@ export function mapBeaconTypeToTitleText(type: BeaconType, shareOneName: boolean
 export function isEditing(pageState: ShareChristPageState) {
     return [
         ShareChristPageState.Edit,
-        ShareChristPageState.EditActionSteps,
-        ShareChristPageState.EditOneFacts
     ].includes(pageState);
 }
 

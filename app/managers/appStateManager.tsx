@@ -30,7 +30,7 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
         const shouldAddBeacon = selectedTemplateId != null 
             && executor != null
             && selectedOne != null                   
-            && shareChristPageState == ShareChristPageState.ConfirmSendBeacon;
+            && shareChristPageState == ShareChristPageState.SentBeaconResponse;
 
         if (shouldAddBeacon) {
             const selectedTemplate = beaconTemplates.find((template) => template.id === selectedTemplateId);

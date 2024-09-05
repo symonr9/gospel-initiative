@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
+import axios from 'axios';
 
 import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';

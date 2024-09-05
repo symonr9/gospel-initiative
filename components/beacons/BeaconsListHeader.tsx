@@ -14,7 +14,7 @@ export type IBeaconsListHeader = ViewProps & {
 
 export function BeaconsListHeader({ shareChristPageState, selectedTemplateId, style = {} }: IBeaconsListHeader) {
 
-    const shouldConfirm = shareChristPageState == ShareChristPageState.SendBeacon;
+    const shouldConfirm = shareChristPageState == ShareChristPageState.ConfirmBeacon;
 
     const getTitle = () => {
         if (shouldConfirm) {

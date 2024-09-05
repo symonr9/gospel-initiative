@@ -7,29 +7,24 @@ import { FlatList, View, ViewProps } from 'react-native';
 import PageHeader from '@/components/common/PageHeader';
 import { PageColumn } from '@/components/common/PageColumn';
 import { PageRow } from '@/components/common/PageRow';
+import LoveCityContainer from '@/components/loveCity/LoveCityContainer';
+import LoveCityFooter from '@/components/loveCity/LoveCityFooter';
 
 export type ILoveCity = ViewProps & {
-
+  error: string,
 };
 
-function LoveCity({ }: ILoveCity) {
+function LoveCity({ error }: ILoveCity) {
   return (
     <PageView>
-      <PageColumn spaceBetween>
-        <PageRow>
-          <PageHeader title={"Love City"} />
-        </PageRow>
-
-        <PageRow spaceBetween>
-        </PageRow>
-
-      </PageColumn>
+      <LoveCityContainer/>
+      <LoveCityFooter/>
     </PageView>
   );
 }
 
 const mapStateToProps = (state: any) => ({
-
+  error: state.errors.error,
 });
 
 const mapDispatchToProps = {

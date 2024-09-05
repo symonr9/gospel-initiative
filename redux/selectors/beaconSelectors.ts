@@ -106,7 +106,7 @@ export const selectActiveBeaconsWithActivities = (oneId: string) =>
  */
 export const selectPartitionedActiveEnhancedBeacons = createSelector(
     [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
-    (beacons, ones, users, beaconActivities, executor) => {
+    (beacons, ones, users, beaconActivities, executor): any => {
         const partitionedBeacons = beacons
             .filter((beacon: Beacon) => isBeaconActive(beacon))
             .map((beacon: Beacon) => {

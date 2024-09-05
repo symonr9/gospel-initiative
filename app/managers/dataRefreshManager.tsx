@@ -20,7 +20,7 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
         const usersJson = JsonFunctions.getUsersFromJson();
 
         loadServerData({
-            localEvents: JsonFunctions.getLocalEventsJson,
+            localEvents: JsonFunctions.getLocalEventsJson(),
             localMinistries: JsonFunctions.getLocalMinistriesJson(),
             localMinistryLeaders: [],
             missionsTrips: JsonFunctions.getMissionsTripsJson(),

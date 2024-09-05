@@ -1,8 +1,20 @@
 [
     {
-        "id": "localministry1",
+        "id": "localMinistry1",
         "title": "Love, Inc.",
         "details": "Love Inc is a...",
         "icon": "Heart"
+    },
+    {
+        "id": "localMinistry2",
+        "title": "College Hill",
+        "details": "College Hill is a...",
+        "icon": "Book"
+    },
+    {
+        "id": "localMinistry3",
+        "title": "Homeless Ministry",
+        "details": "Homeless Ministry...",
+        "icon": "OpenHands"
     }
 ]

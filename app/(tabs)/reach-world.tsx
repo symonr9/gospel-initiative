@@ -6,29 +6,25 @@ import PageView from '@/components/common/PageView';
 import PageHeader from '@/components/common/PageHeader';
 import { PageColumn } from '@/components/common/PageColumn';
 import { PageRow } from '@/components/common/PageRow';
+import ReachWorldContainer from '@/components/reachWorld/ReachWorldContainer';
+import ReachWorldFooter from '@/components/reachWorld/ReachWorldFooter';
 
 export type IReachWorld = ViewProps & {
-
+  error: string,
 };
 
-function ReachWorld({ }: IReachWorld) {
+function ReachWorld({ error }: IReachWorld) {
 
   return (
     <PageView>
-      <PageColumn spaceBetween>
-        <PageRow>
-          <PageHeader title={"Reach the World"} />
-        </PageRow>
-        <PageRow spaceBetween>
-        </PageRow>
-      </PageColumn>
-
+      <ReachWorldContainer/>
+      <ReachWorldFooter/>
     </PageView>
   );
 }
 
 const mapStateToProps = (state: any) => ({
-
+  error: state.errors.error,
 });
 
 const mapDispatchToProps = {

@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": "missionsTrip1",
+        "title": "Missions Trip 1",
+        "details": "Missions Trip 1...",
+        "icon": "Sheep"
+    },
+    {
+        "id": "missionsTrip2",
+        "title": "Missions Trip 2",
+        "details": "Missions Trip 2...",
+        "icon": "Hindu"
+    },
+    {
+        "id": "missionsTrip3",
+        "title": "Missions Trip 3",
+        "details": "Missions Trip 3...",
+        "icon": "Car"
+    }
+]

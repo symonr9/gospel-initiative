@@ -39,7 +39,7 @@ function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
                     editing && (
                         <SimpleIconButton iconSrc={AppIcon.Edit}
                         small
-                        onClick={() => setShareChristPageState(ShareChristPageState.EditOneFacts)}/>
+                        onClick={() => console.log("Edit here!")}/>
                     )
                 }
             </PageRow>

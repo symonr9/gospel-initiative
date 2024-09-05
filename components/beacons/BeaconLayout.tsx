@@ -18,14 +18,14 @@ export type IBeaconLayout = ViewProps & {
 
 function BeaconLayout({ selectedOne, shareChristPageState }: IBeaconLayout) {
     const Layout: any[] = [];
-    if (shareChristPageState == ShareChristPageState.SaveBeacon) {
+    if (shareChristPageState == ShareChristPageState.SavingBeaconForm) {
         Layout.push(
             <View>
                 <PageResponse title={'Saving Beacon'} 
                               details={'Please wait...'}/>
             </View>
         );
-    } else if (shareChristPageState == ShareChristPageState.ConfirmSendBeacon) {
+    } else if (shareChristPageState == ShareChristPageState.SentBeaconResponse) {
         Layout.push(
             <View>
                 <PageResponse title={'Beacon successful!'} 

@@ -1,35 +1,33 @@
 
 // App
 
+// TODO: Refactor into ShareChristPageState.
 export enum Page {
     ShareChrist = 1,
     ShareChristOnes = 2,
     ShareChristBeacons = 3,
-
-    GodsStory = 4,
-    YourStory = 5,
-
-    Beacon = 6,
-    AddEditOnes = 7,
-    AddEditActionStep = 8,
-
-    ShareChristStories = 9
+    ShareChristStories = 4,
 }
 
 export enum ShareChristPageState {
     Default = 1,
     Edit = 2,
-    EditActionSteps = 3,
-    EditOneFacts = 4,
 
-    Beacon = 5,
-    SaveBeacon = 8,
-    SendBeacon = 9,
-    ConfirmSendBeacon = 10,
+    AllBeaconTemplates = 3,
+    SavingBeaconForm = 4,
+    ConfirmBeacon = 5,
+    SentBeaconResponse = 6,
 
-    AllStories = 11
+    AllStories = 7
 }
 
+export enum LoveCityPageState {
+    Default = 1
+}
+
+export enum ReachWorldPageState {
+    Default = 1
+}
 
 export enum FadeDirection {
     Up,
