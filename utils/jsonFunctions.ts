@@ -76,6 +76,9 @@ export function getLocalEventsJson() {
             id: item.id,
             title: item.title,
             details: item.details,
+            startDate: item.startDate ? new Date(item.startDate) : undefined,
+            endDate: item.endDate ? new Date(item.endDate) : undefined,
+            location: item.location,
             icon: icon,  
         };
     });
@@ -88,6 +91,11 @@ export function getLocalMinistriesJson() {
             id: item.id,
             title: item.title,
             details: item.details,
+            startDate: item.startDate ? new Date(item.startDate) : undefined,
+            endDate: item.endDate ? new Date(item.endDate) : undefined,
+            location: item.location,
+            recurring: item.recurring,
+            isActive: item.isActive,
             icon: icon     
         };
     });
@@ -116,6 +124,9 @@ export function getMissionsTripsJson() {
             id: item.id,
             title: item.title,
             details: item.details,
+            startDate: item.startDate ? new Date(item.startDate) : undefined,
+            endDate: item.endDate ? new Date(item.endDate) : undefined,
+            location: item.location,
             icon: icon,
         };
     });

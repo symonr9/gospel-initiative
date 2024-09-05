@@ -3,18 +3,26 @@
         "id": "localMinistry1",
         "title": "Love, Inc.",
         "details": "Love Inc is a...",
+        "startDate": "2024-12-03T10:03:00Z",
+        "endDate": "2024-12-12T10:03:00Z",
+        "recurring": "Yes",
+        "isActive": true,
         "icon": "Heart"
     },
     {
         "id": "localMinistry2",
         "title": "College Hill",
         "details": "College Hill is a...",
+        "recurring": "Yes",
+        "isActive": true,
         "icon": "Book"
     },
     {
         "id": "localMinistry3",
         "title": "Homeless Ministry",
         "details": "Homeless Ministry...",
+        "recurring": "Yes",
+        "isActive": true,
         "icon": "OpenHands"
     }
 ]

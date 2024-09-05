@@ -3,18 +3,24 @@
         "id": "missionsTrip1",
         "title": "Missions Trip 1",
         "details": "Missions Trip 1...",
+        "startDate": "2024-12-03T10:03:00Z",
+        "endDate": "2024-12-12T10:03:00Z",
         "icon": "Sheep"
     },
     {
         "id": "missionsTrip2",
         "title": "Missions Trip 2",
         "details": "Missions Trip 2...",
+        "startDate": "2024-12-03T10:03:00Z",
+        "endDate": "2024-12-12T10:03:00Z",
         "icon": "Hindu"
     },
     {
         "id": "missionsTrip3",
         "title": "Missions Trip 3",
         "details": "Missions Trip 3...",
+        "startDate": "2024-12-03T10:03:00Z",
+        "endDate": "2024-12-12T10:03:00Z",
         "icon": "Car"
     }
 ]
