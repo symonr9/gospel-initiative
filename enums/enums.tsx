@@ -87,35 +87,6 @@ export enum BeaconLogTag {
     SalvationExperience = 25
 }
 
-// Meetings
-
-export enum MeetingTag {
-    Friendship = 1,
-    SharedGospel = 2,
-    SharedFaith = 3,
-    PrayedTogether = 4,
-    ScriptureStudy = 5,
-    Encouragement = 6,
-    AddressedDoubts = 7,
-    ActsOfService = 8,
-    AttendedChurch = 9,
-    SharedPersonalStruggles = 10,
-    DiscussedPurpose = 11,
-    FollowedUp = 12,
-    InvitedToEvent = 13,
-    SharedTestimony = 14,
-    SharedResources = 15,
-    InvitedToSmallGroup = 16,
-    InvitedToServe = 17,
-    ExploredBeliefs = 18,
-    ListenedWell = 19,
-    OfferedComfort = 20,
-    AddressedMisconceptions = 21,
-    Other = 22,
-    Discipleship = 23,
-    Worship = 24
-};
-
 export enum Location {
     Home = 1,
     Church = 2,

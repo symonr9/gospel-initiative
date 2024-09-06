@@ -2,17 +2,15 @@
     {
         "id": "localMinistry1",
         "title": "Love, Inc.",
-        "details": "Love Inc is a...",
-        "startDate": "2024-12-03T10:03:00Z",
-        "endDate": "2024-12-12T10:03:00Z",
+        "details": "Love In the Name of Christ (Love, Inc.) mobilizes local churches to transform lives and communities through relationships and service. They partner with local congregations to provide support for people in need, offering services like food, shelter, job training, and mentorship programs. Volunteers assist with resource distribution, helping individuals and families move toward self-sufficiency.",
         "recurring": "Yes",
         "isActive": true,
         "icon": "Heart"
     },
     {
         "id": "localMinistry2",
-        "title": "College Hill",
-        "details": "College Hill is a...",
+        "title": "College Hill High School",
+        "details": "College Hill High School serves students with unique challenges, offering personalized education and support. Volunteers from our church participate in service projects, such as mentoring students, assisting with campus improvement projects, and providing additional support for school events. This ministry focuses on building meaningful connections with the students and offering them hope and encouragement.",
         "recurring": "Yes",
         "isActive": true,
         "icon": "Book"
@@ -20,9 +18,17 @@
     {
         "id": "localMinistry3",
         "title": "Homeless Ministry",
-        "details": "Homeless Ministry...",
+        "details": "Every Saturday at 12 PM, rain or shine, volunteers from our church gather to serve the homeless community in the town area. We prepare and distribute sandwiches, offer encouragement, and remind those who are often overlooked that they are loved and valued by God. This ministry seeks to provide not only physical sustenance but also emotional and spiritual support for those in need.",
         "recurring": "Yes",
         "isActive": true,
         "icon": "OpenHands"
+    },
+    {
+        "id": "localMinistry4",
+        "title": "Church Ministry Services",
+        "details": "At Redemption Church, there are several opportunities for volunteers to serve within the congregation. Ministries include Sunday School teaching, ushering, worship team, tech support, hospitality, and outreach efforts like meal preparation for community events. Volunteers are essential in fostering a welcoming and supportive environment for both members and visitors.",
+        "recurring": "Yes",
+        "isActive": true,
+        "icon": "Church"
     }
 ]

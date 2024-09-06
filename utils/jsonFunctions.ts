@@ -3,7 +3,6 @@ import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
 import { LeaderType } from "@/enums/enums";
-import { MeetingTag } from "@/enums/enums";
 import { Role } from "@/enums/enums";
 
 const actionStepsJson = require('../data/action-steps.json');
@@ -11,7 +10,6 @@ const journalEntriesJson = require('../data/journal-entries.json');
 const leadersJson = require('../data/leaders.json');
 const localEventsJson = require('../data/local-events.json');
 const localMinistriesJson = require('../data/local-ministries.json');
-const meetingsJson = require('../data/meetings.json');
 const missionsTripsJson = require('../data/missions-trips.json');
 const onesFactsJson = require('../data/one-facts.json');
 const onesData = require('../data/ones.json');
@@ -101,22 +99,6 @@ export function getLocalMinistriesJson() {
     });
 }
 
-export function getMeetingsJson() {
-    return meetingsJson.map(item => {
-        const location: Location = item.type as Location;
-        const tags: MeetingTag[] = item.tags.map((tag) => MeetingTag[tag as keyof typeof MeetingTag]);
-
-        return {
-            id: item.id,
-            meetingDate: item.meetingDate ? new Date(item.meetingDate) : undefined,
-            notes: item.notes,
-            oneId: item.oneId,
-            tags: tags,
-            location: location
-        };
-    });
-}
-
 export function getMissionsTripsJson() {
     return missionsTripsJson.map(item => {
         const icon = AppIcon[item.icon as keyof typeof AppIcon];
@@ -158,7 +140,6 @@ export function getBeaconsFromJson() {
             message: item.message,
             userId: item.userId,
             oneId: item.oneId,
-            meetingId: item.meetingId,
             priority: item.priority,
             type: type,
             activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,

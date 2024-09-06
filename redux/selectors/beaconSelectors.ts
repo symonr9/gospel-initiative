@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { isBeaconActive } from "@/utils/appUtils";
 import { selectAllUsers, selectExecutor, selectUserById } from "./userSelectors";
-import { selectAllOnes, selectMeetingById, selectOneById } from './oneSelectors';
+import { selectAllOnes, selectOneById } from './oneSelectors';
 import { selectAllBeaconActivities } from './activitySelectors';
 import BeaconActivity from '@/models/beaconActivity';
 import Beacon from '@/models/beacon';
@@ -65,13 +65,11 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
 
     const user = selectUserById(state, beacon.userId);
     const one = beacon.oneId ? selectOneById(state, beacon.oneId) : null;
-    const meeting = beacon.meetingId ? selectMeetingById(state, beacon.meetingId) : null;
 
     return {
         prayerBeacon: beacon,
         user,
         one,
-        meeting
     };
 };
 

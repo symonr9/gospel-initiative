@@ -6,7 +6,6 @@ import BeaconActivity from "@/models/beaconActivity";
 import BeaconForm from "@/models/beaconForm";
 import LocalEvent from "@/models/localEvent";
 import LocalMinistry from "@/models/localMinistry";
-import Meeting from "@/models/meeting";
 import MissionsTrip from "@/models/missionsTrip";
 import One from "@/models/one";
 import OneFact from "@/models/oneFact";
@@ -23,7 +22,6 @@ export enum Action {
     AddLocalMinistry = "ADD_LOCAL_MINISTRY",
     AddMissionsTrip = "ADD_MISSIONS_TRIP",
     AddPrompt = "ADD_PROMPT",
-    AddMeeting = "ADD_MEETING",
     AddOneFact = "ADD_ONE_FACT",
     AddStoryChapter = "ADD_STORY_CHAPTER",
     AddActionStep = "ADD_ACTION_STEP",
@@ -141,11 +139,6 @@ export const AddLocalMinistry = (item: LocalMinistry) => ({
 
 export const AddMissionsTrip = (item: MissionsTrip) => ({
     type: Action.AddMissionsTrip,
-    payload: item,
-});
-
-export const AddMeeting = (item: Meeting) => ({
-    type: Action.AddMeeting,
     payload: item,
 });
 

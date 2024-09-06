@@ -21,7 +21,6 @@ interface IBeacon {
     message: string | null;
     userId: string;
     oneId: string | null;
-    meetingId: string | null;
     priority: Priority;
     type: BeaconType;
     activeUntil: Date | undefined;
@@ -35,7 +34,6 @@ export default class Beacon implements IBeacon {
     message: string | null;
     userId: string;
     oneId: string | null;
-    meetingId: string | null;
     priority: Priority;
     type: BeaconType;
     activeUntil: Date | undefined;
@@ -43,7 +41,7 @@ export default class Beacon implements IBeacon {
     shareOwnName: boolean | true;
 
     constructor(id: string, name: string, message: string | null, oneId: string | null,
-        priority: Priority, userId: string, meetingId: string | null,
+        priority: Priority, userId: string,
         type: BeaconType, activeUntil: Date | undefined, shareOneName: boolean | false,
         shareOwnName: boolean | true
     ) {
@@ -52,7 +50,6 @@ export default class Beacon implements IBeacon {
         this.message = message;
         this.userId = userId;
         this.oneId = oneId;
-        this.meetingId = meetingId;
         this.priority = priority;
         this.type = type;
         this.activeUntil = activeUntil;
@@ -67,7 +64,6 @@ export default class Beacon implements IBeacon {
             "",
             null,
             Priority.Normal,
-            "",
             "",
             BeaconType.Meeting,
             new Date(),

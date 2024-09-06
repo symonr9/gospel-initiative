@@ -2,9 +2,25 @@
     {
         "id": "localEvent1",
         "title": "Community BBQ",
-        "details": "Community BBQ",
+        "details": "Join us for a community-wide BBQ at the church grounds. It's a great opportunity to connect with neighbors, enjoy delicious food, and share God's love in a casual setting. All are welcome!",
         "startDate": "2024-09-03T10:03:00Z",
         "endDate": "2024-09-03T12:03:00Z",
         "icon": "Sheep"
     },
+    {
+        "id": "localEvent2",
+        "title": "Prayer and Worship Night",
+        "details": "An evening of collective prayer and worship, open to all ages. We will be praying for the local community, global missions, and personal needs. It's a time to reflect, seek God's presence, and worship together.",
+        "startDate": "2024-09-15T18:30:00Z",
+        "endDate": "2024-09-15T20:30:00Z",
+        "icon": "OpenHands"
+    },
+    {
+        "id": "localEvent3",
+        "title": "Fall Festival",
+        "details": "Celebrate the season with our annual Fall Festival! There will be games, food, and activities for all ages, including a pumpkin patch and a gospel message shared by our local pastor.",
+        "startDate": "2024-10-22T14:00:00Z",
+        "endDate": "2024-10-22T17:00:00Z",
+        "icon": "Coffee"
+    }
 ]

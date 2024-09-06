@@ -1,14 +1,12 @@
 import { createSelector } from 'reselect';
 
 import ActionStep from "@/models/actionStep";
-import Meeting from "@/models/meeting";
 import One from "@/models/one";
 import OneFact from "@/models/oneFact";
 
 export const selectAllOnes = (state: any): One[] => state.ones.ones;
 export const selectAllOneFacts = (state: any): OneFact[] => state.ones.oneFacts;
 export const selectAllActionSteps = (state: any): ActionStep[] => state.ones.actionSteps;
-export const selectAllMeetings = (state: any): Meeting[] => state.ones.meetings;
 
 // Ones
 export const selectOneById = (state: any, id: string): One | undefined =>
@@ -37,9 +35,4 @@ export const selectOneFactsByOneId = (oneId: string) =>
 
 export const selectActionStepsByOneId = (state: any, oneId: string): ActionStep[] =>
     selectAllActionSteps(state).filter(actionStep => actionStep.oneId === oneId);
-
-// Meetings
-
-export const selectMeetingById = (state: any, id: string): Meeting | undefined =>
-    selectAllMeetings(state).find(meeting => meeting.id === id);
   

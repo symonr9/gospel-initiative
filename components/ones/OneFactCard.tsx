@@ -2,12 +2,8 @@ import React from 'react';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
-import One from '@/models/one';
 import { AppText, TextType } from '../common/AppText';
-import { SimpleCard } from '../common/SimpleCard';
-import Meeting from '@/models/meeting';
 import OneFact from '@/models/oneFact';
-import { AppIcon } from '@/enums/enums';
 
 export type IOneFactCard = ViewProps & {
     oneFact: OneFact;
