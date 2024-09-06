@@ -1,12 +1,9 @@
 
-import React from 'react';
-import { connect } from 'react-redux';
 import PageView from '@/components/common/PageView';
-import { FlatList, View, ViewProps } from 'react-native';
+import React from 'react';
+import { ViewProps } from 'react-native';
+import { connect } from 'react-redux';
 
-import PageHeader from '@/components/common/PageHeader';
-import { PageColumn } from '@/components/common/PageColumn';
-import { PageRow } from '@/components/common/PageRow';
 import LoveCityContainer from '@/components/loveCity/LoveCityContainer';
 import LoveCityFooter from '@/components/loveCity/LoveCityFooter';
 
@@ -17,8 +14,8 @@ export type ILoveCity = ViewProps & {
 function LoveCity({ error }: ILoveCity) {
   return (
     <PageView>
-      <LoveCityContainer/>
-      <LoveCityFooter/>
+      <LoveCityContainer />
+      <LoveCityFooter />
     </PageView>
   );
 }

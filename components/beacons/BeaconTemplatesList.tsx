@@ -1,13 +1,12 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import { connect, useSelector } from 'react-redux';
-import { FlatList, View, ViewProps, StyleSheet, Dimensions, Animated } from 'react-native';
+import { connect } from 'react-redux';
+import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
 
 import { BeaconTemplateCard } from './BeaconTemplateCard';
 import { listStyles } from '@/styles/Styles';
 import { ShareChristPageState } from '@/enums/enums';
-import One from '@/models/one';
 import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
