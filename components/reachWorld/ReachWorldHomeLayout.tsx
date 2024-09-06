@@ -31,6 +31,9 @@ function ReachWorldHomeLayout({ missionsTrips }: IReachWorldHomeLayout) {
         <ThemedView style={[styles.container]}>
             <AnimatedHeader title='Reach World' delay={200}/>
 
+            <AppText type={TextType.BodyBold}>
+                Missions Trips
+            </AppText>
             <Animated.View
                 style={[styles.itemsContainer]}>
                 {itemsToRender.map((item, index) => item)}
@@ -55,8 +58,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 16,
         overflow: 'scroll',
-        height: 600,
-        width: 200,
     },
     icon: {
         width: 24,

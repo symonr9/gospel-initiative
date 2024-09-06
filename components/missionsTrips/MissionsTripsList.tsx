@@ -16,7 +16,7 @@ function MissionsTripsList({ style, missionsTrips, ...otherProps }: IMissionsTri
     const backgroundColor = useBackgroundThemeColor();
 
     const renderItem = ({ item }: { item: MissionsTrip }) => (
-        <MissionsTripCard missionsTrip={item}/>
+        <MissionsTripCard missionsTrip={item} activeItemId={null} setActiveItemId={undefined}/>
     );
 
     return (

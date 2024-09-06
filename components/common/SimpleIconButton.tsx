@@ -16,6 +16,7 @@ export type ISimpleIconButton = {
   small?: boolean;
   customStyles?: any;
   disabled?: boolean;
+  removeBackground?: boolean;
 
   openPage: (page: Page) => void;
 }
@@ -27,6 +28,7 @@ function SimpleIconButton({
   small = false,
   customStyles = {},
   disabled = false,
+  removeBackground = false,
   openPage,
   onClick
 }: ISimpleIconButton) {
@@ -62,7 +64,8 @@ function SimpleIconButton({
           style={[
             stylesToUse.iconContainer,
             customStyles.iconContainer,
-            disabled && styles.disabledIconContainer // Apply disabled icon styles
+            disabled && styles.disabledIconContainer, // Apply disabled icon styles
+            removeBackground && styles.iconContainerMinimal
           ]}
         >
           {iconSrc && (
@@ -111,6 +114,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 4,
+  },
+  iconContainerMinimal: {
+    backgroundColor: 'transparent',
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
   },
   icon: {
     width: 32,

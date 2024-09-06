@@ -10,6 +10,7 @@ import { AnimatedCard } from '../common/AnimatedCard';
 import Animated from 'react-native-reanimated';
 import { LocalMinistryCard } from '../localMinistries/LocalMinistryCard';
 import { LocalEventCard } from '../localMinistries/LocalEventCard';
+import { AppText, TextType } from '../common/AppText';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -42,11 +43,17 @@ function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayou
         <View>
             <AnimatedHeader title='Love City' delay={200} />
 
+            <AppText type={TextType.BodyBold}>
+                Local Ministries
+            </AppText>
             <Animated.View
                 style={[styles.itemsContainer]}>
                 {ministriesToRender.map((item, index) => item)}
             </Animated.View>
 
+            <AppText type={TextType.BodyBold}>
+                Local Events
+            </AppText>
             <Animated.View
                 style={[styles.itemsContainer]}>
                 {eventsToRender.map((item, index) => item)}
@@ -69,8 +76,9 @@ const styles = StyleSheet.create({
     itemsContainer: {
         display: 'flex',
         flexDirection: 'column',
-        gap: 8,
+        gap: 16,
         overflow: 'scroll',
+        marginBottom: 16
     },
     icon: {
         width: 24,

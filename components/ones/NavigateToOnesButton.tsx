@@ -27,7 +27,7 @@ function NavigateToOnesButton({ ones, openPage, setSelectedOne }: INavigateToOne
 
     return (
         <SimpleIconButton iconSrc={icon} 
-                          title={'Ones'} 
+                          title={'Open'} 
                           onClick={onClick}/>
     );
 }

@@ -313,3 +313,50 @@ export function generateRandomId(length: number = 10): string {
             return AppIcon.Book;
     }
   }
+
+/**
+ * Function to shuffle an array (Fisher-Yates Shuffle Algorithm)
+ */
+function shuffleArray<T>(array: T[]): T[] {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  }
+  
+  /**
+   * Function to calculate the difference in days between two dates
+   */
+  function getDaysDifference(startDate: Date, currentDate: Date): number {
+    const oneDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
+    const diffInTime = currentDate.getTime() - startDate.getTime();
+    return Math.floor(diffInTime / oneDay);
+  }
+  
+  /**
+   * Function to get the item for the given date
+   */
+  export function getItemForDate(currentDate: Date, array: string[]): string {
+    const cycleLength = array.length;
+  
+    // Calculate how many days have passed since the start date
+    const daysPassed = getDaysDifference(new Date('2024-09-01'), currentDate);
+  
+    // Determine the cycle number (how many full cycles have completed)
+    const cycleNumber = Math.floor(daysPassed / cycleLength);
+  
+    // For each new cycle, shuffle the array
+    let shuffledArray = shuffleArray(array);
+    if (cycleNumber > 0) {
+      shuffledArray = shuffleArray(array); // Reshuffle for each new cycle
+    }
+  
+    // Get the index within the current cycle
+    const indexInCycle = daysPassed % cycleLength;
+  
+    return shuffledArray[indexInCycle];
+  }
+  
+  

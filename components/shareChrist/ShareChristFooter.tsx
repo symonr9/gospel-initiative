@@ -112,13 +112,14 @@ const getStoriesListItems = (openPage: Function, setPageState: Function) => {
 };
 
 const getDefaultItems = (openPage: Function) => {
-    return [
-        <SimpleIconButton iconSrc={AppIcon.Prayer}
-            onClick={() => openPage(Page.ShareChristBeacons)}
-            title={'Pray'} />,
-        getStoryButton(() => openPage(Page.ShareChristStories)),
-        <NavigateToOnesButton />
-    ];
+    return [];
+    // return [
+    //     <SimpleIconButton iconSrc={AppIcon.Prayer}
+    //         onClick={() => openPage(Page.ShareChristBeacons)}
+    //         title={'Pray'} />,
+    //     getStoryButton(() => openPage(Page.ShareChristStories)),
+    //     <NavigateToOnesButton />
+    // ];
 }
 
 const getBackButton = (onClick: () => void) => {

@@ -11,7 +11,6 @@ export type IReachWorldContainer = ViewProps & {
 }
 
 function ReachWorldContainer({ pageState }: IReachWorldContainer) {
-    const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
     return (
         <ReachWorldHomeLayout/>

@@ -17,73 +17,50 @@ export const StoryTitleQuestions = {
     ]
 };
 
+// Each day, users receive a new, easy-to-ask question. These questions are designed
+// to natually lead to deeper conversations, which could segue into faith-sharing moments.
+export const PromptQuestions = [
+    "Who has been a mentor or role model that made a big impact on your life?",
+    "What's one of the best pieces of advice you've ever received?",
+    "If you could spend a day with anyone, living or dead, who would it be?",
+    "What's something that gives you hope when life gets tough?",
+    "What's a challenge you've overcome that taught you something important?",
+    "What's one thing you're thankful for this week?",
+    "What do you think the purpose of life is?",
+    "What's the most meaningful gift you've ever received?",
+    "Who is someone you admire for the way they live their life?",
+    "What's a book, movie, or story that's really inspired you?",
+    "What do you think happens after we die?",
+    "What's something you do to recharge or find peace?",
+    "Who is someone you look up to for their character?",
+    "What's a tradition or habit that's important to you?",
+    "What's a time in your life when you experienced unexpected joy?",
+    "If you could change one thing in the world, what would it be?",
+    "Who is someone who helped you get through a difficult time?",
+    "What do you think makes a person truly happy?",
+    "What are you passionate about?",
+    "What's one thing you'd like to do more of in your life?",
+    "What would you want to be remembered for?",
+    "What do you think makes a person truly successful?",
+    "What's a lesson you've learned from failure?",
+    "If you had unlimited resources, what problem would you solve in the world?",
+    "What's something you've done that you're really proud of?",
+    "What's a habit that's made a positive impact in your life?",
+    "What's a moment in your life that changed everything?",
+    "What do you turn to when you need comfort or strength?",
+    "What's the most important thing you want to achieve in your life?",
+    "What's a book or quote that's really influenced you?",
+    "What's a quality you admire in other people?",
+    "What do you think is the most importat thing in a person's character?",
+    "What's something that's given you a sense of purpose?",
+    "What's something you feel deeply grateful for?",
+    "What's something you've been learning or growing in lately?",
+    "What do you think makes life meaningful?",
+    "If you could give advice to your younger self, what would it be?",
+    "What's something you want to invest more time in?"
+]
 
-// What's been going on in your life?
-export const PromptExamples = {
-    church: [
-        "This weekend, I was at church! The message was about...",
-        "We had a special event at church this week that really resonated with me...",
-        "At church, we started a new series on...",
-        "The community at my church has been really supportive, especially when...",
-        "I had a really deep conversation with someone at church about...",
-        "The worship service at church this week was focused on...",
-        "Our church has been really active in the community lately, especially with...",
-        "I felt really connected during the prayer time at church when we prayed for...",
-        "There's a small group at church that I'm part of, and we're studying..."
-    ],
-    devotionalLife: [
-        "I was in the Bible reading about...",
-        "There's this worship song that I've been loving called...",
-        "I've been praying pretty often about...",
-        "In my devotional time, I came across a verse that really spoke to me...",
-        "I've been journaling my prayers and noticed a pattern of...",
-        "I've been reflecting on a devotional that talked about...",
-        "During my quiet time, I felt led to pray for...",
-        "The scripture I read today really challenged me to...",
-        "I've been memorizing a verse lately, and it's about...",
-        "My prayer journal is full of notes about how God has been answering...",
-        "I’ve been on a journey of personal growth, and my faith has played a huge role...",
-        "Learning more about [a spiritual topic] has really helped me grow in my faith...",
-        "I’ve been reflecting on how my beliefs shape my goals and aspirations...",
-    ],
-    ministries: [
-        "I was serving with my church at...",
-        "Our ministry team recently organized an outreach at...",
-        "I've been volunteering with a group that helps...",
-        "The ministry I'm involved with has been focusing on...",
-        "I'm really excited about an upcoming event our ministry is hosting...",
-        "We've been seeing some amazing things happen in our ministry, like...",
-        "I've been mentoring someone through our ministry, and it's been incredible to see...",
-        "Our ministry is expanding to include new programs like...",
-        "I've been praying for the people we're reaching through our ministry, especially...",
-        "I was involved in a community service project that reminded me of...",
-        "Volunteering has been a big part of my life, especially when I see the impact it has...",
-        "Our community group has been working on...",
-    ],
-    missions: [
-        "I recently went on a missions trip in...",
-        "We're planning another missions trip to...",
-        "My experience on the missions trip taught me so much about...",
-        "Supporting missions work has really opened my eyes to...",
-        "Missions work has really changed my perspective on...",
-        "I've been supporting a missionary who is working in...",
-        "The stories from the mission field are so inspiring, like when...",
-        "I've felt called to get more involved in missions, possibly by...",
-        "The mission trip we're planning has a focus on helping with..."
-    ],
-    general: [
-        "I’ve been praying a lot about my health recently, especially after...",
-        "Maintaining a healthy lifestyle has made me more mindful of...",
-        "Spiritual well-being is as important as physical health to me, and I’ve been focusing on...",
-        "At work, I was reflecting on how my faith influences my decision-making...",
-        "I’ve been thinking about how to integrate my beliefs more into my career...",
-        "My job has been challenging lately, but I’ve been relying on prayer to get through it...",
-        "I was reading about relationships in the Bible, and it really made me think about...",
-        "I’ve been praying for guidance in my relationship with...",
-    ]
-};
-
-export const PromptQuestions = {
+export const PromptQuestions2 = {
     church: [
         "Hey, want to check out my church this Sunday?",
         "Do you have any background in faith?",
@@ -148,10 +125,6 @@ export const PromptQuestions = {
         "What are some places you'd like to travel to someday?",
         "How do you like to spend your time when you're alone?"
     ],
-};
-
-export const BeaconOptions = {
-    
 };
 
 export const ActivityNoteOptions = [
