@@ -39,6 +39,10 @@ function BeaconTemplatesList({ shareChristPageState, selectedTemplateId,
         );
     };
 
+    // TODO: From here, show a card slideshow of all active beacons for this one. They can choose to 'Complete' a beacon
+    // and then from here, they create a beacon log before they can send another beacon giving them the opportunity to
+    // report on the occasion.
+
     return (
         <View style={[listStyles.container, styles.container]}>
             <BeaconsListHeader shareChristPageState={shareChristPageState} selectedTemplateId={selectedTemplateId}/>
