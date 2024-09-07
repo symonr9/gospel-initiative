@@ -7,6 +7,7 @@ import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
 import EventCalendar, { MarkingType } from '../common/EventCalendar';
+import AddToCalendarButton from '../common/AddToCalendarButton';
 
 export type ILoveCityDetails = {
     localMinistries: LocalMinistry[];
@@ -81,6 +82,11 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                             <EventCalendar events={events}
                                 markingType={MarkingType.Period}
                                 initialDate={localMinistry.startDate} />
+                            <AddToCalendarButton startDate={localMinistry.startDate}
+                                endDate={localMinistry.endDate}
+                                title={localMinistry.title}
+                                details={localMinistry.details}
+                                location={localMinistry.location} />
                         </View>
                     )
                 }
@@ -157,6 +163,11 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                             <EventCalendar events={events}
                                 markingType={MarkingType.Period}
                                 initialDate={localEvent.startDate} />
+                            <AddToCalendarButton startDate={localEvent.startDate}
+                                endDate={localEvent.endDate}
+                                title={localEvent.title}
+                                details={localEvent.details}
+                                location={localEvent.location} />
                         </View>
                     )
                 }

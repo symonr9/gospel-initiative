@@ -6,6 +6,7 @@ import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
 import EventCalendar, { MarkingType } from '../common/EventCalendar';
+import AddToCalendarButton from '../common/AddToCalendarButton';
 
 export type IReachWorldDetails = {
     missionsTrips: MissionsTrip[];
@@ -20,7 +21,7 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
 
     const missionsTrip = missionsTrips.find((trip) => trip.id === activeItemId);
     if (missionsTrip) {
-        const events = missionsTrip.startDate && missionsTrip.endDate 
+        const events = missionsTrip.startDate && missionsTrip.endDate
             ? getDatesInRange(missionsTrip.startDate, missionsTrip.endDate) : [];
 
         const Body = (
@@ -32,7 +33,7 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
                     <AppText type={TextType.Default}>
                         {missionsTrip.details}
                     </AppText>
-                </View>     
+                </View>
 
                 {
                     missionsTrip.location && (
@@ -77,8 +78,13 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
                     events.length > 0 && (
                         <View style={styles.section}>
                             <EventCalendar events={events}
-                                           markingType={MarkingType.Period}
-                                           initialDate={missionsTrip.startDate}/>
+                                markingType={MarkingType.Period}
+                                initialDate={missionsTrip.startDate} />
+                            <AddToCalendarButton startDate={missionsTrip.startDate}
+                                endDate={missionsTrip.endDate}
+                                title={missionsTrip.title}
+                                details={missionsTrip.details}
+                                location={missionsTrip.location} />
                         </View>
                     )
                 }
