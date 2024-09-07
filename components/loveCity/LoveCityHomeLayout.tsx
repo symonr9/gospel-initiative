@@ -8,9 +8,10 @@ import LocalEvent from '@/models/localEvent';
 import MissionsTrip from '@/models/missionsTrip';
 import { AnimatedCard } from '../common/AnimatedCard';
 import Animated from 'react-native-reanimated';
-import { LocalMinistryCard } from '../localMinistries/LocalMinistryCard';
-import { LocalEventCard } from '../localMinistries/LocalEventCard';
+import { LocalMinistryCard } from './LocalMinistryCard';
+import { LocalEventCard } from './LocalEventCard';
 import { AppText, TextType } from '../common/AppText';
+import { LoveCityDetails } from './LoveCityDetails';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -19,23 +20,23 @@ export type ILoveCityHomeLayout = ViewProps & {
 
 function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayout) {
     const [activeItemId, setActiveItemId] = useState<string | null>(null);
-    
+
     console.log("localMinistries: ", localMinistries);
     console.log("localEvents: ", localEvents);
 
     const ministriesToRender = localMinistries ? localMinistries.map((ministry) => {
         return (
-            <LocalMinistryCard localMinistry={ministry} 
-                               activeItemId={activeItemId} 
-                               setActiveItemId={setActiveItemId}/>
+            <LocalMinistryCard localMinistry={ministry}
+                activeItemId={activeItemId}
+                setActiveItemId={setActiveItemId} />
         )
     }) : [];
 
     const eventsToRender = localEvents ? localEvents.map((event) => {
         return (
-            <LocalEventCard localEvent={event} 
-                            activeItemId={activeItemId} 
-                            setActiveItemId={setActiveItemId}/>
+            <LocalEventCard localEvent={event}
+                activeItemId={activeItemId}
+                setActiveItemId={setActiveItemId} />
         );
     }) : [];
 
@@ -43,17 +44,30 @@ function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayou
         <View>
             <AnimatedHeader title='Love City' delay={200} />
 
-            <AppText type={TextType.BodyBold}>
-                Local Ministries
-            </AppText>
+            <LoveCityDetails localMinistries={localMinistries} 
+                             localEvents={localEvents} 
+                             activeItemId={activeItemId} 
+                             setActiveItemId={setActiveItemId}/>
+
+            {
+                activeItemId === null && (
+                    <AppText type={TextType.BodyBold}>
+                        Local Ministries
+                    </AppText>
+                )
+            }
             <Animated.View
                 style={[styles.itemsContainer]}>
                 {ministriesToRender.map((item, index) => item)}
             </Animated.View>
 
-            <AppText type={TextType.BodyBold}>
-                Local Events
-            </AppText>
+            {
+                activeItemId === null && (
+                    <AppText type={TextType.BodyBold}>
+                        Local Events
+                    </AppText>
+                )
+            }
             <Animated.View
                 style={[styles.itemsContainer]}>
                 {eventsToRender.map((item, index) => item)}

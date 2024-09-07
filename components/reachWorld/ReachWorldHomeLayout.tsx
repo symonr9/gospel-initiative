@@ -8,7 +8,8 @@ import { ThemedView } from '../common/ThemedView';
 import Animated from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import { AnimatedCard } from '../common/AnimatedCard';
-import { MissionsTripCard } from '../missionsTrips/MissionsTripCard';
+import { MissionsTripCard } from './MissionsTripCard';
+import { ReachWorldDetails } from './ReachWorldDetails';
 
 export type IReachWorldHomeLayout = ViewProps & {
     missionsTrips: MissionsTrip[];
@@ -16,24 +17,32 @@ export type IReachWorldHomeLayout = ViewProps & {
 
 function ReachWorldHomeLayout({ missionsTrips }: IReachWorldHomeLayout) {
     const [activeItemId, setActiveItemId] = useState<string | null>(null);
-    
+
     console.log("missionsTrips: ", missionsTrips);
 
     const itemsToRender = missionsTrips ? missionsTrips.map((missionTrip) => {
         return (
             <MissionsTripCard missionsTrip={missionTrip}
-                              activeItemId={activeItemId}
-                              setActiveItemId={setActiveItemId}/>
+                activeItemId={activeItemId}
+                setActiveItemId={setActiveItemId} />
         );
     }) : [];
 
     return (
         <ThemedView style={[styles.container]}>
-            <AnimatedHeader title='Reach World' delay={200}/>
+            <AnimatedHeader title='Reach World' delay={200} />
 
-            <AppText type={TextType.BodyBold}>
-                Missions Trips
-            </AppText>
+            <ReachWorldDetails missionsTrips={missionsTrips} 
+                               activeItemId={activeItemId} 
+                               setActiveItemId={setActiveItemId}/>
+
+            {
+                activeItemId === null && (
+                    <AppText type={TextType.BodyBold}>
+                        Missions Trips
+                    </AppText>
+                )
+            }
             <Animated.View
                 style={[styles.itemsContainer]}>
                 {itemsToRender.map((item, index) => item)}

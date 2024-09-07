@@ -8,15 +8,17 @@ export type ISimpleIcon = {
     iconSrc: string | null;
     title?: string;
     large?: boolean;
+    removeBackground?: boolean;
 }
 
-export function SimpleIcon({ iconSrc = null, title = '', large }: ISimpleIcon) {
+export function SimpleIcon({ iconSrc = null, title = '', large, removeBackground = false }: ISimpleIcon) {
     const stylesToUse = large ? largeStyles : styles;
 
     return (
         <View style={stylesToUse.container}>
             <View style={stylesToUse.content}>
-                <View style={stylesToUse.iconContainer}>
+                <View style={[stylesToUse.iconContainer,
+                removeBackground && styles.iconContainerMinimal]}>
                     {iconSrc && (
                         <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
                     )}
@@ -51,6 +53,11 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 4,
     },
+    iconContainerMinimal: {
+        backgroundColor: 'transparent',
+        shadowColor: 'transparent',
+        shadowOpacity: 0,
+      },
     icon: {
         width: 42,
         height: 42,

@@ -5,6 +5,7 @@
         "details": "This mission trip focuses on providing pastoral care and spiritual mentorship to rural communities in Uganda. The team will engage in evangelism, Bible teaching, and leadership training for local church leaders. Participants will also distribute essential supplies like food and medical kits.",
         "startDate": "2024-12-03T10:03:00Z",
         "endDate": "2024-12-12T10:03:00Z",
+        "location": "Uganda",
         "icon": "Sheep"
     },
     {
@@ -13,6 +14,7 @@
         "details": "This mission trip to India is dedicated to serving underprivileged communities in the northern regions, focusing on children's education and health. The team will help set up mobile clinics, organize community events, and partner with local Christian ministries to share the Gospel in Hindu-majority areas.",
         "startDate": "2024-12-03T10:03:00Z",
         "endDate": "2024-12-12T10:03:00Z",
+        "location": "Northern Regions of India",
         "icon": "Hindu"
     },
     {
@@ -21,6 +23,7 @@
         "details": "On this mission trip to Mexico, participants will focus on building homes and improving infrastructure in impoverished areas. The team will also work with local ministries to run children's programs and share the Gospel, while creating long-lasting connections with the local church.",
         "startDate": "2024-12-03T10:03:00Z",
         "endDate": "2024-12-12T10:03:00Z",
+        "location": "Mexico",
         "icon": "Car"
     }
 ]

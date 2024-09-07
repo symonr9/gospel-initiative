@@ -3,35 +3,36 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
-import LocalMinistry from '@/models/localMinistry';
+import LocalEvent from '@/models/localEvent';
+import { AppIcon } from '@/enums/enums';
 
-export type ILocalMinistryCard = {
-  localMinistry: LocalMinistry;
-  activeItemId: string | null;
-  setActiveItemId: Function;
+export type IListCard = {
+  title: string;
+  icon: AppIcon;
+  hide?: boolean;
+  onClick: Function;
 };
 
-export function LocalMinistryCard({ localMinistry, activeItemId, setActiveItemId }: ILocalMinistryCard) {
-  if (activeItemId !== null && localMinistry.id !== activeItemId) {
+export function ListCard({ title, icon, hide, onClick }: IListCard) {
+  if (hide) {
     return <></>;
   }
 
   const onPress = () => {
-    setActiveItemId(localMinistry.id);
+    if (onClick) {
+        onClick();
+    }
   };
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.iconContainer}>
-        <Image source={localMinistry.icon} style={styles.icon} contentFit="contain" />
+        <Image source={icon} style={styles.icon} contentFit="contain" />
       </Animated.View>
       <View style={styles.textContainer}>
         <Animated.Text entering={FadeInUp.duration(400).delay(600)} style={styles.titleText}>
           <AppText type={TextType.BodyBold} style={styles.title}>
-            {localMinistry.title}
-          </AppText>
-          <AppText type={TextType.Body} style={styles.details}>
-            {localMinistry.details}
+            {title}
           </AppText>
         </Animated.Text>
       </View>
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 18,
+    fontSize: 24,
     color: '#333', // Dark gray for modern, professional typography
     marginBottom: 4,
   },

@@ -7,15 +7,17 @@ export type IPageRow = ViewProps & {
     spaceBetween?: boolean;
     flexStart?: boolean;
     fillSpace?: boolean;
+    center?: boolean;
 };
 
-export function PageRow({ spaceBetween, flexStart, fillSpace, style, children }: IPageRow) {
+export function PageRow({ spaceBetween, flexStart, fillSpace, center, style, children }: IPageRow) {
     return (
         <View style={[
             styles.rowContainer,
             spaceBetween && styles.spaceBetween,
             flexStart && styles.flexStart,
             fillSpace && styles.fillSpace,
+            center && styles.center,
             style
         ]}>
             {children}
@@ -36,6 +38,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignSelf: 'flex-start',
         gap: 8,
+    },
+    center: {
+        display: 'flex',
+        justifyContent: 'center'
     },
     fillSpace: {
         
