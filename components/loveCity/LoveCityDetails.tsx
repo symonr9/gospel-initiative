@@ -1,13 +1,12 @@
 import React from 'react';
 import LocalEvent from '@/models/localEvent';
-import { ListCard } from '../common/ListCard';
 import LocalMinistry from '@/models/localMinistry';
 import { View, StyleSheet } from 'react-native';
 import { ListDetails } from '../common/ListDetails';
-import missionsTrip from '@/models/missionsTrip';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { formatDateTime } from '@/utils/appUtils';
+import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
+import EventCalendar, { MarkingType } from '../common/EventCalendar';
 
 export type ILoveCityDetails = {
     localMinistries: LocalMinistry[];
@@ -23,6 +22,9 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
 
     const localMinistry = localMinistries.find((ministry) => ministry.id === activeItemId);
     if (localMinistry) {
+        const events = localMinistry.startDate && localMinistry.endDate
+            ? getDatesInRange(localMinistry.startDate, localMinistry.endDate) : [];
+
         const Body = (
             <PageColumn>
                 <View style={styles.section}>
@@ -72,6 +74,17 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                         </View>
                     )
                 }
+
+                {
+                    events.length > 0 && (
+                        <View style={styles.section}>
+                            <EventCalendar events={events}
+                                markingType={MarkingType.Period}
+                                initialDate={localMinistry.startDate} />
+                        </View>
+                    )
+                }
+
             </PageColumn>
         );
 
@@ -85,6 +98,9 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
 
     const localEvent = localEvents.find((event) => event.id === activeItemId);
     if (localEvent) {
+        const events = localEvent.startDate && localEvent.endDate
+            ? getDatesInRange(localEvent.startDate, localEvent.endDate) : [];
+
         const Body = (
             <PageColumn>
                 <View style={styles.section}>
@@ -131,6 +147,16 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                             <AppText type={TextType.Default}>
                                 {formatDateTime(localEvent.endDate)}
                             </AppText>
+                        </View>
+                    )
+                }
+
+                {
+                    events.length > 0 && (
+                        <View style={styles.section}>
+                            <EventCalendar events={events}
+                                markingType={MarkingType.Period}
+                                initialDate={localEvent.startDate} />
                         </View>
                     )
                 }

@@ -4,7 +4,8 @@ import MissionsTrip from '@/models/missionsTrip';
 import { ListDetails } from '../common/ListDetails';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { formatDateTime } from '@/utils/appUtils';
+import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
+import EventCalendar, { MarkingType } from '../common/EventCalendar';
 
 export type IReachWorldDetails = {
     missionsTrips: MissionsTrip[];
@@ -19,6 +20,9 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
 
     const missionsTrip = missionsTrips.find((trip) => trip.id === activeItemId);
     if (missionsTrip) {
+        const events = missionsTrip.startDate && missionsTrip.endDate 
+            ? getDatesInRange(missionsTrip.startDate, missionsTrip.endDate) : [];
+
         const Body = (
             <PageColumn>
                 <View style={styles.section}>
@@ -28,7 +32,7 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
                     <AppText type={TextType.Default}>
                         {missionsTrip.details}
                     </AppText>
-                </View>
+                </View>     
 
                 {
                     missionsTrip.location && (
@@ -45,7 +49,6 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
 
                 {
                     missionsTrip.startDate && (
-
                         <View style={styles.section}>
                             <AppText type={TextType.DefaultSemiBold}>
                                 Start Date
@@ -66,6 +69,16 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
                             <AppText type={TextType.Default}>
                                 {formatDateTime(missionsTrip.endDate)}
                             </AppText>
+                        </View>
+                    )
+                }
+
+                {
+                    events.length > 0 && (
+                        <View style={styles.section}>
+                            <EventCalendar events={events}
+                                           markingType={MarkingType.Period}
+                                           initialDate={missionsTrip.startDate}/>
                         </View>
                     )
                 }
