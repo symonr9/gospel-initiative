@@ -1,1 +1,157 @@
-[]
+[
+    {
+      "id": "1",
+      "note": "Checked the beacon's status",
+      "date": "2023-08-01T14:25:00Z",
+      "userId": "user_101",
+      "beaconId": "beacon_001"
+    },
+    {
+      "id": "2",
+      "note": "Routine maintenance completed",
+      "date": "2023-08-01T16:00:00Z",
+      "userId": "user_102",
+      "beaconId": "beacon_002"
+    },
+    {
+      "id": "3",
+      "note": "Battery replaced",
+      "date": "2023-08-01T18:15:00Z",
+      "userId": "user_103",
+      "beaconId": "beacon_001"
+    },
+    {
+      "id": "4",
+      "note": "Signal strength tested",
+      "date": "2023-08-01T19:30:00Z",
+      "userId": "user_102",
+      "beaconId": "beacon_002"
+    },
+    {
+      "id": "5",
+      "note": "Software updated",
+      "date": "2023-08-01T20:45:00Z",
+      "userId": "user_101",
+      "beaconId": "beacon_003"
+    },
+    {
+      "id": "6",
+      "note": "Beacon moved to a new location",
+      "date": "2023-08-03T10:30:00Z",
+      "userId": "user_104",
+      "beaconId": "beacon_004"
+    },
+    {
+      "id": "7",
+      "note": "Routine maintenance completed",
+      "date": "2023-08-03T12:00:00Z",
+      "userId": "user_103",
+      "beaconId": "beacon_005"
+    },
+    {
+      "id": "8",
+      "note": "Beacon reactivated after downtime",
+      "date": "2023-08-05T12:00:00Z",
+      "userId": "user_105",
+      "beaconId": "beacon_001"
+    },
+    {
+      "id": "9",
+      "note": "Temperature sensors calibrated",
+      "date": "2023-08-05T14:30:00Z",
+      "userId": "user_101",
+      "beaconId": "beacon_003"
+    },
+    {
+      "id": "10",
+      "note": "Hardware issue resolved",
+      "date": "2023-08-05T16:45:00Z",
+      "userId": "user_102",
+      "beaconId": "beacon_002"
+    },
+    {
+      "id": "11",
+      "note": "Signal interference detected",
+      "date": "2023-08-07T15:55:00Z",
+      "userId": "user_104",
+      "beaconId": "beacon_004"
+    },
+    {
+      "id": "12",
+      "note": "Battery status checked",
+      "date": "2023-08-07T07:20:00Z",
+      "userId": "user_105",
+      "beaconId": "beacon_001"
+    },
+    {
+      "id": "13",
+      "note": "Routine check-up",
+      "date": "2023-08-07T10:00:00Z",
+      "userId": "user_101",
+      "beaconId": "beacon_003"
+    },
+    {
+      "id": "14",
+      "note": "Signal strength tested",
+      "date": "2023-08-09T09:30:00Z",
+      "userId": "user_103",
+      "beaconId": "beacon_005"
+    },
+    {
+      "id": "15",
+      "note": "Routine maintenance performed",
+      "date": "2023-08-09T11:30:00Z",
+      "userId": "user_104",
+      "beaconId": "beacon_002"
+    },
+    {
+      "id": "16",
+      "note": "Battery replaced",
+      "date": "2023-08-09T13:00:00Z",
+      "userId": "user_101",
+      "beaconId": "beacon_001"
+    },
+    {
+      "id": "17",
+      "note": "Temperature sensor recalibrated",
+      "date": "2023-08-10T08:45:00Z",
+      "userId": "user_105",
+      "beaconId": "beacon_003"
+    },
+    {
+      "id": "18",
+      "note": "Reconnected beacon to network",
+      "date": "2023-08-10T10:20:00Z",
+      "userId": "user_103",
+      "beaconId": "beacon_004"
+    },
+    {
+      "id": "19",
+      "note": "Signal interference checked",
+      "date": "2023-08-12T09:10:00Z",
+      "userId": "user_102",
+      "beaconId": "beacon_001"
+    },
+    {
+      "id": "20",
+      "note": "Beacon maintenance",
+      "date": "2023-08-12T11:30:00Z",
+      "userId": "user_101",
+      "beaconId": "beacon_003"
+    },
+    {
+      "id": "21",
+      "note": "Checked signal strength",
+      "date": "2023-08-12T14:00:00Z",
+      "userId": "user_104",
+      "beaconId": "beacon_002"
+    },
+    {
+      "id": "22",
+      "note": "Routine check-up",
+      "date": "2023-08-14T16:00:00Z",
+      "userId": "user_103",
+      "beaconId": "beacon_005"
+    }
+  ]
+  

@@ -1,1 +1,111 @@
-[]
+[
+    {
+      "id": "1",
+      "note": "User started reading the story.",
+      "date": "2024-08-01T10:30:00Z",
+      "userId": "user1",
+      "storyId": "storyA",
+      "openedChapters": 1,
+      "totalChapters": 10
+    },
+    {
+      "id": "2",
+      "note": "User continued reading.",
+      "date": "2024-08-02T14:20:00Z",
+      "userId": "user1",
+      "storyId": "storyA",
+      "openedChapters": 2,
+      "totalChapters": 10
+    },
+    {
+      "id": "3",
+      "note": "User completed chapter 3.",
+      "date": "2024-08-03T11:15:00Z",
+      "userId": "user2",
+      "storyId": "storyB",
+      "openedChapters": 3,
+      "totalChapters": 12
+    },
+    {
+      "id": "4",
+      "note": "User reviewed previous chapters.",
+      "date": "2024-08-03T09:45:00Z",
+      "userId": "user3",
+      "storyId": "storyC",
+      "openedChapters": 1,
+      "totalChapters": 8
+    },
+    {
+      "id": "5",
+      "note": "User reached halfway point.",
+      "date": "2024-08-05T17:50:00Z",
+      "userId": "user1",
+      "storyId": "storyA",
+      "openedChapters": 5,
+      "totalChapters": 10
+    },
+    {
+      "id": "6",
+      "note": "User finished the story.",
+      "date": "2024-08-06T13:00:00Z",
+      "userId": "user2",
+      "storyId": "storyB",
+      "openedChapters": 12,
+      "totalChapters": 12
+    },
+    {
+      "id": "7",
+      "note": "User read new chapters.",
+      "date": "2024-08-07T16:10:00Z",
+      "userId": "user3",
+      "storyId": "storyC",
+      "openedChapters": 4,
+      "totalChapters": 8
+    },
+    {
+      "id": "8",
+      "note": "User finished all chapters.",
+      "date": "2024-08-10T08:30:00Z",
+      "userId": "user3",
+      "storyId": "storyC",
+      "openedChapters": 8,
+      "totalChapters": 8
+    },
+    {
+      "id": "9",
+      "note": "User read another chapter.",
+      "date": "2024-08-10T12:45:00Z",
+      "userId": "user1",
+      "storyId": "storyA",
+      "openedChapters": 6,
+      "totalChapters": 10
+    },
+    {
+      "id": "10",
+      "note": "User is close to finishing the story.",
+      "date": "2024-08-10T15:20:00Z",
+      "userId": "user1",
+      "storyId": "storyA",
+      "openedChapters": 9,
+      "totalChapters": 10
+    },
+    {
+      "id": "11",
+      "note": "User finished the story.",
+      "date": "2024-08-11T18:05:00Z",
+      "userId": "user1",
+      "storyId": "storyA",
+      "openedChapters": 10,
+      "totalChapters": 10
+    },
+    {
+      "id": "12",
+      "note": "User read first chapter.",
+      "date": "2024-08-12T09:00:00Z",
+      "userId": "user4",
+      "storyId": "storyD",
+      "openedChapters": 1,
+      "totalChapters": 6
+    }
+  ]
+  

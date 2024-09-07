@@ -15,6 +15,8 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { openPage } from '@/redux/actions';
 import NavigateToOnesButton from '../ones/NavigateToOnesButton';
+import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
+import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
 
 export type IShareChristHomeLayout = ViewProps & {
   completedBeacons: EnhancedBeacon[];
@@ -49,6 +51,7 @@ function ShareChristHomeLayout({ completedBeacons, incomingBeacons, openPage }: 
             onClick={() => openPage(Page.ShareChristBeacons)}
             title={'Open'} />
         </PageRow>
+        <BeaconActivityBezierLineChart/>
       </PageColumn>
 
 
@@ -68,6 +71,8 @@ function ShareChristHomeLayout({ completedBeacons, incomingBeacons, openPage }: 
             onClick={() => openPage(Page.ShareChristStories)}
             title={'Open'} />
         </PageRow>
+
+        <StoryActivityHeatMapChart/>
       </PageColumn>
     </View>
   );
