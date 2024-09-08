@@ -18,7 +18,7 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Beacon, { BeaconWithActivities } from '@/models/beacon';
 import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
-import { addBeacon, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
+import { addBeacon, setOneForm, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
@@ -97,14 +97,13 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <ShareChristAddEditOneForm />
+            <ShareChristAddEditOneForm initialOneForm={OneForm.createDefault()}/>
         );
     } else if (!selectedOne) { // All layouts below require a selected one...
         return <></>;
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         const onSave = () => {
             console.log("ONE FORM: ", oneForm);
-
         };
 
         HeaderLayout.push(
@@ -121,7 +120,8 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <ShareChristAddEditOneForm />
+            <ShareChristAddEditOneForm editing 
+                                       initialOneForm={OneForm.createFromOne(selectedOne)}/>
         );
     } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
         HeaderLayout.push(

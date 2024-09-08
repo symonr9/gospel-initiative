@@ -10,18 +10,20 @@ import { setOneForm } from '@/redux/actions';
 import { formStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
+import { AvatarIcon } from '@/enums/enums';
+import { AnimatedHeader } from '../common/AnimatedHeader';
+import AvatarIconPicker from '../common/AvatarIconPicker';
 
 export type IShareChristAddEditOneForm = ViewProps & {
     selectedOne: One;
-    oneForm: OneForm;
+    initialOneForm: OneForm;
+    editing?: boolean;
 
     setOneForm: Function;
 };
 
-function ShareChristAddEditOneForm({ selectedOne, oneForm, setOneForm }: IShareChristAddEditOneForm) {    
-    const editing = selectedOne !== null;
-
-    const [formData, setFormData] = useState(new OneForm(""));
+function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneForm }: IShareChristAddEditOneForm) {    
+    const [formData, setFormData] = useState(initialOneForm);
 
     useEffect(() => {
         setOneForm(formData);
@@ -34,10 +36,24 @@ function ShareChristAddEditOneForm({ selectedOne, oneForm, setOneForm }: IShareC
         }));
     };
 
-    const { name } = formData;
+    const setIcon = (icon: AvatarIcon) => {
+        setFormData((prev) => ({
+            ...prev,
+            icon
+        }));
+    };
+
+    const { name, icon } = formData;
+    const title = editing ? 'Editing One' : 'Adding One';
 
     return (
         <View style={[styles.container]}>
+            <AnimatedHeader title={title}/>
+
+            <PageColumn style={styles.section}>
+                <AvatarIconPicker selectedIcon={icon} setSelectedIcon={setIcon}/>
+            </PageColumn>
+
             <PageColumn style={styles.section}>
                 <AppText type={TextType.Default}>Name of your One</AppText>
                 <TextInput
@@ -69,7 +85,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
-    oneForm: state.ones.oneForm
 });
 
 
