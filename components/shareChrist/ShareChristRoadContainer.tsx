@@ -83,12 +83,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        padding: 8,
+        padding: 16,
+        backgroundColor: '#fff',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 12,
     },
     header: {
         display: 'flex',

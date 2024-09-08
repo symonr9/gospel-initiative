@@ -124,7 +124,6 @@ const completedStyle = {
 
 const incomingStyle = {
     container: {
-        backgroundColor: 'lightgray'
     },
     header: {
 

@@ -44,17 +44,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8F9FA', // Lighter neutral color for a sleek look
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    marginHorizontal: 8,
-    borderRadius: 12,
+    display: 'flex',
+    padding: 16,
+    backgroundColor: '#fff',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 6,
-    display: 'flex'
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
+    borderRadius: 8,
   },
   iconContainer: {
     width: 60,

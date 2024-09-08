@@ -24,54 +24,8 @@ function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayou
     console.log("localMinistries: ", localMinistries);
     console.log("localEvents: ", localEvents);
 
-    const ministriesToRender = localMinistries ? localMinistries.map((ministry) => {
-        return (
-            <LocalMinistryCard localMinistry={ministry}
-                activeItemId={activeItemId}
-                setActiveItemId={setActiveItemId} />
-        )
-    }) : [];
-
-    const eventsToRender = localEvents ? localEvents.map((event) => {
-        return (
-            <LocalEventCard localEvent={event}
-                activeItemId={activeItemId}
-                setActiveItemId={setActiveItemId} />
-        );
-    }) : [];
-
     return (
         <View>
-            <AnimatedHeader title='Love City' delay={200} />
-
-            <LoveCityDetails localMinistries={localMinistries} 
-                             localEvents={localEvents} 
-                             activeItemId={activeItemId} 
-                             setActiveItemId={setActiveItemId}/>
-
-            {
-                activeItemId === null && (
-                    <AppText type={TextType.BodyBold}>
-                        Local Ministries
-                    </AppText>
-                )
-            }
-            <Animated.View
-                style={[styles.itemsContainer]}>
-                {ministriesToRender.map((item, index) => item)}
-            </Animated.View>
-
-            {
-                activeItemId === null && (
-                    <AppText type={TextType.BodyBold}>
-                        Local Events
-                    </AppText>
-                )
-            }
-            <Animated.View
-                style={[styles.itemsContainer]}>
-                {eventsToRender.map((item, index) => item)}
-            </Animated.View>
         </View>
     );
 }

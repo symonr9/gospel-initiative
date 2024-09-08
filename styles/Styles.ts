@@ -19,6 +19,13 @@ export const listStyles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'whitesmoke',
     overflow: 'scroll',
+  },
+  itemsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 16,
+    overflow: 'scroll',
+    marginBottom: 16
   }
 });
 

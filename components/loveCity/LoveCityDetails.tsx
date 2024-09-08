@@ -10,8 +10,8 @@ import EventCalendar, { MarkingType } from '../common/EventCalendar';
 import AddToCalendarButton from '../common/AddToCalendarButton';
 
 export type ILoveCityDetails = {
-    localMinistries: LocalMinistry[];
-    localEvents: LocalEvent[];
+    localMinistries?: LocalMinistry[];
+    localEvents?: LocalEvent[];
     activeItemId: string | null;
     setActiveItemId: Function;
 };
@@ -21,7 +21,7 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
         return <></>;
     }
 
-    const localMinistry = localMinistries.find((ministry) => ministry.id === activeItemId);
+    const localMinistry = localMinistries ? localMinistries.find((ministry) => ministry.id === activeItemId) : null;
     if (localMinistry) {
         const events = localMinistry.startDate && localMinistry.endDate
             ? getDatesInRange(localMinistry.startDate, localMinistry.endDate) : [];
@@ -102,7 +102,7 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
         );
     }
 
-    const localEvent = localEvents.find((event) => event.id === activeItemId);
+    const localEvent = localEvents ? localEvents.find((event) => event.id === activeItemId) : null;
     if (localEvent) {
         const events = localEvent.startDate && localEvent.endDate
             ? getDatesInRange(localEvent.startDate, localEvent.endDate) : [];

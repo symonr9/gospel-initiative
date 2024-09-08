@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Animated, Modal, type ViewProps, TouchableOpacity, Picker, Button, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
+import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
@@ -34,11 +35,32 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, addBeaconActivity, addNoteToActivity,
     beaconActivities }: IShareChristBeaconDetails) {
 
+    const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
+    const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
+    const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
+
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedNoteIdx, setSelectedNoteIdx] = useState(0);
     const [customNote, setCustomNote] = useState('');
 
-    const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
+    const progress = useSharedValue(0);
+    const animatedStyle = useAnimatedStyle(() => {
+        const backgroundColor = interpolateColor(
+            progress.value,
+            [0, 1],
+            ['#FFF', 'lightgreen']
+        );
+
+        const opacity = hasUserAlreadyPrayed
+            ? withTiming(1, { duration: 250 })
+            : withTiming(0.5, { duration: 250 });
+
+        return {
+            backgroundColor,
+            opacity,
+        };
+    });
+
     if (!beacon || (incomingCursorIdx === -1 && completedCursorIdx === -1)) {
         const hasCompleted = completedBeacons.find((beacon) => beacon.userId === executor.id) !== undefined
             && incomingBeacons.find((beacon) => beacon.userId === executor.id) === undefined;
@@ -64,9 +86,6 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         console.error("Missing props for beacon...");
         return <></>;
     }
-
-    const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon.id);
-    const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
 
     const titleText = getTitleText(beacon);
     if (!titleText) {
@@ -156,6 +175,8 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         if (hasUserAlreadyPrayed) {
             return;
         }
+        
+        progress.value = withTiming(1, { duration: 250 });
 
         addBeaconActivity(
             BeaconActivity.createBeaconActivity(
@@ -167,7 +188,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, animatedStyle]}>
             <Modal
                 transparent={true}
                 visible={isModalVisible}
@@ -207,7 +228,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 </View>
             </Modal>
 
-            <View style={styles.header}>
+            <View style={[styles.header]}>
                 <View style={styles.timeAgo}>
                     <AppText type={TextType.Italic}>
                         {getAppTimeAgoText(activeUntil)}
@@ -238,7 +259,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 ))
             } delay={800} style={styles.detailsContainer} />
 
-            <View style={styles.buttonRow}>
+            <View style={[styles.buttonRow]}>
                 <Animated.View style={[styles.lighthouseContainer]}>
                     <Image source={AppIcon.LightHouse} style={styles.lightHouse} />
                 </Animated.View>
@@ -346,7 +367,7 @@ const styles = StyleSheet.create({
     lighthouseContainer: {
         position: 'absolute',
         bottom: 30,
-        right: 320,
+        right: 380,
         height: 80,
         width: 80,
     },
@@ -357,7 +378,7 @@ const styles = StyleSheet.create({
     },
     notesSection: {
         width: '100%',
-        maxHeight: 120,
+        maxHeight: 140,
         backgroundColor: 'whitesmoke',
         padding: 8,
         borderRadius: 4,
@@ -377,7 +398,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: 300,
+        width: 450,
         padding: 24,
         backgroundColor: '#fff',
         borderRadius: 10,
@@ -418,7 +439,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'whitesmoke',
     },
     myNoteForBeacon: {
-        maxWidth: 140
+        maxWidth: 180
     },
 });
 
