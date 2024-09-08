@@ -7,7 +7,7 @@ import { AppText, TextType } from '../common/AppText';
 import One from '@/models/one';
 import OneFactsList from '../ones/OneFactsList';
 import ActionStepsList from '../ones/ActionStepsList';
-import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, Page, Priority, ShareChristPageState } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { PageContainer } from '../common/PageContainer';
@@ -16,28 +16,39 @@ import { selectActiveBeaconsWithActivities } from '@/redux/selectors/beaconSelec
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { BeaconWithActivities } from '@/models/beacon';
+import Beacon, { BeaconWithActivities } from '@/models/beacon';
 import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
-import { setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
+import { addBeacon, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
+import User from '@/models/user';
+import BeaconForm from '@/models/beaconForm';
+import BeaconTemplate from '@/models/beaconTemplate';
+import { generateRandomId, getTomorrow } from '@/utils/appUtils';
 
 export type IShareChristOnesLayout = ViewProps & {
     selectedOne: One,
     ones: One[],
-    activeBeaconsWithActivities: BeaconWithActivities[],
+    executor: User,
+    beaconTemplates: BeaconTemplate[],
     setSelectedTemplateId: Function,
+    addBeacon: Function
 };
 
 export enum OneLayoutType {
     Normal,
     AllBeaconTemplates,
     ConfirmBeacon,
-    SavingBeaconForm,
     SentBeaconResponse,
 }
 
-function ShareChristOnesLayout({ selectedOne, ones, activeBeaconsWithActivities, setSelectedTemplateId }: IShareChristOnesLayout) {
+function ShareChristOnesLayout({ selectedOne, ones, 
+    executor, setSelectedTemplateId, beaconTemplates, addBeacon }: IShareChristOnesLayout) {
+        
+    const activeBeaconsWithActivities = selectedOne ? useSelector(selectActiveBeaconsWithActivities(selectedOne.id)) : [];
+    const selectedTemplateId = useSelector((state: any) => state.beacons.selectedTemplateId);
+    const beaconForm = useSelector((state: any) => state.beacons.beaconForm);
+
     const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Normal);
 
     const HeaderLayout: any[] = [];
@@ -61,6 +72,42 @@ function ShareChristOnesLayout({ selectedOne, ones, activeBeaconsWithActivities,
                                  setActiveLayoutType={setActiveLayoutType}/>
         );
     } else if (activeLayoutType === OneLayoutType.ConfirmBeacon) {
+        const onConfirm = () => {
+            const shouldAddBeacon = selectedTemplateId != null 
+            && executor != null && selectedOne != null;
+            if (!shouldAddBeacon) {
+                console.error('Failed to add beacon, invalid state');
+                return;
+            }
+
+            const selectedTemplate = beaconTemplates.find((template) => template.id === selectedTemplateId);
+            if (!selectedTemplate) {
+                console.error("Failed to find matching template: ", selectedTemplateId);
+                return;
+            } else if (!beaconForm) {
+                console.error("Failed to find beacon form...");
+                return;
+            }
+
+            addBeacon(
+                new Beacon(
+                    generateRandomId(),
+                    selectedTemplate.name,
+                    beaconForm.notes || null,
+                    selectedOne.id,
+                    Priority.Normal,
+                    executor.id,
+                    selectedTemplate.type,
+                    getTomorrow(),
+                    beaconForm.shareOneName,
+                    beaconForm.shareOwnName
+                )
+            );
+
+            setSelectedTemplateId(null);
+            setActiveLayoutType(OneLayoutType.SentBeaconResponse);
+        };
+
         HeaderLayout.push(
             <PageRow spaceBetween>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
@@ -70,7 +117,7 @@ function ShareChristOnesLayout({ selectedOne, ones, activeBeaconsWithActivities,
                     }}
                     title={'Back'} />
                 <SimpleIconButton iconSrc={AppIcon.Checkmark}
-                    onClick={() => setActiveLayoutType(OneLayoutType.SentBeaconResponse)}
+                    onClick={onConfirm}
                     title={'Confirm'} />
             </PageRow>
         );
@@ -78,13 +125,6 @@ function ShareChristOnesLayout({ selectedOne, ones, activeBeaconsWithActivities,
         BodyLayout.push(
             <BeaconTemplatesList activeLayoutType={activeLayoutType}
                                  setActiveLayoutType={setActiveLayoutType}/>
-        );
-    } else if (activeLayoutType === OneLayoutType.SavingBeaconForm) {
-        BodyLayout.push(
-            <View>
-                <PageResponse title={'Saving Beacon'}
-                    details={'Please wait...'} />
-            </View>
         );
     } else if (activeLayoutType === OneLayoutType.SentBeaconResponse) {
         HeaderLayout.push(
@@ -154,18 +194,19 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     const selectedOne = state.ones.selectedOne;
-    const activeBeaconsWithActivities = selectedOne ? useSelector(selectActiveBeaconsWithActivities(selectedOne.id)) : [];
     return {
         selectedOne,
         shareChristPageState: state.app.shareChristPageState,
         ones: state.ones.ones,
-        activeBeaconsWithActivities: activeBeaconsWithActivities,
+        executor: state.users.executor,
+        beaconTemplates: state.beacons.beaconTemplates,
     };
 };
 
 const mapDispatchToProps = {
     setSelectedTemplateId,
-    setShareChristPageState
+    setShareChristPageState,
+    addBeacon
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareChristOnesLayout);

@@ -27,40 +27,8 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
     setSelectedTemplateId, setSelectedOne, addBeacon, beaconForm }: IAppStateManager) {
 
     useEffect(() => {
-        const shouldAddBeacon = selectedTemplateId != null 
-            && executor != null
-            && selectedOne != null                   
-            && shareChristPageState == ShareChristPageState.SentBeaconResponse;
 
-        if (shouldAddBeacon) {
-            const selectedTemplate = beaconTemplates.find((template) => template.id === selectedTemplateId);
-            if (!selectedTemplate) {
-                console.error("Failed to find matching template: ", selectedTemplateId);
-                return;
-            } else if (!beaconForm) {
-                console.error("Failed to find beacon form...");
-                return;
-            }
-
-            addBeacon(
-                new Beacon(
-                    generateRandomId(),
-                    selectedTemplate.name,
-                    beaconForm.notes || null,
-                    selectedOne.id,
-                    Priority.Normal,
-                    executor.id,
-                    null,
-                    selectedTemplate.type,
-                    getTomorrow(),
-                    beaconForm.shareOneName,
-                    beaconForm.shareOwnName
-                )
-            );
-
-            setSelectedTemplateId(null);
-        }
-    }, [shareChristPageState]);
+    }, []);
 
     return <></>;
 }

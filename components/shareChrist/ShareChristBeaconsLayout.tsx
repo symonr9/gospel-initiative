@@ -1,25 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { AppIcon, FadeDirection, Page, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, FadeDirection } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { ShareChristRoadContainer } from './ShareChristRoadContainer';
-import SimpleIconButton from '../common/SimpleIconButton';
-import { EnhancedBeacon } from '@/models/beacon';
+import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import ShareChristBeaconDetails from './ShareChristBeaconDetails';
 import { AnimatedCard } from '../common/AnimatedCard';
-import { AppText, TextType } from '../common/AppText';
 import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
-import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { layoutStyles } from '@/styles/Styles';
 
 export type IShareChristBeaconsLayout = ViewProps & {
-    completedBeacons: EnhancedBeacon[];
-    incomingBeacons: EnhancedBeacon[];
-    shareChristPageState: ShareChristPageState;
+    // completedBeacons: EnhancedBeacon[];
+    // incomingBeacons: EnhancedBeacon[];
 };
 
 export enum RoadContainerType {
@@ -27,16 +23,18 @@ export enum RoadContainerType {
     Incoming = 2
 };
 
-function ShareChristBeaconsLayout({ completedBeacons, incomingBeacons, shareChristPageState }: IShareChristBeaconsLayout) {
+function ShareChristBeaconsLayout({  }: IShareChristBeaconsLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
-    const incomingCursorIdx = incomingBeacons.findIndex((beacon) => beacon.id === activeBeaconId);
-    const completedCursorIdx = completedBeacons.findIndex((beacon) => beacon.id === activeBeaconId);
+    const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
+
+    const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
+    const completedCursorIdx = completedBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
     const completedCount = completedBeacons.length;
     const incomingCount = incomingBeacons.length;
 
-    const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon, idx) => (
+    const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <ShareChristBeaconCard beacon={beacon}
             one={beacon.one}
             user={beacon.user}
@@ -137,11 +135,10 @@ const incomingStyle = {
 };
 
 const mapStateToProps = (state: any) => {
-    const { completedBeacons, incomingBeacons } = selectPartitionedActiveEnhancedBeacons(state);
+    const { completedBeacons = [], incomingBeacons = [] } = selectPartitionedActiveEnhancedBeacons(state);
     return {
         completedBeacons,
         incomingBeacons,
-        shareChristPageState: state.app.shareChristPageState
     };
 }
 
