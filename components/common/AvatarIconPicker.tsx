@@ -2,6 +2,7 @@ import { AvatarIcon } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
+import { AppText, TextType } from './AppText';
 
 const iconsArray = Object.values(AvatarIcon);
 
@@ -27,12 +28,12 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon }: IAvatarIconPicker) 
         <View style={styles.container}>
             <View style={styles.selectedContainer}>
                 {selectedIcon ? (
-                    <>
-                        <Text style={styles.selectedText}>Selected Icon:</Text>
+                    <>                        
+                        <AppText type={TextType.DefaultSemiBold}>Selected Icon:</AppText>
                         <Image source={selectedIcon} style={styles.selectedIcon} />
                     </>
                 ) : (
-                    <Text style={styles.selectedText}>No icon selected</Text>
+                    <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                 )}
             </View>
             <FlatList

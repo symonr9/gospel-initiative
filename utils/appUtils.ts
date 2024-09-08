@@ -133,6 +133,8 @@ export function mapStageToText(stage: OneStage) {
             return "Seeking";
         case OneStage.Curious:
             return "Curious";
+        case OneStage.Friendly:
+            return "Friendly";
         case OneStage.Apathetic:
             return "Apathetic";
         case OneStage.Hostile:
@@ -140,6 +142,27 @@ export function mapStageToText(stage: OneStage) {
     }   
     return "";
 }
+
+export function mapStageToDetailsText(stage: OneStage) {
+    switch (stage) {
+        case OneStage.Disciple:
+            return "This person is actively following Christ, growing in faith, and learning to disciple others. They are committed to living out biblical principles and sharing their faith with others.";
+        case OneStage.NewBeliever:
+            return "This person has recently made a commitment to follow Christ. They are in the early stages of understanding their faith and beginning their spiritual journey.";
+        case OneStage.Seeking:
+            return "This person is actively seeking answers about Christianity and the gospel. They are open to learning more and are considering a commitment to faith.";
+        case OneStage.Curious:
+            return "This person is curious about Christianity but has not yet made any significant steps toward faith. They are open to conversations and exploration.";
+        case OneStage.Friendly:
+            return "This person is friendly and open to believers, but they are not actively seeking faith or asking questions about Christianity.";
+        case OneStage.Apathetic:
+            return "This person shows little interest in spiritual matters or the Christian faith. They are indifferent and not currently open to discussions about faith.";
+        case OneStage.Hostile:
+            return "This person is opposed to Christianity and may actively resist conversations about faith. They have negative perceptions or strong objections to the gospel.";
+    }   
+    return "";
+}
+
 
 export function mapStageToIcon(stage: OneStage) {
     switch (stage) {

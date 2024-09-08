@@ -10,9 +10,10 @@ import { setOneForm } from '@/redux/actions';
 import { formStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { AvatarIcon } from '@/enums/enums';
+import { AvatarIcon, OneStage } from '@/enums/enums';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import AvatarIconPicker from '../common/AvatarIconPicker';
+import StagePicker from '../common/StagePicker';
 
 export type IShareChristAddEditOneForm = ViewProps & {
     selectedOne: One;
@@ -43,7 +44,14 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
         }));
     };
 
-    const { name, icon } = formData;
+    const setStage = (stage: OneStage) => {
+        setFormData((prev) => ({
+            ...prev,
+            stage
+        }));
+    };
+
+    const { name, icon, stage } = formData;
     const title = editing ? 'Editing One' : 'Adding One';
 
     return (
@@ -64,6 +72,10 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
                     numberOfLines={1}
                     onChangeText={(text) => setName(text)}
                 />
+            </PageColumn>
+            
+            <PageColumn style={styles.section}>
+                <StagePicker selectedStage={stage} setSelectedStage={setStage}/>
             </PageColumn>
         </View>
     );
