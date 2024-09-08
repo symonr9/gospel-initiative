@@ -17,6 +17,7 @@ import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
 import { ActivityNoteOptions } from '@/constants/Strings';
+import { formStyles } from '@/styles/Styles';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -202,7 +203,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                         <AppText type={TextType.Body}>Select a note:</AppText>
                         <Picker
-                            style={styles.picker}
+                            style={[styles.picker, formStyles.dropdown]}
                             selectedValue={selectedNoteIdx}
                             onValueChange={(idx) => setSelectedNoteIdx(idx)}>
                             {

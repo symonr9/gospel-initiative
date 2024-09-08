@@ -14,6 +14,7 @@ import { BeaconTemplateCard } from './BeaconTemplateCard';
 import One from '@/models/one';
 import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
+import { formStyles } from '@/styles/Styles';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
@@ -98,7 +99,7 @@ function BeaconTemplateDetails({ shareChristPageState, template, selectedOne, se
             <PageColumn style={styles.section}>
                 <AppText type={TextType.Default}>Notes</AppText>
                 <TextInput
-                    style={styles.input}
+                    style={formStyles.multiLineTextInput}
                     placeholder="Enter note here..."
                     placeholderTextColor={'gray'}
                     value={notes}
@@ -138,14 +139,6 @@ const styles = StyleSheet.create({
         width: 48,
         height: 48,
         marginEnd: 8,
-    },
-    input: {
-        height: 120,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 4,
-        padding: 12,
-        fontSize: 18,
     },
 });
 

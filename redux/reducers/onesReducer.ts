@@ -5,7 +5,8 @@ const initialState = {
     selectedOne: null,
     ones: [],
     actionSteps: [],
-    oneFacts: []
+    oneFacts: [],
+    oneForm: null
 };
 
 export function onesReducer(state = initialState, action: ActionPackage) {
@@ -38,6 +39,10 @@ export function onesReducer(state = initialState, action: ActionPackage) {
             const { oneFact } = action.payload;
             return update(state, {
                 oneFacts: { $push: [oneFact] }
+            });
+        case Action.SetOneForm:
+            return update(state, {
+                oneForm: { $set: action.payload }
             });
         default:
             return state;

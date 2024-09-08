@@ -27,8 +27,15 @@ function PageResponse({ title, details }: IPageHeader) {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 4,
-        paddingStart: 4,
+        flex: 1,
+        padding: 24,
+        backgroundColor: '#fff',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 8,
     }
 });
 

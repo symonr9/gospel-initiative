@@ -9,6 +9,7 @@ import LocalMinistry from "@/models/localMinistry";
 import MissionsTrip from "@/models/missionsTrip";
 import One from "@/models/one";
 import OneFact from "@/models/oneFact";
+import OneForm from "@/models/oneForm";
 import Story from "@/models/story";
 import StoryChapter from "@/models/storyChapter";
 
@@ -43,6 +44,8 @@ export enum Action {
     AddMinistryActivity = "ADD_MINISTRY_ACTIVITY",
     AddStoryActivity = "ADD_STORY_ACTIVITY",
     AddNoteToActivity = "ADD_NOTE_TO_ACTIVITY",
+
+    SetOneForm = "SET_ONE_FORM",
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"
@@ -181,6 +184,11 @@ export const addNoteToActivity = (activityId: string, note: string) => ({
     type: Action.AddNoteToActivity,
     payload: { activityId, note }
 });
+
+export const setOneForm = (item: OneForm) => ({
+    type: Action.SetOneForm,
+    payload: item
+})
 
 export const setAppError = (error: Error) => ({
     type: Action.SetAppError,
