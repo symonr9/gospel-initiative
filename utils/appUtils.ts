@@ -59,7 +59,7 @@ export function getAppTimeAgoText(date: Date): string {
     return isFuture ? 'soon' : 'just now';
 }
 
-export function formatDateTime(date: Date | null): string {
+export function formatDateTime(date: Date | null | undefined): string {
     if (!date) {
         return '';
     }

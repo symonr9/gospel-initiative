@@ -14,6 +14,8 @@ import { AvatarIcon, OneStage } from '@/enums/enums';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import StagePicker from '../common/StagePicker';
+import ActionStepPicker from '../common/ActionStepPicker';
+import ActionStep from '@/models/actionStep';
 
 export type IShareChristAddEditOneForm = ViewProps & {
     selectedOne: One;
@@ -25,6 +27,8 @@ export type IShareChristAddEditOneForm = ViewProps & {
 
 function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneForm }: IShareChristAddEditOneForm) {    
     const [formData, setFormData] = useState(initialOneForm);
+
+    console.log("FORM DATA_ ", formData);
 
     useEffect(() => {
         setOneForm(formData);
@@ -51,7 +55,14 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
         }));
     };
 
-    const { name, icon, stage } = formData;
+    const setActionSteps = (actionSteps: ActionStep[]) => {
+        setFormData((prev) => ({
+            ...prev,
+            actionSteps
+        }));
+    };
+
+    const { name, icon, stage, actionSteps } = formData;
     const title = editing ? 'Editing One' : 'Adding One';
 
     return (
@@ -76,6 +87,10 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
             
             <PageColumn style={styles.section}>
                 <StagePicker selectedStage={stage} setSelectedStage={setStage}/>
+            </PageColumn>
+
+            <PageColumn style={styles.section}>
+                <ActionStepPicker actionSteps={actionSteps} setActionSteps={setActionSteps}/>
             </PageColumn>
         </View>
     );

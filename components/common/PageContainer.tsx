@@ -21,9 +21,7 @@ const { height: viewportHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        height: viewportHeight * 0.55,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'scroll'
     },
 });

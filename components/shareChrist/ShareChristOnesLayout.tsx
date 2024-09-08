@@ -27,6 +27,7 @@ import BeaconTemplate from '@/models/beaconTemplate';
 import { generateRandomId, getTomorrow } from '@/utils/appUtils';
 import ShareChristAddEditOneForm from './ShareChristAddEditOneForm';
 import OneForm from '@/models/oneForm';
+import { selectActionStepsByOneId } from '@/redux/selectors';
 
 export type IShareChristOnesLayout = ViewProps & {
     selectedOne: One,
@@ -52,6 +53,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
     executor, setSelectedTemplateId, beaconTemplates, addBeacon }: IShareChristOnesLayout) {
 
     const activeBeaconsWithActivities = selectedOne ? useSelector(selectActiveBeaconsWithActivities(selectedOne.id)) : [];
+    const actionsStepsForSelectedOne = selectedOne ? useSelector((state: any) => selectActionStepsByOneId(state, selectedOne.id)) : [];
     const selectedTemplateId = useSelector((state: any) => state.beacons.selectedTemplateId);
     const beaconForm = useSelector((state: any) => state.beacons.beaconForm);
 
@@ -119,9 +121,10 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
             </PageRow>
         );
 
+        const initialOneForm = OneForm.createFromOne(selectedOne, actionsStepsForSelectedOne);
         BodyLayout.push(
             <ShareChristAddEditOneForm editing 
-                                       initialOneForm={OneForm.createFromOne(selectedOne)}/>
+                                       initialOneForm={initialOneForm}/>
         );
     } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
         HeaderLayout.push(
@@ -296,7 +299,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
     setSelectedTemplateId,
     setShareChristPageState,
-    addBeacon
+    addBeacon,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareChristOnesLayout);
