@@ -3,7 +3,7 @@ import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import axios from 'axios';
 
-import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, FadeDirection, Page, ShareChristPageState } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Story, { EnhancedStory } from '@/models/story';
 import { AppText } from '../common/AppText';
@@ -15,6 +15,10 @@ import { openPage } from '@/redux/actions';
 import { mapStoryTypeToText } from '@/utils/appUtils';
 import ShareChristStoryDetails from './ShareChristStoryDetails';
 import ShareChristAddEditStoryForm from './ShareChristAddEditStoryForm';
+import { AnimatedCard } from '../common/AnimatedCard';
+import { PageRow } from '../common/PageRow';
+import { layoutStyles } from '@/styles/Styles';
+import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
 
 export type IShareChristStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
@@ -32,7 +36,6 @@ export enum StoryLayoutType {
 function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPageState, openPage }: IShareChristStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
-    const [editing, setEditing] = useState()
 
     const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
     const GodsStoryCursorIdx = GodsStories.findIndex((story) => story.id === activeStoryId);
@@ -66,33 +69,46 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
 
     return (
         <View style={styles.container}>
+            <PageRow style={layoutStyles.sectionRow}>
+                <AnimatedCard text={7}
+                    direction={FadeDirection.Left}
+                    label='Chapters Remaining' />
+                <AnimatedCard text={7}
+                    direction={FadeDirection.Right}
+                    label={`God's Story`} />
+            </PageRow>
+
             <View style={styles.header}>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        if (activeLayoutType === StoryLayoutType.Editing) {
-                            setActiveLayoutType(StoryLayoutType.Normal);
-                        } else if (activeStoryId != null) {
-                            setActiveStoryId(null);
-                            return;
-                        }
-                        openPage(Page.ShareChrist);
-                    }}
-                    customStyles={{
-                        container: {
-                            alignSelf: 'flex-start',
-                            marginBottom: 16
-                        }
-                    }} />
                 {
                     activeStory && (
-                        <SimpleIconButton iconSrc={AppIcon.Pencil}
-                            onClick={onEditStoryClick}
-                            customStyles={{
-                                container: {
-                                    alignSelf: 'flex-end',
-                                    marginBottom: 16
-                                }
-                            }} />
+
+                        <>
+                            <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                                onClick={() => {
+                                    if (activeLayoutType === StoryLayoutType.Editing) {
+                                        setActiveLayoutType(StoryLayoutType.Normal);
+                                    } else if (activeStoryId != null) {
+                                        setActiveStoryId(null);
+                                        return;
+                                    }
+                                }}
+                                customStyles={{
+                                    container: {
+                                        alignSelf: 'flex-start',
+                                        marginBottom: 16
+                                    }
+                                }} />
+
+                            <SimpleIconButton iconSrc={AppIcon.Pencil}
+                                onClick={onEditStoryClick}
+                                customStyles={{
+                                    container: {
+                                        alignSelf: 'flex-end',
+                                        marginBottom: 16
+                                    }
+                                }} />
+                        </>
+
                     )
                 }
             </View>
@@ -102,7 +118,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                 delay={0}
                 style={{ textAlign: 'center' }} />
 
-            <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType}/>
+            <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
             <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
             <View style={styles.storiesListContainer}>
@@ -119,6 +135,8 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                     activeStoryId={activeStoryId}
                     customStyles={GodsStoryStyle} />
             </View>
+
+            <StoryActivityHeatMapChart />
         </View>
     );
 }
@@ -132,8 +150,7 @@ const styles = StyleSheet.create({
     storiesListContainer: {
         display: 'flex',
         flexDirection: 'row',
-        height: 200,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         flex: 1
     },
     header: {

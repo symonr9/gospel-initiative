@@ -7,6 +7,8 @@ import { AppText, TextType } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
+import { AnimatedCard } from '../common/AnimatedCard';
+import { mapActionStepTypeToText } from '@/utils/appUtils';
 
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;
@@ -15,12 +17,9 @@ export type IActionStepCard = ViewProps & {
 export function ActionStepCard({ actionStep }: IActionStepCard) {
 
   return (
-    <View style={styles.container}>
-      <Image source={AppIcon.ArrowBack} style={styles.icon} />
-      <AppText type={TextType.Link}>
-        {actionStep.notes}
-      </AppText>
-    </View>
+    <AnimatedCard text={actionStep.notes}
+      icon={AppIcon.Chat}
+      label={`${mapActionStepTypeToText(actionStep.type)}`} />
   );
 }
 

@@ -8,14 +8,18 @@ import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
 import BeaconTemplateDetails from './BeaconTemplateDetails';
+import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;
   selectedTemplateId: string | null;
   setSelectedTemplateId?: Function;
+  setActiveLayoutType?: Function;
 };
 
-export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId }: IBeaconCard) {
+export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId,
+  setActiveLayoutType
+ }: IBeaconCard) {
   const [bgColor, setBgColor] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -35,6 +39,9 @@ export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTe
   const onPress = () => {
     if (setSelectedTemplateId) {
       setSelectedTemplateId(template.id);
+    }
+    if (setActiveLayoutType) {
+      setActiveLayoutType(OneLayoutType.ConfirmBeacon);
     }
   };
 

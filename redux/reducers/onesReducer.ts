@@ -14,7 +14,7 @@ export function onesReducer(state = initialState, action: ActionPackage) {
             const { ones, actionSteps, oneFacts } = action.payload;
             return update(state, {
                 $set: {
-                    selectedOne: null,
+                    selectedOne: ones ? ones[0] : null,
                     ones: ones || [],
                     actionSteps: actionSteps || [],
                     oneFacts: oneFacts || [],

@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 16,
         overflow: 'scroll',
-        height: 600,
-        width: 200,
+        height: 400,
+        width: 240,
     },
     icon: {
         width: 24,

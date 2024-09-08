@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     borderRadius: 4,
     margin: 4,
+    maxHeight: 70,
   },
   textLabel: {
     fontSize: 18

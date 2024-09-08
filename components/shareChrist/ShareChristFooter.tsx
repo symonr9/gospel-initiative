@@ -53,7 +53,7 @@ const getOnesListItems = (pageState: ShareChristPageState, setPageState: Functio
 
     if (pageState == ShareChristPageState.Edit) {
         return [
-            getBackButton(onBackDefaultClick),
+            // getBackButton(onBackDefaultClick),
         ];
     } else if (pageState == ShareChristPageState.AllBeaconTemplates) {
         if (hasSelectedBeacon) { // View Selected Beacon

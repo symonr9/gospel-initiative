@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, GestureResponderEvent, View, type ViewProps } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Image } from 'expo-image';
 
-import { formStyles } from '@/styles/Styles';
-import { ShareChristPageState } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
+import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
 
 export type IBeaconsListHeader = ViewProps & {
     selectedTemplateId: string | null;
-    shareChristPageState: ShareChristPageState;
+    activeLayoutType: OneLayoutType;
 }
 
-export function BeaconsListHeader({ shareChristPageState, selectedTemplateId, style = {} }: IBeaconsListHeader) {
-
-    const shouldConfirm = shareChristPageState == ShareChristPageState.ConfirmBeacon;
+export function BeaconsListHeader({ activeLayoutType, selectedTemplateId, style = {} }: IBeaconsListHeader) {
+    const shouldConfirm = activeLayoutType == OneLayoutType.ConfirmBeacon;
 
     const getTitle = () => {
         if (shouldConfirm) {
@@ -53,7 +50,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 8,
         flexShrink: 1, // Prevent children from overflowing,
-        marginBottom: 64,
+        marginBottom: 48,
     },
     icon: {
         width: 38,

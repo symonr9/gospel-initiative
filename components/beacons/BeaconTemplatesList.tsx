@@ -6,21 +6,23 @@ import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
 
 import { BeaconTemplateCard } from './BeaconTemplateCard';
 import { listStyles } from '@/styles/Styles';
-import { ShareChristPageState } from '@/enums/enums';
 import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
 import BeaconTemplateDetails from './BeaconTemplateDetails';
+import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
 
 export type IBeaconTemplatesList = ViewProps & {
-    shareChristPageState: ShareChristPageState;
+    activeLayoutType: OneLayoutType;
+
     selectedTemplateId: string | null;
     beaconTemplates: BeaconTemplate[];
     setSelectedTemplateId: Function;
+    setActiveLayoutType: Function;
 };
 
-function BeaconTemplatesList({ shareChristPageState, selectedTemplateId,
-    beaconTemplates, setSelectedTemplateId }: IBeaconTemplatesList) {
+function BeaconTemplatesList({ selectedTemplateId, beaconTemplates, 
+    setSelectedTemplateId, activeLayoutType, setActiveLayoutType }: IBeaconTemplatesList) {
 
     const renderItem = ({ item }: { item: BeaconTemplate }) => {
         if (selectedTemplateId != null) {
@@ -31,9 +33,11 @@ function BeaconTemplatesList({ shareChristPageState, selectedTemplateId,
                 <BeaconTemplateDetails template={item}/>
             );
         }
+
         return (
             <BeaconTemplateCard template={item}
                 setSelectedTemplateId={setSelectedTemplateId}
+                setActiveLayoutType={setActiveLayoutType}
                 selectedTemplateId={selectedTemplateId} />
         );
     };
@@ -44,7 +48,7 @@ function BeaconTemplatesList({ shareChristPageState, selectedTemplateId,
 
     return (
         <View style={[listStyles.container, styles.container]}>
-            <BeaconsListHeader shareChristPageState={shareChristPageState} selectedTemplateId={selectedTemplateId}/>
+            <BeaconsListHeader activeLayoutType={activeLayoutType} selectedTemplateId={selectedTemplateId}/>
             <FlatList
                 data={beaconTemplates}
                 keyExtractor={(item) => item.id}

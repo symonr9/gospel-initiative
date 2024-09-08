@@ -1,5 +1,17 @@
 import { StyleSheet, Image, Platform } from 'react-native';
 
+
+export const layoutStyles = StyleSheet.create({
+  section: {
+    marginTop: 8,
+    marginBottom: 8
+  },
+  sectionRow: {
+    gap: 16,
+    padding: 8
+  }
+});
+
 export const listStyles = StyleSheet.create({
   container: {
     flex: 1,

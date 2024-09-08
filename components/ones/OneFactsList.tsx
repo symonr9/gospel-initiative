@@ -10,11 +10,9 @@ import { AppText, TextType } from '../common/AppText';
 import { selectOneFactsByOneId } from '@/redux/selectors';
 import { OneFactCard } from './OneFactCard';
 import { AppIcon, ShareChristPageState } from '@/enums/enums';
-import { setShareChristPageState } from '@/redux/actions';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { isEditing } from '@/utils/appUtils';
-import { listStyles } from '@/styles/Styles';
 
 export type IOneFactsList = ViewProps & {
     selectedOne: One;

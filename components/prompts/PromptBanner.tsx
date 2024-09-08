@@ -32,9 +32,6 @@ function PromptBanner({ firstPrompt }: IPromptBanner) {
             <PageColumn style={styles.textContainer}>
 
                 <View>
-                    <View style={styles.header}>
-                        <SimpleIconButton iconSrc={AppIcon.Menu} removeBackground/>
-                    </View>
                     <AppText type={TextType.Body}>
                         Prompt of the Day
                     </AppText>
@@ -58,7 +55,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 6,
         borderRadius: 4,
-        height: 240,
         overflow: 'scroll',
         margin: 12,
     },

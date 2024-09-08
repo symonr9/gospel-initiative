@@ -1,4 +1,4 @@
-import { AppIcon, BeaconType, OneFactType, OneStage, Priority, ShareChristPageState, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, BeaconType, OneFactType, OneStage, Priority, ShareChristPageState, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
@@ -243,6 +243,43 @@ export function mapBeaconTypeToTitleText(type: BeaconType, shareOneName: boolean
         case BeaconType.Meeting:
         default:
             return `${userName} is meeting with ${oneName}`;
+    }
+}
+
+export function mapActionStepTypeToText(type: ActionStepType) : string {
+    switch (type) {
+        case ActionStepType.ShareGospel:
+            return "Share Gospel";
+        case ActionStepType.ShareTestimony:
+            return "Share Testimony";
+        case ActionStepType.InviteToEvent:
+            return "Invite to Event";
+        case ActionStepType.SpiritualConversation:
+            return "Spiritual Conversation";
+        case ActionStepType.OfferPrayer:
+            return "Offer Prayer";
+        case ActionStepType.InviteToGroup:
+            return "Invite to Group";
+        case ActionStepType.Encouragement:
+            return "Encouragement";
+        case ActionStepType.DiscussScripture:
+            return "Discuss Scripture";
+        case ActionStepType.HostAtHome:
+            return "Host at Home";
+        case ActionStepType.ShareDevotional:
+            return "Share Devotional";
+        case ActionStepType.ProvideBiblicalCounsel:
+            return "Provide Biblical Counsel";
+        case ActionStepType.ConnectWithOtherChristians:
+            return "Connect with other Christians";
+        case ActionStepType.ShareWorshipMusisc:
+            return "Share Worship Music";
+        case ActionStepType.BuildRapport:
+            return "Build Rapport";
+        case ActionStepType.Serve:
+            return "Serve";
+        case ActionStepType.Other:
+            return "Other";
     }
 }
 

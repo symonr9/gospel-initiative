@@ -2,13 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { AppIcon, Page, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, FadeDirection, Page, ShareChristPageState } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { ShareChristRoadContainer } from './ShareChristRoadContainer';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import ShareChristBeaconDetails from './ShareChristBeaconDetails';
+import { AnimatedCard } from '../common/AnimatedCard';
+import { AppText, TextType } from '../common/AppText';
+import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
+import { PageColumn } from '../common/PageColumn';
+import { PageRow } from '../common/PageRow';
+import { layoutStyles } from '@/styles/Styles';
 
 export type IShareChristBeaconsLayout = ViewProps & {
     completedBeacons: EnhancedBeacon[];
@@ -32,60 +38,62 @@ function ShareChristBeaconsLayout({ completedBeacons, incomingBeacons, shareChri
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon, idx) => (
         <ShareChristBeaconCard beacon={beacon}
-                               one={beacon.one}
-                               user={beacon.user}
-                               activities={beacon.completedActivities}
-                               idx={idx}
-                               activeBeaconId={activeBeaconId}
-                               setActiveBeaconId={setActiveBeaconId}
-                               selectedIdx={completedCursorIdx}/>
+            one={beacon.one}
+            user={beacon.user}
+            activities={beacon.completedActivities}
+            idx={idx}
+            activeBeaconId={activeBeaconId}
+            setActiveBeaconId={setActiveBeaconId}
+            selectedIdx={completedCursorIdx} />
     )) : [];
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
         <ShareChristBeaconCard beacon={beacon}
-                               one={beacon.one}
-                               user={beacon.user}
-                               activities={beacon.incomingActivities}
-                               idx={idx}
-                               activeBeaconId={activeBeaconId}
-                               setActiveBeaconId={setActiveBeaconId}
-                               selectedIdx={incomingCursorIdx}/>
+            one={beacon.one}
+            user={beacon.user}
+            activities={beacon.incomingActivities}
+            idx={idx}
+            activeBeaconId={activeBeaconId}
+            setActiveBeaconId={setActiveBeaconId}
+            selectedIdx={incomingCursorIdx} />
     )) : [];
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    pageToOpen={Page.ShareChrist}
-                    customStyles={{
-                        container: {
-                            alignSelf: 'flex-start',
-                            marginBottom: 16
-                        }
-                    }}/>
+            <PageRow style={layoutStyles.sectionRow}>
+                <AnimatedCard text={incomingBeacons.length}
+                    direction={FadeDirection.Left}
+                    label='To Pray for' />
+                <AnimatedCard text={completedBeacons.length}
+                    direction={FadeDirection.Right}
+                    label='Prayed for Today' />
+            </PageRow>
 
-                <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx} 
-                                          completedCursorIdx={completedCursorIdx} 
-                                          completedBeacons={completedBeacons} 
-                                          incomingBeacons={incomingBeacons}/>
+            <View style={styles.header}>
+                <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
+                    completedCursorIdx={completedCursorIdx}
+                    completedBeacons={completedBeacons}
+                    incomingBeacons={incomingBeacons} />
             </View>
 
             <View>
-                <ShareChristRoadContainer title={`Completed (${completedCount})`} 
-                                        iconSrc={AppIcon.Checkmark}
-                                        type={RoadContainerType.Completed}                                   
-                                        activeType={activeRoadType}
-                                        setActiveType={setActiveRoadType}
-                                        itemsToRender={completedItemsToRender} 
-                                        customStyles={completedStyle}/>
-                <ShareChristRoadContainer title={`Incoming (${incomingCount})`} 
-                            iconSrc={AppIcon.Send} 
-                            type={RoadContainerType.Incoming}
-                            activeType={activeRoadType}
-                            setActiveType={setActiveRoadType}
-                            itemsToRender={incomingItemsToRender} 
-                            customStyles={incomingStyle}/>
+                <ShareChristRoadContainer title={`Completed (${completedCount})`}
+                    iconSrc={AppIcon.Checkmark}
+                    type={RoadContainerType.Completed}
+                    activeType={activeRoadType}
+                    setActiveType={setActiveRoadType}
+                    itemsToRender={completedItemsToRender}
+                    customStyles={completedStyle} />
+                <ShareChristRoadContainer title={`Incoming (${incomingCount})`}
+                    iconSrc={AppIcon.Send}
+                    type={RoadContainerType.Incoming}
+                    activeType={activeRoadType}
+                    setActiveType={setActiveRoadType}
+                    itemsToRender={incomingItemsToRender}
+                    customStyles={incomingStyle} />
             </View>
+
+            <BeaconActivityBezierLineChart />
         </View>
     );
 }
@@ -96,11 +104,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         gap: 16,
-        height: 820,
     },
     header: {
         display: 'flex',
         flexDirection: 'column',
+        marginTop: 16
     },
 });
 
