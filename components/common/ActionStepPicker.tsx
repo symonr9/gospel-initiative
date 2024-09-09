@@ -43,7 +43,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
 
     useEffect(() => {
-        if (pickerState === ActionStepPickerState.Normal) {            
+        if (pickerState === ActionStepPickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
             setFormActionStep(ActionStep.createDefault(selectedOne.id || ""));
@@ -58,7 +58,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     }, [selectedStepId]);
 
     useEffect(() => {
-        setFormActionStep((prev) => ({...prev, type: actionStepTypeArray[formSelectedTypeIdx].value}));
+        setFormActionStep((prev) => ({ ...prev, type: actionStepTypeArray[formSelectedTypeIdx].value }));
     }, [formSelectedTypeIdx]);
 
     const renderActionStep = ({ item }: { item: ActionStep }) => {
@@ -82,14 +82,17 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
     const onSaveClick = () => {
         setPickerState(ActionStepPickerState.Normal);
-        if (selectedStepId) {
+
+        if (pickerState === ActionStepPickerState.Removing && selectedStepId) {
+            setActionSteps(actionSteps.length > 1 ? actionSteps.filter((step) => step.id === selectedStepId) : []);
+        } else if (pickerState === ActionStepPickerState.Editing && selectedStepId) {
             setActionSteps(actionSteps.map((step) => {
                 if (step.id === selectedStepId) {
                     return { ...formActionStep };
                 }
                 return { ...step };
             }));
-        } else {
+        } else if (pickerState === ActionStepPickerState.Adding) {
             setActionSteps([
                 ...actionSteps,
                 formActionStep
@@ -97,7 +100,46 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
         }
     };
 
+    const onDateSelected = (date: string) => {
+        setFormActionStep((prev) => ({
+            ...prev,
+            targetDate: new Date(date)
+        }));
+    };
+
+    const events = formActionStep.targetDate ? [formActionStep.targetDate] : [];
+
     const Body = [];
+
+
+    const Form = (
+        <PageColumn>
+            <AppText type={TextType.Default}>Type</AppText>
+            <Picker
+                style={[formStyles.dropdown]}
+                selectedValue={formSelectedTypeIdx}
+                onValueChange={(idx: number) => setFormSelectedTypeIdx(idx)}>
+                {
+                    actionStepTypeArray.map((item, idx) => (
+                        <Picker.Item label={item.label} value={idx} key={item.value} />
+                    ))
+                }
+            </Picker>
+
+            <AppText type={TextType.Default}>Notes</AppText>
+            <TextInput
+                style={formStyles.textInput}
+                placeholder="Enter note here..."
+                placeholderTextColor={'gray'}
+                value={formActionStep.notes}
+                numberOfLines={1}
+                onChangeText={(text) => setFormActionStep((prev) => ({ ...prev, notes: text }))}
+            />
+            <SelectDatePicker events={events}
+                title={"Select Target Date"}
+                onDateSelected={onDateSelected} />
+        </PageColumn>
+    );
 
     if (pickerState !== ActionStepPickerState.Normal) {
         Body.push(
@@ -138,47 +180,13 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
             />
         );
     } else if (pickerState === ActionStepPickerState.Adding) {
-        const onDateSelected = (date: string) => {
-            setFormActionStep((prev) => ({
-                ...prev,
-                targetDate: new Date(date)
-            }));
-        };
-
-        const events = formActionStep.targetDate ? [formActionStep.targetDate] : [];
 
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold}>
                     Adding new action step
                 </AppText>
-
-                <PageColumn>
-                    <AppText type={TextType.Default}>Type</AppText>
-                    <Picker
-                        style={[formStyles.dropdown]}
-                        selectedValue={formSelectedTypeIdx}
-                        onValueChange={(idx: number) => setFormSelectedTypeIdx(idx)}>
-                        {
-                           actionStepTypeArray.map((item, idx) => (                            
-                                <Picker.Item label={item.label} value={idx} key={item.value} />
-                            ))
-                        }
-                    </Picker>
-
-                    <AppText type={TextType.Default}>Notes</AppText>
-                    <TextInput
-                        style={formStyles.textInput}
-                        placeholder="Enter note here..."
-                        placeholderTextColor={'gray'}
-                        value={formActionStep.notes}
-                        numberOfLines={1}
-                        onChangeText={(text) => setFormActionStep((prev) => ({...prev, notes: text}))}
-                    />
-                    <SelectDatePicker events={events} 
-                                      title={"Select Target Date"}
-                                      onDateSelected={onDateSelected}/>
-                </PageColumn>
+                {Form}
             </View>
         );
     } else if (pickerState === ActionStepPickerState.Editing && selectedActionStep) {
@@ -188,17 +196,18 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
                     Editing action step
                 </AppText>
                 <ActionStepCard actionStep={selectedActionStep}
-                                style={{ backgroundColor: 'lightgreen' }} />
+                    style={{ backgroundColor: 'lightgreen' }} />
+                {Form}
             </View>
         );
-    } else if ( pickerState === ActionStepPickerState.Removing && selectedActionStep) {
+    } else if (pickerState === ActionStepPickerState.Removing && selectedActionStep) {
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold}>
                     Are you sure you want to remove this action step?
                 </AppText>
                 <ActionStepCard actionStep={selectedActionStep}
-                                style={{ backgroundColor: 'lightgreen' }} />
+                    style={{ backgroundColor: 'lightgreen' }} />
             </View>
         );
     } else {
