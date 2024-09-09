@@ -28,7 +28,7 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
   return (
     <TouchableOpacity onPress={onPress}>
       <PageRow style={[styles.actionStepCard, style]}>
-        <PageColumn>
+        <PageColumn style={styles.actionStepTextContainer}>
           <AppText type={TextType.Default}>{mapActionStepTypeToText(actionStep.type)}</AppText>
           <AppText type={TextType.DefaultSemiBold}>{actionStep.notes}</AppText>
           <AppText type={TextType.Italic}>{formatDateTime(actionStep.targetDate)}</AppText>
@@ -50,5 +50,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 16,
     marginVertical: 8
+  },
+  actionStepTextContainer: {
+    flexShrink: 1
   },
 });
