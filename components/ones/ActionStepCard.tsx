@@ -17,7 +17,7 @@ export type IActionStepCard = ViewProps & {
   handleOnPress?: Function;
 };
 
-export function ActionStepCard({ actionStep, handleOnPress }: IActionStepCard) {
+export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStepCard) {
 
   const onPress = () => {
     if (handleOnPress) {
@@ -27,7 +27,7 @@ export function ActionStepCard({ actionStep, handleOnPress }: IActionStepCard) {
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <PageRow style={styles.actionStepCard}>
+      <PageRow style={[styles.actionStepCard, style]}>
         <PageColumn>
           <AppText type={TextType.Default}>{mapActionStepTypeToText(actionStep.type)}</AppText>
           <AppText type={TextType.DefaultSemiBold}>{actionStep.notes}</AppText>

@@ -21,6 +21,13 @@ export function getTomorrow() {
     return tomorrow;
 }
 
+export function getNextWeek() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 7);
+    return tomorrow;
+}
+
 export function isWithinNext24Hours(date: Date): boolean {
     const now = new Date();
     const future24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);

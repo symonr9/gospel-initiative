@@ -1,4 +1,5 @@
 import { ActionStepType } from "@/enums/enums";
+import { generateRandomId, getNextWeek, getNow } from "@/utils/appUtils";
 
 interface IActionStep {
     id: string;
@@ -26,6 +27,17 @@ export default class ActionStep implements IActionStep {
         this.isComplete = isComplete;
         this.targetDate = targetDate;
         this.type = type;
+    }
+
+    static createDefault(oneId: string): ActionStep {
+        return new ActionStep(
+            generateRandomId(),
+            "",
+            oneId,
+            false,
+            getNextWeek(),
+            ActionStepType.BuildRapport
+        );
     }
 
 }

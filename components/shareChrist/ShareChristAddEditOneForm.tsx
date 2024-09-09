@@ -86,11 +86,14 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
             </PageColumn>
             
             <PageColumn style={styles.section}>
-                <StagePicker selectedStage={stage} setSelectedStage={setStage}/>
+                <StagePicker selectedStage={stage} 
+                             setSelectedStage={setStage}/>
             </PageColumn>
 
             <PageColumn style={styles.section}>
-                <ActionStepPicker actionSteps={actionSteps} setActionSteps={setActionSteps}/>
+                <ActionStepPicker actionSteps={actionSteps} 
+                                  selectedOne={selectedOne}
+                                  setActionSteps={setActionSteps}/>
             </PageColumn>
         </View>
     );
