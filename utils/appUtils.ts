@@ -276,6 +276,42 @@ export function mapBeaconTypeToTitleText(type: BeaconType, shareOneName: boolean
     }
 }
 
+export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
+    switch(type) {
+        case ActionStepType.ShareGospel:
+            return AppIcon.Christ;
+        case ActionStepType.ShareTestimony:
+        case ActionStepType.SpiritualConversation:
+            return AppIcon.Conversation;
+        case ActionStepType.InviteToEvent:
+            return AppIcon.Mail;
+        case ActionStepType.OfferPrayer:
+            return AppIcon.Prayer;
+        case ActionStepType.InviteToGroup:
+            return AppIcon.NetworkPeople;
+        case ActionStepType.Encouragement:
+            return AppIcon.PlantGrow;
+        case ActionStepType.DiscussScripture:
+        case ActionStepType.ShareDevotional:
+            return AppIcon.Book;
+        case ActionStepType.HostAtHome:
+            return AppIcon.House;
+        case ActionStepType.ProvideBiblicalCounsel:
+            return AppIcon.LightBulb;
+        case ActionStepType.ConnectWithOtherChristians:
+            return AppIcon.Church;
+        case ActionStepType.ShareWorshipMusisc:
+            return AppIcon.Music;
+        case ActionStepType.BuildRapport:
+            return AppIcon.Coffee;
+        case ActionStepType.Serve:
+            return AppIcon.Car;
+        case ActionStepType.Other:
+        default:
+            return AppIcon.Calendar;
+    }
+}
+
 export function mapActionStepTypeToText(type: ActionStepType) : string {
     switch (type) {
         case ActionStepType.ShareGospel:

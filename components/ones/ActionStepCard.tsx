@@ -8,7 +8,7 @@ import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
 import { AnimatedCard } from '../common/AnimatedCard';
-import { formatDateTime, mapActionStepTypeToText } from '@/utils/appUtils';
+import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 
@@ -28,6 +28,8 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
   return (
     <TouchableOpacity onPress={onPress}>
       <PageRow style={[styles.actionStepCard, style]}>
+          <Image source={mapActionStepTypeToIcon(actionStep.type)} style={styles.icon}/>
+
         <PageColumn style={styles.actionStepTextContainer}>
           <AppText type={TextType.Default}>{mapActionStepTypeToText(actionStep.type)}</AppText>
           <AppText type={TextType.DefaultSemiBold}>{actionStep.notes}</AppText>
@@ -54,4 +56,10 @@ const styles = StyleSheet.create({
   actionStepTextContainer: {
     flexShrink: 1
   },
+  icon: {
+    width: 36,
+    height: 36,
+    alignSelf: 'center',
+    marginEnd: 12
+  }
 });
