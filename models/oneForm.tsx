@@ -27,7 +27,7 @@ export default class OneForm implements IOneForm {
     static createDefault() {
         return new OneForm(
             "",
-            AvatarIcon.Man1,
+            AvatarIcon.User,
             OneStage.Curious,
             []
         );

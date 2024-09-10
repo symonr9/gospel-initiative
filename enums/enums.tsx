@@ -229,6 +229,7 @@ export enum AppIcon {
     Tree = '../assets/images/app-icons/tree.png',
     Skull = '../assets/images/app-icons/skull.png',
     Music = '../assets/images/app-icons/music.png',
+    Gift = '../assets/images/app-icons/gift.png',
     NetworkPeople = '../assets/images/app-icons/networkPeople.png',
     ArrowBack = '../assets/images/app-icons/arrowBack.png',
     Edit = "../assets/images/app-icons/edit.png",
@@ -262,6 +263,14 @@ export enum AppIcon {
     Conversation = "../assets/images/app-icons/conversation.png",
     Rapport = "../assets/images/app-icons/rapport.png",
     Book = "../assets/images/app-icons/book.png",
+    Book2 = "../assets/images/app-icons/book2.png",
+    Marker = "../assets/images/app-icons/marker.png",
+    Info = "../assets/images/app-icons/info.png",
+    Pin = "../assets/images/app-icons/pin.png",
+    Tag = "../assets/images/app-icons/tag.png",
+    User = "../assets/images/app-icons/user.png",
+    UserId = "../assets/images/app-icons/userId.png",
+    UserGroup = "../assets/images/app-icons/userGroup.png",
     FollowUp = "../assets/images/app-icons/follow-up.png",
     Car = "../assets/images/app-icons/car.png",
     Phone = "../assets/images/app-icons/phone.png",
@@ -289,6 +298,7 @@ export enum AppIcon {
 }
 
 export enum AvatarIcon {
+    User = "../assets/images/app-icons/user.png",
     Man1 = '../assets/images/avatars/man1.png',
     Man2 = '../assets/images/avatars/man2.png',
     Man3 = '../assets/images/avatars/man3.png',
