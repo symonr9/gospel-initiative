@@ -145,7 +145,7 @@ export const AddMissionsTrip = (item: MissionsTrip) => ({
     payload: item,
 });
 
-export const AddActionStep = (item: ActionStep) => ({
+export const addActionStep = (item: ActionStep) => ({
     type: Action.AddActionStep,
     payload: item,
 });

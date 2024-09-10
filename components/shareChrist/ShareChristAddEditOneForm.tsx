@@ -73,8 +73,8 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
                 <AvatarIconPicker selectedIcon={icon} setSelectedIcon={setIcon}/>
             </PageColumn>
 
-            <PageColumn style={styles.section}>
-                <AppText type={TextType.Default}>Name of your One</AppText>
+            <PageColumn style={[styles.section, styles.nameSection]}>
+                <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
                 <TextInput
                     style={formStyles.textInput}
                     placeholder="Enter name here..."
@@ -106,10 +106,22 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 4,
         elevation: 4,
+        gap: 16
     },
     section: {
         marginBottom: 8,
         marginStart: 12,
+    },
+    nameSection: {
+        padding: 16,
+        backgroundColor: '#fff',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 8,
+        width: '97%'
     },
 });
 

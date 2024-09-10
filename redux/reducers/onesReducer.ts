@@ -26,19 +26,16 @@ export function onesReducer(state = initialState, action: ActionPackage) {
                 selectedOne: { $set: action.payload }
             });
         case Action.AddOne:
-            const { one } = action.payload;
             return update(state, {
-                ones: { $push: [one] }
+                ones: { $push: [action.payload] }
             });
         case Action.AddActionStep:
-            const { actionStep } = action.payload;
             return update(state, {
-                actionSteps: { $push: [actionStep] }
+                actionSteps: { $push: [action.payload] }
             });
         case Action.AddOneFact:
-            const { oneFact } = action.payload;
             return update(state, {
-                oneFacts: { $push: [oneFact] }
+                oneFacts: { $push: [action.payload] }
             });
         case Action.SetOneForm:
             return update(state, {
