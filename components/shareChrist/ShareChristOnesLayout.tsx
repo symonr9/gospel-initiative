@@ -67,8 +67,6 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
 
-    console.log("ones =- ", ones);
-
     if (activeLayoutType === OneLayoutType.FirstTime) {
         HeaderLayout.push(
             <PageRow spaceBetween>

@@ -5,25 +5,21 @@
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
+  appLogo: '#a8543a',
   light: {
-    text: '#11181C',
-    background: `whitesmoke`,
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    // text: '#5d6065',
+    text: '#333',
+    alternateText: '#ffffff',
+    background: '#f2ecc2',
+    primary: '#5d6065',
+    secondary: '#abceea',
+    alternate1: '#5f715b',
+    alternate2: '#674f43',
+    white: '#eee',
+    black: '#333'
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
   },
 };
 

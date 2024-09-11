@@ -74,7 +74,6 @@ function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChrist
                 ]}
               >
                 <Image source={icon} style={styles.chapterIcon} />
-                {/* <View style={styles.spine} /> */}
                 <AppText type={TextType.BodyBold} style={styles.chapterTitle}>
                   {chapter.title}
                 </AppText>
@@ -113,16 +112,6 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#f7f7f7',
   },
-  spine: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 12,
-    backgroundColor: '#8B4513',
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-},
   header: {
     alignItems: 'center',
     marginBottom: 24,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Image } from 'expo-image';
-import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInUp, ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { AppIcon } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
 import Story from '@/models/story';
@@ -18,27 +18,28 @@ export function ShareChristStoryCard({ story, setActiveStoryId }: IShareChristSt
     };
 
     return (
-        <TouchableOpacity onPress={onPress} style={styles.container}>
-            <View style={styles.spine} />
-            <Animated.View entering={FadeInUp.duration(400).delay(200)} style={styles.iconContainer}>
-                <Image source={story.icon} style={styles.icon} contentFit="contain" />
+        <TouchableOpacity onPress={onPress}>
+            <Animated.View entering={ZoomIn} style={styles.container}>
+                <View style={styles.iconContainer}>
+                    <Image source={story.icon} style={styles.icon} contentFit="contain" />
+                </View>
+                <View style={styles.titleContainer}>
+                    <AppText type={TextType.DefaultSemiBold}>
+                        {story.title}
+                    </AppText>
+                </View>
             </Animated.View>
-            <Animated.Text entering={FadeInUp.duration(400).delay(600)} style={styles.titleContainer}>
-                <AppText type={TextType.BodyBold} style={styles.titleText}>
-                    {story.title}
-                </AppText>
-            </Animated.Text>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: '#F5F5DC',
-        paddingVertical: 4,
-        paddingHorizontal: 16,
+        paddingVertical: 8,
+        paddingHorizontal: 8,
         marginHorizontal: 4,
         borderRadius: 8,
         shadowColor: '#000',
@@ -47,23 +48,12 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 5,
         position: 'relative',
-        height: 100,
-    },
-    spine: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        width: 12,
-        backgroundColor: '#8B4513',
-        borderTopLeftRadius: 8,
-        borderBottomLeftRadius: 8,
     },
     iconContainer: {
         width: 56,
         height: 56,
         backgroundColor: '#D2B48C',
-        borderRadius: 4,
+        borderRadius: 32,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16,
@@ -78,9 +68,5 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         flexShrink: 1,
-    },
-    titleText: {
-        color: '#2F4F4F', // Dark Slate Gray
-        fontSize: 16,
     },
 });

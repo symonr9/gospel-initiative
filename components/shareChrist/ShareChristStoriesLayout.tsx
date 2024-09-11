@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
-import axios from 'axios';
+import { Image } from 'expo-image';
 
-import { AppIcon, FadeDirection, Page, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, FadeDirection, Page, RoadContainerType, ShareChristPageState } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Story, { EnhancedStory } from '@/models/story';
-import { AppText } from '../common/AppText';
-import { ShareChristStoriesContainer } from './ShareChristStoriesContainer';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
 import { ShareChristStoryCard } from './ShareChristStoryCard';
@@ -19,6 +17,8 @@ import { AnimatedCard } from '../common/AnimatedCard';
 import { PageRow } from '../common/PageRow';
 import { layoutStyles } from '@/styles/Styles';
 import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
+import { ShareChristRoadContainer } from './ShareChristRoadContainer';
+import { Colors } from '@/constants/Colors';
 
 export type IShareChristStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
@@ -36,6 +36,7 @@ export enum StoryLayoutType {
 function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPageState, openPage }: IShareChristStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
+    const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
     const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
     const GodsStoryCursorIdx = GodsStories.findIndex((story) => story.id === activeStoryId);
@@ -113,6 +114,14 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                 }
             </View>
 
+            {
+                activeStory && (
+                    <View style={styles.iconDiv}>
+                        <Image source={activeStory.icon} style={styles.icon}/>
+                    </View>
+                )
+            }
+
             <AnimatedHeader title={title}
                 subtitle={subtitle}
                 delay={0}
@@ -121,19 +130,23 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
             <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
             <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
-            <View style={styles.storiesListContainer}>
-                <ShareChristStoriesContainer title={`My Story`}
+            <View>
+                <ShareChristRoadContainer title={`God's Story`}
                     iconSrc={AppIcon.Book}
-                    activeLayoutType={activeLayoutType}
-                    itemsToRender={personalStoryItemsToRender}
-                    activeStoryId={activeStoryId}
-                    customStyles={myStoryStyle} />
-                <ShareChristStoriesContainer title={`God's Story`}
-                    iconSrc={AppIcon.Book}
-                    activeLayoutType={activeLayoutType}
                     itemsToRender={GodsStoryItemsToRender}
-                    activeStoryId={activeStoryId}
+                    type={RoadContainerType.Completed}
+                    expandedHeight={160}
+                    activeType={activeRoadType}
+                    setActiveType={setActiveRoadType}
                     customStyles={GodsStoryStyle} />
+                <ShareChristRoadContainer title={'My Story'}
+                    iconSrc={AppIcon.Book}
+                    itemsToRender={personalStoryItemsToRender}
+                    type={RoadContainerType.Incoming}
+                    expandedHeight={160}
+                    activeType={activeRoadType}
+                    setActiveType={setActiveRoadType}
+                    customStyles={myStoryStyle} />
             </View>
 
             <StoryActivityHeatMapChart />
@@ -147,25 +160,28 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 16,
     },
-    storiesListContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        flex: 1
-    },
     header: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    iconDiv: {
+        alignItems: 'center',
+      },
+      icon: {
+        height: 100,
+        width: 100,
+      },
 });
 
 const myStoryStyle = {
     container: {
-        // backgroundColor: '#f7f07f'
+        backgroundColor: Colors.light.alternate1,
+    },
+    title: {
+        color: Colors.light.alternateText
     },
     header: {
-
     },
     itemsContainer: {
 
@@ -174,7 +190,10 @@ const myStoryStyle = {
 
 const GodsStoryStyle = {
     container: {
-        // backgroundColor: '#f7f07f'
+        backgroundColor: Colors.light.primary,
+    },
+    title: {
+        color: Colors.light.alternateText
     },
     header: {
 

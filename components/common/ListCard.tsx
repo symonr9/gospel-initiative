@@ -5,6 +5,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import LocalEvent from '@/models/localEvent';
 import { AppIcon } from '@/enums/enums';
+import { Colors } from '@/constants/Colors';
 
 export type IListCard = {
   title: string;
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.light.primary,
     shadowOpacity: 0.2,
     shadowRadius: 8,
     shadowColor: '#000',
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: '#333', // Dark gray for modern, professional typography
+    color: Colors.light.alternateText,
     marginBottom: 4,
   },
   details: {

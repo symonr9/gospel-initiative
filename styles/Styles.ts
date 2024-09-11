@@ -17,7 +17,6 @@ export const listStyles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'whitesmoke',
     overflow: 'scroll',
   },
   itemsContainer: {
@@ -52,7 +51,6 @@ export const formStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'whitesmoke',
     padding: 16,
     borderRadius: 8,
     borderColor: '#ddd',
@@ -66,7 +64,6 @@ export const formStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    backgroundColor: '#f9f9f9',
     borderColor: '#ccc',
     borderWidth: 1,
     shadowColor: '#000',

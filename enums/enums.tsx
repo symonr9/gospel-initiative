@@ -36,6 +36,11 @@ export enum FadeDirection {
     Right
 };
 
+export enum RoadContainerType {
+    Completed = 1,
+    Incoming = 2
+};
+
 // Users
 
 export enum Role {
@@ -215,6 +220,7 @@ export enum Priority {
 }
 
 export enum AppIcon {
+    AppLogo = '../assets/images/app-icons/gospel-initiative-logo.png',
     Man1 = '../assets/images/app-icons/man1.png',
     Bird = '../assets/images/app-icons/bird.png',
     Cherries = '../assets/images/app-icons/cherries.png',

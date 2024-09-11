@@ -6,6 +6,7 @@ import { TabView, SceneMap, TabBar, SceneRendererProps, Route } from 'react-nati
 import PageView from '@/components/common/PageView';
 import { AnimatedHeader } from '@/components/common/AnimatedHeader';
 import { AppText } from '@/components/common/AppText';
+import { Colors } from '@/constants/Colors';
 
 export type IAppTabView = {
     title: string,
@@ -48,10 +49,11 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
 const styles = StyleSheet.create({
     tabViewContainer: {
         flex: 1,
-        backgroundColor: '#f4f4f4',
+        backgroundColor: Colors.light.background,
+        color: Colors.light.text
     },
     tabBar: {
-        backgroundColor: '#fff',
+        backgroundColor: Colors.light.primary,
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     indicator: {
-        backgroundColor: '#007aff', // Blue accent for the active tab indicator
+        backgroundColor: Colors.light.secondary,
         height: 4,
         borderRadius: 2,
     },
@@ -72,14 +74,14 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        color: '#333', // Inactive label color
+        color: Colors.light.alternateText,
         fontWeight: '500',
     },
     activeTab: {
-        backgroundColor: '#e6f7ff', // Light blue background for the active tab
+        backgroundColor: Colors.light.secondary,
     },
     activeLabel: {
-        color: '#007aff', // Blue accent for active label
+        color: Colors.light.primary,
         fontWeight: 'bold',
     },
 });

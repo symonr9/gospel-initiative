@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { AppIcon, FadeDirection } from '@/enums/enums';
+import { AppIcon, FadeDirection, RoadContainerType } from '@/enums/enums';
 import { ShareChristBeaconCard } from './ShareChristBeaconCard';
 import { ShareChristRoadContainer } from './ShareChristRoadContainer';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
@@ -12,15 +12,11 @@ import { AnimatedCard } from '../common/AnimatedCard';
 import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
 import { PageRow } from '../common/PageRow';
 import { layoutStyles } from '@/styles/Styles';
+import { Colors } from '@/constants/Colors';
 
 export type IShareChristBeaconsLayout = ViewProps & {
     // completedBeacons: EnhancedBeacon[];
     // incomingBeacons: EnhancedBeacon[];
-};
-
-export enum RoadContainerType {
-    Completed = 1,
-    Incoming = 2
 };
 
 function ShareChristBeaconsLayout({  }: IShareChristBeaconsLayout) {
@@ -117,6 +113,9 @@ const completedStyle = {
     header: {
 
     },
+    title: {
+        color: '#333'
+    },
     itemsContainer: {
 
     }
@@ -124,9 +123,13 @@ const completedStyle = {
 
 const incomingStyle = {
     container: {
+        backgroundColor: Colors.light.secondary
     },
     header: {
 
+    },
+    title: {
+        color: '#333'
     },
     itemsContainer: {
 

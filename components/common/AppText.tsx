@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, type TextProps, StyleSheet, View } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
 
 export enum TextType {
   Default = 'default',
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 24,
     fontWeight: '700',
+    color: Colors.light.primary
   },
   title: {
     fontSize: 30,

@@ -9,13 +9,14 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import { ThemedView } from '../common/ThemedView';
-import { RoadContainerType } from './ShareChristBeaconsLayout';
+import { RoadContainerType } from '@/enums/enums';
 
 export type IShareChristRoadContainer = {
     iconSrc: string | null;
     title: string;
     itemsToRender: React.ReactNode[];
     customStyles?: any;
+    expandedHeight?: number;
 
     type: RoadContainerType;
     activeType: RoadContainerType;
@@ -28,6 +29,7 @@ export function ShareChristRoadContainer({
     itemsToRender,
     customStyles,
     type,
+    expandedHeight = 90,
     activeType,
     setActiveType
 }: IShareChristRoadContainer) {
@@ -37,7 +39,7 @@ export function ShareChristRoadContainer({
         const height = interpolate(
             progress.value,
             [0, 1],
-            [0, 90]
+            [0, expandedHeight]
         );
         return {
             height: withTiming(height, { duration: 400 }), // Animate height change
@@ -62,7 +64,7 @@ export function ShareChristRoadContainer({
                     {iconSrc && (
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                     )}
-                    <AppText type={TextType.DefaultSemiBold}>
+                    <AppText type={TextType.DefaultSemiBold} style={customStyles.title}>
                         {title}
                     </AppText>
                 </View>
@@ -84,13 +86,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
         padding: 16,
-        backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 12,
+        borderRadius: 8,
     },
     header: {
         display: 'flex',
@@ -102,8 +103,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 16,
         overflow: 'scroll',
-        maxHeight: 800,
+        maxHeight: 1200,
         zIndex: 4,
+        alignItems: 'center'
     },
     icon: {
         width: 24,
