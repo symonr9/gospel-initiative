@@ -5,6 +5,8 @@ import Animated, { FadeInUp, FadeInDown, FadeOutDown, FadeInLeft, FadeInRight } 
 import { FadeDirection } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
 import { BeaconWithActivities } from '@/models/beacon';
+import { ActiveBeaconsInfoCard } from './ActiveBeaconsInfoCard';
+import { PageRow } from '../common/PageRow';
 
 type IActiveBeaconsActivityCard = {
     activeBeaconsWithActivities: BeaconWithActivities[];
@@ -46,7 +48,9 @@ export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style =
 
     return (
         <Animated.View entering={FadeInRight.duration(duration).delay(delay)} style={[styles.container, style]}>
-            <AppText type={TextType.Italic}>Beacon Activity</AppText>
+            <PageRow>
+                <AppText type={TextType.Subtitle}>Beacon Activity</AppText>
+            </PageRow>
             {itemsToRender.map((item) => item)}
         </Animated.View>
     );
@@ -54,24 +58,22 @@ export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style =
 
 const styles = StyleSheet.create({
     container: {
-        padding: 8,
-        width: 240,
         display: 'flex',
         flexDirection: 'column',
-        margin: 4,
-        maxHeight: 200,
+        maxHeight: 300,
         overflow: 'scroll'
     },
     activityView: {
-        margin: 2,
         marginStart: 16,
+        marginVertical: 8,
+        width: '70%',
         backgroundColor: 'lightyellow',
         borderRadius: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.3,
         shadowRadius: 6,
-        padding: 4,
+        padding: 12,
     },
     beaconNameText: {
         marginTop: 2,
@@ -81,5 +83,13 @@ const styles = StyleSheet.create({
     },
     beaconCard: {
         padding: 4,
+        backgroundColor: 'white',
+        borderRadius: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        marginVertical: 8,
+        marginHorizontal: 32
     },
 });

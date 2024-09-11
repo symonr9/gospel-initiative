@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         color: Colors.light.text
     },
     tabBar: {
-        backgroundColor: Colors.light.primary,
+        backgroundColor: 'white',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        color: Colors.light.alternateText,
         fontWeight: '500',
     },
     activeTab: {

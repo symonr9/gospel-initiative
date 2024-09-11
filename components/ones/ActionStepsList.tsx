@@ -59,7 +59,8 @@ function ActionStepsList({ actionSteps, shareChristPageState,
 const styles = StyleSheet.create({
     container: {
         maxHeight: 300,
-        overflow: 'scroll'
+        overflow: 'scroll',
+        marginBottom: 12
     }
 });
 

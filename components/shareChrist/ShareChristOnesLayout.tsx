@@ -18,7 +18,7 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Beacon, { BeaconWithActivities } from '@/models/beacon';
 import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
-import { addActionStep, addBeacon, addOne, setOneForm, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
+import { addActionStep, addBeacon, addOne, setOneForm, setSelectedOne, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
@@ -39,7 +39,8 @@ export type IShareChristOnesLayout = ViewProps & {
     setSelectedTemplateId: Function,
     addBeacon: Function,
     addOne: Function,
-    addActionStep: Function
+    addActionStep: Function,
+    setSelectedOne: Function
 };
 
 export enum OneLayoutType {
@@ -54,7 +55,7 @@ export enum OneLayoutType {
 
 function ShareChristOnesLayout({ selectedOne, ones, oneForm,
     executor, setSelectedTemplateId, beaconTemplates, addBeacon, addOne,
-    addActionStep }: IShareChristOnesLayout) {
+    addActionStep, setSelectedOne }: IShareChristOnesLayout) {
 
     const activeBeaconsWithActivities = selectedOne ? useSelector(selectActiveBeaconsWithActivities(selectedOne.id)) : [];
     const actionsStepsForSelectedOne = selectedOne ? useSelector((state: any) => selectActionStepsByOneId(state, selectedOne.id)) : [];
@@ -245,8 +246,24 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
             </View>
         );
     } else { // Normal
+
+        const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOne?.id);
+        const showArrowLeft = ones.length > 1;
+        const showArrowRight = ones.length > 1;
+
         HeaderLayout.push(
             <PageRow spaceBetween>
+                {
+                    showArrowLeft && (
+                        <SimpleIconButton iconSrc={AppIcon.ArrowLeft}
+                                          disabled={idxOfSelectedOne === 0}
+                                          onClick={() => {
+                                              setMessage(null);
+                                              setSelectedOne(ones[idxOfSelectedOne - 1]); 
+                                          }} />
+                    )
+                }
+
                 <SimpleIconButton iconSrc={AppIcon.Plus}
                     onClick={() => {
                         setMessage(null);
@@ -271,21 +288,27 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                         setActiveLayoutType(OneLayoutType.AllBeaconTemplates);
                     }}
                     title={'New Beacon'} />
+
+                
+                {
+                    showArrowRight && (
+                        <SimpleIconButton iconSrc={AppIcon.ArrowRight}
+                                          disabled={idxOfSelectedOne === ones.length - 1}
+                                          onClick={() => {
+                                              setMessage(null);
+                                              setSelectedOne(ones[idxOfSelectedOne + 1])
+                                          }} />
+                    )
+                }
             </PageRow>
         );
 
         BodyLayout.push(
-            <PageContainer>
-                <PageColumn style={styles.container}>
-                    <ActionStepsList />
-                    <OneFactsList />
-                </PageColumn>
-
-                <PageRow spaceBetween style={{ marginTop: 16 }}>
-                    <ActiveBeaconsInfoCard activeBeacons={activeBeaconsWithActivities} />
-                    <ActiveBeaconsActivityCard activeBeaconsWithActivities={activeBeaconsWithActivities} />
-                </PageRow>
-            </PageContainer>
+            <View>
+                <ActionStepsList />
+                {/* <OneFactsList /> */}
+                <ActiveBeaconsActivityCard activeBeaconsWithActivities={activeBeaconsWithActivities} />
+            </View>
         );
     }
 
@@ -320,8 +343,10 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 const styles = StyleSheet.create({
     container: {
         gap: 16,
-        marginTop: 16
-    }
+    },
+    activeBeaconsDiv: {
+        
+    },
 });
 
 const mapStateToProps = (state: any) => {
@@ -341,7 +366,8 @@ const mapDispatchToProps = {
     setShareChristPageState,
     addBeacon,
     addOne,
-    addActionStep
+    addActionStep,
+    setSelectedOne
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShareChristOnesLayout);

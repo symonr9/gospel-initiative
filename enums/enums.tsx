@@ -238,6 +238,8 @@ export enum AppIcon {
     Gift = '../assets/images/app-icons/gift.png',
     NetworkPeople = '../assets/images/app-icons/networkPeople.png',
     ArrowBack = '../assets/images/app-icons/arrowBack.png',
+    ArrowRight = '../assets/images/app-icons/arrowRight.png',
+    ArrowLeft = '../assets/images/app-icons/arrowLeft.png',
     Edit = "../assets/images/app-icons/edit.png",
     Plus = "../assets/images/app-icons/plus.png",
     Pencil = "../assets/images/app-icons/pencil.png",

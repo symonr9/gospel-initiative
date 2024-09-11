@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     padding: 16,
-    backgroundColor: Colors.light.primary,
+    backgroundColor: 'white',
     shadowOpacity: 0.2,
     shadowRadius: 8,
     shadowColor: '#000',
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: Colors.light.alternateText,
     marginBottom: 4,
   },
   details: {
