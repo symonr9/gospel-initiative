@@ -84,7 +84,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
         setPickerState(ActionStepPickerState.Normal);
 
         if (pickerState === ActionStepPickerState.Removing && selectedStepId) {
-            setActionSteps(actionSteps.length > 1 ? actionSteps.filter((step) => step.id === selectedStepId) : []);
+            setActionSteps(actionSteps.length > 1 ? actionSteps.filter((step) => step.id !== selectedStepId) : []);
         } else if (pickerState === ActionStepPickerState.Editing && selectedStepId) {
             setActionSteps(actionSteps.map((step) => {
                 if (step.id === selectedStepId) {
