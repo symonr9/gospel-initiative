@@ -3,6 +3,7 @@ import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
+import { Action } from "@/redux/actions";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
@@ -281,16 +282,16 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
         case ActionStepType.ShareGospel:
             return AppIcon.Christ;
         case ActionStepType.ShareTestimony:
-        case ActionStepType.SpiritualConversation:
+        case ActionStepType.AskSpiritualQuestion:
             return AppIcon.Conversation;
         case ActionStepType.InviteToEvent:
             return AppIcon.Mail;
-        case ActionStepType.OfferPrayer:
+        case ActionStepType.AskForPrayerRequest:
             return AppIcon.Prayer;
         case ActionStepType.InviteToGroup:
             return AppIcon.NetworkPeople;
-        case ActionStepType.Encouragement:
-            return AppIcon.PlantGrow;
+        case ActionStepType.SendEncouragementText:
+            return AppIcon.FastResponse;
         case ActionStepType.DiscussScripture:
         case ActionStepType.ShareDevotional:
             return AppIcon.Book;
@@ -300,11 +301,11 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
             return AppIcon.LightBulb;
         case ActionStepType.ConnectWithOtherChristians:
             return AppIcon.Church;
-        case ActionStepType.ShareWorshipMusisc:
-            return AppIcon.Music;
-        case ActionStepType.BuildRapport:
+        case ActionStepType.DropOffGiftWithBlessingNote:
+            return AppIcon.Gift;
+        case ActionStepType.TakeOutToCoffee:
             return AppIcon.Coffee;
-        case ActionStepType.Serve:
+        case ActionStepType.OfferToHelpWithErrands:
             return AppIcon.Car;
         case ActionStepType.Other:
         default:
@@ -320,14 +321,14 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
             return "Share Testimony";
         case ActionStepType.InviteToEvent:
             return "Invite to Event";
-        case ActionStepType.SpiritualConversation:
-            return "Spiritual Conversation";
-        case ActionStepType.OfferPrayer:
-            return "Offer Prayer";
+        case ActionStepType.AskSpiritualQuestion:
+            return "Ask Spiritual Question";
+        case ActionStepType.AskForPrayerRequest:
+            return "Ask for Prayer Request";
         case ActionStepType.InviteToGroup:
             return "Invite to Group";
-        case ActionStepType.Encouragement:
-            return "Encouragement";
+        case ActionStepType.SendEncouragementText:
+            return "Send Encouragement Text";
         case ActionStepType.DiscussScripture:
             return "Discuss Scripture";
         case ActionStepType.HostAtHome:
@@ -338,12 +339,12 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
             return "Provide Biblical Counsel";
         case ActionStepType.ConnectWithOtherChristians:
             return "Connect with other Christians";
-        case ActionStepType.ShareWorshipMusisc:
-            return "Share Worship Music";
-        case ActionStepType.BuildRapport:
-            return "Build Rapport";
-        case ActionStepType.Serve:
-            return "Serve";
+        case ActionStepType.DropOffGiftWithBlessingNote:
+            return "Drop off Gift with Note Explaining Why";
+        case ActionStepType.TakeOutToCoffee:
+            return "Take out to Coffee";
+        case ActionStepType.OfferToHelpWithErrands:
+            return "Offer to Help with Errands";
         case ActionStepType.Other:
             return "Other";
     }

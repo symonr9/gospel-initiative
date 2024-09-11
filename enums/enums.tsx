@@ -137,24 +137,23 @@ export enum OneFactType {
 };
 
 // Action Steps
-
 export enum ActionStepType {
     ShareGospel = 1,
     ShareTestimony = 2,
     InviteToEvent = 3,
-    SpiritualConversation = 4,
-    OfferPrayer = 5,
+    AskSpiritualQuestion = 4,
+    AskForPrayerRequest = 5,
     InviteToGroup = 6,
-    Encouragement = 7,
+    SendEncouragementText = 7,
     DiscussScripture = 8,
     HostAtHome = 9,
     ShareDevotional = 10,
     ProvideBiblicalCounsel = 11,
     ConnectWithOtherChristians = 12,
-    ShareWorshipMusisc = 13,
-    BuildRapport = 14,
-    Serve = 15,
-    Other = 16
+    DropOffGiftWithBlessingNote = 13,
+    OfferToHelpWithErrands = 15,
+    Other = 16,
+    TakeOutToCoffee = 17,
 };
 
 // Stories

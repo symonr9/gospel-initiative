@@ -2,7 +2,7 @@ import { ActionStepType, AppIcon, OneStage } from '@/enums/enums';
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInput, Picker } from 'react-native';
 import { Image } from 'expo-image';
-import { formatDateTime, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
@@ -12,12 +12,14 @@ import SimpleIconButton from './SimpleIconButton';
 import One from '@/models/one';
 import { formStyles } from '@/styles/Styles';
 import SelectDatePicker from './SelectDatePicker';
+import { Action } from '@/redux/actions';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
-    .map(key => ({
+    .map((key, index) => ({
         value: ActionStepType[key as keyof typeof ActionStepType],
         label: mapActionStepTypeToText(ActionStepType[key as keyof typeof ActionStepType]),
+        icon: mapActionStepTypeToIcon(ActionStepType[key as keyof typeof ActionStepType]),
     }));
 
 export type IActionStepPicker = ViewProps & {
@@ -111,10 +113,33 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
     const Body = [];
 
+    const renderIcon = ({ item, index }: { item: { value: ActionStepType, icon: AppIcon, label: string }; index: number }) => {
+        const handleIconPress = () => {
+            setFormSelectedTypeIdx(index);
+        };
+    
+        return (
+            <TouchableOpacity onPress={handleIconPress}>
+                <PageRow style={styles.iconCard}>
+                    <Image source={item.icon} style={[styles.icon, formSelectedTypeIdx === index && styles.selected]} />
+                    <AppText type={TextType.DefaultSemiBold} style={{ alignSelf: 'center' }}>{item.label}</AppText>
+                </PageRow>
+            </TouchableOpacity>
+        );
+    };
 
     const Form = (
         <PageColumn>
             <AppText type={TextType.Default}>Type</AppText>
+
+            <FlatList
+                data={actionStepTypeArray}
+                renderItem={renderIcon}
+                numColumns={2}
+                keyExtractor={(item, index) => index.toString()}
+                contentContainerStyle={styles.iconList}
+            />
+
             <Picker
                 style={[formStyles.dropdown]}
                 selectedValue={formSelectedTypeIdx}
@@ -180,7 +205,6 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
             />
         );
     } else if (pickerState === ActionStepPickerState.Adding) {
-
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold}>
@@ -251,7 +275,34 @@ const styles = StyleSheet.create({
     },
     buttonRow: {
         gap: 24,
-    }
+    },
+    iconCard: {
+        padding: 8,
+        backgroundColor: '#fff',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 8,
+        marginVertical: 8,
+
+    },
+    iconList: {
+        alignItems: 'flex-start',
+        maxHeight: 200,
+        overflow: 'scroll',
+        marginVertical: 16,
+    },
+    icon: {
+        width: 50,
+        height: 50,
+        margin: 4,
+        opacity: 0.4
+    },
+    selected: {
+        opacity: 1
+    },
 });
 
 export default ActionStepPicker;

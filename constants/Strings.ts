@@ -17,9 +17,20 @@ export const StoryTitleQuestions = {
     ]
 };
 
+
+
 // Each day, users receive a new, easy-to-ask question. These questions are designed
 // to natually lead to deeper conversations, which could segue into faith-sharing moments.
 export const PromptQuestions = [
+    "Do you have any spiritual beliefs?",
+    "How can I pray for you?",
+    "Are you a religious person?",
+    "Do you have a church that you attend?",
+    "Did you grow up in church? What were you taught about God growing up? Do you still believe that?",
+    "What do you think the solution is to (insert recent troubling news event)?",
+    "Can I share my story with you briefly?",
+    "Can I tell you about the best thing that ever happened to me?",
+    "What do you think it takes to go to heaven?",
     "Who has been a mentor or role model that made a big impact on your life?",
     "What's one of the best pieces of advice you've ever received?",
     "If you could spend a day with anyone, living or dead, who would it be?",

@@ -36,7 +36,7 @@ export default class ActionStep implements IActionStep {
             oneId,
             false,
             getNextWeek(),
-            ActionStepType.BuildRapport
+            ActionStepType.SendEncouragementText
         );
     }
 
