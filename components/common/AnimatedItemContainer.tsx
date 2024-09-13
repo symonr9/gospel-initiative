@@ -4,9 +4,10 @@ import { Image } from 'expo-image';
 import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
+import { AppIcon } from '@/enums/enums';
 
 export type IAnimatedItemContainer = {
-    iconSrc: string | null;
+    iconSrc: AppIcon | null;
     title: string;
     containerDuration?: number;
     containerDelay?: number;

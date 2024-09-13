@@ -5,16 +5,18 @@ import { View, ViewProps, StyleSheet } from 'react-native';
 
 export type IPageRow = ViewProps & {
     spaceBetween?: boolean;
+    spaceEvenly?: boolean;
     flexStart?: boolean;
     fillSpace?: boolean;
     center?: boolean;
 };
 
-export function PageRow({ spaceBetween, flexStart, fillSpace, center, style, children }: IPageRow) {
+export function PageRow({ spaceBetween, spaceEvenly, flexStart, fillSpace, center, style, children }: IPageRow) {
     return (
         <View style={[
             styles.rowContainer,
             spaceBetween && styles.spaceBetween,
+            spaceEvenly && styles.spaceEvenly,
             flexStart && styles.flexStart,
             fillSpace && styles.fillSpace,
             center && styles.center,
@@ -35,6 +37,9 @@ const styles = StyleSheet.create({
     spaceBetween: {
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    spaceEvenly: {
+        justifyContent: 'space-evenly',
     },
     flexStart: {
         justifyContent: 'flex-start',

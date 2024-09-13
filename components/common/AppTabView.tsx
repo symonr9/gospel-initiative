@@ -1,7 +1,10 @@
 import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
-import { View, useWindowDimensions, StyleSheet } from 'react-native';
+import { View, useWindowDimensions, StyleSheet, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, Route } from 'react-native-tab-view';
+import Animated, {
+    useAnimatedRef,
+  } from 'react-native-reanimated';
 
 import PageView from '@/components/common/PageView';
 import { AnimatedHeader } from '@/components/common/AnimatedHeader';
@@ -16,6 +19,7 @@ export type IAppTabView = {
 
 function AppTabView({ title, renderScene, routes }: IAppTabView) {
     const layout = useWindowDimensions();
+
     const [index, setIndex] = React.useState(0);
 
     const renderTabBar = (props: any) => (
@@ -31,6 +35,7 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
         />
     );
 
+
     return (
         <PageView>
             <TabView
@@ -45,11 +50,16 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
     );
 }
 
+
+const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     tabViewContainer: {
-        flex: 1,
         backgroundColor: Colors.light.background,
-        color: Colors.light.text
+        color: Colors.light.text,
+        flex: 1,
+        paddingVertical: 16,
+        paddingHorizontal: 12,
     },
     tabBar: {
         backgroundColor: 'white',
@@ -67,13 +77,14 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     labelContainer: {
-        paddingVertical: 12,
-        paddingHorizontal: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 4,
         borderRadius: 8,
     },
     label: {
         fontSize: 16,
         fontWeight: '500',
+        textAlign: 'center'
     },
     activeTab: {
         backgroundColor: Colors.light.secondary,

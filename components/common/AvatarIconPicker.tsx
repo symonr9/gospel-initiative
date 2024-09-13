@@ -1,10 +1,9 @@
-import { AvatarIcon } from '@/enums/enums';
+import { AvatarIcon, AvatarIconArray } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 import { AppText, TextType } from './AppText';
-
-const iconsArray = Object.values(AvatarIcon);
+import ScrollLayout from './ScrollLayout';
 
 export type IAvatarIconPicker = ViewProps & {
     selectedIcon: AvatarIcon;
@@ -36,13 +35,16 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon }: IAvatarIconPicker) 
                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                 )}
             </View>
-            <FlatList
-                data={iconsArray}
-                renderItem={renderIcon}
-                numColumns={4}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.iconList}
-            />
+
+            <ScrollLayout style={{height: 200}}>
+                <FlatList
+                    data={AvatarIconArray}
+                    renderItem={renderIcon}
+                    numColumns={4}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            </ScrollLayout>
+
         </View>
     );
 };
@@ -52,8 +54,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        gap: 24,
-        padding: 16,
+        gap: 4,
+        padding: 8,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -61,13 +63,6 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
         borderRadius: 8,
-        width: '99%'
-    },
-    iconList: {
-        alignItems: 'flex-start',
-        flex: 1,
-        maxHeight: 150,
-        overflow: 'scroll'
     },
     icon: {
         width: 50,

@@ -3,9 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from './AppText';
+import { AppIcon, AvatarIcon } from '@/enums/enums';
 
 export type ISimpleIcon = {
-    iconSrc: string | null;
+    iconSrc: AppIcon | AvatarIcon | null;
     title?: string;
     large?: boolean;
     removeBackground?: boolean;
@@ -33,8 +34,6 @@ export function SimpleIcon({ iconSrc = null, title = '', large, removeBackground
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
     },
     content: {
 
@@ -74,7 +73,6 @@ const largeStyles = StyleSheet.create({
     ...styles,
     container: {
         ...styles.container,
-        marginBottom: 16,
     },
     iconContainer: {
         ...styles.iconContainer,

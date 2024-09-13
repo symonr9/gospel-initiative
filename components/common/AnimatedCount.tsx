@@ -93,12 +93,13 @@ export function AnimatedCount({ count, label = undefined, customStyles = {},
 
 const styles = StyleSheet.create({
   container: {
-    
+    display: 'flex',
+    flexDirection: 'column',
   },
   countText: {
     position: 'absolute',
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 22,
+    top: 14
   },
 });

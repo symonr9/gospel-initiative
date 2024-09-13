@@ -29,6 +29,7 @@ import ShareChristAddEditOneForm from './ShareChristAddEditOneForm';
 import OneForm from '@/models/oneForm';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IShareChristOnesLayout = ViewProps & {
     selectedOne: One,
@@ -71,7 +72,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.Plus}
                     onClick={() => {
                         setMessage(null);
@@ -114,7 +115,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         };
 
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setActiveLayoutType(OneLayoutType.Normal);
@@ -157,7 +158,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         };
 
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setActiveLayoutType(OneLayoutType.Normal);
@@ -176,7 +177,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
     } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setMessage(null);
@@ -230,7 +231,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         };
 
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setSelectedTemplateId(null);
@@ -249,7 +250,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
     } else if (activeLayoutType === OneLayoutType.SentBeaconResponse) {
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setMessage(null);
@@ -272,7 +273,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         const showArrowRight = ones.length > 1;
 
         HeaderLayout.push(
-            <PageRow spaceBetween>
+            <PageRow spaceEvenly>
                 {
                     showArrowLeft && (
                         <SimpleIconButton iconSrc={AppIcon.ArrowLeft}
@@ -335,39 +336,38 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
     const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne].includes(activeLayoutType) && selectedOne;
 
     return (
-        <View style={styles.container}>
-            {
-                showYourSelectedOne && (
-                    <PageRow flexStart>
-                        <SimpleIcon iconSrc={selectedOne.icon} large />
-                        <AnimatedHeader title={selectedOne.name}
-                            style={{ alignItems: 'flex-start', marginStart: 8 }}
-                            subtitle='Your One' />
-                    </PageRow>
-                )
-            }
+        <ScrollLayout>
+            <View style={styles.container}>
+                {
+                    showYourSelectedOne && (
+                        <PageRow flexStart>
+                            <SimpleIcon iconSrc={selectedOne.icon} large />
+                            <AnimatedHeader title={selectedOne.name}
+                                style={{ alignItems: 'flex-start', marginStart: 8 }}
+                                subtitle='Your One' />
+                        </PageRow>
+                    )
+                }
 
-            {
-                message && (
-                    <AnimatedBanner iconSrc={AppIcon.Info} text={message} />
-                )
-            }
+                {
+                    message && (
+                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} />
+                    )
+                }
 
+                <View style={{ marginBottom: 8 }}>
+                    {HeaderLayout.map((item) => item)}
+                </View>
 
-            {HeaderLayout.map((item) => item)}
-
-            {BodyLayout.map((item) => item)}
-        </View>
+                {BodyLayout.map((item) => item)}
+            </View>
+        </ScrollLayout>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        gap: 16,
-        marginTop: 16
-    },
-    activeBeaconsDiv: {
-
+        gap: 4,
     },
 });
 

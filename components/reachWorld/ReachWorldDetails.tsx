@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
 
     },
     section: {
-        marginTop: 8,
-        marginBottom: 8
+        marginVertical: 6
     }
 });

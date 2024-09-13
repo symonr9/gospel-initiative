@@ -12,6 +12,7 @@ import { LocalMinistryCard } from './LocalMinistryCard';
 import { LocalEventCard } from './LocalEventCard';
 import { AppText, TextType } from '../common/AppText';
 import { LoveCityDetails } from './LoveCityDetails';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -25,8 +26,8 @@ function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayou
     console.log("localEvents: ", localEvents);
 
     return (
-        <View>
-        </View>
+        <ScrollLayout>
+        </ScrollLayout>
     );
 }
 

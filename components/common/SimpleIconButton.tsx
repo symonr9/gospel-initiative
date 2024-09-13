@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 
 import { AppText, TextType } from './AppText';
 import { useBackgroundThemeColor } from '@/constants/Colors';
-import { Page } from '@/enums/enums';
+import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
 
 export type ISimpleIconButton = {
-  iconSrc: string | null;
+  iconSrc: AppIcon | null;
   title?: string | undefined;
   pageToOpen?: Page;
   onClick?: () => void;
@@ -78,7 +78,7 @@ function SimpleIconButton({
         </View>
         {title && (
           <AppText
-            type={TextType.Subtitle}
+            type={TextType.Prefix}
             style={[
               stylesToUse.title,
               customStyles.title,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 2, // Space between the icon and the title
+    marginBottom: 6, // Space between the icon and the title
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,

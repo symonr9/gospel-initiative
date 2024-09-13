@@ -9,6 +9,7 @@ import { AppText, TextType } from '../common/AppText';
 import { MissionsTripCard } from './MissionsTripCard';
 import { ReachWorldDetails } from './ReachWorldDetails';
 import { listStyles } from '@/styles/Styles';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IReachWorldMissionsTripLayout = ViewProps & {
     missionsTrips: MissionsTrip[];
@@ -29,7 +30,7 @@ function ReachWorldMissionsTripLayout({ missionsTrips }: IReachWorldMissionsTrip
     }) : [];
 
     return (
-        <ThemedView>
+        <ScrollLayout>
             <ReachWorldDetails missionsTrips={missionsTrips} 
                                activeItemId={activeItemId} 
                                setActiveItemId={setActiveItemId}/>
@@ -45,7 +46,7 @@ function ReachWorldMissionsTripLayout({ missionsTrips }: IReachWorldMissionsTrip
                 style={[listStyles.itemsContainer]}>
                 {itemsToRender.map((item, index) => item)}
             </Animated.View>
-        </ThemedView>
+        </ScrollLayout>
     );
 }
 

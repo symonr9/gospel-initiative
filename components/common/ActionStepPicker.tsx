@@ -1,6 +1,6 @@
 import { ActionStepType, AppIcon, OneStage } from '@/enums/enums';
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInput, Picker } from 'react-native';
+import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
@@ -12,7 +12,7 @@ import SimpleIconButton from './SimpleIconButton';
 import One from '@/models/one';
 import { formStyles } from '@/styles/Styles';
 import SelectDatePicker from './SelectDatePicker';
-import { Action } from '@/redux/actions';
+import ScrollLayout from './ScrollLayout';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -135,24 +135,15 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
         <PageColumn>
             <AppText type={TextType.Default}>Type</AppText>
 
-            <FlatList
-                data={actionStepTypeArray}
-                renderItem={renderIcon}
-                numColumns={1}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.iconList}
-            />
-
-            <Picker
-                style={[formStyles.dropdown, { display: 'none' }]}
-                selectedValue={formSelectedTypeIdx}
-                onValueChange={(idx: number) => setFormSelectedTypeIdx(idx)}>
-                {
-                    actionStepTypeArray.map((item, idx) => (
-                        <Picker.Item label={item.label} value={idx} key={item.value} />
-                    ))
-                }
-            </Picker>
+            <ScrollLayout style={{ height: 200 }}>
+                <FlatList
+                    data={actionStepTypeArray}
+                    renderItem={renderIcon}
+                    numColumns={1}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.iconList}
+                />
+            </ScrollLayout>
 
             <AppText type={TextType.Default}>Notes</AppText>
             <TextInput
@@ -199,13 +190,15 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
     if (pickerState === ActionStepPickerState.Normal) {
         Body.push(
-            <FlatList
-                data={actionSteps}
-                renderItem={renderActionStep}
-                numColumns={1}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.actionStepList}
-            />
+            <ScrollLayout style={{ height: 200}}>
+                <FlatList
+                    data={actionSteps}
+                    renderItem={renderActionStep}
+                    numColumns={1}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.actionStepList}
+                />
+            </ScrollLayout>
         );
     } else if (pickerState === ActionStepPickerState.Adding) {
         Body.push(
@@ -295,14 +288,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#bbeccc'
     },
     iconList: {
-        maxHeight: 200,
-        overflow: 'scroll',
-        marginHorizontal: 32,
-        marginVertical: 16,
+        marginHorizontal: 8,
     },
     icon: {
-        width: 50,
-        height: 50,
+        width: 36,
+        height: 36,
         margin: 4,
         opacity: 0.4
     },

@@ -8,9 +8,10 @@ import { flexStyles } from '@/styles/Styles';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 import { useBackgroundThemeColor } from '@/constants/Colors';
+import { AppIcon } from '@/enums/enums';
 
 export type ISimpleCard = ViewProps & {
-  iconSrc: string | null;
+  iconSrc: AppIcon | null;
   title: string;
   detailsView?: any;
   onClick?: Function;

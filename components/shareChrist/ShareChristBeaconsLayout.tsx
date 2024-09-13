@@ -10,16 +10,15 @@ import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beacon
 import ShareChristBeaconDetails from './ShareChristBeaconDetails';
 import { AnimatedCard } from '../common/AnimatedCard';
 import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
-import { PageRow } from '../common/PageRow';
-import { layoutStyles } from '@/styles/Styles';
 import { Colors } from '@/constants/Colors';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IShareChristBeaconsLayout = ViewProps & {
     // completedBeacons: EnhancedBeacon[];
     // incomingBeacons: EnhancedBeacon[];
 };
 
-function ShareChristBeaconsLayout({  }: IShareChristBeaconsLayout) {
+function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
@@ -53,34 +52,36 @@ function ShareChristBeaconsLayout({  }: IShareChristBeaconsLayout) {
     )) : [];
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
-                    completedCursorIdx={completedCursorIdx}
-                    completedBeacons={completedBeacons}
-                    incomingBeacons={incomingBeacons} />
-            </View>
+        <ScrollLayout>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
+                        completedCursorIdx={completedCursorIdx}
+                        completedBeacons={completedBeacons}
+                        incomingBeacons={incomingBeacons} />
+                </View>
 
-            <View>
-                <ShareChristRoadContainer title={`Completed (${completedCount})`}
-                    iconSrc={AppIcon.Checkmark}
-                    type={RoadContainerType.Completed}
-                    activeType={activeRoadType}
-                    setActiveType={setActiveRoadType}
-                    itemsToRender={completedItemsToRender}
-                    customStyles={completedStyle} />
-                <ShareChristRoadContainer title={`Incoming (${incomingCount})`}
-                    iconSrc={AppIcon.Send}
-                    type={RoadContainerType.Incoming}
-                    activeType={activeRoadType}
-                    isTopPosition={false}
-                    setActiveType={setActiveRoadType}
-                    itemsToRender={incomingItemsToRender}
-                    customStyles={incomingStyle} />
-            </View>
+                <View>
+                    <ShareChristRoadContainer title={`Completed (${completedCount})`}
+                        iconSrc={AppIcon.Checkmark}
+                        type={RoadContainerType.Completed}
+                        activeType={activeRoadType}
+                        setActiveType={setActiveRoadType}
+                        itemsToRender={completedItemsToRender}
+                        customStyles={completedStyle} />
+                    <ShareChristRoadContainer title={`Incoming (${incomingCount})`}
+                        iconSrc={AppIcon.Send}
+                        type={RoadContainerType.Incoming}
+                        activeType={activeRoadType}
+                        isTopPosition={false}
+                        setActiveType={setActiveRoadType}
+                        itemsToRender={incomingItemsToRender}
+                        customStyles={incomingStyle} />
+                </View>
 
-            <BeaconActivityBezierLineChart />
-        </View>
+                <BeaconActivityBezierLineChart />
+            </View>
+        </ScrollLayout>
     );
 }
 

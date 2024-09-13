@@ -33,7 +33,7 @@ export function BeaconsListHeader({ activeLayoutType, selectedTemplateId, style 
 
     return (
         <Animated.View style={[styles.container, style]}>
-            <AppText type={TextType.DefaultSemiBold}>
+            <AppText type={TextType.Subtitle}>
                 {getTitle()}
             </AppText>
             <AppText type={TextType.Default}>
@@ -49,12 +49,5 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         padding: 8,
-        flexShrink: 1, // Prevent children from overflowing,
-        marginBottom: 48,
-    },
-    icon: {
-        width: 38,
-        height: 38,
-        marginBottom: 12,
     },
 });

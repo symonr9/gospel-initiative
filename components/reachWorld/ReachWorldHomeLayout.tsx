@@ -4,6 +4,7 @@ import { View, type ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import MissionsTrip from '@/models/missionsTrip';
 import { ThemedView } from '../common/ThemedView';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IReachWorldHomeLayout = ViewProps & {
     missionsTrips: MissionsTrip[];
@@ -11,8 +12,9 @@ export type IReachWorldHomeLayout = ViewProps & {
 
 function ReachWorldHomeLayout({ missionsTrips }: IReachWorldHomeLayout) {
     return (
-        <ThemedView style={[styles.container]}>
-        </ThemedView>
+        <ScrollLayout>
+            
+        </ScrollLayout>
     );
 }
 

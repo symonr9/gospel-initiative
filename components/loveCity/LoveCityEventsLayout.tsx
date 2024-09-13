@@ -7,6 +7,7 @@ import { LocalEventCard } from './LocalEventCard';
 import { AppText, TextType } from '../common/AppText';
 import { LoveCityDetails } from './LoveCityDetails';
 import { listStyles } from '@/styles/Styles';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type ILoveCityEventsLayout = ViewProps & {
     localEvents: LocalEvent[];
@@ -26,7 +27,7 @@ function LoveCityEventsLayout({ localEvents }: ILoveCityEventsLayout) {
     }) : [];
 
     return (
-        <View>
+        <ScrollLayout>
             <LoveCityDetails localEvents={localEvents} 
                              activeItemId={activeItemId} 
                              setActiveItemId={setActiveItemId}/>
@@ -41,7 +42,7 @@ function LoveCityEventsLayout({ localEvents }: ILoveCityEventsLayout) {
                 style={[listStyles.itemsContainer]}>
                 {eventsToRender.map((item, index) => item)}
             </Animated.View>
-        </View>
+        </ScrollLayout>
     );
 }
 

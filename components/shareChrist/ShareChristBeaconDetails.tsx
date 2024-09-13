@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Animated, Modal, type ViewProps, TouchableOpacity, Picker, Button, TextInput } from 'react-native';
+import { StyleSheet, View, Animated, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
@@ -17,8 +17,9 @@ import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
 import { ActivityNoteOptions } from '@/constants/Strings';
-import { formStyles, layoutStyles } from '@/styles/Styles';
 import { AnimatedCard } from '../common/AnimatedCard';
+import { PageColumn } from '../common/PageColumn';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -80,7 +81,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 <AnimatedHeader title='Prayer Beacons'
                     subtitle='Select a beacon below to begin.' />
 
-                <PageRow spaceBetween>
+                <PageRow spaceEvenly>
                     <AnimatedCard text={incomingBeacons.length}
                         direction={FadeDirection.Left}
                         label='To Pray for' />
@@ -108,27 +109,9 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     if (message) {
         rows.push(
-            <View style={styles.section}>
-                <View style={styles.row}>
-                    <View style={styles.notesSection}>
-                        <AppText type={TextType.Body}>Notes:</AppText>
-                        <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
-    if (one.prayingSince) {
-        const prayingSincePrefix = beacon.shareOwnName ? user.name : 'The user';
-        rows.push(
-            <View style={styles.section}>
-                <View style={styles.row}>
-                    <View>
-                        <AppText type={TextType.Body}>{prayingSincePrefix} has...</AppText>
-                        <AppText type={TextType.DefaultSemiBold}>{getDaysPrayedForText(one.prayingSince)}</AppText>
-                    </View>
-                </View>
+            <View style={[styles.section, styles.notesSection]}>
+                <AppText type={TextType.Body}>Notes:</AppText>
+                <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
             </View>
         );
     }
@@ -136,8 +119,8 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const stagePrefix = beacon.shareOneName ? `${one.name}...` : `Their One is...`;
     rows.push(
         <View style={styles.section}>
-            <PageRow spaceBetween>
-                <View style={styles.row}>
+            <PageRow spaceEvenly>
+                <View>
                     <Image source={mapStageToIcon(one.stage)} style={styles.icon} />
                     <View style={styles.column}>
                         <AppText type={TextType.Body}>{stagePrefix}</AppText>
@@ -212,16 +195,22 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                         </TouchableOpacity>
 
                         <AppText type={TextType.Body}>Select a note:</AppText>
-                        <Picker
-                            style={[styles.picker, formStyles.dropdown]}
-                            selectedValue={selectedNoteIdx}
-                            onValueChange={(idx) => setSelectedNoteIdx(idx)}>
+
+                        <ScrollLayout style={{ height: 400 }}>
+                            <View style={styles.defaultNoteOptionsDiv}>
                             {
-                                ActivityNoteOptions.map((value, idx) => (
-                                    <Picker.Item label={value} value={idx} key={value} />
-                                ))
-                            }
-                        </Picker>
+                                    ActivityNoteOptions.map((value, idx) => (
+                                        <TouchableOpacity onPress={() => setSelectedNoteIdx(idx)}>
+                                            <View style={[styles.defaultNoteCard, selectedNoteIdx === idx && styles.selectedDefaultNoteCard]}>
+                                                <AppText type={TextType.DefaultSemiBold}>
+                                                    {value}
+                                                </AppText>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                            </View>
+                        </ScrollLayout>
 
                         {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
                             <TextInput
@@ -246,7 +235,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     </AppText>
                 </View>
 
-                <View style={[styles.row, { gap: 12 }]}>
+                <PageRow style={[{ gap: 12 }]}>
                     <AnimatedElement element={
                         <Image source={user.icon} style={styles.profileIcon} />
                     } delay={300} direction={FadeDirection.Left} />
@@ -257,7 +246,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     <AnimatedElement element={
                         <Image source={one.icon} style={styles.profileIcon} />
                     } delay={600} direction={FadeDirection.Right} />
-                </View>
+                </PageRow>
                 <AnimatedHeader title={beacon.name}
                     subtitle={titleText}
                     delay={600}
@@ -265,9 +254,14 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
             </View>
 
             <AnimatedElement element={
-                rows.map((row, index) => (
-                    <View key={index}>{row}</View>
-                ))
+                <PageColumn>
+                    {
+                        rows.map((row, index) => (
+                            <View key={index}>{row}</View>
+                        ))
+                    }
+                </PageColumn>
+
             } delay={800} style={styles.detailsContainer} />
 
             <View style={[styles.buttonRow]}>
@@ -324,11 +318,14 @@ function getTitleText(beacon: EnhancedBeacon): string | undefined {
     return mapBeaconTypeToTitleText(type, shareOneName, shareOwnName, user, one);
 }
 
+const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
         padding: 16,
+        margin: 12,
         backgroundColor: '#fff',
         borderRadius: 8,
         shadowColor: '#000',
@@ -343,15 +340,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     header: {
-        marginBottom: 16,
         alignItems: 'center',
     },
     section: {
-        marginBottom: 8,
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        marginVertical: 4
     },
     column: {
         flexDirection: 'column',
@@ -366,7 +358,6 @@ const styles = StyleSheet.create({
         marginRight: 12,
     },
     detailsContainer: {
-        height: 300,
         display: 'flex',
         flexDirection: 'column',
     },
@@ -388,28 +379,21 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     notesSection: {
-        width: '100%',
-        maxHeight: 140,
-        backgroundColor: 'whitesmoke',
+        maxHeight: 80,
         padding: 8,
-        borderRadius: 4,
-        overflow: 'scroll',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
     },
     timeAgo: {
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        marginEnd: 16,
+        marginBottom: 12
     },
     modalContainer: {
-        flex: 1,
+        height: screenHeight,
+        width: screenWidth,
         justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: 450,
         padding: 24,
         backgroundColor: '#fff',
         borderRadius: 10,
@@ -439,15 +423,26 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 5,
     },
-    picker: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginTop: 10,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        borderRadius: 5,
-        backgroundColor: 'whitesmoke',
+    defaultNoteOptionsDiv: {
+        padding: 8,
+        marginHorizontal: 8,
+        marginVertical: 10,
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    defaultNoteCard: {
+        padding: 8,
+        marginVertical: 8,
+        backgroundColor: '#fff',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 8,
+    },
+    selectedDefaultNoteCard: {
+        backgroundColor: '#bbeccc'
     },
     myNoteForBeacon: {
         maxWidth: 180

@@ -5,9 +5,10 @@ import { Image } from 'expo-image';
 
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
+import { AppIcon } from '@/enums/enums';
 
 export type IPageTag = ViewProps & {
-    iconSrc: string | null;
+    iconSrc: AppIcon | null;
     title: string;
     onClick?: Function;
 }

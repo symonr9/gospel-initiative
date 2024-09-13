@@ -7,7 +7,7 @@ import { flexStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 
 export type IAnimatedBanner = {
-    iconSrc: string | null;
+    iconSrc: AppIcon | null;
     prefixText?: string | null;
     text: string;
     onClick?: Function;

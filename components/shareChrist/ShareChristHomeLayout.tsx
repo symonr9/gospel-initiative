@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import PromptBanner from '../prompts/PromptBanner';
 import { EnhancedBeacon } from '@/models/beacon';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IShareChristHomeLayout = ViewProps & {
 
@@ -12,9 +13,9 @@ export type IShareChristHomeLayout = ViewProps & {
 
 function ShareChristHomeLayout({  }: IShareChristHomeLayout) {
   return (
-    <View style={styles.container}>
+    <ScrollLayout style={styles.container}>
       <PromptBanner />
-    </View>
+    </ScrollLayout>
   );
 }
 

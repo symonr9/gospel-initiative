@@ -7,6 +7,7 @@ import { LocalMinistryCard } from './LocalMinistryCard';
 import { AppText, TextType } from '../common/AppText';
 import { LoveCityDetails } from './LoveCityDetails';
 import { listStyles } from '@/styles/Styles';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type ILoveCityMinistriesLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -26,7 +27,7 @@ function LoveCityMinistriesLayout({ localMinistries }: ILoveCityMinistriesLayout
     }) : [];
 
     return (
-        <View>
+        <ScrollLayout>
             <LoveCityDetails localMinistries={localMinistries} 
                              activeItemId={activeItemId} 
                              setActiveItemId={setActiveItemId}/>
@@ -42,7 +43,7 @@ function LoveCityMinistriesLayout({ localMinistries }: ILoveCityMinistriesLayout
                 style={[listStyles.itemsContainer]}>
                 {ministriesToRender.map((item, index) => item)}
             </Animated.View>
-        </View>
+        </ScrollLayout>
     );
 }
 

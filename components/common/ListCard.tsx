@@ -47,6 +47,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     padding: 16,
+    marginLeft: 24,
+    marginRight: 48,
     backgroundColor: 'white',
     shadowOpacity: 0.2,
     shadowRadius: 8,

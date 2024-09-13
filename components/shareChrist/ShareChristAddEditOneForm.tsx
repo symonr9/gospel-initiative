@@ -108,18 +108,17 @@ const styles = StyleSheet.create({
     },
     section: {
         marginBottom: 8,
-        marginStart: 12,
+        marginHorizontal: 12
     },
     nameSection: {
-        padding: 16,
+        padding: 8,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 8,
-        width: '97%'
+        borderRadius: 8
     },
 });
 

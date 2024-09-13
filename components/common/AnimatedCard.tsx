@@ -66,8 +66,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     borderRadius: 4,
-    margin: 4,
-    maxHeight: 70,
+    marginHorizontal: 12,
   },
   textLabel: {
     fontSize: 18

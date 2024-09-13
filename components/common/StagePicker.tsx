@@ -71,7 +71,7 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
             <FlatList
                 data={stageArray}
                 renderItem={renderIcon}
-                numColumns={3}
+                numColumns={2}
                 keyExtractor={(item, index) => index.toString()}
                 contentContainerStyle={styles.iconList}
             />
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        gap: 6,
-        padding: 16,
+        gap: 4,
+        padding: 8,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
         borderRadius: 8,
-        width: '99%',
     },
     iconList: {
         display: 'flex',
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
     },
     selectedContainer: {
         alignItems: 'center',
-        width: 140,
+        width: 170,
     },
     selectedText: {
         fontSize: 18,

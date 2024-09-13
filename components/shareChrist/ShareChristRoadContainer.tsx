@@ -13,7 +13,7 @@ import { AppIcon, RoadContainerType } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
 
 export type IShareChristRoadContainer = {
-    iconSrc: string | null;
+    iconSrc: AppIcon | null;
     title: string;
     itemsToRender: React.ReactNode[];
     customStyles?: any;
@@ -65,7 +65,7 @@ export function ShareChristRoadContainer({
     return (
         <TouchableOpacity onPress={onPress}>
             <ThemedView style={[styles.container, customStyles?.container]}>
-                <View style={[styles.header, customStyles?.header]}>
+                <PageRow spaceBetween style={[customStyles?.header]}>
                     <PageRow>
                         {iconSrc && (
                             <Image source={iconSrc} style={styles.icon} contentFit="contain" />
@@ -75,7 +75,7 @@ export function ShareChristRoadContainer({
                         </AppText>
                     </PageRow>
                     <Image source={navIcon} style={[styles.icon, isActive && styles.hide]} contentFit="contain"/>
-                </View>
+                </PageRow>
 
                 <Animated.View
                     style={[styles.itemsContainer, customStyles?.itemsContainer, animatedStyle]}>
@@ -87,6 +87,8 @@ export function ShareChristRoadContainer({
         </TouchableOpacity>
     );
 }
+
+const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
         overflow: 'scroll',
         maxHeight: 1200,
         zIndex: 4,
-        alignItems: 'center'
     },
     icon: {
         width: 24,

@@ -1,17 +1,5 @@
 import { StyleSheet, Image, Platform } from 'react-native';
 
-
-export const layoutStyles = StyleSheet.create({
-  section: {
-    marginTop: 8,
-    marginBottom: 8
-  },
-  sectionRow: {
-    gap: 16,
-    padding: 8
-  }
-});
-
 export const listStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,16 +22,13 @@ export const cardStyles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     borderRadius: 4,
-    padding: 4,
-    marginStart: 12,
-    marginEnd: 12,
+    padding: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 6, // Shadow radius for a softer shadow
     elevation: 4,
-    marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 12,
   }
 });
 
@@ -60,18 +45,6 @@ export const formStyles = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
   },
-  header: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    marginBottom: 16,
-  },
   textInput: {
     borderColor: '#ccc',
     borderWidth: 1,
@@ -80,7 +53,7 @@ export const formStyles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     backgroundColor: '#fff',
-    marginBottom: 16,
+    marginBottom: 8,
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -96,7 +69,7 @@ export const formStyles = StyleSheet.create({
     backgroundColor: '#fff',
     textAlignVertical: 'top', // Ensures the text starts at the top for multiline
     minHeight: 120,
-    marginBottom: 16,
+    marginBottom: 8,
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -133,18 +106,6 @@ export const formStyles = StyleSheet.create({
   },
   checkbox: {
     marginRight: 8,
-  },
-  dropdown: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: '#fff',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
   },
 });
 

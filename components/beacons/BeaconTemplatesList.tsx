@@ -61,8 +61,6 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        maxHeight: 600,
-        overflow: 'scroll'
     },
 });
 
