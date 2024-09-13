@@ -54,15 +54,6 @@ function ShareChristBeaconsLayout({  }: IShareChristBeaconsLayout) {
 
     return (
         <View style={styles.container}>
-            <PageRow style={layoutStyles.sectionRow}>
-                <AnimatedCard text={incomingBeacons.length}
-                    direction={FadeDirection.Left}
-                    label='To Pray for' />
-                <AnimatedCard text={completedBeacons.length}
-                    direction={FadeDirection.Right}
-                    label='Prayed for Today' />
-            </PageRow>
-
             <View style={styles.header}>
                 <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
                     completedCursorIdx={completedCursorIdx}
@@ -82,6 +73,7 @@ function ShareChristBeaconsLayout({  }: IShareChristBeaconsLayout) {
                     iconSrc={AppIcon.Send}
                     type={RoadContainerType.Incoming}
                     activeType={activeRoadType}
+                    isTopPosition={false}
                     setActiveType={setActiveRoadType}
                     itemsToRender={incomingItemsToRender}
                     customStyles={incomingStyle} />

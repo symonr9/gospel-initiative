@@ -27,7 +27,7 @@ export function AnimatedHeader({ title, subtitle = null, duration = 400, delay =
             {
                 subtitle && (
                     <Animated.Text
-                        entering={FadeInUp.duration(duration).delay(delay + 500)}
+                        entering={FadeInUp.duration(duration).delay(delay + 200)}
                         exiting={FadeOutDown.duration(duration)}
                         style={[]} >
                         <AppText type={TextType.Subtitle2}>

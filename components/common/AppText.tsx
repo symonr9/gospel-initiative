@@ -35,6 +35,7 @@ export function AppText({
   return (
     <Text
       style={[
+        { fontFamily: 'LeagueSpartan' },
         { color },
         { flexShrink: 1 },
         type === TextType.Default ? styles.default : undefined,
@@ -70,10 +71,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     lineHeight: 32,
+    fontFamily: 'LeagueSpartanBold'
   },
   subtitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    fontFamily: 'LeagueSpartanBold'
   },
   subtitle2: {
     fontSize: 18,
@@ -90,6 +93,7 @@ const styles = StyleSheet.create({
   },
   body: {
     fontSize: 14,
+    fontFamily: 'LeagueSpartanLight'
   },
   bodyBold: {
     fontSize: 24,

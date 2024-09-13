@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert, Button } from 'react-native';
 import { Calendar, DateObject } from 'react-native-calendars';
 import { AppText, TextType } from './AppText';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+import { formatDateTime } from '@/utils/appUtils';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -53,6 +54,13 @@ function SelectDatePicker({ title, events, markingType = MarkingType.Dot, curren
                         {title}
                     </AppText>
                 )}
+                {selectedDate && (
+                    <View style={styles.selectedDateWrapper}>
+                        <AppText type={TextType.DefaultSemiBold}>
+                            Selected Deadline: {selectedDate}
+                        </AppText>
+                    </View>
+                )}
                 <Calendar
                     markedDates={markedDates}
                     markingType={markingType}
@@ -63,13 +71,6 @@ function SelectDatePicker({ title, events, markingType = MarkingType.Dot, curren
                     enableSwipeMonths={true}
                     style={styles.calendar}
                 />
-                {selectedDate && (
-                    <View style={styles.selectedDateWrapper}>
-                        <AppText type={TextType.DefaultSemiBold}>
-                            Selected Deadline: {selectedDate}
-                        </AppText>
-                    </View>
-                )}
             </View>
         </View>
     );
@@ -122,6 +123,14 @@ const styles = StyleSheet.create({
     selectedDateWrapper: {
         marginVertical: 20,
         alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 8,
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 8,
     },
 });
 

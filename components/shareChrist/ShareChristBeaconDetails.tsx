@@ -17,7 +17,8 @@ import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
 import { ActivityNoteOptions } from '@/constants/Strings';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, layoutStyles } from '@/styles/Styles';
+import { AnimatedCard } from '../common/AnimatedCard';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -78,6 +79,15 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
             <View style={[styles.center, styles.column]}>
                 <AnimatedHeader title='Prayer Beacons'
                     subtitle='Select a beacon below to begin.' />
+
+                <PageRow spaceBetween>
+                    <AnimatedCard text={incomingBeacons.length}
+                        direction={FadeDirection.Left}
+                        label='To Pray for' />
+                    <AnimatedCard text={completedBeacons.length}
+                        direction={FadeDirection.Right}
+                        label='Prayed for Today' />
+                </PageRow>
             </View>
         );
     }
@@ -149,14 +159,14 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         setModalVisible(true);
     };
 
-    const onSaveClick  = () => {
+    const onSaveClick = () => {
         setModalVisible(false);
         if (!hasUserAlreadyPrayed && !userActivityForBeacon) {
             return;
         }
 
         const note = (() => {
-            if (customNote !== '') 
+            if (customNote !== '')
                 return customNote;
             if (selectedNoteIdx >= 0 && selectedNoteIdx < ActivityNoteOptions.length)
                 return ActivityNoteOptions[selectedNoteIdx];
@@ -176,7 +186,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         if (hasUserAlreadyPrayed) {
             return;
         }
-        
+
         progress.value = withTiming(1, { duration: 250 });
 
         addBeaconActivity(
@@ -207,7 +217,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             selectedValue={selectedNoteIdx}
                             onValueChange={(idx) => setSelectedNoteIdx(idx)}>
                             {
-                                ActivityNoteOptions.map((value, idx) => (                            
+                                ActivityNoteOptions.map((value, idx) => (
                                     <Picker.Item label={value} value={idx} key={value} />
                                 ))
                             }
@@ -239,14 +249,14 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 <View style={[styles.row, { gap: 12 }]}>
                     <AnimatedElement element={
                         <Image source={user.icon} style={styles.profileIcon} />
-                    } delay={300} direction={FadeDirection.Left}/>
+                    } delay={300} direction={FadeDirection.Left} />
                     <AnimatedElement element={
-                        <Image source={mapBeaconTypeToAppIcon(beacon.type)} 
-                               style={[styles.profileIcon, { width: 42, height: 42 }]} />
-                    } delay={900} direction={FadeDirection.Up}/>
+                        <Image source={mapBeaconTypeToAppIcon(beacon.type)}
+                            style={[styles.profileIcon, { width: 42, height: 42 }]} />
+                    } delay={900} direction={FadeDirection.Up} />
                     <AnimatedElement element={
                         <Image source={one.icon} style={styles.profileIcon} />
-                    } delay={600} direction={FadeDirection.Right}/>
+                    } delay={600} direction={FadeDirection.Right} />
                 </View>
                 <AnimatedHeader title={beacon.name}
                     subtitle={titleText}

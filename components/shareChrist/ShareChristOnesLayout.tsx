@@ -18,7 +18,7 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Beacon, { BeaconWithActivities } from '@/models/beacon';
 import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
-import { addActionStep, addBeacon, addOne, setOneForm, setSelectedOne, setSelectedTemplateId, setShareChristPageState } from '@/redux/actions';
+import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps, setShareChristPageState } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
@@ -39,7 +39,9 @@ export type IShareChristOnesLayout = ViewProps & {
     setSelectedTemplateId: Function,
     addBeacon: Function,
     addOne: Function,
+    editOne: Function,
     addActionStep: Function,
+    editActionSteps: Function,
     setSelectedOne: Function
 };
 
@@ -54,9 +56,8 @@ export enum OneLayoutType {
 }
 
 function ShareChristOnesLayout({ selectedOne, ones, oneForm,
-    executor, setSelectedTemplateId, beaconTemplates, addBeacon, addOne,
-    addActionStep, setSelectedOne }: IShareChristOnesLayout) {
-
+    executor, setSelectedTemplateId, beaconTemplates, addBeacon, editOne,
+    addOne, addActionStep, editActionSteps, setSelectedOne }: IShareChristOnesLayout) {
     const activeBeaconsWithActivities = selectedOne ? useSelector(selectActiveBeaconsWithActivities(selectedOne.id)) : [];
     const actionsStepsForSelectedOne = selectedOne ? useSelector((state: any) => selectActionStepsByOneId(state, selectedOne.id)) : [];
     const selectedTemplateId = useSelector((state: any) => state.beacons.selectedTemplateId);
@@ -126,13 +127,33 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <ShareChristAddEditOneForm initialOneForm={OneForm.createDefault()}/>
+            <ShareChristAddEditOneForm initialOneForm={OneForm.createDefault()} />
         );
     } else if (!selectedOne) { // All layouts below require a selected one...
         return <></>;
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         const onSave = () => {
-            console.log("ONE FORM: ", oneForm);
+            const newOne = {
+                ...selectedOne,
+                name: oneForm.name,
+                icon: oneForm.icon,
+                stage: oneForm.stage
+            };
+
+            editOne(newOne);
+
+            editActionSteps(
+                oneForm.actionSteps.map((actionStep) => ({
+                    ...actionStep,
+                    oneId: selectedOne.id
+                })),
+                selectedOne.id,
+            );
+
+            setSelectedOne(newOne);
+            setOneForm(OneForm.createDefault());
+            setMessage("Your One has been successfully updated!");
+            setActiveLayoutType(OneLayoutType.Normal);
         };
 
         HeaderLayout.push(
@@ -150,8 +171,8 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
         const initialOneForm = OneForm.createFromOne(selectedOne, actionsStepsForSelectedOne);
         BodyLayout.push(
-            <ShareChristAddEditOneForm editing 
-                                       initialOneForm={initialOneForm}/>
+            <ShareChristAddEditOneForm editing
+                initialOneForm={initialOneForm} />
         );
     } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
         HeaderLayout.push(
@@ -246,7 +267,6 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
             </View>
         );
     } else { // Normal
-
         const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOne?.id);
         const showArrowLeft = ones.length > 1;
         const showArrowRight = ones.length > 1;
@@ -256,11 +276,11 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                 {
                     showArrowLeft && (
                         <SimpleIconButton iconSrc={AppIcon.ArrowLeft}
-                                          disabled={idxOfSelectedOne === 0}
-                                          onClick={() => {
-                                              setMessage(null);
-                                              setSelectedOne(ones[idxOfSelectedOne - 1]); 
-                                          }} />
+                            disabled={idxOfSelectedOne === 0}
+                            onClick={() => {
+                                setMessage(null);
+                                setSelectedOne(ones[idxOfSelectedOne - 1]);
+                            }} />
                     )
                 }
 
@@ -275,11 +295,11 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                     selectedOne && (
                         <SimpleIconButton iconSrc={AppIcon.Pencil}
                             onClick={() => {
-                            setMessage(null);
+                                setMessage(null);
                                 setActiveLayoutType(OneLayoutType.EditingOne);
                             }}
                             title={'Edit'} />
-                    )                    
+                    )
                 }
 
                 <SimpleIconButton iconSrc={AppIcon.Prayer}
@@ -289,15 +309,15 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                     }}
                     title={'New Beacon'} />
 
-                
+
                 {
                     showArrowRight && (
                         <SimpleIconButton iconSrc={AppIcon.ArrowRight}
-                                          disabled={idxOfSelectedOne === ones.length - 1}
-                                          onClick={() => {
-                                              setMessage(null);
-                                              setSelectedOne(ones[idxOfSelectedOne + 1])
-                                          }} />
+                            disabled={idxOfSelectedOne === ones.length - 1}
+                            onClick={() => {
+                                setMessage(null);
+                                setSelectedOne(ones[idxOfSelectedOne + 1])
+                            }} />
                     )
                 }
             </PageRow>
@@ -317,14 +337,6 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
     return (
         <View style={styles.container}>
             {
-                message && (
-                    <AnimatedBanner iconSrc={AppIcon.Info} text={message}/>
-                )
-            }
-
-            {HeaderLayout.map((item) => item)}
-
-            {
                 showYourSelectedOne && (
                     <PageRow flexStart>
                         <SimpleIcon iconSrc={selectedOne.icon} large />
@@ -335,6 +347,15 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                 )
             }
 
+            {
+                message && (
+                    <AnimatedBanner iconSrc={AppIcon.Info} text={message} />
+                )
+            }
+
+
+            {HeaderLayout.map((item) => item)}
+
             {BodyLayout.map((item) => item)}
         </View>
     );
@@ -343,9 +364,10 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 const styles = StyleSheet.create({
     container: {
         gap: 16,
+        marginTop: 16
     },
     activeBeaconsDiv: {
-        
+
     },
 });
 
@@ -366,7 +388,9 @@ const mapDispatchToProps = {
     setShareChristPageState,
     addBeacon,
     addOne,
+    editOne,
     addActionStep,
+    editActionSteps,
     setSelectedOne
 };
 

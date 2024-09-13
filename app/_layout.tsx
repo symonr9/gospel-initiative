@@ -17,6 +17,9 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
+    LeagueSpartanLight: require('../assets/fonts/LeagueSpartan-Light.ttf'),
+    LeagueSpartan: require('../assets/fonts/LeagueSpartan-Regular.ttf'),
+    LeagueSpartanBold: require('../assets/fonts/LeagueSpartan-Bold.ttf'),
     CrimsonText: require('../assets/fonts/CrimsonText-Regular.ttf'),
     Lato: require('../assets/fonts/Lato-Regular.ttf'),
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),

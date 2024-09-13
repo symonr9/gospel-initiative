@@ -9,7 +9,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import { ThemedView } from '../common/ThemedView';
-import { RoadContainerType } from '@/enums/enums';
+import { AppIcon, RoadContainerType } from '@/enums/enums';
+import { PageRow } from '../common/PageRow';
 
 export type IShareChristRoadContainer = {
     iconSrc: string | null;
@@ -17,6 +18,7 @@ export type IShareChristRoadContainer = {
     itemsToRender: React.ReactNode[];
     customStyles?: any;
     expandedHeight?: number;
+    isTopPosition?: boolean;
 
     type: RoadContainerType;
     activeType: RoadContainerType;
@@ -30,19 +32,20 @@ export function ShareChristRoadContainer({
     customStyles,
     type,
     expandedHeight = 90,
+    isTopPosition =true,
     activeType,
     setActiveType
 }: IShareChristRoadContainer) {
-    const progress = useSharedValue(0);
+    const heightProgress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {
         const height = interpolate(
-            progress.value,
+            heightProgress.value,
             [0, 1],
             [0, expandedHeight]
         );
         return {
-            height: withTiming(height, { duration: 400 }), // Animate height change
+            height: withTiming(height, { duration: 400 }),
         }
     });
 
@@ -54,19 +57,24 @@ export function ShareChristRoadContainer({
     };
 
     useEffect(() => {
-        progress.value = withTiming(isActive ? 1 : 0, { duration: 200 });
+        heightProgress.value = withTiming(isActive ? 1 : 0, { duration: 50 });
     }, [activeType]);
+    
+    const navIcon = isTopPosition ? AppIcon.ArrowDown : AppIcon.ArrowUp;
 
     return (
         <TouchableOpacity onPress={onPress}>
             <ThemedView style={[styles.container, customStyles?.container]}>
                 <View style={[styles.header, customStyles?.header]}>
-                    {iconSrc && (
-                        <Image source={iconSrc} style={styles.icon} contentFit="contain" />
-                    )}
-                    <AppText type={TextType.DefaultSemiBold} style={customStyles.title}>
-                        {title}
-                    </AppText>
+                    <PageRow>
+                        {iconSrc && (
+                            <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+                        )}
+                        <AppText type={TextType.DefaultSemiBold} style={customStyles.title}>
+                            {title}
+                        </AppText>
+                    </PageRow>
+                    <Image source={navIcon} style={[styles.icon, isActive && styles.hide]} contentFit="contain"/>
                 </View>
 
                 <Animated.View
@@ -91,12 +99,12 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 8,
+        borderRadius: 2,
     },
     header: {
         display: 'flex',
         flexDirection: 'row',
-        alignSelf: 'flex-start',
+        justifyContent: 'space-between',
     },
     itemsContainer: {
         display: 'flex',
@@ -113,4 +121,7 @@ const styles = StyleSheet.create({
         marginEnd: 8,
         alignSelf: 'center',
     },
+    hide: {
+        display: 'none'
+    }
 });

@@ -36,7 +36,11 @@ export function isWithinNext24Hours(date: Date): boolean {
 }
 
 
-export function getAppTimeAgoText(date: Date): string {
+export function getAppTimeAgoText(date: Date | undefined, expiration = false): string {
+    if (!date) {
+        return '';
+    }
+
     const now = new Date();
     const secondsDifference = Math.floor((date.getTime() - now.getTime()) / 1000);
 
@@ -58,9 +62,10 @@ export function getAppTimeAgoText(date: Date): string {
         const count = Math.floor(seconds / intervalSeconds);
         if (count > 0) {
             const unit = `${interval}${count !== 1 ? 's' : ''}`;
-            return isFuture
-                ? `Expires in ${count} ${unit}`
-                : `Expired ${count} ${unit} ago`;
+            if (expiration) {
+                return isFuture ? `Expires in ${count} ${unit}` : `Expired ${count} ${unit} ago`;
+            }
+            return isFuture ? `Target date in ${count} ${unit}` : `Target Date passed ${count} ${unit} ago`;
         }
     }
 

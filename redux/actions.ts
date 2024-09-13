@@ -18,6 +18,7 @@ export enum Action {
 
     AddBeacon = "ADD_BEACON",
     AddOne = "ADD_ONE",
+    EditOne = "EDIT_ONE",
     AddStory = "ADD_STORY",
     AddLocalEvent = "ADD_LOCAL_EVENT",
     AddLocalMinistry = "ADD_LOCAL_MINISTRY",
@@ -26,6 +27,7 @@ export enum Action {
     AddOneFact = "ADD_ONE_FACT",
     AddStoryChapter = "ADD_STORY_CHAPTER",
     AddActionStep = "ADD_ACTION_STEP",
+    EditActionSteps = "EDIT_ACTION_STEPS",
 
     LoadServerData = "LOAD_SERVER_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
@@ -100,6 +102,11 @@ export const addOne = (item: One) => ({
     payload: item,
 });
 
+export const editOne = (item: One) => ({
+    type: Action.EditOne,
+    payload: item
+});
+
 export const setSelectedOne = (item: One) => ({
     type: Action.SetSelectedOne,
     payload: item,
@@ -148,6 +155,11 @@ export const AddMissionsTrip = (item: MissionsTrip) => ({
 export const addActionStep = (item: ActionStep) => ({
     type: Action.AddActionStep,
     payload: item,
+});
+
+export const editActionSteps = (actionSteps: ActionStep[], oneId: string) => ({
+    type: Action.EditActionSteps,
+    payload: { actionSteps, oneId },
 });
 
 export const AddOneFact = (item: OneFact) => ({

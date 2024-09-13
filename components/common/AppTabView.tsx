@@ -33,7 +33,6 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
 
     return (
         <PageView>
-            <AnimatedHeader title={title} delay={200} />
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}

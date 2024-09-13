@@ -28,8 +28,6 @@ export type IShareChristAddEditOneForm = ViewProps & {
 function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneForm }: IShareChristAddEditOneForm) {    
     const [formData, setFormData] = useState(initialOneForm);
 
-    console.log("FORM DATA_ ", formData);
-
     useEffect(() => {
         setOneForm(formData);
     }, [formData]);

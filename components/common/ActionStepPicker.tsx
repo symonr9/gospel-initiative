@@ -43,12 +43,15 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
+    const selectedActionStepIndex = selectedActionStep ? actionStepTypeArray.findIndex((step) => step.value === selectedActionStep.type) : 0;
 
     useEffect(() => {
         if (pickerState === ActionStepPickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
             setFormActionStep(ActionStep.createDefault(selectedOne.id || ""));
+        } else if (pickerState === ActionStepPickerState.Editing) {
+            setFormSelectedTypeIdx(selectedActionStepIndex);
         }
     }, [pickerState]);
 
@@ -120,7 +123,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     
         return (
             <TouchableOpacity onPress={handleIconPress}>
-                <PageRow style={styles.iconCard}>
+                <PageRow style={[styles.iconCard, formSelectedTypeIdx === index && styles.selectedIconCard]}>
                     <Image source={item.icon} style={[styles.icon, formSelectedTypeIdx === index && styles.selected]} />
                     <AppText type={TextType.DefaultSemiBold} style={{ alignSelf: 'center' }}>{item.label}</AppText>
                 </PageRow>
@@ -135,13 +138,13 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
             <FlatList
                 data={actionStepTypeArray}
                 renderItem={renderIcon}
-                numColumns={2}
+                numColumns={1}
                 keyExtractor={(item, index) => index.toString()}
                 contentContainerStyle={styles.iconList}
             />
 
             <Picker
-                style={[formStyles.dropdown]}
+                style={[formStyles.dropdown, { display: 'none' }]}
                 selectedValue={formSelectedTypeIdx}
                 onValueChange={(idx: number) => setFormSelectedTypeIdx(idx)}>
                 {
@@ -286,12 +289,15 @@ const styles = StyleSheet.create({
         elevation: 4, // Shadow for Android
         borderRadius: 8,
         marginVertical: 8,
-
+        flex: 1,
+    },
+    selectedIconCard: {  
+        backgroundColor: '#bbeccc'
     },
     iconList: {
-        alignItems: 'flex-start',
         maxHeight: 200,
         overflow: 'scroll',
+        marginHorizontal: 32,
         marginVertical: 16,
     },
     icon: {
@@ -301,7 +307,7 @@ const styles = StyleSheet.create({
         opacity: 0.4
     },
     selected: {
-        opacity: 1
+        opacity: 1,
     },
 });
 

@@ -8,7 +8,7 @@ import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
 import { AnimatedCard } from '../common/AnimatedCard';
-import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText } from '@/utils/appUtils';
+import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToText } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 
@@ -28,11 +28,11 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
   return (
     <TouchableOpacity onPress={onPress}>
       <PageRow style={[styles.actionStepCard, style]}>
-          <Image source={mapActionStepTypeToIcon(actionStep.type)} style={styles.icon}/>
-
+        <Image source={mapActionStepTypeToIcon(actionStep.type)} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
-          <AppText type={TextType.Default}>{mapActionStepTypeToText(actionStep.type)}</AppText>
-          <AppText type={TextType.DefaultSemiBold}>{actionStep.notes}</AppText>
+        <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
+          <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapActionStepTypeToText(actionStep.type)}</AppText>
+          <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{actionStep.notes}</AppText>
           <AppText type={TextType.Italic}>{formatDateTime(actionStep.targetDate)}</AppText>
         </PageColumn>
       </PageRow>

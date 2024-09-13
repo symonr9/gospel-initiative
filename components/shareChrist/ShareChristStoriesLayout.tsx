@@ -70,15 +70,6 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
 
     return (
         <View style={styles.container}>
-            <PageRow style={layoutStyles.sectionRow}>
-                <AnimatedCard text={7}
-                    direction={FadeDirection.Left}
-                    label='Chapters Remaining' />
-                <AnimatedCard text={7}
-                    direction={FadeDirection.Right}
-                    label={`God's Story`} />
-            </PageRow>
-
             <View style={styles.header}>
                 {
                     activeStory && (
@@ -117,7 +108,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
             {
                 activeStory && (
                     <View style={styles.iconDiv}>
-                        <Image source={activeStory.icon} style={styles.icon}/>
+                        <Image source={activeStory.icon} style={styles.icon} />
                     </View>
                 )
             }
@@ -126,6 +117,19 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                 subtitle={subtitle}
                 delay={0}
                 style={{ textAlign: 'center' }} />
+
+            {
+                activeStory === null && (
+                    <PageRow spaceBetween>
+                        <AnimatedCard text={7}
+                            direction={FadeDirection.Left}
+                            label='Chapters Remaining' />
+                        <AnimatedCard text={7}
+                            direction={FadeDirection.Right}
+                            label={`God's Story`} />
+                    </PageRow>
+                )
+            }
 
             <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
             <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
@@ -144,6 +148,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                     itemsToRender={personalStoryItemsToRender}
                     type={RoadContainerType.Incoming}
                     expandedHeight={160}
+                    isTopPosition={false}
                     activeType={activeRoadType}
                     setActiveType={setActiveRoadType}
                     customStyles={myStoryStyle} />
@@ -167,11 +172,11 @@ const styles = StyleSheet.create({
     },
     iconDiv: {
         alignItems: 'center',
-      },
-      icon: {
+    },
+    icon: {
         height: 100,
         width: 100,
-      },
+    },
 });
 
 const myStoryStyle = {
