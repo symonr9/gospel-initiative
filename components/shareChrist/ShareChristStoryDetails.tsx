@@ -110,23 +110,16 @@ function ShareChristStoryDetails({ activeStory, activeLayoutType }: IShareChrist
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: '#f7f7f7',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 24,
   },
   timelineContainer: {
     position: 'relative',
     paddingVertical: 16,
   },
   timelineRow: {
-    alignItems: 'center',
     marginBottom: 32,
-    width: '100%',
   },
   timelineContent: {
-    padding: 16,
+    padding: 10,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -135,9 +128,9 @@ const styles = StyleSheet.create({
     elevation: 5,
     maxWidth: '45%',
     backgroundColor: '#FFF',
-    paddingVertical: 4,
     paddingHorizontal: 28,
     marginHorizontal: 4,
+    marginRight: 16,
     position: 'relative',
   },
   openedContent: {
@@ -145,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eeeeee'
   },
   expandedContent: {
-    maxWidth: '95%',
+    maxWidth: '90%',
   },
   chapterIcon: {
     width: 48,
@@ -170,8 +163,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: '50%',
-    width: 2,
+    left: '47%',
+    width: 3,
     backgroundColor: '#ccc',
     zIndex: -1,
   },

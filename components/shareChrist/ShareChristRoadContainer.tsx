@@ -11,6 +11,7 @@ import { AppText, TextType } from '../common/AppText';
 import { ThemedView } from '../common/ThemedView';
 import { AppIcon, RoadContainerType } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IShareChristRoadContainer = {
     iconSrc: AppIcon | null;
@@ -65,7 +66,7 @@ export function ShareChristRoadContainer({
     return (
         <TouchableOpacity onPress={onPress}>
             <ThemedView style={[styles.container, customStyles?.container]}>
-                <PageRow spaceBetween style={[customStyles?.header]}>
+                <PageRow spaceBetween>
                     <PageRow>
                         {iconSrc && (
                             <Image source={iconSrc} style={styles.icon} contentFit="contain" />
@@ -77,12 +78,12 @@ export function ShareChristRoadContainer({
                     <Image source={navIcon} style={[styles.icon, isActive && styles.hide]} contentFit="contain"/>
                 </PageRow>
 
-                <Animated.View
-                    style={[styles.itemsContainer, customStyles?.itemsContainer, animatedStyle]}>
+                <ScrollLayout horizontal
+                              style={[animatedStyle]}>
                     {itemsToRender.map((item, index) => (
                         <View key={index}>{item}</View>
                     ))}
-                </Animated.View>
+                </ScrollLayout>
             </ThemedView>
         </TouchableOpacity>
     );
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        flex: 1,
         padding: 16,
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -102,19 +102,6 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
         borderRadius: 2,
-    },
-    header: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    itemsContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 16,
-        overflow: 'scroll',
-        maxHeight: 1200,
-        zIndex: 4,
     },
     icon: {
         width: 24,

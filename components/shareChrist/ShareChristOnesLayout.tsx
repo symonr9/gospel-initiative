@@ -310,7 +310,6 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                     }}
                     title={'New Beacon'} />
 
-
                 {
                     showArrowRight && (
                         <SimpleIconButton iconSrc={AppIcon.ArrowRight}
@@ -351,11 +350,11 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
                 {
                     message && (
-                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} />
+                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} onClick={() => setMessage(null)}/>
                     )
                 }
 
-                <View style={{ marginBottom: 8 }}>
+                <View style={{ marginTop: 8, marginBottom: 8 }}>
                     {HeaderLayout.map((item) => item)}
                 </View>
 

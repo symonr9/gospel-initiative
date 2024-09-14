@@ -6,11 +6,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 type Props = ViewProps & PropsWithChildren<{
-
+    horizontal?: boolean
 }>;
 
 export default function ScrollLayout({
     children,
+    horizontal = false,
     style
 }: Props) {
     const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -18,6 +19,7 @@ export default function ScrollLayout({
     return (
         <Animated.ScrollView ref={scrollRef}
                              style={style}
+                             horizontal={horizontal}
                              scrollEventThrottle={16}>
             {children}
         </Animated.ScrollView>

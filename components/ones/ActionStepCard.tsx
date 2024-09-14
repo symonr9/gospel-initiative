@@ -31,8 +31,14 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
         <Image source={mapActionStepTypeToIcon(actionStep.type)} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
+
+        
           <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapActionStepTypeToText(actionStep.type)}</AppText>
-          <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{actionStep.notes}</AppText>
+          {
+            actionStep.notes && (
+              <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{actionStep.notes}</AppText>
+            )
+          }
           <AppText type={TextType.Italic}>{formatDateTime(actionStep.targetDate)}</AppText>
         </PageColumn>
       </PageRow>
@@ -50,15 +56,14 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 2, width: 0 },
     elevation: 4, // Shadow for Android
     borderRadius: 8,
-    marginHorizontal: 16,
-    marginVertical: 8
+    marginVertical: 8,
   },
   actionStepTextContainer: {
     flexShrink: 1
   },
   icon: {
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
     alignSelf: 'center',
     marginEnd: 12
   }

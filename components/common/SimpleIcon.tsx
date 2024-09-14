@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 8, // Space between the icon and the title
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.3,

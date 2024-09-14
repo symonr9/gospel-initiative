@@ -42,10 +42,6 @@ export function AnimatedHeader({ title, subtitle = null, duration = 400, delay =
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
-        marginBottom: 16,
+        marginBottom: 4,
     },
 });

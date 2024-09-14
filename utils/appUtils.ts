@@ -351,6 +351,7 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
         case ActionStepType.OfferToHelpWithErrands:
             return "Offer to Help with Errands";
         case ActionStepType.Other:
+        default:
             return "Other";
     }
 }

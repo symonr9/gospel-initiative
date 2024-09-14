@@ -8,6 +8,7 @@ import { PageColumn } from '../common/PageColumn';
 import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
 import EventCalendar, { MarkingType } from '../common/EventCalendar';
 import AddToCalendarButton from '../common/AddToCalendarButton';
+import { PageRow } from '../common/PageRow';
 
 export type ILoveCityDetails = {
     localMinistries?: LocalMinistry[];
@@ -78,7 +79,8 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
 
                 {
                     events.length > 0 && (
-                        <View style={styles.section}>
+                        <PageRow center>
+                            <PageColumn>
                             <EventCalendar events={events}
                                 markingType={MarkingType.Period}
                                 initialDate={localMinistry.startDate} />
@@ -87,7 +89,8 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                                 title={localMinistry.title}
                                 details={localMinistry.details}
                                 location={localMinistry.location} />
-                        </View>
+                            </PageColumn>
+                        </PageRow>
                     )
                 }
 
@@ -159,16 +162,18 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
 
                 {
                     events.length > 0 && (
-                        <View style={styles.section}>
-                            <EventCalendar events={events}
-                                markingType={MarkingType.Period}
-                                initialDate={localEvent.startDate} />
-                            <AddToCalendarButton startDate={localEvent.startDate}
-                                endDate={localEvent.endDate}
-                                title={localEvent.title}
-                                details={localEvent.details}
-                                location={localEvent.location} />
-                        </View>
+                        <PageRow center>
+                            <PageColumn>
+                                <EventCalendar events={events}
+                                    markingType={MarkingType.Period}
+                                    initialDate={localEvent.startDate} />
+                                <AddToCalendarButton startDate={localEvent.startDate}
+                                    endDate={localEvent.endDate}
+                                    title={localEvent.title}
+                                    details={localEvent.details}
+                                    location={localEvent.location} />
+                            </PageColumn>
+                        </PageRow>
                     )
                 }
             </PageColumn>
@@ -188,7 +193,6 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
 
 const styles = StyleSheet.create({
     section: {
-        marginTop: 8,
-        marginBottom: 8
+        marginVertical: 6,
     }
 });

@@ -16,6 +16,7 @@ import { setShareChristPageState } from '@/redux/actions';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { isEditing } from '@/utils/appUtils';
 import { listStyles } from '@/styles/Styles';
+import ScrollLayout from '../common/ScrollLayout';
 
 
 export type IActionStepsList = ViewProps & {
@@ -39,19 +40,15 @@ function ActionStepsList({ actionSteps, shareChristPageState,
                 <AppText type={TextType.Subtitle}>
                     Action Steps
                 </AppText>
-                {
-                    editing && (
-                        <SimpleIconButton iconSrc={AppIcon.Edit}
-                        small
-                        onClick={() => console.log("Edit here!")}/>
-                    )
-                }
             </PageRow>
-            <FlatList
-                data={actionSteps}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-            />
+
+            <ScrollLayout>
+                <FlatList
+                    data={actionSteps}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderItem}
+                />
+            </ScrollLayout>
         </View>
     );
 }
@@ -59,8 +56,7 @@ function ActionStepsList({ actionSteps, shareChristPageState,
 const styles = StyleSheet.create({
     container: {
         maxHeight: 300,
-        overflow: 'scroll',
-        marginBottom: 12
+        marginBottom: 12,
     }
 });
 

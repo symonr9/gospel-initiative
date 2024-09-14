@@ -20,13 +20,12 @@ export function ListDetails({ icon, title, Body, setActiveItemId }: IListDetails
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <PageRow style={{ marginStart: 8 }}>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack} 
                                   title={'Back'} 
                                   onClick={() => setActiveItemId(null)}/>
-            </View>
-
-            <PageRow center style={{ alignSelf: 'center'}}>
+            </PageRow>
+            <PageRow center>
                 <SimpleIcon iconSrc={icon} large removeBackground/>
             </PageRow>
 
@@ -41,10 +40,5 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        gap: 16
-    },
-    header: {
-        display: 'flex',
-        flexDirection: 'row',
     },
 });

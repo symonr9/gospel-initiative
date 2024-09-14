@@ -5,6 +5,7 @@ import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanim
 import { AppText, TextType } from './AppText';
 import { flexStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
+import { AppIcon } from '@/enums/enums';
 
 export type IAnimatedBanner = {
     iconSrc: AppIcon | null;
@@ -65,18 +66,15 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        flex: 1,
         backgroundColor: '#d9ead3',
         borderRadius: 4,
-        padding: 4,
+        padding: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 6,
         elevation: 4,
-        marginTop: 12,
-        marginBottom: 12
+        marginVertical: 6
     },
     icon: {
         width: 32,

@@ -7,6 +7,7 @@ import { PageColumn } from '../common/PageColumn';
 import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
 import EventCalendar, { MarkingType } from '../common/EventCalendar';
 import AddToCalendarButton from '../common/AddToCalendarButton';
+import { PageRow } from '../common/PageRow';
 
 export type IReachWorldDetails = {
     missionsTrips: MissionsTrip[];
@@ -76,16 +77,18 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
 
                 {
                     events.length > 0 && (
-                        <View style={styles.section}>
-                            <EventCalendar events={events}
-                                markingType={MarkingType.Period}
-                                initialDate={missionsTrip.startDate} />
-                            <AddToCalendarButton startDate={missionsTrip.startDate}
-                                endDate={missionsTrip.endDate}
-                                title={missionsTrip.title}
-                                details={missionsTrip.details}
-                                location={missionsTrip.location} />
-                        </View>
+                        <PageRow center>
+                            <PageColumn>
+                                <EventCalendar events={events}
+                                    markingType={MarkingType.Period}
+                                    initialDate={missionsTrip.startDate} />
+                                <AddToCalendarButton startDate={missionsTrip.startDate}
+                                    endDate={missionsTrip.endDate}
+                                    title={missionsTrip.title}
+                                    details={missionsTrip.details}
+                                    location={missionsTrip.location} />
+                            </PageColumn>
+                        </PageRow>
                     )
                 }
 
@@ -105,12 +108,12 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
 
 const styles = StyleSheet.create({
     body: {
-        padding: 8
+        padding: 8,
     },
     details: {
 
     },
     section: {
-        marginVertical: 6
+        marginVertical: 6,
     }
 });

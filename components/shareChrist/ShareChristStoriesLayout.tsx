@@ -82,6 +82,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
 
                             <>
                                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                                    title={'Back'}
                                     onClick={() => {
                                         if (activeLayoutType === StoryLayoutType.Editing) {
                                             setActiveLayoutType(StoryLayoutType.Normal);
@@ -99,6 +100,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
 
                                 <SimpleIconButton iconSrc={AppIcon.Pencil}
                                     onClick={onEditStoryClick}
+                                    title={'Edit'}
                                     customStyles={{
                                         container: {
                                             alignSelf: 'flex-end',
@@ -121,46 +123,38 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
 
                 <AnimatedHeader title={title}
                     subtitle={subtitle}
-                    delay={0}
-                    style={{ textAlign: 'center' }} />
-
-                {
-                    activeStory === null && (
-                        <PageRow spaceEvenly>
-                            <AnimatedCard text={7}
-                                direction={FadeDirection.Left}
-                                label='Chapters Remaining' />
-                            <AnimatedCard text={7}
-                                direction={FadeDirection.Right}
-                                label={`God's Story`} />
-                        </PageRow>
-                    )
-                }
+                    delay={0} />
 
                 <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
                 <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
-                <View>
-                    <ShareChristRoadContainer title={`God's Story`}
-                        iconSrc={AppIcon.Book}
-                        itemsToRender={GodsStoryItemsToRender}
-                        type={RoadContainerType.Completed}
-                        expandedHeight={160}
-                        activeType={activeRoadType}
-                        setActiveType={setActiveRoadType}
-                        customStyles={GodsStoryStyle} />
-                    <ShareChristRoadContainer title={'My Story'}
-                        iconSrc={AppIcon.Book}
-                        itemsToRender={personalStoryItemsToRender}
-                        type={RoadContainerType.Incoming}
-                        expandedHeight={160}
-                        isTopPosition={false}
-                        activeType={activeRoadType}
-                        setActiveType={setActiveRoadType}
-                        customStyles={myStoryStyle} />
-                </View>
-
-                <StoryActivityHeatMapChart />
+                {
+                    activeStory === null && (
+                        <>
+                        <View>
+                            <ShareChristRoadContainer title={`God's Story`}
+                                iconSrc={AppIcon.Book}
+                                itemsToRender={GodsStoryItemsToRender}
+                                type={RoadContainerType.Completed}
+                                expandedHeight={120}
+                                activeType={activeRoadType}
+                                setActiveType={setActiveRoadType}
+                                customStyles={GodsStoryStyle} />
+                            <ShareChristRoadContainer title={'My Story'}
+                                iconSrc={AppIcon.Book}
+                                itemsToRender={personalStoryItemsToRender}
+                                type={RoadContainerType.Incoming}
+                                expandedHeight={120}
+                                isTopPosition={false}
+                                activeType={activeRoadType}
+                                setActiveType={setActiveRoadType}
+                                customStyles={myStoryStyle} />
+                        </View>
+    
+                        <StoryActivityHeatMapChart />
+                    </>
+                    )
+                }
             </View>
         </ScrollLayout>
     );
@@ -170,19 +164,14 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        gap: 16,
-    },
-    header: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        gap: 8,
     },
     iconDiv: {
         alignItems: 'center',
     },
     icon: {
-        height: 100,
-        width: 100,
+        height: 82,
+        width: 82,
     },
 });
 
@@ -193,11 +182,6 @@ const myStoryStyle = {
     title: {
         color: Colors.light.alternateText
     },
-    header: {
-    },
-    itemsContainer: {
-
-    }
 };
 
 const GodsStoryStyle = {
