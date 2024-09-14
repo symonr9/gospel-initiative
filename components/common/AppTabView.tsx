@@ -50,9 +50,6 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
     );
 }
 
-
-const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
-
 const styles = StyleSheet.create({
     tabViewContainer: {
         backgroundColor: Colors.light.background,

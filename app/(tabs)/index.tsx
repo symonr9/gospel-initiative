@@ -1,53 +1,48 @@
-import { Tabs } from 'expo-router';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
-import { TabBarIcon } from '@/components/common/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import DataRefreshManager from '../managers/dataRefreshManager';
-import AppStateManager from '../managers/appStateManager';
+import PageView from '@/components/common/PageView';
+import ShareChristBeaconsLayout from '@/components/shareChrist/ShareChristBeaconsLayout';
+import ShareChristStoriesLayout from '@/components/shareChrist/ShareChristStoriesLayout';
+import ShareChristOnesLayout from '@/components/shareChrist/ShareChristOnesLayout';
+import ShareChristHomeLayout from '@/components/shareChrist/ShareChristHomeLayout';
+import AppTabView from '@/components/common/AppTabView';
 
+export type IShareChrist = {
+    error: string,
+};
 
+const renderScene = SceneMap({
+    home: ShareChristHomeLayout,
+    beacons: ShareChristBeaconsLayout,
+    stories: ShareChristStoriesLayout,
+    ones: ShareChristOnesLayout
+});
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+function ShareChrist({ error }: IShareChrist) {
+    const [routes] = React.useState([
+        { key: 'home', title: 'Home ' },
+        { key: 'beacons', title: 'Beacons ' },
+        { key: 'stories', title: 'Stories ' },
+        { key: 'ones', title: 'Ones ' },
+    ]);
 
-  const tabScreenOptions = {
-    tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-    headerShown: false,
-  };
-
-  const createTabBarIcon = (color: string, focused: string, iconName: string) =>
-    <TabBarIcon name={focused ? iconName : `${iconName}-outline`} color={color} />;
-
-  return (
-    <>
-      <DataRefreshManager />
-      <AppStateManager/>
-      <Tabs
-        screenOptions={tabScreenOptions}>
-        <Tabs.Screen
-          name="share-christ"
-          options={{
-            title: 'Share Christ',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'chatbubbles'),
-          }}
-        />
-        <Tabs.Screen
-          name="love-city"
-          options={{
-            title: 'Love the City',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'business'),
-          }}
-        />
-        <Tabs.Screen
-          name="reach-world"
-          options={{
-            title: 'Reach the World',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'earth'),
-          }}
-        />
-      </Tabs>
-    </>
-  );
+    return (
+        <PageView>
+            <AppTabView title={'Share Christ'}
+                        renderScene={renderScene}
+                        routes={routes}/>
+        </PageView>
+    );
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        error: state.errors.error,
+    };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShareChrist);

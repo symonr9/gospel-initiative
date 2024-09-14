@@ -27,7 +27,7 @@ export default function TabLayout() {
       <Tabs
         screenOptions={tabScreenOptions}>
         <Tabs.Screen
-          name="share-christ"
+          name="index"
           options={{
             title: 'Share Christ',
             tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'chatbubbles'),
