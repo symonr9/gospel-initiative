@@ -102,13 +102,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconContainer: {
-    width: 46,
-    height: 46,
+    width: 36,
+    height: 36,
     borderRadius: 30,
     backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 6, // Space between the icon and the title
+    marginBottom: 4, // Space between the icon and the title
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
@@ -121,11 +121,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: 26,
+    height: 26,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#555',
     textAlign: 'center',
@@ -160,12 +160,12 @@ const smallStyles = StyleSheet.create({
   },
   icon: {
     ...styles.icon,
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
   title: {
     ...styles.title,
-    fontSize: 24,
+    fontSize: 14,
   },
 });
 

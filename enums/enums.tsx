@@ -256,6 +256,8 @@ export enum AppIcon {
     Globe = require('../assets/images/app-icons/globe.png'),
     Prayer = require('../assets/images/app-icons/prayer.png'),
     Tree = require('../assets/images/app-icons/tree.png'),
+    NavDown = require('../assets/images/app-icons/navDown.png'),
+    NavUp = require('../assets/images/app-icons/navUp.png'),
     Skull = require('../assets/images/app-icons/skull.png'),
     Music = require('../assets/images/app-icons/music.png'),
     Gift = require('../assets/images/app-icons/gift.png'),

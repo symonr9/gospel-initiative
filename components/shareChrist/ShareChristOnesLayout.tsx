@@ -3,26 +3,21 @@ import React, { useState, useEffect } from 'react';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
-import { AppText, TextType } from '../common/AppText';
 import One from '@/models/one';
-import OneFactsList from '../ones/OneFactsList';
 import ActionStepsList from '../ones/ActionStepsList';
-import { AppIcon, Page, Priority, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, Priority } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
-import { PageContainer } from '../common/PageContainer';
-import { ActiveBeaconsInfoCard } from '../beacons/ActiveBeaconsInfoCard';
 import { selectActiveBeaconsWithActivities } from '@/redux/selectors/beaconSelectors';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import Beacon, { BeaconWithActivities } from '@/models/beacon';
+import Beacon from '@/models/beacon';
 import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
 import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps, setShareChristPageState } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
-import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { generateRandomId, getNow, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import ShareChristAddEditOneForm from './ShareChristAddEditOneForm';
@@ -31,6 +26,8 @@ import { selectActionStepsByOneId } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import OneDetailsSection from '../common/OneDetailsSection';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import ShareChristAllOnesGrid from './ShareChristAllOnesGrid';
 
 export type IShareChristOnesLayout = ViewProps & {
     selectedOne: One,
@@ -50,6 +47,7 @@ export type IShareChristOnesLayout = ViewProps & {
 export enum OneLayoutType {
     Normal,
     FirstTime,
+    AllOnes,
     AddingOne,
     EditingOne,
     AllBeaconTemplates,
@@ -139,6 +137,23 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
         BodyLayout.push(
             <ShareChristAddEditOneForm initialOneForm={OneForm.createDefault()} />
+        );
+    } else if (activeLayoutType === OneLayoutType.AllOnes) {
+        HeaderLayout.push(
+            <PageRow spaceEvenly>
+                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                    onClick={() => {
+                        setMessage(null);
+                        setActiveLayoutType(OneLayoutType.Normal);
+                    }}
+                    title={'Back'} />
+            </PageRow>
+        );
+
+        BodyLayout.push(
+            <PageRow>
+                <ShareChristAllOnesGrid />
+            </PageRow>
         );
     } else if (!selectedOne) { // All layouts below require a selected one...
         return <></>;
@@ -343,7 +358,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
     }
 
-    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne].includes(activeLayoutType) && selectedOne;
+    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
 
     return (
         <ScrollLayout>
@@ -352,45 +367,59 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                     {
                         showYourSelectedOne && (
                             <PageRow>
-                                <SimpleIcon iconSrc={selectedOne.icon} large />
-                                <AnimatedHeader title={selectedOne.name}
-                                    style={{ alignItems: 'flex-start', marginStart: 8 }}
-                                    subtitle='Your One' />
+                                <PageRow>
+                                    <SimpleIcon iconSrc={selectedOne.icon} large />
+                                    <AnimatedHeader title={selectedOne.name}
+                                        style={{ alignItems: 'flex-start', marginStart: 8 }}
+                                        subtitle='Your One' />
+                                </PageRow>
+                                {
+                                    activeLayoutType === OneLayoutType.Normal && (
+                                        <>
+                                            <SimpleIconButton iconSrc={showHeaderButtons ? AppIcon.NavUp : AppIcon.NavDown}
+                                                small
+                                                title={showHeaderButtons ? 'Hide' : 'More'}
+                                                customStyles={{ container: { marginStart: 16 } }}
+                                                onClick={() => setShowHeaderButtons(val => !val)} />
+
+                                            <SimpleIconButton iconSrc={AppIcon.UserGroup}
+                                                small
+                                                title={'All'}
+                                                customStyles={{ container: { marginStart: 16 } }}
+                                                onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
+                                        </>
+                                    )
+                                }
                             </PageRow>
                         )
                     }
 
-                    <PageRow spaceEvenly style={styles.headerRow}>
+                    <PageRow style={styles.headerRow}>
                         {
                             activeLayoutType === OneLayoutType.Normal && !showHeaderButtons && (
-                                <PageRow>
-                                    <OneDetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
-                                        prefix={"Stage"}
-                                        style={{ marginRight: 16 }}
-                                        title={mapStageToText(selectedOne.stage)} />
+                                <Animated.View entering={FadeInDown.duration(200)}
+                                    exiting={FadeOutDown.duration(200)}>
+                                    <PageRow>
+                                        <OneDetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
+                                            prefix={"Stage"}
+                                            style={{ marginRight: 16 }}
+                                            title={mapStageToText(selectedOne.stage)} />
 
-                                    <OneDetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
-                                        prefix={"Category"}
-                                        title={mapOneCategoryToText(selectedOne.category)} />
-                                </PageRow>
+                                        <OneDetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
+                                            prefix={"Category"}
+                                            title={mapOneCategoryToText(selectedOne.category)} />
+                                    </PageRow>
+                                </Animated.View>
                             )
                         }
 
                         {
                             (activeLayoutType !== OneLayoutType.Normal || showHeaderButtons) && (
-                                <>
+                                <Animated.View entering={FadeInDown.duration(200).delay(50)}
+                                    style={{ width: '100%' }}
+                                    exiting={FadeOutDown.duration(200)}>
                                     {HeaderLayout.map((item) => item)}
-                                </>
-                            )
-                        }
-
-                        {
-                            activeLayoutType === OneLayoutType.Normal && (
-                                <PageRow>
-                                    <SimpleIconButton iconSrc={showHeaderButtons ? AppIcon.ArrowRight : AppIcon.ArrowLeft}
-                                        title={showHeaderButtons ? 'Hide Actions' : 'Show Actions'}
-                                        onClick={() => setShowHeaderButtons(val => !val)} />
-                                </PageRow>
+                                </Animated.View>
                             )
                         }
                     </PageRow>

@@ -15,6 +15,7 @@ import { Colors } from '@/constants/Colors';
 import { Alert, Button, TouchableOpacity } from 'react-native';
 import { AppIcon } from '@/enums/enums';
 import SimpleIconButton from '@/components/common/SimpleIconButton';
+import { Image } from 'expo-image';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.a
 SplashScreen.preventAutoHideAsync();
@@ -53,7 +54,7 @@ export default function RootLayout() {
     <Provider store={store}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack
-          screenOptions={{
+          screenOptions={{            
             headerTitle: 'Gospel Initiative',
             headerRight: () => MenuIcon,
             headerStyle: {
