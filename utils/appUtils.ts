@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, BeaconType, OneFactType, OneStage, Priority, ShareChristPageState, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, BeaconType, OneCategory, OneFactType, OneStage, Priority, ShareChristPageState, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
@@ -196,6 +196,94 @@ export function mapStageToIcon(stage: OneStage) {
     }   
     return "";
 }
+
+export function mapOneCategoryToText(category: OneCategory) : String {
+    switch (category) {
+        case OneCategory.Family:
+            return "";
+        case OneCategory.CloseFriend:
+            return "";
+        case OneCategory.Neighbor:
+            return "";
+        case OneCategory.Coworker:
+            return "";
+        case OneCategory.Classmate:
+            return "";
+        case OneCategory.Roommate:
+            return "";
+        case OneCategory.Client:
+            return "";
+        case OneCategory.Cashier:
+            return "";
+        case OneCategory.Server:
+            return "";
+        case OneCategory.Barista:
+            return "";
+        case OneCategory.Tutor:
+            return "";
+        case OneCategory.Teacher:
+            return "";
+        case OneCategory.FellowParent:
+            return "";
+        case OneCategory.ClubMember:
+            return "";
+        case OneCategory.Teammate:
+            return "";
+        case OneCategory.HouseholdHelp:
+            return "";
+        case OneCategory.WorkoutPartner:
+            return "";
+        case OneCategory.PersonalCareProfessional:
+            return "";
+        case OneCategory.MedicalProf:
+            return "";
+        case OneCategory.LongDistanceFriend:
+            return "";
+        case OneCategory.Friend:
+        default:
+            return "This person is a friend.";
+    }
+};
+
+export function mapOneCategoryToIcon(category: OneCategory) : AppIcon {
+    switch (category) {
+        case OneCategory.Family:
+        case OneCategory.Roommate:
+        case OneCategory.HouseholdHelp:
+            return AppIcon.House;
+        case OneCategory.Neighbor:
+            return AppIcon.NightPark;
+        case OneCategory.Classmate:
+            return AppIcon.Backpack;
+        case OneCategory.Coworker:
+        case OneCategory.Client:
+            return AppIcon.Employee;
+        case OneCategory.Cashier:
+            return AppIcon.Cashier;
+        case OneCategory.Server:
+        case OneCategory.Barista:
+            return AppIcon.Coffee;
+        case OneCategory.Tutor:
+        case OneCategory.Teacher:
+            return AppIcon.Book2;
+        case OneCategory.ClubMember:
+        case OneCategory.Teammate:
+            return AppIcon.Basketball;
+        case OneCategory.FellowParent:
+            return AppIcon.Conversation;
+        case OneCategory.WorkoutPartner:
+            return AppIcon.Gym;
+        case OneCategory.PersonalCareProfessional:
+        case OneCategory.MedicalProf:
+            return AppIcon.Health;
+        case OneCategory.LongDistanceFriend:
+            return AppIcon.Globe;
+        case OneCategory.CloseFriend:
+        case OneCategory.Friend:
+        default:
+            return AppIcon.Rapport;
+    }
+};
 
 export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
     switch (oneFactType) {

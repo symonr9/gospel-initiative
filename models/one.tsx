@@ -1,10 +1,11 @@
-import { AvatarIcon, OneStage, } from "@/enums/enums";
+import { AvatarIcon, OneCategory, OneStage, } from "@/enums/enums";
 
 interface IOne {
     id: string;
     name: string;
     icon: AvatarIcon;
     stage: OneStage;
+    category: OneCategory;
     prayingSince: Date | undefined;
     hidden: boolean;
     userId: string;
@@ -15,11 +16,13 @@ export default class One implements IOne {
     name: string;
     icon: AvatarIcon;
     stage: OneStage;
+    category: OneCategory;
     prayingSince: Date | undefined;
     hidden: boolean;
     userId: string;
     
-    constructor(id: string, name: string, icon: AvatarIcon, stage: OneStage,
+    constructor(id: string, name: string, icon: AvatarIcon, 
+        stage: OneStage, category: OneCategory,
         prayingSince: Date | undefined,
         hidden: boolean, userId: string
     ) {
@@ -27,6 +30,7 @@ export default class One implements IOne {
         this.name = name;
         this.icon = icon;
         this.stage = stage;
+        this.category = category;
         this.prayingSince = prayingSince;
         this.hidden = hidden;
         this.userId = userId;

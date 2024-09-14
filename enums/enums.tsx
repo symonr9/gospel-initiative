@@ -110,6 +110,30 @@ export enum Location {
 
 // One
 
+export enum OneCategory {
+    Family = 1,
+    CloseFriend = 2,
+    Neighbor = 3,
+    Coworker = 4,
+    Classmate = 5,
+    Roommate = 6,
+    Client = 7,
+    Cashier = 8,
+    Server = 9,
+    Barista = 10,
+    Tutor = 11,
+    Teacher = 12,
+    FellowParent = 13,
+    ClubMember = 14,
+    Teammate = 15,
+    HouseholdHelp = 16,
+    WorkoutPartner = 17,
+    PersonalCareProfessional = 18,
+    MedicalProf = 19,
+    LongDistanceFriend = 20,
+    Friend = 21 
+}
+
 export enum OneStage {
     Disciple = 1,
     NewBeliever = 2,
@@ -260,6 +284,13 @@ export enum AppIcon {
     Document = require('../assets/images/app-icons/document.png'),
     Heart = require('../assets/images/app-icons/heart.png'),
     Mail = require('../assets/images/app-icons/mail.png'),
+    Health = require('../assets/images/app-icons/health.png'),
+    Gym = require('../assets/images/app-icons/gym.png'),
+    Employee = require('../assets/images/app-icons/employee.png'),
+    NightPark = require('../assets/images/app-icons/night-park.png'),
+    Backpack = require('../assets/images/app-icons/backpack.png'),
+    Cashier = require('../assets/images/app-icons/cashier.png'),
+    Basketball = require('../assets/images/app-icons/basketball.png'),
     Hourglass = require('../assets/images/app-icons/hourglass.png'),
     Menu = require('../assets/images/app-icons/menu.png'),
     Image = require('../assets/images/app-icons/image.png'),

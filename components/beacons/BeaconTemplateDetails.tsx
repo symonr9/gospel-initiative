@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, type ViewProps, StyleSheet, Animated, TextInput } from 'react-native';
+import { View, type ViewProps, StyleSheet, Animated, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 
@@ -15,6 +15,8 @@ import One from '@/models/one';
 import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
 import { formStyles } from '@/styles/Styles';
+import AppKeyboardAvoidingComponent from '../common/AppKeyboardAvoidingView';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
@@ -79,26 +81,24 @@ function BeaconTemplateDetails({ shareChristPageState, template, selectedOne, se
                 selectedTemplateId={template.id} />
 
             <PageColumn style={styles.section}>
-                <PageChip iconSrc={getShowHideIcon(shareOneName)}
-                    style={{ width: 240 }}
-                    onClick={() => setShareOneName(!shareOneName)}
-                    title={shareOneName ? `Show One's name` : `Hide One's name`} />
                 <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                    style={{ width: 240 }}
+                    style={{ width: 180 }}
                     onClick={() => setShareOwnName(!shareOwnName)}
                     title={shareOwnName ? `Show your name` : `Hide your name`} />
             </PageColumn>
 
             <PageColumn style={styles.section}>
                 <PageChip iconSrc={AppIcon.Star}
-                    style={{ width: 240 }}
+                    style={{ width: 180 }}
                     onClick={onSetPriorityClick}
                     title={`Priority: ${mapPriorityToText(priority)}`} />
             </PageColumn>
 
             <PageColumn style={styles.section}>
-                <AppText type={TextType.Default}>Notes</AppText>
-                <TextInput
+            <AppText type={TextType.Default}>Notes</AppText>
+                <AppKeyboardAvoidingComponent>
+                    <ScrollLayout>
+                    <TextInput
                     style={formStyles.multiLineTextInput}
                     placeholder="Enter note here..."
                     placeholderTextColor={'gray'}
@@ -106,7 +106,12 @@ function BeaconTemplateDetails({ shareChristPageState, template, selectedOne, se
                     multiline
                     numberOfLines={4}
                     onChangeText={(text) => setNotes(text)}
-                />
+                />             
+                    </ScrollLayout>
+
+       
+                </AppKeyboardAvoidingComponent>
+
             </PageColumn>
 
             <PageColumn style={styles.section}>
@@ -132,13 +137,11 @@ const styles = StyleSheet.create({
     },
     section: {
         marginBottom: 8,
-        marginStart: 12,
     },
     icon: {
         margin: 8,
         width: 48,
         height: 48,
-        marginEnd: 8,
     },
 });
 

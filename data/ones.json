@@ -4,6 +4,7 @@
     "name": "Jane Smith",
     "icon": "Woman3",
     "stage": 4,
+    "category": 2,
     "prayingSince": "2023-06-01T00:00:00Z",
     "userId": "user1",
     "hidden": "false"

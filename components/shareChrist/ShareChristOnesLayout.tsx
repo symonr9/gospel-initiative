@@ -98,6 +98,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                     oneForm.name,
                     oneForm.icon,
                     oneForm.stage,
+                    oneForm.category,
                     getNow(),
                     false,
                     executor.id

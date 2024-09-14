@@ -1,4 +1,4 @@
-import { AvatarIcon, OneStage } from "@/enums/enums";
+import { AvatarIcon, OneCategory, OneStage } from "@/enums/enums";
 import One from "./one";
 import ActionStep from "./actionStep";
 
@@ -6,6 +6,7 @@ interface IOneForm {
     name: string;
     icon: AvatarIcon;
     stage: OneStage;
+    category: OneCategory;
     actionSteps: ActionStep[];
 }
 
@@ -13,14 +14,16 @@ export default class OneForm implements IOneForm {
     name: string;
     icon: AvatarIcon;
     stage: OneStage;
+    category: OneCategory;
     actionSteps: ActionStep[];
 
     constructor(name: string, icon: AvatarIcon, stage: OneStage,
-        actionSteps: ActionStep[]
+        category: OneCategory, actionSteps: ActionStep[]
     ) {
         this.name = name;
         this.icon = icon;
         this.stage = stage;
+        this.category = category;
         this.actionSteps = actionSteps;
     }
 
@@ -29,6 +32,7 @@ export default class OneForm implements IOneForm {
             "",
             AvatarIcon.User,
             OneStage.Curious,
+            OneCategory.CloseFriend,
             []
         );
     }
@@ -42,6 +46,7 @@ export default class OneForm implements IOneForm {
             one.name,
             one.icon,
             one.stage,
+            one.category,
             actionSteps
         );
     }
