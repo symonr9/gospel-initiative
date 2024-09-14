@@ -67,6 +67,7 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
                         type={RoadContainerType.Completed}
                         activeType={activeRoadType}
                         setActiveType={setActiveRoadType}
+                        expandedHeight={100}
                         itemsToRender={completedItemsToRender}
                         customStyles={completedStyle} />
                     <ShareChristRoadContainer title={`Incoming (${incomingCount})`}
@@ -74,6 +75,7 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
                         type={RoadContainerType.Incoming}
                         activeType={activeRoadType}
                         isTopPosition={false}
+                        expandedHeight={100}
                         setActiveType={setActiveRoadType}
                         itemsToRender={incomingItemsToRender}
                         customStyles={incomingStyle} />

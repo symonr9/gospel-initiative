@@ -20,6 +20,8 @@ import { ActivityNoteOptions } from '@/constants/Strings';
 import { AnimatedCard } from '../common/AnimatedCard';
 import { PageColumn } from '../common/PageColumn';
 import ScrollLayout from '../common/ScrollLayout';
+import OneStageSection from '../common/OneStageSection';
+import OneDetailsSection from '../common/OneDetailsSection';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -69,7 +71,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
             && incomingBeacons.find((beacon) => beacon.userId === executor.id) === undefined;
         if (hasCompleted) {
             return (
-                <View style={[styles.center, styles.column]}>
+                <View style={[]}>
                     <AnimatedHeader title='All Beacons Completed!'
                         subtitle='Please check back later for new beacons.' />
                 </View>
@@ -77,7 +79,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         }
 
         return (
-            <View style={[styles.center, styles.column]}>
+            <View style={[styles.center]}>
                 <AnimatedHeader title='Prayer Beacons'
                     subtitle='Select a beacon below to begin.' />
 
@@ -116,26 +118,17 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    const stagePrefix = beacon.shareOneName ? `${one.name}...` : `Their One is...`;
     rows.push(
-        <View style={styles.section}>
-            <PageRow spaceEvenly>
-                <View>
-                    <Image source={mapStageToIcon(one.stage)} style={styles.icon} />
-                    <View style={styles.column}>
-                        <AppText type={TextType.Body}>{stagePrefix}</AppText>
-                        <AppText type={TextType.DefaultSemiBold}>{mapStageToText(one.stage)}</AppText>
-                    </View>
-                </View>
-                <View style={[styles.column, { marginTop: 0 }]}>
-                    <AnimatedCount count={completedActivities.length}
-                        customStyles={{ container: { justifyContent: 'center', alignItems: 'center', } }}
-                        label={'Completed Prayers'} />
-                </View>
-            </PageRow>
-            <View>
-            </View>
-        </View>
+        <PageRow spaceEvenly style={[styles.section, {}]}>
+            <OneDetailsSection iconSrc={mapStageToIcon(one.stage)} 
+                        prefix={"Their One is..."}
+                        style={{ marginRight: 24 }}
+                        title={mapStageToText(one.stage)} />
+
+            <OneDetailsSection iconSrc={AppIcon.UserGroup} 
+                            prefix={"Completed Prayers"} 
+                            title={completedActivities.length} />
+        </PageRow>
     );
 
     const onNoteClick = () => {
@@ -256,9 +249,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
             <AnimatedElement element={
                 <PageColumn>
                     {
-                        rows.map((row, index) => (
-                            <View key={index}>{row}</View>
-                        ))
+                        rows.map((row, index) => (row))
                     }
                 </PageColumn>
 
@@ -343,10 +334,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     section: {
-        marginVertical: 4
-    },
-    column: {
-        flexDirection: 'column',
+        marginVertical: 12,
     },
     profileIcon: {
         width: 60,

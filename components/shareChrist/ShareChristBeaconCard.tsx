@@ -13,6 +13,7 @@ import Animated, {
 
 import { AppIcon } from '@/enums/enums';
 import BeaconActivity from '@/models/beaconActivity';
+import { mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 
 export type IShareChristBeaconCard = {
     beacon: any;
@@ -65,7 +66,9 @@ export function ShareChristBeaconCard({ beacon, one, user, activities,
                 exiting={ZoomOut.duration(250)}
                 style={[styles.iconContainer, animatedStyle]}
             >
-                <Image source={user.icon} style={styles.icon} contentFit="contain" />
+                <Image source={mapBeaconTypeToAppIcon(beacon.type)} 
+                       style={styles.icon} 
+                       contentFit="contain" />
             </Animated.View>
         </TouchableOpacity>
     );
@@ -76,6 +79,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 8,
         flexDirection: 'row',
+        marginEnd: 8
     },
     iconContainer: {
         width: 60,

@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     },
     spaceEvenly: {
         justifyContent: 'space-evenly',
+        flex: 1,
     },
     flexStart: {
         justifyContent: 'flex-start',

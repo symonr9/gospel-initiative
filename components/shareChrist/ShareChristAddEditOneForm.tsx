@@ -10,12 +10,13 @@ import { setOneForm } from '@/redux/actions';
 import { formStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { AvatarIcon, OneStage } from '@/enums/enums';
+import { AvatarIcon, OneCategory, OneStage } from '@/enums/enums';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import StagePicker from '../common/StagePicker';
 import ActionStepPicker from '../common/ActionStepPicker';
 import ActionStep from '@/models/actionStep';
+import CategoryPicker from '../common/CategoryPicker';
 
 export type IShareChristAddEditOneForm = ViewProps & {
     selectedOne: One;
@@ -53,6 +54,13 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
         }));
     };
 
+    const setCategory = (category: OneCategory) => {
+        setFormData((prev) => ({
+            ...prev,
+            category
+        }));
+    };
+
     const setActionSteps = (actionSteps: ActionStep[]) => {
         setFormData((prev) => ({
             ...prev,
@@ -60,11 +68,11 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
         }));
     };
 
-    const { name, icon, stage, actionSteps } = formData;
+    const { name, icon, stage, category, actionSteps } = formData;
     const title = editing ? 'Editing One' : 'Adding One';
 
     return (
-        <View style={[styles.container]}>
+        <PageColumn>
             <AnimatedHeader title={title}/>
 
             <PageColumn style={styles.section}>
@@ -89,26 +97,28 @@ function ShareChristAddEditOneForm({ selectedOne, editing = false, initialOneFor
             </PageColumn>
 
             <PageColumn style={styles.section}>
+                <CategoryPicker selectedCategory={category} 
+                                setSelectedCategory={setCategory}/>
+            </PageColumn>
+
+            <PageColumn style={styles.section}>
                 <ActionStepPicker actionSteps={actionSteps} 
                                   selectedOne={selectedOne}
                                   setActionSteps={setActionSteps}/>
             </PageColumn>
-        </View>
+        </PageColumn>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        padding: 8,
         borderRadius: 4,
         elevation: 4,
         gap: 16
     },
     section: {
-        marginBottom: 8,
-        marginHorizontal: 12
+        marginVertical: 12
     },
     nameSection: {
         padding: 8,

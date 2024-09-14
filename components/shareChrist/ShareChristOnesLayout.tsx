@@ -24,12 +24,13 @@ import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
 import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
-import { generateRandomId, getNow, getTomorrow } from '@/utils/appUtils';
+import { generateRandomId, getNow, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import ShareChristAddEditOneForm from './ShareChristAddEditOneForm';
 import OneForm from '@/models/oneForm';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
+import OneDetailsSection from '../common/OneDetailsSection';
 
 export type IShareChristOnesLayout = ViewProps & {
     selectedOne: One,
@@ -66,9 +67,17 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    const [showHeaderButtons, setShowHeaderButtons] = useState(false);
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
+
+    useEffect(() => {
+        if (activeLayoutType !== OneLayoutType.Normal) {
+            setShowHeaderButtons(true);
+            return;
+        }
+    }, [activeLayoutType]);
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
         HeaderLayout.push(
@@ -139,7 +148,8 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                 ...selectedOne,
                 name: oneForm.name,
                 icon: oneForm.icon,
-                stage: oneForm.stage
+                stage: oneForm.stage,
+                category: oneForm.category
             };
 
             editOne(newOne);
@@ -338,26 +348,59 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
     return (
         <ScrollLayout>
             <View style={styles.container}>
-                {
-                    showYourSelectedOne && (
-                        <PageRow flexStart>
-                            <SimpleIcon iconSrc={selectedOne.icon} large />
-                            <AnimatedHeader title={selectedOne.name}
-                                style={{ alignItems: 'flex-start', marginStart: 8 }}
-                                subtitle='Your One' />
-                        </PageRow>
-                    )
-                }
+                <PageColumn>
+                    {
+                        showYourSelectedOne && (
+                            <PageRow>
+                                <SimpleIcon iconSrc={selectedOne.icon} large />
+                                <AnimatedHeader title={selectedOne.name}
+                                    style={{ alignItems: 'flex-start', marginStart: 8 }}
+                                    subtitle='Your One' />
+                            </PageRow>
+                        )
+                    }
+
+                    <PageRow spaceEvenly style={styles.headerRow}>
+                        {
+                            activeLayoutType === OneLayoutType.Normal && !showHeaderButtons && (
+                                <PageRow>
+                                    <OneDetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
+                                        prefix={"Stage"}
+                                        style={{ marginRight: 16 }}
+                                        title={mapStageToText(selectedOne.stage)} />
+
+                                    <OneDetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
+                                        prefix={"Category"}
+                                        title={mapOneCategoryToText(selectedOne.category)} />
+                                </PageRow>
+                            )
+                        }
+
+                        {
+                            (activeLayoutType !== OneLayoutType.Normal || showHeaderButtons) && (
+                                <>
+                                    {HeaderLayout.map((item) => item)}
+                                </>
+                            )
+                        }
+
+                        {
+                            activeLayoutType === OneLayoutType.Normal && (
+                                <PageRow>
+                                    <SimpleIconButton iconSrc={showHeaderButtons ? AppIcon.ArrowRight : AppIcon.ArrowLeft}
+                                        title={showHeaderButtons ? 'Hide Actions' : 'Show Actions'}
+                                        onClick={() => setShowHeaderButtons(val => !val)} />
+                                </PageRow>
+                            )
+                        }
+                    </PageRow>
+                </PageColumn>
 
                 {
                     message && (
-                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} onClick={() => setMessage(null)}/>
+                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} onClick={() => setMessage(null)} />
                     )
                 }
-
-                <View style={{ marginTop: 8, marginBottom: 8 }}>
-                    {HeaderLayout.map((item) => item)}
-                </View>
 
                 {BodyLayout.map((item) => item)}
             </View>
@@ -368,6 +411,10 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 const styles = StyleSheet.create({
     container: {
         gap: 4,
+    },
+    headerRow: {
+        height: 70,
+        marginBottom: 12
     },
 });
 

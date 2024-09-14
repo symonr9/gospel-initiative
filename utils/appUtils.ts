@@ -200,48 +200,48 @@ export function mapStageToIcon(stage: OneStage) {
 export function mapOneCategoryToText(category: OneCategory) : String {
     switch (category) {
         case OneCategory.Family:
-            return "";
+            return "Family";
         case OneCategory.CloseFriend:
-            return "";
+            return "Close Friend";
         case OneCategory.Neighbor:
-            return "";
+            return "Neighbor";
         case OneCategory.Coworker:
-            return "";
+            return "Coworker";
         case OneCategory.Classmate:
-            return "";
+            return "Classmate";
         case OneCategory.Roommate:
-            return "";
+            return "Roommate";
         case OneCategory.Client:
-            return "";
+            return "Client";
         case OneCategory.Cashier:
-            return "";
+            return "Cashief";
         case OneCategory.Server:
-            return "";
+            return "Server";
         case OneCategory.Barista:
-            return "";
+            return "Barista";
         case OneCategory.Tutor:
-            return "";
+            return "Tutor";
         case OneCategory.Teacher:
-            return "";
+            return "Teacher";
         case OneCategory.FellowParent:
-            return "";
+            return "Fellow Parent";
         case OneCategory.ClubMember:
-            return "";
+            return "Club Member";
         case OneCategory.Teammate:
-            return "";
+            return "Teammate";
         case OneCategory.HouseholdHelp:
-            return "";
+            return "Household Help";
         case OneCategory.WorkoutPartner:
-            return "";
+            return "Workout Partner";
         case OneCategory.PersonalCareProfessional:
-            return "";
+            return "Personal Care Professional";
         case OneCategory.MedicalProf:
-            return "";
+            return "Medical Professional";
         case OneCategory.LongDistanceFriend:
-            return "";
+            return "Long Distance Friend";
         case OneCategory.Friend:
         default:
-            return "This person is a friend.";
+            return "Friend.";
     }
 };
 

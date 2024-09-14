@@ -1,38 +1,51 @@
-import { OneStage } from '@/enums/enums';
+import { OneCategory, OneStage } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
-import { mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { mapOneCategoryToIcon, mapOneCategoryToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
 
 // TODO: Map it, refactor!
-const stageArray = [
-    OneStage.Hostile,
-    OneStage.Apathetic,
-    OneStage.Friendly,
-    OneStage.Curious,
-    OneStage.Seeking,
-    OneStage.NewBeliever,
-    OneStage.Disciple,
-].map((value: OneStage) => ({
-    stage: value,
-    icon: mapStageToIcon(value),
-    label: mapStageToText(value),
-    details: mapStageToDetailsText(value)
+const categoryArray = [
+    OneCategory.Family,
+    OneCategory.CloseFriend,
+    OneCategory.Friend,
+    OneCategory.Neighbor,
+    OneCategory.Coworker,
+    OneCategory.Classmate,
+    OneCategory.Roommate,
+    OneCategory.Client,
+    OneCategory.Cashier,
+    OneCategory.Server,
+    OneCategory.Barista,
+    OneCategory.Tutor,
+    OneCategory.Teacher,
+    OneCategory.FellowParent,
+    OneCategory.ClubMember,
+    OneCategory.Teammate,
+    OneCategory.HouseholdHelp,
+    OneCategory.WorkoutPartner,
+    OneCategory.PersonalCareProfessional,
+    OneCategory.MedicalProf,
+    OneCategory.LongDistanceFriend,    
+].map((value: OneCategory) => ({
+    category: value,
+    icon: mapOneCategoryToIcon(value),
+    label: mapOneCategoryToText(value),
 }));
 
-export type IStagePicker = ViewProps & {
-    selectedStage: OneStage;
-    setSelectedStage: Function;
+export type ICategoryPicker = ViewProps & {
+    selectedCategory: OneCategory;
+    setSelectedCategory: Function;
 };
 
-const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
-    const renderIcon = ({ item }: { item: { stage: OneStage, icon: any, label: string } }) => {
+const CategoryPicker = ({ selectedCategory, setSelectedCategory }: ICategoryPicker) => {
+    const renderIcon = ({ item }: { item: { category: OneCategory, icon: any, label: String } }) => {
         const handleIconPress = () => {
-            setSelectedStage(item.stage);
+            setSelectedCategory(item.category);
         };
 
         return (
@@ -41,7 +54,7 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
                     <PageColumn>
                         <Image
                             source={item.icon}
-                            style={[styles.icon, selectedStage === item.stage && styles.selected]}
+                            style={[styles.icon, selectedCategory === item.category && styles.selected]}
                         />
                         <AppText type={TextType.Italic}>{item.label}</AppText>
                     </PageColumn>
@@ -50,20 +63,20 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
         );
     };
 
-    const selectedStageData = stageArray.find(item => item.stage === selectedStage);
+    const selectedCategoryData = categoryArray.find(item => item.category === selectedCategory);
 
     return (
         <View style={styles.container}>
             <View style={styles.selectedContainer}>
-                {selectedStage ? (
+                {selectedCategory ? (
                     <>
-                        <AppText type={TextType.DefaultSemiBold}>Stage:</AppText>
+                        <AppText type={TextType.DefaultSemiBold}>Category:</AppText>
                         <Image
-                            source={selectedStageData?.icon}
+                            source={selectedCategoryData?.icon}
                             style={styles.selectedIcon}
                         />
-                        <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
-                        <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData?.details}</AppText>
+                        <AppText type={TextType.DefaultSemiBold}>{selectedCategoryData?.label}</AppText>
+                        <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedCategoryData?.details}</AppText>
                     </>
                 ) : (
                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
@@ -71,7 +84,7 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
             </View>
             <ScrollLayout style={{ maxHeight: 220 }}>
                 <FlatList
-                    data={stageArray}
+                    data={categoryArray}
                     renderItem={renderIcon}
                     numColumns={2}
                     keyExtractor={(item, index) => index.toString()}
@@ -129,4 +142,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default StagePicker;
+export default CategoryPicker;
