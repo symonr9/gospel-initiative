@@ -5,7 +5,7 @@ import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
 import One from '@/models/one';
 import ActionStepsList from '../ones/ActionStepsList';
-import { AppIcon, AvatarIcon, OneCategory, OneStage, Priority } from '@/enums/enums';
+import { AppIcon, Priority } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { selectActiveBeaconsWithActivities } from '@/redux/selectors/beaconSelectors';
@@ -409,11 +409,15 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                                                 customStyles={{ container: { marginStart: 16 } }}
                                                 onClick={() => setShowHeaderButtons(val => !val)} />
 
-                                            <SimpleIconButton iconSrc={AppIcon.UserGroup}
-                                                small
-                                                title={'All'}
-                                                customStyles={{ container: { marginStart: 16 } }}
-                                                onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
+                                            {
+                                                ones.length > 0 && (
+                                                    <SimpleIconButton iconSrc={AppIcon.UserGroup}
+                                                    small
+                                                    title={'All'}
+                                                    customStyles={{ container: { marginStart: 16 } }}
+                                                    onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
+                                                )
+                                            }
                                         </>
                                     )
                                 }
