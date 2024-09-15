@@ -241,7 +241,7 @@ export function mapOneCategoryToText(category: OneCategory) : String {
             return "Long Distance Friend";
         case OneCategory.Friend:
         default:
-            return "Friend.";
+            return "Friend";
     }
 };
 

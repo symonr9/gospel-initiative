@@ -39,7 +39,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     const [pickerState, setPickerState] = useState<ActionStepPickerState>(ActionStepPickerState.Normal);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
 
-    const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOne.id || ""));
+    const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOne?.id || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
@@ -49,7 +49,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
         if (pickerState === ActionStepPickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
-            setFormActionStep(ActionStep.createDefault(selectedOne.id || ""));
+            setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
         } else if (pickerState === ActionStepPickerState.Editing) {
             setFormSelectedTypeIdx(selectedActionStepIndex);
         }

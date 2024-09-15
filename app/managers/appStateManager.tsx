@@ -27,7 +27,16 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
     setSelectedTemplateId, setSelectedOne, addBeacon, beaconForm }: IAppStateManager) {
 
     useEffect(() => {
+        const shouldAddBeacon = selectedTemplateId != null 
+            && executor != null
+            && selectedOne != null                   
+            && shareChristPageState == ShareChristPageState.SentBeaconResponse;
 
+        if (shouldAddBeacon) {
+            
+
+            setSelectedTemplateId(null);
+        }
     }, []);
 
     return <></>;

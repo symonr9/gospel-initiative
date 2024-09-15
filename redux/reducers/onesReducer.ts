@@ -19,6 +19,7 @@ export function onesReducer(state = initialState, action: ActionPackage) {
                     ones: ones || [],
                     actionSteps: actionSteps || [],
                     oneFacts: oneFacts || [],
+                    oneForm: null,
                 }
             });
         case Action.SetSelectedOne:

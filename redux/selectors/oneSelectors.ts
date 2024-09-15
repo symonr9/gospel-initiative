@@ -33,6 +33,6 @@ export const selectOneFactsByOneId = (oneId: string) =>
 
 // Action Steps 
 
-export const selectActionStepsByOneId = (state: any, oneId: string): ActionStep[] =>
+export const selectActionStepsByOneId = (state: any, oneId: string | undefined): ActionStep[] =>
     selectAllActionSteps(state).filter(actionStep => actionStep.oneId === oneId);
   

@@ -73,7 +73,7 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
     };
 };
 
-export const selectActiveBeaconsWithActivities = (oneId: string) =>
+export const selectActiveBeaconsWithActivities = (oneId: string | undefined) =>
     createSelector(
         [selectAllBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
         (beacons, executor, beaconActivities, users) => {
