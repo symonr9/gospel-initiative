@@ -8,17 +8,23 @@ import DetailsSection from '../common/DetailsSection';
 import { AppIcon } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
+import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
+import MinistryActivity from '@/models/ministryActivity';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
     localEvents: LocalEvent[];
+    eventActivities: MinistryActivity[];
+    ministryActivities: MinistryActivity[];
 };
 
-function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayout) {
+function LoveCityHomeLayout({ localMinistries, localEvents, eventActivities, ministryActivities }: ILoveCityHomeLayout) {
     const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
     console.log("localMinistries: ", localMinistries);
     console.log("localEvents: ", localEvents);
+    console.log("eventActivities: ", eventActivities);
+    console.log("ministryActivities: ", ministryActivities);
 
     return (
         <ScrollLayout>
@@ -26,10 +32,14 @@ function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayou
             <PageRow style={{ gap: 32 }}>
                 <DetailsSection iconSrc={AppIcon.Calendar} 
                     prefix={'Local Events'}
-                    title={localMinistries.length}/>
+                    title={localEvents.length}/>
                 <DetailsSection iconSrc={AppIcon.NightPark} 
                                 prefix={'Local Ministries'}
                                 title={localMinistries.length}/>
+            </PageRow>
+
+            <PageRow>
+                
             </PageRow>
         </ScrollLayout>
     );
@@ -62,10 +72,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-
+    const { eventActivities, ministryActivities } = selectAllMinistryActivitiesByExecutor(state);
     return {
         localMinistries: state.ministries.localMinistries,
         localEvents: state.ministries.localEvents,
+        eventActivities,
+        ministryActivities
     };
 };
 

@@ -9,12 +9,18 @@ import { AppIcon } from '@/enums/enums';
 import DetailsSection from '../common/DetailsSection';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
+import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
+import MinistryActivity from '@/models/ministryActivity';
 
 export type IReachWorldHomeLayout = ViewProps & {
     missionsTrips: MissionsTrip[];
+    missionsTripActivities: MinistryActivity[];
 };
 
-function ReachWorldHomeLayout({ missionsTrips }: IReachWorldHomeLayout) {
+function ReachWorldHomeLayout({ missionsTrips, missionsTripActivities }: IReachWorldHomeLayout) {
+
+    console.log("missionsTripActivities: ", missionsTripActivities);
+
     return (
         <ScrollLayout>
             <AnimatedHeader title={'Reach the World'}/>
@@ -54,8 +60,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
 
+    const { missionsTripActivities } = selectAllMinistryActivitiesByExecutor(state);
     return {
-        missionsTrips: state.missionsTrips.missionsTrips
+        missionsTrips: state.missionsTrips.missionsTrips,
+        missionsTripActivities
     }
 };
 
