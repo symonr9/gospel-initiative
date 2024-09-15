@@ -10,6 +10,7 @@ import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
 import MinistryActivity from '@/models/ministryActivity';
+import ActivityContainer from '../common/ActivityContainer';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -26,6 +27,8 @@ function LoveCityHomeLayout({ localMinistries, localEvents, eventActivities, min
     console.log("eventActivities: ", eventActivities);
     console.log("ministryActivities: ", ministryActivities);
 
+    const allActivities = eventActivities.concat(ministryActivities).sort((a, b) => a.date.getTime() - b.date.getTime());
+
     return (
         <ScrollLayout>
             <AnimatedHeader title={'Love the City'}/>
@@ -38,37 +41,14 @@ function LoveCityHomeLayout({ localMinistries, localEvents, eventActivities, min
                                 title={localMinistries.length}/>
             </PageRow>
 
-            <PageRow>
-                
-            </PageRow>
+            <ActivityContainer activities={allActivities} 
+                               />
         </ScrollLayout>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        marginEnd: 4,
-    },
-    header: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-        padding: 10,
-    },
-    itemsContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-        overflow: 'scroll',
-        marginBottom: 16
-    },
-    icon: {
-        width: 24,
-        height: 24,
-        marginEnd: 8,
-        alignSelf: 'center',
-    },
+
 });
 
 const mapStateToProps = (state: any) => {
