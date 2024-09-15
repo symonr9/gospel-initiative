@@ -25,7 +25,7 @@ import OneForm from '@/models/oneForm';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
-import OneDetailsSection from '../common/OneDetailsSection';
+import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import ShareChristAllOnesGrid from './ShareChristAllOnesGrid';
 import BeaconForm from '@/models/beaconForm';
@@ -71,7 +71,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
-    
+
     useEffect(() => {
         if (activeLayoutType !== OneLayoutType.Normal) {
             setShowHeaderButtons(true);
@@ -154,9 +154,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <PageRow>
-                <ShareChristAllOnesGrid />
-            </PageRow>
+            <ShareChristAllOnesGrid />
         );
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         if (!selectedOne) {
@@ -429,12 +427,12 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                                 <Animated.View entering={FadeInDown.duration(200)}
                                     exiting={FadeOutDown.duration(200)}>
                                     <PageRow>
-                                        <OneDetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
+                                        <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
                                             prefix={"Stage"}
                                             style={{ marginRight: 16 }}
                                             title={mapStageToText(selectedOne.stage)} />
 
-                                        <OneDetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
+                                        <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
                                             prefix={"Category"}
                                             title={mapOneCategoryToText(selectedOne.category)} />
                                     </PageRow>

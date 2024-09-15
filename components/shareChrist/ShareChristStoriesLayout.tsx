@@ -24,6 +24,7 @@ import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
 import { ShareChristRoadContainer } from './ShareChristRoadContainer';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
+import DetailsSection from '../common/DetailsSection';
 
 export type IShareChristStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
@@ -124,6 +125,12 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                 <AnimatedHeader title={title}
                     subtitle={subtitle}
                     delay={0} />
+
+                <PageRow spaceEvenly>
+                    <DetailsSection iconSrc={AppIcon.Book2} 
+                                    prefix={'Chapters Read Today'} 
+                                    title={5}/>
+                </PageRow>
 
                 <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
                 <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />

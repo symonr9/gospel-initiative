@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { AnimatedHeader } from '../common/AnimatedHeader';
-import { PageRow } from '../common/PageRow';
 import LocalMinistry from '@/models/localMinistry';
 import LocalEvent from '@/models/localEvent';
-import MissionsTrip from '@/models/missionsTrip';
-import { AnimatedCard } from '../common/AnimatedCard';
-import Animated from 'react-native-reanimated';
-import { LocalMinistryCard } from './LocalMinistryCard';
-import { LocalEventCard } from './LocalEventCard';
-import { AppText, TextType } from '../common/AppText';
-import { LoveCityDetails } from './LoveCityDetails';
 import ScrollLayout from '../common/ScrollLayout';
+import DetailsSection from '../common/DetailsSection';
+import { AppIcon } from '@/enums/enums';
+import { PageRow } from '../common/PageRow';
+import { AnimatedHeader } from '../common/AnimatedHeader';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -27,6 +22,15 @@ function LoveCityHomeLayout({ localMinistries, localEvents }: ILoveCityHomeLayou
 
     return (
         <ScrollLayout>
+            <AnimatedHeader title={'Love the City'}/>
+            <PageRow style={{ gap: 32 }}>
+                <DetailsSection iconSrc={AppIcon.Calendar} 
+                    prefix={'Local Events'}
+                    title={localMinistries.length}/>
+                <DetailsSection iconSrc={AppIcon.NightPark} 
+                                prefix={'Local Ministries'}
+                                title={localMinistries.length}/>
+            </PageRow>
         </ScrollLayout>
     );
 }

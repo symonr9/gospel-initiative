@@ -1,3 +1,32 @@
 [
-
+  {
+    "id": "one1",
+    "name": "Austin",
+    "icon": "Man4",
+    "stage": 4,
+    "category": 15,
+    "prayingSince": "2023-06-01T00:00:00Z",
+    "userId": "user1",
+    "hidden": "false"
+  },
+  {
+    "id": "one2",
+    "name": "Jane",
+    "icon": "Woman3",
+    "stage": 3,
+    "category": 10,
+    "prayingSince": "2023-06-01T00:00:00Z",
+    "userId": "user1",
+    "hidden": "false"
+  },
+  {
+    "id": "one3",
+    "name": "Albert",
+    "icon": "Man5",
+    "stage": 5,
+    "category": 4,
+    "prayingSince": "2023-06-01T00:00:00Z",
+    "userId": "user1",
+    "hidden": "false"
+  }
 ]

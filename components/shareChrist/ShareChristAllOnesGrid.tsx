@@ -40,11 +40,11 @@ function ShareChristOnesGrid({ ones, setSelectedOne }: IShareChristOnesGrid) {
     return (
         <PageColumn>
 
-            <ScrollLayout style={{ maxHeight: 220 }}>
+            <ScrollLayout style={{ maxHeight: 500 }}>
                 <FlatList
                     data={ones}
                     renderItem={renderItem}
-                    numColumns={2}
+                    numColumns={3}
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={styles.itemList}
                 />
@@ -56,11 +56,13 @@ function ShareChristOnesGrid({ ones, setSelectedOne }: IShareChristOnesGrid) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 16,
     },
     itemList: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     itemCard: {
         margin: 8,

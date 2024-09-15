@@ -21,7 +21,7 @@ import { AnimatedCard } from '../common/AnimatedCard';
 import { PageColumn } from '../common/PageColumn';
 import ScrollLayout from '../common/ScrollLayout';
 import OneStageSection from '../common/OneStageSection';
-import OneDetailsSection from '../common/OneDetailsSection';
+import DetailsSection from '../common/DetailsSection';
 
 export type IShareChristBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -78,20 +78,9 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
             );
         }
 
+        // Needed for styling.
         return (
-            <View style={[styles.center]}>
-                <AnimatedHeader title='Prayer Beacons'
-                    subtitle='Select a beacon below to begin.' />
-
-                <PageRow spaceEvenly>
-                    <AnimatedCard text={incomingBeacons.length}
-                        direction={FadeDirection.Left}
-                        label='To Pray for' />
-                    <AnimatedCard text={completedBeacons.length}
-                        direction={FadeDirection.Right}
-                        label='Prayed for Today' />
-                </PageRow>
-            </View>
+            <View></View>
         );
     }
 
@@ -120,12 +109,12 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     rows.push(
         <PageRow spaceEvenly style={[styles.section, {}]}>
-            <OneDetailsSection iconSrc={mapStageToIcon(one.stage)} 
+            <DetailsSection iconSrc={mapStageToIcon(one.stage)} 
                         prefix={"Their One is..."}
                         style={{ marginRight: 24 }}
                         title={mapStageToText(one.stage)} />
 
-            <OneDetailsSection iconSrc={AppIcon.UserGroup} 
+            <DetailsSection iconSrc={AppIcon.UserGroup} 
                             prefix={"Completed Prayers"} 
                             title={completedActivities.length} />
         </PageRow>

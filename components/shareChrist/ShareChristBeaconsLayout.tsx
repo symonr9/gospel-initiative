@@ -12,6 +12,9 @@ import { AnimatedCard } from '../common/AnimatedCard';
 import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
+import { AnimatedHeader } from '../common/AnimatedHeader';
+import { PageRow } from '../common/PageRow';
+import DetailsSection from '../common/DetailsSection';
 
 export type IShareChristBeaconsLayout = ViewProps & {
     // completedBeacons: EnhancedBeacon[];
@@ -54,12 +57,22 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
     return (
         <ScrollLayout>
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
-                        completedCursorIdx={completedCursorIdx}
-                        completedBeacons={completedBeacons}
-                        incomingBeacons={incomingBeacons} />
-                </View>
+                <AnimatedHeader title='Prayer Beacons'
+                    subtitle='Select a beacon below to begin.' />
+                <PageRow spaceEvenly>
+                    <DetailsSection iconSrc={AppIcon.Prayer}
+                        prefix={'To Pray For'}
+                        title={incomingBeacons.length} />
+
+                    <DetailsSection iconSrc={AppIcon.OpenHands}
+                        prefix={'Prayed for Today'}
+                        title={completedBeacons.length} />
+                </PageRow>
+
+                <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
+                    completedCursorIdx={completedCursorIdx}
+                    completedBeacons={completedBeacons}
+                    incomingBeacons={incomingBeacons} />
 
                 <View>
                     <ShareChristRoadContainer title={`Completed (${completedCount})`}
@@ -93,11 +106,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         gap: 16,
-    },
-    header: {
-        display: 'flex',
-        flexDirection: 'column',
-        marginTop: 16
     },
 });
 

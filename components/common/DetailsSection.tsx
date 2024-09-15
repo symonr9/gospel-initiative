@@ -9,13 +9,13 @@ import { PageRow } from "./PageRow";
 import { PageColumn } from "./PageColumn";
 import { AppIcon, OneStage } from "@/enums/enums";
 
-export type IOneDetailsSection = ViewProps & {
+export type IDetailsSection = ViewProps & {
     iconSrc: AppIcon | string,
     prefix: any,
     title: any
 };
 
-function OneDetailsSection({ iconSrc, title, prefix, style }: IOneDetailsSection) {
+function DetailsSection({ iconSrc, title, prefix, style }: IDetailsSection) {
     return (
         <PageColumn style={style}>
             <Image source={iconSrc} style={styles.icon} />
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default OneDetailsSection;
+export default DetailsSection;
