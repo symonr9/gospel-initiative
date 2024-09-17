@@ -39,10 +39,13 @@ function LoveCityMinistriesLayout({ localMinistries }: ILoveCityMinistriesLayout
                     </AppText>
                 )
             }
-            <Animated.View
-                style={[listStyles.itemsContainer]}>
-                {ministriesToRender.map((item, index) => item)}
-            </Animated.View>
+
+            <ScrollLayout style={{ maxHeight: 500 }}>
+                <Animated.View
+                    style={[listStyles.itemsContainer]}>
+                    {ministriesToRender.map((item, index) => item)}
+                </Animated.View>
+            </ScrollLayout>
         </ScrollLayout>
     );
 }

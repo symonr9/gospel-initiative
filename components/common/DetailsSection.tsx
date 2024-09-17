@@ -11,8 +11,8 @@ import { AppIcon, OneStage } from "@/enums/enums";
 
 export type IDetailsSection = ViewProps & {
     iconSrc: AppIcon | string,
-    prefix: any,
-    title: any
+    prefix?: any,
+    title?: any
 };
 
 function DetailsSection({ iconSrc, title, prefix, style }: IDetailsSection) {

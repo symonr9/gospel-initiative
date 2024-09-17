@@ -11,6 +11,7 @@ export type IMissionsTripCard = {
 export function MissionsTripCard({ missionsTrip, activeItemId, setActiveItemId }: IMissionsTripCard) {
   return (
     <ListCard title={missionsTrip.title}
+              details={missionsTrip.details}
               icon={missionsTrip.icon}
               hide={activeItemId !== null}
               onClick={() => setActiveItemId(missionsTrip.id)}/>

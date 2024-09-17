@@ -47,7 +47,7 @@ export function onesReducer(state = initialState, action: ActionPackage) {
                 actionSteps: {
                     $apply: (existingActionSteps) => {
                         const currentActionStepsForOne = existingActionSteps.filter(actionStep => actionStep.oneId === action.payload.oneId);
-                        const updatedActionSteps = existingActionSteps
+                        const updatedActionSteps = currentActionStepsForOne
                             .filter(actionStep => actionStep.oneId !== action.payload.oneId) // Remove current action steps for this oneId
                             .concat(action.payload.actionSteps);
                         return updatedActionSteps;

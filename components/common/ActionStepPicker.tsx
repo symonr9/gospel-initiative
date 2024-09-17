@@ -1,6 +1,8 @@
 import { ActionStepType, AppIcon, OneStage } from '@/enums/enums';
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInput } from 'react-native';
+
+import { connect } from 'react-redux';
 import { Image } from 'expo-image';
 import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
@@ -13,6 +15,8 @@ import One from '@/models/one';
 import { formStyles } from '@/styles/Styles';
 import SelectDatePicker from './SelectDatePicker';
 import ScrollLayout from './ScrollLayout';
+import { selectActionStepsByOneId } from '@/redux/selectors';
+import { addActionStep, editActionSteps } from '@/redux/actions';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -25,7 +29,10 @@ const actionStepTypeArray = Object.keys(ActionStepType)
 export type IActionStepPicker = ViewProps & {
     selectedOne: One;
     actionSteps: ActionStep[];
-    setActionSteps: Function;
+    // setActionSteps: Function;
+
+    addActionStep: Function;
+    editActionSteps: Function;
 };
 
 export enum ActionStepPickerState {
@@ -35,7 +42,7 @@ export enum ActionStepPickerState {
     Removing
 }
 
-const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionStepPicker) => {
+const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionSteps }: IActionStepPicker) => {
     const [pickerState, setPickerState] = useState<ActionStepPickerState>(ActionStepPickerState.Normal);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
 
@@ -75,7 +82,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
         return (
             <ActionStepCard actionStep={item}
-                style={isSelected && { backgroundColor: 'lightgreen' }}
+                selected={isSelected}
                 handleOnPress={handleOnPress} />
         );
     };
@@ -89,19 +96,29 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
         setPickerState(ActionStepPickerState.Normal);
 
         if (pickerState === ActionStepPickerState.Removing && selectedStepId) {
-            setActionSteps(actionSteps.length > 1 ? actionSteps.filter((step) => step.id !== selectedStepId) : []);
-        } else if (pickerState === ActionStepPickerState.Editing && selectedStepId) {
-            setActionSteps(actionSteps.map((step) => {
-                if (step.id === selectedStepId) {
-                    return { ...formActionStep };
+            editActionSteps(
+                actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
+                    return {
+                        ...actionStep,
+                        oneId: selectedOne.id
+                    };
                 }
-                return { ...step };
-            }));
+            ));
+        } else if (pickerState === ActionStepPickerState.Editing && selectedStepId) {            
+            editActionSteps(
+                actionSteps.map((actionStep) => {
+                    if (actionStep.id === formActionStep.id) {
+                        return { ...formActionStep };
+                    }
+                    return {
+                        ...actionStep,
+                        oneId: selectedOne.id
+                    };
+                }
+            ));
         } else if (pickerState === ActionStepPickerState.Adding) {
-            setActionSteps([
-                ...actionSteps,
-                formActionStep
-            ]);
+            formActionStep.oneId = selectedOne.id;
+            addActionStep(formActionStep);
         }
     };
 
@@ -133,17 +150,22 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
     const Form = (
         <PageColumn>
-            <AppText type={TextType.Default}>Type</AppText>
-
-            <ScrollLayout style={{ height: 200 }}>
-                <FlatList
-                    data={actionStepTypeArray}
-                    renderItem={renderIcon}
-                    numColumns={1}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={styles.iconList}
-                />
-            </ScrollLayout>
+            {
+                pickerState === ActionStepPickerState.Adding && (
+                    <>
+                        <AppText type={TextType.Default}>Type</AppText>
+                        <ScrollLayout style={{ height: 200 }}>
+                        <FlatList
+                            data={actionStepTypeArray}
+                            renderItem={renderIcon}
+                            numColumns={1}
+                            keyExtractor={(item, index) => index.toString()}
+                            contentContainerStyle={styles.iconList}
+                        />
+                    </ScrollLayout>
+                    </>
+                )
+            }
 
             <AppText type={TextType.Default}>Notes</AppText>
             <TextInput
@@ -154,15 +176,18 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
                 numberOfLines={1}
                 onChangeText={(text) => setFormActionStep((prev) => ({ ...prev, notes: text }))}
             />
-            <SelectDatePicker events={events}
-                title={"Select Target Date"}
-                onDateSelected={onDateSelected} />
+
+            <PageRow style={{ width: '80%' }}>
+                <SelectDatePicker events={events}
+                    title={"Select Target Date"}
+                    onDateSelected={onDateSelected} />
+            </PageRow>
         </PageColumn>
     );
 
     if (pickerState !== ActionStepPickerState.Normal) {
         Body.push(
-            <PageRow style={styles.buttonRow}>
+            <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={onBackClick} />
                 <SimpleIconButton iconSrc={AppIcon.Checkmark}
@@ -171,8 +196,9 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
         )
     } else {
         Body.push(
-            <PageRow style={styles.buttonRow}>
+            <PageRow spaceEvenly={selectedStepId !== null}>
                 <SimpleIconButton iconSrc={AppIcon.Plus}
+                    customStyles={ { container: { marginStart: 2 }}}
                     onClick={() => setPickerState(ActionStepPickerState.Adding)} />
                 {
                     selectedStepId !== null && (
@@ -190,7 +216,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
     if (pickerState === ActionStepPickerState.Normal) {
         Body.push(
-            <ScrollLayout style={{ height: 200}}>
+            <ScrollLayout style={{ maxHeight: 300, marginBottom: 12 }}>
                 <FlatList
                     data={actionSteps}
                     renderItem={renderActionStep}
@@ -203,7 +229,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     } else if (pickerState === ActionStepPickerState.Adding) {
         Body.push(
             <View>
-                <AppText type={TextType.BodyBold}>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Adding new action step
                 </AppText>
                 {Form}
@@ -212,22 +238,20 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
     } else if (pickerState === ActionStepPickerState.Editing && selectedActionStep) {
         Body.push(
             <View>
-                <AppText type={TextType.BodyBold}>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Editing action step
                 </AppText>
-                <ActionStepCard actionStep={selectedActionStep}
-                    style={{ backgroundColor: 'lightgreen' }} />
+                <ActionStepCard actionStep={selectedActionStep} selected/>
                 {Form}
             </View>
         );
     } else if (pickerState === ActionStepPickerState.Removing && selectedActionStep) {
         Body.push(
             <View>
-                <AppText type={TextType.BodyBold}>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Are you sure you want to remove this action step?
                 </AppText>
-                <ActionStepCard actionStep={selectedActionStep}
-                    style={{ backgroundColor: 'lightgreen' }} />
+                <ActionStepCard actionStep={selectedActionStep} selected />
             </View>
         );
     } else {
@@ -250,30 +274,19 @@ const ActionStepPicker = ({ selectedOne, actionSteps, setActionSteps }: IActionS
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        gap: 6,
-        padding: 16,
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 8,
-        width: '99%',
+        flexShrink: 1
+    },
+    pageHeader: {
+        marginBottom: 8,
     },
     actionStepList: {
+        marginTop: 16,
         display: 'flex',
         flexDirection: 'column',
-        gap: 8,
     },
     buttonRow: {
-        gap: 24,
     },
     iconCard: {
-        padding: 8,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -281,24 +294,44 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
         borderRadius: 8,
-        marginVertical: 8,
         flex: 1,
+        paddingVertical: 8
     },
     selectedIconCard: {  
-        backgroundColor: '#bbeccc'
+        backgroundColor: '#bbeccc',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4, // Shadow for Android
+        borderRadius: 8,
     },
     iconList: {
-        marginHorizontal: 8,
     },
     icon: {
-        width: 36,
-        height: 36,
-        margin: 4,
-        opacity: 0.4
+        width: 28,
+        height: 28,
+        margin: 2,
+        opacity: 0.5
     },
     selected: {
         opacity: 1,
     },
 });
 
-export default ActionStepPicker;
+const mapStateToProps = (state: any) => {
+    const selectedOne = state.ones.selectedOne;
+    const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
+    return {
+      selectedOne,
+      actionSteps,
+    };
+};
+
+
+const mapDispatchToProps = {
+    addActionStep,
+    editActionSteps
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActionStepPicker);

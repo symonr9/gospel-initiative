@@ -11,6 +11,7 @@ export type ILocalMinistryCard = {
 export function LocalMinistryCard({ localMinistry, activeItemId, setActiveItemId }: ILocalMinistryCard) {
   return (
     <ListCard title={localMinistry.title}
+              details={localMinistry.details}
               icon={localMinistry.icon}
               hide={activeItemId !== null}
               onClick={() => setActiveItemId(localMinistry.id)}/>

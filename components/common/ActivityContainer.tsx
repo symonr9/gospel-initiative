@@ -35,10 +35,9 @@ function ActivityContainer({ activities, title = 'Your Activity' }: IActivityCon
             <TouchableOpacity onPress={onPress}>
                 <PageRow style={[styles.activityCard]}>
                     <DetailsSection iconSrc={AppIcon.Marker}
-                        prefix={'Hours'}
-                        title={item.hours} />
+                        prefix={`${item.hours} Hours`}/>
 
-                    <PageColumn>
+                    <PageColumn style={{ marginStart: 8, flexShrink: 1}}>
                         {
                             item.note && (
                                 <AppText type={TextType.Default}>
@@ -76,14 +75,15 @@ function ActivityContainer({ activities, title = 'Your Activity' }: IActivityCon
 
 const styles = StyleSheet.create({
     activityCard: {
-
+        borderBottomWidth: 2,
+        borderBottomColor: 'lightgray',
     },
     icon: {
         height: 32,
         width: 32,
     },
     itemList: {
-
+        gap: 12
     }
 });
 

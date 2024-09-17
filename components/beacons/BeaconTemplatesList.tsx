@@ -11,6 +11,7 @@ import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
 import BeaconTemplateDetails from './BeaconTemplateDetails';
 import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IBeaconTemplatesList = ViewProps & {
     activeLayoutType: OneLayoutType;
@@ -49,11 +50,13 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
     return (
         <View style={[listStyles.container, styles.container]}>
             <BeaconsListHeader activeLayoutType={activeLayoutType} selectedTemplateId={selectedTemplateId}/>
-            <FlatList
-                data={beaconTemplates}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-            />
+            <ScrollLayout style={{ maxHeight: 300 }}>
+                <FlatList
+                    data={beaconTemplates}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderItem}
+                />
+            </ScrollLayout>
         </View>
     );
 }

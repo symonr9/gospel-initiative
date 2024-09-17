@@ -42,10 +42,13 @@ function ReachWorldMissionsTripLayout({ missionsTrips }: IReachWorldMissionsTrip
                     </AppText>
                 )
             }
-            <Animated.View
-                style={[listStyles.itemsContainer]}>
-                {itemsToRender.map((item, index) => item)}
-            </Animated.View>
+
+            <ScrollLayout style={{ maxHeight: 500 }}>
+                <Animated.View
+                    style={[listStyles.itemsContainer]}>
+                    {itemsToRender.map((item, index) => item)}
+                </Animated.View>
+            </ScrollLayout>
         </ScrollLayout>
     );
 }

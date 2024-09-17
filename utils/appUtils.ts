@@ -524,19 +524,19 @@ function shuffleArray<T>(array: T[]): T[] {
     return shuffledArray;
   }
   
-  /**
-   * Function to calculate the difference in days between two dates
-   */
-  function getDaysDifference(startDate: Date, currentDate: Date): number {
+/**
+ * Function to calculate the difference in days between two dates
+ */
+function getDaysDifference(startDate: Date, currentDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
     const diffInTime = currentDate.getTime() - startDate.getTime();
     return Math.floor(diffInTime / oneDay);
   }
   
-  /**
-   * Function to get the item for the given date
-   */
-  export function getItemForDate(currentDate: Date, array: string[]): string {
+/**
+ * Function to get the item for the given date
+ */
+export function getItemForDate(currentDate: Date, array: string[]): string {
     const cycleLength = array.length;
   
     // Calculate how many days have passed since the start date
@@ -557,7 +557,7 @@ function shuffleArray<T>(array: T[]): T[] {
     return shuffledArray[indexInCycle];
   }
   
-  export function getDatesInRange(startDate: Date, endDate: Date): Date[] {
+export function getDatesInRange(startDate: Date, endDate: Date): Date[] {
     const dateArray: Date[] = [];
     let currentDate = new Date(startDate);
 
@@ -568,3 +568,10 @@ function shuffleArray<T>(array: T[]): T[] {
 
     return dateArray;
 }
+
+export function truncateString(str: string, maxLength: number): string {
+    if (str.length <= maxLength) {
+      return str;
+    }
+    return str.slice(0, maxLength - 3) + '...';
+  }

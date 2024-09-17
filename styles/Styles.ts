@@ -10,8 +10,6 @@ export const listStyles = StyleSheet.create({
   itemsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 16,
-    overflow: 'scroll',
     marginBottom: 16
   }
 });
@@ -22,13 +20,10 @@ export const cardStyles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     borderRadius: 4,
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6, // Shadow radius for a softer shadow
-    elevation: 4,
-    marginBottom: 12,
+    padding: 4,
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 2,
+    marginVertical: 6
   }
 });
 

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
 import One from '@/models/one';
-import ActionStepsList from '../ones/ActionStepsList';
 import { AppIcon, Priority } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
@@ -29,6 +28,7 @@ import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import ShareChristAllOnesGrid from './ShareChristAllOnesGrid';
 import BeaconForm from '@/models/beaconForm';
+import ActionStepPicker from '../common/ActionStepPicker';
 
 export type IShareChristOnesLayout = ViewProps & {
     selectedOne: One | undefined,
@@ -154,7 +154,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <ShareChristAllOnesGrid />
+            <ShareChristAllOnesGrid setActiveLayoutType={setActiveLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         if (!selectedOne) {
@@ -378,7 +378,13 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
         BodyLayout.push(
             <View>
-                <ActionStepsList />
+                {/* <ActionStepsList /> */}
+                {
+                    selectedOne && (
+                        <ActionStepPicker/>
+                    )
+                }
+
                 {/* <OneFactsList /> */}
                 <ActiveBeaconsActivityCard activeBeaconsWithActivities={activeBeaconsWithActivities} />
             </View>

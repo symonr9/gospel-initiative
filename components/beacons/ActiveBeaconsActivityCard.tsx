@@ -53,7 +53,11 @@ export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style =
                 </View>
             </View>
         )
-    })
+    });
+
+    if (itemsToRender.length === 0) {
+        return <></>;
+    }
 
     return (
         <Animated.View entering={FadeInRight.duration(duration).delay(delay)} style={[styles.container, style]}>

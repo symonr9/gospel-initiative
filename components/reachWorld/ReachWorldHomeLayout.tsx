@@ -31,7 +31,8 @@ function ReachWorldHomeLayout({ missionsTrips, missionsTripActivities }: IReachW
                     title={missionsTrips.length}/>
             </PageRow>
             
-            <ActivityContainer activities={missionsTripActivities}/>
+            <ActivityContainer activities={missionsTripActivities}
+                               />
         </ScrollLayout>
     );
 }

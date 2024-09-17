@@ -15,9 +15,10 @@ import { PageRow } from '../common/PageRow';
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;
   handleOnPress?: Function;
+  selected?: Boolean;
 };
 
-export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStepCard) {
+export function ActionStepCard({ actionStep, handleOnPress, selected = false, style }: IActionStepCard) {
 
   const onPress = () => {
     if (handleOnPress) {
@@ -27,7 +28,7 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <PageRow style={[styles.actionStepCard, style]}>
+      <PageRow style={[styles.actionStepCard, selected && styles.selected, style]}>
         <Image source={mapActionStepTypeToIcon(actionStep.type)} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
@@ -39,7 +40,12 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
               <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{actionStep.notes}</AppText>
             )
           }
-          <AppText type={TextType.Italic}>{formatDateTime(actionStep.targetDate)}</AppText>
+
+          {
+            selected && (
+              <AppText type={TextType.Italic}>{formatDateTime(actionStep.targetDate)}</AppText>
+            )
+          }
         </PageColumn>
       </PageRow>
     </TouchableOpacity>
@@ -48,15 +54,14 @@ export function ActionStepCard({ actionStep, handleOnPress, style }: IActionStep
 
 const styles = StyleSheet.create({
   actionStepCard: {
+    borderBottomWidth: 2,
+    borderBottomColor: 'lightgray',
     padding: 8,
-    backgroundColor: '#fff',
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { height: 2, width: 0 },
-    elevation: 4, // Shadow for Android
-    borderRadius: 8,
     marginVertical: 8,
+    borderRadius: 8
+  },
+  selected: {
+    backgroundColor: 'lightgreen',
   },
   actionStepTextContainer: {
     flexShrink: 1

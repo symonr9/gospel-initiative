@@ -11,18 +11,21 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
+import { OneLayoutType } from './ShareChristOnesLayout';
 
 export type IShareChristOnesGrid = ViewProps & {
     ones: One[];
     setSelectedOne: Function;
+    setActiveLayoutType: Function;
 };
 
 
-function ShareChristOnesGrid({ ones, setSelectedOne }: IShareChristOnesGrid) {
+function ShareChristOnesGrid({ ones, setSelectedOne, setActiveLayoutType }: IShareChristOnesGrid) {
 
     const renderItem = ({ item }: { item: One }) => {
         const onPress = () => {
             setSelectedOne(item);
+            setActiveLayoutType(OneLayoutType.Normal);
         };
 
         return (

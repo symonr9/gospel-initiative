@@ -13,6 +13,7 @@ export function LocalEventCard({ localEvent, activeItemId, setActiveItemId }: IL
     <ListCard title={localEvent.title}
               icon={localEvent.icon}
               hide={activeItemId !== null}
+              details={localEvent.details}
               onClick={() => setActiveItemId(localEvent.id)}/>
   );
 }

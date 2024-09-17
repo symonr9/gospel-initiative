@@ -244,11 +244,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
             } delay={800} style={styles.detailsContainer} />
 
-            <View style={[styles.buttonRow]}>
-                <Animated.View style={[styles.lighthouseContainer]}>
-                    <Image source={AppIcon.LightHouse} style={styles.lightHouse} />
-                </Animated.View>
-
+            <PageRow spaceEvenly>
                 {
                     (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
                         <View style={styles.myNoteForBeacon}>
@@ -272,7 +268,7 @@ function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     disabled={hasUserAlreadyPrayed}
                     onClick={onPrayClick}
                     customStyles={customPrayButtonStyles} />
-            </View>
+            </PageRow>
         </View>
     );
 }
@@ -304,8 +300,9 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        padding: 16,
-        margin: 12,
+        padding: 12,
+        marginLeft: 12,
+        marginRight: 32,
         backgroundColor: '#fff',
         borderRadius: 8,
         shadowColor: '#000',
@@ -337,23 +334,6 @@ const styles = StyleSheet.create({
     detailsContainer: {
         display: 'flex',
         flexDirection: 'column',
-    },
-    buttonRow: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
-    },
-    lighthouseContainer: {
-        position: 'absolute',
-        bottom: 30,
-        right: 380,
-        height: 80,
-        width: 80,
-    },
-    lightHouse: {
-        width: 120,
-        height: 120,
-        opacity: 0.5,
     },
     notesSection: {
         maxHeight: 80,

@@ -38,10 +38,13 @@ function LoveCityEventsLayout({ localEvents }: ILoveCityEventsLayout) {
                     </AppText>
                 )
             }
-            <Animated.View
-                style={[listStyles.itemsContainer]}>
-                {eventsToRender.map((item, index) => item)}
-            </Animated.View>
+
+            <ScrollLayout style={{ maxHeight: 500 }}>
+                <Animated.View
+                    style={[listStyles.itemsContainer]}>
+                    {eventsToRender.map((item, index) => item)}
+                </Animated.View>
+            </ScrollLayout>
         </ScrollLayout>
     );
 }

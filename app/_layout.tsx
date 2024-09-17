@@ -12,10 +12,9 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { Alert, Button, TouchableOpacity } from 'react-native';
-import { AppIcon } from '@/enums/enums';
-import SimpleIconButton from '@/components/common/SimpleIconButton';
-import { Image } from 'expo-image';
+import { Alert, Button, TouchableOpacity, LogBox  } from 'react-native';
+
+LogBox.ignoreAllLogs(true);
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.a
 SplashScreen.preventAutoHideAsync();
@@ -26,11 +25,11 @@ export default function RootLayout() {
     LeagueSpartanLight: require('../assets/fonts/LeagueSpartan-Light.ttf'),
     LeagueSpartan: require('../assets/fonts/LeagueSpartan-Regular.ttf'),
     LeagueSpartanBold: require('../assets/fonts/LeagueSpartan-Bold.ttf'),
-    CrimsonText: require('../assets/fonts/CrimsonText-Regular.ttf'),
-    Lato: require('../assets/fonts/Lato-Regular.ttf'),
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    CormorantGaramond: require('../assets/fonts/CormorantGaramond-Regular.ttf'),
-    DMSerifText: require('../assets/fonts/DMSerifText-Regular.ttf'),
+    // CrimsonText: require('../assets/fonts/CrimsonText-Regular.ttf'),
+    // Lato: require('../assets/fonts/Lato-Regular.ttf'),
+    // SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    // CormorantGaramond: require('../assets/fonts/CormorantGaramond-Regular.ttf'),
+    // DMSerifText: require('../assets/fonts/DMSerifText-Regular.ttf'),
   });
 
   useEffect(() => {
