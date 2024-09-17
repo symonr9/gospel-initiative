@@ -19,7 +19,7 @@ export function AnimatedHeader({ title, subtitle = null, duration = 400, delay =
             <Animated.Text
                 entering={FadeInUp.duration(duration).delay(delay)}
                 exiting={FadeOutDown.duration(duration)}
-                style={[]} >
+                style={[{ marginStart: 4, marginTop: 8 }]} >
                 <AppText type={TextType.Title}>
                     {title}
                 </AppText>
@@ -29,7 +29,7 @@ export function AnimatedHeader({ title, subtitle = null, duration = 400, delay =
                     <Animated.Text
                         entering={FadeInUp.duration(duration).delay(delay + 200)}
                         exiting={FadeOutDown.duration(duration)}
-                        style={[]} >
+                        style={[{ marginStart: 4 }]} >
                         <AppText type={TextType.Subtitle2}>
                             {subtitle}
                         </AppText>

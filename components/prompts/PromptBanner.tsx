@@ -46,7 +46,6 @@ function PromptBanner({ firstPrompt }: IPromptBanner) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16,
         backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'row',

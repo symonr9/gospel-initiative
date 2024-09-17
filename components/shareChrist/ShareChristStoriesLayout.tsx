@@ -127,9 +127,9 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                     delay={0} />
 
                 <PageRow spaceEvenly>
-                    <DetailsSection iconSrc={AppIcon.Book2} 
-                                    prefix={'Chapters Read Today'} 
-                                    title={5}/>
+                    <DetailsSection iconSrc={AppIcon.Book2}
+                                    prefix={'Today\'s Chapters'}
+                                    title={'5/7 Complete'} />
                 </PageRow>
 
                 <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />

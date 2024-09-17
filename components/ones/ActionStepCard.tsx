@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: 'lightgray',
     padding: 8,
-    marginVertical: 8,
+    marginVertical: 2,
     borderRadius: 8
   },
   selected: {

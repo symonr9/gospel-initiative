@@ -29,8 +29,6 @@ const actionStepTypeArray = Object.keys(ActionStepType)
 export type IActionStepPicker = ViewProps & {
     selectedOne: One;
     actionSteps: ActionStep[];
-    // setActionSteps: Function;
-
     addActionStep: Function;
     editActionSteps: Function;
 };
