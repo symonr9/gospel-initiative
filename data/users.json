@@ -1,8 +1,8 @@
 [
     {
       "id": "user1",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
+      "name": "Symon",
+      "email": "symon@example.com",
       "role": "Leader",
       "createdAt": "2024-08-19T08:00:00Z",
       "icon": "Man4"

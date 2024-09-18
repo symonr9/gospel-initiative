@@ -537,24 +537,11 @@ function getDaysDifference(startDate: Date, currentDate: Date): number {
  * Function to get the item for the given date
  */
 export function getItemForDate(currentDate: Date, array: string[]): string {
-    const cycleLength = array.length;
-  
-    // Calculate how many days have passed since the start date
-    const daysPassed = getDaysDifference(new Date('2024-09-01'), currentDate);
-  
-    // Determine the cycle number (how many full cycles have completed)
-    const cycleNumber = Math.floor(daysPassed / cycleLength);
-  
-    // For each new cycle, shuffle the array
-    let shuffledArray = shuffleArray(array);
-    if (cycleNumber > 0) {
-      shuffledArray = shuffleArray(array); // Reshuffle for each new cycle
-    }
-  
-    // Get the index within the current cycle
-    const indexInCycle = daysPassed % cycleLength;
-  
-    return shuffledArray[indexInCycle];
+    const millisecondsInADay = 24 * 60 * 60 * 1000;
+    const startDate = new Date(0);
+    const daysPassed = Math.floor((currentDate.getTime() - startDate.getTime()) / millisecondsInADay);
+    const index = daysPassed % array.length;
+    return array[index];
   }
   
 export function getDatesInRange(startDate: Date, endDate: Date): Date[] {

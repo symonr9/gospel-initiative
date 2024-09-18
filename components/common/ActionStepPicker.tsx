@@ -74,9 +74,14 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
 
     const renderActionStep = ({ item }: { item: ActionStep }) => {
         const isSelected = selectedStepId === item.id;
-
         const handleOnPress = () => {
-            setSelectedStepId(isSelected ? null : item.id);
+            if (isSelected) {
+                setSelectedStepId(null);
+                setFormSelectedTypeIdx(0);
+                setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
+            } else {
+                setSelectedStepId(item.id);
+            }
         };
 
         return (

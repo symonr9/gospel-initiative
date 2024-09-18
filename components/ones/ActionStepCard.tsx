@@ -35,12 +35,18 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
         <Image source={icon} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>        
-          <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapActionStepTypeToText(actionStep.type)}</AppText>
-          {
-            actionStep.notes && (
-              <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{actionStep.notes}</AppText>
-            )
-          }
+
+          <PageRow style={{ flexShrink: 1, width: '100%'}}>
+            <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapActionStepTypeToText(actionStep.type)}</AppText>
+          </PageRow>
+
+            {
+              actionStep.notes && (
+                <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                  <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{actionStep.notes}</AppText>
+                </PageRow>
+              )
+            }
 
           {
             selected && (
