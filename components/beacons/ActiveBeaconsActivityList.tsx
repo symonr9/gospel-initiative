@@ -10,12 +10,12 @@ import { PageRow } from '../common/PageRow';
 import ScrollLayout from '../common/ScrollLayout';
 import { getAppTimeAgoText } from '@/utils/appUtils';
 
-type IActiveBeaconsActivityCard = {
+type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
     style?: any;
 };
 
-export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style = {} }: IActiveBeaconsActivityCard) {
+export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, style = {} }: IActiveBeaconsActivityList) {
     const duration = 400;
     const delay = 200;
 
@@ -24,7 +24,7 @@ export function ActiveBeaconsActivityCard({ activeBeaconsWithActivities, style =
 
         return (
             <View style={styles.beaconCard}>
-                <AppText type={TextType.BodyBold} style={styles.beaconNameText}>
+                <AppText type={TextType.DefaultSemiBold} style={styles.beaconNameText}>
                     {beaconWithActivity.name}
                 </AppText>
                 {
@@ -75,33 +75,23 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
+        marginBottom: 8,
     },
     activityView: {
-        marginVertical: 8,
-        marginHorizontal: 12,
-        backgroundColor: 'lightyellow',
-        borderRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
         padding: 8,
+        marginTop: 8
     },
     beaconNameText: {
-        marginTop: 2,
     },
     beaconDetailsText: {
-        marginBottom: 4,
+        marginBottom: 8,
     },
     beaconCard: {
-        padding: 8,
-        gap: 8,
+        padding: 16,
+        borderBottomWidth: 2,
+        borderBottomColor: 'lightgray',
         backgroundColor: 'white',
         borderRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        marginVertical: 8,
+        marginBottom: 8
     },
 });

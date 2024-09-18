@@ -12,7 +12,7 @@ import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Beacon from '@/models/beacon';
-import { ActiveBeaconsActivityCard } from '../beacons/ActiveBeaconsActivityCard';
+import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList';
 import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps, setShareChristPageState } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
@@ -378,7 +378,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
         BodyLayout.push(
             <View>
-                {/* <ActionStepsList /> */}
+                <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities} />
                 {
                     selectedOne && (
                         <ActionStepPicker/>
@@ -386,7 +386,6 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
                 }
 
                 {/* <OneFactsList /> */}
-                <ActiveBeaconsActivityCard activeBeaconsWithActivities={activeBeaconsWithActivities} />
             </View>
         );
     }

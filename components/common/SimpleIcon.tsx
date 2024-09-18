@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from './AppText';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
 
-export type ISimpleIcon = {
+export type ISimpleIcon = ViewProps & {
     iconSrc: AppIcon | AvatarIcon | null;
     title?: string;
     large?: boolean;

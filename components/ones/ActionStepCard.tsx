@@ -11,6 +11,7 @@ import { AnimatedCard } from '../common/AnimatedCard';
 import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToText } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
+import { SimpleIcon } from '../common/SimpleIcon';
 
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;
@@ -26,14 +27,14 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
     }
   }
 
+  const icon = actionStep.isComplete ? AppIcon.Checkmark : mapActionStepTypeToIcon(actionStep.type);
+
   return (
     <TouchableOpacity onPress={onPress}>
       <PageRow style={[styles.actionStepCard, selected && styles.selected, style]}>
-        <Image source={mapActionStepTypeToIcon(actionStep.type)} style={styles.icon} />
+        <Image source={icon} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
-        <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
-
-        
+        <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>        
           <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapActionStepTypeToText(actionStep.type)}</AppText>
           {
             actionStep.notes && (

@@ -30,7 +30,7 @@ function ShareChristHomeLayout({ firstOne, actionStepsForFirstOne }: IShareChris
     <ScrollLayout style={styles.container}>
       <AnimatedHeader title={'Share Christ'} />
       <PageColumn style={{ gap: 8 }}>
-        <PageRow style={{ gap: 21 }}>
+        {/* <PageRow style={{ gap: 21 }}>
           <DetailsSection iconSrc={AppIcon.Prayer}
             prefix={'To Pray For'}
             title={incomingBeacons.length} />
@@ -40,7 +40,7 @@ function ShareChristHomeLayout({ firstOne, actionStepsForFirstOne }: IShareChris
           <DetailsSection iconSrc={AppIcon.Book2}
             prefix={'Today\'s Chapters'}
             title={'5/7 Complete'} />
-        </PageRow>
+        </PageRow> */}
         <PageRow>
           <PromptBanner />
         </PageRow>

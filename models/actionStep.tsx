@@ -40,4 +40,16 @@ export default class ActionStep implements IActionStep {
         );
     }
 
+    static sortActionSteps(steps: ActionStep[]): ActionStep[] {
+        return steps.sort((a, b) => {
+            // Compare based on completion status (incomplete first)
+            if (a.isComplete !== b.isComplete) {
+                return a.isComplete ? 1 : -1;
+            }
+            const dateA = a.targetDate ? a.targetDate.getTime() : 0;
+            const dateB = b.targetDate ? b.targetDate.getTime() : 0;        
+            return dateB - dateA; // Most recent first
+        });
+    }
+
 }

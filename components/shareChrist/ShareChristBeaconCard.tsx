@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         zIndex: 0,
     },
     icon: {
-        width: 48,
-        height: 48,
+        width: 36,
+        height: 36,
     },
 });

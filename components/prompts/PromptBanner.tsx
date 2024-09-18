@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Image } from 'expo-image';
 import { View, type ViewProps, StyleSheet } from 'react-native';
@@ -14,31 +14,51 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { PageRow } from '../common/PageRow';
 
 export type IPromptBanner = ViewProps & {
     firstPrompt: Prompt,
 };
 
 function PromptBanner({ firstPrompt }: IPromptBanner) {
+    const [message, setMessage] = useState<string | null>(null);
+
     if (!firstPrompt) {
         return <></>;
     }
 
     const promptQuestion = getItemForDate(new Date(), PromptQuestions);
 
+    const onIAskedSomeoneClick = () => {
+        setMessage("Your prompt has been recorded.");
+    };
+
     return (
         <Animated.View entering={FadeIn.duration(400).delay(0)}
             style={[styles.container]}>
-            <PageColumn style={styles.textContainer}>
-
-                <View>
-                    <AppText type={TextType.Body}>
-                        Prompt of the Day
-                    </AppText>
+            <PageColumn style={styles.textContainer}>   
+                {
+                    message && (
+                        <AnimatedBanner iconSrc={AppIcon.Info} 
+                                        text={message} 
+                                        prefixText={'Good job!'} 
+                                        onClick={() => setMessage(null)} />
+                    )
+                }
+                <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
+                    Prompt of the Day
+                </AppText>
+                <View style={{ flexShrink: 1, width: '90%' }}>
                     <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
                         {promptQuestion}
                     </AppText>
                 </View>
+
+                <PageRow style={{ flexDirection: 'row-reverse', width: '90%', marginTop: 12 }}>
+                    <SimpleIconButton iconSrc={AppIcon.Checkmark}
+                        onClick={onIAskedSomeoneClick}
+                        title={'I asked someone'} />
+                </PageRow>
             </PageColumn>
         </Animated.View>
     );

@@ -37,7 +37,8 @@ export enum ActionStepPickerState {
     Normal,
     Adding,
     Editing,
-    Removing
+    Removing,
+    Completing
 }
 
 const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionSteps }: IActionStepPicker) => {
@@ -102,6 +103,18 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                     };
                 }
             ));
+        } else if (pickerState === ActionStepPickerState.Completing && selectedStepId) {
+            editActionSteps(
+                actionSteps.map((actionStep) => {
+                    if (actionStep.id === selectedStepId) {
+                        return { ...actionStep, isComplete: true };
+                    }
+                    return {
+                        ...actionStep,
+                        oneId: selectedOne.id
+                    };
+                }
+            ));
         } else if (pickerState === ActionStepPickerState.Editing && selectedStepId) {            
             editActionSteps(
                 actionSteps.map((actionStep) => {
@@ -118,6 +131,10 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
             formActionStep.oneId = selectedOne.id;
             addActionStep(formActionStep);
         }
+
+        setSelectedStepId(null);
+        setFormSelectedTypeIdx(0);
+        setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
     };
 
     const onDateSelected = (date: string) => {
@@ -187,23 +204,39 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
         Body.push(
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                    title={'Back'}
                     onClick={onBackClick} />
                 <SimpleIconButton iconSrc={AppIcon.Checkmark}
+                    title={'Save'}
                     onClick={onSaveClick} />
             </PageRow>
         )
     } else {
         Body.push(
             <PageRow spaceEvenly={selectedStepId !== null}>
-                <SimpleIconButton iconSrc={AppIcon.Plus}
-                    customStyles={ { container: { marginStart: 2 }}}
-                    onClick={() => setPickerState(ActionStepPickerState.Adding)} />
+                {
+                    selectedStepId === null && (
+                        <SimpleIconButton iconSrc={AppIcon.Plus}
+                        customStyles={ { container: { marginStart: 10 }}}
+                        title={'Add'}
+                        onClick={() => setPickerState(ActionStepPickerState.Adding)} />
+                    )
+                }
                 {
                     selectedStepId !== null && (
                         <>
+                            {
+                                !selectedActionStep?.isComplete && (
+                                    <SimpleIconButton iconSrc={AppIcon.Checkmark}
+                                        title={'Complete'}
+                                        onClick={() => setPickerState(ActionStepPickerState.Completing)} />
+                                )
+                            }
                             <SimpleIconButton iconSrc={AppIcon.Edit}
+                                title={'Edit'}
                                 onClick={() => setPickerState(ActionStepPickerState.Editing)} />
                             <SimpleIconButton iconSrc={AppIcon.Trash}
+                                title={'Remove'}
                                 onClick={() => setPickerState(ActionStepPickerState.Removing)} />
                         </>
                     )
@@ -213,10 +246,11 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
     }
 
     if (pickerState === ActionStepPickerState.Normal) {
+        const sortedSteps = ActionStep.sortActionSteps(actionSteps);
         Body.push(
             <ScrollLayout style={{ maxHeight: 300, marginBottom: 12 }}>
                 <FlatList
-                    data={actionSteps}
+                    data={sortedSteps}
                     renderItem={renderActionStep}
                     numColumns={1}
                     keyExtractor={(item, index) => index.toString()}
@@ -252,6 +286,15 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                 <ActionStepCard actionStep={selectedActionStep} selected />
             </View>
         );
+    } else if (pickerState === ActionStepPickerState.Completing && selectedActionStep) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Complete action?
+                </AppText>
+                <ActionStepCard actionStep={selectedActionStep} selected />
+            </View>
+        );
     } else {
         Body.push(
             <View>
@@ -264,7 +307,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
 
     return (
         <View style={styles.container}>
-            <AppText type={TextType.DefaultSemiBold}>Action Steps</AppText>
+            <AppText type={TextType.Subtitle} style={styles.title}>Action Steps</AppText>
             {Body.map((item) => item)}
         </View>
     );
@@ -275,6 +318,9 @@ const styles = StyleSheet.create({
         flexShrink: 1
     },
     pageHeader: {
+        marginBottom: 8,
+    },
+    title: {
         marginBottom: 8,
     },
     actionStepList: {
