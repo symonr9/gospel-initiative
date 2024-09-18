@@ -33,9 +33,12 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                     <AppText type={TextType.DefaultSemiBold}>
                         Details
                     </AppText>
-                    <AppText type={TextType.Default}>
-                        {localMinistry.details}
-                    </AppText>
+                    
+                    <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                        <AppText type={TextType.Default}>
+                            {localMinistry.details}
+                        </AppText>
+                    </PageRow>
                 </View>
 
                 {
@@ -116,9 +119,12 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                     <AppText type={TextType.DefaultSemiBold}>
                         Details
                     </AppText>
-                    <AppText type={TextType.Default}>
-                        {localEvent.details}
-                    </AppText>
+
+                    <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                        <AppText type={TextType.Default}>
+                            {localEvent.details}
+                        </AppText>
+                    </PageRow>
                 </View>
 
                 {

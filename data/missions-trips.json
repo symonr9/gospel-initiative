@@ -1,29 +1,38 @@
 [
     {
-        "id": "missionsTrip1",
-        "title": "Shepherding the Flock in Uganda",
-        "details": "This mission trip focuses on providing pastoral care and spiritual mentorship to rural communities in Uganda. The team will engage in evangelism, Bible teaching, and leadership training for local church leaders. Participants will also distribute essential supplies like food and medical kits.",
-        "startDate": "2024-12-03T10:03:00Z",
-        "endDate": "2024-12-12T10:03:00Z",
-        "location": "Uganda",
-        "icon": "Sheep"
-    },
-    {
         "id": "missionsTrip2",
-        "title": "Serving in India",
-        "details": "This mission trip to India is dedicated to serving underprivileged communities in the northern regions, focusing on children's education and health. The team will help set up mobile clinics, organize community events, and partner with local Christian ministries to share the Gospel in Hindu-majority areas.",
-        "startDate": "2024-12-03T10:03:00Z",
-        "endDate": "2024-12-12T10:03:00Z",
-        "location": "Northern Regions of India",
-        "icon": "Hindu"
+        "title": "Building Hope in Mexico",
+        "details": "Join our team in Mexico to help build homes and provide essential resources for families in need. This mission trip will focus on construction, evangelism, and distributing supplies to impoverished communities.",
+        "startDate": "2024-10-05T08:00:00Z",
+        "endDate": "2024-10-14T17:00:00Z",
+        "location": "Mexico",
+        "icon": "House"
     },
     {
         "id": "missionsTrip3",
-        "title": "Building Hope in Mexico",
-        "details": "On this mission trip to Mexico, participants will focus on building homes and improving infrastructure in impoverished areas. The team will also work with local ministries to run children's programs and share the Gospel, while creating long-lasting connections with the local church.",
-        "startDate": "2025-02-12T10:03:00Z",
-        "endDate": "2025-02-22T10:03:00Z",
-        "location": "Mexico",
-        "icon": "Car"
+        "title": "Sharing the Gospel in Peru",
+        "details": "This mission trip will take participants into the heart of Peru to engage in community outreach, evangelism, and support local churches through discipleship programs. We'll also assist in medical and educational efforts.",
+        "startDate": "2025-2-01T09:00:00Z",
+        "endDate": "2025-2-14T18:00:00Z",
+        "location": "Peru",
+        "icon": "Mountain"
+    },
+    {
+        "id": "missionsTrip4",
+        "title": "Reaching the Unreached in South Asia",
+        "details": "Travel to South Asia to reach unreached people groups with the message of Jesus. This trip focuses on evangelism, discipleship, and equipping local believers to continue spreading the Gospel.",
+        "startDate": "2025-06-15T07:00:00Z",
+        "endDate": "2025-06-25T19:00:00Z",
+        "location": "South Asia",
+        "icon": "Globe"
+    },
+    {
+        "id": "missionsTrip5",
+        "title": "Serving the Local Community in Medford, OR",
+        "details": "This mission trip focuses on serving the homeless and at-risk populations in Medford, Oregon. Participants will be involved in community service, outreach, and organizing support services for those in need.",
+        "startDate": "2024-09-20T10:00:00Z",
+        "endDate": "2024-09-28T16:00:00Z",
+        "location": "Medford, OR",
+        "icon": "NightPark"
     }
 ]

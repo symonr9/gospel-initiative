@@ -2,7 +2,7 @@
     {
         "id": "localMinistry1",
         "title": "Love, Inc.",
-        "details": "Love In the Name of Christ (Love, Inc.) mobilizes local churches to transform lives and communities through relationships and service. They partner with local congregations to provide support for people in need, offering services like food, shelter, job training, and mentorship programs. Volunteers assist with resource distribution, helping individuals and families move toward self-sufficiency.",
+        "details": "Love In the Name of Christ (Love INC) exists for the purpose of connecting volunteers from local churches to people with needs in the community. \n\nJoin the ranks of volunteers from Northwest Hills who are willing to help people of our community who have unmet needs. \n\nYou can serve in many ways from reading to someone, changing a light bulb, or providing a ride to a doctor's appointment. \n\nRedemption Church partners with Love INC to provide food to families and individuals in need. \n\nYou can sign up to help deliver food boxes to a family.",
         "recurring": "Yes",
         "location": "Benton County Area",
         "isActive": true,
@@ -11,7 +11,7 @@
     {
         "id": "localMinistry2",
         "title": "College Hill High School",
-        "details": "College Hill High School serves students with unique challenges, offering personalized education and support. Volunteers from our church participate in service projects, such as mentoring students, assisting with campus improvement projects, and providing additional support for school events. This ministry focuses on building meaningful connections with the students and offering them hope and encouragement.",
+        "details": "Their purpose is to help each student develop a framework of accountability that promotes learning and inspires courage to invest in the future. \n\nTheir staff will empower students by providing superior learning opportunities in a unique and exceptional environment. \n\nYou can volunteer to mentor students, help in the classroom or be part of our work projects around the school.",
         "recurring": "Yes",
         "location": "College Hill High School",
         "isActive": true,
@@ -20,7 +20,7 @@
     {
         "id": "localMinistry3",
         "title": "Homeless Ministry",
-        "details": "Every Saturday at 12 PM, rain or shine, volunteers from our church gather to serve the homeless community in the town area. We prepare and distribute sandwiches, offer encouragement, and remind those who are often overlooked that they are loved and valued by God. This ministry seeks to provide not only physical sustenance but also emotional and spiritual support for those in need.",
+        "details": "Each Saturday a team heads downtown to deliver lunches. \n\nWe are able to meet a physical need while engaging in conversations, sharing Jesus and praying for those we meet. \n\nYou can help by making lunches on Fridays at the church or volunteering to serve on a Saturday.",
         "recurring": "Yes",
         "location": "Benton County Area",
         "isActive": true,
@@ -28,8 +28,17 @@
     },
     {
         "id": "localMinistry4",
-        "title": "Church Ministry Services",
-        "details": "At Redemption Church, there are several opportunities for volunteers to serve within the congregation. Ministries include Sunday School teaching, ushering, worship team, tech support, hospitality, and outreach efforts like meal preparation for community events. Volunteers are essential in fostering a welcoming and supportive environment for both members and visitors.",
+        "title": "Mosaic College Ministry",
+        "details": "Corvallis is a home away from home for thousands of students attending Oregon State University or Linn-Benton Community College. \n\nThat presents a great opportunity for us to share the love of Christ with young adults trying to decide who they want to be and how to prepare for their future. \n\nThese are crucial years for determining whether or not God will be a part of their life now and in the years to come. Our college ministry is called MOSAIC. \n\nWe meet weekly on campus on Thursday nights at 7:30 pm in the Memorial Union. \n\nWe also offer many small groups meeting on or around campus throughout the week. We would love for you to check out all that happens at Mosaic! \n\nIf you would like more information about our college group, follow the link below to our webpage!",
+        "recurring": "Yes",
+        "location": "Oregon State University",
+        "isActive": true,
+        "icon": "MosaicOrange"
+    },
+    {
+        "id": "localMinistry5",
+        "title": "The Most Excellent Way",
+        "details": "The Most Excellent Way ministers to both men and women desiring to break free from addiction - whether that be drugs, alcohol, gambling, pornography or any other self-centered, life-destroying addiction. \n\nThis is the place to come experience true life change. \n\nThis group meets every Monday at 7 PM at Redemption Church. The men meet in the gym and the women meet in the sanctuary. There is also programs for children available during the meeting.",
         "recurring": "Yes",
         "location": "Redemption Church",
         "isActive": true,

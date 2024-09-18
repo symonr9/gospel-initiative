@@ -40,9 +40,11 @@ function ActivityContainer({ activities, title = 'Your Activity' }: IActivityCon
                     <PageColumn style={{ marginStart: 8, flexShrink: 1}}>
                         {
                             item.note && (
-                                <AppText type={TextType.Default}>
-                                    {item.note}
-                                </AppText>
+                                <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                                    <AppText type={TextType.Default}>
+                                        {item.note}
+                                    </AppText>
+                                </PageRow>
                             )
                         }
                         <AppText type={TextType.Prefix}>

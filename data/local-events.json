@@ -25,5 +25,50 @@
         "endDate": "2024-10-22T17:00:00Z",
         "location": "Downtown",
         "icon": "Coffee"
+    },
+    {
+        "id": "localEvent4",
+        "title": "Christmas Toy Drive",
+        "details": "Help make a child's Christmas special by donating new, unwrapped toys. The toy drive will support families in need within our community. Volunteers are also needed to help distribute the toys before Christmas.",
+        "startDate": "2024-12-01T09:00:00Z",
+        "endDate": "2024-12-20T17:00:00Z",
+        "location": "Church Lobby",
+        "icon": "Gift"
+    },
+    {
+        "id": "localEvent5",
+        "title": "Neighborhood Cleanup",
+        "details": "Join us as we beautify the neighborhood by picking up litter, planting flowers, and assisting in small repairs for elderly residents. This is a great way to serve and meet new people in the community.",
+        "startDate": "2024-11-05T08:00:00Z",
+        "endDate": "2024-11-05T12:00:00Z",
+        "location": "Lincoln Park",
+        "icon": "NightPark"
+    },
+    {
+        "id": "localEvent6",
+        "title": "Community Movie Night",
+        "details": "Bring the whole family for a free outdoor movie night under the stars. Snacks and refreshments will be available, and we'll have a brief gospel message before the movie begins.",
+        "startDate": "2024-09-30T19:00:00Z",
+        "endDate": "2024-09-30T21:00:00Z",
+        "location": "Church Lawn",
+        "icon": "Popcorn"
+    },
+    {
+        "id": "localEvent7",
+        "title": "Thanksgiving Food Drive",
+        "details": "Help provide meals for families in need this Thanksgiving by donating canned goods and non-perishable items. Volunteers are also needed to help pack and distribute food baskets to local families.",
+        "startDate": "2024-11-01T09:00:00Z",
+        "endDate": "2024-11-20T17:00:00Z",
+        "location": "Church Parking Lot",
+        "icon": "Turkey"
+    },
+    {
+        "id": "localEvent8",
+        "title": "Back-to-School Supply Giveaway",
+        "details": "We're giving away backpacks filled with school supplies to families in need. Come out for a day of fun and community as we support our local students before the new school year begins.",
+        "startDate": "2024-08-25T10:00:00Z",
+        "endDate": "2024-08-25T13:00:00Z",
+        "location": "Church Gym",
+        "icon": "Backpack"
     }
 ]

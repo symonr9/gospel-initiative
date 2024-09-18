@@ -35,12 +35,13 @@ export function ListCard({ title, details, icon, hide, onClick }: IListCard) {
         <Image source={icon} style={styles.icon} contentFit="contain" />
       </Animated.View>
       <PageColumn style={styles.textContainer}>
-
-        <Animated.Text entering={FadeInUp.duration(400).delay(400)}>
-          <AppText type={TextType.BodyBold}>
-            {title}
-          </AppText>
-        </Animated.Text>
+        <PageRow style={{ flexShrink: 1, width: '90%'}}>
+          <Animated.Text entering={FadeInUp.duration(400).delay(400)}>
+            <AppText type={TextType.BodyBold}>
+              {title}
+            </AppText>
+          </Animated.Text>
+        </PageRow>
         
         {
           detailsToRender && (

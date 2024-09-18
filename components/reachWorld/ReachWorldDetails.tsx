@@ -31,9 +31,11 @@ export function ReachWorldDetails({ missionsTrips, activeItemId, setActiveItemId
                     <AppText type={TextType.DefaultSemiBold}>
                         Details
                     </AppText>
-                    <AppText type={TextType.Default}>
-                        {missionsTrip.details}
-                    </AppText>
+                    <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                        <AppText type={TextType.Default}>
+                            {missionsTrip.details}
+                        </AppText>
+                    </PageRow>
                 </View>
 
                 {
