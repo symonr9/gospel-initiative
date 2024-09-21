@@ -9,25 +9,14 @@ import { AppIcon } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
-import MinistryActivity from '@/models/ministryActivity';
-import ActivityContainer from '../common/ActivityContainer';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
     localEvents: LocalEvent[];
-    eventActivities: MinistryActivity[];
-    ministryActivities: MinistryActivity[];
 };
 
-function LoveCityHomeLayout({ localMinistries, localEvents, eventActivities, ministryActivities }: ILoveCityHomeLayout) {
+function LoveCityHomeLayout({ localMinistries, localEvents  }: ILoveCityHomeLayout) {
     const [activeItemId, setActiveItemId] = useState<string | null>(null);
-
-    console.log("localMinistries: ", localMinistries);
-    console.log("localEvents: ", localEvents);
-    console.log("eventActivities: ", eventActivities);
-    console.log("ministryActivities: ", ministryActivities);
-
-    const allActivities = eventActivities.concat(ministryActivities).sort((a, b) => a.date.getTime() - b.date.getTime());
 
     return (
         <ScrollLayout>
@@ -40,9 +29,6 @@ function LoveCityHomeLayout({ localMinistries, localEvents, eventActivities, min
                                 prefix={'Local Ministries'}
                                 title={localMinistries.length}/>
             </PageRow>
-
-            <ActivityContainer activities={allActivities} 
-                               />
         </ScrollLayout>
     );
 }

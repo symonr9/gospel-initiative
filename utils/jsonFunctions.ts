@@ -21,7 +21,6 @@ const storiesJson = require('../data/stories.json');
 const storyChaptersJson = require('../data/story-chapters.json');
 const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
-const ministryActivitiesJson = require('../data/ministry-activities.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
 const beaconLogsJson = require('../data/beacon-logs.json');
 
@@ -257,21 +256,6 @@ export function getUsersFromJson() {
             role: role,
             createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
             icon: icon
-        };
-    });
-}
-
-export function getMinistryActivitiesFromJson() {
-    return ministryActivitiesJson.map(item => {
-        return {
-            id: item.id,
-            note: item.note,
-            hours: item.hours,
-            date: item.date ? new Date(item.date) : undefined,
-            localEventId: item.localEventId,
-            localMinistryId: item.localMinistryId,
-            missionsTripId: item.missionsTripId,
-            userId: item.userId
         };
     });
 }

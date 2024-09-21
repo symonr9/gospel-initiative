@@ -10,17 +10,12 @@ import DetailsSection from '../common/DetailsSection';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
-import MinistryActivity from '@/models/ministryActivity';
-import ActivityContainer from '../common/ActivityContainer';
 
 export type IReachWorldHomeLayout = ViewProps & {
     missionsTrips: MissionsTrip[];
-    missionsTripActivities: MinistryActivity[];
 };
 
-function ReachWorldHomeLayout({ missionsTrips, missionsTripActivities }: IReachWorldHomeLayout) {
-
-    console.log("missionsTripActivities: ", missionsTripActivities);
+function ReachWorldHomeLayout({ missionsTrips }: IReachWorldHomeLayout) {
 
     return (
         <ScrollLayout>
@@ -30,9 +25,6 @@ function ReachWorldHomeLayout({ missionsTrips, missionsTripActivities }: IReachW
                     prefix={'Missions Trips'}
                     title={missionsTrips.length}/>
             </PageRow>
-            
-            <ActivityContainer activities={missionsTripActivities}
-                               />
         </ScrollLayout>
     );
 }

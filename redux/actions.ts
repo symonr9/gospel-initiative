@@ -43,7 +43,6 @@ export enum Action {
 
     SetBeaconForm = "SET_BEACON_FORM",
     AddBeaconActivity = "ADD_BEACON_ACTIVITY",
-    AddMinistryActivity = "ADD_MINISTRY_ACTIVITY",
     AddStoryActivity = "ADD_STORY_ACTIVITY",
     AddNoteToActivity = "ADD_NOTE_TO_ACTIVITY",
 
@@ -179,11 +178,6 @@ export const setBeaconForm = (item: BeaconForm) => ({
 
 export const addBeaconActivity = (item: BeaconActivity) => ({
     type: Action.AddBeaconActivity,
-    payload: item
-});
-
-export const addMinistryActivity = (item: BeaconActivity) => ({
-    type: Action.AddMinistryActivity,
     payload: item
 });
 

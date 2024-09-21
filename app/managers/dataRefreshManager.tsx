@@ -36,7 +36,6 @@ function DataRefreshManager({ state, loadServerData }: IDataRefreshManager) {
             storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
             users: usersJson,
             executor: usersJson[0],
-            ministryActivities: JsonFunctions.getMinistryActivitiesFromJson(),
             beaconActivities: JsonFunctions.getBeaconActivitiesFromJson(),
             beaconLogs: JsonFunctions.getBeaconLogsFromJson()
         });

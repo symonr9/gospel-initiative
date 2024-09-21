@@ -2,7 +2,6 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
-    ministryActivities: [],
     beaconActivities: [],
     storyActivities: []
 };
@@ -21,10 +20,6 @@ export function activitiesReducer(state = initialState, action: ActionPackage) {
         case Action.AddBeaconActivity:
             return update(state, {
                 beaconActivities: { $push: [action.payload] }
-            });
-        case Action.AddMinistryActivity:
-            return update(state, {
-                ministryActivities: { $push: [action.payload] }
             });
         case Action.AddStoryActivity:
             return update(state, {
