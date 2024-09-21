@@ -61,7 +61,7 @@ export function RoadContainer({
         heightProgress.value = withTiming(isActive ? 1 : 0, { duration: 50 });
     }, [activeType]);
     
-    const navIcon = isTopPosition ? AppIcon.ArrowDown : AppIcon.ArrowUp;
+    const navIcon = isTopPosition ? AppIcon.ChevronDown : AppIcon.ChevronUp;
 
     return (
         <TouchableOpacity onPress={onPress}>
@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     icon: {
-        width: 24,
-        height: 24,
-        marginEnd: 8,
+        width: 20,
+        height: 20,
+        marginEnd: 16,
         alignSelf: 'center',
     },
     hide: {

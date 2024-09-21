@@ -98,14 +98,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     const rows = [];
 
-    if (message) {
-        rows.push(
-            <View style={[styles.section, styles.notesSection]}>
-                <AppText type={TextType.Body}>Notes:</AppText>
-                <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
-            </View>
-        );
-    }
+    // if (message) {
+    //     rows.push(
+    //         <View style={[styles.section, styles.notesSection]}>
+    //             <AppText type={TextType.Body}>Notes:</AppText>
+    //             <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
+    //         </View>
+    //     );
+    // }
 
     rows.push(
         <PageRow spaceEvenly style={[styles.section, {}]}>
@@ -302,14 +302,15 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 12,
         marginLeft: 12,
-        marginRight: 32,
+        marginRight: 12,
         backgroundColor: '#fff',
         borderRadius: 8,
         shadowColor: '#000',
-        shadowOffset: { width: 2, height: 4 },
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.1,
-        shadowRadius: 6,
+        shadowRadius: 4,
         elevation: 4,
+        marginBottom: 40
     },
     center: {
         flex: 1,
@@ -408,8 +409,7 @@ const styles = StyleSheet.create({
 
 const customPrayButtonStyles = {
     container: {
-        alignSelf: 'flex-end',
-        marginStart: 16
+
     }
 }
 

@@ -4,19 +4,25 @@ import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
-import BeaconsLayout from '@/components/beacons/BeaconsLayout';
+import BeaconsHistoryLayout from '@/components/beacons/BeaconsHistoryLayout';
+import MyBeaconsLayout from '@/components/beacons/MyBeaconsLayout';
+import BeaconsPrayLayout from '@/components/beacons/BeaconsPrayLayout';
 
 export type IBeacons = ViewProps & {
   error: string,
 };
 
 const renderScene = SceneMap({
-  home: BeaconsLayout,
+  pray: BeaconsPrayLayout,
+  history: BeaconsHistoryLayout,
+  myBeacons: MyBeaconsLayout
 });
 
 function Beacons({ error }: IBeacons) {
   const [routes] = React.useState([
-    { key: 'home', title: 'Home ' },
+    { key: 'pray', title: 'Pray' },
+    { key: 'history', title: 'History' },
+    { key: 'myBeacons', title: 'My Beacons' },
   ]);
 
   return (

@@ -251,6 +251,8 @@ export enum AppIcon {
     ArrowLeft = require('../assets/images/app-icons/arrowLeft.png'),
     ArrowUp = require('../assets/images/app-icons/arrowUp.png'),
     ArrowDown = require('../assets/images/app-icons/arrowDown.png'),
+    ChevronUp = require('../assets/images/app-icons/chevronUp.png'),
+    ChevronDown = require('../assets/images/app-icons/chevronDown.png'),
     Edit = require('../assets/images/app-icons/edit.png'),
     Plus = require('../assets/images/app-icons/plus.png'),
     Pencil = require('../assets/images/app-icons/pencil.png'),
