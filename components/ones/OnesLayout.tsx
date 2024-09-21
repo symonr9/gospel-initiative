@@ -226,7 +226,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
         );
 
         BodyLayout.push(
-            <View>
+            <PageColumn style={{ gap: 16 }}>
                 {
                     selectedOne && (
                         <>
@@ -237,7 +237,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
                 }
 
                 {/* <OneFactsList /> */}
-            </View>
+            </PageColumn>
         );
     }
 

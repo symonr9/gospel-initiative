@@ -31,7 +31,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <PageRow style={[styles.actionStepCard, selected && styles.selected, style]}>
+      <PageRow style={[styles.actionStepCard, actionStep.isComplete && styles.completed, selected && styles.selected, style]}>
         <Image source={icon} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>        
@@ -61,14 +61,23 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
 
 const styles = StyleSheet.create({
   actionStepCard: {
-    borderBottomWidth: 2,
-    borderBottomColor: 'lightgray',
-    padding: 8,
-    marginVertical: 2,
-    borderRadius: 8
+    padding: 10,
+    marginBottom: 12,
+    borderRadius: 8,
+    backgroundColor: '#FFF8DE',
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
+  },
+  completed: {
+    backgroundColor: '#d9ead3',
   },
   selected: {
-    backgroundColor: 'lightgreen',
+    backgroundColor: '#a2c4c9',
   },
   actionStepTextContainer: {
     flexShrink: 1

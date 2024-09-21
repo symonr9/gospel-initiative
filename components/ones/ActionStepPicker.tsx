@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInpu
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -17,6 +17,7 @@ import SelectDatePicker from '../common/SelectDatePicker';
 import ScrollLayout from '../common/ScrollLayout';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { addActionStep, editActionSteps } from '@/redux/actions';
+import DetailsSection from '../common/DetailsSection';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -33,8 +34,8 @@ export type IActionStepPicker = ViewProps & {
     editActionSteps: Function;
 };
 
-export enum ActionStepPickerState {
-    
+export enum PickerState {
+    Launch,
     Normal,
     Adding,
     Editing,
@@ -43,21 +44,22 @@ export enum ActionStepPickerState {
 }
 
 const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionSteps }: IActionStepPicker) => {
-    const [pickerState, setPickerState] = useState<ActionStepPickerState>(ActionStepPickerState.Normal);
+    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Launch);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
 
     const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOne?.id || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
+    const firstActionStep = actionSteps.length > 0 ? actionSteps[0] : null;
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
     const selectedActionStepIndex = selectedActionStep ? actionStepTypeArray.findIndex((step) => step.value === selectedActionStep.type) : 0;
 
     useEffect(() => {
-        if (pickerState === ActionStepPickerState.Normal) {
+        if (pickerState === PickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
             setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
-        } else if (pickerState === ActionStepPickerState.Editing) {
+        } else if (pickerState === PickerState.Editing) {
             setFormSelectedTypeIdx(selectedActionStepIndex);
         }
     }, [pickerState]);
@@ -94,13 +96,13 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
 
     const onBackClick = () => {
         setSelectedStepId(null);
-        setPickerState(ActionStepPickerState.Normal);
+        setPickerState(PickerState.Normal);
     };
 
     const onSaveClick = () => {
-        setPickerState(ActionStepPickerState.Normal);
+        setPickerState(PickerState.Normal);
 
-        if (pickerState === ActionStepPickerState.Removing && selectedStepId) {
+        if (pickerState === PickerState.Removing && selectedStepId) {
             editActionSteps(
                 actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
                     return {
@@ -109,7 +111,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                     };
                 }
             ));
-        } else if (pickerState === ActionStepPickerState.Completing && selectedStepId) {
+        } else if (pickerState === PickerState.Completing && selectedStepId) {
             editActionSteps(
                 actionSteps.map((actionStep) => {
                     if (actionStep.id === selectedStepId) {
@@ -121,7 +123,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                     };
                 }
             ));
-        } else if (pickerState === ActionStepPickerState.Editing && selectedStepId) {            
+        } else if (pickerState === PickerState.Editing && selectedStepId) {            
             editActionSteps(
                 actionSteps.map((actionStep) => {
                     if (actionStep.id === formActionStep.id) {
@@ -133,7 +135,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                     };
                 }
             ));
-        } else if (pickerState === ActionStepPickerState.Adding) {
+        } else if (pickerState === PickerState.Adding) {
             formActionStep.oneId = selectedOne.id;
             addActionStep(formActionStep);
         }
@@ -172,10 +174,9 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
     const Form = (
         <PageColumn>
             {
-                pickerState === ActionStepPickerState.Adding && (
+                pickerState === PickerState.Adding && (
                     <>
                         <AppText type={TextType.Default}>Type</AppText>
-                        <ScrollLayout style={{ height: 200 }}>
                         <FlatList
                             data={actionStepTypeArray}
                             renderItem={renderIcon}
@@ -183,7 +184,6 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                             keyExtractor={(item, index) => index.toString()}
                             contentContainerStyle={styles.iconList}
                         />
-                    </ScrollLayout>
                     </>
                 )
             }
@@ -206,7 +206,26 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
         </PageColumn>
     );
 
-    if (pickerState !== ActionStepPickerState.Normal) {
+    const onExpandPress = () => {
+        setPickerState(pickerState === PickerState.Launch ? PickerState.Normal : PickerState.Launch);
+    }
+
+    if (pickerState === PickerState.Launch) {
+        Body.push(
+            <PageRow spaceEvenly style={{}}>
+                {
+                    firstActionStep && (
+                        <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)} 
+                            prefix={getAppTimeAgoText(firstActionStep.targetDate)} 
+                            title={mapActionStepTypeToText(firstActionStep.type)}/>
+                    )
+                }
+                <SimpleIconButton iconSrc={AppIcon.ChevronDown}
+                    title={'Expand'}
+                    onClick={onExpandPress} />
+            </PageRow>
+        );
+    } else if (pickerState !== PickerState.Normal) {
         Body.push(
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
@@ -216,16 +235,21 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                     title={'Save'}
                     onClick={onSaveClick} />
             </PageRow>
-        )
+        );
     } else {
         Body.push(
-            <PageRow spaceEvenly={selectedStepId !== null}>
+            <PageRow spaceEvenly>
                 {
                     selectedStepId === null && (
-                        <SimpleIconButton iconSrc={AppIcon.Plus}
-                        customStyles={ { container: { marginStart: 10 }}}
-                        title={'Add'}
-                        onClick={() => setPickerState(ActionStepPickerState.Adding)} />
+                        <>
+                            <SimpleIconButton iconSrc={AppIcon.Plus}
+                                customStyles={ { container: { marginStart: 10, marginEnd: 10 }}}
+                                title={'Add'}
+                                onClick={() => setPickerState(PickerState.Adding)} />
+                            <SimpleIconButton iconSrc={AppIcon.ChevronUp}
+                                title={'Collapse'}
+                                onClick={onExpandPress} />
+                        </>
                     )
                 }
                 {
@@ -235,15 +259,15 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                                 !selectedActionStep?.isComplete && (
                                     <SimpleIconButton iconSrc={AppIcon.Checkmark}
                                         title={'Complete'}
-                                        onClick={() => setPickerState(ActionStepPickerState.Completing)} />
+                                        onClick={() => setPickerState(PickerState.Completing)} />
                                 )
                             }
                             <SimpleIconButton iconSrc={AppIcon.Edit}
                                 title={'Edit'}
-                                onClick={() => setPickerState(ActionStepPickerState.Editing)} />
+                                onClick={() => setPickerState(PickerState.Editing)} />
                             <SimpleIconButton iconSrc={AppIcon.Trash}
                                 title={'Remove'}
-                                onClick={() => setPickerState(ActionStepPickerState.Removing)} />
+                                onClick={() => setPickerState(PickerState.Removing)} />
                         </>
                     )
                 }
@@ -251,20 +275,20 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
         );
     }
 
-    if (pickerState === ActionStepPickerState.Normal) {
+    if (pickerState === PickerState.Launch) {
+        Body.push(<></>);
+    } else if (pickerState === PickerState.Normal) {
         const sortedSteps = ActionStep.sortActionSteps(actionSteps);
         Body.push(
-            <ScrollLayout style={{ maxHeight: 300, marginBottom: 12 }}>
-                <FlatList
-                    data={sortedSteps}
-                    renderItem={renderActionStep}
-                    numColumns={1}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={styles.actionStepList}
-                />
-            </ScrollLayout>
+            <FlatList
+                data={sortedSteps}
+                renderItem={renderActionStep}
+                numColumns={1}
+                keyExtractor={(item, index) => index.toString()}
+                contentContainerStyle={styles.actionStepList}
+            />
         );
-    } else if (pickerState === ActionStepPickerState.Adding) {
+    } else if (pickerState === PickerState.Adding) {
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
@@ -273,7 +297,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                 {Form}
             </View>
         );
-    } else if (pickerState === ActionStepPickerState.Editing && selectedActionStep) {
+    } else if (pickerState === PickerState.Editing && selectedActionStep) {
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
@@ -283,7 +307,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                 {Form}
             </View>
         );
-    } else if (pickerState === ActionStepPickerState.Removing && selectedActionStep) {
+    } else if (pickerState === PickerState.Removing && selectedActionStep) {
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
@@ -292,7 +316,7 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
                 <ActionStepCard actionStep={selectedActionStep} selected />
             </View>
         );
-    } else if (pickerState === ActionStepPickerState.Completing && selectedActionStep) {
+    } else if (pickerState === PickerState.Completing && selectedActionStep) {
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
@@ -321,7 +345,10 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
 
 const styles = StyleSheet.create({
     container: {
-        flexShrink: 1
+        flexShrink: 1,
+        paddingBottom: 8,
+        borderBottomColor: 'lightgray',
+        borderBottomWidth: 2
     },
     pageHeader: {
         marginBottom: 8,

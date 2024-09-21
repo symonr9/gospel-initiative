@@ -65,7 +65,7 @@ export function getAppTimeAgoText(date: Date | undefined, expiration = false): s
             if (expiration) {
                 return isFuture ? `Expires in ${count} ${unit}` : `Expired ${count} ${unit} ago`;
             }
-            return isFuture ? `Target date in ${count} ${unit}` : `Target Date passed ${count} ${unit} ago`;
+            return isFuture ? `In ${count} ${unit}` : `Passed ${count} ${unit} ago`;
         }
     }
 
@@ -447,52 +447,53 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
 export function mapGospelChecklistItemTypeToTitle(item: GospelChecklistItem): string {
     switch(item) {
         case GospelChecklistItem.Creation:
-            case GospelChecklistItem.Fall:
-                return "The Fall";
-            case GospelChecklistItem.Sin:
-                return "Sin";
-            case GospelChecklistItem.Prophets:
-                return "The Prophets";
-            case GospelChecklistItem.Incarnation:
-                return "The Incarnation";
-            case GospelChecklistItem.JesusLife:
-                return "The Life of Jesus";
-            case GospelChecklistItem.JesusOnTheCross:
-                return "Jesus on the Cross";
-            case GospelChecklistItem.Resurrection:
-                return "Resurrection";
-            case GospelChecklistItem.Ascension:
-                return "Ascension";
-            case GospelChecklistItem.Grace:
-                return "Grace";
-            case GospelChecklistItem.Faith:
-                return "Faith";
-            case GospelChecklistItem.Repentance:
-                return "Repentance";
-            case GospelChecklistItem.HolySpirit:
-                return "Holy Spirit";
-            case GospelChecklistItem.NewCreation:
-                return "New Creation";
-            case GospelChecklistItem.Discipleship:
-                return "Discipleship";
-            case GospelChecklistItem.GreatCommission:
-                return "Great Commission";
-            case GospelChecklistItem.SecondComing:
-                return "Second Coming";
-            case GospelChecklistItem.Heaven:
-                return "Heaven";
-            case GospelChecklistItem.Judgment:
-                return "Judgment";
-            case GospelChecklistItem.KingdomOfGod:
-                return "Kingdom of God";
-            case GospelChecklistItem.Reconciliation:
-                return "Reconciliation";
-            case GospelChecklistItem.Redemption:
-                return "Redemption";
-            case GospelChecklistItem.Forgiveness:
-                return "Forgiveness";
-            default:
-                return "";
+            return "Creation";
+        case GospelChecklistItem.Fall:
+            return "The Fall";
+        case GospelChecklistItem.Sin:
+            return "Sin";
+        case GospelChecklistItem.Prophets:
+            return "The Prophets";
+        case GospelChecklistItem.Incarnation:
+            return "The Incarnation";
+        case GospelChecklistItem.JesusLife:
+            return "The Life of Jesus";
+        case GospelChecklistItem.JesusOnTheCross:
+            return "Jesus on the Cross";
+        case GospelChecklistItem.Resurrection:
+            return "Resurrection";
+        case GospelChecklistItem.Ascension:
+            return "Ascension";
+        case GospelChecklistItem.Grace:
+            return "Grace";
+        case GospelChecklistItem.Faith:
+            return "Faith";
+        case GospelChecklistItem.Repentance:
+            return "Repentance";
+        case GospelChecklistItem.HolySpirit:
+            return "Holy Spirit";
+        case GospelChecklistItem.NewCreation:
+            return "New Creation";
+        case GospelChecklistItem.Discipleship:
+            return "Discipleship";
+        case GospelChecklistItem.GreatCommission:
+            return "Great Commission";
+        case GospelChecklistItem.SecondComing:
+            return "Second Coming";
+        case GospelChecklistItem.Heaven:
+            return "Heaven";
+        case GospelChecklistItem.Judgment:
+            return "Judgment";
+        case GospelChecklistItem.KingdomOfGod:
+            return "Kingdom of God";
+        case GospelChecklistItem.Reconciliation:
+            return "Reconciliation";
+        case GospelChecklistItem.Redemption:
+            return "Redemption";
+        case GospelChecklistItem.Forgiveness:
+            return "Forgiveness";
+        default:
+            return "";
     }
 }
 
@@ -548,6 +549,60 @@ export function mapGospelChecklistItemTypeToDetails(item: GospelChecklistItem): 
             return "Unknown gospel checklist item.";
     }
 }
+
+export function mapGospelChecklistItemTypeToVersesAndQuestions(item: GospelChecklistItem): string {
+    switch (item) {
+        case GospelChecklistItem.Creation:
+            return `Bible Passage: Genesis 1:1-31 (The Creation account) \n\nThematic Significance: This passage shows that God made everything good and intentional. Humans are made in God's image, which gives us inherent worth and value.\n\nDiscussion Questions:\n\nWhat do you think it means that we are created in God's image?\n\nHow does knowing that God created everything with purpose change the way you see the world and yourself?`;
+        case GospelChecklistItem.Fall:
+            return `Bible Passage: Genesis 3:1-19 (The Fall of Man) \n\nThematic Significance: This passage explains the origin of sin and why the world is broken. It also sets the stage for God’s plan to restore what was lost.\n\nDiscussion Questions:\n\nHow does this story explain some of the brokenness you see in the world today?\n\nHow do you feel knowing that God has been working to restore humanity since the Fall?`;
+        case GospelChecklistItem.Sin:
+            return `Bible Passage: Romans 3:9-26 (All have sinned, but there is redemption) \n\nThematic Significance: This passage explains that everyone has fallen short of God's standard, but it also introduces the hope of being made right with God through Jesus.\n\nDiscussion Questions:\n\nWhat does it mean to you that everyone has sinned, but that there is a way to be right with God?\n\nHow does understanding sin help you appreciate the need for Jesus?`;
+        case GospelChecklistItem.Prophets:
+            return `Bible Passage: Isaiah 53:1-12 (The prophecy of the Suffering Servant) \n\nThematic Significance: Isaiah points to Jesus hundreds of years before His birth, showing God’s consistent plan to save humanity through a suffering Messiah.\n\nDiscussion Questions:\n\nHow does this prophecy help you see the big picture of God's plan?\n\nWhat stands out to you about the way Jesus is described in this passage?`;
+        case GospelChecklistItem.Incarnation:
+            return `Bible Passage: John 1:1-18 (The Word became flesh) \n\nThematic Significance: Jesus is not just a teacher or a prophet—He is God who became human. This passage introduces the miracle of the Incarnation.\n\nDiscussion Questions:\n\nWhat does it mean to you that God Himself came to live among us?\n\nHow does Jesus' humanity make Him more relatable to you?`;
+        case GospelChecklistItem.JesusLife:
+            return `Bible Passage: Matthew 5:1-12 (The Beatitudes – Jesus’ teachings about the Kingdom) \n\nThematic Significance: This passage shows how Jesus turned the world’s values upside down, teaching us what it means to live according to God’s Kingdom.\n\nDiscussion Questions:\n\nWhat stands out to you about Jesus' teachings here?\n\nHow do you think living according to these principles would change your life?`;
+        case GospelChecklistItem.JesusOnTheCross:
+            return `Bible Passage: Luke 23:32-49 (The Crucifixion) \n\nThematic Significance: Jesus’ death on the cross is the ultimate act of love, paying the penalty for sin so that we can be made right with God.\n\nDiscussion Questions:\n\nHow does Jesus' sacrifice on the cross affect how you view God's love for you?\n\nWhat does this passage reveal about the cost of forgiveness?`;
+        case GospelChecklistItem.Resurrection:
+            return `Bible Passage: Matthew 28:1-10 (The Resurrection) \n\nThematic Significance: The resurrection is the cornerstone of the Christian faith, showing that death is not the end and that Jesus has the power to give us new life.\n\nDiscussion Questions:\n\nHow does the resurrection of Jesus give you hope for your own life?\n\nWhat do you think it means to have new life through Jesus?`;
+        case GospelChecklistItem.Ascension:
+            return `Bible Passage: Acts 1:6-11 (The Ascension) \n\nThematic Significance: Jesus’ ascension marks the beginning of His reign as the exalted Lord and points to His eventual return.\n\nDiscussion Questions:\n\nWhat does it mean to you that Jesus is alive and reigning today?\n\nHow does knowing that Jesus will return one day affect how you live now?`;
+        case GospelChecklistItem.Grace:
+            return `Bible Passage: Ephesians 2:1-10 (Saved by grace through faith) \n\nThematic Significance: This passage emphasizes that salvation is a gift from God, not something we can earn, highlighting God’s incredible love and mercy.\n\nDiscussion Questions:\n\nHow does understanding grace change how you see your relationship with God?\n\nWhat does it mean to live in response to God's grace?`;
+        case GospelChecklistItem.Faith:
+            return `Bible Passage: Hebrews 11:1-12 (Faith in Action) \n\nThematic Significance: This passage shows that faith is trusting in what we cannot see but what God has promised. It gives examples of people who lived by faith, encouraging us to do the same.\n\nDiscussion Questions:\n\nWhat does it mean to live by faith in your everyday life?\n\nHow does trusting God change the way you make decisions?`;
+        case GospelChecklistItem.Repentance:
+            return `Bible Passage: Luke 15:11-32 (The Parable of the Prodigal Son) \n\nThematic Significance: This story of repentance shows the heart of God as a loving Father who welcomes us back with open arms when we turn away from our sin.\n\nDiscussion Questions:\n\nHow does this story help you understand God's response when we repent?\n\nWhat does true repentance look like in your life?`;
+        case GospelChecklistItem.HolySpirit:
+            return `Bible Passage: John 14:15-31 (The Promise of the Holy Spirit) \n\nThematic Significance: Jesus promises that the Holy Spirit will come to guide and comfort believers, showing that we are never alone in our faith journey.\n\nDiscussion Questions:\n\nHow does knowing the Holy Spirit is with you give you confidence in your faith?\n\nHow do you experience the guidance of the Holy Spirit in your life?`;
+        case GospelChecklistItem.NewCreation:
+            return `Bible Passage: 2 Corinthians 5:16-21 (New Creation in Christ) \n\nThematic Significance: In Christ, we are made new, leaving behind our old selves. This passage highlights God's work of reconciliation through Jesus.\n\nDiscussion Questions:\n\nWhat does it mean to be a new creation in Christ?\n\nHow does this passage encourage you to live differently?`;
+        case GospelChecklistItem.Discipleship:
+            return `Bible Passage: Matthew 28:18-20 (The Great Commission) \n\nThematic Significance: Jesus commands His followers to make disciples of all nations, calling us to live out our faith by helping others follow Him.\n\nDiscussion Questions:\n\nWhat does it mean to be a disciple of Jesus?\n\nHow can you actively participate in making disciples?`;
+        case GospelChecklistItem.GreatCommission:
+            return `Bible Passage: Matthew 28:18-20 (The Great Commission) \n\nThematic Significance: Jesus commissions His followers to spread the gospel to all people, showing that every believer has a role in His mission.\n\nDiscussion Questions:\n\nHow does Jesus’ command to make disciples challenge you?\n\nWhat steps can you take to share the gospel with others?`;
+        case GospelChecklistItem.SecondComing:
+            return `Bible Passage: 1 Thessalonians 4:13-18 (The Second Coming) \n\nThematic Significance: This passage describes the return of Jesus and offers hope for believers, knowing that He will come back to restore all things.\n\nDiscussion Questions:\n\nHow does knowing Jesus will return affect your perspective on life?\n\nWhat do you look forward to most about His second coming?`;
+        case GospelChecklistItem.Heaven:
+            return `Bible Passage: Revelation 21:1-7 (The New Heaven and New Earth) \n\nThematic Significance: This passage describes the future hope of eternal life with God in a place where there will be no more pain, suffering, or death.\n\nDiscussion Questions:\n\nWhat stands out to you about the picture of heaven described in this passage?\n\nHow does this hope impact the way you live today?`;
+        case GospelChecklistItem.Judgment:
+            return `Bible Passage: Revelation 20:11-15 (The Final Judgment) \n\nThematic Significance: This passage describes God's righteous judgment of all people. It reminds us of the reality of eternity and the importance of faith in Jesus.\n\nDiscussion Questions:\n\nHow does the reality of judgment shape your understanding of God's justice?\n\nWhat does this passage make you reflect on regarding your relationship with Jesus?`;
+        case GospelChecklistItem.KingdomOfGod:
+            return `Bible Passage: Matthew 6:9-13 (The Lord’s Prayer – The Kingdom of God) \n\nThematic Significance: Jesus teaches us to pray for God’s kingdom to come on earth, reflecting His rule and reign in every part of life.\n\nDiscussion Questions:\n\nWhat does it mean to seek God's kingdom first in your life?\n\nHow can you demonstrate the values of the Kingdom of God in your daily actions?`;
+        case GospelChecklistItem.Reconciliation:
+            return `Bible Passage: 2 Corinthians 5:18-19 (Ministry of Reconciliation) \n\nThematic Significance: God has called us to be ambassadors of reconciliation, demonstrating His love by bringing people back to Him.\n\nDiscussion Questions:\n\nWhat does reconciliation mean to you?\n\nHow can you be a messenger of reconciliation in your relationships?`;
+        case GospelChecklistItem.Redemption:
+            return `Bible Passage: Colossians 1:13-14 (Redemption through Christ) \n\nThematic Significance: This passage highlights our redemption through the blood of Jesus, freeing us from the power of darkness and bringing us into His light.\n\nDiscussion Questions:\n\nWhat does it mean to you that you have been redeemed?\n\nHow does understanding your redemption impact your daily life?`;
+        case GospelChecklistItem.Forgiveness:
+            return `Bible Passage: Ephesians 4:32 (Forgive as Christ Forgave) \n\nThematic Significance: This passage encourages believers to forgive others as God forgave us in Christ, demonstrating His grace in our relationships.\n\nDiscussion Questions:\n\nHow does understanding God's forgiveness shape your ability to forgive others?\n\nWhat are some challenges you face in forgiving someone?`;
+        default:
+            return '';
+    }
+}
+
 
 export function mapGospelChecklistItemTypeToIcon(item: GospelChecklistItem): AppIcon {
     switch(item) {
@@ -691,3 +746,9 @@ export function truncateString(str: string, maxLength: number): string {
     }
     return str.slice(0, maxLength - 3) + '...';
   }
+
+export function calculatePercent(arr1: Number[], arr2: Number[]): number {
+    const countInSecondArray = arr2.filter(num => arr1.includes(num)).length;
+    const percentage = Math.ceil((countInSecondArray / arr2.length) * 100);
+    return percentage;
+}
