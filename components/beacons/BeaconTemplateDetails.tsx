@@ -46,12 +46,12 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
         }));
     };
 
-    const setNotes = (notes: string) => {
-        setFormData((prev) => ({
-            ...prev,
-            notes
-        }));
-    };
+    // const setNotes = (notes: string) => {
+    //     setFormData((prev) => ({
+    //         ...prev,
+    //         notes
+    //     }));
+    // };
 
     const setPriority = (priority: Priority) => {
         setFormData((prev) => ({
@@ -93,25 +93,22 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                     title={`Priority: ${mapPriorityToText(priority)}`} />
             </PageColumn>
 
-            <PageColumn style={styles.section}>
-            <AppText type={TextType.Default}>Notes</AppText>
+            {/* <PageColumn style={styles.section}>
+                <AppText type={TextType.Default}>Notes</AppText>
                 <AppKeyboardAvoidingComponent>
                     <ScrollLayout>
-                    <TextInput
-                    style={formStyles.multiLineTextInput}
-                    placeholder="Enter note here..."
-                    placeholderTextColor={'gray'}
-                    value={notes}
-                    multiline
-                    numberOfLines={4}
-                    onChangeText={(text) => setNotes(text)}
-                />             
+                        <TextInput
+                            style={formStyles.multiLineTextInput}
+                            placeholder="Enter note here..."
+                            placeholderTextColor={'gray'}
+                            value={notes}
+                            multiline
+                            numberOfLines={4}
+                            onChangeText={(text) => setNotes(text)}
+                        />
                     </ScrollLayout>
-
-       
                 </AppKeyboardAvoidingComponent>
-
-            </PageColumn>
+            </PageColumn> */}
 
             <PageColumn style={styles.section}>
                 <AppText type={TextType.Subtitle}>

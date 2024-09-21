@@ -7,17 +7,12 @@ import One from '@/models/one';
 import { AppIcon, Priority } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
-import { selectActiveBeaconsWithActivities } from '@/redux/selectors/beaconSelectors';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import Beacon from '@/models/beacon';
-import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList';
 import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
-import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
-import BeaconTemplate from '@/models/beaconTemplate';
 import { generateRandomId, getNow, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
@@ -27,7 +22,6 @@ import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import AllOnesGrid from './AllOnesGrid';
-import BeaconForm from '@/models/beaconForm';
 import ActionStepPicker from '../common/ActionStepPicker';
 
 export type IOnesLayout = ViewProps & {
@@ -35,11 +29,6 @@ export type IOnesLayout = ViewProps & {
     ones: One[],
     executor: User,
     oneForm: OneForm,
-    beaconTemplates: BeaconTemplate[],
-    beaconForm: BeaconForm,
-    selectedTemplateId: String,
-    setSelectedTemplateId: Function,
-    addBeacon: Function,
     addOne: Function,
     editOne: Function,
     addActionStep: Function,
@@ -53,16 +42,10 @@ export enum OneLayoutType {
     AllOnes,
     AddingOne,
     EditingOne,
-    AllBeaconTemplates,
-    ConfirmBeacon,
-    SentBeaconResponse,
 }
 
-function OnesLayout({ selectedOne, ones, oneForm,
-    beaconForm, selectedTemplateId,
-    executor, setSelectedTemplateId, beaconTemplates, addBeacon, editOne,
+function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
     addOne, addActionStep, editActionSteps, setSelectedOne }: IOnesLayout) {
-    const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOne?.id));
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
     const [message, setMessage] = useState<string | null>(null);
@@ -207,119 +190,6 @@ function OnesLayout({ selectedOne, ones, oneForm,
             <AddEditOneForm editing
                 initialOneForm={initialOneForm} />
         );
-    } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
-        if (!selectedOne) {
-            return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'} 
-                    title={'Something went wrong'}/>
-            );
-        }
-
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setMessage(null);
-                        setSelectedTemplateId(null);
-                        setActiveLayoutType(OneLayoutType.Normal);
-                    }}
-                    title={'Back'} />
-            </PageRow>
-        );
-
-        BodyLayout.push(
-            <BeaconTemplatesList activeLayoutType={activeLayoutType}
-                setActiveLayoutType={setActiveLayoutType} />
-        );
-    } else if (activeLayoutType === OneLayoutType.ConfirmBeacon) {
-        if (!selectedOne) {
-            return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'} 
-                    title={'Something went wrong'}/>
-            );
-        }
-
-        const onConfirm = () => {
-            const shouldAddBeacon = selectedTemplateId != null
-                && executor != null && selectedOne != null;
-            if (!shouldAddBeacon) {
-                console.error('Failed to add beacon, invalid state');
-                return;
-            }
-
-            const selectedTemplate = beaconTemplates.find((template) => template.id === selectedTemplateId);
-            if (!selectedTemplate) {
-                console.error("Failed to find matching template: ", selectedTemplateId);
-                return;
-            } else if (!beaconForm) {
-                console.error("Failed to find beacon form...");
-                return;
-            }
-
-            addBeacon(
-                new Beacon(
-                    generateRandomId(),
-                    selectedTemplate.name,
-                    beaconForm.notes || null,
-                    selectedOne.id,
-                    Priority.Normal,
-                    executor.id,
-                    selectedTemplate.type,
-                    getTomorrow(),
-                    beaconForm.shareOneName,
-                    beaconForm.shareOwnName
-                )
-            );
-
-            setMessage(null);
-            setSelectedTemplateId(null);
-            setActiveLayoutType(OneLayoutType.SentBeaconResponse);
-        };
-
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setSelectedTemplateId(null);
-                        setActiveLayoutType(OneLayoutType.AllBeaconTemplates);
-                    }}
-                    title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Checkmark}
-                    onClick={onConfirm}
-                    title={'Confirm'} />
-            </PageRow>
-        );
-
-        BodyLayout.push(
-            <BeaconTemplatesList activeLayoutType={activeLayoutType}
-                setActiveLayoutType={setActiveLayoutType} />
-        );
-    } else if (activeLayoutType === OneLayoutType.SentBeaconResponse) {
-        if (!selectedOne) {
-            return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'} 
-                    title={'Something went wrong'}/>
-            );
-        }
-
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setMessage(null);
-                        setSelectedTemplateId(null);
-                        setActiveLayoutType(OneLayoutType.Normal);
-                    }}
-                    title={'Back'} />
-            </PageRow>
-        );
-
-        BodyLayout.push(
-            <View>
-                <PageResponse title={'Beacon successful!'}
-                    details={'Your church community is praying for you. Please check in later.'} />
-            </View>
-        );
     } else { // Normal
         const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOne?.id);
         const showArrowLeft = ones.length > 1;
@@ -356,13 +226,6 @@ function OnesLayout({ selectedOne, ones, oneForm,
                     )
                 }
 
-                <SimpleIconButton iconSrc={AppIcon.Prayer}
-                    onClick={() => {
-                        setMessage(null);
-                        setActiveLayoutType(OneLayoutType.AllBeaconTemplates);
-                    }}
-                    title={'New Beacon'} />
-
                 {
                     showArrowRight && (
                         <SimpleIconButton iconSrc={AppIcon.ArrowRight}
@@ -378,7 +241,6 @@ function OnesLayout({ selectedOne, ones, oneForm,
 
         BodyLayout.push(
             <View>
-                <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities} />
                 {
                     selectedOne && (
                         <ActionStepPicker/>
@@ -476,6 +338,7 @@ function OnesLayout({ selectedOne, ones, oneForm,
 const styles = StyleSheet.create({
     container: {
         gap: 4,
+        padding: 8
     },
     headerRow: {
         height: 70,
@@ -490,15 +353,10 @@ const mapStateToProps = (state: any) => {
         ones: state.ones.ones,
         executor: state.users.executor,
         oneForm: state.ones.oneForm,
-        beaconForm: state.beacons.beaconForm,
-        selectedTemplateId: state.beacons.selectedTemplateId,
-        beaconTemplates: state.beacons.beaconTemplates,
     };
 };
 
 const mapDispatchToProps = {
-    setSelectedTemplateId,
-    addBeacon,
     addOne,
     editOne,
     addActionStep,
