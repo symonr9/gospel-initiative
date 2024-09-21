@@ -166,6 +166,14 @@ export enum GospelChecklistItem {
     Forgiveness = 22,             // The forgiveness of sins through Jesus
 }
 
+export enum MissionalLivingWheelStep {
+    Introduction = 1,
+    General = 2,
+    Spiritual = 3,
+    Gospel = 4,
+    Deciison = 5
+};
+
 // Action Steps
 export enum ActionStepType {
     ShareGospel = 1,

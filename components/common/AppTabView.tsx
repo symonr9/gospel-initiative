@@ -35,7 +35,7 @@ function AppTabView({ title, tabIndex, updateTabIndex, renderScene, routes }: IA
         <TabView
             navigationState={{ index: tabIndex, routes }}
             renderScene={renderScene}
-            onIndexChange={(idx) => updateTabIndex(idx)}
+            onIndexChange={(idx) => {}}
             renderTabBar={renderTabBar}
             swipeEnabled={false}
             initialLayout={{ width: layout.width }}

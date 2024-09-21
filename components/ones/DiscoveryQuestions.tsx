@@ -27,7 +27,7 @@ const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
         icon: mapGospelChecklistItemTypeToIcon(GospelChecklistItem[key as keyof typeof GospelChecklistItem]),
     }));
 
-export type IGospelChecklist = ViewProps & {
+export type IDiscoveryQuestions = ViewProps & {
     selectedOne: One;
     editOne: Function;
     setSelectedOne: Function;
@@ -38,7 +38,7 @@ enum PickerState {
     Expanded,
 }
 
-const GospelChecklist = ({ selectedOne, editOne, setSelectedOne }: IGospelChecklist) => {
+const DiscoveryQuestions = ({ selectedOne, editOne, setSelectedOne }: IDiscoveryQuestions) => {
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Launch);
 
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
@@ -200,4 +200,4 @@ const mapDispatchToProps = {
     setSelectedOne
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GospelChecklist);
+export default connect(mapStateToProps, mapDispatchToProps)(DiscoveryQuestions);
