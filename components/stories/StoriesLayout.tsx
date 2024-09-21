@@ -3,34 +3,26 @@ import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 
-import Animated, {
-    useAnimatedRef,
-} from 'react-native-reanimated';
-
-
-import { AppIcon, FadeDirection, Page, RoadContainerType, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, FadeDirection, Page, RoadContainerType } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Story, { EnhancedStory } from '@/models/story';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
-import { ShareChristStoryCard } from './ShareChristStoryCard';
-import { openPage } from '@/redux/actions';
+import { StoryCard } from './StoryCard';
 import { mapStoryTypeToText } from '@/utils/appUtils';
-import ShareChristStoryDetails from './ShareChristStoryDetails';
-import ShareChristAddEditStoryForm from './ShareChristAddEditStoryForm';
+import StoryDetails from './StoryDetails';
+import AddEditStoryForm from './AddEditStoryForm';
 import { AnimatedCard } from '../common/AnimatedCard';
 import { PageRow } from '../common/PageRow';
 import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
-import { ShareChristRoadContainer } from './ShareChristRoadContainer';
+import { RoadContainer } from '../common/RoadContainer';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 
-export type IShareChristStoriesLayout = ViewProps & {
+export type IStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
     GodsStories: EnhancedStory[];
-    shareChristPageState: ShareChristPageState;
-    openPage: Function;
 };
 
 export enum StoryLayoutType {
@@ -39,7 +31,7 @@ export enum StoryLayoutType {
     Adding
 };
 
-function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPageState, openPage }: IShareChristStoriesLayout) {
+function StoriesLayout({ personalStories, GodsStories }: IStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
     const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
@@ -56,13 +48,13 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
     })();
 
     const personalStoryItemsToRender = personalStories ? personalStories.map((story, idx) => (
-        <ShareChristStoryCard story={story}
+        <StoryCard story={story}
             setActiveStoryId={setActiveStoryId}
             key={story.id} />
     )) : [];
 
     const GodsStoryItemsToRender = GodsStories ? GodsStories.map((story, idx) => (
-        <ShareChristStoryCard story={story}
+        <StoryCard story={story}
             setActiveStoryId={setActiveStoryId}
             key={story.id} />
     )) : [];
@@ -132,14 +124,14 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                                     title={'5/7 Complete'} />
                 </PageRow>
 
-                <ShareChristAddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
-                <ShareChristStoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
+                <AddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
+                <StoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
                 {
                     activeStory === null && (
                         <>
                         <View>
-                            <ShareChristRoadContainer title={`God's Story`}
+                            <RoadContainer title={`God's Story`}
                                 iconSrc={AppIcon.Book}
                                 itemsToRender={GodsStoryItemsToRender}
                                 type={RoadContainerType.Completed}
@@ -147,7 +139,7 @@ function ShareChristStoriesLayout({ personalStories, GodsStories, shareChristPag
                                 activeType={activeRoadType}
                                 setActiveType={setActiveRoadType}
                                 customStyles={GodsStoryStyle} />
-                            <ShareChristRoadContainer title={'My Story'}
+                            <RoadContainer title={'My Story'}
                                 iconSrc={AppIcon.Book}
                                 itemsToRender={personalStoryItemsToRender}
                                 type={RoadContainerType.Incoming}
@@ -209,14 +201,13 @@ const GodsStoryStyle = {
 const mapStateToProps = (state: any) => {
     const { personalStories, GodsStories } = selectPartionedEnhancedStories(state);
     return {
-        shareChristPageState: state.app.shareChristPageState,
         personalStories,
         GodsStories,
     };
 }
 
 const mapDispatchToProps = {
-    openPage
+    
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristStoriesLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(StoriesLayout);

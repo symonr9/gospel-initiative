@@ -1,38 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-
 import PageView from '@/components/common/PageView';
-import ShareChristBeaconsLayout from '@/components/shareChrist/ShareChristBeaconsLayout';
-import ShareChristStoriesLayout from '@/components/shareChrist/ShareChristStoriesLayout';
-import ShareChristOnesLayout from '@/components/shareChrist/ShareChristOnesLayout';
-import ShareChristHomeLayout from '@/components/shareChrist/ShareChristHomeLayout';
-import AppTabView from '@/components/common/AppTabView';
+import HomeLayout from '@/components/home/HomeLayout';
 
-export type IShareChrist = {
+export type IHome = {
     error: string,
 };
 
-const renderScene = SceneMap({
-    home: ShareChristHomeLayout,
-    beacons: ShareChristBeaconsLayout,
-    stories: ShareChristStoriesLayout,
-    ones: ShareChristOnesLayout
-});
-
-function ShareChrist({ error }: IShareChrist) {
-    const [routes] = React.useState([
-        { key: 'home', title: 'Home ' },
-        { key: 'beacons', title: 'Beacons ' },
-        { key: 'stories', title: 'Stories ' },
-        { key: 'ones', title: 'Ones ' },
-    ]);
-
+function Home({ error }: IHome) {
     return (
         <PageView>
-            <AppTabView title={'Share Christ'}
-                        renderScene={renderScene}
-                        routes={routes}/>
+            <HomeLayout/>
         </PageView>
     );
 }
@@ -45,4 +23,4 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChrist);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

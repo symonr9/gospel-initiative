@@ -8,7 +8,6 @@ import DetailsSection from '../common/DetailsSection';
 import { AppIcon } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
-import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
 
 export type ILoveCityHomeLayout = ViewProps & {
     localMinistries: LocalMinistry[];
@@ -38,12 +37,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const { eventActivities, ministryActivities } = selectAllMinistryActivitiesByExecutor(state);
     return {
         localMinistries: state.ministries.localMinistries,
         localEvents: state.ministries.localEvents,
-        eventActivities,
-        ministryActivities
     };
 };
 

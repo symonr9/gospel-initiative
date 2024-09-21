@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, TextInput, LayoutAnimation } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
-import { StoryLayoutType } from './ShareChristStoriesLayout';
+import { StoryLayoutType } from './StoriesLayout';
 
-export type IShareChristAddEditStoryForm = {
+export type IStoryDetails = {
   activeStory: EnhancedStory | null;
   activeLayoutType: StoryLayoutType;
 };
 
-function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareChristAddEditStoryForm) {
+function StoryDetails({ activeStory, activeLayoutType }: IStoryDetails) {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
-  const [chapterEdits, setChapterEdits] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
     if (!activeStory) {
@@ -32,39 +31,14 @@ function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareCh
     setOpenedChapterIds(prev => [...prev, expandedCardId]);
   }, [expandedCardId]);
 
+  if (!activeStory || activeLayoutType !== StoryLayoutType.Normal) {
+    return <></>;
+  }
+
   const toggleExpand = (id: string) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpandedCardId(expandedCardId === id ? null : id);
   };
-
-  const handleInputChange = (chapterId: string, field: string, value: string | string[]) => {
-    setChapterEdits(prev => ({
-      ...prev,
-      [chapterId]: {
-        ...prev[chapterId],
-        [field]: value,
-      },
-    }));
-  };
-
-  const renderQuestions = (chapterId: string, questions: string[]) => {
-    return questions.map((question, index) => (
-      <TextInput
-        key={`${chapterId}-question-${index}`}
-        style={styles.questionsContent}
-        value={chapterEdits[chapterId]?.questions?.[index] ?? question}
-        onChangeText={text => {
-          const updatedQuestions = [...questions];
-          updatedQuestions[index] = text;
-          handleInputChange(chapterId, 'questions', updatedQuestions);
-        }}
-      />
-    ));
-  };
-
-  if (!activeStory || ![StoryLayoutType.Editing, StoryLayoutType.Adding].includes(activeLayoutType)) {
-    return null;
-  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -73,9 +47,12 @@ function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareCh
           const isExpanded = expandedCardId === chapter.id;
           const hasBeenOpened = openedChapterIds.includes(chapter.id);
 
-          const icon = chapter.icon && chapter.icon !== AppIcon.Book
-            ? chapter.icon
-            : mapStoryChapterTypeToAppIcon(chapter.chapterType);
+          const icon = (() => {
+            if (chapter.icon && chapter.icon !== AppIcon.Book) {
+              return chapter.icon;
+            }
+            return mapStoryChapterTypeToAppIcon(chapter.chapterType);
+          })();
 
           return (
             <View
@@ -83,14 +60,13 @@ function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareCh
               style={[
                 styles.timelineRow,
                 {
-                  flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
+                  flexDirection: index % 2 === 0 ? 'row' : 'row-reverse'
                 },
               ]}
             >
               <View style={styles.timelineMarker} />
               <TouchableOpacity
                 onPress={() => toggleExpand(chapter.id)}
-                activeOpacity={1}
                 style={[
                   styles.timelineContent,
                   hasBeenOpened && !isExpanded ? styles.openedContent : null,
@@ -98,29 +74,30 @@ function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareCh
                 ]}
               >
                 <Image source={icon} style={styles.chapterIcon} />
-                <View style={styles.spine} />
-                <TextInput
-                  style={styles.chapterTitleInput}
-                  value={chapterEdits[chapter.id]?.title ?? chapter.title}
-                  onChangeText={text => handleInputChange(chapter.id, 'title', text)}
-                />
+                <AppText type={TextType.BodyBold} style={styles.chapterTitle}>
+                  {chapter.title}
+                </AppText>
                 {
                   isExpanded ? (
                     <>
-                      <TextInput
-                        style={[styles.chapterContentInput, { marginBottom: 12 }]}
-                        value={chapterEdits[chapter.id]?.content ?? chapter.content}
-                        multiline
-                        onChangeText={text => handleInputChange(chapter.id, 'content', text)}
-                      />
-                      {renderQuestions(chapter.id, chapter.questions)}
+                      <AppText type={TextType.Body} style={[styles.chapterContent, { marginBottom: 12 }]}>
+                        {chapter.content}
+                      </AppText>
+                      {
+                        chapter.questions.map((question) => (
+                          <AppText type={TextType.Italic} style={styles.questionsContent}>
+                            {question}
+                          </AppText>
+                        ))
+                      }
                     </>
                   ) : (
                     <AppText type={TextType.Italic} style={styles.chapterContent}>
-                      Tap to Edit
+                      Tap to Open
                     </AppText>
                   )
                 }
+
               </TouchableOpacity>
             </View>
           );
@@ -133,29 +110,16 @@ function ShareChristAddEditStoryForm({ activeStory, activeLayoutType }: IShareCh
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: '#f7f7f7',
-  },
-  spine: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 12,
-    backgroundColor: '#8B4513',
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
   },
   timelineContainer: {
     position: 'relative',
     paddingVertical: 16,
   },
   timelineRow: {
-    alignItems: 'center',
     marginBottom: 32,
-    width: '100%',
   },
   timelineContent: {
-    padding: 16,
+    padding: 10,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -163,45 +127,44 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
     maxWidth: '45%',
-    backgroundColor: '#F5F5DC',
-    paddingVertical: 4,
+    backgroundColor: '#FFF',
     paddingHorizontal: 28,
     marginHorizontal: 4,
+    marginRight: 16,
     position: 'relative',
   },
   openedContent: {
     opacity: 0.7,
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#eeeeee'
   },
   expandedContent: {
-    maxWidth: '95%',
+    maxWidth: '90%',
   },
   chapterIcon: {
     width: 48,
     height: 48,
     marginBottom: 8,
   },
-  chapterTitleInput: {
+  chapterTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  chapterContentInput: {
+  chapterContent: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 8,
   },
   questionsContent: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 8,
+    marginBottom: 8
   },
   timelineMarker: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: '50%',
-    width: 2,
+    left: '47%',
+    width: 3,
     backgroundColor: '#ccc',
     zIndex: -1,
   },
@@ -213,4 +176,4 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristAddEditStoryForm);
+export default connect(mapStateToProps, mapDispatchToProps)(StoryDetails);

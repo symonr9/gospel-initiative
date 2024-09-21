@@ -6,6 +6,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { ThemedView } from '@/components/common/ThemedView';
+import { Colors } from '@/constants/Colors';
 
 type Props = PropsWithChildren<{
 
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     height: screenHeight - 170,
     width: screenWidth,
+    backgroundColor: Colors.light.background,
+    color: Colors.light.text,
+    flex: 1,
     flexDirection: 'column'
   },
 });

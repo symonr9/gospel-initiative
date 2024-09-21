@@ -7,13 +7,13 @@ import Animated, {
     withTiming,
     interpolate
 } from 'react-native-reanimated';
-import { AppText, TextType } from '../common/AppText';
-import { ThemedView } from '../common/ThemedView';
+import { AppText, TextType } from './AppText';
+import { ThemedView } from './ThemedView';
 import { AppIcon, RoadContainerType } from '@/enums/enums';
-import { PageRow } from '../common/PageRow';
-import ScrollLayout from '../common/ScrollLayout';
+import { PageRow } from './PageRow';
+import ScrollLayout from './ScrollLayout';
 
-export type IShareChristRoadContainer = {
+export type IRoadContainer = {
     iconSrc: AppIcon | null;
     title: string;
     itemsToRender: React.ReactNode[];
@@ -26,7 +26,7 @@ export type IShareChristRoadContainer = {
     setActiveType: (type: RoadContainerType) => void;
 }
 
-export function ShareChristRoadContainer({
+export function RoadContainer({
     iconSrc = null,
     title = '',
     itemsToRender,
@@ -36,7 +36,7 @@ export function ShareChristRoadContainer({
     isTopPosition =true,
     activeType,
     setActiveType
-}: IShareChristRoadContainer) {
+}: IRoadContainer) {
     const heightProgress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {

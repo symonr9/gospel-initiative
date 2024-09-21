@@ -17,30 +17,16 @@ import { AppText, TextType } from '../common/AppText';
 import { ActionStepCard } from '../ones/ActionStepCard';
 import { SimpleIcon } from '../common/SimpleIcon';
 
-export type IShareChristHomeLayout = ViewProps & {
+export type IHomeLayout = ViewProps & {
   firstOne: One | null;
   actionStepsForFirstOne: ActionStep[];
 };
 
 
-function ShareChristHomeLayout({ firstOne, actionStepsForFirstOne }: IShareChristHomeLayout) {
-  const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
-
+function HomeLayout({ firstOne, actionStepsForFirstOne }: IHomeLayout) {
   return (
     <ScrollLayout style={styles.container}>
-      <AnimatedHeader title={'Share Christ'} />
       <PageColumn style={{ gap: 8 }}>
-        {/* <PageRow style={{ gap: 21 }}>
-          <DetailsSection iconSrc={AppIcon.Prayer}
-            prefix={'To Pray For'}
-            title={incomingBeacons.length} />
-          <DetailsSection iconSrc={AppIcon.OpenHands}
-            prefix={'Prayed for Today'}
-            title={completedBeacons.length} />
-          <DetailsSection iconSrc={AppIcon.Book2}
-            prefix={'Today\'s Chapters'}
-            title={'5/7 Complete'} />
-        </PageRow> */}
         <PageRow>
           <PromptBanner />
         </PageRow>
@@ -74,4 +60,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristHomeLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeLayout);

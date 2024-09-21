@@ -23,7 +23,7 @@ import ScrollLayout from '../common/ScrollLayout';
 import OneStageSection from '../common/OneStageSection';
 import DetailsSection from '../common/DetailsSection';
 
-export type IShareChristBeaconDetails = ViewProps & {
+export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
     completedCursorIdx: number;
     completedBeacons: EnhancedBeacon[];
@@ -36,9 +36,9 @@ export type IShareChristBeaconDetails = ViewProps & {
     addBeaconActivity: Function;
 };
 
-function ShareChristBeaconDetails({ incomingCursorIdx, completedCursorIdx,
+function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, addBeaconActivity, addNoteToActivity,
-    beaconActivities }: IShareChristBeaconDetails) {
+    beaconActivities }: IBeaconDetails) {
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
@@ -423,4 +423,4 @@ const mapDispatchToProps = {
     addNoteToActivity
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristBeaconDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconDetails);

@@ -1,12 +1,9 @@
 
-import { Priority, ShareChristPageState } from '@/enums/enums';
-import Beacon from '@/models/beacon';
 import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
 import User from '@/models/user';
 import {  setSelectedTemplateId, addBeacon, setSelectedOne } from '@/redux/actions';
-import { generateRandomId, getTomorrow } from '@/utils/appUtils';
 import React, { useState, useEffect } from 'react';
 
 import { connect, useSelector } from 'react-redux';
@@ -14,7 +11,6 @@ import { connect, useSelector } from 'react-redux';
 export type IAppStateManager = {
     executor: User;
     selectedOne: One;
-    shareChristPageState: ShareChristPageState;
     selectedTemplateId: string | null;
     beaconTemplates: BeaconTemplate[];
     beaconForm: BeaconForm | null;
@@ -23,18 +19,15 @@ export type IAppStateManager = {
     addBeacon: Function;
 };
 
-function AppStateManager({ executor, selectedOne, shareChristPageState, selectedTemplateId, beaconTemplates, 
+function AppStateManager({ executor, selectedOne, selectedTemplateId, beaconTemplates, 
     setSelectedTemplateId, setSelectedOne, addBeacon, beaconForm }: IAppStateManager) {
 
     useEffect(() => {
         const shouldAddBeacon = selectedTemplateId != null 
             && executor != null
-            && selectedOne != null                   
-            && shareChristPageState == ShareChristPageState.SentBeaconResponse;
+            && selectedOne != null;
 
         if (shouldAddBeacon) {
-            
-
             setSelectedTemplateId(null);
         }
     }, []);
@@ -45,7 +38,6 @@ function AppStateManager({ executor, selectedOne, shareChristPageState, selected
 const mapStateToProps = (state: any) => ({
     executor: state.users.executor,
     selectedOne: state.ones.selectedOne,
-    shareChristPageState: state.app.shareChristPageState,
     selectedTemplateId: state.beacons.selectedTemplateId,
     beaconTemplates: state.beacons.beaconTemplates,
     beaconForm: state.beacons.beaconForm

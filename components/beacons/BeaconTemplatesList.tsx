@@ -10,7 +10,7 @@ import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
 import BeaconTemplateDetails from './BeaconTemplateDetails';
-import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
+import { OneLayoutType } from '../ones/OnesLayout';
 import ScrollLayout from '../common/ScrollLayout';
 
 export type IBeaconTemplatesList = ViewProps & {
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    shareChristPageState: state.app.shareChristPageState,
     selectedTemplateId: state.beacons.selectedTemplateId,
     beaconTemplates: state.beacons.beaconTemplates
 });

@@ -9,7 +9,6 @@ import { AppIcon } from '@/enums/enums';
 import DetailsSection from '../common/DetailsSection';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
-import { selectAllMinistryActivitiesByExecutor } from '@/redux/selectors';
 
 export type IReachWorldHomeLayout = ViewProps & {
     missionsTrips: MissionsTrip[];
@@ -34,11 +33,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-
-    const { missionsTripActivities } = selectAllMinistryActivitiesByExecutor(state);
     return {
         missionsTrips: state.missionsTrips.missionsTrips,
-        missionsTripActivities
     }
 };
 

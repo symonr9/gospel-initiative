@@ -3,7 +3,7 @@ import { Animated, GestureResponderEvent, View, type ViewProps } from 'react-nat
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { AppText, TextType } from '../common/AppText';
-import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
+import { OneLayoutType } from '../ones/OnesLayout';
 
 export type IBeaconsListHeader = ViewProps & {
     selectedTemplateId: string | null;

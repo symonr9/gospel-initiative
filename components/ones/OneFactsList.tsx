@@ -9,19 +9,17 @@ import OneFact from '@/models/oneFact';
 import { AppText, TextType } from '../common/AppText';
 import { selectOneFactsByOneId } from '@/redux/selectors';
 import { OneFactCard } from './OneFactCard';
-import { AppIcon, ShareChristPageState } from '@/enums/enums';
+import { AppIcon } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { isEditing } from '@/utils/appUtils';
 
 export type IOneFactsList = ViewProps & {
     selectedOne: One;
-    shareChristPageState: ShareChristPageState;
 };
 
-function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
+function OneFactsList({ selectedOne }: IOneFactsList) {
     const oneFacts = useSelector(selectOneFactsByOneId(selectedOne.id));
-    const editing = isEditing(shareChristPageState);
 
     const renderItem = ({ item }: { item: OneFact }) => (
         <OneFactCard oneFact={item}/>
@@ -33,13 +31,6 @@ function OneFactsList({ selectedOne, shareChristPageState }: IOneFactsList) {
                 <AppText type={TextType.Subtitle}>
                     Fun Facts
                 </AppText>
-                {
-                    editing && (
-                        <SimpleIconButton iconSrc={AppIcon.Edit}
-                        small
-                        onClick={() => console.log("Edit here!")}/>
-                    )
-                }
             </PageRow>
             <FlatList
                 data={oneFacts}
@@ -58,7 +49,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => ({
     selectedOne: state.ones.selectedOne,
-    shareChristPageState: state.app.shareChristPageState,
 });
 
 

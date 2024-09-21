@@ -6,6 +6,8 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import DataRefreshManager from '../managers/dataRefreshManager';
 import AppStateManager from '../managers/appStateManager';
+import { SimpleIcon } from '@/components/common/SimpleIcon';
+import { AppIcon } from '@/enums/enums';
 
 
 
@@ -29,22 +31,29 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Share Christ',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'chatbubbles'),
+            title: 'Home',
+            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'home'),
           }}
         />
         <Tabs.Screen
-          name="love-city"
+          name="beacons"
           options={{
-            title: 'Love the City',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'business'),
+            title: 'Beacons',
+            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'paper-plane'),
           }}
         />
         <Tabs.Screen
-          name="reach-world"
+          name="stories"
           options={{
-            title: 'Reach the World',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'earth'),
+            title: 'Stories',
+            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'book'),
+          }}
+        />
+        <Tabs.Screen
+          name="ones"
+          options={{
+            title: 'Ones',
+            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'person'),
           }}
         />
       </Tabs>

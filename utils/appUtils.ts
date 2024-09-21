@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, BeaconType, OneCategory, OneFactType, OneStage, Priority, ShareChristPageState, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, BeaconType, OneCategory, OneFactType, OneStage, Priority, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
@@ -442,12 +442,6 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
         default:
             return "Other";
     }
-}
-
-export function isEditing(pageState: ShareChristPageState) {
-    return [
-        ShareChristPageState.Edit,
-    ].includes(pageState);
 }
 
 export function generateRandomId(length: number = 10): string {

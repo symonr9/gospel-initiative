@@ -1,4 +1,3 @@
-import { LoveCityPageState, ReachWorldPageState, ShareChristPageState } from "@/enums/enums";
 import { Page } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
@@ -31,10 +30,6 @@ export enum Action {
 
     LoadServerData = "LOAD_SERVER_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
-
-    SetShareChristPageState = "SET_SHARE_CHRIST_PAGE_STATE",
-    SetLoveCityPageState = "SET_LOVE_CITY_PAGE_STATE",
-    SetReachWorldPageState = "SET_REACH_WORLD_PAGE_STATE",
 
     SetSelectedOne = "SET_SELECTED_ONE",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
@@ -78,21 +73,6 @@ export const loadPreferences = (data: any) => {
 
 export const openPage = (item: Page) => ({
     type: Action.OpenPage,
-    payload: item,
-});
-
-export const setShareChristPageState = (item: ShareChristPageState) => ({
-    type: Action.SetShareChristPageState,
-    payload: item,
-});
-
-export const setLoveCityPageState = (item: LoveCityPageState) => ({
-    type: Action.SetLoveCityPageState,
-    payload: item,
-});
-
-export const setReachWorldPageState = (item: ReachWorldPageState) => ({
-    type: Action.SetReachWorldPageState,
     payload: item,
 });
 

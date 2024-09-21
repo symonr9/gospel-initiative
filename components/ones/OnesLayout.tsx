@@ -13,24 +13,24 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
 import Beacon from '@/models/beacon';
 import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList';
-import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps, setShareChristPageState } from '@/redux/actions';
+import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import User from '@/models/user';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { generateRandomId, getNow, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
-import ShareChristAddEditOneForm from './ShareChristAddEditOneForm';
+import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
-import ShareChristAllOnesGrid from './ShareChristAllOnesGrid';
+import AllOnesGrid from './AllOnesGrid';
 import BeaconForm from '@/models/beaconForm';
 import ActionStepPicker from '../common/ActionStepPicker';
 
-export type IShareChristOnesLayout = ViewProps & {
+export type IOnesLayout = ViewProps & {
     selectedOne: One | undefined,
     ones: One[],
     executor: User,
@@ -58,10 +58,10 @@ export enum OneLayoutType {
     SentBeaconResponse,
 }
 
-function ShareChristOnesLayout({ selectedOne, ones, oneForm,
+function OnesLayout({ selectedOne, ones, oneForm,
     beaconForm, selectedTemplateId,
     executor, setSelectedTemplateId, beaconTemplates, addBeacon, editOne,
-    addOne, addActionStep, editActionSteps, setSelectedOne }: IShareChristOnesLayout) {
+    addOne, addActionStep, editActionSteps, setSelectedOne }: IOnesLayout) {
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOne?.id));
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
@@ -139,7 +139,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <ShareChristAddEditOneForm initialOneForm={OneForm.createDefault()} />
+            <AddEditOneForm initialOneForm={OneForm.createDefault()} />
         );
     } else if (activeLayoutType === OneLayoutType.AllOnes) {
         HeaderLayout.push(
@@ -154,7 +154,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
         );
 
         BodyLayout.push(
-            <ShareChristAllOnesGrid setActiveLayoutType={setActiveLayoutType} />
+            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         if (!selectedOne) {
@@ -204,7 +204,7 @@ function ShareChristOnesLayout({ selectedOne, ones, oneForm,
 
         const initialOneForm = OneForm.createFromOne(selectedOne, actionsStepsForSelectedOne);
         BodyLayout.push(
-            <ShareChristAddEditOneForm editing
+            <AddEditOneForm editing
                 initialOneForm={initialOneForm} />
         );
     } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
@@ -487,7 +487,6 @@ const mapStateToProps = (state: any) => {
     const selectedOne = state.ones.selectedOne;
     return {
         selectedOne,
-        shareChristPageState: state.app.shareChristPageState,
         ones: state.ones.ones,
         executor: state.users.executor,
         oneForm: state.ones.oneForm,
@@ -499,7 +498,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     setSelectedTemplateId,
-    setShareChristPageState,
     addBeacon,
     addOne,
     editOne,
@@ -508,4 +506,4 @@ const mapDispatchToProps = {
     setSelectedOne
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristOnesLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(OnesLayout);

@@ -6,13 +6,13 @@ import { AppIcon } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
 import Story from '@/models/story';
 
-export type IShareChristStoryCard = {
+export type IStoryCard = {
     story: Story;
     
     setActiveStoryId: Function;
 };
 
-export function ShareChristStoryCard({ story, setActiveStoryId }: IShareChristStoryCard) {
+export function StoryCard({ story, setActiveStoryId }: IStoryCard) {
     const onPress = () => {
         setActiveStoryId(story.id);
     };

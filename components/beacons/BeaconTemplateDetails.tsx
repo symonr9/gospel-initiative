@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, Priority, ShareChristPageState } from '@/enums/enums';
+import { AppIcon, Priority } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
 import { getShowHideIcon, mapPriorityToText } from '@/utils/appUtils';
@@ -20,13 +20,12 @@ import ScrollLayout from '../common/ScrollLayout';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
-    shareChristPageState: ShareChristPageState;
     selectedOne: One;
 
     setBeaconForm: Function;
 };
 
-function BeaconTemplateDetails({ shareChristPageState, template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
+function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(false, true, null, Priority.Normal, []));
 
     useEffect(() => {
@@ -147,7 +146,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
-        shareChristPageState: state.app.shareChristPageState,
         selectedOne: state.ones.selectedOne
     };
 };

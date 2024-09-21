@@ -9,26 +9,6 @@ export enum Page {
     ShareChristStories = 4,
 }
 
-export enum ShareChristPageState {
-    Default = 1,
-    Edit = 2,
-
-    AllBeaconTemplates = 3,
-    SavingBeaconForm = 4,
-    ConfirmBeacon = 5,
-    SentBeaconResponse = 6,
-
-    AllStories = 7
-}
-
-export enum LoveCityPageState {
-    Default = 1
-}
-
-export enum ReachWorldPageState {
-    Default = 1
-}
-
 export enum FadeDirection {
     Up,
     Down,

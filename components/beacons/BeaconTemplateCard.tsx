@@ -3,12 +3,10 @@ import { View, type ViewProps, StyleSheet, TouchableOpacity, Animated } from 're
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
-import { ShareChristPageState } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
-import BeaconTemplateDetails from './BeaconTemplateDetails';
-import { OneLayoutType } from '../shareChrist/ShareChristOnesLayout';
+import { OneLayoutType } from '../ones/OnesLayout';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;

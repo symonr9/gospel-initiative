@@ -15,7 +15,7 @@ import { AppIcon } from '@/enums/enums';
 import BeaconActivity from '@/models/beaconActivity';
 import { mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 
-export type IShareChristBeaconCard = {
+export type IBeaconCard = {
     beacon: any;
     one: any;
     user: any;
@@ -26,8 +26,8 @@ export type IShareChristBeaconCard = {
     setActiveBeaconId: Function;
 };
 
-export function ShareChristBeaconCard({ beacon, one, user, activities,
-    activeBeaconId, idx, selectedIdx, setActiveBeaconId }: IShareChristBeaconCard) {
+export function BeaconCard({ beacon, one, user, activities,
+    activeBeaconId, idx, selectedIdx, setActiveBeaconId }: IBeaconCard) {
     const progress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {

@@ -11,16 +11,16 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
-import { OneLayoutType } from './ShareChristOnesLayout';
+import { OneLayoutType } from './OnesLayout';
 
-export type IShareChristOnesGrid = ViewProps & {
+export type IAllOnesGrid = ViewProps & {
     ones: One[];
     setSelectedOne: Function;
     setActiveLayoutType: Function;
 };
 
 
-function ShareChristOnesGrid({ ones, setSelectedOne, setActiveLayoutType }: IShareChristOnesGrid) {
+function AllOnesGrid({ ones, setSelectedOne, setActiveLayoutType }: IAllOnesGrid) {
 
     const renderItem = ({ item }: { item: One }) => {
         const onPress = () => {
@@ -96,4 +96,4 @@ const mapDispatchToProps = {
     setSelectedOne
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristOnesGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(AllOnesGrid);

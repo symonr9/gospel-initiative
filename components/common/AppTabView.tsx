@@ -35,19 +35,16 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
         />
     );
 
-
     return (
-        <PageView>
-            <TabView
-                navigationState={{ index, routes }}
-                renderScene={renderScene}
-                onIndexChange={setIndex}
-                renderTabBar={renderTabBar}
-                swipeEnabled={false}
-                initialLayout={{ width: layout.width }}
-                style={styles.tabViewContainer}
-            />
-        </PageView>
+        <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            renderTabBar={renderTabBar}
+            swipeEnabled={false}
+            initialLayout={{ width: layout.width }}
+            style={styles.tabViewContainer}
+        />
     );
 }
 
@@ -56,18 +53,17 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.light.background,
         color: Colors.light.text,
         flex: 1,
-        paddingVertical: 16,
-        paddingHorizontal: 12,
     },
     tabBar: {
-        backgroundColor: 'white',
+        backgroundColor: '#e8e9e8',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 8,        
         marginBottom: 16,
+        borderBottomStartRadius: 4,
+        borderBottomEndRadius: 4,
     },
     indicator: {
         backgroundColor: Colors.light.secondary,
@@ -75,12 +71,12 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     labelContainer: {
-        paddingVertical: 8,
-        paddingHorizontal: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
         borderRadius: 8,
     },
     label: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '500',
         textAlign: 'center'
     },

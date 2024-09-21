@@ -1,12 +1,9 @@
-import { LoveCityPageState, Page, ReachWorldPageState, ShareChristPageState } from "@/enums/enums";
+import { Page } from "@/enums/enums";
 import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
     page: Page.ShareChrist,
-    shareChristPageState: ShareChristPageState.Default,
-    loveCityPageState: LoveCityPageState.Default,
-    reachWorldPageState: ReachWorldPageState.Default,
 };
 
 export function appReducer(state = initialState, action: ActionPackage) {
@@ -16,13 +13,6 @@ export function appReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     ...state,
                     page: action.payload,
-                }
-            });
-        case Action.SetShareChristPageState:
-            return update(state, {
-                $set: {
-                    ...state,
-                    shareChristPageState: action.payload
                 }
             });
         default:

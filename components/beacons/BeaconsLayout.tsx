@@ -3,11 +3,11 @@ import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { AppIcon, FadeDirection, RoadContainerType } from '@/enums/enums';
-import { ShareChristBeaconCard } from './ShareChristBeaconCard';
-import { ShareChristRoadContainer } from './ShareChristRoadContainer';
+import { BeaconCard } from '../beacons/BeaconCard';
+import { RoadContainer } from '../common/RoadContainer';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
-import ShareChristBeaconDetails from './ShareChristBeaconDetails';
+import BeaconDetails from './BeaconDetails';
 import { AnimatedCard } from '../common/AnimatedCard';
 import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
 import { Colors } from '@/constants/Colors';
@@ -16,12 +16,12 @@ import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageRow } from '../common/PageRow';
 import DetailsSection from '../common/DetailsSection';
 
-export type IShareChristBeaconsLayout = ViewProps & {
+export type IBeaconsLayout = ViewProps & {
     // completedBeacons: EnhancedBeacon[];
     // incomingBeacons: EnhancedBeacon[];
 };
 
-function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
+function BeaconsLayout({ }: IBeaconsLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
@@ -33,7 +33,7 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
     const incomingCount = incomingBeacons.length;
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon: EnhancedBeacon, idx: number) => (
-        <ShareChristBeaconCard beacon={beacon}
+        <BeaconCard beacon={beacon}
             one={beacon.one}
             user={beacon.user}
             activities={beacon.completedActivities}
@@ -44,7 +44,7 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
     )) : [];
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
-        <ShareChristBeaconCard beacon={beacon}
+        <BeaconCard beacon={beacon}
             one={beacon.one}
             user={beacon.user}
             activities={beacon.incomingActivities}
@@ -69,13 +69,13 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
                         title={completedBeacons.length} />
                 </PageRow>
 
-                <ShareChristBeaconDetails incomingCursorIdx={incomingCursorIdx}
+                <BeaconDetails incomingCursorIdx={incomingCursorIdx}
                     completedCursorIdx={completedCursorIdx}
                     completedBeacons={completedBeacons}
                     incomingBeacons={incomingBeacons} />
 
                 <View>
-                    <ShareChristRoadContainer title={`Completed (${completedCount})`}
+                    <RoadContainer title={`Completed (${completedCount})`}
                         iconSrc={AppIcon.Checkmark}
                         type={RoadContainerType.Completed}
                         activeType={activeRoadType}
@@ -83,7 +83,7 @@ function ShareChristBeaconsLayout({ }: IShareChristBeaconsLayout) {
                         expandedHeight={100}
                         itemsToRender={completedItemsToRender}
                         customStyles={completedStyle} />
-                    <ShareChristRoadContainer title={`Incoming (${incomingCount})`}
+                    <RoadContainer title={`Incoming (${incomingCount})`}
                         iconSrc={AppIcon.Send}
                         type={RoadContainerType.Incoming}
                         activeType={activeRoadType}
@@ -151,4 +151,4 @@ const mapDispatchToProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareChristBeaconsLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconsLayout);
