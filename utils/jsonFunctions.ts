@@ -126,6 +126,7 @@ export function getOnesFromJson() {
             stage,
             category,
             item.prayingSince ? new Date(item.prayingSince) : undefined,
+            item.gospelChecklist,
             false,
             item.userId
         );

@@ -5,18 +5,21 @@ import { connect } from 'react-redux';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import OnesLayout from '@/components/ones/OnesLayout';
+import OnesOverviewLayout from '@/components/ones/OnesOverviewLayout';
 
 export type IOnes = ViewProps & {
   error: string,
 };
 
 const renderScene = SceneMap({
-  home: OnesLayout,
+  ones: OnesLayout,
+  overview: OnesOverviewLayout,
 });
 
 function Ones({ error }: IOnes) {
   const [routes] = React.useState([
-    { key: 'home', title: 'Home ' },
+    { key: 'ones', title: 'Ones' },
+    { key: 'overview', title: 'Overview' },
   ]);
 
   return (

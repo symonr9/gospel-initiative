@@ -30,6 +30,7 @@ export enum Action {
 
     LoadServerData = "LOAD_SERVER_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
+    UpdateTabIndex = "UPDATE_TAB_INDEX",
 
     SetSelectedOne = "SET_SELECTED_ONE",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
@@ -143,6 +144,11 @@ export const editActionSteps = (actionSteps: ActionStep[], oneId: string) => ({
 
 export const AddOneFact = (item: OneFact) => ({
     type: Action.AddOneFact,
+    payload: item,
+});
+
+export const updateTabIndex = (item: number) => ({
+    type: Action.UpdateTabIndex,
     payload: item,
 });
 

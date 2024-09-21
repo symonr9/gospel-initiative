@@ -21,47 +21,34 @@ import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import AllOnesGrid from './AllOnesGrid';
 import ActionStepPicker from '../common/ActionStepPicker';
 
-export type IOnesLayout = ViewProps & {
+export type IOnesOverviewLayout = ViewProps & {
     selectedOne: One | undefined,
     ones: One[],
     executor: User,
     oneForm: OneForm,
     addOne: Function,
-    editOne: Function,
-    addActionStep: Function,
-    editActionSteps: Function,
     setSelectedOne: Function
 };
 
 export enum OneLayoutType {
     Normal,
     FirstTime,
+    AllOnes,
     AddingOne,
-    EditingOne,
-    AllBeaconTemplates,
-    ConfirmBeacon,
-    SentBeaconResponse,
 }
 
-function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
-    addOne, addActionStep, editActionSteps, setSelectedOne }: IOnesLayout) {
+function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
+    addOne, setSelectedOne }: IOnesOverviewLayout) {
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
-    const [showHeaderButtons, setShowHeaderButtons] = useState(false);
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
-
-    useEffect(() => {
-        if (activeLayoutType !== OneLayoutType.Normal) {
-            setShowHeaderButtons(true);
-            return;
-        }
-    }, [activeLayoutType]);
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
         HeaderLayout.push(
@@ -126,118 +113,35 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
         BodyLayout.push(
             <AddEditOneForm initialOneForm={OneForm.createDefault()} />
         );
-    } else if (activeLayoutType === OneLayoutType.EditingOne) {
-        if (!selectedOne) {
-            return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'}
-                    title={'Something went wrong'} />
-            );
-        }
-
-        const onSave = () => {
-            const newOne = {
-                ...selectedOne,
-                name: oneForm.name,
-                icon: oneForm.icon,
-                stage: oneForm.stage,
-                category: oneForm.category,
-                gospelChecklist: oneForm.gospelChecklist
-            };
-
-            editOne(newOne);
-
-            editActionSteps(
-                oneForm.actionSteps.map((actionStep) => ({
-                    ...actionStep,
-                    oneId: selectedOne.id
-                })),
-                selectedOne.id,
-            );
-
-            setSelectedOne(newOne);
-            setOneForm(OneForm.createDefault());
-            setMessage("Your One has been successfully updated!");
-            setActiveLayoutType(OneLayoutType.Normal);
-        };
-
+    } else if (activeLayoutType === OneLayoutType.AllOnes) {
         HeaderLayout.push(
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
+                        setMessage(null);
                         setActiveLayoutType(OneLayoutType.Normal);
                     }}
                     title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Save}
-                    onClick={onSave}
-                    title={'Save'} />
             </PageRow>
         );
 
-        const initialOneForm = OneForm.createFromOne(selectedOne, actionsStepsForSelectedOne);
         BodyLayout.push(
-            <AddEditOneForm editing
-                initialOneForm={initialOneForm} />
+            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} changeTab/>
         );
     } else { // Normal
-        const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOne?.id);
-        const showArrowLeft = ones.length > 1;
-        const showArrowRight = ones.length > 1;
 
         HeaderLayout.push(
             <PageRow spaceEvenly>
-                {
-                    showArrowLeft && (
-                        <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
-                            disabled={idxOfSelectedOne === 0}
-                            title={'Back'}
-                            small
-                            onClick={() => {
-                                setMessage(null);
-                                setSelectedOne(ones[idxOfSelectedOne - 1]);
-                            }} />
-                    )
-                }
-
-                {
-                    selectedOne && (
-                        <SimpleIconButton iconSrc={AppIcon.Pencil}
-                            onClick={() => {
-                                setMessage(null);
-                                setActiveLayoutType(OneLayoutType.EditingOne);
-                            }}
-                            title={'Edit'} />
-                    )
-                }
-
-                {
-                    showArrowRight && (
-                        <SimpleIconButton iconSrc={AppIcon.ChevronRight}
-                            disabled={idxOfSelectedOne === ones.length - 1}
-                            title={'Next'}
-                            small
-                            onClick={() => {
-                                setMessage(null);
-                                setSelectedOne(ones[idxOfSelectedOne + 1])
-                            }} />
-                    )
-                }
             </PageRow>
         );
 
         BodyLayout.push(
             <View>
-                {
-                    selectedOne && (
-                        <ActionStepPicker />
-                    )
-                }
-
-                {/* <OneFactsList /> */}
             </View>
         );
     }
 
-    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
+    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
 
     return (
         <ScrollLayout>
@@ -245,22 +149,26 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
                 <PageColumn>
                     {
                         showYourSelectedOne && (
-                            <PageRow spaceBetween>
-                                <PageRow>
-                                    <SimpleIcon iconSrc={selectedOne.icon} large />
-                                    <AnimatedHeader title={selectedOne.name}
-                                        style={{ alignItems: 'flex-start', marginStart: 8 }}
-                                        subtitle='Your One' />
-                                </PageRow>
+                            <PageRow>
                                 {
                                     activeLayoutType === OneLayoutType.Normal && (
-                                        <PageRow style={{ marginEnd: 12 }}>
-                                            <SimpleIconButton iconSrc={showHeaderButtons ? AppIcon.ChevronUp : AppIcon.ChevronDown}
-                                                small
-                                                title={showHeaderButtons ? 'Hide' : 'More'}
-                                                customStyles={{}}
-                                                onClick={() => setShowHeaderButtons(val => !val)} />
-                                        </PageRow>
+                                        <>
+                                            <SimpleIconButton iconSrc={AppIcon.Plus}
+                                                                onClick={() => {
+                                                                    setMessage(null);
+                                                                    setActiveLayoutType(OneLayoutType.AddingOne);
+                                                                }}
+                                                                title={'New One'} />
+
+                                            {
+                                                ones.length > 0 && (
+                                                    <SimpleIconButton iconSrc={AppIcon.UserGroup}
+                                                    title={'All'}
+                                                    customStyles={{ container: { marginStart: 16 } }}
+                                                    onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
+                                                )
+                                            }
+                                        </>
                                     )
                                 }
                             </PageRow>
@@ -269,25 +177,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
 
                     <PageRow style={styles.headerRow}>
                         {
-                            selectedOne && activeLayoutType === OneLayoutType.Normal && !showHeaderButtons && (
-                                <Animated.View entering={FadeInDown.duration(200)}
-                                    exiting={FadeOutDown.duration(200)}>
-                                    <PageRow>
-                                        <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
-                                            prefix={"Stage"}
-                                            style={{ marginRight: 16 }}
-                                            title={mapStageToText(selectedOne.stage)} />
-
-                                        <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
-                                            prefix={"Category"}
-                                            title={mapOneCategoryToText(selectedOne.category)} />
-                                    </PageRow>
-                                </Animated.View>
-                            )
-                        }
-
-                        {
-                            (activeLayoutType !== OneLayoutType.Normal || showHeaderButtons) && (
+                            (activeLayoutType !== OneLayoutType.Normal) && (
                                 <Animated.View entering={FadeInDown.duration(200).delay(50)}
                                     style={{ width: '100%' }}
                                     exiting={FadeOutDown.duration(200)}>
@@ -316,7 +206,7 @@ const styles = StyleSheet.create({
     },
     headerRow: {
         height: 70,
-        marginBottom: 20
+        marginBottom: 4
     },
 });
 
@@ -338,4 +228,4 @@ const mapDispatchToProps = {
     setSelectedOne
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OnesLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(OnesOverviewLayout);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PromptBanner from '../prompts/PromptBanner';
 import { EnhancedBeacon } from '@/models/beacon';
 import ScrollLayout from '../common/ScrollLayout';
-import { setSelectedOne } from '@/redux/actions';
+import { setSelectedOne, updateTabIndex } from '@/redux/actions';
 import One from '@/models/one';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
@@ -13,30 +13,52 @@ import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
 import { OneLayoutType } from './OnesLayout';
 import { gridStyles } from '@/styles/Styles';
+import { mapStageToIcon, mapStageToText, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
+import DetailsSection from '../common/DetailsSection';
 
 export type IAllOnesGrid = ViewProps & {
     ones: One[];
     setSelectedOne: Function;
-    setActiveLayoutType: Function;
+    setActiveLayoutType?: Function;
+    setSelectedOneId?: Function;
+    updateTabIndex: Function;
+    changeTab?: boolean;
 };
 
 
-function AllOnesGrid({ ones, setSelectedOne, setActiveLayoutType }: IAllOnesGrid) {
-
+function AllOnesGrid({ ones, setSelectedOne, setSelectedOneId, setActiveLayoutType, updateTabIndex, changeTab = false }: IAllOnesGrid) {
     const renderItem = ({ item }: { item: One }) => {
         const onPress = () => {
             setSelectedOne(item);
-            setActiveLayoutType(OneLayoutType.Normal);
+            if (changeTab) {
+                updateTabIndex(0);
+            }
+            if (setSelectedOneId) {
+                setSelectedOneId(item.id);
+            }
+            if (setActiveLayoutType) {
+                setActiveLayoutType(OneLayoutType.Normal);
+            }
         };
 
         return (
             <TouchableOpacity onPress={onPress}>
-                <PageColumn style={gridStyles.itemCard}>
-                    <Image source={item.icon} style={gridStyles.img}/>
-                    <AppText type={TextType.Body}>
-                        {item.name}
-                    </AppText>
-                </PageColumn>
+                <PageRow style={gridStyles.itemCard} spaceEvenly>
+                    <PageColumn>
+                        <Image source={item.icon} style={gridStyles.img} />
+                        <AppText type={TextType.BodyBold} style={{ alignSelf: 'center' }}>
+                            {item.name}
+                        </AppText>
+                    </PageColumn>
+                    <DetailsSection iconSrc={mapStageToIcon(item.stage)}
+                        prefix={"Stage"}
+                        style={{ marginRight: 16 }}
+                        title={mapStageToText(item.stage)} />
+
+                    <DetailsSection iconSrc={mapOneCategoryToIcon(item.category)}
+                        prefix={"Category"}
+                        title={mapOneCategoryToText(item.category)} />
+                </PageRow>
             </TouchableOpacity>
         );
     };
@@ -48,7 +70,7 @@ function AllOnesGrid({ ones, setSelectedOne, setActiveLayoutType }: IAllOnesGrid
                 <FlatList
                     data={ones}
                     renderItem={renderItem}
-                    numColumns={3}
+                    numColumns={1}
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={gridStyles.itemList}
                 />
@@ -65,7 +87,8 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    setSelectedOne
+    setSelectedOne,
+    updateTabIndex,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllOnesGrid);

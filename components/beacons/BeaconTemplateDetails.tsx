@@ -14,9 +14,6 @@ import { BeaconTemplateCard } from './BeaconTemplateCard';
 import One from '@/models/one';
 import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
-import { formStyles } from '@/styles/Styles';
-import AppKeyboardAvoidingComponent from '../common/AppKeyboardAvoidingView';
-import ScrollLayout from '../common/ScrollLayout';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
@@ -45,13 +42,6 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
             shareOwnName
         }));
     };
-
-    // const setNotes = (notes: string) => {
-    //     setFormData((prev) => ({
-    //         ...prev,
-    //         notes
-    //     }));
-    // };
 
     const setPriority = (priority: Priority) => {
         setFormData((prev) => ({
@@ -92,23 +82,6 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                     onClick={onSetPriorityClick}
                     title={`Priority: ${mapPriorityToText(priority)}`} />
             </PageColumn>
-
-            {/* <PageColumn style={styles.section}>
-                <AppText type={TextType.Default}>Notes</AppText>
-                <AppKeyboardAvoidingComponent>
-                    <ScrollLayout>
-                        <TextInput
-                            style={formStyles.multiLineTextInput}
-                            placeholder="Enter note here..."
-                            placeholderTextColor={'gray'}
-                            value={notes}
-                            multiline
-                            numberOfLines={4}
-                            onChangeText={(text) => setNotes(text)}
-                        />
-                    </ScrollLayout>
-                </AppKeyboardAvoidingComponent>
-            </PageColumn> */}
 
             <PageColumn style={styles.section}>
                 <AppText type={TextType.Subtitle}>

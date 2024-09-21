@@ -139,8 +139,10 @@ export const gridStyles = StyleSheet.create({
   },
   itemCard: {
     flex: 1,
-    margin: 8,
+    marginHorizontal: 4,
+    marginVertical: 8,
     padding: 8,
+    gap: 8,
     backgroundColor: '#ffffff',
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -151,8 +153,8 @@ export const gridStyles = StyleSheet.create({
     alignItems: 'center'
   },
   img: {
-    height: 42,
-    width: 42,
+    height: 52,
+    width: 52,
     margin: 4,
   },
 });

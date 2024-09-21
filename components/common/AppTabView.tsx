@@ -2,25 +2,21 @@ import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { View, useWindowDimensions, StyleSheet, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar, SceneRendererProps, Route } from 'react-native-tab-view';
-import Animated, {
-    useAnimatedRef,
-  } from 'react-native-reanimated';
 
-import PageView from '@/components/common/PageView';
-import { AnimatedHeader } from '@/components/common/AnimatedHeader';
 import { AppText } from '@/components/common/AppText';
 import { Colors } from '@/constants/Colors';
+import { updateTabIndex } from '@/redux/actions';
 
 export type IAppTabView = {
     title: string,
     routes: any,
+    tabIndex: number,
+    updateTabIndex: Function,
     renderScene: (props: SceneRendererProps & { route: Route; }) => ReactNode,
 };
 
-function AppTabView({ title, renderScene, routes }: IAppTabView) {
+function AppTabView({ title, tabIndex, updateTabIndex, renderScene, routes }: IAppTabView) {
     const layout = useWindowDimensions();
-
-    const [index, setIndex] = React.useState(0);
 
     const renderTabBar = (props: any) => (
         <TabBar
@@ -37,9 +33,9 @@ function AppTabView({ title, renderScene, routes }: IAppTabView) {
 
     return (
         <TabView
-            navigationState={{ index, routes }}
+            navigationState={{ index: tabIndex, routes }}
             renderScene={renderScene}
-            onIndexChange={setIndex}
+            onIndexChange={(idx) => updateTabIndex(idx)}
             renderTabBar={renderTabBar}
             swipeEnabled={false}
             initialLayout={{ width: layout.width }}
@@ -91,9 +87,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
+        tabIndex: state.app.tabIndex
     };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    updateTabIndex
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppTabView);

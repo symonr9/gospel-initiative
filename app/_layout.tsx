@@ -25,11 +25,6 @@ export default function RootLayout() {
     LeagueSpartanLight: require('../assets/fonts/LeagueSpartan-Light.ttf'),
     LeagueSpartan: require('../assets/fonts/LeagueSpartan-Regular.ttf'),
     LeagueSpartanBold: require('../assets/fonts/LeagueSpartan-Bold.ttf'),
-    // CrimsonText: require('../assets/fonts/CrimsonText-Regular.ttf'),
-    // Lato: require('../assets/fonts/Lato-Regular.ttf'),
-    // SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    // CormorantGaramond: require('../assets/fonts/CormorantGaramond-Regular.ttf'),
-    // DMSerifText: require('../assets/fonts/DMSerifText-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -48,7 +43,7 @@ export default function RootLayout() {
       <Ionicons name="ellipsis-vertical" size={24} color={Colors.light.alternateText} />
     </TouchableOpacity>
   );
-
+  
   return (
     <Provider store={store}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

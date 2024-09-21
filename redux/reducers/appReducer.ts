@@ -4,6 +4,7 @@ import update from 'immutability-helper';
 
 const initialState = {
     page: Page.ShareChrist,
+    tabIndex: 0,
 };
 
 export function appReducer(state = initialState, action: ActionPackage) {
@@ -15,6 +16,13 @@ export function appReducer(state = initialState, action: ActionPackage) {
                     page: action.payload,
                 }
             });
+        case Action.UpdateTabIndex:
+            return update(state, {
+                $set: {
+                    ...state,
+                    tabIndex: action.payload,
+                }
+            }); 
         default:
             return state;
     }

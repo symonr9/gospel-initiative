@@ -16,15 +16,18 @@ export default class OneForm implements IOneForm {
     stage: OneStage;
     category: OneCategory;
     actionSteps: ActionStep[];
+    gospelChecklist: Number[];
 
     constructor(name: string, icon: AvatarIcon, stage: OneStage,
-        category: OneCategory, actionSteps: ActionStep[]
+        category: OneCategory, actionSteps: ActionStep[],
+        gospelChecklist: Number[]
     ) {
         this.name = name;
         this.icon = icon;
         this.stage = stage;
         this.category = category;
         this.actionSteps = actionSteps;
+        this.gospelChecklist = gospelChecklist;
     }
 
     static createDefault() {
@@ -33,6 +36,7 @@ export default class OneForm implements IOneForm {
             AvatarIcon.User,
             OneStage.Curious,
             OneCategory.CloseFriend,
+            [],
             []
         );
     }
@@ -47,7 +51,8 @@ export default class OneForm implements IOneForm {
             one.icon,
             one.stage,
             one.category,
-            actionSteps
+            actionSteps,
+            one.gospelChecklist
         );
     }
 

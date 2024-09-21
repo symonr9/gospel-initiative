@@ -25,6 +25,7 @@ import DetailsSection from '../common/DetailsSection';
 import { PageColumn } from '../common/PageColumn';
 import { SimpleIcon } from '../common/SimpleIcon';
 import AllOnesGrid from '../ones/AllOnesGrid';
+import { OneLayoutType } from '../ones/OnesLayout';
 
 export type IMyBeaconsLayout = ViewProps & {
     ones: One[],
@@ -35,17 +36,6 @@ export type IMyBeaconsLayout = ViewProps & {
     setSelectedTemplateId: Function,
     addBeacon: Function,
 };
-
-export enum OneLayoutType {
-    Normal,
-    FirstTime,
-    AllOnes,
-    AddingOne,
-    EditingOne,
-    AllBeaconTemplates,
-    ConfirmBeacon,
-    SentBeaconResponse,
-}
 
 function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
     selectedTemplateId, setSelectedTemplateId, addBeacon }: IMyBeaconsLayout) {
@@ -77,7 +67,7 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
         );
 
         BodyLayout.push(
-            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} />
+            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} setSelectedOneId={setSelectedOneId} />
         );
     } else if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
         if (!selectedOne) {
@@ -201,8 +191,10 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
             <PageRow spaceEvenly>
                 {
                     showArrowLeft && (
-                        <SimpleIconButton iconSrc={AppIcon.ArrowLeft}
+                        <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
                             disabled={idxOfSelectedOne === 0}
+                            title={'Back'}
+                            small
                             onClick={() => {
                                 setMessage(null);
                                 setSelectedOneId(ones[idxOfSelectedOne - 1].id);
@@ -219,8 +211,10 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
 
                 {
                     showArrowRight && (
-                        <SimpleIconButton iconSrc={AppIcon.ArrowRight}
+                        <SimpleIconButton iconSrc={AppIcon.ChevronRight}
                             disabled={idxOfSelectedOne === ones.length - 1}
+                            title={'Next'}
+                            small
                             onClick={() => {
                                 setMessage(null);                                
                                 setSelectedOneId(ones[idxOfSelectedOne + 1].id)
@@ -245,7 +239,7 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                 <PageColumn>
                     {
                         showYourSelectedOne && (
-                            <PageRow>
+                            <PageRow spaceBetween>
                                 <PageRow>
                                     <SimpleIcon iconSrc={selectedOne.icon} large />
                                     <AnimatedHeader title={selectedOne.name}
@@ -254,7 +248,7 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                                 </PageRow>
                                 {
                                     activeLayoutType === OneLayoutType.Normal && (
-                                        <>
+                                        <PageRow style={{ marginEnd: 12 }}>
                                             {
                                                 ones.length > 0 && (
                                                     <SimpleIconButton iconSrc={AppIcon.UserGroup}
@@ -264,7 +258,7 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                                                     onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
                                                 )
                                             }
-                                        </>
+                                        </PageRow>
                                     )
                                 }
                             </PageRow>

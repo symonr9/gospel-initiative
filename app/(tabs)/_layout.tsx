@@ -1,17 +1,20 @@
 import { Tabs } from 'expo-router';
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import { TabBarIcon } from '@/components/common/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import DataRefreshManager from '../managers/dataRefreshManager';
 import AppStateManager from '../managers/appStateManager';
-import { SimpleIcon } from '@/components/common/SimpleIcon';
-import { AppIcon } from '@/enums/enums';
+import { updateTabIndex } from '@/redux/actions';
+import { Alert, ViewProps } from 'react-native';
 
+export type ITabLayout = ViewProps & {
+  updateTabIndex: Function;
+};
 
-
-export default function TabLayout() {
+function TabLayout({ updateTabIndex }: ITabLayout) {
   const colorScheme = useColorScheme();
 
   const tabScreenOptions = {
@@ -60,3 +63,15 @@ export default function TabLayout() {
     </>
   );
 }
+
+
+const mapStateToProps = (state: any) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = {
+  updateTabIndex
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabLayout);

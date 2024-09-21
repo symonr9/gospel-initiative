@@ -7,6 +7,7 @@ interface IOne {
     stage: OneStage;
     category: OneCategory;
     prayingSince: Date | undefined;
+    gospelChecklist: Number[];
     hidden: boolean;
     userId: string;
 }
@@ -18,12 +19,14 @@ export default class One implements IOne {
     stage: OneStage;
     category: OneCategory;
     prayingSince: Date | undefined;
+    gospelChecklist: Number[];
     hidden: boolean;
     userId: string;
     
     constructor(id: string, name: string, icon: AvatarIcon, 
         stage: OneStage, category: OneCategory,
         prayingSince: Date | undefined,
+        gospelChecklist: Number[],
         hidden: boolean, userId: string
     ) {
         this.id = id;
@@ -32,6 +35,7 @@ export default class One implements IOne {
         this.stage = stage;
         this.category = category;
         this.prayingSince = prayingSince;
+        this.gospelChecklist = gospelChecklist;
         this.hidden = hidden;
         this.userId = userId;
     }

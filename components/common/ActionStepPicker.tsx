@@ -34,6 +34,7 @@ export type IActionStepPicker = ViewProps & {
 };
 
 export enum ActionStepPickerState {
+    
     Normal,
     Adding,
     Editing,

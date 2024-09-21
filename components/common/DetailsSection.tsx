@@ -30,8 +30,8 @@ function DetailsSection({ iconSrc, title, prefix, style }: IDetailsSection) {
 
 const styles = StyleSheet.create({
     icon: {
-        width: 32,
-        height: 32,
+        width: 28,
+        height: 28,
         marginRight: 12,
     },
 });

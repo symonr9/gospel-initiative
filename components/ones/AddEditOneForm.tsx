@@ -100,12 +100,6 @@ function AddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneFo
                 <CategoryPicker selectedCategory={category} 
                                 setSelectedCategory={setCategory}/>
             </PageColumn>
-
-            <PageColumn style={styles.section}>
-                <ActionStepPicker actionSteps={actionSteps} 
-                                  selectedOne={selectedOne}
-                                  setActionSteps={setActionSteps}/>
-            </PageColumn>
         </PageColumn>
     );
 }

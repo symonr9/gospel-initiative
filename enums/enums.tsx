@@ -140,6 +140,32 @@ export enum OneFactType {
     PrayerPoint = 13,
 };
 
+export enum GospelChecklistItems {
+    Creation = 0,                 // The creation of the world by God
+    Fall = 1,                     // Humanity's fall into sin
+    Sin = 2,                      // The concept of sin and separation from God
+    Prophets = 3,                 // Prophets foretelling the coming of the Messiah
+    Incarnation = 4,              // Jesus' birth as God becoming man
+    JesusLife = 5,                // Jesus' life and ministry on earth
+    JesusOnTheCross = 6,          // Jesus' crucifixion and sacrifice for sin
+    Resurrection = 7,             // Jesus' resurrection from the dead
+    Ascension = 8,                // Jesus' ascension to heaven
+    Grace = 9,                    // Salvation by grace, not by works
+    Faith = 10,                   // Faith in Jesus as the way to salvation
+    Repentance = 11,              // Turning away from sin and toward God
+    HolySpirit = 12,              // The coming of the Holy Spirit for guidance and empowerment
+    NewCreation = 13,             // Becoming a new creation in Christ
+    Discipleship = 14,            // Following Jesus and living as His disciple
+    GreatCommission = 15,         // The call to spread the gospel and make disciples
+    SecondComing = 16,            // Jesus' promised return
+    Heaven = 17,                  // The promise of eternal life with God
+    Judgment = 18,                // Final judgment and accountability before God
+    KingdomOfGod = 19,            // The reality of the Kingdom of God now and in the future
+    Reconciliation = 20,          // Reconciliation of humanity with God through Jesus
+    Redemption = 21,              // Jesus redeeming humanity from sin and death
+    Forgiveness = 22,             // The forgiveness of sins through Jesus
+}
+
 // Action Steps
 export enum ActionStepType {
     ShareGospel = 1,
@@ -253,6 +279,8 @@ export enum AppIcon {
     ArrowDown = require('../assets/images/app-icons/arrowDown.png'),
     ChevronUp = require('../assets/images/app-icons/chevronUp.png'),
     ChevronDown = require('../assets/images/app-icons/chevronDown.png'),
+    ChevronLeft = require('../assets/images/app-icons/chevronLeft.png'),
+    ChevronRight = require('../assets/images/app-icons/chevronRight.png'),
     Edit = require('../assets/images/app-icons/edit.png'),
     Plus = require('../assets/images/app-icons/plus.png'),
     Pencil = require('../assets/images/app-icons/pencil.png'),

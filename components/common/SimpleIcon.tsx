@@ -75,14 +75,14 @@ const largeStyles = StyleSheet.create({
     },
     iconContainer: {
         ...styles.iconContainer,
-        width: 72,
-        height: 72,
+        width: 64,
+        height: 64,
         borderRadius: 60,
     },
     icon: {
         ...styles.icon,
-        width: 64,
-        height: 64,
+        width: 54,
+        height: 54,
     },
     title: {
         ...styles.title,
