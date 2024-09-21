@@ -12,16 +12,14 @@ import { StoryCard } from './StoryCard';
 import { mapStoryTypeToText } from '@/utils/appUtils';
 import StoryDetails from './StoryDetails';
 import AddEditStoryForm from './AddEditStoryForm';
-import { AnimatedCard } from '../common/AnimatedCard';
 import { PageRow } from '../common/PageRow';
 import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
 import { RoadContainer } from '../common/RoadContainer';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
-import DetailsSection from '../common/DetailsSection';
+import StoriesGrid from './StoriesGrid';
 
-export type IStoriesLayout = ViewProps & {
-    personalStories: EnhancedStory[];
+export type IGodsStoriesLayout = ViewProps & {
     GodsStories: EnhancedStory[];
 };
 
@@ -31,27 +29,12 @@ export enum StoryLayoutType {
     Adding
 };
 
-function StoriesLayout({ personalStories, GodsStories }: IStoriesLayout) {
+function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
-    const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
 
-    const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
     const GodsStoryCursorIdx = GodsStories.findIndex((story) => story.id === activeStoryId);
-
-    const activeStory = (() => {
-        if (personalStoryCursorIdx !== -1)
-            return personalStories[personalStoryCursorIdx];
-        else if (GodsStoryCursorIdx !== -1)
-            return GodsStories[GodsStoryCursorIdx];
-        return null;
-    })();
-
-    const personalStoryItemsToRender = personalStories ? personalStories.map((story, idx) => (
-        <StoryCard story={story}
-            setActiveStoryId={setActiveStoryId}
-            key={story.id} />
-    )) : [];
+    const activeStory = GodsStoryCursorIdx !== -1 ? GodsStories[GodsStoryCursorIdx] : null;
 
     const GodsStoryItemsToRender = GodsStories ? GodsStories.map((story, idx) => (
         <StoryCard story={story}
@@ -118,12 +101,6 @@ function StoriesLayout({ personalStories, GodsStories }: IStoriesLayout) {
                     subtitle={subtitle}
                     delay={0} />
 
-                <PageRow spaceEvenly>
-                    <DetailsSection iconSrc={AppIcon.Book2}
-                                    prefix={'Today\'s Chapters'}
-                                    title={'5/7 Complete'} />
-                </PageRow>
-
                 <AddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
                 <StoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
@@ -131,26 +108,10 @@ function StoriesLayout({ personalStories, GodsStories }: IStoriesLayout) {
                     activeStory === null && (
                         <>
                         <View>
-                            <RoadContainer title={`God's Story`}
-                                iconSrc={AppIcon.Book}
-                                itemsToRender={GodsStoryItemsToRender}
-                                type={RoadContainerType.Completed}
-                                expandedHeight={120}
-                                activeType={activeRoadType}
-                                setActiveType={setActiveRoadType}
-                                customStyles={GodsStoryStyle} />
-                            <RoadContainer title={'My Story'}
-                                iconSrc={AppIcon.Book}
-                                itemsToRender={personalStoryItemsToRender}
-                                type={RoadContainerType.Incoming}
-                                expandedHeight={120}
-                                isTopPosition={false}
-                                activeType={activeRoadType}
-                                setActiveType={setActiveRoadType}
-                                customStyles={myStoryStyle} />
+                            <StoriesGrid stories={GodsStories} 
+                                activeStoryId={activeStoryId} 
+                                setActiveStoryId={setActiveStoryId}/>
                         </View>
-    
-                        <StoryActivityHeatMapChart />
                     </>
                     )
                 }
@@ -174,15 +135,6 @@ const styles = StyleSheet.create({
     },
 });
 
-const myStoryStyle = {
-    container: {
-        backgroundColor: Colors.light.alternate1,
-    },
-    title: {
-        color: Colors.light.alternateText
-    },
-};
-
 const GodsStoryStyle = {
     container: {
         backgroundColor: Colors.light.primary,
@@ -199,9 +151,8 @@ const GodsStoryStyle = {
 };
 
 const mapStateToProps = (state: any) => {
-    const { personalStories, GodsStories } = selectPartionedEnhancedStories(state);
+    const { GodsStories } = selectPartionedEnhancedStories(state);
     return {
-        personalStories,
         GodsStories,
     };
 }
@@ -210,4 +161,4 @@ const mapDispatchToProps = {
     
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoriesLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(GodsStoriesLayout);

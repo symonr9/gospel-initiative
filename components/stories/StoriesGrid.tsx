@@ -1,59 +1,53 @@
 import React from 'react';
-import { View, type ViewProps, StyleSheet, useWindowDimensions, FlatList, TouchableOpacity } from 'react-native';
+import { type ViewProps, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import PromptBanner from '../prompts/PromptBanner';
-import { EnhancedBeacon } from '@/models/beacon';
 import ScrollLayout from '../common/ScrollLayout';
 import { setSelectedOne } from '@/redux/actions';
-import One from '@/models/one';
 import { PageColumn } from '../common/PageColumn';
-import { PageRow } from '../common/PageRow';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
-import { OneLayoutType } from './OnesLayout';
+import { EnhancedStory } from '@/models/story';
 import { gridStyles } from '@/styles/Styles';
+import { PageRow } from '../common/PageRow';
 
-export type IAllOnesGrid = ViewProps & {
-    ones: One[];
-    setSelectedOne: Function;
-    setActiveLayoutType: Function;
+export type IStoriesGrid = ViewProps & {
+    stories: EnhancedStory[];
+    activeStoryId?: string | null;
+    setActiveStoryId?: Function;
 };
 
-
-function AllOnesGrid({ ones, setSelectedOne, setActiveLayoutType }: IAllOnesGrid) {
-
-    const renderItem = ({ item }: { item: One }) => {
+function StoriesGrid({ stories, activeStoryId = null, setActiveStoryId }: IStoriesGrid) {
+    const renderItem = ({ item }: { item: EnhancedStory }) => {
         const onPress = () => {
-            setSelectedOne(item);
-            setActiveLayoutType(OneLayoutType.Normal);
+            if (setActiveStoryId) {
+                setActiveStoryId(item.id);
+            }
         };
 
         return (
             <TouchableOpacity onPress={onPress}>
-                <PageColumn style={gridStyles.itemCard}>
+                <PageRow style={gridStyles.itemCard}>
                     <Image source={item.icon} style={gridStyles.img}/>
-                    <AppText type={TextType.Body}>
-                        {item.name}
+                    <AppText type={TextType.DefaultSemiBold}>
+                        {item.title}
                     </AppText>
-                </PageColumn>
+                </PageRow>
             </TouchableOpacity>
         );
     };
 
     return (
         <PageColumn>
-
-            <ScrollLayout style={{ maxHeight: 500 }}>
+            <ScrollLayout style={{ }}>
                 <FlatList
-                    data={ones}
+                    data={stories}
                     renderItem={renderItem}
-                    numColumns={3}
+                    numColumns={1}
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={gridStyles.itemList}
                 />
             </ScrollLayout>
-
         </PageColumn>
     );
 }
@@ -68,4 +62,4 @@ const mapDispatchToProps = {
     setSelectedOne
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllOnesGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(StoriesGrid);

@@ -1,21 +1,14 @@
 import React from 'react';
-import { View, type ViewProps, StyleSheet, useWindowDimensions } from 'react-native';
-import { connect, useSelector } from 'react-redux';
+import { type ViewProps, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 import PromptBanner from '../prompts/PromptBanner';
-import { EnhancedBeacon } from '@/models/beacon';
 import ScrollLayout from '../common/ScrollLayout';
-import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageRow } from '../common/PageRow';
-import { AppIcon } from '@/enums/enums';
-import DetailsSection from '../common/DetailsSection';
-import { selectActionStepsByOneId, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
+import { selectActionStepsByOneId } from '@/redux/selectors';
 import { PageColumn } from '../common/PageColumn';
 import ActionStep from '@/models/actionStep';
 import One from '@/models/one';
-import { AppText, TextType } from '../common/AppText';
-import { ActionStepCard } from '../ones/ActionStepCard';
-import { SimpleIcon } from '../common/SimpleIcon';
 
 export type IHomeLayout = ViewProps & {
   firstOne: One | null;

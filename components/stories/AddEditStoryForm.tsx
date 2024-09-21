@@ -6,7 +6,7 @@ import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
-import { StoryLayoutType } from './StoriesLayout';
+import { StoryLayoutType } from './MyStoriesLayout';
 
 export type IAddEditStoryForm = {
   activeStory: EnhancedStory | null;
@@ -15,8 +15,7 @@ export type IAddEditStoryForm = {
 
 function AddEditStoryForm({ activeStory, activeLayoutType }: IAddEditStoryForm) {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-    </ScrollView>
+    <></>
   );
 }
 

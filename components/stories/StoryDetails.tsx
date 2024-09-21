@@ -6,7 +6,7 @@ import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
-import { StoryLayoutType } from './StoriesLayout';
+import { StoryLayoutType } from './MyStoriesLayout';
 
 export type IStoryDetails = {
   activeStory: EnhancedStory | null;

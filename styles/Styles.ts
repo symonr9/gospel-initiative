@@ -127,3 +127,32 @@ export const tabStyles = StyleSheet.create({
     gap: 8,
   },
 });
+
+export const gridStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  itemList: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  itemCard: {
+    flex: 1,
+    margin: 8,
+    padding: 8,
+    backgroundColor: '#ffffff',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
+    borderRadius: 4,
+    alignItems: 'center'
+  },
+  img: {
+    height: 42,
+    width: 42,
+    margin: 4,
+  },
+});
