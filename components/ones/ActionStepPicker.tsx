@@ -5,16 +5,16 @@ import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInpu
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
 import { formatDateTime, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
-import { AppText, TextType } from './AppText';
-import { PageRow } from './PageRow';
-import { PageColumn } from './PageColumn';
+import { AppText, TextType } from '../common/AppText';
+import { PageRow } from '../common/PageRow';
+import { PageColumn } from '../common/PageColumn';
 import ActionStep from '@/models/actionStep';
-import { ActionStepCard } from '../ones/ActionStepCard';
-import SimpleIconButton from './SimpleIconButton';
+import { ActionStepCard } from './ActionStepCard';
+import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles } from '@/styles/Styles';
-import SelectDatePicker from './SelectDatePicker';
-import ScrollLayout from './ScrollLayout';
+import SelectDatePicker from '../common/SelectDatePicker';
+import ScrollLayout from '../common/ScrollLayout';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { addActionStep, editActionSteps } from '@/redux/actions';
 

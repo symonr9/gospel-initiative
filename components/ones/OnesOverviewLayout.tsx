@@ -22,7 +22,6 @@ import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import AllOnesGrid from './AllOnesGrid';
-import ActionStepPicker from '../common/ActionStepPicker';
 
 export type IOnesOverviewLayout = ViewProps & {
     selectedOne: One | undefined,

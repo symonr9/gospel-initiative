@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, BeaconType, OneCategory, OneFactType, OneStage, Priority, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
@@ -441,6 +441,141 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
         case ActionStepType.Other:
         default:
             return "Other";
+    }
+}
+
+export function mapGospelChecklistItemTypeToTitle(item: GospelChecklistItem): string {
+    switch(item) {
+        case GospelChecklistItem.Creation:
+            case GospelChecklistItem.Fall:
+                return "The Fall";
+            case GospelChecklistItem.Sin:
+                return "Sin";
+            case GospelChecklistItem.Prophets:
+                return "The Prophets";
+            case GospelChecklistItem.Incarnation:
+                return "The Incarnation";
+            case GospelChecklistItem.JesusLife:
+                return "The Life of Jesus";
+            case GospelChecklistItem.JesusOnTheCross:
+                return "Jesus on the Cross";
+            case GospelChecklistItem.Resurrection:
+                return "Resurrection";
+            case GospelChecklistItem.Ascension:
+                return "Ascension";
+            case GospelChecklistItem.Grace:
+                return "Grace";
+            case GospelChecklistItem.Faith:
+                return "Faith";
+            case GospelChecklistItem.Repentance:
+                return "Repentance";
+            case GospelChecklistItem.HolySpirit:
+                return "Holy Spirit";
+            case GospelChecklistItem.NewCreation:
+                return "New Creation";
+            case GospelChecklistItem.Discipleship:
+                return "Discipleship";
+            case GospelChecklistItem.GreatCommission:
+                return "Great Commission";
+            case GospelChecklistItem.SecondComing:
+                return "Second Coming";
+            case GospelChecklistItem.Heaven:
+                return "Heaven";
+            case GospelChecklistItem.Judgment:
+                return "Judgment";
+            case GospelChecklistItem.KingdomOfGod:
+                return "Kingdom of God";
+            case GospelChecklistItem.Reconciliation:
+                return "Reconciliation";
+            case GospelChecklistItem.Redemption:
+                return "Redemption";
+            case GospelChecklistItem.Forgiveness:
+                return "Forgiveness";
+            default:
+                return "";
+    }
+}
+
+export function mapGospelChecklistItemTypeToDetails(item: GospelChecklistItem): string {
+    switch (item) {
+        case GospelChecklistItem.Creation:
+            return "God created the heavens and the earth, establishing His sovereignty and purpose for humanity.";
+        case GospelChecklistItem.Fall:
+            return "Humanity's rebellion against God in the Garden of Eden, leading to sin entering the world and the need for redemption.";
+        case GospelChecklistItem.Sin:
+            return "Sin is humanity's disobedience to God, separating us from His holiness and creating the need for a Savior.";
+        case GospelChecklistItem.Prophets:
+            return "God sent prophets to warn, guide, and foretell the coming of the Messiah, emphasizing His plan for salvation.";
+        case GospelChecklistItem.Incarnation:
+            return "Jesus Christ, fully God and fully man, came to earth in human form to dwell among us and redeem humanity.";
+        case GospelChecklistItem.JesusLife:
+            return "The perfect life of Jesus demonstrated God's love, fulfilled the Law, and revealed His kingdom through teachings and miracles.";
+        case GospelChecklistItem.JesusOnTheCross:
+            return "Jesus' death on the cross was the ultimate sacrifice, paying for the sins of humanity and offering reconciliation with God.";
+        case GospelChecklistItem.Resurrection:
+            return "On the third day, Jesus rose from the dead, conquering death and sin, offering eternal life to all who believe.";
+        case GospelChecklistItem.Ascension:
+            return "Jesus ascended to heaven, where He reigns at the right hand of the Father, interceding for believers.";
+        case GospelChecklistItem.Grace:
+            return "Salvation is a free gift of grace from God, given to humanity through faith in Jesus Christ, not earned by works.";
+        case GospelChecklistItem.Faith:
+            return "Faith in Jesus Christ is the means by which individuals are saved and made righteous before God.";
+        case GospelChecklistItem.Repentance:
+            return "Repentance involves turning away from sin and turning toward God in humility and faith, seeking forgiveness.";
+        case GospelChecklistItem.HolySpirit:
+            return "The Holy Spirit is sent to dwell within believers, empowering them for holy living, guidance, and spiritual growth.";
+        case GospelChecklistItem.NewCreation:
+            return "In Christ, believers become a new creation, with old things passed away and a new life in God's kingdom.";
+        case GospelChecklistItem.Discipleship:
+            return "Discipleship is the process of following Jesus, learning His teachings, and growing in faith to live as His disciple.";
+        case GospelChecklistItem.GreatCommission:
+            return "Jesus' command to His followers to go into all the world, making disciples of all nations and baptizing them.";
+        case GospelChecklistItem.SecondComing:
+            return "Jesus will return in power and glory to judge the living and the dead, establishing His eternal kingdom.";
+        case GospelChecklistItem.Heaven:
+            return "Heaven is the eternal dwelling place of believers, where they will live in the presence of God, free from sin and suffering.";
+        case GospelChecklistItem.Judgment:
+            return "God will judge all humanity according to their deeds, with eternal consequences for those who reject or accept Christ.";
+        case GospelChecklistItem.KingdomOfGod:
+            return "The Kingdom of God is God's sovereign rule over creation, inaugurated by Jesus, and fully realized at His return.";
+        case GospelChecklistItem.Reconciliation:
+            return "Through Christ's sacrifice, humanity is reconciled to God, restoring the broken relationship caused by sin.";
+        case GospelChecklistItem.Redemption:
+            return "Jesus' death and resurrection redeem humanity from the bondage of sin, offering freedom and eternal life.";
+        case GospelChecklistItem.Forgiveness:
+            return "Through Jesus, God offers forgiveness of sins, washing away guilt and making reconciliation with Him possible.";
+        default:
+            return "Unknown gospel checklist item.";
+    }
+}
+
+export function mapGospelChecklistItemTypeToIcon(item: GospelChecklistItem): AppIcon {
+    switch(item) {
+        case GospelChecklistItem.Creation:
+        case GospelChecklistItem.Fall:
+        case GospelChecklistItem.Sin:
+        case GospelChecklistItem.Prophets:
+        case GospelChecklistItem.Incarnation:
+        case GospelChecklistItem.JesusLife:
+        case GospelChecklistItem.JesusOnTheCross:
+        case GospelChecklistItem.Resurrection:
+        case GospelChecklistItem.Ascension:
+        case GospelChecklistItem.Grace:
+        case GospelChecklistItem.Faith:
+        case GospelChecklistItem.Repentance:
+        case GospelChecklistItem.HolySpirit:
+        case GospelChecklistItem.NewCreation:
+        case GospelChecklistItem.Discipleship:
+        case GospelChecklistItem.GreatCommission:
+        case GospelChecklistItem.SecondComing:
+        case GospelChecklistItem.Heaven:
+        case GospelChecklistItem.Judgment:
+        case GospelChecklistItem.KingdomOfGod:
+        case GospelChecklistItem.Reconciliation:
+        case GospelChecklistItem.Redemption:
+        case GospelChecklistItem.Forgiveness:
+        default:
+            return AppIcon.Christ;
     }
 }
 

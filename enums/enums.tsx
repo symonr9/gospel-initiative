@@ -140,7 +140,7 @@ export enum OneFactType {
     PrayerPoint = 13,
 };
 
-export enum GospelChecklistItems {
+export enum GospelChecklistItem {
     Creation = 0,                 // The creation of the world by God
     Fall = 1,                     // Humanity's fall into sin
     Sin = 2,                      // The concept of sin and separation from God

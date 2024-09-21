@@ -21,7 +21,8 @@ import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
-import ActionStepPicker from '../common/ActionStepPicker';
+import ActionStepPicker from './ActionStepPicker';
+import GospelChecklist from './GospelChecklist';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One | undefined,
@@ -228,7 +229,10 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
             <View>
                 {
                     selectedOne && (
-                        <ActionStepPicker />
+                        <>
+                            <ActionStepPicker />
+                            <GospelChecklist/>
+                        </>
                     )
                 }
 

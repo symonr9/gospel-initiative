@@ -14,7 +14,6 @@ import { AvatarIcon, OneCategory, OneStage } from '@/enums/enums';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import StagePicker from '../common/StagePicker';
-import ActionStepPicker from '../common/ActionStepPicker';
 import ActionStep from '@/models/actionStep';
 import CategoryPicker from '../common/CategoryPicker';
 
