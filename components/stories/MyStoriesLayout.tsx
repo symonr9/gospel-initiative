@@ -18,6 +18,7 @@ import { RoadContainer } from '../common/RoadContainer';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
+import PracticeMyStoryDetails from './PracticeMyStoryDetails';
 
 export type IMyStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
@@ -26,7 +27,9 @@ export type IMyStoriesLayout = ViewProps & {
 export enum StoryLayoutType {
     Normal,
     Editing,
-    Adding
+    Adding,
+    Practice,
+    Browse
 };
 
 function MyStoriesLayout({ personalStories }: IMyStoriesLayout) {
@@ -49,80 +52,44 @@ function MyStoriesLayout({ personalStories }: IMyStoriesLayout) {
         setActiveLayoutType(StoryLayoutType.Editing);
     };
 
+    const Body = [];
+
+    if (activeLayoutType === StoryLayoutType.Practice) {
+        Body.push(
+            <>
+                <PracticeMyStoryDetails/>
+            </>
+        );
+    } else if (activeLayoutType === StoryLayoutType.Browse) {
+        Body.push(
+            <>
+            </>
+        );
+    } else {
+        Body.push(
+            <>
+            </>
+        );
+    }
+
     return (
         <ScrollLayout>
             <View style={styles.container}>
-                <PageRow spaceEvenly>
-                    {
-                        activeStory && (
-
-                            <>
-                                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                                    title={'Back'}
-                                    onClick={() => {
-                                        if (activeLayoutType === StoryLayoutType.Editing) {
-                                            setActiveLayoutType(StoryLayoutType.Normal);
-                                        } else if (activeStoryId != null) {
-                                            setActiveStoryId(null);
-                                            return;
-                                        }
-                                    }}
-                                    customStyles={{
-                                        container: {
-                                            alignSelf: 'flex-start',
-                                            marginBottom: 16
-                                        }
-                                    }} />
-
-                                <SimpleIconButton iconSrc={AppIcon.Pencil}
-                                    onClick={onEditStoryClick}
-                                    title={'Edit'}
-                                    customStyles={{
-                                        container: {
-                                            alignSelf: 'flex-end',
-                                            marginBottom: 16
-                                        }
-                                    }} />
-                            </>
-
-                        )
-                    }
-                </PageRow>
-
-                {
-                    activeStory && (
-                        <View style={styles.iconDiv}>
-                            <Image source={activeStory.icon} style={styles.icon} />
-                        </View>
-                    )
-                }
-
                 <AnimatedHeader title={title}
                     subtitle={subtitle}
                     delay={0} />
 
-                <AddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
-                <StoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
+                <PageRow spaceEvenly>
+                    <SimpleIconButton iconSrc={AppIcon.Conversation}
+                        onClick={() => setActiveLayoutType(StoryLayoutType.Practice)}
+                        title={'Practice'} />
 
-                {
-                    activeStory === null && (
-                        <>
-                        <View>
-                            <RoadContainer title={'My Story'}
-                                iconSrc={AppIcon.Book}
-                                itemsToRender={personalStoryItemsToRender}
-                                type={RoadContainerType.Incoming}
-                                expandedHeight={120}
-                                isTopPosition={false}
-                                activeType={RoadContainerType.Incoming}
-                                setActiveType={() => {}}
-                                customStyles={myStoryStyle} />
-                        </View>
-    
-                        <StoryActivityHeatMapChart />
-                    </>
-                    )
-                }
+                    <SimpleIconButton iconSrc={AppIcon.Book}
+                        onClick={() => setActiveLayoutType(StoryLayoutType.Browse)}
+                        title={'Browse'} />
+                </PageRow>
+
+                {Body.map((item) => item)}
             </View>
         </ScrollLayout>
     );
@@ -160,7 +127,7 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = {
-    
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyStoriesLayout);
