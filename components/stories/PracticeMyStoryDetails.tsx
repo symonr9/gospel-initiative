@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation } from 'react-native';
-import { Image } from 'expo-image';
+import React, { useState } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
+
+import { Audio } from 'expo-av';
 import { connect } from 'react-redux';
-import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, Page } from '@/enums/enums';
-import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
-import { StoryLayoutType } from './MyStoriesLayout';
+import { AppIcon } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
@@ -22,8 +20,45 @@ enum PageState {
 
 function PracticeMyStoryDetails({ }: IPracticeMyStoryDetails) {
   const [pageState, setPageState] = useState(PageState.Page1);
+  const [recording, setRecording] = useState();
+  const [permissionResponse, requestPermission] = Audio.usePermissions();
 
   const Body = [];
+
+
+  async function startRecording() {
+    try {
+      if (permissionResponse.status !== 'granted') {
+        console.log('Requesting permission..');
+        await requestPermission();
+      }
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      console.log('Starting recording..');
+      const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      setRecording(recording);
+      console.log('Recording started');
+    } catch (err) {
+      console.error('Failed to start recording', err);
+    }
+  }
+
+  async function stopRecording() {
+    console.log('Stopping recording..');
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    await Audio.setAudioModeAsync(
+      {
+        allowsRecordingIOS: false,
+      }
+    );
+    const uri = recording.getURI();
+    console.log('Recording stopped and stored at', uri);
+  }
 
   if (pageState === PageState.Page1) {
     Body.push(
@@ -52,16 +87,19 @@ function PracticeMyStoryDetails({ }: IPracticeMyStoryDetails) {
       </>
     );
   } else if (pageState === PageState.Page2) {
-
     const onRecordClick = () => {
-
+      if (recording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
     };
 
     Body.push(
       <>
 
         <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-            Your Prompt
+          Your Prompt
         </AppText>
         <View style={{ flexShrink: 1, width: '90%' }}>
           <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
@@ -79,7 +117,7 @@ function PracticeMyStoryDetails({ }: IPracticeMyStoryDetails) {
             onClick={() => setPageState(PageState.Page1)} />
 
           <SimpleIconButton iconSrc={AppIcon.Phone}
-            title='Record'
+            title={recording ? 'Stop Recording' : 'Start Record'}
             onClick={onRecordClick} />
         </PageRow>
       </>
