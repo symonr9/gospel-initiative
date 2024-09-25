@@ -6,8 +6,11 @@ import * as JsonFunctions from '../utils/jsonFunctions';
 import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage } from '@/utils/storageUtils';
 import { getData } from '@/utils/apiUtils';
 import User from '@/models/user';
-import { AvatarIcon, OneCategory, OneStage, Role } from '@/enums/enums';
+import { ActionStepType, AvatarIcon, BeaconType, OneCategory, OneStage, Priority, Role } from '@/enums/enums';
 import One from '@/models/one';
+import Beacon from '@/models/beacon';
+import ActionStep from '@/models/actionStep';
+import BeaconActivity from '@/models/beaconActivity';
 
 export type IDataRefreshManager = {
     state: any,
@@ -75,7 +78,6 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
     const fetchServerData = async (userId: string) => {
         try {
             const response = await getData(`/users/${userId}`);
-            console.log("response: ", response);
 
             const user = new User(
                 response.id,
@@ -87,7 +89,6 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
             );
 
             const ones = [];
-
             for (let one of response.ones) {
                 ones.push(
                     new One(
@@ -103,6 +104,50 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
                     )
                 );
             }
+            
+            const beacons = [];
+            for (let beacon of response.beacons) {
+                beacons.push(
+                    new Beacon(
+                        beacon.id,
+                        beacon.name,
+                        beacon.message,
+                        beacon.oneId,
+                        beacon.priority as Priority,
+                        beacon.userId,
+                        beacon.type as BeaconType,
+                        beacon.activeUntil,
+                        beacon.shareOwnName
+                    )
+                );
+            }
+
+            const actionSteps = [];
+            for (let step of response.actionSteps) {
+                actionSteps.push(
+                    new ActionStep(
+                        step.id,
+                        step.notes,
+                        step.oneId,
+                        step.isComplete,
+                        step.targetDate,
+                        step.type as ActionStepType
+                    )
+                );
+            }
+
+            const beaconActivities = [];
+            for (let activity of response.beaconActivities) {
+                beaconActivities.push(
+                    new BeaconActivity(
+                        activity.id,
+                        activity.note,
+                        activity.date,
+                        activity.userId,
+                        activity.beaconId
+                    )
+                );
+            }
 
             loadServerData({
                 localEvents: JsonFunctions.getLocalEventsJson(),
@@ -112,8 +157,8 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
                 missionsTripLeaders: [],
                 ones: ones,
                 oneFacts: JsonFunctions.getOneFactsFromJson(),
-                actionSteps: JsonFunctions.getActionStepsJson(),
-                beacons: JsonFunctions.getBeaconsFromJson(),
+                actionSteps: actionSteps,
+                beacons: beacons,
                 beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),
                 prompts: JsonFunctions.getPromptsFromJson(),
                 stories: JsonFunctions.getStoriesFromJson(),
@@ -121,7 +166,7 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
                 storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
                 users: [user],
                 executor: user,
-                beaconActivities: JsonFunctions.getBeaconActivitiesFromJson(),
+                beaconActivities: beaconActivities,
                 beaconLogs: JsonFunctions.getBeaconLogsFromJson()
             });
 
