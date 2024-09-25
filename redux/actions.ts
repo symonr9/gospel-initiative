@@ -1,18 +1,16 @@
-import { Page } from "@/enums/enums";
-import ActionStep from "@/models/actionStep";
-import Beacon from "@/models/beacon";
-import BeaconActivity from "@/models/beaconActivity";
-import BeaconForm from "@/models/beaconForm";
-import LocalEvent from "@/models/localEvent";
-import LocalMinistry from "@/models/localMinistry";
-import MissionsTrip from "@/models/missionsTrip";
-import One from "@/models/one";
-import OneFact from "@/models/oneFact";
-import OneForm from "@/models/oneForm";
-import Story from "@/models/story";
-import StoryChapter from "@/models/storyChapter";
+export * from "./actions/userActions";
+export * from "./actions/activityActions";
+export * from "./actions/appActions";
+export * from "./actions/beaconActions";
+export * from "./actions/ministryActions";
+export * from "./actions/missionsTripActions";
+export * from "./actions/oneActions";
+export * from "./actions/storyActions";
 
 export enum Action {
+    SetUserId = 'SET_USER_ID',
+    SetAuthToken = 'SET_AUTH_TOKEN',
+    RemoveUserData = 'REMOVE_USER_DATA',
     OpenPage = "OPEN_PAGE",
 
     AddBeacon = "ADD_BEACON",
@@ -29,6 +27,7 @@ export enum Action {
     EditActionSteps = "EDIT_ACTION_STEPS",
 
     LoadServerData = "LOAD_SERVER_DATA",
+    LoadLocalData = "LOAD_LOCAL_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
     UpdateTabIndex = "UPDATE_TAB_INDEX",
 
@@ -57,137 +56,3 @@ export class ActionPackage {
         this.payload = payload;
     }
 }
-
-export const loadServerData = (data: any) => {
-    return {
-        type: Action.LoadServerData,
-        payload: data,
-    }
-};
-
-export const loadPreferences = (data: any) => {
-    return {
-        type: Action.LoadPreferences,
-        payload: data,
-    }
-};
-
-export const openPage = (item: Page) => ({
-    type: Action.OpenPage,
-    payload: item,
-});
-
-export const addOne = (item: One) => ({
-    type: Action.AddOne,
-    payload: item,
-});
-
-export const editOne = (item: One) => ({
-    type: Action.EditOne,
-    payload: item
-});
-
-export const setSelectedOne = (item: One) => ({
-    type: Action.SetSelectedOne,
-    payload: item,
-});
-
-export const setSelectedTemplateId = (item: string) => ({
-    type: Action.SetSelectedBeaconId,
-    payload: item,
-});
-
-export const setBeaconActiveUntil = (id: string, date: Date | undefined) => ({
-    type: Action.SetBeaconActiveUntil,
-    payload: { id, date },
-});
-
-export const updateBeacon = (item: Beacon) => ({
-    type: Action.UpdateBeacon,
-    payload: item,
-});
-
-export const addBeacon = (item: Beacon) => ({
-    type: Action.AddBeacon,
-    payload: item,
-});
-
-export const addStory = (item: Story) => ({
-    type: Action.AddStory,
-    payload: item,
-});
-
-export const AddLocalEvent = (item: LocalEvent) => ({
-    type: Action.AddLocalEvent,
-    payload: item,
-});
-
-export const AddLocalMinistry = (item: LocalMinistry) => ({
-    type: Action.AddLocalMinistry,
-    payload: item,
-});
-
-export const AddMissionsTrip = (item: MissionsTrip) => ({
-    type: Action.AddMissionsTrip,
-    payload: item,
-});
-
-export const addActionStep = (item: ActionStep) => ({
-    type: Action.AddActionStep,
-    payload: item,
-});
-
-export const editActionSteps = (actionSteps: ActionStep[], oneId: string) => ({
-    type: Action.EditActionSteps,
-    payload: { actionSteps, oneId },
-});
-
-export const AddOneFact = (item: OneFact) => ({
-    type: Action.AddOneFact,
-    payload: item,
-});
-
-export const updateTabIndex = (item: number) => ({
-    type: Action.UpdateTabIndex,
-    payload: item,
-});
-
-export const AddStoryChapters = (item: StoryChapter) => ({
-    type: Action.AddStoryChapter,
-    payload: item,
-});
-
-export const setBeaconForm = (item: BeaconForm) => ({
-    type: Action.SetBeaconForm,
-    payload: item
-});
-
-export const addBeaconActivity = (item: BeaconActivity) => ({
-    type: Action.AddBeaconActivity,
-    payload: item
-});
-
-export const addStoryActivity = (item: BeaconActivity) => ({
-    type: Action.AddStoryActivity,
-    payload: item
-});
-
-export const addNoteToActivity = (activityId: string, note: string) => ({
-    type: Action.AddNoteToActivity,
-    payload: { activityId, note }
-});
-
-export const setOneForm = (item: OneForm) => ({
-    type: Action.SetOneForm,
-    payload: item
-})
-
-export const setAppError = (error: Error) => ({
-    type: Action.SetAppError,
-    payload: { error }
-});
-
-export const clearAppError = () => ({
-    type: Action.ClearAppError,
-    payload: null
-});

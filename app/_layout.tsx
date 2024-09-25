@@ -12,7 +12,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { Alert, Button, TouchableOpacity, LogBox  } from 'react-native';
+import { Alert, Button, TouchableOpacity, LogBox } from 'react-native';
 
 LogBox.ignoreAllLogs(true);
 
@@ -43,12 +43,12 @@ export default function RootLayout() {
       <Ionicons name="ellipsis-vertical" size={24} color={Colors.light.alternateText} />
     </TouchableOpacity>
   );
-  
+
   return (
     <Provider store={store}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack
-          screenOptions={{            
+          screenOptions={{
             headerTitle: 'Gospel Initiative',
             headerRight: () => MenuIcon,
             headerStyle: {

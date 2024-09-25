@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { TabBarIcon } from '@/components/common/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import DataRefreshManager from '../managers/dataRefreshManager';
-import AppStateManager from '../managers/appStateManager';
+import DataRefreshManager from '../../managers/dataRefreshManager';
+import AppStateManager from '../../managers/appStateManager';
 import { updateTabIndex } from '@/redux/actions';
 import { Alert, ViewProps } from 'react-native';
 
