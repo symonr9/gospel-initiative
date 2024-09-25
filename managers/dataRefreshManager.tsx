@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
 import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage } from '@/utils/storageUtils';
-
+import { getData } from '@/utils/apiUtils';
+import User from '@/models/user';
+import { AvatarIcon, OneCategory, OneStage, Role } from '@/enums/enums';
+import One from '@/models/one';
 
 export type IDataRefreshManager = {
     state: any,
@@ -27,7 +30,7 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
                 saveToStorage('userId', userId);
             }
             return userId;
-        } catch(error) {
+        } catch (error) {
             console.error('Failed to load user id:', error);
             return null;
         }
@@ -48,13 +51,13 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
             }
 
             return authToken;
-        } catch(error) {
+        } catch (error) {
             console.error('Failed to load auth token:', error);
         }
         return null;
     };
 
-    const loadData = async () => {
+    const fetchLocalData = async () => {
         const userId = await getLocalUserId();
         const authToken = await getLocalAuthToken();
 
@@ -62,36 +65,81 @@ function DataRefreshManager({ state, loadServerData, loadLocalData }: IDataRefre
             userId,
             authToken
         });
-
-        const usersJson = JsonFunctions.getUsersFromJson();
-
-        loadServerData({
-            localEvents: JsonFunctions.getLocalEventsJson(),
-            localMinistries: JsonFunctions.getLocalMinistriesJson(),
-            localMinistryLeaders: [],
-            missionsTrips: JsonFunctions.getMissionsTripsJson(),
-            missionsTripLeaders: [],
-            ones: JsonFunctions.getOnesFromJson(),
-            oneFacts: JsonFunctions.getOneFactsFromJson(),
-            actionSteps: JsonFunctions.getActionStepsJson(),
-            beacons: JsonFunctions.getBeaconsFromJson(),
-            beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),
-            prompts: JsonFunctions.getPromptsFromJson(),
-            stories: JsonFunctions.getStoriesFromJson(),
-            storyChapters: JsonFunctions.getStoryChaptersFromJson(),
-            storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
-            users: usersJson,
-            executor: usersJson[0],
-            beaconActivities: JsonFunctions.getBeaconActivitiesFromJson(),
-            beaconLogs: JsonFunctions.getBeaconLogsFromJson()
-        });
     };
 
     useEffect(() => {
-        console.log("First time page load");
-
-        loadData();
+        console.log("Loading local data...");
+        fetchLocalData();
     }, []);
+
+    const fetchServerData = async (userId: string) => {
+        try {
+            const response = await getData(`/users/${userId}`);
+            console.log("response: ", response);
+
+            const user = new User(
+                response.id,
+                response.name,
+                response.email,
+                response.type as Role,
+                AvatarIcon[response.icon as keyof typeof AvatarIcon],
+                response.createdAt,
+            );
+
+            const ones = [];
+
+            for (let one of response.ones) {
+                ones.push(
+                    new One(
+                        one.id,
+                        one.name,
+                        AvatarIcon[one.icon as keyof typeof AvatarIcon],
+                        one.stage as OneStage,
+                        one.category as OneCategory,
+                        one.prayingSince,
+                        one.gospelChecklist ? one.gospelChecklist.split(',').map((item: any) => parseInt(item)) : [],
+                        one.hidden,
+                        response.id,
+                    )
+                );
+            }
+
+            loadServerData({
+                localEvents: JsonFunctions.getLocalEventsJson(),
+                localMinistries: JsonFunctions.getLocalMinistriesJson(),
+                localMinistryLeaders: [],
+                missionsTrips: JsonFunctions.getMissionsTripsJson(),
+                missionsTripLeaders: [],
+                ones: ones,
+                oneFacts: JsonFunctions.getOneFactsFromJson(),
+                actionSteps: JsonFunctions.getActionStepsJson(),
+                beacons: JsonFunctions.getBeaconsFromJson(),
+                beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),
+                prompts: JsonFunctions.getPromptsFromJson(),
+                stories: JsonFunctions.getStoriesFromJson(),
+                storyChapters: JsonFunctions.getStoryChaptersFromJson(),
+                storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
+                users: [user],
+                executor: user,
+                beaconActivities: JsonFunctions.getBeaconActivitiesFromJson(),
+                beaconLogs: JsonFunctions.getBeaconLogsFromJson()
+            });
+
+
+            console.log(response);
+        } catch (error) {
+            console.error('Error posting data:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (!state.app.userId) {
+            return;
+        }
+
+        console.log("Loading server data...");    
+        fetchServerData(state.app.userId);
+    }, [state.app.userId]);
 
     return <></>;
 }

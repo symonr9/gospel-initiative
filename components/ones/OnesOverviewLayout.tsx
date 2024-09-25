@@ -49,6 +49,13 @@ function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
 
+    useEffect(() => {
+        if (!executor) {
+            return;
+        }
+        setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    }, [executor]);
+
     if (activeLayoutType === OneLayoutType.FirstTime) {
         HeaderLayout.push(
             <PageRow spaceEvenly>

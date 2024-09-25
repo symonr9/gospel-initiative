@@ -128,7 +128,6 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                     executor.id,
                     selectedTemplate.type,
                     getTomorrow(),
-                    beaconForm.shareOneName,
                     beaconForm.shareOwnName
                 )
             );

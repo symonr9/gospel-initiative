@@ -9,7 +9,7 @@ export async function getFromStorage(key: string) {
     return await AsyncStorage.getItem(key);
 }
 
-export async function saveToStorageSecurely(key: string, value: any) {
+export async function saveToSecureStorage(key: string, value: any) {
     await SecureStore.setItemAsync(key, value);
 }
 

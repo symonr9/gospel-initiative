@@ -7,8 +7,7 @@
         "oneId": "one1",
         "priority": 2,
         "type": 1,
-        "activeUntil": "2024-09-21T10:03:00Z",
-        "shareOneName": false,
+        "activeUntil": "2024-09-30T10:03:00Z",
         "shareOwnName": true
     },
     {
@@ -19,8 +18,7 @@
         "oneId": "one1",
         "priority": 3,
         "type": 2,
-        "activeUntil": "2024-09-21T10:03:00Z",
-        "shareOneName": false,
+        "activeUntil": "2024-09-30T10:03:00Z",
         "shareOwnName": true
     }
 ]

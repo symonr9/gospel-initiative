@@ -29,13 +29,6 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
         setBeaconForm(formData);
     }, [formData]);
 
-    const setShareOneName = (shareOneName: boolean) => {
-        setFormData((prev) => ({
-            ...prev,
-            shareOneName
-        }));
-    };
-
     const setShareOwnName = (shareOwnName: boolean) => {
         setFormData((prev) => ({
             ...prev,
@@ -62,7 +55,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
         setPriority(newPriority);
     }
 
-    const { shareOneName, shareOwnName, priority, notes } = formData;
+    const { shareOwnName, priority, notes } = formData;
 
     return (
         <ThemedView style={[styles.container]}>

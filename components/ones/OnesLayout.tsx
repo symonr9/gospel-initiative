@@ -58,6 +58,13 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
     const BodyLayout: any[] = [];
 
     useEffect(() => {
+        if (!executor) {
+            return;
+        }
+        setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    }, [executor]);
+
+    useEffect(() => {
         if (activeLayoutType !== OneLayoutType.Normal) {
             setShowHeaderButtons(true);
             return;

@@ -343,10 +343,10 @@ export function mapBeaconTypeToAppIcon(type: BeaconType) {
     }
 }
 
-export function mapBeaconTypeToTitleText(type: BeaconType, shareOneName: boolean, 
+export function mapBeaconTypeToTitleText(type: BeaconType, 
     shareOwnName: boolean, user: User, one: One) {
     const userName = shareOwnName ? user.name : 'A User';
-    const oneName = shareOneName ? one.name :'their One';
+    const oneName = 'their One';
     switch (type) {
         case BeaconType.SpiritualConversation:
             return `${userName} would like a spiritual conversation with ${oneName}.`;

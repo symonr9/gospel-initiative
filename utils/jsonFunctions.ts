@@ -145,7 +145,6 @@ export function getBeaconsFromJson() {
             priority: item.priority,
             type: type,
             activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
-            shareOneName: item.shareOneName,
             shareOwnName: item.shareOwnName
         }
     });

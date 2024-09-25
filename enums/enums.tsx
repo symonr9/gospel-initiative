@@ -24,9 +24,9 @@ export enum RoadContainerType {
 // Users
 
 export enum Role {
-    Admin = 'ADMIN',
-    User = 'USER',
-    Guest = 'GUEST',
+    Admin = 1,
+    User = 2,
+    Guest = 3,
 };
 
 // Beacons

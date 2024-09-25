@@ -286,12 +286,12 @@ function getBeacon(incomingCursorIdx: number, completedCursorIdx: number,
 }
 
 function getTitleText(beacon: EnhancedBeacon): string | undefined {
-    const { user, one, activeUntil, type, shareOneName, shareOwnName } = beacon;
+    const { user, one, activeUntil, type, shareOwnName } = beacon;
     if (!user || !one || !activeUntil) {
         return undefined;
     }
 
-    return mapBeaconTypeToTitleText(type, shareOneName, shareOwnName, user, one);
+    return mapBeaconTypeToTitleText(type, shareOwnName, user, one);
 }
 
 const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
