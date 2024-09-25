@@ -8,6 +8,10 @@ import { AppIcon } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
+import axios from 'axios';
+import * as FileSystem from 'expo-file-system';
+
+import { postData } from '@/utils/apiUtils';
 
 export type IPracticeMyStoryDetails = {
 };
@@ -58,6 +62,21 @@ function PracticeMyStoryDetails({ }: IPracticeMyStoryDetails) {
     );
     const uri = recording.getURI();
     console.log('Recording stopped and stored at', uri);
+    
+    const formData = new FormData();
+    formData.append('audio', {
+        uri: uri, // Use the new accessible URI
+        name: 'recording.mp3',
+        type: 'audio/mpeg', // Adjust the MIME type if needed
+    });
+
+    try {
+      const response = await postData('/stories/speechToText', formData);
+      console.log(response);
+  } catch (error) {
+      console.error('Error posting data:', error);
+  }
+
   }
 
   if (pageState === PageState.Page1) {
