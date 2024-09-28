@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-// Create an instance of axios with default configuration
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000', // Ensure this matches your server's endpoint
+    baseURL: 'http://localhost:3000',
+    timeout: 5000,
 });
 
 export const getData = async (url: string, config?: AxiosRequestConfig) => {

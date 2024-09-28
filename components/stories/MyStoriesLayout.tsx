@@ -19,7 +19,6 @@ import { clearAppError } from '@/redux/actions';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 
 export type IMyStoriesLayout = ViewProps & {
-    personalStories: EnhancedStory[];
     chapters: StoryChapter[];
 };
 
@@ -31,22 +30,10 @@ export enum StoryLayoutType {
     Browse
 };
 
-function MyStoriesLayout({ personalStories, chapters }: IMyStoriesLayout) {
+function MyStoriesLayout({ chapters }: IMyStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
     const [message, setMessage] = useState<string | null>(null);
-
-    const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
-    const activeStory = personalStoryCursorIdx !== -1 ? personalStories[personalStoryCursorIdx] : null;
-
-    const personalStoryItemsToRender = personalStories ? personalStories.map((story, idx) => (
-        <StoryCard story={story}
-            setActiveStoryId={setActiveStoryId}
-            key={story.id} />
-    )) : [];
-
-    const title = activeStory !== null ? activeStory.title : 'Stories';
-    const subtitle = activeStory !== null ? mapStoryTypeToText(activeStory.type) : 'Select a story to begin.';
 
     const onEditStoryClick = () => {
         setActiveLayoutType(StoryLayoutType.Editing);
@@ -68,8 +55,8 @@ function MyStoriesLayout({ personalStories, chapters }: IMyStoriesLayout) {
     } else if (activeLayoutType === StoryLayoutType.Normal) {
         Body.push(
             <>
-                <AnimatedHeader title={title}
-                    subtitle={subtitle}
+                <AnimatedHeader title={'My Stories'}
+                    subtitle={'Practice your testimony and compile your faith journey.'}
                     delay={0} />
 
                 <PageRow spaceEvenly>

@@ -17,7 +17,7 @@ export const selectPartionedEnhancedStories = createSelector(
     [selectAllStories, selectAllStoryChapters, selectExecutor],
     (stories, chapters, executor) => {
         const partitionedStories = stories.
-            filter((story: Story) => story.userId === executor.id)
+            filter((story: Story) => story.userId === executor?.id)
             .map((story: Story) => {
                 const chaptersForStory = chapters
                     .filter((chapter) => chapter.storyId === story.id)
