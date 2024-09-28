@@ -11,6 +11,7 @@ interface IStoryChapter {
     order: number;
     tags: StoryChapterTag[];
     names: string[];
+    quality: number;
     isEssential: boolean;
 }
 
@@ -25,11 +26,13 @@ export default class StoryChapter implements IStoryChapter {
     order: number;
     tags: StoryChapterTag[];
     names: string[];
+    quality: number;
     isEssential: boolean;
     
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
         title: string, content: string, questions: string[], icon: AppIcon, 
-        order: number, tags: StoryChapterTag[], names: string[], essential: boolean,
+        order: number, tags: StoryChapterTag[], names: string[], quality: number,
+        essential: boolean,
     ) {
         this.id = id;
         this.storyId = storyId;
@@ -41,6 +44,7 @@ export default class StoryChapter implements IStoryChapter {
         this.order = order;
         this.tags = tags;
         this.names = names;
+        this.quality = quality;
         this.isEssential = essential;
     }
 

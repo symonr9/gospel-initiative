@@ -822,6 +822,21 @@ export function generateRandomId(length: number = 10): string {
     }
   };
 
+  export function mapStoryChapterQualityToText(quality: number): string {
+    if (quality >= 8) {
+        return 'Essential';
+    } else if (quality >= 5) {
+        return 'Important';
+    } else if (quality >= 3) {
+        return 'Interesting';
+    }
+    return 'Neutral';
+  }
+
+  export function shouldKeepChapter(quality: number): boolean {
+    return quality >= 5;
+  }
+
 
 
 /**

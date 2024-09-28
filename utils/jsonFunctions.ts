@@ -229,6 +229,7 @@ export function getStoryChaptersFromJson() {
             order: item.order,
             tags: item.tags,
             names: item.names,
+            quality: item.quality,
             isEsential: item.isEssential
         };
     });

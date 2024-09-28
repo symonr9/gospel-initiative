@@ -133,6 +133,7 @@ export const partition = async (question: string, userResponse: string, userId: 
             1,
             item.tags.map((tag: any) => tag as StoryChapterTag),
             item.names,
+            item.quality,
             false
         ));
     } catch (error: any) {

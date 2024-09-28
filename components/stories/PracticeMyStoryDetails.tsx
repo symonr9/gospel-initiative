@@ -15,7 +15,7 @@ import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { StoryLayoutType } from './MyStoriesLayout';
 import { Colors } from '@/constants/Colors';
-import { getRandomString } from '@/utils/appUtils';
+import { getRandomString, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';
 
@@ -39,9 +39,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
   const [question, setQuestion] = useState(getRandomString(PracticeTestimonyQuestions));
   const [response, setResponse] = useState("");
   const [chapterArray, setChapterArray] = useState<StoryChapter[] | null>(null);
-  const [selectedChapterId, setSelectedChapterId] = useState<string | null>(null);
-
-  const selectedChapterIdx = chapterArray?.map((chapter) => chapter.id === selectedChapterId);
+  const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
 
   const Body = [];
 
@@ -133,12 +131,13 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
           Your Response
         </AppText>
         <TextInput
-            style={formStyles.textInput}
-            placeholder="Enter note here..."
-            placeholderTextColor={'gray'}
-            value={response}
-            numberOfLines={4}
-            onChangeText={(text) => setResponse(text)}/>
+          style={[formStyles.multiLineTextInput]}
+          placeholder="Enter note here..."
+          placeholderTextColor={'gray'}
+          value={response}
+          multiline
+          numberOfLines={8}
+          onChangeText={(text) => setResponse(text)} />
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
           <SimpleIconButton iconSrc={AppIcon.ArrowBack}
@@ -162,7 +161,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
           <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
             Your Question
           </AppText>
-          <View style={{ flexShrink: 1, width: '90%' }}>
+          <View style={{ flexShrink: 1, width: '95%' }}>
             <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
               {question}
             </AppText>
@@ -171,11 +170,13 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
           <AppText type={TextType.Subtitle2} style={{ marginVertical: 8, marginTop: 16 }}>
             Your Response
           </AppText>
-          <View style={{ flexShrink: 1, width: '90%' }}>
-            <AppText type={TextType.Default} style={[styles.textLabel]}>
-              {response}
-            </AppText>
-          </View>
+          <ScrollView style={{ maxHeight: 300 }}>
+            <View style={{ flexShrink: 1, width: '95%' }}>
+              <AppText type={TextType.Default} style={[styles.textLabel]}>
+                {response}
+              </AppText>
+            </View>
+          </ScrollView>
         </PageColumn>
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
@@ -196,7 +197,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
           Loading...
         </AppText>
         <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-          Your content is loading, please wait...
+          Your partition is loading, please wait...
         </AppText>
 
         <ActivityIndicator
@@ -207,28 +208,13 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
     );
   } else if (pageState === PageState.Page5 && chapterArray != null) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
-      const isSelected = selectedChapterId === item.id;
-      const handleOnPress = () => {
-        if (isSelected) {
-          setSelectedChapterId(null);
-        } else {
-          setSelectedChapterId(item.id);
-        }
-      };
-
+      const editing = editingChapterId === item.id;
       return (
         <StoryChapterCard chapter={item}
-          selected={isSelected}
-          handleOnPress={handleOnPress} />
+          editing={editing}
+          setEditingChapterId={setEditingChapterId}
+          setChapterArray={setChapterArray} />
       );
-    };
-
-    const onBackClick = () => {
-      setSelectedChapterId(null);
-    };
-
-    const onEditClick = () => {
-      setSelectedChapterId(null);
     };
 
     Body.push(
@@ -248,27 +234,10 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
         />
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
-          {
-            selectedChapterId !== null && (
-              <>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                  title={'Back'}
-                  onClick={onBackClick} />
-                <SimpleIconButton iconSrc={AppIcon.Pencil}
-                  title={'Edit'}
-                  onClick={onEditClick} />
-              </>
-            )
-          }
-
-          {
-            selectedChapterId === null && (
-              <SimpleIconButton iconSrc={AppIcon.Checkmark}
-                title={'Next'}
-                onClick={() => setPageState(PageState.Page6)} />
-            )
-          }
-
+          <SimpleIconButton iconSrc={AppIcon.Checkmark}
+            title={editingChapterId === null ? 'Next' : '*Editing*'}
+            disabled={editingChapterId !== null}
+            onClick={() => setPageState(PageState.Page6)} />
         </PageRow>
       </>
     );
@@ -293,7 +262,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
         </AppText>
 
         <FlatList
-          data={chapterArray}
+          data={chapterArray?.filter((chapter) => shouldKeepChapter(chapter.quality))}
           renderItem={renderStoryChapter}
           numColumns={1}
           keyExtractor={(item, index) => index.toString()}
