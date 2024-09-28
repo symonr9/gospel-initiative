@@ -1,10 +1,13 @@
-import { AvatarIcon, OneStage, OneCategory, Priority, BeaconType, ActionStepType, Role } from "@/enums/enums";
+import { AvatarIcon, OneStage, OneCategory, Priority, BeaconType, ActionStepType, Role, StoryChapterType, StoryChapterTag } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import BeaconActivity from "@/models/beaconActivity";
 import One from "@/models/one";
+import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
-import { getData } from "@/utils/apiUtils";
+import { getData, postData } from "@/utils/apiUtils";
+import { generateRandomId, mapStoryChapterTypeToAppIcon } from "@/utils/appUtils";
+import { AxiosRequestConfig } from "axios";
 
 export const fetchServerData = async (userId: string) => {
     try {
@@ -26,7 +29,7 @@ export const fetchServerData = async (userId: string) => {
         );
 
         const ones = [];
-        const actionSteps = [];                
+        const actionSteps = [];
         for (let one of serverData.ones) {
             ones.push(
                 new One(
@@ -55,7 +58,7 @@ export const fetchServerData = async (userId: string) => {
                 );
             }
         }
-        
+
         const beacons = [];
         for (let beacon of serverData.beacons) {
             beacons.push(
@@ -98,4 +101,41 @@ export const fetchServerData = async (userId: string) => {
     }
 
     return {};
+};
+
+export const partition = async (question: string, userResponse: string, userId: string, config?: AxiosRequestConfig) => {
+    if (!question || !userResponse || !userId) {
+        console.error('Missing required parameters: question, userResponse, or userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await postData(`/stories/partition/${userId}`, {
+            question,
+            userResponse
+        }, config);
+
+        if (response?.status !== 200 || response.data.error) {
+            console.error("Error in response:", response.data.error || "Unknown error");
+            return { error: response.data.error || 'Unknown error' };
+        } else if (!response.data || !(response.data instanceof Array)) {
+            return { error: 'Invalid data format...' };
+        }
+
+        return response.data.map((item: any) => new StoryChapter(
+            generateRandomId(9),
+            "myTestimony",
+            item.category as StoryChapterType,
+            item.title,
+            item.details,
+            item.questions,
+            mapStoryChapterTypeToAppIcon(item.category as StoryChapterType),
+            1,
+            item.tags.map((tag: any) => tag as StoryChapterTag),
+            false
+        ));
+    } catch (error: any) {
+        console.error('Error retrieving data:', error.message || error);
+        return { error: error.message || 'An error occurred while fetching data.' };
+    }
 };

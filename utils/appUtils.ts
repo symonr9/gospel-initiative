@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
@@ -654,17 +654,62 @@ export function generateRandomId(length: number = 10): string {
     return "";
   }
 
+  export function mapStoryChapterTypeToText(type: StoryChapterType) : string {
+    switch (type) {
+        case StoryChapterType.MyUpbringing:
+            return 'My Upbringing';
+        case StoryChapterType.LifeBeforeChrist:
+            return 'Life Before Christ';
+        case StoryChapterType.SalvationMoment:
+            return 'Salvation Moment';
+        case StoryChapterType.Transformation:
+            return 'Transformation';
+        case StoryChapterType.Highlight:
+            return 'Highlight';
+        case StoryChapterType.Lowlight:
+            return 'Lowlight';
+        case StoryChapterType.Misc:
+            return 'Misc';
+        case StoryChapterType.GrowingInFaith:
+            return 'Growing In Faith';
+        case StoryChapterType.Creation:
+            return 'Creation';
+        case StoryChapterType.Sin:
+            return 'Sin';
+        case StoryChapterType.OldTestament:
+            return 'Old Testament';
+        case StoryChapterType.Jesus:
+            return 'Jesus';
+        case StoryChapterType.Resurrection:
+            return 'Resurrection';
+        case StoryChapterType.Crucifixion:
+            return 'Crucifixion';
+        case StoryChapterType.Church:
+            return 'Church';
+        case StoryChapterType.ChosenPeople:
+            return 'Chosen People';
+        case StoryChapterType.JesusMinistry:
+            return 'Jesus Ministry';
+        case StoryChapterType.ScriptureHighlight:
+            return 'Scripture Highlight';
+        case StoryChapterType.Character:
+            return 'Character';
+        default:
+            return 'Unknown Chapter Type';
+    }
+  }  
+
   export function mapStoryChapterTypeToAppIcon(type: StoryChapterType) : AppIcon {
     switch (type) {
-        case StoryChapterType.Background:
+        case StoryChapterType.MyUpbringing:
             return AppIcon.Bird;
-        case StoryChapterType.Seeking:
+        case StoryChapterType.LifeBeforeChrist:
             return AppIcon.StageSeeking;
-        case StoryChapterType.Curious:
+        case StoryChapterType.SalvationMoment:
             return AppIcon.StageCurious;
-        case StoryChapterType.SalvationExperience:
+        case StoryChapterType.Transformation:
             return AppIcon.OpenHands;
-        case StoryChapterType.Struggle:
+        case StoryChapterType.Highlight:
             return AppIcon.Fighting;
         case StoryChapterType.Highlight:
             return AppIcon.Dove;
@@ -695,6 +740,89 @@ export function generateRandomId(length: number = 10): string {
             return AppIcon.Book;
     }
   }
+
+  export function mapStoryChapterTagToText(tag: StoryChapterTag) : string {
+    switch (tag) {
+        case StoryChapterTag.Youth:
+            return "Youth";
+        case StoryChapterTag.AddictionRecovery:
+            return "Addiction Recovery";
+        case StoryChapterTag.Family:
+            return "Family";
+        case StoryChapterTag.CollegeStudent:
+            return "College Student";
+        case StoryChapterTag.Parent:
+            return "Parent";
+        case StoryChapterTag.Marriage:
+            return "Marriage";
+        case StoryChapterTag.Grief:
+            return "Grief";
+        case StoryChapterTag.Health:
+            return "Health";
+        case StoryChapterTag.Identity:
+            return "Identity";
+        case StoryChapterTag.Doubts:
+            return "Doubts";
+        case StoryChapterTag.SocialJustice:
+            return "Social Justice";
+        case StoryChapterTag.Community:
+            return "Community";
+        case StoryChapterTag.LifeTransition:
+            return "Life Transition";
+        case StoryChapterTag.Purpose:
+            return "Purpose";
+        case StoryChapterTag.LGBTQ:
+            return "LGBTQ+";
+        case StoryChapterTag.Military:
+            return "Military";
+        case StoryChapterTag.Immigrant:
+            return "Immigrant";
+        case StoryChapterTag.Prison:
+            return "Prison";
+        case StoryChapterTag.Service:
+            return "Service";
+        case StoryChapterTag.Workplace:
+            return "Workplace";
+        case StoryChapterTag.Racial:
+            return "Racial";
+        case StoryChapterTag.Nature:
+            return "Nature";
+        case StoryChapterTag.Missions:
+            return "Missions";
+        case StoryChapterTag.Finances:
+            return "Finances";
+        case StoryChapterTag.Atheist:
+            return "Atheist";
+        case StoryChapterTag.Culture:
+            return "Culture";
+        case StoryChapterTag.Games:
+            return "Games";
+        case StoryChapterTag.Spirituality:
+            return "Spirituality";
+        case StoryChapterTag.Forgiveness:
+            return "Forgiveness";
+        case StoryChapterTag.Joy:
+            return "Joy";
+        case StoryChapterTag.Peace:
+            return "Peace";
+        case StoryChapterTag.Love:
+            return "Love";
+        case StoryChapterTag.Faithfulness:
+            return "Faithfulness";
+        case StoryChapterTag.Music:
+            return "Music";
+        case StoryChapterTag.Prayer:
+            return "Prayer";
+        case StoryChapterTag.Worship:
+            return "Worship";
+        case StoryChapterTag.Discipleship:
+            return "Discipleship";
+        default:
+            return "Unknown Tag";
+    }
+  };
+
+
 
 /**
  * Function to shuffle an array (Fisher-Yates Shuffle Algorithm)

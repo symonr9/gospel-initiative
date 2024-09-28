@@ -11,6 +11,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -25,6 +26,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -39,6 +41,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -53,6 +56,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -67,6 +71,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -81,6 +86,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -95,6 +101,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   
@@ -111,6 +118,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -126,6 +134,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -140,6 +149,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -154,6 +164,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -169,6 +180,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -184,6 +196,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -199,6 +212,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -214,6 +228,7 @@
     ],
     "icon": "Book",
     "order": 8,
+    "tags": [],
     "isEssential": true
   },
 
@@ -229,6 +244,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -243,6 +259,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -257,6 +274,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -271,6 +289,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -285,6 +304,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -299,6 +319,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -313,6 +334,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -327,6 +349,7 @@
     ],
     "icon": "Book",
     "order": 8,
+    "tags": [],
     "isEssential": true
   },
 
@@ -342,6 +365,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -356,6 +380,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -370,6 +395,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -384,6 +410,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -398,6 +425,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -412,6 +440,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -426,6 +455,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -440,6 +470,7 @@
     ],
     "icon": "Book",
     "order": 8,
+    "tags": [],
     "isEssential": true
   },
   
@@ -456,6 +487,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -470,6 +502,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -484,6 +517,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -498,6 +532,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -512,6 +547,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -526,6 +562,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -540,6 +577,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -554,6 +592,7 @@
     ],
     "icon": "Book",
     "order": 8,
+    "tags": [],
     "isEssential": true
   },
 
@@ -569,6 +608,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -583,6 +623,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -597,6 +638,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -611,6 +653,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -625,6 +668,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -639,6 +683,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -653,6 +698,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -667,6 +713,7 @@
     ],
     "icon": "Book",
     "order": 8,
+    "tags": [],
     "isEssential": true
   },
 
@@ -682,6 +729,7 @@
     ],
     "icon": "Book",
     "order": 1,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -696,6 +744,7 @@
     ],
     "icon": "Book",
     "order": 2,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -710,6 +759,7 @@
     ],
     "icon": "Book",
     "order": 3,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -724,6 +774,7 @@
     ],
     "icon": "Book",
     "order": 4,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -738,6 +789,7 @@
     ],
     "icon": "Book",
     "order": 5,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -752,6 +804,7 @@
     ],
     "icon": "Book",
     "order": 6,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -766,6 +819,7 @@
     ],
     "icon": "Book",
     "order": 7,
+    "tags": [],
     "isEssential": true
   },
   {
@@ -780,6 +834,7 @@
     ],
     "icon": "Book",
     "order": 8,
+    "tags": [],
     "isEssential": true
   }
   

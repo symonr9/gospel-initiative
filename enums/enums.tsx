@@ -111,7 +111,7 @@ export enum OneCategory {
     PersonalCareProfessional = 18,
     MedicalProf = 19,
     LongDistanceFriend = 20,
-    Friend = 21 
+    Friend = 21
 }
 
 export enum OneStage {
@@ -203,13 +203,13 @@ export enum StoryType {
 
 export enum StoryChapterType {
     // Your Story
-    Background = 1,
-    Seeking = 2,
-    Curious = 3,
-    SalvationExperience = 4,
-    Struggle = 5,
-    Highlight = 6,
-    Lowlight = 7,
+    MyUpbringing = 1,
+    LifeBeforeChrist = 2,
+    SalvationMoment = 3,
+    Transformation = 4,
+    Highlight = 5,
+    Lowlight = 6,
+    WhereImAtNow = 7,
     Misc = 8,
     GrowingInFaith = 9,
 
@@ -227,6 +227,46 @@ export enum StoryChapterType {
     ScriptureHighlight = 202,
     Character = 203,
 };
+
+export enum StoryChapterTag {
+    Youth = 1,
+    AddictionRecovery = 2,
+    Family = 3,
+    CollegeStudent = 4,
+    Parent = 5,
+    Marriage = 6,
+    Grief = 7,
+    Health = 8,
+    Identity = 9,
+    Doubts = 10,
+    SocialJustice = 11,
+    Community = 12,
+    LifeTransition = 13,
+    Purpose = 14,
+    LGBTQ = 15,
+    Military = 16,
+    Immigrant = 17,
+    Prison = 18,
+    Service = 19,
+    Workplace = 20,
+    Racial = 21,
+    Nature = 22,
+    Missions = 23,
+    Finances = 24,
+    Atheist = 25,
+    Culture = 26,
+    Games = 27,
+    Spirituality = 28,
+    Forgiveness = 29,
+    Joy = 30,
+    Peace = 31,
+    Love = 32,
+    Faithfulness = 33,
+    Music = 34,
+    Prayer = 35,
+    Worship = 36,
+    Discipleship = 37,
+}
 
 // Prompt
 

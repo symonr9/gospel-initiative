@@ -8,13 +8,14 @@ import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 
 export type IPageTag = ViewProps & {
-    iconSrc: AppIcon | null;
+    iconSrc?: AppIcon | null;
     title: string;
+    small?: boolean;
     onClick?: Function;
 }
 
 export function PageChip({ iconSrc = null, title,
-    onClick, style
+    small = false, onClick, style
 }: IPageTag) {
     const onPress = (e: GestureResponderEvent) => {
         if (onClick) {
@@ -23,15 +24,17 @@ export function PageChip({ iconSrc = null, title,
         }
     }
 
+    const textType = small ? TextType.Body : TextType.DefaultSemiBold;
+
     return (
         <TouchableOpacity onPress={onPress}>
-            <ThemedView style={[styles.container, style]}>
+            <ThemedView style={[styles.container, small && styles.smallContainer, style]}>
                 {
                     iconSrc && (
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                     )
                 }
-                <AppText type={TextType.DefaultSemiBold}>{title}</AppText>
+                <AppText type={textType}>{title}</AppText>
             </ThemedView>
         </TouchableOpacity>
     );
@@ -42,16 +45,21 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         flex: 1,
-        backgroundColor: 'lightgray',
+        backgroundColor: '#fbfbfb',
         borderRadius: 4,
-        padding: 4,
+        padding: 2,
+        paddingHorizontal: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
-        shadowRadius: 6, // Shadow radius for a softer shadow
+        shadowRadius: 6,
         elevation: 4,
-        marginTop: 4,
-        marginBottom: 4,
+        margin: 4,
+    },
+    smallContainer: {
+        backgroundColor: '#fbfbfb',
+        shadowRadius: 2,
+        elevation: 2,
     },
     icon: {
         width: 24,

@@ -1,10 +1,10 @@
-import { ActionStepType, AppIcon, OneStage } from '@/enums/enums';
+import { ActionStepType, AppIcon } from '@/enums/enums';
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps, TextInput } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToText } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -14,7 +14,6 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles } from '@/styles/Styles';
 import SelectDatePicker from '../common/SelectDatePicker';
-import ScrollLayout from '../common/ScrollLayout';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { addActionStep, editActionSteps } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';

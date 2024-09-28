@@ -58,12 +58,11 @@ export function AppText({
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
-    lineHeight: 20,
-    width: '99%', // Ensures the text takes the full width of the parent
+    lineHeight: 16,
   },
   defaultSemiBold: {
     fontSize: 18,
-    lineHeight: 24,
+    lineHeight: 12,
     fontWeight: '700',
     color: Colors.light.primary
   },

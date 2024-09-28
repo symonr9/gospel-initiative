@@ -226,7 +226,9 @@ export function getStoryChaptersFromJson() {
             content: item.content,
             questions: item.questions,
             icon: icon,
-            order: item.order
+            order: item.order,
+            tags: item.tags,
+            isEsential: item.isEssential
         };
     });
 }

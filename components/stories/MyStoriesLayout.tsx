@@ -1,27 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
-import { Image } from 'expo-image';
 
-import { AppIcon, FadeDirection, Page, RoadContainerType } from '@/enums/enums';
+import { AppIcon } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';
-import Story, { EnhancedStory } from '@/models/story';
+import { EnhancedStory } from '@/models/story';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
 import { StoryCard } from './StoryCard';
 import { mapStoryTypeToText } from '@/utils/appUtils';
-import StoryDetails from './StoryDetails';
-import AddEditStoryForm from './AddEditStoryForm';
 import { PageRow } from '../common/PageRow';
-import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
-import { RoadContainer } from '../common/RoadContainer';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
-import DetailsSection from '../common/DetailsSection';
 import PracticeMyStoryDetails from './PracticeMyStoryDetails';
+import StoryChapter from '@/models/storyChapter';
+import error from '@/models/error';
+import { clearAppError } from '@/redux/actions';
+import { AnimatedBanner } from '../common/AnimatedBanner';
 
 export type IMyStoriesLayout = ViewProps & {
     personalStories: EnhancedStory[];
+    chapters: StoryChapter[];
 };
 
 export enum StoryLayoutType {
@@ -32,9 +31,10 @@ export enum StoryLayoutType {
     Browse
 };
 
-function MyStoriesLayout({ personalStories }: IMyStoriesLayout) {
+function MyStoriesLayout({ personalStories, chapters }: IMyStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
+    const [message, setMessage] = useState<string | null>(null);
 
     const personalStoryCursorIdx = personalStories.findIndex((story) => story.id === activeStoryId);
     const activeStory = personalStoryCursorIdx !== -1 ? personalStories[personalStoryCursorIdx] : null;
@@ -57,7 +57,7 @@ function MyStoriesLayout({ personalStories }: IMyStoriesLayout) {
     if (activeLayoutType === StoryLayoutType.Practice) {
         Body.push(
             <>
-                <PracticeMyStoryDetails/>
+                <PracticeMyStoryDetails setActiveLayoutType={setActiveLayoutType} />
             </>
         );
     } else if (activeLayoutType === StoryLayoutType.Browse) {
@@ -65,16 +65,9 @@ function MyStoriesLayout({ personalStories }: IMyStoriesLayout) {
             <>
             </>
         );
-    } else {
+    } else if (activeLayoutType === StoryLayoutType.Normal) {
         Body.push(
             <>
-            </>
-        );
-    }
-
-    return (
-        <ScrollLayout>
-            <View style={styles.container}>
                 <AnimatedHeader title={title}
                     subtitle={subtitle}
                     delay={0} />
@@ -88,7 +81,25 @@ function MyStoriesLayout({ personalStories }: IMyStoriesLayout) {
                         onClick={() => setActiveLayoutType(StoryLayoutType.Browse)}
                         title={'Browse'} />
                 </PageRow>
+            </>
+        );
+    } else {
+        Body.push(
+            <>
+            </>
+        );
+    }
 
+    return (
+        <ScrollLayout>
+            {
+                message && (
+                    <AnimatedBanner iconSrc={AppIcon.Info}
+                        text={message}
+                        prefixText={'Info'}
+                        onClick={() => setMessage(null)} />
+            )}
+            <View style={styles.container}>
                 {Body.map((item) => item)}
             </View>
         </ScrollLayout>
@@ -110,19 +121,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const myStoryStyle = {
-    container: {
-        backgroundColor: Colors.light.alternate1,
-    },
-    title: {
-        color: Colors.light.alternateText
-    },
-};
-
 const mapStateToProps = (state: any) => {
     const { personalStories } = selectPartionedEnhancedStories(state);
     return {
         personalStories,
+        chapters: state.stories.storyChapters
     };
 }
 
