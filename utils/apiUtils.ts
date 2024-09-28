@@ -5,29 +5,24 @@ const axiosInstance = axios.create({
     baseURL: 'http://localhost:3000', // Ensure this matches your server's endpoint
 });
 
-// Function to get data from an API endpoint
 export const getData = async (url: string, config?: AxiosRequestConfig) => {
   try {
-    const response = await axiosInstance.get(url, config);
-    return response.data;
-  } catch (error) {
+    return await axiosInstance.get(url, config);
+  } catch (error: any) {
     console.error('Error fetching data:', error);
-    throw error; // Re-throw the error for handling in the calling function
+    return error.response;
   }
 };
 
-// Function to post data to an API endpoint
 export const postData = async (url: string, body: any, config?: AxiosRequestConfig) => {
   try {
-    const response = await axiosInstance.post(url, body, config);
-    return response.data;
-  } catch (error) {
+    return await axiosInstance.post(url, body, config);
+  } catch (error: any) {
     console.error('Error posting data:', error);
-    throw error; // Re-throw the error for handling in the calling function
+    return error.response;
   }
 };
 
-// Optionally, you can create a function to update the Axios instance configuration
 export const updateAxiosConfig = (newConfig: AxiosRequestConfig) => {
   Object.assign(axiosInstance.defaults, newConfig);
 };

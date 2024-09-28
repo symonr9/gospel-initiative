@@ -34,7 +34,7 @@ export const updateTabIndex = (item: number) => ({
 
 export const setAppError = (error: Error) => ({
     type: Action.SetAppError,
-    payload: { error }
+    payload: error
 });
 
 export const clearAppError = () => ({

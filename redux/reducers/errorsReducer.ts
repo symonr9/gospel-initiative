@@ -8,10 +8,9 @@ const initialState = {
 export function errorsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.SetAppError:            
-            const { error } = action.payload;
             return update(state, {
 				$set: {
-					error: error
+					error: action.payload
 				}
 			});
         case Action.ClearAppError:
