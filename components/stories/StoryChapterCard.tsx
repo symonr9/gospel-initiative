@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { type ViewProps, StyleSheet, TouchableOpacity } from 'react-native';
+import { type ViewProps, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
@@ -9,7 +9,9 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';
 import { PageChip } from '../common/PageChip';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import SimpleIconButton from '../common/SimpleIconButton';
+import { AppIcon } from '@/enums/enums';
+import { Colors } from '@/constants/Colors';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -18,7 +20,7 @@ export type IStoryChapterCard = ViewProps & {
   canEdit?: Boolean;
 };
 
-export function StoryChapterCard({ chapter, handleOnPress, selected = false, style }: IStoryChapterCard) {
+export function StoryChapterCard({ chapter, handleOnPress, selected = false, canEdit = true, style }: IStoryChapterCard) {
 
   const onPress = () => {
     if (handleOnPress) {
@@ -76,6 +78,15 @@ export function StoryChapterCard({ chapter, handleOnPress, selected = false, sty
               ))
             }
           </PageColumn>
+
+          <PageRow spaceBetween style={[styles.footer]}>
+            <Button title={'Keeping'} color={Colors.light.primary}/>
+            {
+              canEdit && (
+                <SimpleIconButton iconSrc={AppIcon.Pencil} title={'Edit'} small/>
+              )
+            }
+          </PageRow>
         </PageColumn>
       </PageRow>
     </TouchableOpacity>
@@ -84,7 +95,7 @@ export function StoryChapterCard({ chapter, handleOnPress, selected = false, sty
 
 const styles = StyleSheet.create({
   chapterCard: {
-    paddingVertical: 16,
+    paddingTop: 16,
     paddingHorizontal: 8,
     marginVertical: 8,
     borderRadius: 8,
@@ -111,5 +122,14 @@ const styles = StyleSheet.create({
     height: 32,
     alignSelf: 'center',
     marginEnd: 12
-  }
+  },
+  footer: {
+    marginTop: 8,
+    marginBottom: 8,
+    backgroundColor: '#f2f2f2',
+  },
+  stateBtn: {
+    borderRadius: 8,
+    backgroundColor: '#fafafa',
+  },
 });
