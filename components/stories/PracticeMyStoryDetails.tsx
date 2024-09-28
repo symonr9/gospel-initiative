@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
+import { FlatList, StyleSheet, View, ScrollView, ActivityIndicator, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
@@ -15,6 +15,9 @@ import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { StoryLayoutType } from './MyStoriesLayout';
 import { Colors } from '@/constants/Colors';
+import { getRandomString } from '@/utils/appUtils';
+import { PracticeTestimonyQuestions } from '@/constants/Strings';
+import { formStyles } from '@/styles/Styles';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -33,8 +36,8 @@ enum PageState {
 
 function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: IPracticeMyStoryDetails) {
   const [pageState, setPageState] = useState(PageState.Page1);
-  const [question, setQuestion] = useState("Who has been/was an important person in your faith journey?");
-  const [response, setResponse] = useState("One of the most important people in my faith journey has been my grandmother. Reflecting on her influence, I can partition it into key areas: her unwavering faith, her wisdom, and the way she lived out her beliefs daily. By analyzing her example, I gain insight into how her consistent encouragement to seek God shaped my approach to faith. Additionally, her personal stories of spiritual growth provide depth to my understanding. Processing these memories highlights how she not only guided me spiritually but also modeled a life grounded in grace and humility.");
+  const [question, setQuestion] = useState(getRandomString(PracticeTestimonyQuestions));
+  const [response, setResponse] = useState("");
   const [chapterArray, setChapterArray] = useState<StoryChapter[] | null>(null);
   const [selectedChapterId, setSelectedChapterId] = useState<string | null>(null);
 
@@ -129,11 +132,13 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
         <AppText type={TextType.Subtitle2} style={{ marginVertical: 8, marginTop: 16 }}>
           Your Response
         </AppText>
-        <View style={{ flexShrink: 1, width: '90%' }}>
-          <AppText type={TextType.Default} style={[styles.textLabel]}>
-            {response}
-          </AppText>
-        </View>
+        <TextInput
+            style={formStyles.textInput}
+            placeholder="Enter note here..."
+            placeholderTextColor={'gray'}
+            value={response}
+            numberOfLines={4}
+            onChangeText={(text) => setResponse(text)}/>
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
           <SimpleIconButton iconSrc={AppIcon.ArrowBack}

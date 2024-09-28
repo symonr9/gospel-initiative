@@ -228,6 +228,7 @@ export function getStoryChaptersFromJson() {
             icon: icon,
             order: item.order,
             tags: item.tags,
+            names: item.names,
             isEsential: item.isEssential
         };
     });

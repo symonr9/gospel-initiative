@@ -266,6 +266,7 @@ export enum StoryChapterTag {
     Prayer = 35,
     Worship = 36,
     Discipleship = 37,
+    Scripture = 38
 }
 
 // Prompt

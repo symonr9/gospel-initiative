@@ -880,3 +880,8 @@ export function calculatePercent(arr1: Number[], arr2: Number[]): number {
     const percentage = Math.ceil((countInSecondArray / arr2.length) * 100);
     return percentage;
 }
+
+export function getRandomString(strings: string[]): string {
+    const randomIndex = Math.floor(Math.random() * strings.length);
+    return strings[randomIndex];
+}

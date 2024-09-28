@@ -9,6 +9,7 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';
 import { PageChip } from '../common/PageChip';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -32,7 +33,7 @@ export function StoryChapterCard({ chapter, handleOnPress, selected = false, sty
           <PageRow>
             <Image source={mapStoryChapterTypeToAppIcon(chapter.chapterType)} style={styles.icon} />
             <PageColumn>
-              <PageRow style={{ flexShrink: 1, width: '90%' }}>
+              <PageRow style={{ flexShrink: 1, width: 300 }}>
                 <AppText type={TextType.Subtitle} style={{ fontSize: 22 }}>{chapter.title}</AppText>
               </PageRow>
               <AppText type={TextType.Subtitle2}>
@@ -45,6 +46,14 @@ export function StoryChapterCard({ chapter, handleOnPress, selected = false, sty
             {
               chapter.tags.map((tag) => (
                 <PageChip title={mapStoryChapterTagToText(tag)} small />
+              ))
+            }
+          </PageRow>
+
+          <PageRow style={{ flexWrap: 'wrap' }}>
+            {
+              chapter.names.map((name) => (
+                <PageChip title={name} small style={{ backgroundColor: '#d9ead3'}} />
               ))
             }
           </PageRow>

@@ -132,6 +132,7 @@ export const partition = async (question: string, userResponse: string, userId: 
             mapStoryChapterTypeToAppIcon(item.category as StoryChapterType),
             1,
             item.tags.map((tag: any) => tag as StoryChapterTag),
+            item.names,
             false
         ));
     } catch (error: any) {

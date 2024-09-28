@@ -82,10 +82,10 @@ function AddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneFo
                 <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
                 <TextInput
                     style={formStyles.textInput}
-                    placeholder="Enter name here..."
+                    placeholder="Enter response here..."
                     placeholderTextColor={'gray'}
                     value={name}
-                    numberOfLines={1}
+                    numberOfLines={4}
                     onChangeText={(text) => setName(text)}
                 />
             </PageColumn>
