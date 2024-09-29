@@ -13,8 +13,12 @@ export const fetchServerData = async (userId: string) => {
     try {
         const response = await getData(`/users/${userId}`);
         console.log("fetchServerData: ", response);
-        if (response.status !== 200 || response.data.error) {
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
             return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
         }
 
         const serverData = response.data;
@@ -115,9 +119,12 @@ export const partition = async (question: string, userResponse: string, userId: 
             userResponse
         }, config);
 
-        if (response?.status !== 200 || response.data.error) {
-            console.error("Error in response:", response.data.error || "Unknown error");
-            return { error: response.data.error || 'Unknown error' };
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
         } else if (!response.data || !(response.data instanceof Array)) {
             return { error: 'Invalid data format...' };
         }

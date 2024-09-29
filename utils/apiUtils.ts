@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from 'axios';
 import Constants from 'expo-constants';
 
 const axiosInstance = axios.create({
-    baseURL: Constants.expoConfig?.extra?.apiUrl,
-    timeout: 5000,
+    baseURL: Constants.expoConfig?.extra?.serverUrl,
+    timeout: 3000,
 });
 
 export const getData = async (url: string, config?: AxiosRequestConfig) => {

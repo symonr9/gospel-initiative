@@ -1,5 +1,6 @@
 import { loadServerData, loadLocalData, setAppError } from '@/redux/actions';
 import React, { useEffect } from 'react';
+import Constants from 'expo-constants';
 
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
@@ -14,6 +15,10 @@ export type IDataRefreshManager = {
     loadLocalData: (data: any) => void,
     setAppError: Function
 };
+
+function hasConstantsLoaded() {
+    return Constants.expoConfig?.extra?.serverUrl;
+}
 
 function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError }: IDataRefreshManager) {
 
@@ -65,6 +70,11 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
     };
 
     useEffect(() => {
+        if (!hasConstantsLoaded()) {
+            setAppError(new Error('Invalid Server Configuration', 'Please contact your administrator.'));
+            return;
+        }
+
         console.log("Loading local data...");
         fetchLocalData();
     }, []);
