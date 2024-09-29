@@ -55,3 +55,15 @@ Join our community of developers creating universal apps.
 - Run on Android: `npm run android`
 - Run on iOS: `npm run ios`
 - Run on Web: `npm run web`
+
+## Setup for development with server
+
+1. Run `ipconfig` on terminal and find `IPv4 Address`.
+2. Update `gospel-initiative` `.env` file in project directory (make if necessary). 
+   - Add `SERVER_URL` parameter set to this url at port `3000`.
+   - Add `PRODUCTION_MODE` set to false.
+3. In `gospel-initiative` project directory, run `npx run start` to start the Expo server.
+4. Go to `gospel-initiative-backend` repo and run `node app.js` in project directory.
+   - Also run `npx prisma studio` for Prisma Studio DB editor.
+
+Note: The phone device you are trying to connect to must be on the same WiFi network as the laptop.
