@@ -66,4 +66,6 @@ Join our community of developers creating universal apps.
 4. Go to `gospel-initiative-backend` repo and run `node app.js` in project directory.
    - Also run `npx prisma studio` for Prisma Studio DB editor.
 
-Note: The phone device you are trying to connect to must be on the same WiFi network as the laptop.
+Notes:
+- The phone device you are trying to connect to must be on the same WiFi network as the laptop.
+- The `.env` file doesn't get updated unless you restart the expo server.
