@@ -47,6 +47,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
     try {
       const data = await partition(question, response, executor.id, {
         signal: controller.signal,
+        timeout: 10000,
       });
 
       if (!data || data.error) {

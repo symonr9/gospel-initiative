@@ -75,6 +75,7 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
             return;
         }
 
+        console.log("Expo Config: ", Constants.expoConfig);
         console.log("Loading local data...");
         fetchLocalData();
     }, []);
