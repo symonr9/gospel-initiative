@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import Constants from 'expo-constants';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: Constants.expoConfig?.extra?.apiUrl,
     timeout: 5000,
 });
 
