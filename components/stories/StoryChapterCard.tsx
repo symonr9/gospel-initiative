@@ -68,7 +68,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     <PageRow style={[styles.chapterCard, expanded ? styles.expandedCard : styles.collapsedCard, !shouldKeep && styles.shouldDiscard, style]}>
       <PageColumn>
         <PageRow>
-          <PageRow>
+          <PageRow style={{ marginBottom: 8 }}>
             <Image source={icon} style={styles.icon} />
             <PageColumn>
               {
@@ -81,27 +81,35 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               <PageRow style={{ flexShrink: 1, width: 270 }}>
                 <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
               </PageRow>
-              <AppText type={TextType.Subtitle2}>
-                {mapStoryChapterTypeToText(chapter.chapterType)}
-              </AppText>
+              {
+                canDiscard && (
+                  <AppText type={TextType.Subtitle2}>
+                    {mapStoryChapterTypeToText(chapter.chapterType)}
+                  </AppText>
+                )
+              }
 
-              <PageColumn style={{}}>
-                <PageRow style={{}}>
-                  {
-                    chapter.tags.map((tag) => (
-                      <PageChip title={mapStoryChapterTagToText(tag)} small />
-                    ))
-                  }
-                </PageRow>
+              <PageRow style={{}}>
+                {
+                  chapter.tags.map((tag) => (
+                    <PageChip title={mapStoryChapterTagToText(tag)} small />
+                  ))
+                }
+              </PageRow>
 
-                <PageRow style={{ marginTop: 16 }}>
-                  {
-                    chapter.names.map((name) => (
-                      <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
-                    ))
-                  }
-                </PageRow>
-              </PageColumn>
+              {
+                expanded && (
+                  <PageColumn style={{}}>
+                    <PageRow style={{}}>
+                      {
+                        chapter.names.map((name) => (
+                          <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
+                        ))
+                      }
+                    </PageRow>
+                  </PageColumn>
+                )
+              }
             </PageColumn>
           </PageRow>
 
@@ -114,10 +122,10 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
         {
           expanded && (
-            <PageColumn style={{ marginTop: 16 }}>
+            <PageColumn style={{}}>
               {
                 chapter.content && (
-                  <PageRow style={{ flexShrink: 1, marginVertical: 12 }}>
+                  <PageRow style={{ flexShrink: 1, width: 350, marginVertical: 12 }}>
                     <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
                   </PageRow>
                 )
@@ -126,7 +134,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               <AppText type={TextType.Body}>
                 Questions:
               </AppText>
-              <PageColumn style={{ gap: 2 }}>
+              <PageColumn style={{ gap: 2, flexShrink: 1, width: 350 }}>
                 {
                   chapter.questions.map((question) => (
                     <AppText type={TextType.Italic}>{question}</AppText>
