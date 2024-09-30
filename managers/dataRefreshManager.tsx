@@ -13,7 +13,7 @@ export type IDataRefreshManager = {
 
     loadServerData: (data: any) => void,
     loadLocalData: (data: any) => void,
-    setAppError: Function
+    setAppError: Function,
 };
 
 function hasConstantsLoaded() {
@@ -117,7 +117,7 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
 
         console.log("Loading server data...");
         fetchData(state.app.userId);
-    }, [state.app.userId]);
+    }, [state.app.userId, state.app.shouldRefreshData]);
 
     return <></>;
 }
@@ -129,7 +129,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
     loadServerData,
     loadLocalData,
-    setAppError
+    setAppError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataRefreshManager);

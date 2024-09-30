@@ -12,6 +12,7 @@ export enum Action {
     SetAuthToken = 'SET_AUTH_TOKEN',
     RemoveUserData = 'REMOVE_USER_DATA',
     OpenPage = "OPEN_PAGE",
+    RefreshData = "SHOULD_REFRESH_DATA",
 
     AddBeacon = "ADD_BEACON",
     AddOne = "ADD_ONE",

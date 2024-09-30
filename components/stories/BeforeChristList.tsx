@@ -13,7 +13,8 @@ export type IBeforeChristList = ViewProps & {
 function BeforeChristList({ chapters }: IBeforeChristList) {
     const chaptersToUse = chapters.filter((chapter) => chapter.chapterType === StoryChapterType.BeforeChrist);
     return (
-        <BaseBrowseList chapters={chaptersToUse}/>
+        <BaseBrowseList title={'Before Christ'}
+            chapters={chaptersToUse}/>
     );
 }
 

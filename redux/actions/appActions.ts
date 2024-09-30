@@ -27,6 +27,11 @@ export const openPage = (item: Page) => ({
     payload: item,
 });
 
+export const refreshData = () => ({
+    type: Action.RefreshData,
+    payload: null
+});
+
 export const updateTabIndex = (item: number) => ({
     type: Action.UpdateTabIndex,
     payload: item,

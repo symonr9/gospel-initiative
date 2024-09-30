@@ -7,12 +7,14 @@ import { PageColumn } from '../common/PageColumn';
 import { gridStyles } from '@/styles/Styles';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
+import { AppText, TextType } from '../common/AppText';
 
 export type IBaseBrowseList = ViewProps & {
+    title: string;
     chapters: StoryChapter[];
 };
 
-function BaseBrowseList({ chapters }: IBaseBrowseList) {
+function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
     const [activeChapterId, setActiveChapterId] = useState<string | null>(null);
 
     const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === activeChapterId);
@@ -30,7 +32,9 @@ function BaseBrowseList({ chapters }: IBaseBrowseList) {
 
     return (
         <PageColumn>
-            <ScrollLayout style={{ }}>
+            <AppText type={TextType.Subtitle}>
+                {title} ({chapters.length})
+            </AppText>
                 <FlatList
                     data={chapters}
                     renderItem={renderItem}
@@ -38,7 +42,6 @@ function BaseBrowseList({ chapters }: IBaseBrowseList) {
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={gridStyles.itemList}
                 />
-            </ScrollLayout>
         </PageColumn>
     );
 }

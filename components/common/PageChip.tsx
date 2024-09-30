@@ -34,7 +34,7 @@ export function PageChip({ iconSrc = null, title,
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                     )
                 }
-                <AppText type={textType}>{title}</AppText>
+                <AppText type={textType} style={{ alignSelf: 'center'}}>{title}</AppText>
             </ThemedView>
         </TouchableOpacity>
     );
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 4,
         margin: 4,
+        minHeight: 20
     },
     smallContainer: {
         backgroundColor: '#fbfbfb',

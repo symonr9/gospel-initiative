@@ -13,7 +13,8 @@ export type ISalvationMomentsList = ViewProps & {
 function SalvationMomentsList({ chapters }: ISalvationMomentsList) {
     const chaptersToUse = chapters.filter((chapter) => chapter.chapterType === StoryChapterType.SalvationMoment);
     return (
-        <BaseBrowseList chapters={chaptersToUse}/>
+        <BaseBrowseList title={'Salvation'}
+            chapters={chaptersToUse}/>
     );
 }
 

@@ -13,6 +13,7 @@ import AppTabView from '../common/AppTabView';
 import SalvationMomentsList from './SalvationMomentsList';
 import BeforeChristList from './BeforeChristList';
 import AfterChristList from './AfterChristList';
+import { PageColumn } from '../common/PageColumn';
 
 export type IBrowseChaptersList = ViewProps & {
     setActiveLayoutType: Function;
@@ -40,14 +41,17 @@ function BrowseChaptersList({ setActiveLayoutType }: IBrowseChaptersList) {
     return (
         <ScrollLayout>
             <View style={styles.container}>
-                <PageRow>
+                <PageRow style={{ paddingHorizontal: 8 }}>
                     <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                         title={'Back'}
                         onClick={() => setActiveLayoutType(StoryLayoutType.Normal)} />
                 </PageRow>
-                <AppTabView title={'Stages'}
-                    renderScene={renderScene}
-                    routes={routes} />
+
+                <PageColumn style={{ height: 1200 }}>
+                    <AppTabView title={'Stages'}
+                        renderScene={renderScene}
+                        routes={routes} />
+                </PageColumn>
             </View>
         </ScrollLayout>
     );
@@ -58,7 +62,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 8,
-        paddingHorizontal: 8
     },
     iconDiv: {
         alignItems: 'center',

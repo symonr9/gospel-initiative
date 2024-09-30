@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import User from "@/models/user";
@@ -150,7 +150,7 @@ export function mapStageToText(stage: OneStage) {
             return "Apathetic";
         case OneStage.Hostile:
             return "Hostile";
-    }   
+    }
     return "";
 }
 
@@ -170,7 +170,7 @@ export function mapStageToDetailsText(stage: OneStage) {
             return "This person shows little interest in spiritual matters or the Christian faith. They are indifferent and not currently open to discussions about faith.";
         case OneStage.Hostile:
             return "This person is opposed to Christianity and may actively resist conversations about faith. They have negative perceptions or strong objections to the gospel.";
-    }   
+    }
     return "";
 }
 
@@ -191,11 +191,11 @@ export function mapStageToIcon(stage: OneStage) {
             return AppIcon.StageApathetic;
         case OneStage.Hostile:
             return AppIcon.StageHostile;
-    }   
+    }
     return "";
 }
 
-export function mapOneCategoryToText(category: OneCategory) : String {
+export function mapOneCategoryToText(category: OneCategory): String {
     switch (category) {
         case OneCategory.Family:
             return "Family";
@@ -243,7 +243,7 @@ export function mapOneCategoryToText(category: OneCategory) : String {
     }
 };
 
-export function mapOneCategoryToIcon(category: OneCategory) : AppIcon {
+export function mapOneCategoryToIcon(category: OneCategory): AppIcon {
     switch (category) {
         case OneCategory.Family:
         case OneCategory.Roommate:
@@ -341,7 +341,7 @@ export function mapBeaconTypeToAppIcon(type: BeaconType) {
     }
 }
 
-export function mapBeaconTypeToTitleText(type: BeaconType, 
+export function mapBeaconTypeToTitleText(type: BeaconType,
     shareOwnName: boolean, user: User, one: One) {
     const userName = shareOwnName ? user.name : 'A User';
     const oneName = 'their One';
@@ -369,7 +369,7 @@ export function mapBeaconTypeToTitleText(type: BeaconType,
 }
 
 export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
-    switch(type) {
+    switch (type) {
         case ActionStepType.ShareGospel:
             return AppIcon.Christ;
         case ActionStepType.ShareTestimony:
@@ -404,7 +404,7 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
     }
 }
 
-export function mapActionStepTypeToText(type: ActionStepType) : string {
+export function mapActionStepTypeToText(type: ActionStepType): string {
     switch (type) {
         case ActionStepType.ShareGospel:
             return "Share Gospel";
@@ -443,7 +443,7 @@ export function mapActionStepTypeToText(type: ActionStepType) : string {
 }
 
 export function mapGospelChecklistItemTypeToTitle(item: GospelChecklistItem): string {
-    switch(item) {
+    switch (item) {
         case GospelChecklistItem.Creation:
             return "Creation";
         case GospelChecklistItem.Fall:
@@ -603,7 +603,7 @@ export function mapGospelChecklistItemTypeToVersesAndQuestions(item: GospelCheck
 
 
 export function mapGospelChecklistItemTypeToIcon(item: GospelChecklistItem): AppIcon {
-    switch(item) {
+    switch (item) {
         case GospelChecklistItem.Creation:
         case GospelChecklistItem.Fall:
         case GospelChecklistItem.Sin:
@@ -636,13 +636,13 @@ export function generateRandomId(length: number = 10): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters.charAt(randomIndex);
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
     }
     return result;
-  }
+}
 
-  export function mapStoryTypeToText(type: StoryType): string {
+export function mapStoryTypeToText(type: StoryType): string {
     switch (type) {
         case StoryType.Personal:
             return "My Story";
@@ -650,9 +650,9 @@ export function generateRandomId(length: number = 10): string {
             return "Gods Story";
     }
     return "";
-  }
+}
 
-  export function mapStoryChapterTypeToText(type: StoryChapterType) : string {
+export function mapStoryChapterTypeToText(type: StoryChapterType): string {
     switch (type) {
         case StoryChapterType.BeforeChrist:
             return 'Before Christ';
@@ -685,9 +685,9 @@ export function generateRandomId(length: number = 10): string {
         default:
             return 'Unknown Chapter Type';
     }
-  }  
+}
 
-  export function mapStoryChapterTypeToAppIcon(type: StoryChapterType) : AppIcon {
+export function mapStoryChapterTypeToAppIcon(type: StoryChapterType): AppIcon {
     switch (type) {
         case StoryChapterType.BeforeChrist:
             return AppIcon.Rainy;
@@ -716,9 +716,9 @@ export function generateRandomId(length: number = 10): string {
         default:
             return AppIcon.Book;
     }
-  }
+}
 
-  export function mapStoryChapterTagToText(tag: StoryChapterTag) : string {
+export function mapStoryChapterTagToText(tag: StoryChapterTag): string {
     switch (tag) {
         case StoryChapterTag.Youth:
             return "Youth";
@@ -797,9 +797,9 @@ export function generateRandomId(length: number = 10): string {
         default:
             return "Unknown Tag";
     }
-  };
+};
 
-  export function mapStoryChapterQualityToText(quality: number): string {
+export function mapStoryChapterQualityToText(quality: number): string {
     if (quality >= 8) {
         return 'Essential';
     } else if (quality >= 5) {
@@ -808,11 +808,11 @@ export function generateRandomId(length: number = 10): string {
         return 'Interesting';
     }
     return 'Neutral';
-  }
+}
 
-  export function shouldKeepChapter(quality: number): boolean {
+export function shouldKeepChapter(quality: number): boolean {
     return quality >= 5;
-  }
+}
 
 
 
@@ -822,12 +822,12 @@ export function generateRandomId(length: number = 10): string {
 function shuffleArray<T>(array: T[]): T[] {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
     return shuffledArray;
-  }
-  
+}
+
 /**
  * Function to calculate the difference in days between two dates
  */
@@ -835,8 +835,8 @@ function getDaysDifference(startDate: Date, currentDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
     const diffInTime = currentDate.getTime() - startDate.getTime();
     return Math.floor(diffInTime / oneDay);
-  }
-  
+}
+
 /**
  * Function to get the item for the given date
  */
@@ -846,8 +846,8 @@ export function getItemForDate(currentDate: Date, array: string[]): string {
     const daysPassed = Math.floor((currentDate.getTime() - startDate.getTime()) / millisecondsInADay);
     const index = daysPassed % array.length;
     return array[index];
-  }
-  
+}
+
 export function getDatesInRange(startDate: Date, endDate: Date): Date[] {
     const dateArray: Date[] = [];
     let currentDate = new Date(startDate);
@@ -862,10 +862,10 @@ export function getDatesInRange(startDate: Date, endDate: Date): Date[] {
 
 export function truncateString(str: string, maxLength: number): string {
     if (str.length <= maxLength) {
-      return str;
+        return str;
     }
     return str.slice(0, maxLength - 3) + '...';
-  }
+}
 
 export function calculatePercent(arr1: Number[], arr2: Number[]): number {
     const countInSecondArray = arr2.filter(num => arr1.includes(num)).length;
@@ -876,4 +876,23 @@ export function calculatePercent(arr1: Number[], arr2: Number[]): number {
 export function getRandomString(strings: string[]): string {
     const randomIndex = Math.floor(Math.random() * strings.length);
     return strings[randomIndex];
+}
+
+
+export function getAppIconKey(value: any): string | undefined {
+    for (const [key, val] of Object.entries(AppIcon)) {
+        if (val === value) {
+            return key;
+        }
+    }
+    return undefined;
+}
+
+export function getAvatarIconKey(value: any): string | undefined {
+    for (const [key, val] of Object.entries(AvatarIcon)) {
+        if (val === value) {
+            return key;
+        }
+    }
+    return undefined;
 }

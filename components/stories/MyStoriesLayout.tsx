@@ -15,6 +15,7 @@ import BrowseChaptersList from './BrowseChaptersList';
 
 export type IMyStoriesLayout = ViewProps & {
     chapters: StoryChapter[];
+    error: Error;
 };
 
 export enum StoryLayoutType {
@@ -25,13 +26,15 @@ export enum StoryLayoutType {
     Browse
 };
 
-function MyStoriesLayout({ chapters }: IMyStoriesLayout) {
+function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
     const [message, setMessage] = useState<string | null>(null);
 
     const Body = [];
 
-    if (activeLayoutType === StoryLayoutType.Practice) {
+    if (error) {
+        Body.push(<></>);
+    } else if (activeLayoutType === StoryLayoutType.Practice) {
         Body.push(
             <>
                 <PracticeMyStoryDetails setActiveLayoutType={setActiveLayoutType} />
@@ -104,7 +107,8 @@ const mapStateToProps = (state: any) => {
     const { personalStories } = selectPartionedEnhancedStories(state);
     return {
         personalStories,
-        chapters: state.stories.myStoryChapters
+        chapters: state.stories.myStoryChapters,
+        error: state.errors.error
     };
 }
 

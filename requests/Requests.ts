@@ -6,7 +6,7 @@ import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
-import { generateRandomId, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
+import { generateRandomId, getAppIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
 import { AxiosRequestConfig } from "axios";
 
 export const fetchServerData = async (userId: string) => {
@@ -160,14 +160,42 @@ export const partition = async (question: string, userResponse: string, userId: 
             item.questions,
             mapStoryChapterTypeToAppIcon(item.category as StoryChapterType),
             1,
-            item.tags ? item.tags.map((tag: any) => tag as StoryChapterTag) : [],
+            item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: any) => tag as StoryChapterTag) : [],
             item.names ? item.names.split(',') : [],
             item.quality,            
             userId,
             false
         ));
     } catch (error: any) {
-        console.error('Error retrieving data:', error.message || error);
-        return { error: error.message || 'An error occurred while fetching data.' };
+        console.error('Error partition():', error.message || error);
+        return { error: error.message || 'An error occurred while partitioning data.' };
     }
 };
+
+export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, userId: string, config?: AxiosRequestConfig) => {
+    if (!chapterArray || !userId) {
+        console.error('Missing required parameters: chapterArray, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    const preparedChapterArray = chapterArray.map((chapter) => ({...chapter, iconKey: getAppIconKey(chapter.icon)}));
+
+    try {
+        const response = await postData(`/stories/add/${userId}`, {
+            chapterArray: preparedChapterArray
+        }, config);
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        return response.data;
+    } catch (error: any) {
+        console.error('Error partition():', error.message || error);
+        return { error: error.message || 'An error occurred while partitioning data.' };
+    }
+}

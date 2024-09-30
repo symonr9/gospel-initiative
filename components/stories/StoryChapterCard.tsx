@@ -12,6 +12,7 @@ import { PageChip } from '../common/PageChip';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
 import { Colors } from '@/constants/Colors';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -64,9 +65,9 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const icon = editing ? AppIcon.Pencil : mapStoryChapterTypeToAppIcon(chapter.chapterType);
 
   return (
-    <PageRow style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, style]}>
-      <PageColumn style={styles.flexShrink}>
-        <PageRow spaceBetween>
+    <PageRow style={[styles.chapterCard, expanded ? styles.expandedCard : styles.collapsedCard, !shouldKeep && styles.shouldDiscard, style]}>
+      <PageColumn>
+        <PageRow>
           <PageRow>
             <Image source={icon} style={styles.icon} />
             <PageColumn>
@@ -77,42 +78,43 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                   </AppText>
                 )
               }
-              <PageRow style={{ flexShrink: 1, width: 300 }}>
-                <AppText type={TextType.Subtitle} style={{ fontSize: 22 }}>{chapter.title}</AppText>
+              <PageRow style={{ flexShrink: 1, width: 270 }}>
+                <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
               </PageRow>
               <AppText type={TextType.Subtitle2}>
                 {mapStoryChapterTypeToText(chapter.chapterType)}
               </AppText>
+
+              <PageColumn style={{}}>
+                <PageRow style={{}}>
+                  {
+                    chapter.tags.map((tag) => (
+                      <PageChip title={mapStoryChapterTagToText(tag)} small />
+                    ))
+                  }
+                </PageRow>
+
+                <PageRow style={{ marginTop: 16 }}>
+                  {
+                    chapter.names.map((name) => (
+                      <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
+                    ))
+                  }
+                </PageRow>
+              </PageColumn>
             </PageColumn>
           </PageRow>
 
-          <PageRow spaceEvenly style={{ marginRight: 12 }}>
+          <PageRow spaceEvenly style={{ marginLeft: 20, marginRight: 4 }}>
             <SimpleIconButton iconSrc={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
               onClick={() => setExpanded(!expanded)}
               small />
           </PageRow>
         </PageRow>
 
-        <PageRow style={{ flexWrap: 'wrap' }}>
-          {
-            chapter.tags.map((tag) => (
-              <PageChip title={mapStoryChapterTagToText(tag)} small />
-            ))
-          }
-        </PageRow>
-
-        <PageRow style={{ flexWrap: 'wrap' }}>
-          {
-            chapter.names.map((name) => (
-              <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
-            ))
-          }
-        </PageRow>
-
-
         {
           expanded && (
-            <PageColumn>
+            <PageColumn style={{ marginTop: 16 }}>
               {
                 chapter.content && (
                   <PageRow style={{ flexShrink: 1, marginVertical: 12 }}>
@@ -189,18 +191,24 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
 const styles = StyleSheet.create({
   chapterCard: {
-    paddingTop: 16,
+    paddingTop: 8,
     paddingHorizontal: 8,
     marginVertical: 8,
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: '#F3F1F3',
-    borderColor: 'lightgray',
+    borderColor: 'gray',
     borderWidth: 1,
     shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowColor: '#000',
     shadowOffset: { height: 2, width: 0 },
     elevation: 4, // Shadow for Android
+  },
+  expandedCard: {
+    maxHeight: 680,
+  },
+  collapsedCard: {
+    maxHeight: 120,
   },
   completed: {
     backgroundColor: '#d9ead3',
@@ -218,6 +226,7 @@ const styles = StyleSheet.create({
     marginEnd: 12
   },
   footer: {
+    marginTop: 16
   },
   stateBtn: {
     borderRadius: 8,

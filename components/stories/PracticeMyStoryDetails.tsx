@@ -7,9 +7,9 @@ import { AppIcon } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { partition } from '@/requests/Requests';
+import { partition, saveChaptersToServer } from '@/requests/Requests';
 import User from '@/models/user';
-import { setAppError } from '@/redux/actions';
+import { setAppError, refreshData } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { StoryLayoutType } from './MyStoriesLayout';
@@ -22,7 +22,8 @@ import { AnimatedHeader } from '../common/AnimatedHeader';
 export type IPracticeMyStoryDetails = {
   executor: User,
   setAppError: Function,
-  setActiveLayoutType: Function
+  setActiveLayoutType: Function,
+  refreshData: Function
 };
 
 enum PageState {
@@ -31,10 +32,12 @@ enum PageState {
   Page3,
   Page4,
   Page5,
-  Page6
+  Page6,
+  Page7,
+  Page8
 };
 
-function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: IPracticeMyStoryDetails) {
+function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType, refreshData }: IPracticeMyStoryDetails) {
   const [pageState, setPageState] = useState(PageState.Page1);
   const [question, setQuestion] = useState(getRandomString(PracticeTestimonyQuestions));
   const [response, setResponse] = useState("");
@@ -42,6 +45,15 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
   const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
 
   const Body = [];
+
+  const resetPage = () => {
+    setChapterArray(null);
+    setQuestion(getRandomString(PracticeTestimonyQuestions));
+    setResponse("");
+    setEditingChapterId(null);
+    setPageState(PageState.Page1);
+    setActiveLayoutType(StoryLayoutType.Normal);
+  };
 
   const partitionResponse = async (controller: AbortController) => {
     try {
@@ -51,13 +63,36 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
       });
 
       if (!data || data.error) {
-        setAppError(data.error || 'Something went wrong');
+        setAppError(new Error(data.error.toString() || 'Something went wrong'));
+        resetPage();
         return;
       }
 
       setChapterArray(data);
     } catch (err: any) {
       console.error('Error fetching data', err);
+      setAppError(new Error('Error fetching data: ', err));
+      resetPage();
+    }
+  };
+
+  const saveChapters = async (controller: AbortController) => {
+    try {
+      const data = await saveChaptersToServer(chapterArray, executor.id, {
+        signal: controller.signal,
+        timeout: 10000,
+      });
+
+      if (!data || data.error) {
+        setAppError(new Error(data.error || 'Something went wrong'));
+        resetPage();
+        return;
+      }
+
+      setPageState(PageState.Page8);
+    } catch (err: any) {
+      setAppError(new Error('Error saving chapters: ', err));
+      resetPage();
     }
   };
 
@@ -70,6 +105,18 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
 
       const controller = new AbortController();
       partitionResponse(controller);
+      return () => {
+        controller.abort();
+      };
+    } else if (pageState === PageState.Page7) {
+      if (!chapterArray || chapterArray.length === 0) {
+        console.log("No chapters to save...");
+        setPageState(PageState.Page8);
+        return;
+      }
+
+      const controller = new AbortController();
+      saveChapters(controller);
       return () => {
         controller.abort();
       };
@@ -259,10 +306,6 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
       );
     };
 
-    const onCompleteClick = () => {
-      setActiveLayoutType(StoryLayoutType.Normal);
-    };
-
     Body.push(
       <>
         <AppText type={TextType.Subtitle} style={{}}>
@@ -284,6 +327,44 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
             title='Back'
             onClick={() => setPageState(PageState.Page5)} />
 
+          <SimpleIconButton iconSrc={AppIcon.Save}
+            title={'Save'}
+            onClick={() => setPageState(PageState.Page7)} />
+        </PageRow>
+      </>
+    );
+  } else if (pageState === PageState.Page7) {
+    Body.push(
+      <>
+        <AppText type={TextType.Subtitle}>
+          Loading...
+        </AppText>
+        <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
+          Your data is loading, please wait...
+        </AppText>
+
+        <ActivityIndicator
+          size="large"
+          color={Colors.light.primary}
+        />
+      </>
+    );
+  } else if (pageState === PageState.Page8) {
+    const onCompleteClick = () => {
+      refreshData();
+      resetPage();
+    };
+
+    Body.push(
+      <>
+        <AppText type={TextType.Subtitle} style={{}}>
+          Partition successful!
+        </AppText>
+        <AppText type={TextType.Body} style={{ marginBottom: 16 }}>
+          Your chapters have been saved.
+        </AppText>
+
+        <PageRow spaceEvenly style={{ marginTop: 16 }}>
           <SimpleIconButton iconSrc={AppIcon.Checkmark}
             title={'Complete'}
             onClick={onCompleteClick} />
@@ -322,6 +403,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   setAppError,
+  refreshData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PracticeMyStoryDetails);
