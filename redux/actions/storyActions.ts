@@ -7,7 +7,7 @@ export const addStory = (item: Story) => ({
     payload: item,
 });
 
-export const AddStoryChapters = (item: StoryChapter) => ({
-    type: Action.AddStoryChapter,
+export const AddMyStoryChapter = (item: StoryChapter) => ({
+    type: Action.AddMyStoryChapter,
     payload: item,
 });

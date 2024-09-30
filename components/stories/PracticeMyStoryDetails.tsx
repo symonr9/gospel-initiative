@@ -9,7 +9,6 @@ import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { partition } from '@/requests/Requests';
 import User from '@/models/user';
-import { SimpleIcon } from '../common/SimpleIcon';
 import { setAppError } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
@@ -18,6 +17,7 @@ import { Colors } from '@/constants/Colors';
 import { getRandomString, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';
+import { AnimatedHeader } from '../common/AnimatedHeader';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -86,9 +86,15 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
   if (pageState === PageState.Page1) {
     Body.push(
       <>
-        <AppText type={TextType.Subtitle} style={{ marginVertical: 8 }}>
-          Practice your Testimony
-        </AppText>
+        <AnimatedHeader title={'Practice your Testimony'}
+            subtitle={''}
+            delay={0} />
+
+        <PageRow style={{ marginLeft: 4, marginVertical: 8 }}>
+          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+            title={'Back'}
+            onClick={() => setActiveLayoutType(StoryLayoutType.Normal)} />
+        </PageRow>
 
         <AppText type={TextType.Default}>
           The Gospel Initiative app provides users with the ability to practice their testimony.
@@ -213,6 +219,8 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
       return (
         <StoryChapterCard chapter={item}
           editing={editing}
+          canDiscard={true}
+          expandOnLoad={true}
           setEditingChapterId={setEditingChapterId}
           setChapterArray={setChapterArray} />
       );
@@ -245,7 +253,9 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
   } else if (pageState === PageState.Page6) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
       return (
-        <StoryChapterCard chapter={item} canEdit={false} />
+        <StoryChapterCard chapter={item} 
+          canEdit={false} 
+          expandOnLoad={true}/>
       );
     };
 
@@ -299,7 +309,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType }: 
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    paddingHorizontal: 8,
   },
   textLabel: {
 

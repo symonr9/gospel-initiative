@@ -1,12 +1,5 @@
 [
     {
-      "id": "yourStory1",
-      "title": "My Journey to Faith",
-      "userId": "user1",
-      "type": 1,
-      "icon": "Book"
-    },
-    {
       "id": "GodsStory2",
       "title": "The Gospel",
       "userId": "user1",

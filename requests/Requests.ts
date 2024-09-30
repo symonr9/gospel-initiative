@@ -1,4 +1,4 @@
-import { AvatarIcon, OneStage, OneCategory, Priority, BeaconType, ActionStepType, Role, StoryChapterType, StoryChapterTag } from "@/enums/enums";
+import { AvatarIcon, OneStage, OneCategory, Priority, BeaconType, ActionStepType, Role, StoryChapterType, StoryChapterTag, AppIcon } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import BeaconActivity from "@/models/beaconActivity";
@@ -6,7 +6,7 @@ import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
-import { generateRandomId, mapStoryChapterTypeToAppIcon } from "@/utils/appUtils";
+import { generateRandomId, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
 import { AxiosRequestConfig } from "axios";
 
 export const fetchServerData = async (userId: string) => {
@@ -93,12 +93,34 @@ export const fetchServerData = async (userId: string) => {
             );
         }
 
+        const myStoryChapters = [];
+        for (let chapter of serverData.chapters) {
+            myStoryChapters.push(
+                new StoryChapter(
+                    chapter.id,
+                    chapter.storyId,
+                    chapter.type as StoryChapterType,
+                    chapter.title,
+                    chapter.content,
+                    chapter.questions ? chapter.questions.split(',') : [],
+                    AppIcon[chapter.icon as keyof typeof AppIcon],
+                    chapter.order,
+                    chapter.tags ? chapter.tags.split(',').map((item: any) => parseInt(item)) : [],
+                    chapter.names ? chapter.names.split(',') : [],
+                    chapter.quality,
+                    chapter.userId,
+                    shouldKeepChapter(chapter.quality)
+                )
+            );
+        }
+
         return {
             user,
             ones,
             beacons,
             actionSteps,
-            beaconActivities
+            beaconActivities,
+            myStoryChapters
         };
     } catch (error) {
         console.error('Error retrieving data:', error);
@@ -138,9 +160,10 @@ export const partition = async (question: string, userResponse: string, userId: 
             item.questions,
             mapStoryChapterTypeToAppIcon(item.category as StoryChapterType),
             1,
-            item.tags.map((tag: any) => tag as StoryChapterTag),
-            item.names,
-            item.quality,
+            item.tags ? item.tags.map((tag: any) => tag as StoryChapterTag) : [],
+            item.names ? item.names.split(',') : [],
+            item.quality,            
+            userId,
             false
         ));
     } catch (error: any) {

@@ -7,7 +7,6 @@ export type EnhancedStory = Story & {
     user: User;
 }
 
-
 interface IStory {
     id: string;
     userId: string;

@@ -24,7 +24,7 @@ export function PageChip({ iconSrc = null, title,
         }
     }
 
-    const textType = small ? TextType.Body : TextType.DefaultSemiBold;
+    const textType = small ? TextType.Smol : TextType.DefaultSemiBold;
 
     return (
         <TouchableOpacity onPress={onPress}>

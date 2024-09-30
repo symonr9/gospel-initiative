@@ -230,6 +230,7 @@ export function getStoryChaptersFromJson() {
             tags: item.tags,
             names: item.names,
             quality: item.quality,
+            userId: item.userId,
             isEsential: item.isEssential
         };
     });

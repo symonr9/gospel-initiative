@@ -63,7 +63,7 @@ export const formStyles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: '#fff',
     textAlignVertical: 'top', // Ensures the text starts at the top for multiline
-    minHeight: 120,
+    maxHeight: 240,
     marginBottom: 8,
     shadowColor: '#000',
     shadowOpacity: 0.05,

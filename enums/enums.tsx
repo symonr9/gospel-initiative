@@ -203,15 +203,9 @@ export enum StoryType {
 
 export enum StoryChapterType {
     // Your Story
-    MyUpbringing = 1,
-    LifeBeforeChrist = 2,
-    SalvationMoment = 3,
-    Transformation = 4,
-    Highlight = 5,
-    Lowlight = 6,
-    WhereImAtNow = 7,
-    Misc = 8,
-    GrowingInFaith = 9,
+    BeforeChrist = 1,
+    SalvationMoment = 2,
+    AfterChrist = 3,
 
     // God's Story
     Creation = 101,

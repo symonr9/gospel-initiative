@@ -23,6 +23,7 @@ function AppTabView({ title, tabIndex, updateTabIndex, renderScene, routes }: IA
             {...props}
             indicatorStyle={styles.indicator}
             style={styles.tabBar}
+            scrollEnabled={routes.length >= 4}
             renderLabel={({ route, focused }) => (
                 <View style={[styles.labelContainer, focused && styles.activeTab]}>
                     <AppText style={[styles.label, focused && styles.activeLabel]}>{route.title}</AppText>

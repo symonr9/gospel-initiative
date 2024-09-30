@@ -19,9 +19,13 @@ export type IStoryChapterCard = ViewProps & {
   setEditingChapterId?: Function;
   editing?: Boolean;
   canEdit?: Boolean;
+  canDiscard?: Boolean;
+  expandOnLoad?: Boolean;
 };
 
-export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId, editing = false, canEdit = true, style }: IStoryChapterCard) {
+export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
+  editing = false, canEdit = true, expandOnLoad = false, canDiscard = false, style }: IStoryChapterCard) {
+  const [expanded, setExpanded] = useState(expandOnLoad);
   const [formChapter, setFormChapter] = useState(chapter);
   const shouldKeep = shouldKeepChapter(chapter.quality);
 
@@ -40,7 +44,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
       )));
     }
   }
-  
+
   const onBackClick = () => {
     if (setEditingChapterId) {
       setEditingChapterId(null);
@@ -61,24 +65,32 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   return (
     <PageRow style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, style]}>
-      <PageColumn style={styles.actionStepTextContainer}>
-        <PageRow>
-          <Image source={icon} style={styles.icon} />
-          <PageColumn>
-            {
-              editing && (
-                <AppText type={TextType.Italic} style={{ fontSize: 16 }}>
-                  Editing Item...
-                </AppText>
-              )
-            }
-            <PageRow style={{ flexShrink: 1, width: 300 }}>
-              <AppText type={TextType.Subtitle} style={{ fontSize: 22 }}>{chapter.title}</AppText>
-            </PageRow>
-            <AppText type={TextType.Subtitle2}>
-              {mapStoryChapterTypeToText(chapter.chapterType)}
-            </AppText>
-          </PageColumn>
+      <PageColumn style={styles.flexShrink}>
+        <PageRow spaceBetween>
+          <PageRow>
+            <Image source={icon} style={styles.icon} />
+            <PageColumn>
+              {
+                editing && (
+                  <AppText type={TextType.Italic} style={{ fontSize: 16 }}>
+                    Editing Item...
+                  </AppText>
+                )
+              }
+              <PageRow style={{ flexShrink: 1, width: 300 }}>
+                <AppText type={TextType.Subtitle} style={{ fontSize: 22 }}>{chapter.title}</AppText>
+              </PageRow>
+              <AppText type={TextType.Subtitle2}>
+                {mapStoryChapterTypeToText(chapter.chapterType)}
+              </AppText>
+            </PageColumn>
+          </PageRow>
+
+          <PageRow spaceEvenly style={{ marginRight: 12 }}>
+            <SimpleIconButton iconSrc={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
+              onClick={() => setExpanded(!expanded)}
+              small />
+          </PageRow>
         </PageRow>
 
         <PageRow style={{ flexWrap: 'wrap' }}>
@@ -97,65 +109,79 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           }
         </PageRow>
 
-        {
-          chapter.content && (
-            <PageRow style={{ flexShrink: 1, marginVertical: 12 }}>
-              <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
-            </PageRow>
-          )
-        }
-
-        <AppText type={TextType.Body}>
-          Questions:
-        </AppText>
-        <PageColumn style={{ gap: 2 }}>
-          {
-            chapter.questions.map((question) => (
-              <AppText type={TextType.Italic}>{question}</AppText>
-            ))
-          }
-        </PageColumn>
-
-        <PageRow style={{ marginVertical: 8 }}>
-          <PageChip title={`Quality: ${mapStoryChapterQualityToText(chapter.quality)}`}
-            style={{ backgroundColor: '#d0e0e3' }}
-            small />
-        </PageRow>
 
         {
-          canEdit && (
-            <PageRow spaceBetween style={[styles.footer]}>
-              <Button title={shouldKeep ? 'Keeping' : 'Discarding'}
-                onPress={onKeepClick}
-                color={shouldKeep ? Colors.light.alternate1 : Colors.light.alternate2} />
-
+          expanded && (
+            <PageColumn>
               {
-                !editing && (
-                  <SimpleIconButton iconSrc={AppIcon.Pencil} 
-                    title={'Edit'} 
-                    small
-                    customStyles={{ container: { marginEnd: 8 }}}
-                    onClick={onEditClick} />
-                )
-              }
-
-              {
-                editing && (
-                  <PageRow style={{ gap: 20, marginEnd: 8 }}>
-                    <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                      title={'Back'}
-                      small
-                      onClick={onBackClick} />
-                    <SimpleIconButton iconSrc={AppIcon.Save}
-                      title={'Save'}
-                      small
-                      onClick={onSaveClick} />
+                chapter.content && (
+                  <PageRow style={{ flexShrink: 1, marginVertical: 12 }}>
+                    <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
                   </PageRow>
                 )
               }
-            </PageRow>
+
+              <AppText type={TextType.Body}>
+                Questions:
+              </AppText>
+              <PageColumn style={{ gap: 2 }}>
+                {
+                  chapter.questions.map((question) => (
+                    <AppText type={TextType.Italic}>{question}</AppText>
+                  ))
+                }
+              </PageColumn>
+
+              <PageRow style={{ marginVertical: 8 }}>
+                <PageChip title={`Quality: ${mapStoryChapterQualityToText(chapter.quality)}`}
+                  style={{ backgroundColor: '#d0e0e3' }}
+                  small />
+              </PageRow>
+
+              {
+                canEdit && (
+                  <PageRow spaceBetween style={[styles.footer]}>
+                    {
+                      canDiscard && (
+                        <Button title={shouldKeep ? 'Keeping' : 'Discarding'}
+                          onPress={onKeepClick}
+                          color={shouldKeep ? Colors.light.alternate1 : Colors.light.alternate2} />
+                      )
+                    }
+
+                    {
+                      !editing && (
+                        <>
+                          <SimpleIconButton iconSrc={AppIcon.Pencil}
+                            title={'Edit'}
+                            small
+                            customStyles={{ container: { marginEnd: 8 } }}
+                            onClick={onEditClick} />
+                        </>
+                      )
+                    }
+
+                    {
+                      editing && (
+                        <PageRow style={{ gap: 20, marginEnd: 8 }}>
+                          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                            title={'Back'}
+                            small
+                            onClick={onBackClick} />
+                          <SimpleIconButton iconSrc={AppIcon.Save}
+                            title={'Save'}
+                            small
+                            onClick={onSaveClick} />
+                        </PageRow>
+                      )
+                    }
+                  </PageRow>
+                )
+              }
+            </PageColumn>
           )
         }
+
       </PageColumn>
     </PageRow>
   );
@@ -182,7 +208,7 @@ const styles = StyleSheet.create({
   shouldDiscard: {
     opacity: 0.4
   },
-  actionStepTextContainer: {
+  flexShrink: {
     flexShrink: 1,
   },
   icon: {

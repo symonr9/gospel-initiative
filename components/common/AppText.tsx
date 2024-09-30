@@ -14,7 +14,8 @@ export enum TextType {
   Prefix = 'prefix',
   Body = 'body',
   BodyBold = 'boldBold',
-  Italic = 'italic'
+  Italic = 'italic',
+  Smol = 'smol'
 };
 
 export type IAppText = TextProps & {
@@ -48,6 +49,7 @@ export function AppText({
         type === TextType.Body ? styles.body : undefined,
         type === TextType.BodyBold ? styles.bodyBold : undefined,
         type === TextType.Italic ? styles.italic : undefined,
+        type === TextType.Smol ? styles.smol : undefined,
         style,
       ]}
       {...rest}
@@ -102,4 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontStyle: 'italic'
   },
+  smol: {
+    fontSize: 11
+  }
 });

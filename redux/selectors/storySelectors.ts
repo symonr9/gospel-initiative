@@ -5,7 +5,8 @@ import { createSelector } from 'reselect';
 import { selectExecutor } from './userSelectors';
 
 export const selectAllStories = (state: any): Story[] => state.stories.stories;
-export const selectAllStoryChapters = (state: any): StoryChapter[] => state.stories.storyChapters;
+export const selectAllMyStoryChapters = (state: any): StoryChapter[] => state.stories.myStoryChapters;
+export const selectAllGodsStoryChapters = (state: any): StoryChapter[] => state.stories.GodsStoryChapters;
 
 export const selectAllPersonalStories = (state: any): Story[] =>
     selectAllStories(state).filter(story => story.type === StoryType.Personal);
@@ -14,10 +15,9 @@ export const selectAllGodsStories = (state: any): Story[] =>
     selectAllStories(state).filter(story => story.type === StoryType.Gods);
 
 export const selectPartionedEnhancedStories = createSelector(
-    [selectAllStories, selectAllStoryChapters, selectExecutor],
+    [selectAllStories, selectAllGodsStoryChapters, selectExecutor],
     (stories, chapters, executor) => {
-        const partitionedStories = stories.
-            filter((story: Story) => story.userId === executor?.id)
+        const partitionedStories = stories
             .map((story: Story) => {
                 const chaptersForStory = chapters
                     .filter((chapter) => chapter.storyId === story.id)

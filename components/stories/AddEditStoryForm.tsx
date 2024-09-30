@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, TextInput, LayoutAnimation } from 'react-native';
-import { Image } from 'expo-image';
+import React, {  } from 'react';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { EnhancedStory } from '@/models/story';
-import { AppText, TextType } from '../common/AppText';
-import { AppIcon } from '@/enums/enums';
-import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
 import { StoryLayoutType } from './MyStoriesLayout';
 
 export type IAddEditStoryForm = {

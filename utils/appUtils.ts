@@ -1,9 +1,7 @@
 import { ActionStepType, AppIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
-import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
-import { Action } from "@/redux/actions";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
@@ -656,22 +654,12 @@ export function generateRandomId(length: number = 10): string {
 
   export function mapStoryChapterTypeToText(type: StoryChapterType) : string {
     switch (type) {
-        case StoryChapterType.MyUpbringing:
-            return 'My Upbringing';
-        case StoryChapterType.LifeBeforeChrist:
-            return 'Life Before Christ';
+        case StoryChapterType.BeforeChrist:
+            return 'Before Christ';
         case StoryChapterType.SalvationMoment:
             return 'Salvation Moment';
-        case StoryChapterType.Transformation:
-            return 'Transformation';
-        case StoryChapterType.Highlight:
-            return 'Highlight';
-        case StoryChapterType.Lowlight:
-            return 'Lowlight';
-        case StoryChapterType.Misc:
-            return 'Misc';
-        case StoryChapterType.GrowingInFaith:
-            return 'Growing In Faith';
+        case StoryChapterType.AfterChrist:
+            return 'After Christ';
         case StoryChapterType.Creation:
             return 'Creation';
         case StoryChapterType.Sin:
@@ -701,21 +689,11 @@ export function generateRandomId(length: number = 10): string {
 
   export function mapStoryChapterTypeToAppIcon(type: StoryChapterType) : AppIcon {
     switch (type) {
-        case StoryChapterType.MyUpbringing:
-            return AppIcon.Bird;
-        case StoryChapterType.LifeBeforeChrist:
-            return AppIcon.StageSeeking;
-        case StoryChapterType.SalvationMoment:
-            return AppIcon.StageCurious;
-        case StoryChapterType.Transformation:
-            return AppIcon.OpenHands;
-        case StoryChapterType.Highlight:
-            return AppIcon.Fighting;
-        case StoryChapterType.Highlight:
-            return AppIcon.Dove;
-        case StoryChapterType.Lowlight:
+        case StoryChapterType.BeforeChrist:
             return AppIcon.Rainy;
-        case StoryChapterType.GrowingInFaith:
+        case StoryChapterType.SalvationMoment:
+            return AppIcon.OpenHands;
+        case StoryChapterType.AfterChrist:
             return AppIcon.PlantGrow;
         case StoryChapterType.Creation:
             return AppIcon.Tree;
@@ -735,7 +713,6 @@ export function generateRandomId(length: number = 10): string {
         case StoryChapterType.OldTestament:
         case StoryChapterType.ScriptureHighlight:
         case StoryChapterType.Character:
-        case StoryChapterType.Misc:
         default:
             return AppIcon.Book;
     }

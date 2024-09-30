@@ -81,7 +81,7 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
     }, []);
 
     const fetchData = async (userId: string) => {
-        const { user, ones, beacons, actionSteps, beaconActivities, error } = await fetchServerData(userId);
+        const { user, ones, beacons, actionSteps, beaconActivities, myStoryChapters, error } = await fetchServerData(userId);
         if (error) {
             setAppError(new Error(error, 'Something went wrong'));
             return;
@@ -100,7 +100,8 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
             beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),
             prompts: JsonFunctions.getPromptsFromJson(),
             stories: JsonFunctions.getStoriesFromJson(),
-            storyChapters: JsonFunctions.getStoryChaptersFromJson(),
+            myStoryChapters: myStoryChapters,
+            GodsStoryChapters: JsonFunctions.getStoryChaptersFromJson(),
             storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
             users: [user],
             executor: user,

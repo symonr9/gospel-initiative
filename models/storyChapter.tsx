@@ -27,12 +27,13 @@ export default class StoryChapter implements IStoryChapter {
     tags: StoryChapterTag[];
     names: string[];
     quality: number;
+    userId: string;
     isEssential: boolean;
     
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
         title: string, content: string, questions: string[], icon: AppIcon, 
         order: number, tags: StoryChapterTag[], names: string[], quality: number,
-        essential: boolean,
+        userId: string, essential: boolean,
     ) {
         this.id = id;
         this.storyId = storyId;
@@ -45,6 +46,7 @@ export default class StoryChapter implements IStoryChapter {
         this.tags = tags;
         this.names = names;
         this.quality = quality;
+        this.userId = userId;
         this.isEssential = essential;
     }
 

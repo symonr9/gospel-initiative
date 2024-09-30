@@ -1,22 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { AppIcon } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { EnhancedStory } from '@/models/story';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
-import { StoryCard } from './StoryCard';
-import { mapStoryTypeToText } from '@/utils/appUtils';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import PracticeMyStoryDetails from './PracticeMyStoryDetails';
 import StoryChapter from '@/models/storyChapter';
-import error from '@/models/error';
-import { clearAppError } from '@/redux/actions';
 import { AnimatedBanner } from '../common/AnimatedBanner';
+import BrowseChaptersList from './BrowseChaptersList';
 
 export type IMyStoriesLayout = ViewProps & {
     chapters: StoryChapter[];
@@ -31,13 +26,8 @@ export enum StoryLayoutType {
 };
 
 function MyStoriesLayout({ chapters }: IMyStoriesLayout) {
-    const [activeStoryId, setActiveStoryId] = useState(null);
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Normal);
     const [message, setMessage] = useState<string | null>(null);
-
-    const onEditStoryClick = () => {
-        setActiveLayoutType(StoryLayoutType.Editing);
-    };
 
     const Body = [];
 
@@ -50,6 +40,7 @@ function MyStoriesLayout({ chapters }: IMyStoriesLayout) {
     } else if (activeLayoutType === StoryLayoutType.Browse) {
         Body.push(
             <>
+                <BrowseChaptersList setActiveLayoutType={setActiveLayoutType}/>
             </>
         );
     } else if (activeLayoutType === StoryLayoutType.Normal) {
@@ -98,6 +89,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 8,
+        paddingHorizontal: 8
     },
     iconDiv: {
         alignItems: 'center',
@@ -112,7 +104,7 @@ const mapStateToProps = (state: any) => {
     const { personalStories } = selectPartionedEnhancedStories(state);
     return {
         personalStories,
-        chapters: state.stories.storyChapters
+        chapters: state.stories.myStoryChapters
     };
 }
 

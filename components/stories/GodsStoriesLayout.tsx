@@ -52,43 +52,6 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
     return (
         <ScrollLayout>
             <View style={styles.container}>
-                <PageRow spaceEvenly>
-                    {
-                        activeStory && (
-
-                            <>
-                                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                                    title={'Back'}
-                                    onClick={() => {
-                                        if (activeLayoutType === StoryLayoutType.Editing) {
-                                            setActiveLayoutType(StoryLayoutType.Normal);
-                                        } else if (activeStoryId != null) {
-                                            setActiveStoryId(null);
-                                            return;
-                                        }
-                                    }}
-                                    customStyles={{
-                                        container: {
-                                            alignSelf: 'flex-start',
-                                            marginBottom: 16
-                                        }
-                                    }} />
-
-                                <SimpleIconButton iconSrc={AppIcon.Pencil}
-                                    onClick={onEditStoryClick}
-                                    title={'Edit'}
-                                    customStyles={{
-                                        container: {
-                                            alignSelf: 'flex-end',
-                                            marginBottom: 16
-                                        }
-                                    }} />
-                            </>
-
-                        )
-                    }
-                </PageRow>
-
                 {
                     activeStory && (
                         <View style={styles.iconDiv}>
@@ -101,18 +64,41 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                     subtitle={subtitle}
                     delay={0} />
 
+                <PageRow spaceEvenly>
+                    {
+                        activeStory && (
+                            <>
+                                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                                    title={'Back'}
+                                    onClick={() => {
+                                        if (activeLayoutType === StoryLayoutType.Editing) {
+                                            setActiveLayoutType(StoryLayoutType.Normal);
+                                        } else if (activeStoryId != null) {
+                                            setActiveStoryId(null);
+                                            return;
+                                        }
+                                    }} />
+
+                                <SimpleIconButton iconSrc={AppIcon.Pencil}
+                                    onClick={onEditStoryClick}
+                                    title={'Edit'} />
+                            </>
+                        )
+                    }
+                </PageRow>
+
                 <AddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
                 <StoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
                 {
                     activeStory === null && (
                         <>
-                        <View>
-                            <StoriesGrid stories={GodsStories} 
-                                activeStoryId={activeStoryId} 
-                                setActiveStoryId={setActiveStoryId}/>
-                        </View>
-                    </>
+                            <View>
+                                <StoriesGrid stories={GodsStories}
+                                    activeStoryId={activeStoryId}
+                                    setActiveStoryId={setActiveStoryId} />
+                            </View>
+                        </>
                     )
                 }
             </View>
@@ -125,13 +111,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 8,
+        marginTop: 8,
+        padding: 8
     },
     iconDiv: {
         alignItems: 'center',
     },
     icon: {
-        height: 82,
-        width: 82,
+        height: 60,
+        width: 60,
     },
 });
 
@@ -158,7 +146,7 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = {
-    
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GodsStoriesLayout);
