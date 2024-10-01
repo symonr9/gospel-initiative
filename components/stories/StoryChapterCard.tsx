@@ -14,6 +14,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
+import { SimpleCard } from '../common/SimpleCard';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -164,12 +165,12 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
               {
                 canEdit && (
-                  <PageRow spaceBetween style={[styles.footer]}>
+                  <PageRow spaceBetween style={[styles.footer, !canDiscard && { flexDirection: 'row-reverse' }]}>
                     {
                       canDiscard && (
-                        <Button title={shouldKeep ? 'Keeping' : 'Discarding'}
-                          onPress={onKeepClick}
-                          color={shouldKeep ? Colors.light.alternate1 : Colors.light.alternate2} />
+                        <SimpleCard iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash} 
+                          title={shouldKeep ? 'Keeping' : 'Discarding'} 
+                          onClick={onKeepClick}/>
                       )
                     }
 
@@ -243,7 +244,8 @@ const styles = StyleSheet.create({
     marginEnd: 6
   },
   footer: {
-    flexDirection: 'row-reverse',
+    marginTop: 12,
+    flexDirection: 'row',
   },
   stateBtn: {
     borderRadius: 8,

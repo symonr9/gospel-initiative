@@ -9,6 +9,8 @@ import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 import { useBackgroundThemeColor } from '@/constants/Colors';
 import { AppIcon } from '@/enums/enums';
+import { PageRow } from './PageRow';
+import { PageColumn } from './PageColumn';
 
 export type ISimpleCard = ViewProps & {
   iconSrc: AppIcon | null;
@@ -18,7 +20,7 @@ export type ISimpleCard = ViewProps & {
 }
 
 export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
-  onClick,
+  onClick, style
 }: ISimpleCard) {
   const backgroundColor = useBackgroundThemeColor();
 
@@ -31,18 +33,18 @@ export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <ThemedView style={styles.container}>
-        <View style={flexStyles.column}>
+      <ThemedView style={[styles.container, style]}>
+        <PageRow>
           {
             iconSrc && (
               <Image source={iconSrc} style={styles.icon} contentFit="contain" />
             )
           }
-          <AppText type={TextType.Subtitle}>{title}</AppText>
-        </View>
-        <View style={flexStyles.column}>
-          {detailsView}
-        </View>
+          <PageColumn style={{}}>
+            <AppText type={TextType.Subtitle} style={{ alignSelf: 'center' }}>{title}</AppText>
+            {detailsView}
+          </PageColumn>
+        </PageRow>
       </ThemedView>
     </TouchableOpacity>
   );
@@ -50,15 +52,12 @@ export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-    backgroundColor: '#F0E68C', // Khaki color
-    borderRadius: 4,
-    padding: 8,
+    backgroundColor: '#fafafa',
+    borderRadius: 8,
+    alignItems: 'center',
+    padding: 4,
+    paddingVertical: 6,
     marginVertical: 4,
-    marginHorizontal: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -66,8 +65,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-    width: 60,
-    height: 60,
-    marginBottom: 12, // Space between the icon and the name
+    width: 24,
+    height: 24,
+    marginEnd: 8,
   },
 });

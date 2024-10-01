@@ -43,18 +43,6 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
         }));
     };
 
-    const onSetPriorityClick = () => {
-        let newPriority;
-        if (priority === Priority.Low) {
-            newPriority = Priority.Normal;
-        } else if (priority === Priority.Normal) {
-            newPriority = Priority.High;
-        } else {
-            newPriority = Priority.Low;
-        }
-        setPriority(newPriority);
-    }
-
     const { shareOwnName, priority, notes } = formData;
 
     return (
@@ -64,16 +52,9 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
 
             <PageColumn style={styles.section}>
                 <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                    style={{ width: 180 }}
+                    style={{ width: 220 }}
                     onClick={() => setShareOwnName(!shareOwnName)}
-                    title={shareOwnName ? `Show your name` : `Hide your name`} />
-            </PageColumn>
-
-            <PageColumn style={styles.section}>
-                <PageChip iconSrc={AppIcon.Star}
-                    style={{ width: 180 }}
-                    onClick={onSetPriorityClick}
-                    title={`Priority: ${mapPriorityToText(priority)}`} />
+                    title={shareOwnName ? `Show your own name` : `Hide your own name`} />
             </PageColumn>
 
             <PageColumn style={styles.section}>
@@ -98,7 +79,7 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     section: {
-        marginBottom: 8,
+        marginVertical: 16
     },
     icon: {
         margin: 8,

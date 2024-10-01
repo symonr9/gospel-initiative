@@ -201,13 +201,6 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                     )
                 }
 
-                <SimpleIconButton iconSrc={AppIcon.Prayer}
-                    onClick={() => {
-                        setMessage(null);
-                        setActiveLayoutType(OneLayoutType.AllBeaconTemplates);
-                    }}
-                    title={'New Beacon'} />
-
                 {
                     showArrowRight && (
                         <SimpleIconButton iconSrc={AppIcon.ChevronRight}
@@ -223,11 +216,16 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
             </PageRow>
         );
 
-        BodyLayout.push(
-            <View>
+        if (activeBeaconsWithActivities.length > 0) {
+            BodyLayout.push(
                 <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities} />
-            </View>
-        );
+            );
+        } else {
+            BodyLayout.push(
+                <BeaconTemplatesList activeLayoutType={activeLayoutType}
+                  setActiveLayoutType={setActiveLayoutType} />
+            );
+        }
     }
 
     const showYourSelectedOne = ![OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;

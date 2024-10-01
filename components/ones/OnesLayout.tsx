@@ -41,6 +41,7 @@ export enum OneLayoutType {
     FirstTime,
     AddingOne,
     EditingOne,
+    AllOnes,
     AllBeaconTemplates,
     ConfirmBeacon,
     SentBeaconResponse,
