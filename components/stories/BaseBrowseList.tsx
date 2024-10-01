@@ -19,19 +19,17 @@ export type IBaseBrowseList = ViewProps & {
 };
 
 function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
-    const [activeChapterId, setActiveChapterId] = useState<string | null>(null);
+    const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
     const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
 
-    const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === activeChapterId);
+    const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === editingChapterId);
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
 
-    const renderItem = ({ item }: { item: StoryChapter }) => {
-        const onPress = () => {
-            setActiveChapterId(item.id);
-        };
- 
+    const renderItem = ({ item }: { item: StoryChapter }) => { 
         return (
-            <StoryChapterCard chapter={item}/>
+            <StoryChapterCard chapter={item} 
+                setEditingChapterId={setEditingChapterId} 
+                editing={editingChapterId === item.id}/>
         );
     };
 

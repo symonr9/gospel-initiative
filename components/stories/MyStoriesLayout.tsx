@@ -22,8 +22,7 @@ export enum StoryLayoutType {
     Normal,
     Editing,
     Adding,
-    Practice,
-    Browse
+    Practice
 };
 
 function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
@@ -40,12 +39,6 @@ function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
                 <PracticeMyStoryDetails setActiveLayoutType={setActiveLayoutType} />
             </>
         );
-    } else if (activeLayoutType === StoryLayoutType.Browse) {
-        Body.push(
-            <>
-                <BrowseChaptersList setActiveLayoutType={setActiveLayoutType}/>
-            </>
-        );
     } else if (activeLayoutType === StoryLayoutType.Normal) {
         Body.push(
             <>
@@ -53,15 +46,13 @@ function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
                     subtitle={'Practice your testimony and compile your faith journey.'}
                     delay={0} />
 
-                <PageRow spaceEvenly>
+                <PageRow spaceEvenly style={{ marginTop: 8, marginBottom: 12 }}>
                     <SimpleIconButton iconSrc={AppIcon.Conversation}
                         onClick={() => setActiveLayoutType(StoryLayoutType.Practice)}
                         title={'Practice'} />
-
-                    <SimpleIconButton iconSrc={AppIcon.Book}
-                        onClick={() => setActiveLayoutType(StoryLayoutType.Browse)}
-                        title={'Browse'} />
                 </PageRow>
+
+                <BrowseChaptersList setActiveLayoutType={setActiveLayoutType}/>
             </>
         );
     } else {

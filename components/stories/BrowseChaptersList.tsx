@@ -41,17 +41,9 @@ function BrowseChaptersList({ setActiveLayoutType }: IBrowseChaptersList) {
     return (
         <ScrollLayout>
             <View style={styles.container}>
-                <PageRow style={{ paddingHorizontal: 8 }}>
-                    <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                        title={'Back'}
-                        onClick={() => setActiveLayoutType(StoryLayoutType.Normal)} />
-                </PageRow>
-
-                <PageColumn style={{ height: 1200 }}>
-                    <AppTabView title={'Stages'}
-                        renderScene={renderScene}
-                        routes={routes} />
-                </PageColumn>
+                <AppTabView title={'Stages'}
+                    renderScene={renderScene}
+                    routes={routes} />
             </View>
         </ScrollLayout>
     );
@@ -61,7 +53,7 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        gap: 8,
+        gap: 12,
     },
     iconDiv: {
         alignItems: 'center',

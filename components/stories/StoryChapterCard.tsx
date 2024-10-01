@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { type ViewProps, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
+import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
 import { mapStoryChapterQualityToText, mapStoryChapterTagToText, mapStoryChapterTypeToAppIcon, mapStoryChapterTypeToText, shouldKeepChapter } from '@/utils/appUtils';
@@ -24,11 +25,20 @@ export type IStoryChapterCard = ViewProps & {
   expandOnLoad?: Boolean;
 };
 
+const EXPANDED_HEIGHT = 450;
+const COLLAPSED_HEIGHT = 100;
+
 export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
   editing = false, canEdit = true, expandOnLoad = false, canDiscard = false, style }: IStoryChapterCard) {
   const [expanded, setExpanded] = useState(expandOnLoad);
   const [formChapter, setFormChapter] = useState(chapter);
   const shouldKeep = shouldKeepChapter(chapter.quality);
+
+  const height = useSharedValue(expanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
+
+  const animatedHeightStyle = useAnimatedStyle(() => ({
+    height: withTiming(height.value, { duration: 500 }), // Adjust duration as needed
+  }));
 
   const onEditClick = () => {
     if (setEditingChapterId) {
@@ -62,14 +72,22 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     }
   };
 
+  const onExpandClick = () => {
+    setExpanded(!expanded);
+    height.value = expanded ? COLLAPSED_HEIGHT : EXPANDED_HEIGHT;
+  };
+
   const icon = editing ? AppIcon.Pencil : mapStoryChapterTypeToAppIcon(chapter.chapterType);
 
   return (
-    <PageRow style={[styles.chapterCard, expanded ? styles.expandedCard : styles.collapsedCard, !shouldKeep && styles.shouldDiscard, style]}>
+    <Animated.View style={[styles.chapterCard, animatedHeightStyle, !shouldKeep && styles.shouldDiscard, style]}>
       <PageColumn>
         <PageRow>
           <PageRow style={{ marginBottom: 8 }}>
-            <Image source={icon} style={styles.icon} />
+            <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
+              <Image source={icon} style={styles.icon} />
+            </Animated.View>
+
             <PageColumn>
               {
                 editing && (
@@ -97,37 +115,33 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                 }
               </PageRow>
 
-              {
-                expanded && (
-                  <PageColumn style={{}}>
-                    <PageRow style={{}}>
-                      {
-                        chapter.names.map((name) => (
-                          <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
-                        ))
-                      }
-                    </PageRow>
-                  </PageColumn>
-                )
-              }
+              <PageRow style={{}}>
+                {
+                  chapter.names.map((name) => (
+                    <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
+                  ))
+                }
+              </PageRow>
             </PageColumn>
           </PageRow>
 
           <PageRow spaceEvenly style={{ marginLeft: 20, marginRight: 4 }}>
             <SimpleIconButton iconSrc={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
-              onClick={() => setExpanded(!expanded)}
+              onClick={onExpandClick}
               small />
           </PageRow>
         </PageRow>
 
         {
           expanded && (
-            <PageColumn style={{}}>
+            <PageColumn style={{ marginBottom: 12 }}>
               {
                 chapter.content && (
-                  <PageRow style={{ flexShrink: 1, width: 350, marginVertical: 12 }}>
-                    <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
-                  </PageRow>
+                  <ScrollLayout style={{ maxHeight: 150, marginVertical: 12 }}>
+                    <PageRow style={{ flexShrink: 1, width: 360,  }}>
+                      <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
+                    </PageRow>
+                  </ScrollLayout>
                 )
               }
 
@@ -142,7 +156,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                 }
               </PageColumn>
 
-              <PageRow style={{ marginVertical: 8 }}>
+              <PageRow style={{ marginTop: 8 }}>
                 <PageChip title={`Quality: ${mapStoryChapterQualityToText(chapter.quality)}`}
                   style={{ backgroundColor: '#d0e0e3' }}
                   small />
@@ -193,12 +207,14 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
         }
 
       </PageColumn>
-    </PageRow>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   chapterCard: {
+    display: 'flex',
+    flexDirection: 'row',
     paddingTop: 8,
     paddingHorizontal: 8,
     marginVertical: 8,
@@ -212,12 +228,6 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 2, width: 0 },
     elevation: 4, // Shadow for Android
   },
-  expandedCard: {
-    maxHeight: 680,
-  },
-  collapsedCard: {
-    maxHeight: 120,
-  },
   completed: {
     backgroundColor: '#d9ead3',
   },
@@ -228,13 +238,12 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   icon: {
-    width: 32,
-    height: 32,
-    alignSelf: 'center',
-    marginEnd: 12
+    width: 42,
+    height: 42,
+    marginEnd: 6
   },
   footer: {
-    marginTop: 16
+    flexDirection: 'row-reverse',
   },
   stateBtn: {
     borderRadius: 8,
