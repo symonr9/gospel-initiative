@@ -154,7 +154,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
         </PageColumn>
 
         <PageRow center style={{ marginTop: 16 }}>
-          <SimpleIconButton iconSrc={AppIcon.Checkmark}
+          <SimpleIconButton iconSrc={AppIcon.ArrowNext}
             title='Start'
             onClick={() => setPageState(PageState.Page2)} />
         </PageRow>
@@ -167,9 +167,16 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
           Practice your Testimony
         </AppText>
 
-        <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-          Your Question
-        </AppText>
+
+        <PageRow spaceBetween style={{ marginRight: 8 }}>
+          <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
+            Your Question
+          </AppText>
+          <SimpleIconButton iconSrc={AppIcon.Refresh} 
+            title='Refresh'
+            onClick={() => setQuestion(getRandomString(PracticeTestimonyQuestions))}
+            small/>
+        </PageRow>
         <View style={{ flexShrink: 1, width: '90%' }}>
           <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
             {question}
@@ -233,7 +240,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
             title='Back'
             onClick={() => setPageState(PageState.Page2)} />
 
-          <SimpleIconButton iconSrc={AppIcon.Checkmark}
+          <SimpleIconButton iconSrc={AppIcon.ArrowNext}
             title={'Next'}
             onClick={() => setPageState(PageState.Page4)} />
         </PageRow>
@@ -285,7 +292,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
         />
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
-          <SimpleIconButton iconSrc={AppIcon.Checkmark}
+          <SimpleIconButton iconSrc={AppIcon.ArrowNext}
             title={editingChapterId === null ? 'Next' : '*Editing*'}
             disabled={editingChapterId !== null}
             onClick={() => setPageState(PageState.Page6)} />
