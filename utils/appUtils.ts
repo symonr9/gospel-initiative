@@ -498,51 +498,51 @@ export function mapGospelChecklistItemTypeToTitle(item: GospelChecklistItem): st
 export function mapGospelChecklistItemTypeToDetails(item: GospelChecklistItem): string {
     switch (item) {
         case GospelChecklistItem.Creation:
-            return "God created the heavens and the earth, establishing His sovereignty and purpose for humanity.";
+            return "Do they know God created the universe?";
         case GospelChecklistItem.Fall:
-            return "Humanity's rebellion against God in the Garden of Eden, leading to sin entering the world and the need for redemption.";
+            return "Do they understand humanity's rebellion against God in Eden?";
         case GospelChecklistItem.Sin:
-            return "Sin is humanity's disobedience to God, separating us from His holiness and creating the need for a Savior.";
+            return "Do they know that sin separates us from God?";
         case GospelChecklistItem.Prophets:
-            return "God sent prophets to warn, guide, and foretell the coming of the Messiah, emphasizing His plan for salvation.";
+            return "Do they know prophets foretold the Messiah's coming?";
         case GospelChecklistItem.Incarnation:
-            return "Jesus Christ, fully God and fully man, came to earth in human form to dwell among us and redeem humanity.";
+            return "Do they believe Jesus came to earth as God in human form?";
         case GospelChecklistItem.JesusLife:
-            return "The perfect life of Jesus demonstrated God's love, fulfilled the Law, and revealed His kingdom through teachings and miracles.";
+            return "Do they know how Jesus' life fulfilled God's plan?";
         case GospelChecklistItem.JesusOnTheCross:
-            return "Jesus' death on the cross was the ultimate sacrifice, paying for the sins of humanity and offering reconciliation with God.";
+            return "Do they understand Jesus' death paid for our sins?";
         case GospelChecklistItem.Resurrection:
-            return "On the third day, Jesus rose from the dead, conquering death and sin, offering eternal life to all who believe.";
+            return "Do they know Jesus rose, defeating death and offering life?";
         case GospelChecklistItem.Ascension:
-            return "Jesus ascended to heaven, where He reigns at the right hand of the Father, interceding for believers.";
+            return "Do they know Jesus ascended to reign with the Father?";
         case GospelChecklistItem.Grace:
-            return "Salvation is a free gift of grace from God, given to humanity through faith in Jesus Christ, not earned by works.";
+            return "Do they understand salvation is a free gift through grace?";
         case GospelChecklistItem.Faith:
-            return "Faith in Jesus Christ is the means by which individuals are saved and made righteous before God.";
+            return "Do they know faith in Jesus brings righteousness before God?";
         case GospelChecklistItem.Repentance:
-            return "Repentance involves turning away from sin and turning toward God in humility and faith, seeking forgiveness.";
+            return "Do they understand repentance turns us away from sin?";
         case GospelChecklistItem.HolySpirit:
-            return "The Holy Spirit is sent to dwell within believers, empowering them for holy living, guidance, and spiritual growth.";
+            return "Do they know the Holy Spirit empowers and guides believers?";
         case GospelChecklistItem.NewCreation:
-            return "In Christ, believers become a new creation, with old things passed away and a new life in God's kingdom.";
+            return "Do they understand believers become new creations in Christ?";
         case GospelChecklistItem.Discipleship:
-            return "Discipleship is the process of following Jesus, learning His teachings, and growing in faith to live as His disciple.";
+            return "Do they know discipleship means following and learning from Jesus?";
         case GospelChecklistItem.GreatCommission:
-            return "Jesus' command to His followers to go into all the world, making disciples of all nations and baptizing them.";
+            return "Do they know Jesus commands us to make disciples of all nations?";
         case GospelChecklistItem.SecondComing:
-            return "Jesus will return in power and glory to judge the living and the dead, establishing His eternal kingdom.";
+            return "Do they understand Jesus will return to establish His kingdom?";
         case GospelChecklistItem.Heaven:
-            return "Heaven is the eternal dwelling place of believers, where they will live in the presence of God, free from sin and suffering.";
+            return "Do they know heaven is the eternal home for believers with God?";
         case GospelChecklistItem.Judgment:
-            return "God will judge all humanity according to their deeds, with eternal consequences for those who reject or accept Christ.";
+            return "Do they understand God will judge all of humanity?";
         case GospelChecklistItem.KingdomOfGod:
-            return "The Kingdom of God is God's sovereign rule over creation, inaugurated by Jesus, and fully realized at His return.";
+            return "Do they know the Kingdom of God was inaugurated by Jesus?";
         case GospelChecklistItem.Reconciliation:
-            return "Through Christ's sacrifice, humanity is reconciled to God, restoring the broken relationship caused by sin.";
+            return "Do they understand Christ restores our relationship with God?";
         case GospelChecklistItem.Redemption:
-            return "Jesus' death and resurrection redeem humanity from the bondage of sin, offering freedom and eternal life.";
+            return "Do they believe Jesus redeems us from sin and death?";
         case GospelChecklistItem.Forgiveness:
-            return "Through Jesus, God offers forgiveness of sins, washing away guilt and making reconciliation with Him possible.";
+            return "Do they know God offers forgiveness through Jesus?";
         default:
             return "Unknown gospel checklist item.";
     }
@@ -794,6 +794,12 @@ export function mapStoryChapterTagToText(tag: StoryChapterTag): string {
             return "Worship";
         case StoryChapterTag.Discipleship:
             return "Discipleship";
+        case StoryChapterTag.Scripture:
+            return "Scripture";
+        case StoryChapterTag.Upbringing:
+            return "Upbringing";
+        case StoryChapterTag.Suffering:
+            return "Suffering";
         default:
             return "Unknown Tag";
     }

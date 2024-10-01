@@ -160,7 +160,7 @@ export const partition = async (question: string, userResponse: string, userId: 
             item.questions,
             mapStoryChapterTypeToAppIcon(item.category as StoryChapterType),
             1,
-            item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: any) => tag as StoryChapterTag) : [],
+            item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as StoryChapterTag) : [],
             item.names ? item.names.split(',') : [],
             item.quality,            
             userId,

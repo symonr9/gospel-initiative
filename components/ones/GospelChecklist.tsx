@@ -84,14 +84,14 @@ const GospelChecklist = ({ selectedOne, editOne, setSelectedOne }: IGospelCheckl
                         <AppText type={TextType.DefaultSemiBold}>
                             {item.title}
                         </AppText>
-                        <PageRow style={{ flexShrink: 1, width: '80%' }}>
+                        <PageRow style={{ flexShrink: 1, width: 300 }}>
                             <AppText type={TextType.Body}>
                                 {item.details}
                             </AppText>
                         </PageRow>
                         {
                             isExpanded && (
-                                <PageRow style={{ flexShrink: 1, width: '80%', marginTop: 12 }}>
+                                <PageRow style={{ flexShrink: 1, width: 300, marginTop: 12 }}>
                                     <AppText type={TextType.Body}>
                                         {item.versesAndQuestions}
                                     </AppText>

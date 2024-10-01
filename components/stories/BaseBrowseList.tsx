@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { type ViewProps, FlatList } from 'react-native';
+import { type ViewProps, FlatList, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
+import { Image } from 'expo-image';
 
 import ScrollLayout from '../common/ScrollLayout';
 import { PageColumn } from '../common/PageColumn';
@@ -8,6 +9,9 @@ import { gridStyles } from '@/styles/Styles';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { AppText, TextType } from '../common/AppText';
+import { PageRow } from '../common/PageRow';
+import { AppIcon } from '@/enums/enums';
+import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
 
 export type IBaseBrowseList = ViewProps & {
     title: string;
@@ -16,6 +20,7 @@ export type IBaseBrowseList = ViewProps & {
 
 function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
     const [activeChapterId, setActiveChapterId] = useState<string | null>(null);
+    const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
 
     const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === activeChapterId);
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
@@ -24,7 +29,7 @@ function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
         const onPress = () => {
             setActiveChapterId(item.id);
         };
-
+ 
         return (
             <StoryChapterCard chapter={item}/>
         );

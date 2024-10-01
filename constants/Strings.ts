@@ -1,23 +1,3 @@
-export const StoryTitleQuestions = {
-    YourStory: [
-        "What's your story?",
-        "Why do you believe in Christianity?",
-        "Why are you a Christian?",
-        "What are the key moments of your spiritual journey?",
-        "How has your faith shaped your life?",
-        "What does being a Christian mean to you?"
-    ],
-    GodsStory: [
-        "What is Christianity?",
-        "What is actually the Gospel?",
-        "What does the Bible actually say?",
-        "What do you actually believe about God?",
-        "What's the point of Christianity?",
-        "Why should I be a Christian?"
-    ]
-};
-
-
 
 // Each day, users receive a new, easy-to-ask question. These questions are designed
 // to natually lead to deeper conversations, which could segue into faith-sharing moments.
