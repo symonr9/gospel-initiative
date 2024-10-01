@@ -22,7 +22,6 @@ import { AnimatedHeader } from '../common/AnimatedHeader';
 export type IPracticeMyStoryDetails = {
   executor: User,
   setAppError: Function,
-  setActiveLayoutType: Function,
   refreshData: Function
 };
 
@@ -37,7 +36,7 @@ enum PageState {
   Page8
 };
 
-function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType, refreshData }: IPracticeMyStoryDetails) {
+function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPracticeMyStoryDetails) {
   const [pageState, setPageState] = useState(PageState.Page1);
   const [question, setQuestion] = useState(getRandomString(PracticeTestimonyQuestions));
   const [response, setResponse] = useState("");
@@ -52,7 +51,6 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType, re
     setResponse("");
     setEditingChapterId(null);
     setPageState(PageState.Page1);
-    setActiveLayoutType(StoryLayoutType.Normal);
   };
 
   const partitionResponse = async (controller: AbortController) => {
@@ -138,9 +136,6 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType, re
             delay={0} />
 
         <PageRow style={{ marginLeft: 4, marginVertical: 8 }}>
-          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-            title={'Back'}
-            onClick={() => setActiveLayoutType(StoryLayoutType.Normal)} />
         </PageRow>
 
         <AppText type={TextType.Default}>
@@ -185,7 +180,7 @@ function PracticeMyStoryDetails({ executor, setAppError, setActiveLayoutType, re
           Your Response
         </AppText>
         <TextInput
-          style={[formStyles.multiLineTextInput]}
+          style={[formStyles.multiLineTextInput, { height: 160 }]}
           placeholder="Enter note here..."
           placeholderTextColor={'gray'}
           value={response}

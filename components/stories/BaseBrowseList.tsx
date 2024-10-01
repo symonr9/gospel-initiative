@@ -26,10 +26,17 @@ function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
 
     const renderItem = ({ item }: { item: StoryChapter }) => { 
+        const isEditing = editingChapterId === item.id;
+        if (editingChapterId !== null) {
+            if (!isEditing) {
+                return <></>;
+            }
+        }
+
         return (
             <StoryChapterCard chapter={item} 
                 setEditingChapterId={setEditingChapterId} 
-                editing={editingChapterId === item.id}/>
+                editing={isEditing}/>
         );
     };
 
@@ -38,13 +45,13 @@ function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
             <AppText type={TextType.Subtitle}>
                 {title} ({chapters.length})
             </AppText>
-                <FlatList
-                    data={chapters}
-                    renderItem={renderItem}
-                    numColumns={1}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={gridStyles.itemList}
-                />
+            <FlatList
+                data={chapters}
+                renderItem={renderItem}
+                numColumns={1}
+                keyExtractor={(item, index) => index.toString()}
+                contentContainerStyle={gridStyles.itemList}
+            />
         </PageColumn>
     );
 }

@@ -39,13 +39,11 @@ function BrowseChaptersList({ setActiveLayoutType }: IBrowseChaptersList) {
     ]);
 
     return (
-        <ScrollLayout>
-            <View style={styles.container}>
-                <AppTabView title={'Stages'}
-                    renderScene={renderScene}
-                    routes={routes} />
-            </View>
-        </ScrollLayout>
+        <View style={styles.container}>
+            <AppTabView title={'Stages'}
+                renderScene={renderScene}
+                routes={routes} />
+        </View>
     );
 }
 
@@ -54,6 +52,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
+        height: 600,
+        paddingBottom: 10
     },
     iconDiv: {
         alignItems: 'center',

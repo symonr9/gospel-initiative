@@ -6,6 +6,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import MyStoriesLayout from '@/components/stories/MyStoriesLayout';
 import GodsStoriesLayout from '@/components/stories/GodsStoriesLayout';
+import PracticeMyStoryDetails from '@/components/stories/PracticeMyStoryDetails';
 
 export type IStories = ViewProps & {
   error: string,
@@ -13,12 +14,14 @@ export type IStories = ViewProps & {
 
 const renderScene = SceneMap({
   myStories: MyStoriesLayout,
+  practice: PracticeMyStoryDetails,
   GodsStories: GodsStoriesLayout,
 });
 
 function Stories({ error }: IStories) {
   const [routes] = React.useState([
     { key: 'myStories', title: 'My Stories' },
+    { key: 'practice', title: 'Practice' },
     { key: 'GodsStories', title: `God's Stories` }
   ]);
 

@@ -139,6 +139,12 @@ export const ActivityNoteOptions = [
 
 export const PracticeTestimonyQuestions = [
     "Who has been an important person in your faith journey?",
+    "Who is a Christian friend in your life who has been a positive influence on you?",
+    "Think of a family member or friend. How has your relationship with them changed because of your faith?",
+    "Share about a story that resulted in your growing in your faith?",
+    "What was an important moment in your faith journey?",
+    "What bad habits or attitudes did you have before following Jesus?",
+    "What have you given up by following Jesus?",
     "What was your upbringing like?",
     "What were your parent(s)' views on religion?",
     "What is one aspect of how you have changed since following Jesus?",
@@ -169,7 +175,7 @@ export const PracticeTestimonyQuestions = [
     "Can you share a time when your faith felt especially strong or weak?",
     "How has your faith helped you navigate major life transitions?",
     "What gives you the most joy in your relationship with God?",
-    "Can you recall a time when you had to forgive someone? How did your faith help?",
+    "Can you recall a time when you had to forgive someone?",
     "How has your prayer life evolved since you began following Christ?",
     "How do you stay focused on your faith in your busy daily life?",
     "What role does worship play in your spiritual life?",
@@ -191,6 +197,5 @@ export const PracticeTestimonyQuestions = [
     "How has your relationship with God influenced your understanding of forgiveness?",
     "What spiritual practices help you stay grounded in your faith?",
     "How has your faith helped you find hope in the midst of suffering?",
-    "Have you ever shared your testimony with someone? How did it impact them?",
-    "What part of your story do you think resonates most with others?",
+    "Have you ever shared your testimony with someone? How did it impact them?"
 ];

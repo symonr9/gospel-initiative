@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        marginBottom: 16,
+        marginBottom: 10,
         borderBottomStartRadius: 4,
         borderBottomEndRadius: 4,
     },

@@ -115,7 +115,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                 }
               </PageRow>
 
-              <PageRow style={{}}>
+              <PageRow style={{ marginTop: 12 }}>
                 {
                   chapter.names.map((name) => (
                     <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
