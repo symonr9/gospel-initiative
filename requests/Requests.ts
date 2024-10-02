@@ -11,7 +11,11 @@ import { AxiosRequestConfig } from "axios";
 
 export const fetchServerData = async (userId: string) => {
     try {
-        const response = await getData(`/users/${userId}`);
+        const response = await getData(`/users/${userId}`, {
+            headers: {
+                user_id: userId
+            }
+        });
         console.log("fetchServerData: ", response);
         if (!response) {
             return { error: 'Failed to contact server.' };
@@ -136,10 +140,13 @@ export const partition = async (question: string, userResponse: string, userId: 
     }
 
     try {
-        const response = await postData(`/stories/partition/${userId}`, {
+        const response = await postData(`/stories/partition`, {
             question,
             userResponse
-        }, config);
+        }, {...config, headers: {
+            ...config?.headers,
+            user_id: userId
+        }});
 
         if (!response) {
             return { error: 'Failed to contact server.' };

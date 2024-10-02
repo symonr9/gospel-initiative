@@ -12,7 +12,6 @@ import User from '@/models/user';
 import { setAppError, refreshData } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
-import { StoryLayoutType } from './MyStoriesLayout';
 import { Colors } from '@/constants/Colors';
 import { getRandomString, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';

@@ -36,6 +36,7 @@ export default ({ config }) => ({
         },
         extra: {
             serverUrl: process.env.SERVER_URL,
+            fixedAuthToken: process.env.FIXED_AUTH_TOKEN,
             production: process.env.PRODUCTION_MODE || false,
             eas: {
                 projectId: "2ae65218-15d2-482e-8975-7143d6fb55aa",
