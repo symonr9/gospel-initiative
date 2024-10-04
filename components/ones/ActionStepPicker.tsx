@@ -15,8 +15,10 @@ import One from '@/models/one';
 import { formStyles } from '@/styles/Styles';
 import SelectDatePicker from '../common/SelectDatePicker';
 import { selectActionStepsByOneId } from '@/redux/selectors';
-import { addActionStep, editActionSteps } from '@/redux/actions';
+import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
+import { updateActionSteps } from '@/requests/Requests';
+import User from '@/models/user';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -27,10 +29,12 @@ const actionStepTypeArray = Object.keys(ActionStepType)
     }));
 
 export type IActionStepPicker = ViewProps & {
+    executor: User;
     selectedOne: One;
     actionSteps: ActionStep[];
     addActionStep: Function;
     editActionSteps: Function;
+    setAppError: Function;
 };
 
 export enum PickerState {
@@ -42,7 +46,8 @@ export enum PickerState {
     Completing
 }
 
-const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionSteps }: IActionStepPicker) => {
+const ActionStepPicker = ({ executor, selectedOne, actionSteps, 
+    addActionStep, editActionSteps, setAppError }: IActionStepPicker) => {
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Launch);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
 
@@ -98,47 +103,49 @@ const ActionStepPicker = ({ selectedOne, actionSteps, addActionStep, editActionS
         setPickerState(PickerState.Normal);
     };
 
-    const onSaveClick = () => {
+    const onSaveClick = async () => {
         setPickerState(PickerState.Normal);
 
+        let newActionSteps = actionSteps;
         if (pickerState === PickerState.Removing && selectedStepId) {
-            editActionSteps(
-                actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
-                    return {
-                        ...actionStep,
-                        oneId: selectedOne.id
-                    };
-                }
-            ));
+            newActionSteps = actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
+                return {
+                    ...actionStep,
+                    oneId: selectedOne.id
+                };
+            });
         } else if (pickerState === PickerState.Completing && selectedStepId) {
-            editActionSteps(
-                actionSteps.map((actionStep) => {
-                    if (actionStep.id === selectedStepId) {
-                        return { ...actionStep, isComplete: true };
-                    }
-                    return {
-                        ...actionStep,
-                        oneId: selectedOne.id
-                    };
+            newActionSteps = actionSteps.map((actionStep) => {
+                if (actionStep.id === selectedStepId) {
+                    return { ...actionStep, isComplete: true };
                 }
-            ));
-        } else if (pickerState === PickerState.Editing && selectedStepId) {            
-            editActionSteps(
-                actionSteps.map((actionStep) => {
-                    if (actionStep.id === formActionStep.id) {
-                        return { ...formActionStep };
-                    }
-                    return {
-                        ...actionStep,
-                        oneId: selectedOne.id
-                    };
+                return {
+                    ...actionStep,
+                    oneId: selectedOne.id
+                };
+            });
+        } else if (pickerState === PickerState.Editing && selectedStepId) {
+            newActionSteps = actionSteps.map((actionStep) => {
+                if (actionStep.id === formActionStep.id) {
+                    return { ...formActionStep };
                 }
-            ));
+                return {
+                    ...actionStep,
+                    oneId: selectedOne.id
+                };
+            });
         } else if (pickerState === PickerState.Adding) {
             formActionStep.oneId = selectedOne.id;
-            addActionStep(formActionStep);
+            newActionSteps.push(formActionStep);
         }
 
+        const response = await updateActionSteps(newActionSteps, selectedOne.id, executor.id);
+        if (response.error) {
+            setAppError(new Error('Error updating action steps: ', response.error));
+            return;
+        }
+
+        editActionSteps(response);
         setSelectedStepId(null);
         setFormSelectedTypeIdx(0);
         setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
@@ -399,6 +406,7 @@ const mapStateToProps = (state: any) => {
     const selectedOne = state.ones.selectedOne;
     const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
     return {
+      executor: state.users.executor,
       selectedOne,
       actionSteps,
     };
@@ -407,7 +415,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     addActionStep,
-    editActionSteps
+    editActionSteps,
+    setAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActionStepPicker);

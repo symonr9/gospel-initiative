@@ -59,7 +59,7 @@ export const fetchServerData = async (userId: string) => {
                         step.notes,
                         step.oneId,
                         step.isComplete,
-                        step.targetDate,
+                        step.targetDate ? new Date(step.targetDate) : undefined,
                         step.type as ActionStepType
                     )
                 );
@@ -215,14 +215,14 @@ export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, 
 }
 
 export const createOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
-    return createOrUpdateOne(true, one, userId, controller);
+    return performOneRequest(true, one, userId, controller);
 }
 
 export const updateOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
-    return createOrUpdateOne(false, one, userId, controller);
+    return performOneRequest(false, one, userId, controller);
 }
 
-export const createOrUpdateOne = async (adding: boolean, one: One, userId: string, controller?: AbortController): Promise<One | any> => {
+export const performOneRequest = async (adding: boolean, one: One, userId: string, controller?: AbortController): Promise<One | any> => {
     if (!one || !userId) {
         console.error('Missing required parameters: one, userId.');
         return { error: 'Invalid parameters.' };
@@ -267,5 +267,53 @@ export const createOrUpdateOne = async (adding: boolean, one: One, userId: strin
     } catch (error: any) {
         console.error('Error adding/editing one:', error.message || error);
         return { error: error.message || 'An error occurred while adding/editing one.' };
+    }
+};
+
+
+
+export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string, userId: string, controller?: AbortController): Promise<ActionStep[] | any> => {
+    if (!actionSteps || !oneId || !userId) {
+        console.error('Missing required parameters: actionSteps, oneId, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await postData(`/ones/action-steps/update`, {
+            actionSteps,
+            oneId
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller ? controller.signal : undefined,
+        });
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        const newSteps = [];
+        for (let step of response.data) {
+            newSteps.push(
+                new ActionStep(
+                    step.id,
+                    step.notes,
+                    step.oneId,
+                    step.isComplete,
+                    step.targetDate ? new Date(step.targetDate) : undefined,
+                    step.type as ActionStepType
+                )
+            );
+        }
+
+        return newSteps;
+    } catch (error: any) {
+        console.error('Error updating action steps:', error.message || error);
+        return { error: error.message || 'An error occurred while updating action steps.' };
     }
 };
