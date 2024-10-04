@@ -6,8 +6,7 @@ import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
-import { generateRandomId, getAppIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
-import { AxiosRequestConfig } from "axios";
+import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
 
 export const fetchServerData = async (userId: string) => {
     try {
@@ -191,7 +190,7 @@ export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, 
     const preparedChapterArray = chapterArray.map((chapter) => ({...chapter, iconKey: getAppIconKey(chapter.icon)}));
 
     try {
-        const response = await postData(`/stories/add/${userId}`, {
+        const response = await postData(`/stories/create`, {
             chapterArray: preparedChapterArray
         }, {
             headers: {
@@ -214,3 +213,59 @@ export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, 
         return { error: error.message || 'An error occurred while partitioning data.' };
     }
 }
+
+export const createOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
+    return createOrUpdateOne(true, one, userId, controller);
+}
+
+export const updateOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
+    return createOrUpdateOne(false, one, userId, controller);
+}
+
+export const createOrUpdateOne = async (adding: boolean, one: One, userId: string, controller?: AbortController): Promise<One | any> => {
+    if (!one || !userId) {
+        console.error('Missing required parameters: one, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    const preparedOne = {
+        ...one,
+        iconKey: getAvatarIconKey(one.icon)
+    };
+
+    try {
+        const response = await postData(`/ones/${adding ? 'create' : 'update'}`, {
+            one: preparedOne
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller ? controller.signal : undefined,
+        });
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        const one = response.data;
+
+        return new One(
+            one.id,
+            one.name,
+            AvatarIcon[one.icon as keyof typeof AvatarIcon],
+            one.stage as OneStage,
+            one.category as OneCategory,
+            one.prayingSince,
+            one.gospelChecklist ? one.gospelChecklist.split(',').map((item: any) => parseInt(item)) : [],
+            one.hidden,
+            userId,
+        );
+    } catch (error: any) {
+        console.error('Error adding/editing one:', error.message || error);
+        return { error: error.message || 'An error occurred while adding/editing one.' };
+    }
+};

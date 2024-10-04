@@ -1,10 +1,9 @@
 
 import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
-import Preferences from "@/models/preferences";
 
 const initialState = {
-    preferences: Preferences,
+    preferences: null,
 };
 
 export function preferencesReducer(state = initialState, action: ActionPackage) {

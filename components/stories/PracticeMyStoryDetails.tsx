@@ -17,6 +17,7 @@ import { getRandomString, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';
 import { AnimatedHeader } from '../common/AnimatedHeader';
+import { SimpleLoadingSection } from '../common/SimpleLoadingSection';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -64,8 +65,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
 
       setChapterArray(data);
     } catch (err: any) {
-      console.error('Error fetching data', err);
-      setAppError(new Error('Error fetching data: ', err));
+      setAppError(new Error('Error partioning data: ', err));
       resetPage();
     }
   };
@@ -241,19 +241,8 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     );
   } else if (pageState === PageState.Page4) {
     Body.push(
-      <>
-        <AppText type={TextType.Subtitle}>
-          Loading...
-        </AppText>
-        <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-          Your partition is loading, please wait...
-        </AppText>
-
-        <ActivityIndicator
-          size="large"
-          color={Colors.light.primary}
-        />
-      </>
+        <SimpleLoadingSection title={'Loading...'} 
+          subtitle={'Your partition is loading, please wait...'}/>
     );
   } else if (pageState === PageState.Page5 && chapterArray != null) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
@@ -330,19 +319,8 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     );
   } else if (pageState === PageState.Page7) {
     Body.push(
-      <>
-        <AppText type={TextType.Subtitle}>
-          Loading...
-        </AppText>
-        <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-          Your data is loading, please wait...
-        </AppText>
-
-        <ActivityIndicator
-          size="large"
-          color={Colors.light.primary}
-        />
-      </>
+      <SimpleLoadingSection title={'Loading...'} 
+        subtitle={'Your data is saving, please wait...'}/>
     );
   } else if (pageState === PageState.Page8) {
     const onCompleteClick = () => {

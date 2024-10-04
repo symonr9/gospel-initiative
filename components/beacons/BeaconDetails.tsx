@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Animated, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
-import Beacon, { EnhancedBeacon } from '@/models/beacon';
-import { AppIcon, BeaconType, FadeDirection } from '@/enums/enums';
-import { formatDateTime, getAppTimeAgoText, getDaysPrayedForText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
-import { AnimatedCount } from '../common/AnimatedCount';
+import { EnhancedBeacon } from '@/models/beacon';
+import { AppIcon, FadeDirection } from '@/enums/enums';
+import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
@@ -17,10 +16,8 @@ import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
 import { ActivityNoteOptions } from '@/constants/Strings';
-import { AnimatedCard } from '../common/AnimatedCard';
 import { PageColumn } from '../common/PageColumn';
 import ScrollLayout from '../common/ScrollLayout';
-import OneStageSection from '../common/OneStageSection';
 import DetailsSection from '../common/DetailsSection';
 
 export type IBeaconDetails = ViewProps & {

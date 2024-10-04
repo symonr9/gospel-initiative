@@ -10,7 +10,7 @@ import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps } from '@/redux/actions';
+import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps, setAppError } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
 import { generateRandomId, getNow, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
@@ -22,6 +22,8 @@ import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import AllOnesGrid from './AllOnesGrid';
+import { SimpleLoadingSection } from '../common/SimpleLoadingSection';
+import { createOne } from '@/requests/Requests';
 
 export type IOnesOverviewLayout = ViewProps & {
     selectedOne: One | undefined,
@@ -29,10 +31,12 @@ export type IOnesOverviewLayout = ViewProps & {
     executor: User,
     oneForm: OneForm,
     addOne: Function,
+    setAppError: Function,
     setSelectedOne: Function
 };
 
 export enum OneLayoutType {
+    Loading,
     Normal,
     FirstTime,
     AllOnes,
@@ -40,11 +44,11 @@ export enum OneLayoutType {
 }
 
 function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
-    addOne, setSelectedOne }: IOnesOverviewLayout) {
+    addOne, setAppError, setSelectedOne }: IOnesOverviewLayout) {
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
     const [message, setMessage] = useState<string | null>(null);
-    const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Loading);
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
@@ -56,7 +60,11 @@ function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
         setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
     }, [executor]);
 
-    if (activeLayoutType === OneLayoutType.FirstTime) {
+    if (activeLayoutType === OneLayoutType.Loading) {
+        BodyLayout.push(
+            <SimpleLoadingSection/>
+        );
+    } else if (activeLayoutType === OneLayoutType.FirstTime) {
         HeaderLayout.push(
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.Plus}
@@ -75,11 +83,9 @@ function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
             </PageRow>
         );
     } else if (activeLayoutType === OneLayoutType.AddingOne) {
-        const onSave = () => {
-            const newOneId = generateRandomId();
-
+        const onSave = async () => {
             const newOne = new One(
-                newOneId,
+                "",
                 oneForm.name,
                 oneForm.icon,
                 oneForm.stage,
@@ -90,17 +96,21 @@ function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
                 executor.id
             );
 
-            addOne(newOne);
+            try {
+                const response = await createOne(newOne, executor.id);
+                if (response.error) {                
+                    setAppError(new Error('Error adding one: ', response.error));
+                    return;
+                }
 
-            for (let actionStep of oneForm.actionSteps) {
-                actionStep.oneId = newOneId;
-                addActionStep(actionStep);
+                addOne(response);
+                setSelectedOne(response);
+                setOneForm(OneForm.createDefault());
+                setMessage("Your One has been successfully created!");
+                setActiveLayoutType(OneLayoutType.Normal);
+            } catch (err: any) {
+                setAppError(new Error('Error adding one: ', err));
             }
-
-            setSelectedOne(newOne);
-            setOneForm(OneForm.createDefault());
-            setMessage("Your One has been successfully created!");
-            setActiveLayoutType(OneLayoutType.Normal);
         };
 
         HeaderLayout.push(
@@ -152,10 +162,11 @@ function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
     return (
         <ScrollLayout>
             <View style={styles.container}>
+                <AnimatedHeader title={'Ones'} subtitle={'Connect and share Jesus intentionally'}/>
                 <PageColumn>
                     {
                         showYourSelectedOne && (
-                            <PageRow>
+                            <PageRow spaceEvenly>
                                 {
                                     activeLayoutType === OneLayoutType.Normal && (
                                         <>
@@ -231,7 +242,8 @@ const mapDispatchToProps = {
     editOne,
     addActionStep,
     editActionSteps,
-    setSelectedOne
+    setSelectedOne,
+    setAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnesOverviewLayout);

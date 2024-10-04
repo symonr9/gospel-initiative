@@ -17,14 +17,14 @@ export type IOnes = ViewProps & {
 };
 
 const renderScene = SceneMap({
-  ones: OnesLayout,
   overview: OnesOverviewLayout,
+  ones: OnesLayout,
 });
 
 function Ones({ error, clearAppError }: IOnes) {
   const [routes] = React.useState([
-    { key: 'ones', title: 'Ones' },
     { key: 'overview', title: 'Overview' },
+    { key: 'ones', title: 'Ones' },
   ]);
 
   return (

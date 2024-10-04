@@ -4,16 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
 import One from '@/models/one';
-import { AppIcon, Priority } from '@/enums/enums';
+import { AppIcon } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { addActionStep, addBeacon, addOne, editOne, setOneForm, setSelectedOne, setSelectedTemplateId, editActionSteps } from '@/redux/actions';
+import { addActionStep, editOne, setOneForm, setSelectedOne, editActionSteps, setAppError, refreshData } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
-import { generateRandomId, getNow, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
 import { selectActionStepsByOneId } from '@/redux/selectors';
@@ -23,23 +23,24 @@ import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import ActionStepPicker from './ActionStepPicker';
 import GospelChecklist from './GospelChecklist';
+import { updateOne } from '@/requests/Requests';
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One | undefined,
     ones: One[],
     executor: User,
     oneForm: OneForm,
-    addOne: Function,
     editOne: Function,
     addActionStep: Function,
     editActionSteps: Function,
+    setAppError: Function,
+    refreshData: Function,
     setSelectedOne: Function
 };
 
 export enum OneLayoutType {
     Normal,
     FirstTime,
-    AddingOne,
     EditingOne,
     AllOnes,
     AllBeaconTemplates,
@@ -47,8 +48,8 @@ export enum OneLayoutType {
     SentBeaconResponse,
 }
 
-function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
-    addOne, addActionStep, editActionSteps, setSelectedOne }: IOnesLayout) {
+function OnesLayout({ selectedOne, ones, oneForm, executor, editOne, 
+    setAppError, editActionSteps, refreshData, setSelectedOne }: IOnesLayout) {
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
     const [message, setMessage] = useState<string | null>(null);
@@ -73,67 +74,11 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
     }, [activeLayoutType]);
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.Plus}
-                    onClick={() => {
-                        setMessage(null);
-                        setActiveLayoutType(OneLayoutType.AddingOne);
-                    }}
-                    title={'New One'} />
-            </PageRow>
-        );
-
         BodyLayout.push(
             <PageRow>
                 <PageResponse title={'Welcome'}
-                    details={'Please add your One to get started.'} />
+                    details={'Please add your One on the Overview page to get started.'} />
             </PageRow>
-        );
-    } else if (activeLayoutType === OneLayoutType.AddingOne) {
-        const onSave = () => {
-            const newOneId = generateRandomId();
-
-            const newOne = new One(
-                newOneId,
-                oneForm.name,
-                oneForm.icon,
-                oneForm.stage,
-                oneForm.category,
-                getNow(),
-                [],
-                false,
-                executor.id
-            );
-
-            addOne(newOne);
-
-            for (let actionStep of oneForm.actionSteps) {
-                actionStep.oneId = newOneId;
-                addActionStep(actionStep);
-            }
-
-            setSelectedOne(newOne);
-            setOneForm(OneForm.createDefault());
-            setMessage("Your One has been successfully created!");
-            setActiveLayoutType(OneLayoutType.Normal);
-        };
-
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setActiveLayoutType(OneLayoutType.Normal);
-                    }}
-                    title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Save}
-                    onClick={onSave}
-                    title={'Save'} />
-            </PageRow>
-        );
-
-        BodyLayout.push(
-            <AddEditOneForm initialOneForm={OneForm.createDefault()} />
         );
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         if (!selectedOne) {
@@ -143,8 +88,8 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
             );
         }
 
-        const onSave = () => {
-            const newOne = {
+        const onSave = async () => {
+            const updatedOne = {
                 ...selectedOne,
                 name: oneForm.name,
                 icon: oneForm.icon,
@@ -153,20 +98,21 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
                 gospelChecklist: oneForm.gospelChecklist
             };
 
-            editOne(newOne);
+            try {
+                const response = await updateOne(updatedOne, executor.id);
+                if (response.error) {                
+                    setAppError(new Error('Error updating one: ', response.error));
+                    return;
+                }
 
-            editActionSteps(
-                oneForm.actionSteps.map((actionStep) => ({
-                    ...actionStep,
-                    oneId: selectedOne.id
-                })),
-                selectedOne.id,
-            );
-
-            setSelectedOne(newOne);
-            setOneForm(OneForm.createDefault());
-            setMessage("Your One has been successfully updated!");
-            setActiveLayoutType(OneLayoutType.Normal);
+                editOne(response);
+                setSelectedOne(response);
+                setOneForm(OneForm.createDefault());
+                setMessage("Your One has been successfully updated!");
+                setActiveLayoutType(OneLayoutType.Normal);
+            } catch (err: any) {
+                setAppError(new Error('Error updating one: ', err));
+            }
         };
 
         HeaderLayout.push(
@@ -249,7 +195,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
         );
     }
 
-    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
+    const showYourSelectedOne = ![OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
 
     return (
         <ScrollLayout>
@@ -343,11 +289,12 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    addOne,
     editOne,
     addActionStep,
     editActionSteps,
-    setSelectedOne
+    setSelectedOne,
+    refreshData,
+    setAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnesLayout);
