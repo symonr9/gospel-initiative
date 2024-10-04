@@ -133,7 +133,7 @@ export const fetchServerData = async (userId: string) => {
     return {};
 };
 
-export const partition = async (question: string, userResponse: string, userId: string, config?: AxiosRequestConfig) => {
+export const partition = async (question: string, userResponse: string, userId: string, controller?: AbortController) => {
     if (!question || !userResponse || !userId) {
         console.error('Missing required parameters: question, userResponse, or userId.');
         return { error: 'Invalid parameters.' };
@@ -143,10 +143,13 @@ export const partition = async (question: string, userResponse: string, userId: 
         const response = await postData(`/stories/partition`, {
             question,
             userResponse
-        }, {...config, headers: {
-            ...config?.headers,
-            user_id: userId
-        }});
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller?.signal,
+            timeout: 10000 
+        });
 
         if (!response) {
             return { error: 'Failed to contact server.' };
@@ -179,7 +182,7 @@ export const partition = async (question: string, userResponse: string, userId: 
     }
 };
 
-export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, userId: string, config?: AxiosRequestConfig) => {
+export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, userId: string, controller?: AbortController) => {
     if (!chapterArray || !userId) {
         console.error('Missing required parameters: chapterArray, userId.');
         return { error: 'Invalid parameters.' };
@@ -190,7 +193,12 @@ export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, 
     try {
         const response = await postData(`/stories/add/${userId}`, {
             chapterArray: preparedChapterArray
-        }, config);
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller?.signal,
+        });
 
         if (!response) {
             return { error: 'Failed to contact server.' };
