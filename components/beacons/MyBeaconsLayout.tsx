@@ -12,7 +12,7 @@ import User from '@/models/user';
 import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
-import { setSelectedTemplateId, addBeacon } from '@/redux/actions';
+import { setSelectedTemplateId, addBeacon, setAppError } from '@/redux/actions';
 import { generateRandomId, getTomorrow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import PageResponse from '../common/PageResponse';
 import { PageRow } from '../common/PageRow';
@@ -26,6 +26,7 @@ import { PageColumn } from '../common/PageColumn';
 import { SimpleIcon } from '../common/SimpleIcon';
 import AllOnesGrid from '../ones/AllOnesGrid';
 import { OneLayoutType } from '../ones/OnesLayout';
+import { createBeacon } from '@/requests/Requests';
 
 export type IMyBeaconsLayout = ViewProps & {
     ones: One[],
@@ -35,10 +36,11 @@ export type IMyBeaconsLayout = ViewProps & {
     selectedTemplateId: String,
     setSelectedTemplateId: Function,
     addBeacon: Function,
+    setAppError: Function,
 };
 
 function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
-    selectedTemplateId, setSelectedTemplateId, addBeacon }: IMyBeaconsLayout) {
+    selectedTemplateId, setSelectedTemplateId, addBeacon, setAppError }: IMyBeaconsLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
@@ -50,6 +52,13 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
     const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
     
     const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
+
+    useEffect(() => {
+        if (!executor) {
+            return;
+        }
+        setSelectedOneId(ones.length > 0 ? ones[0].id : null);
+    }, [executor]);
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
@@ -101,7 +110,7 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
             );
         }
 
-        const onConfirm = () => {
+        const onConfirm = async () => {
             const shouldAddBeacon = selectedTemplateId != null
                 && executor != null && selectedOne != null;
             if (!shouldAddBeacon) {
@@ -118,20 +127,26 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                 return;
             }
 
-            addBeacon(
-                new Beacon(
-                    generateRandomId(),
-                    selectedTemplate.name,
-                    beaconForm.notes || null,
-                    selectedOne.id,
-                    Priority.Normal,
-                    executor.id,
-                    selectedTemplate.type,
-                    getTomorrow(),
-                    beaconForm.shareOwnName
-                )
+            const newBeacon = new Beacon(
+                generateRandomId(),
+                selectedTemplate.name,
+                beaconForm.notes || null,
+                selectedOne.id,
+                Priority.Normal,
+                executor.id,
+                selectedTemplate.type,
+                getTomorrow(),
+                beaconForm.shareOwnName,
+                []
             );
 
+            const response = await createBeacon(newBeacon, executor.id);
+            if (response.error) {
+                setAppError(new Error('Error creating beacon: ', response.error));
+                return;
+            }
+
+            addBeacon(response);
             setMessage(null);
             setSelectedTemplateId(null);
             setActiveLayoutType(OneLayoutType.SentBeaconResponse);
@@ -313,6 +328,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
     setSelectedTemplateId,
     addBeacon,
+    setAppError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyBeaconsLayout);

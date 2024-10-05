@@ -8,6 +8,48 @@ import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
 
+export const fetchActiveBeacons = async (userId: string) => {
+    try {
+        const response = await getData(`/beacons/active`, {
+            headers: {
+                user_id: userId
+            }
+        });
+        console.log("fetchServerData: ", response);
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        const beacons = [];
+        for (let beacon of response.data) {
+            beacons.push(
+                new Beacon(
+                    beacon.id,
+                    beacon.name,
+                    beacon.message,
+                    beacon.oneId,
+                    beacon.priority as Priority,
+                    beacon.userId,
+                    beacon.type as BeaconType,
+                    beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
+                    beacon.shareOwnName,
+                    beacon.activities
+                )
+            );
+        }
+
+        return beacons;
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+    }
+
+    return [];
+};
+
 export const fetchServerData = async (userId: string) => {
     try {
         const response = await getData(`/users/${userId}`, {
@@ -66,36 +108,6 @@ export const fetchServerData = async (userId: string) => {
             }
         }
 
-        const beacons = [];
-        for (let beacon of serverData.beacons) {
-            beacons.push(
-                new Beacon(
-                    beacon.id,
-                    beacon.name,
-                    beacon.message,
-                    beacon.oneId,
-                    beacon.priority as Priority,
-                    beacon.userId,
-                    beacon.type as BeaconType,
-                    beacon.activeUntil,
-                    beacon.shareOwnName
-                )
-            );
-        }
-
-        const beaconActivities = [];
-        for (let activity of serverData.beaconActivities) {
-            beaconActivities.push(
-                new BeaconActivity(
-                    activity.id,
-                    activity.note,
-                    activity.date,
-                    activity.userId,
-                    activity.beaconId
-                )
-            );
-        }
-
         const myStoryChapters = [];
         for (let chapter of serverData.chapters) {
             myStoryChapters.push(
@@ -120,9 +132,7 @@ export const fetchServerData = async (userId: string) => {
         return {
             user,
             ones,
-            beacons,
             actionSteps,
-            beaconActivities,
             myStoryChapters
         };
     } catch (error) {
@@ -270,8 +280,6 @@ export const performOneRequest = async (adding: boolean, one: One, userId: strin
     }
 };
 
-
-
 export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string, userId: string, controller?: AbortController): Promise<ActionStep[] | any> => {
     if (!actionSteps || !oneId || !userId) {
         console.error('Missing required parameters: actionSteps, oneId, userId.');
@@ -315,5 +323,96 @@ export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string
     } catch (error: any) {
         console.error('Error updating action steps:', error.message || error);
         return { error: error.message || 'An error occurred while updating action steps.' };
+    }
+};
+
+export const createBeacon = async (beacon: Beacon, userId: string, controller?: AbortController): Promise<Beacon | any> => {
+    if (!beacon || !userId) {
+        console.error('Missing required parameters: beacon, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await postData(`/beacons/create`, {
+            beacon
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller ? controller.signal : undefined,
+        });
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        const beaconResponse = response.data;
+
+        return new Beacon(
+            beaconResponse.id,
+            beaconResponse.name,
+            beaconResponse.notes,
+            beaconResponse.oneId,
+            beaconResponse.priority as Priority,
+            beaconResponse.userId,
+            beaconResponse.type as BeaconType,
+            beaconResponse.activeUntil ? new Date(beaconResponse.activeUntil) : undefined,
+            beaconResponse.shareOwnName,
+            []
+        );
+    } catch (error: any) {
+        console.error('Error creating beacon:', error.message || error);
+        return { error: error.message || 'An error occurred while creating beacon.' };
+    }
+};
+
+export const createBeaconActivity = async (activity: BeaconActivity, userId: string, controller?: AbortController): Promise<One | any> => {
+    return performBeaconActivityRequest(true, activity, userId, controller);
+}
+
+export const updateBeaconActivity = async (activity: BeaconActivity, userId: string, controller?: AbortController): Promise<One | any> => {
+    return performBeaconActivityRequest(false, activity, userId, controller);
+}
+
+export const performBeaconActivityRequest = async (adding: boolean, activity: BeaconActivity, userId: string, controller?: AbortController): Promise<One | any> => {
+    if (!activity || !userId) {
+        console.error('Missing required parameters: activity, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await postData(`/beacons/activity/${adding ? 'create' : 'update'}`, {
+            activity
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller ? controller.signal : undefined,
+        });
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        const data = response.data;
+
+        return new BeaconActivity(
+            data.id,
+            data.note,
+            new Date(data.date),
+            data.userId,
+            data.beaconId,
+        );
+    } catch (error: any) {
+        console.error('Error adding/editing beacon activity:', error.message || error);
+        return { error: error.message || 'An error occurred while adding/editing beacon activity.' };
     }
 };

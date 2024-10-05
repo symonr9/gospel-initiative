@@ -11,7 +11,7 @@ import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitle
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
-import { addNoteToActivity, addBeaconActivity } from '@/redux/actions';
+import { addNoteToActivity, addBeaconActivity, setAppError } from '@/redux/actions';
 import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
@@ -19,6 +19,7 @@ import { ActivityNoteOptions } from '@/constants/Strings';
 import { PageColumn } from '../common/PageColumn';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
+import { createBeaconActivity, updateBeaconActivity } from '@/requests/Requests';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -31,11 +32,12 @@ export type IBeaconDetails = ViewProps & {
 
     addNoteToActivity: Function;
     addBeaconActivity: Function;
+    setAppError: Function;
 };
 
 function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, addBeaconActivity, addNoteToActivity,
-    beaconActivities }: IBeaconDetails) {
+    beaconActivities, setAppError }: IBeaconDetails) {
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
@@ -121,7 +123,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         setModalVisible(true);
     };
 
-    const onSaveClick = () => {
+    const onSaveClick = async () => {
         setModalVisible(false);
         if (!hasUserAlreadyPrayed && !userActivityForBeacon) {
             return;
@@ -139,25 +141,43 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             console.error('Failed to get note');
             return;
         }
-        addNoteToActivity(userActivityForBeacon.id, note);
+
+        const newActivity = {
+            ...userActivityForBeacon,
+            note: note
+        };
+
+        const response = await updateBeaconActivity(newActivity, executor.id);
+        if (response.error) {
+            setAppError(new Error('Error updating beacon activity: ', response.error));
+            return;
+        }
+
+        addNoteToActivity(response.id, response.note);
         setCustomNote('');
         setSelectedNoteIdx(0);
     };
 
-    const onPrayClick = () => {
+    const onPrayClick = async () => {
         if (hasUserAlreadyPrayed) {
             return;
         }
 
         progress.value = withTiming(1, { duration: 250 });
 
-        addBeaconActivity(
-            BeaconActivity.createBeaconActivity(
-                "",
-                executor,
-                beacon
-            )
+        const newActivity = BeaconActivity.createBeaconActivity(
+            "",
+            executor,
+            beacon
         );
+
+        const response = await createBeaconActivity(newActivity, executor.id);
+        if (response.error) {
+            setAppError(new Error('Error creating beacon activity: ', response.error));
+            return;
+        }
+
+        addBeaconActivity(response);
     };
 
     return (
@@ -210,7 +230,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             <View style={[styles.header]}>
                 <View style={styles.timeAgo}>
                     <AppText type={TextType.Italic}>
-                        {getAppTimeAgoText(activeUntil)}
+                        Expires {getAppTimeAgoText(activeUntil)}
                     </AppText>
                 </View>
 
@@ -417,7 +437,8 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
     addBeaconActivity,
-    addNoteToActivity
+    addNoteToActivity,
+    setAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeaconDetails);

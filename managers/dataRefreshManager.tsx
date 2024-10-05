@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
 import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage } from '@/utils/storageUtils';
-import { fetchServerData } from '@/requests/Requests';
+import { fetchActiveBeacons, fetchServerData } from '@/requests/Requests';
 import Error from '@/models/error';
 
 export type IDataRefreshManager = {
@@ -81,11 +81,13 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
     }, []);
 
     const fetchData = async (userId: string) => {
-        const { user, ones, beacons, actionSteps, beaconActivities, myStoryChapters, error } = await fetchServerData(userId);
+        const { user, ones, actionSteps, myStoryChapters, error } = await fetchServerData(userId);
         if (error) {
             setAppError(new Error(error, 'Something went wrong'));
             return;
         }
+
+        const beacons = await fetchActiveBeacons(userId);
 
         loadServerData({
             localEvents: JsonFunctions.getLocalEventsJson(),
@@ -105,7 +107,6 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
             storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
             users: [user],
             executor: user,
-            beaconActivities: beaconActivities,
             beaconLogs: JsonFunctions.getBeaconLogsFromJson()
         });
     };

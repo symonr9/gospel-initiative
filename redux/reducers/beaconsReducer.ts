@@ -13,14 +13,15 @@ const initialState = {
 export function beaconsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { beacons, beaconTemplates, beaconLogs, beaconActivities
+            const { beacons, beaconTemplates, beaconLogs
             } = action.payload;
             return update(state, {
                 $set: {
                     beacons: beacons || [],
                     beaconLogs: beaconLogs || [],
                     beaconTemplates: beaconTemplates || [],
-                    selectedTemplateId: null
+                    selectedTemplateId: null,
+                    beaconForm: null,
                 }
             });
         case Action.SetSelectedBeaconId:

@@ -23,7 +23,7 @@ export type IBeaconTemplateDetails = ViewProps & {
 };
 
 function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
-    const [formData, setFormData] = useState(new BeaconForm(false, true, null, Priority.Normal, []));
+    const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
 
     useEffect(() => {
         setBeaconForm(formData);

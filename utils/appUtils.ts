@@ -117,7 +117,7 @@ export function isBeaconActive(beacon: Beacon): boolean {
     if (!beacon.activeUntil) {
         return false;
     }
-    return isWithinNext24Hours(beacon.activeUntil);
+    return beacon.activeUntil.getTime() >= new Date();
 }
 
 

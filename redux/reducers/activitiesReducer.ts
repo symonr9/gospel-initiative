@@ -9,11 +9,11 @@ const initialState = {
 export function activitiesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { ministryActivities, beaconActivities, storyActivities } = action.payload;
+            const { beacons, storyActivities } = action.payload;
+
             return update(state, {
                 $set: {
-                    ministryActivities: ministryActivities || [],
-                    beaconActivities: beaconActivities || [],
+                    beaconActivities: beacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || [],
                     storyActivities: storyActivities || []
                 }
             });
