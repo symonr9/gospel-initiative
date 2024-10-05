@@ -1,21 +1,20 @@
-import { ActionStepType, AppIcon, GospelChecklistItem } from '@/enums/enums';
-import React, { useRef, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, ViewProps, FlatList, ScrollView } from 'react-native';
+import { AppIcon, GospelChecklistItem } from '@/enums/enums';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, StyleSheet, ViewProps, FlatList } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
-import ActionStep from '@/models/actionStep';
 import One from '@/models/one';
-import { editOne, setSelectedOne } from '@/redux/actions';
+import { editOne, setAppError, setSelectedOne } from '@/redux/actions';
 import { calculatePercent, mapGospelChecklistItemTypeToDetails, mapGospelChecklistItemTypeToIcon, mapGospelChecklistItemTypeToTitle, mapGospelChecklistItemTypeToVersesAndQuestions } from '@/utils/appUtils';
-import ScrollLayout from '../common/ScrollLayout';
 import { formStyles } from '@/styles/Styles';
 import { PageColumn } from '../common/PageColumn';
-import { SimpleCard } from '../common/SimpleCard';
 import DetailsSection from '../common/DetailsSection';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { updateOne } from '@/requests/Requests';
+import User from '@/models/user';
 
 const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -28,9 +27,11 @@ const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
     }));
 
 export type IGospelChecklist = ViewProps & {
+    executor: User;
     selectedOne: One;
     editOne: Function;
     setSelectedOne: Function;
+    setAppError: Function;
 };
 
 enum PickerState {
@@ -38,7 +39,7 @@ enum PickerState {
     Expanded,
 }
 
-const GospelChecklist = ({ selectedOne, editOne, setSelectedOne }: IGospelChecklist) => {
+const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAppError }: IGospelChecklist) => {
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Launch);
 
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
@@ -57,14 +58,25 @@ const GospelChecklist = ({ selectedOne, editOne, setSelectedOne }: IGospelCheckl
         const isExpanded = expandedIndices.includes(index);
         const isChecked = selectedOneItems?.includes(item.value);
 
-        const onPress = () => {
+        const onPress = async () => {
             const newItems = isChecked ? [...selectedOneItems].filter((value) => value !== item.value) : [...selectedOneItems, item.value];
-            const newOne = {
+            const updatedOne = {
                 ...selectedOne,
                 gospelChecklist: newItems
             };
-            setSelectedOne(newOne);
-            editOne(newOne);
+
+            try {
+                const response = await updateOne(updatedOne, executor.id);
+                if (response.error) {                
+                    setAppError(new Error('Error updating one: ', response.error));
+                    return;
+                }
+
+                editOne(response);
+                setSelectedOne(response);
+            } catch (err: any) {
+                setAppError(new Error('Error updating one: ', err));
+            }
         };
 
         const onExpandedPress = () => {
@@ -190,6 +202,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => {
     const selectedOne = state.ones.selectedOne;
     return {
+        executor: state.users.executor,
         selectedOne,
     };
 };
@@ -197,6 +210,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     editOne,
+    setAppError,
     setSelectedOne
 };
 
