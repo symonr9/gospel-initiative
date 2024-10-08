@@ -184,6 +184,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         <View style={[styles.container, animatedStyle]}>
             <Modal
                 transparent={true}
+                animationType='slide'
                 visible={isModalVisible}
                 onRequestClose={() => setModalVisible(false)}
             >

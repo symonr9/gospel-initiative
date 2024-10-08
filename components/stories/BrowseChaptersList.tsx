@@ -1,19 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import { SceneMap } from 'react-native-tab-view';
 
-import { AnimatedHeader } from '../common/AnimatedHeader';
-import ScrollLayout from '../common/ScrollLayout';
-import StoryChapter from '@/models/storyChapter';
-import { PageRow } from '../common/PageRow';
-import SimpleIconButton from '../common/SimpleIconButton';
-import { AppIcon } from '@/enums/enums';
 import AppTabView from '../common/AppTabView';
 import SalvationMomentsList from './SalvationMomentsList';
 import BeforeChristList from './BeforeChristList';
 import AfterChristList from './AfterChristList';
-import { PageColumn } from '../common/PageColumn';
 
 export type IBrowseChaptersList = ViewProps & {
     setActiveLayoutType: Function;
@@ -52,7 +45,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
-        height: 600,
+        height: 1000,
         paddingBottom: 10
     },
     iconDiv: {

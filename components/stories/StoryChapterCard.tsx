@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { type ViewProps, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { type ViewProps, Button, StyleSheet, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -15,6 +15,9 @@ import { AppIcon } from '@/enums/enums';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import { SimpleCard } from '../common/SimpleCard';
+import { formStyles } from '@/styles/Styles';
+import { QuestionsPicker } from './QuestionsPicker';
+import TagsPicker from './TagsPicker';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -40,6 +43,16 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const animatedHeightStyle = useAnimatedStyle(() => ({
     height: withTiming(height.value, { duration: 500 }), // Adjust duration as needed
   }));
+
+  const Header = [];
+  const Body = [];
+
+  const resetPage = () => {
+    if (setEditingChapterId) {
+      setEditingChapterId(null);
+    }
+    setFormChapter(chapter);
+  };
 
   const onEditClick = () => {
     if (setEditingChapterId) {
@@ -78,6 +91,177 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     height.value = expanded ? COLLAPSED_HEIGHT : EXPANDED_HEIGHT;
   };
 
+  // Building the Header
+  if (editing) {
+    Header.push(
+      <AppText type={TextType.Italic} style={{ fontSize: 16 }}>
+        Editing Item...
+      </AppText>
+    );
+  }
+
+  Header.push(
+    <PageRow style={{ flexShrink: 1, width: 270 }}>
+      <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
+    </PageRow>
+  );
+
+  if (canDiscard) {
+    Header.push(
+      <AppText type={TextType.Subtitle2}>
+        {mapStoryChapterTypeToText(chapter.chapterType)}
+      </AppText>
+    );
+  }
+
+  if (editing) {
+    // TODO: Fill here.
+    Header.push(
+      <PageRow style={{}}>
+        <TagsPicker formChapter={formChapter} 
+          setFormChapter={setFormChapter}/>
+
+      </PageRow>
+    );
+  } else {
+    Header.push(
+      <PageRow style={{}}>
+        {
+          chapter.tags.map((tag) => (
+            <PageChip title={mapStoryChapterTagToText(tag)} small />
+          ))
+        }
+      </PageRow>
+    );
+  }
+
+  if (editing) {
+    // TODO: Fill here
+    Header.push(
+      <PageRow style={{}}>
+
+      </PageRow>
+    );
+  } else {
+    Header.push(
+      <PageRow style={{}}>
+        {
+          chapter.names.map((name) => (
+            <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
+          ))
+        }
+      </PageRow>
+    );
+  }
+
+  // Building the Body
+  if (expanded) {
+    const ExpandedLayout = [];
+
+    if (editing) {
+      ExpandedLayout.push(
+        <TextInput
+          style={[formStyles.multiLineTextInput, { height: 240 }]}
+          placeholder="Enter note here..."
+          placeholderTextColor={'gray'}
+          value={formChapter.content}
+          multiline
+          numberOfLines={8}
+          onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
+      );
+    } else if (chapter.content) {
+      ExpandedLayout.push(
+        <ScrollLayout style={{ maxHeight: 150, marginVertical: 12 }}>
+          <PageRow style={{ flexShrink: 1, width: 360, }}>
+            <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
+          </PageRow>
+        </ScrollLayout>
+      );
+    }
+
+    if (editing) {
+      ExpandedLayout.push(
+        <>
+          <AppText type={TextType.Body}>
+            Questions:
+          </AppText>
+          <QuestionsPicker formChapter={formChapter}
+            setFormChapter={setFormChapter} />
+        </>
+      );
+    } else {
+      ExpandedLayout.push(
+        <>
+          <AppText type={TextType.Body}>
+            Questions:
+          </AppText>
+          <PageColumn style={{ gap: 2, flexShrink: 1, width: 350 }}>
+            {
+              chapter.questions.map((question) => (
+                <AppText type={TextType.Italic}>{question}</AppText>
+              ))
+            }
+          </PageColumn>
+        </>
+      );
+    }
+
+    ExpandedLayout.push(
+      <PageRow style={{ marginTop: 8 }}>
+        <PageChip title={`Quality: ${mapStoryChapterQualityToText(chapter.quality)}`}
+          style={{ backgroundColor: '#d0e0e3' }}
+          small />
+      </PageRow>
+    );
+
+    if (canEdit) {
+      const ExpandedLayoutButtons = [];
+
+      if (canDiscard) {
+        ExpandedLayoutButtons.push(
+          <SimpleCard iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}
+            title={shouldKeep ? 'Keeping' : 'Discarding'}
+            onClick={onKeepClick} />
+        );
+      }
+
+      if (editing) {
+        ExpandedLayoutButtons.push(
+          <PageRow style={{ gap: 20, marginEnd: 8 }}>
+            <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+              title={'Back'}
+              small
+              onClick={onBackClick} />
+            <SimpleIconButton iconSrc={AppIcon.Save}
+              title={'Save'}
+              small
+              onClick={onSaveClick} />
+          </PageRow>
+        );
+      } else {
+        ExpandedLayoutButtons.push(
+          <SimpleIconButton iconSrc={AppIcon.Pencil}
+            title={'Edit'}
+            small
+            customStyles={{ container: { marginEnd: 8 } }}
+            onClick={onEditClick} />
+        );
+      }
+
+      ExpandedLayout.push(
+        <PageRow spaceBetween style={[styles.footer, !canDiscard && { flexDirection: 'row-reverse' }]}>
+          {ExpandedLayoutButtons.map((item) => item)}
+        </PageRow>
+      );
+    }
+
+    Body.push(
+      <PageColumn style={{ marginBottom: 12 }}>
+        {ExpandedLayout.map((item) => item)}
+      </PageColumn>
+    );
+  }
+
   const icon = editing ? AppIcon.Pencil : mapStoryChapterTypeToAppIcon(chapter.chapterType);
 
   return (
@@ -90,122 +274,18 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
             </Animated.View>
 
             <PageColumn>
-              {
-                editing && (
-                  <AppText type={TextType.Italic} style={{ fontSize: 16 }}>
-                    Editing Item...
-                  </AppText>
-                )
-              }
-              <PageRow style={{ flexShrink: 1, width: 270 }}>
-                <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
-              </PageRow>
-              {
-                canDiscard && (
-                  <AppText type={TextType.Subtitle2}>
-                    {mapStoryChapterTypeToText(chapter.chapterType)}
-                  </AppText>
-                )
-              }
-
-              <PageRow style={{}}>
-                {
-                  chapter.tags.map((tag) => (
-                    <PageChip title={mapStoryChapterTagToText(tag)} small />
-                  ))
-                }
-              </PageRow>
-
-              <PageRow style={{ marginTop: 12 }}>
-                {
-                  chapter.names.map((name) => (
-                    <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
-                  ))
-                }
-              </PageRow>
+              {Header.map((item) => item)}
             </PageColumn>
           </PageRow>
 
-          <PageRow spaceEvenly style={{ marginLeft: 20, marginRight: 4 }}>
+          <PageRow spaceEvenly style={[{ marginLeft: 20, marginRight: 4 }, editing && { opacity: 0 }]}>
             <SimpleIconButton iconSrc={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
               onClick={onExpandClick}
               small />
           </PageRow>
         </PageRow>
 
-        {
-          expanded && (
-            <PageColumn style={{ marginBottom: 12 }}>
-              {
-                chapter.content && (
-                  <ScrollLayout style={{ maxHeight: 150, marginVertical: 12 }}>
-                    <PageRow style={{ flexShrink: 1, width: 360,  }}>
-                      <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
-                    </PageRow>
-                  </ScrollLayout>
-                )
-              }
-
-              <AppText type={TextType.Body}>
-                Questions:
-              </AppText>
-              <PageColumn style={{ gap: 2, flexShrink: 1, width: 350 }}>
-                {
-                  chapter.questions.map((question) => (
-                    <AppText type={TextType.Italic}>{question}</AppText>
-                  ))
-                }
-              </PageColumn>
-
-              <PageRow style={{ marginTop: 8 }}>
-                <PageChip title={`Quality: ${mapStoryChapterQualityToText(chapter.quality)}`}
-                  style={{ backgroundColor: '#d0e0e3' }}
-                  small />
-              </PageRow>
-
-              {
-                canEdit && (
-                  <PageRow spaceBetween style={[styles.footer, !canDiscard && { flexDirection: 'row-reverse' }]}>
-                    {
-                      canDiscard && (
-                        <SimpleCard iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash} 
-                          title={shouldKeep ? 'Keeping' : 'Discarding'} 
-                          onClick={onKeepClick}/>
-                      )
-                    }
-
-                    {
-                      !editing && (
-                        <>
-                          <SimpleIconButton iconSrc={AppIcon.Pencil}
-                            title={'Edit'}
-                            small
-                            customStyles={{ container: { marginEnd: 8 } }}
-                            onClick={onEditClick} />
-                        </>
-                      )
-                    }
-
-                    {
-                      editing && (
-                        <PageRow style={{ gap: 20, marginEnd: 8 }}>
-                          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                            title={'Back'}
-                            small
-                            onClick={onBackClick} />
-                          <SimpleIconButton iconSrc={AppIcon.Save}
-                            title={'Save'}
-                            small
-                            onClick={onSaveClick} />
-                        </PageRow>
-                      )
-                    }
-                  </PageRow>
-                )
-              }
-            </PageColumn>
-          )
-        }
+        {Body.map((item) => item)}
 
       </PageColumn>
     </Animated.View>

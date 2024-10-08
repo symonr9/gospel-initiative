@@ -180,7 +180,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
           Your Response
         </AppText>
         <TextInput
-          style={[formStyles.multiLineTextInput, { height: 160 }]}
+          style={[formStyles.multiLineTextInput, { height: 240 }]}
           placeholder="Enter note here..."
           placeholderTextColor={'gray'}
           value={response}
