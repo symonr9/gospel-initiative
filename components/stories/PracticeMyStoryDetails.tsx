@@ -7,7 +7,7 @@ import { AppIcon } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { partition, saveChaptersToServer } from '@/requests/Requests';
+import { partition, createChapters } from '@/requests/Requests';
 import User from '@/models/user';
 import { setAppError, refreshData } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
@@ -72,7 +72,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
 
   const saveChapters = async (controller: AbortController) => {
     try {
-      const data = await saveChaptersToServer(chapterArray, executor.id, controller);
+      const data = await createChapters(chapterArray, executor.id, controller);
 
       if (!data || data.error) {
         setAppError(new Error(data.error || 'Something went wrong'));
@@ -252,6 +252,8 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
           editing={editing}
           canDiscard={true}
           expandOnLoad={true}
+          executor={executor}
+          setAppError={setAppError}
           setEditingChapterId={setEditingChapterId}
           setChapterArray={setChapterArray} />
       );

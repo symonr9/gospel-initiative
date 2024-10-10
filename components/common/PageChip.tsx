@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     icon: {
-        width: 24,
-        height: 24,
+        width: 16,
+        height: 16,
         alignSelf: 'center',
         marginEnd: 4,
     },

@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { type ViewProps, FlatList, TouchableOpacity, View } from 'react-native';
+import { type ViewProps, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { Image } from 'expo-image';
 
-import ScrollLayout from '../common/ScrollLayout';
 import { PageColumn } from '../common/PageColumn';
 import { gridStyles } from '@/styles/Styles';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { AppText, TextType } from '../common/AppText';
-import { PageRow } from '../common/PageRow';
-import { AppIcon } from '@/enums/enums';
-import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
+import User from '@/models/user';
+import { refreshData, setAppError } from '@/redux/actions';
 
 export type IBaseBrowseList = ViewProps & {
     title: string;
     chapters: StoryChapter[];
+    executor: User;
+    setAppError: Function;
+    refreshData: Function;
 };
 
-function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
+function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }: IBaseBrowseList) {
     const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
     const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
 
@@ -36,6 +36,9 @@ function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
         return (
             <StoryChapterCard chapter={item} 
                 setEditingChapterId={setEditingChapterId} 
+                setAppError={setAppError}
+                refreshData={refreshData}
+                executor={executor}
                 editing={isEditing}/>
         );
     };
@@ -58,11 +61,13 @@ function BaseBrowseList({ title, chapters }: IBaseBrowseList) {
 
 const mapStateToProps = (state: any) => {
     return {
+        executor: state.users.executor,
     };
 };
 
 const mapDispatchToProps = {
-    
+    setAppError,
+    refreshData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseBrowseList);

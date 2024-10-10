@@ -1,57 +1,58 @@
 import { AppIcon, StoryChapterTag } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, TextInput } from 'react-native';
 import { mapStoryChapterTagToText } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 import { AppText } from '../common/AppText';
 import ScrollLayout from '../common/ScrollLayout';
 import { PageRow } from '../common/PageRow';
+import { formStyles } from '@/styles/Styles';
+import SimpleIconButton from '../common/SimpleIconButton';
 
-function createTagMap(keys: string[]) {
-    return keys
-        .filter(key => isNaN(Number(key)))
-        .map((key, index) => ({
-            value: StoryChapterTag[key as keyof typeof StoryChapterTag],
-            label: mapStoryChapterTagToText(StoryChapterTag[key as keyof typeof StoryChapterTag]),
-        }));
-}
-
-const tagArray = createTagMap(Object.keys(StoryChapterTag));
-
-type TagsPickerProps = {
+type NamesPickerProps = {
     formChapter: StoryChapter;
     setFormChapter?: (updatedChapter: StoryChapter) => void;
     editing?: Boolean;
 };
 
-export default function TagsPicker({ formChapter, setFormChapter, editing = true }: TagsPickerProps) {
+export default function NamesPicker({ formChapter, setFormChapter, editing = true }: NamesPickerProps) {
+    const [formNames, setFormNames] = useState(formChapter.names);
+    const [newName, setNewName] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
 
-    const toggleTag = (tag: StoryChapterTag) => {
-        if (setFormChapter) {
-            const updatedTags = formChapter.tags.includes(tag)
-                ? formChapter.tags.filter((t) => t !== tag)
-                : [...formChapter.tags, tag];
-            setFormChapter({ ...formChapter, tags: updatedTags });
+    useEffect(() => {
+        if (!modalVisible && setFormChapter && formNames !== formChapter.names) {
+            setFormChapter({ ...formChapter, names: formNames });
         }
+    }, [modalVisible]);
+
+    const toggleFormName = (name: string) => {
+        const updatedNames = formNames.includes(name)
+            ? formNames.filter((n) => n !== name)
+            : [...formNames, name];
+        setFormNames(updatedNames);
     };
 
-    const currentTags = formChapter.tags.map((value) => ({
-        value: value,
-        label: mapStoryChapterTagToText(value),
-    }));
+    const onAddNewNameClick = () => {
+        if (!newName || formNames.includes(newName) || !setFormChapter) {
+            return;
+        }
+        setFormNames([...formNames, newName]);
+        setNewName("");
+    }
 
     return (
         <View>
             <PageRow>
                 <FlatList
-                    data={currentTags}
+                    data={formChapter.names}
                     numColumns={4}
-                    keyExtractor={(item, index) => item.label}
+                    keyExtractor={(item, index) => item}
                     renderItem={({ item }) => (
-                        <PageChip title={mapStoryChapterTagToText(item.value)}
+                        <PageChip title={item}
                             onClick={() => editing && setModalVisible(true)}
+                            style={{ backgroundColor: '#d9ead3' }}
                             small />
                     )} />
             </PageRow>
@@ -62,7 +63,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                         <PageChip title={'Edit'}
                             iconSrc={AppIcon.Edit}
                             onClick={() => setModalVisible(true)}
-                            small />                
+                            small />
                     </PageRow>
                 )
             }
@@ -74,25 +75,42 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                 onRequestClose={() => setModalVisible(false)}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Select Tags</Text>
+                        <Text style={styles.modalTitle}>Select Names</Text>
 
                         <ScrollLayout style={{ height: 300 }}>
                             <FlatList
-                                data={tagArray}
+                                data={[...new Set([...formChapter.names, ...formNames])]}
                                 numColumns={3}
-                                keyExtractor={(item) => item.label}
+                                keyExtractor={(item) => item}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity
                                         style={[
                                             styles.tagOption,
-                                            formChapter.tags.includes(item.value) && styles.selectedTagOption,
+                                            formNames.includes(item) && styles.selectedTagOption,
                                         ]}
-                                        onPress={() => toggleTag(item.value)}>
+                                        onPress={() => toggleFormName(item)}>
                                         <AppText>
-                                            {item.label}
+                                            {item}
                                         </AppText>
                                     </TouchableOpacity>
                                 )} />
+
+                            <PageRow spaceBetween>
+                                <TextInput
+                                    style={[formStyles.slimTextInput, { flexGrow: 1 }]}
+                                    placeholder="Add a new name"
+                                    placeholderTextColor={'gray'}
+                                    value={newName}
+                                    onChangeText={(text) => setNewName(text)}
+                                />
+
+                                <SimpleIconButton
+                                    iconSrc={AppIcon.Plus}
+                                    customStyles={{ container: { marginStart: 12, marginTop: 8 } }}
+                                    small
+                                    onClick={onAddNewNameClick}
+                                />
+                            </PageRow>
                         </ScrollLayout>
 
                         <TouchableOpacity
@@ -133,13 +151,15 @@ const styles = StyleSheet.create({
     },
     tagOption: {
         padding: 8,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: 'lightred',
         marginVertical: 5,
         borderRadius: 4,
+        opacity: 0.6,
         marginHorizontal: 4
     },
     selectedTagOption: {
         backgroundColor: '#d0e0e3',
+        opacity: 1
     },
     closeButton: {
         marginTop: 20,

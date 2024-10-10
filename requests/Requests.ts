@@ -15,7 +15,7 @@ export const fetchActiveBeacons = async (userId: string) => {
                 user_id: userId
             }
         });
-        console.log("fetchServerData: ", response);
+        console.log("fetchActiveBeacons: ", response);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -191,7 +191,7 @@ export const partition = async (question: string, userResponse: string, userId: 
     }
 };
 
-export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, userId: string, controller?: AbortController) => {
+export const createChapters = async (chapterArray: StoryChapter[] | null, userId: string, controller?: AbortController) => {
     if (!chapterArray || !userId) {
         console.error('Missing required parameters: chapterArray, userId.');
         return { error: 'Invalid parameters.' };
@@ -219,8 +219,41 @@ export const saveChaptersToServer = async (chapterArray: StoryChapter[] | null, 
 
         return response.data;
     } catch (error: any) {
-        console.error('Error partition():', error.message || error);
-        return { error: error.message || 'An error occurred while partitioning data.' };
+        console.error('Error addingChapters():', error.message || error);
+        return { error: error.message || 'An error occurred while adding chapters.' };
+    }
+}
+
+export const updateChapter = async (chapter: StoryChapter, userId: string, controller?: AbortController) => {
+    if (!chapter || !userId) {
+        console.error('Missing required parameters: chapter, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    const preparedChapter = {...chapter, iconKey: getAppIconKey(chapter.icon)};
+
+    try {
+        const response = await postData(`/stories/update`, {
+            chapter: preparedChapter
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller?.signal,
+        });
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        return response.data;
+    } catch (error: any) {
+        console.error('Error updateChapter():', error.message || error);
+        return { error: error.message || 'An error occurred while updating chapter.' };
     }
 }
 

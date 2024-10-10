@@ -55,6 +55,7 @@ Join our community of developers creating universal apps.
 - Run on Android: `npm run android`
 - Run on iOS: `npm run ios`
 - Run on Web: `npm run web`
+- Get IP Address: `ipconfig`
 
 ## Setup for development with server
 

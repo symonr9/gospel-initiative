@@ -18,6 +18,9 @@ import { SimpleCard } from '../common/SimpleCard';
 import { formStyles } from '@/styles/Styles';
 import { QuestionsPicker } from './QuestionsPicker';
 import TagsPicker from './TagsPicker';
+import NamesPicker from './NamesPicker';
+import User from '@/models/user';
+import { updateChapter } from '@/requests/Requests';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -27,18 +30,29 @@ export type IStoryChapterCard = ViewProps & {
   canEdit?: Boolean;
   canDiscard?: Boolean;
   expandOnLoad?: Boolean;
+  executor: User;
+  setAppError: Function;
+  refreshData: Function;
 };
 
+const EDITING_HEIGHT = 'auto';
 const EXPANDED_HEIGHT = 450;
 const COLLAPSED_HEIGHT = 100;
 
+function getHeight(expanded: Boolean, editing: Boolean) {
+  if (editing) return EDITING_HEIGHT;
+  if (expanded) return EXPANDED_HEIGHT;
+  return COLLAPSED_HEIGHT;
+}
+
 export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
-  editing = false, canEdit = true, expandOnLoad = false, canDiscard = false, style }: IStoryChapterCard) {
+  editing = false, canEdit = true, expandOnLoad = false, canDiscard = false, executor,
+  setAppError, refreshData, style }: IStoryChapterCard) {
   const [expanded, setExpanded] = useState(expandOnLoad);
   const [formChapter, setFormChapter] = useState(chapter);
   const shouldKeep = shouldKeepChapter(chapter.quality);
-
-  const height = useSharedValue(expanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
+  
+  const height = useSharedValue(getHeight(expanded, editing));
 
   const animatedHeightStyle = useAnimatedStyle(() => ({
     height: withTiming(height.value, { duration: 500 }), // Adjust duration as needed
@@ -57,6 +71,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const onEditClick = () => {
     if (setEditingChapterId) {
       setEditingChapterId(editing ? null : chapter.id);
+      height.value = getHeight(!expanded, !editing);
     }
   }
 
@@ -71,24 +86,30 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   }
 
   const onBackClick = () => {
-    if (setEditingChapterId) {
-      setEditingChapterId(null);
-    }
+    resetPage();
   };
 
-  const onSaveClick = () => {
+  const onSaveClick = async () => {
     if (setChapterArray) {
       setChapterArray((prev: StoryChapter[]) => prev.map((item) => (
         item.id === formChapter.id
           ? formChapter
           : item
       )));
+    } else if (refreshData) {
+      const response = await updateChapter(formChapter, executor.id);
+      if (response.error) {
+          setAppError(new Error('Error updating chapter: ', response.error));
+          return;
+      }  
+      refreshData();
+      resetPage();
     }
   };
 
   const onExpandClick = () => {
     setExpanded(!expanded);
-    height.value = expanded ? COLLAPSED_HEIGHT : EXPANDED_HEIGHT;
+    height.value = getHeight(!expanded, editing);
   };
 
   // Building the Header
@@ -114,45 +135,16 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     );
   }
 
-  if (editing) {
-    // TODO: Fill here.
-    Header.push(
-      <PageRow style={{}}>
-        <TagsPicker formChapter={formChapter} 
-          setFormChapter={setFormChapter}/>
-
-      </PageRow>
-    );
-  } else {
-    Header.push(
-      <PageRow style={{}}>
-        {
-          chapter.tags.map((tag) => (
-            <PageChip title={mapStoryChapterTagToText(tag)} small />
-          ))
-        }
-      </PageRow>
-    );
-  }
-
-  if (editing) {
-    // TODO: Fill here
-    Header.push(
-      <PageRow style={{}}>
-
-      </PageRow>
-    );
-  } else {
-    Header.push(
-      <PageRow style={{}}>
-        {
-          chapter.names.map((name) => (
-            <PageChip title={name} small style={{ backgroundColor: '#d9ead3' }} />
-          ))
-        }
-      </PageRow>
-    );
-  }
+  Header.push(
+    <PageColumn style={{}}>
+      <TagsPicker formChapter={formChapter} 
+        editing={editing}
+        setFormChapter={setFormChapter}/>
+      <NamesPicker formChapter={formChapter}
+        editing={editing}
+        setFormChapter={setFormChapter} />
+    </PageColumn>
+  );
 
   // Building the Body
   if (expanded) {
@@ -285,7 +277,9 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           </PageRow>
         </PageRow>
 
-        {Body.map((item) => item)}
+        <PageColumn style={styles.bodyContainer}>
+          {Body.map((item) => item)}
+        </PageColumn>
 
       </PageColumn>
     </Animated.View>
@@ -330,5 +324,7 @@ const styles = StyleSheet.create({
   stateBtn: {
     borderRadius: 8,
     backgroundColor: '#fafafa',
+  },
+  bodyContainer: {
   },
 });
