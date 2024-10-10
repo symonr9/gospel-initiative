@@ -12,7 +12,6 @@ import StoryChapter from '@/models/storyChapter';
 import { PageChip } from '../common/PageChip';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
-import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import { SimpleCard } from '../common/SimpleCard';
 import { formStyles } from '@/styles/Styles';
@@ -21,6 +20,7 @@ import TagsPicker from './TagsPicker';
 import NamesPicker from './NamesPicker';
 import User from '@/models/user';
 import { updateChapter } from '@/requests/Requests';
+import ChapterTypePicker from './ChapterTypePicker';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -35,28 +35,12 @@ export type IStoryChapterCard = ViewProps & {
   refreshData: Function;
 };
 
-const EDITING_HEIGHT = 'auto';
-const EXPANDED_HEIGHT = 450;
-const COLLAPSED_HEIGHT = 100;
-
-function getHeight(expanded: Boolean, editing: Boolean) {
-  if (editing) return EDITING_HEIGHT;
-  if (expanded) return EXPANDED_HEIGHT;
-  return COLLAPSED_HEIGHT;
-}
-
 export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
   editing = false, canEdit = true, expandOnLoad = false, canDiscard = false, executor,
   setAppError, refreshData, style }: IStoryChapterCard) {
   const [expanded, setExpanded] = useState(expandOnLoad);
   const [formChapter, setFormChapter] = useState(chapter);
   const shouldKeep = shouldKeepChapter(chapter.quality);
-  
-  const height = useSharedValue(getHeight(expanded, editing));
-
-  const animatedHeightStyle = useAnimatedStyle(() => ({
-    height: withTiming(height.value, { duration: 500 }), // Adjust duration as needed
-  }));
 
   const Header = [];
   const Body = [];
@@ -71,7 +55,6 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const onEditClick = () => {
     if (setEditingChapterId) {
       setEditingChapterId(editing ? null : chapter.id);
-      height.value = getHeight(!expanded, !editing);
     }
   }
 
@@ -109,7 +92,6 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   const onExpandClick = () => {
     setExpanded(!expanded);
-    height.value = getHeight(!expanded, editing);
   };
 
   // Building the Header
@@ -121,11 +103,27 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     );
   }
 
-  Header.push(
-    <PageRow style={{ flexShrink: 1, width: 270 }}>
-      <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
-    </PageRow>
-  );
+  if (editing) {
+    Header.push(
+      <PageColumn style={{ marginVertical: 8 }}>
+          <TextInput
+            style={[formStyles.slimTextInput, { flexGrow: 1, marginBottom: 8 }]}
+            placeholder={'Enter title here...'}
+            placeholderTextColor={'gray'}
+            value={formChapter.title}
+            onChangeText={(text) => setFormChapter({...formChapter, title: text})}/>
+
+          <ChapterTypePicker formChapter={formChapter} 
+            setFormChapter={setFormChapter} />
+      </PageColumn>
+    )
+  } else {
+    Header.push(
+      <PageRow style={{ flexShrink: 1, width: 270 }}>
+        <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
+      </PageRow>
+    );
+  }
 
   if (canDiscard) {
     Header.push(
@@ -257,7 +255,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const icon = editing ? AppIcon.Pencil : mapStoryChapterTypeToAppIcon(chapter.chapterType);
 
   return (
-    <Animated.View style={[styles.chapterCard, animatedHeightStyle, !shouldKeep && styles.shouldDiscard, style]}>
+    <Animated.View style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, style]}>
       <PageColumn>
         <PageRow>
           <PageRow style={{ marginBottom: 8 }}>
