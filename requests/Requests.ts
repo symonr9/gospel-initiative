@@ -257,6 +257,37 @@ export const updateChapter = async (chapter: StoryChapter, userId: string, contr
     }
 }
 
+export const deleteChapter = async (chapter: StoryChapter, userId: string, controller?: AbortController) => {
+    if (!chapter || !userId) {
+        console.error('Missing required parameters: chapter, userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await postData(`/stories/delete`, {
+            chapter
+        }, {
+            headers: {
+                user_id: userId
+            },
+            signal: controller?.signal,
+        });
+
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        return response.data;
+    } catch (error: any) {
+        console.error('Error deleteChapter():', error.message || error);
+        return { error: error.message || 'An error occurred while deleting chapter.' };
+    }
+}
+
 export const createOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
     return performOneRequest(true, one, userId, controller);
 }

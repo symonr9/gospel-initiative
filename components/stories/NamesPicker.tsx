@@ -9,6 +9,7 @@ import ScrollLayout from '../common/ScrollLayout';
 import { PageRow } from '../common/PageRow';
 import { formStyles } from '@/styles/Styles';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { PageColumn } from '../common/PageColumn';
 
 type NamesPickerProps = {
     formChapter: StoryChapter;
@@ -43,7 +44,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
     }
 
     return (
-        <View>
+        <PageColumn>
             <PageRow>
                 <FlatList
                     data={formChapter.names}
@@ -59,7 +60,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
 
             {
                 editing && (
-                    <PageRow style={{ width: 100 }}>
+                    <PageRow style={{ width: 100, marginTop: 16 }}>
                         <PageChip title={'Edit'}
                             iconSrc={AppIcon.Edit}
                             onClick={() => setModalVisible(true)}
@@ -121,7 +122,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                     </View>
                 </View>
             </Modal>
-        </View>
+        </PageColumn>
     );
 }
 

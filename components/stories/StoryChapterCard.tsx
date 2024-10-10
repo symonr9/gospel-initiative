@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { type ViewProps, Button, StyleSheet, TextInput } from 'react-native';
+import { type ViewProps, Button, StyleSheet, TextInput, Alert } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -19,7 +19,7 @@ import { QuestionsPicker } from './QuestionsPicker';
 import TagsPicker from './TagsPicker';
 import NamesPicker from './NamesPicker';
 import User from '@/models/user';
-import { updateChapter } from '@/requests/Requests';
+import { deleteChapter, updateChapter } from '@/requests/Requests';
 import ChapterTypePicker from './ChapterTypePicker';
 
 export type IStoryChapterCard = ViewProps & {
@@ -34,6 +34,12 @@ export type IStoryChapterCard = ViewProps & {
   setAppError: Function;
   refreshData: Function;
 };
+
+function getHeight(expanded: Boolean, editing: Boolean) {
+  if (editing) return 800;
+  if (expanded) return 500;
+  return 150;
+}
 
 export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
   editing = false, canEdit = true, expandOnLoad = false, canDiscard = false, executor,
@@ -82,12 +88,43 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     } else if (refreshData) {
       const response = await updateChapter(formChapter, executor.id);
       if (response.error) {
-          setAppError(new Error('Error updating chapter: ', response.error));
-          return;
-      }  
+        setAppError(new Error('Error updating chapter: ', response.error));
+        return;
+      }
       refreshData();
       resetPage();
     }
+  };
+
+  const onDeleteClick = async () => {
+    Alert.alert(
+      "Confirm Deletion",
+      "Are you sure you want to delete this chapter?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Deletion canceled"),
+          style: "cancel"
+        },
+        {
+          text: "Yes",
+          onPress: async () => {
+            if (setChapterArray) {
+              setChapterArray((prev: StoryChapter[]) => prev.filter((item) => (
+                item.id !== formChapter.id)));
+            } else if (refreshData) {
+              const response = await deleteChapter(formChapter, executor.id);
+              if (response.error) {
+                setAppError(new Error('Error deleting chapter: ', response.error));
+                return;
+              }
+              refreshData();
+              resetPage();
+            }
+          }
+        }
+      ]
+    );
   };
 
   const onExpandClick = () => {
@@ -106,15 +143,15 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   if (editing) {
     Header.push(
       <PageColumn style={{ marginVertical: 8 }}>
-          <TextInput
-            style={[formStyles.slimTextInput, { flexGrow: 1, marginBottom: 8 }]}
-            placeholder={'Enter title here...'}
-            placeholderTextColor={'gray'}
-            value={formChapter.title}
-            onChangeText={(text) => setFormChapter({...formChapter, title: text})}/>
+        <TextInput
+          style={[formStyles.slimTextInput, { flexGrow: 1, marginBottom: 8 }]}
+          placeholder={'Enter title here...'}
+          placeholderTextColor={'gray'}
+          value={formChapter.title}
+          onChangeText={(text) => setFormChapter({ ...formChapter, title: text })} />
 
-          <ChapterTypePicker formChapter={formChapter} 
-            setFormChapter={setFormChapter} />
+        <ChapterTypePicker formChapter={formChapter}
+          setFormChapter={setFormChapter} />
       </PageColumn>
     )
   } else {
@@ -134,10 +171,10 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   }
 
   Header.push(
-    <PageColumn style={{}}>
-      <TagsPicker formChapter={formChapter} 
+    <PageColumn style={{ gap: 16 }}>
+      <TagsPicker formChapter={formChapter}
         editing={editing}
-        setFormChapter={setFormChapter}/>
+        setFormChapter={setFormChapter} />
       <NamesPicker formChapter={formChapter}
         editing={editing}
         setFormChapter={setFormChapter} />
@@ -151,7 +188,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     if (editing) {
       ExpandedLayout.push(
         <TextInput
-          style={[formStyles.multiLineTextInput, { height: 240 }]}
+          style={[formStyles.multiLineTextInput, { height: 240, width: 300, marginVertical: 8 }]}
           placeholder="Enter note here..."
           placeholderTextColor={'gray'}
           value={formChapter.content}
@@ -228,6 +265,13 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               onClick={onSaveClick} />
           </PageRow>
         );
+
+        ExpandedLayoutButtons.push(
+          <SimpleIconButton iconSrc={AppIcon.Trash}
+            title={'Delete'}
+            small
+            onClick={onDeleteClick} />
+        );
       } else {
         ExpandedLayoutButtons.push(
           <SimpleIconButton iconSrc={AppIcon.Pencil}
@@ -252,16 +296,18 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     );
   }
 
-  const icon = editing ? AppIcon.Pencil : mapStoryChapterTypeToAppIcon(chapter.chapterType);
-
   return (
-    <Animated.View style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, style]}>
-      <PageColumn>
+    <Animated.View style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing)}, style]}>
+      <PageColumn style={{ gap: 8 }}>
         <PageRow>
           <PageRow style={{ marginBottom: 8 }}>
-            <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
-              <Image source={icon} style={styles.icon} />
-            </Animated.View>
+            {
+              !editing && (
+                <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
+                  <Image source={mapStoryChapterTypeToAppIcon(chapter.chapterType)} style={styles.icon} />
+                </Animated.View>
+              )
+            }
 
             <PageColumn>
               {Header.map((item) => item)}

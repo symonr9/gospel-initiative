@@ -7,6 +7,7 @@ import { PageChip } from '../common/PageChip';
 import { AppText } from '../common/AppText';
 import ScrollLayout from '../common/ScrollLayout';
 import { PageRow } from '../common/PageRow';
+import { PageColumn } from '../common/PageColumn';
 
 function createTagMap(keys: string[]) {
     return keys
@@ -43,11 +44,12 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
     }));
 
     return (
-        <View>
-            <PageRow>
+        <PageColumn>
+            <PageRow style={{}}>
                 <FlatList
                     data={currentTags}
                     numColumns={4}
+                    style={{ gap: 16 }}
                     keyExtractor={(item, index) => item.label}
                     renderItem={({ item }) => (
                         <PageChip title={mapStoryChapterTagToText(item.value)}
@@ -58,7 +60,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
 
             {
                 editing && (
-                    <PageRow style={{ width: 100 }}>
+                    <PageRow style={{ width: 100, marginTop: 16 }}>
                         <PageChip title={'Edit'}
                             iconSrc={AppIcon.Edit}
                             onClick={() => setModalVisible(true)}
@@ -79,7 +81,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                         <ScrollLayout style={{ height: 300 }}>
                             <FlatList
                                 data={tagArray}
-                                numColumns={3}
+                                numColumns={2}
                                 keyExtractor={(item) => item.label}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity
@@ -103,7 +105,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                     </View>
                 </View>
             </Modal>
-        </View>
+        </PageColumn>
     );
 }
 
