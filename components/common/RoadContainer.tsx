@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
-import Animated, {
+import {
     useSharedValue,
     useAnimatedStyle,
     withTiming,
