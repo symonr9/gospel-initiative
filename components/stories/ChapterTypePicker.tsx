@@ -1,13 +1,8 @@
-import { AppIcon, StoryChapterType } from '@/enums/enums';
+import { StoryChapterType } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, TextInput } from 'react-native';
-import { PageChip } from '../common/PageChip';
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { AppText, TextType } from '../common/AppText';
-import ScrollLayout from '../common/ScrollLayout';
-import { PageRow } from '../common/PageRow';
-import { formStyles } from '@/styles/Styles';
-import SimpleIconButton from '../common/SimpleIconButton';
 import { mapStoryChapterTypeToText } from '@/utils/appUtils';
 
 type IChapterTypePicker = {

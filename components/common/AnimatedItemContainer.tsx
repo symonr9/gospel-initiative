@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';

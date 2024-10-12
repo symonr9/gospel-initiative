@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, LayoutAnimation } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { EnhancedStory } from '@/models/story';

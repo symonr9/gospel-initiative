@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
 import Animated, { 
@@ -11,7 +11,6 @@ import Animated, {
     ZoomOut 
 } from 'react-native-reanimated';
 
-import { AppIcon } from '@/enums/enums';
 import BeaconActivity from '@/models/beaconActivity';
 import { mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 

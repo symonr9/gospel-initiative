@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
-import { View, useWindowDimensions, StyleSheet, Dimensions } from 'react-native';
-import { TabView, SceneMap, TabBar, SceneRendererProps, Route } from 'react-native-tab-view';
+import { View, useWindowDimensions, StyleSheet } from 'react-native';
+import { TabView, TabBar, SceneRendererProps, Route } from 'react-native-tab-view';
 
 import { AppText } from '@/components/common/AppText';
 import { Colors } from '@/constants/Colors';

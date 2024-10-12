@@ -1,8 +1,7 @@
-import { AppIcon, StoryChapterTag } from '@/enums/enums';
+import { AppIcon } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, TextInput } from 'react-native';
-import { mapStoryChapterTagToText } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 import { AppText } from '../common/AppText';
 import ScrollLayout from '../common/ScrollLayout';

@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { type ViewProps, Button, StyleSheet, TextInput, Alert } from 'react-native';
+import { type ViewProps, StyleSheet, TextInput, Alert } from 'react-native';
 import { Image } from 'expo-image';
-import Animated, { FadeInUp, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
-import { mapStoryChapterQualityToText, mapStoryChapterTagToText, mapStoryChapterTypeToAppIcon, mapStoryChapterTypeToText, shouldKeepChapter } from '@/utils/appUtils';
+import { mapStoryChapterQualityToText, mapStoryChapterTypeToAppIcon, mapStoryChapterTypeToText, shouldKeepChapter } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';

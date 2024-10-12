@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, ScrollView, ActivityIndicator, TextInput } from 'react-native';
+import { FlatList, StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
@@ -12,7 +12,6 @@ import User from '@/models/user';
 import { setAppError, refreshData } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
-import { Colors } from '@/constants/Colors';
 import { getRandomString, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';

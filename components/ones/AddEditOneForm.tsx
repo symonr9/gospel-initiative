@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { connect, useSelector } from 'react-redux';
-import { FlatList, View, ViewProps, StyleSheet, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { ViewProps, StyleSheet, TextInput } from 'react-native';
 
 import One from '@/models/one';
 import OneForm from '@/models/oneForm';

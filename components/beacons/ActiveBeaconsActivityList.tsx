@@ -1,12 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Easing, Dimensions } from 'react-native';
+import React, {  } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
-import Animated, { FadeInUp, FadeInDown, FadeOutDown, FadeInLeft, FadeInRight } from 'react-native-reanimated';
-import { AppIcon, FadeDirection } from '@/enums/enums';
+import Animated, { FadeInRight } from 'react-native-reanimated';
+import { AppIcon } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
-import beacon, { BeaconWithActivities } from '@/models/beacon';
-import { ActiveBeaconsInfoCard } from './ActiveBeaconsInfoCard';
+import { BeaconWithActivities } from '@/models/beacon';
 import { PageRow } from '../common/PageRow';
 import ScrollLayout from '../common/ScrollLayout';
 import { getAppTimeAgoText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';

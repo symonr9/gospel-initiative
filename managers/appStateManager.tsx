@@ -4,9 +4,9 @@ import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
 import User from '@/models/user';
 import {  setSelectedTemplateId, addBeacon, setSelectedOne } from '@/redux/actions';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 export type IAppStateManager = {
     executor: User;

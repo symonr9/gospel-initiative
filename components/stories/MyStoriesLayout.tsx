@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { AppIcon } from '@/enums/enums';
-import SimpleIconButton from '../common/SimpleIconButton';
-import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
-import { PageRow } from '../common/PageRow';
 import ScrollLayout from '../common/ScrollLayout';
-import PracticeMyStoryDetails from './PracticeMyStoryDetails';
 import StoryChapter from '@/models/storyChapter';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import BrowseChaptersList from './BrowseChaptersList';

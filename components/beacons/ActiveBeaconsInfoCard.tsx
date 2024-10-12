@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Animated, GestureResponderEvent, View, type ViewProps } from 'react-native';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import React, {  } from 'react';
+import { type ViewProps } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { AnimatedCount } from '../common/AnimatedCount';
 import Beacon from '@/models/beacon';

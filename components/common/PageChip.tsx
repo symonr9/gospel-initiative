@@ -1,5 +1,5 @@
 import React from 'react';
-import { GestureResponderEvent, View, type ViewProps } from 'react-native';
+import { GestureResponderEvent, type ViewProps } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 

@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 
 import { connect } from 'react-redux';
-import { FlatList, View, ViewProps, StyleSheet, Dimensions } from 'react-native';
+import { View, ViewProps, StyleSheet } from 'react-native';
 
 import { AppText, TextType } from './AppText';
 

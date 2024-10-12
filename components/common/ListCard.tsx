@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';

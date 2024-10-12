@@ -1,14 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import {
-  View,
   KeyboardAvoidingView,
-  TextInput,
   StyleSheet,
-  Text,
   Platform,
-  TouchableWithoutFeedback,
-  Button,
-  Keyboard,
   ViewProps,
 } from 'react-native';
 

@@ -1,14 +1,11 @@
 import React from 'react';
-import { View, ViewProps, StyleSheet, Animated } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import LocalEvent from '@/models/localEvent';
-import LocalMinistry from '@/models/localMinistry';
 import SimpleIconButton from './SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
 import { AnimatedHeader } from './AnimatedHeader';
 import { SimpleIcon } from './SimpleIcon';
 import { PageRow } from './PageRow';
-import { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { AnimatedElement } from './AnimatedElement';
 
 export type IListDetails = {

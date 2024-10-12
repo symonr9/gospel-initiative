@@ -12,7 +12,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { Alert, Button, TouchableOpacity, LogBox } from 'react-native';
+import { Alert, TouchableOpacity, LogBox } from 'react-native';
 
 LogBox.ignoreAllLogs(true);
 

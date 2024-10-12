@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 
 import { connect, useSelector } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet } from 'react-native';
@@ -9,10 +9,7 @@ import OneFact from '@/models/oneFact';
 import { AppText, TextType } from '../common/AppText';
 import { selectOneFactsByOneId } from '@/redux/selectors';
 import { OneFactCard } from './OneFactCard';
-import { AppIcon } from '@/enums/enums';
 import { PageRow } from '../common/PageRow';
-import SimpleIconButton from '../common/SimpleIconButton';
-import { isEditing } from '@/utils/appUtils';
 
 export type IOneFactsList = ViewProps & {
     selectedOne: One;

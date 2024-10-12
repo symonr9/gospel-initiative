@@ -2,14 +2,14 @@ import PageView from '@/components/common/PageView';
 import React from 'react';
 import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import OnesLayout from '@/components/ones/OnesLayout';
 import OnesOverviewLayout from '@/components/ones/OnesOverviewLayout';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
 import Error from '@/models/error';
-import { clearAppError, setAppError } from '@/redux/actions';
+import { clearAppError } from '@/redux/actions';
 
 export type IOnes = ViewProps & {
   error: Error,

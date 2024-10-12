@@ -2,18 +2,13 @@ import React, { useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { AppIcon, RoadContainerType } from '@/enums/enums';
+import { RoadContainerType } from '@/enums/enums';
 import { BeaconCard } from './BeaconCard';
-import { RoadContainer } from '../common/RoadContainer';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
-import BeaconDetails from './BeaconDetails';
 import BeaconActivityBezierLineChart from '../common/BeaconActivityBezierLineChart';
-import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import { AnimatedHeader } from '../common/AnimatedHeader';
-import { PageRow } from '../common/PageRow';
-import DetailsSection from '../common/DetailsSection';
 
 export type IBeaconsHistoryLayout = ViewProps & {
 

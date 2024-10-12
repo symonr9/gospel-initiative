@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
-import one from "@/models/one";
-import { mapStageToIcon, mapStageToText } from "@/utils/appUtils";
-import { ViewProps, View, StyleSheet } from "react-native";
-import { AnimatedCount } from "./AnimatedCount";
+import { ViewProps, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import { AppText, TextType } from "./AppText";
-import { PageRow } from "./PageRow";
 import { PageColumn } from "./PageColumn";
-import { AppIcon, OneStage } from "@/enums/enums";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, FadeInUp } from 'react-native-reanimated';
+import { AppIcon } from "@/enums/enums";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 
 export type IDetailsSection = ViewProps & {

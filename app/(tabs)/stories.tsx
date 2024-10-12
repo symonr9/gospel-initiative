@@ -2,7 +2,7 @@ import PageView from '@/components/common/PageView';
 import React from 'react';
 import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import MyStoriesLayout from '@/components/stories/MyStoriesLayout';
 import GodsStoriesLayout from '@/components/stories/GodsStoriesLayout';

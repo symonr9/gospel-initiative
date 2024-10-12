@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { connect, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 
-import { AppIcon, FadeDirection, Page, RoadContainerType } from '@/enums/enums';
+import { AppIcon } from '@/enums/enums';
 import SimpleIconButton from '../common/SimpleIconButton';
-import Story, { EnhancedStory } from '@/models/story';
+import { EnhancedStory } from '@/models/story';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
 import { StoryCard } from './StoryCard';
@@ -13,8 +13,6 @@ import { mapStoryTypeToText } from '@/utils/appUtils';
 import StoryDetails from './StoryDetails';
 import AddEditStoryForm from './AddEditStoryForm';
 import { PageRow } from '../common/PageRow';
-import StoryActivityHeatMapChart from '../common/StoryActivityHeatMapChart';
-import { RoadContainer } from '../common/RoadContainer';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import StoriesGrid from './StoriesGrid';

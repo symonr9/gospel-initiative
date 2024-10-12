@@ -1,9 +1,8 @@
 import React from 'react';
-import { type ViewProps, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { type ViewProps, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import ScrollLayout from '../common/ScrollLayout';
-import { setSelectedOne } from '@/redux/actions';
 import { PageColumn } from '../common/PageColumn';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';

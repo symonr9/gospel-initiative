@@ -1,11 +1,11 @@
 
 
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
-import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { useBackgroundThemeColor } from '@/constants/Colors';
 import Leader from '@/models/leader';
 import { LeaderCard } from './LeaderCard';
 

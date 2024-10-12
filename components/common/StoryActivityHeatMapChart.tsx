@@ -7,7 +7,6 @@ import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { selectAllStoryActivities } from '@/redux/selectors';
 import StoryActivity from '@/models/storyActivity'; 
 import { ContributionChartValue } from 'react-native-chart-kit/dist/contribution-graph/ContributionGraph';
-import { RectProps } from 'react-native-svg';
 
 export type IStoryActivityHeatMapChart = ViewProps & {
     allActivities: StoryActivity[];

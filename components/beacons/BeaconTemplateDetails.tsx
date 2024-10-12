@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, type ViewProps, StyleSheet, Animated, TextInput, KeyboardAvoidingView } from 'react-native';
-import { Image } from 'expo-image';
+import { type ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, Priority } from '@/enums/enums';
+import { Priority } from '@/enums/enums';
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
-import { getShowHideIcon, mapPriorityToText } from '@/utils/appUtils';
+import { getShowHideIcon } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { BeaconTemplateCard } from './BeaconTemplateCard';

@@ -1,8 +1,8 @@
-import { OneCategory, OneStage } from '@/enums/enums';
-import React, { useState } from 'react';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps } from 'react-native';
+import { OneCategory } from '@/enums/enums';
+import React from 'react';
+import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
-import { mapOneCategoryToIcon, mapOneCategoryToText, mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';

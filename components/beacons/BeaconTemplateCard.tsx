@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, type ViewProps, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { type ViewProps, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';

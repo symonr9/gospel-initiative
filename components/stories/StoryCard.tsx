@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
-import Animated, { FadeInDown, FadeInUp, ZoomIn, ZoomOut } from 'react-native-reanimated';
-import { AppIcon } from '@/enums/enums';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import Story from '@/models/story';
 

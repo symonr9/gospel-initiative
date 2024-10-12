@@ -1,6 +1,6 @@
 import React from 'react';
-import type { PropsWithChildren, ReactElement } from 'react';
-import { Dimensions, StyleSheet, useColorScheme, ViewProps } from 'react-native';
+import type { PropsWithChildren } from 'react';
+import { Dimensions, StyleSheet, ViewProps } from 'react-native';
 import Animated, {
     useAnimatedRef,
 } from 'react-native-reanimated';

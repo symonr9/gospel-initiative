@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, FlatList } from 'react-native';
-import { AppText, TextType } from '../common/AppText';
+import { TextInput, StyleSheet, FlatList } from 'react-native';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
-import { Colors } from '@/constants/Colors';
 import StoryChapter from '@/models/storyChapter';
 import { formStyles } from '@/styles/Styles';
 

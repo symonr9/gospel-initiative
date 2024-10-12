@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 import { connect } from 'react-redux';
 
 import { TabBarIcon } from '@/components/common/TabBarIcon';
@@ -8,7 +8,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import DataRefreshManager from '../../managers/dataRefreshManager';
 import AppStateManager from '../../managers/appStateManager';
 import { updateTabIndex } from '@/redux/actions';
-import { Alert, ViewProps } from 'react-native';
+import { ViewProps } from 'react-native';
 
 export type ITabLayout = ViewProps & {
   updateTabIndex: Function;

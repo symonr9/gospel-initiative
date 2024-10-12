@@ -1,6 +1,6 @@
 import { AvatarIcon, AvatarIconArray } from '@/enums/enums';
-import React, { useState } from 'react';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 import { AppText, TextType } from './AppText';
 import ScrollLayout from './ScrollLayout';

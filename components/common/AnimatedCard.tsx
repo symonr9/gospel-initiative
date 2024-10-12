@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Easing, Dimensions } from 'react-native';
+import React, {  } from 'react';
+import { StyleSheet } from 'react-native';
 
-import Animated, { FadeInUp, FadeInDown, FadeOutDown, FadeInLeft, FadeInRight } from 'react-native-reanimated';
-import Svg, { Circle } from 'react-native-svg';
+import Animated, { FadeInUp, FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { AppIcon, FadeDirection } from '@/enums/enums';
 import { PageColumn } from './PageColumn';

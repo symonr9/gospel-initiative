@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, type ViewProps, StyleSheet, useWindowDimensions, FlatList, TouchableOpacity } from 'react-native';
+import { type ViewProps, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import PromptBanner from '../prompts/PromptBanner';
-import { EnhancedBeacon } from '@/models/beacon';
 import ScrollLayout from '../common/ScrollLayout';
 import { setSelectedOne, updateTabIndex } from '@/redux/actions';
 import One from '@/models/one';

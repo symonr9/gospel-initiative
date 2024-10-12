@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Calendar, DateObject } from 'react-native-calendars';
 import { AppText, TextType } from './AppText';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
-import { formatDateTime } from '@/utils/appUtils';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',

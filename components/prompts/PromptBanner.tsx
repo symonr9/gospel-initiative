@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux';
-import { Image } from 'expo-image';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { View, type ViewProps, StyleSheet } from 'react-native';
 
-import { selectFirstPromptByUserId, selectPromptsByUserId } from '@/redux/selectors';
+import { selectFirstPromptByUserId } from '@/redux/selectors';
 import { AppIcon } from '@/enums/enums';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import Prompt from '@/models/prompt';
-import { AnimatedCard } from '../common/AnimatedCard';
 import { PromptQuestions } from '@/constants/Strings';
 import { getItemForDate } from '@/utils/appUtils';
 import Animated, { FadeIn } from 'react-native-reanimated';

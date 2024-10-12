@@ -1,5 +1,5 @@
 import { FadeDirection } from '@/enums/enums';
-import React, { useEffect, useRef } from 'react';
+import React, {  } from 'react';
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp, FadeOutDown } from 'react-native-reanimated';
 
 type IAnimatedElement = {

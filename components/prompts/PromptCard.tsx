@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, type ViewProps } from 'react-native';
+import { type ViewProps } from 'react-native';
 
 import { AppText } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';

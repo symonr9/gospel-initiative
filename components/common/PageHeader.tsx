@@ -1,12 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 
 import { connect } from 'react-redux';
-import { FlatList, View, ViewProps, StyleSheet, Dimensions } from 'react-native';
+import { View, ViewProps, StyleSheet, Dimensions } from 'react-native';
 
-import One from '@/models/one';
-import OneFact from '@/models/oneFact';
-import { Colors, useBackgroundThemeColor } from '@/constants/Colors';
+import { useBackgroundThemeColor } from '@/constants/Colors';
 import { AppText, TextType } from './AppText';
 
 export type IPageHeader = ViewProps & {
