@@ -16,7 +16,7 @@ export enum FadeDirection {
     Right
 };
 
-export enum RoadContainerType {
+export enum ItemRowContainerType {
     Completed = 1,
     Incoming = 2
 };

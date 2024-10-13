@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { RoadContainerType } from '@/enums/enums';
+import { ItemRowContainerType } from '@/enums/enums';
 import { BeaconCard } from './BeaconCard';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
@@ -16,7 +16,7 @@ export type IBeaconsHistoryLayout = ViewProps & {
 
 function BeaconsHistoryLayout({ }: IBeaconsHistoryLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
-    const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
+    const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
 
     const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 

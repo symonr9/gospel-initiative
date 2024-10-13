@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
-import { AppIcon, RoadContainerType } from '@/enums/enums';
+import { AppIcon, ItemRowContainerType } from '@/enums/enums';
 import { BeaconCard } from './BeaconCard';
-import { RoadContainer } from '../common/RoadContainer';
+import { ItemRowContainer } from '../common/ItemRowContainer';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import BeaconDetails from './BeaconDetails';
@@ -18,7 +18,7 @@ export type IBeaconsPrayLayout = ViewProps & {
 
 function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
-    const [activeRoadType, setActiveRoadType] = useState(RoadContainerType.Incoming);
+    const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
 
     const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
@@ -60,17 +60,17 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                 }
 
                 <View>
-                    <RoadContainer title={`Completed (${completedCount})`}
+                    <ItemRowContainer title={`Completed (${completedCount})`}
                         iconSrc={AppIcon.Checkmark}
-                        type={RoadContainerType.Completed}
+                        type={ItemRowContainerType.Completed}
                         activeType={activeRoadType}
                         setActiveType={setActiveRoadType}
                         expandedHeight={75}
                         itemsToRender={completedItemsToRender}
                         customStyles={completedStyle} />
-                    <RoadContainer title={`Incoming (${incomingCount})`}
+                    <ItemRowContainer title={`Incoming (${incomingCount})`}
                         iconSrc={AppIcon.Send}
-                        type={RoadContainerType.Incoming}
+                        type={ItemRowContainerType.Incoming}
                         activeType={activeRoadType}
                         isTopPosition={false}
                         expandedHeight={75}

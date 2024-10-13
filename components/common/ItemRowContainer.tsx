@@ -9,11 +9,11 @@ import {
 } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
-import { AppIcon, RoadContainerType } from '@/enums/enums';
+import { AppIcon, ItemRowContainerType } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import ScrollLayout from './ScrollLayout';
 
-export type IRoadContainer = {
+export type IItemRowContainer = {
     iconSrc: AppIcon | null;
     title: string;
     itemsToRender: React.ReactNode[];
@@ -21,12 +21,12 @@ export type IRoadContainer = {
     expandedHeight?: number;
     isTopPosition?: boolean;
 
-    type: RoadContainerType;
-    activeType: RoadContainerType;
-    setActiveType: (type: RoadContainerType) => void;
+    type: ItemRowContainerType;
+    activeType: ItemRowContainerType;
+    setActiveType: (type: ItemRowContainerType) => void;
 }
 
-export function RoadContainer({
+export function ItemRowContainer({
     iconSrc = null,
     title = '',
     itemsToRender,
@@ -36,7 +36,7 @@ export function RoadContainer({
     isTopPosition =true,
     activeType,
     setActiveType
-}: IRoadContainer) {
+}: IItemRowContainer) {
     const heightProgress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {

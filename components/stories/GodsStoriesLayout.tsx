@@ -11,7 +11,6 @@ import { selectPartionedEnhancedStories } from '@/redux/selectors';
 import { StoryCard } from './StoryCard';
 import { mapStoryTypeToText } from '@/utils/appUtils';
 import StoryDetails from './StoryDetails';
-import AddEditStoryForm from './AddEditStoryForm';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
@@ -85,7 +84,6 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                     }
                 </PageRow>
 
-                <AddEditStoryForm activeStory={activeStory} activeLayoutType={activeLayoutType} />
                 <StoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
 
                 {
