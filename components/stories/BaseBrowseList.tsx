@@ -9,6 +9,7 @@ import { StoryChapterCard } from './StoryChapterCard';
 import { AppText, TextType } from '../common/AppText';
 import User from '@/models/user';
 import { refreshData, setAppError } from '@/redux/actions';
+import ScrollLayout from '../common/ScrollLayout';
 
 export type IBaseBrowseList = ViewProps & {
     title: string;
@@ -25,21 +26,32 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }:
     const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === editingChapterId);
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
 
-    const renderItem = ({ item }: { item: StoryChapter }) => { 
-        const isEditing = editingChapterId === item.id;
-        if (editingChapterId !== null) {
-            if (!isEditing) {
-                return <></>;
-            }
-        }
 
+    if (editingChapterId !== null && activeChapter) {
         return (
-            <StoryChapterCard chapter={item} 
-                setEditingChapterId={setEditingChapterId} 
+            <PageColumn>
+                <AppText type={TextType.Subtitle}>
+                    {title} ({chapters.length})
+                </AppText>
+
+                <StoryChapterCard chapter={activeChapter}
+                    setEditingChapterId={setEditingChapterId}
+                    setAppError={setAppError}
+                    refreshData={refreshData}
+                    executor={executor}
+                    editing={true} />
+            </PageColumn>
+        );
+    }
+
+    const renderItem = ({ item }: { item: StoryChapter }) => {
+        return (
+            <StoryChapterCard chapter={item}
+                setEditingChapterId={setEditingChapterId}
                 setAppError={setAppError}
                 refreshData={refreshData}
                 executor={executor}
-                editing={isEditing}/>
+                editing={false} />
         );
     };
 
@@ -48,6 +60,7 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }:
             <AppText type={TextType.Subtitle}>
                 {title} ({chapters.length})
             </AppText>
+
             <FlatList
                 data={chapters}
                 renderItem={renderItem}

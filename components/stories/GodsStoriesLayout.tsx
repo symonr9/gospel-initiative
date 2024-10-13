@@ -22,7 +22,6 @@ export type IGodsStoriesLayout = ViewProps & {
 
 export enum StoryLayoutType {
     Normal,
-    Editing,
     Adding
 };
 
@@ -41,10 +40,6 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
 
     const title = activeStory !== null ? activeStory.title : 'Stories';
     const subtitle = activeStory !== null ? mapStoryTypeToText(activeStory.type) : 'Select a story to begin.';
-
-    const onEditStoryClick = () => {
-        setActiveLayoutType(StoryLayoutType.Editing);
-    };
 
     return (
         <ScrollLayout>
@@ -75,10 +70,6 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                                             return;
                                         }
                                     }} />
-
-                                <SimpleIconButton iconSrc={AppIcon.Pencil}
-                                    onClick={onEditStoryClick}
-                                    title={'Edit'} />
                             </>
                         )
                     }

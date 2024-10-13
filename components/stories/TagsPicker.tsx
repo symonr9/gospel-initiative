@@ -49,7 +49,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                 <FlatList
                     data={currentTags}
                     numColumns={4}
-                    style={{ gap: 16 }}
+                    style={{ gap: 4 }}
                     keyExtractor={(item, index) => item.label}
                     renderItem={({ item }) => (
                         <PageChip title={mapStoryChapterTagToText(item.value)}
@@ -60,7 +60,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
 
             {
                 editing && (
-                    <PageRow style={{ width: 100, marginTop: 16 }}>
+                    <PageRow style={{ width: 100, marginTop: 4 }}>
                         <PageChip title={'Edit'}
                             iconSrc={AppIcon.Edit}
                             onClick={() => setModalVisible(true)}

@@ -8,12 +8,13 @@ import { AppIcon, AvatarIcon } from '@/enums/enums';
 export type ISimpleIcon = ViewProps & {
     iconSrc: AppIcon | AvatarIcon | null;
     title?: string;
+    small?: boolean;
     large?: boolean;
     removeBackground?: boolean;
 }
 
-export function SimpleIcon({ iconSrc = null, title = '', large, removeBackground = false }: ISimpleIcon) {
-    const stylesToUse = large ? largeStyles : styles;
+export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false }: ISimpleIcon) {
+    const stylesToUse = large ? largeStyles : (small ? smallStyles : styles);
 
     return (
         <View style={stylesToUse.container}>
@@ -87,5 +88,27 @@ const largeStyles = StyleSheet.create({
     title: {
         ...styles.title,
         fontSize: 32,
+    },
+});
+
+const smallStyles = StyleSheet.create({
+    ...styles,
+    container: {
+        ...styles.container,
+    },
+    iconContainer: {
+        ...styles.iconContainer,
+        width: 30,
+        height: 30,
+        borderRadius: 8,
+    },
+    icon: {
+        ...styles.icon,
+        width: 24,
+        height: 24,
+    },
+    title: {
+        ...styles.title,
+        fontSize: 12,
     },
 });

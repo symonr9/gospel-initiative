@@ -59,7 +59,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
 
             {
                 editing && (
-                    <PageRow style={{ width: 100, marginTop: 16 }}>
+                    <PageRow style={{ width: 100, marginTop: 4 }}>
                         <PageChip title={'Edit'}
                             iconSrc={AppIcon.Edit}
                             onClick={() => setModalVisible(true)}
