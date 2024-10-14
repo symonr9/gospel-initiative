@@ -8,8 +8,10 @@ import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { AppText, TextType } from '../common/AppText';
 import User from '@/models/user';
-import { refreshData, setAppError } from '@/redux/actions';
+import { refreshData, setAppError, setEditingChapterId } from '@/redux/actions';
 import ScrollLayout from '../common/ScrollLayout';
+import { StoryChapterTag, StoryChapterType } from '@/enums/enums';
+import { countRenderableChapters, doesChapterMatchFilter } from '@/utils/appUtils';
 
 export type IBaseBrowseList = ViewProps & {
     title: string;
@@ -17,19 +19,21 @@ export type IBaseBrowseList = ViewProps & {
     executor: User;
     setAppError: Function;
     refreshData: Function;
+    tagFilters: StoryChapterTag[];
+    typeFilters: StoryChapterType[];
+    editingChapterId: string;
+    setEditingChapterId: Function;
 };
 
-function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }: IBaseBrowseList) {
-    const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
+function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, tagFilters, typeFilters, editingChapterId, setEditingChapterId }: IBaseBrowseList) {
     const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
 
     const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === editingChapterId);
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
 
-
     if (editingChapterId !== null && activeChapter) {
         return (
-            <PageColumn>
+            <PageColumn style={{ height: 800 }}>
                 <AppText type={TextType.Subtitle}>
                     {title} ({chapters.length})
                 </AppText>
@@ -45,6 +49,10 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }:
     }
 
     const renderItem = ({ item }: { item: StoryChapter }) => {
+        if (!doesChapterMatchFilter(item, tagFilters, typeFilters)) {
+            return <></>;
+        }
+    
         return (
             <StoryChapterCard chapter={item}
                 setEditingChapterId={setEditingChapterId}
@@ -55,10 +63,12 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }:
         );
     };
 
+    const filteredListCount = countRenderableChapters(chapters, tagFilters, typeFilters);
+
     return (
         <PageColumn>
             <AppText type={TextType.Subtitle}>
-                {title} ({chapters.length})
+                {title} ({filteredListCount})
             </AppText>
 
             <FlatList
@@ -75,12 +85,16 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData }:
 const mapStateToProps = (state: any) => {
     return {
         executor: state.users.executor,
+        tagFilters: state.stories.tagFilters,
+        typeFilters: state.stories.typeFilters,
+        editingChapterId: state.stories.editingChapterId,
     };
 };
 
 const mapDispatchToProps = {
     setAppError,
-    refreshData
+    refreshData,
+    setEditingChapterId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseBrowseList);

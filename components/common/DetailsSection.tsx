@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ViewProps, StyleSheet } from "react-native";
+import { ViewProps, StyleSheet, GestureResponderEvent, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { AppText, TextType } from "./AppText";
 import { PageColumn } from "./PageColumn";
@@ -10,10 +10,11 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-na
 export type IDetailsSection = ViewProps & {
     iconSrc: AppIcon | string,
     prefix?: any,
-    title?: any
+    title?: any,
+    onClick?: Function;
 };
 
-function DetailsSection({ iconSrc, title, prefix, style }: IDetailsSection) {
+function DetailsSection({ iconSrc, title, prefix, onClick, style }: IDetailsSection) {
     const opacity = useSharedValue(1);
     const scale = useSharedValue(1);
 
@@ -36,21 +37,33 @@ function DetailsSection({ iconSrc, title, prefix, style }: IDetailsSection) {
         }, 200);
     }, [title]);
 
+    const onPress = (e: GestureResponderEvent) => {
+        if (onClick) {
+            e.stopPropagation();
+            onClick();
+        }
+    }
+
     return (
-        <PageColumn style={style}>
-            <Image source={iconSrc} style={styles.icon} />
-            <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: 200 }}>
-                <AppText type={TextType.Body}>{prefix}</AppText>
-                <Animated.Text style={animatedStyle}>
-                    <AppText type={TextType.DefaultSemiBold}>{title}</AppText>
-                </Animated.Text>
+        <TouchableOpacity onPress={onPress}>
+            <PageColumn style={[styles.container, style]}>
+                <Image source={iconSrc} style={styles.icon} />
+                <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: 200 }}>
+                    <AppText type={TextType.Body}>{prefix}</AppText>
+                    <Animated.Text style={animatedStyle}>
+                        <AppText type={TextType.DefaultSemiBold}>{title}</AppText>
+                    </Animated.Text>
+                </PageColumn>
             </PageColumn>
-        </PageColumn>
+        </TouchableOpacity>
     );
 }
 
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 4,
+    },
     icon: {
         width: 28,
         height: 28,

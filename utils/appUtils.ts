@@ -1,6 +1,7 @@
 import { ActionStepType, AppIcon, AvatarIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
+import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 
 // console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
@@ -901,4 +902,54 @@ export function getAvatarIconKey(value: any): string | undefined {
         }
     }
     return undefined;
+}
+
+export function partitionChaptersByTag(storyChapters: StoryChapter[]): { key: StoryChapterTag; items: StoryChapter[] }[] {1
+    const partitioned = new Map<StoryChapterTag, StoryChapter[]>();
+
+    storyChapters.forEach((chapter) => {
+        chapter.tags.forEach((tag) => {
+            // If the tag is not already in the map, add it with an empty array
+            if (!partitioned.has(tag)) {
+                partitioned.set(tag, []);
+            }
+            // Add the chapter to the array for this tag
+            partitioned.get(tag)!.push(chapter);
+        });
+    });
+
+    return Array.from(partitioned, ([key, items]) => ({ key, items }))
+        .sort((a, b) => b.items.length - a.items.length);
+}
+
+export function toggleTagFromFilter(tag: StoryChapterTag, tagFilters: StoryChapterTag[]) {
+    if (!tagFilters) {
+        return [];
+    }
+
+    if (tagFilters.includes(tag)) {
+        return [...tagFilters].filter((t) => t !== tag);
+    }
+    return [...tagFilters, tag];
+}
+
+export function toggleTypeFromFilter(type: StoryChapterType, typeFilters: StoryChapterType[]) {
+    if (!typeFilters) {
+        return [];
+    }
+
+    if (typeFilters.includes(type)) {
+        return [...typeFilters].filter((t) => t !== type);
+    }
+    return [...typeFilters, type];
+}
+
+export const countRenderableChapters = (storyChapters: StoryChapter[], tagFilters: StoryChapterTag[],
+     typeFilters: StoryChapterType[]): number => {
+    return storyChapters.filter(chapter => doesChapterMatchFilter(chapter, tagFilters, typeFilters)).length;
+};
+
+export function doesChapterMatchFilter(chapter: StoryChapter, tagFilters: StoryChapterTag[], typeFilters: StoryChapterType[]) : Boolean {
+    const hasFilter = tagFilters.length + typeFilters.length > 0;
+    return !hasFilter || (tagFilters.some((tag => chapter.tags.includes(tag))) || typeFilters.includes(chapter.chapterType));
 }

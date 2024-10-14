@@ -2,9 +2,12 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
+    tagFilters: [],
+    typeFilters: [],
     stories: [],
     myStoryChapters: [],
-    GodsStoryChapters: []
+    GodsStoryChapters: [],
+    editingChapterId: null
 };
 
 export function storiesReducer(state = initialState, action: ActionPackage) {
@@ -15,7 +18,10 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     stories: stories || [],
                     myStoryChapters: myStoryChapters || [],
-                    GodsStoryChapters: GodsStoryChapters || []
+                    GodsStoryChapters: GodsStoryChapters || [],
+                    tagFilters: state.tagFilters,
+                    typeFilters: state.typeFilters,
+                    editingChapterId: null
                 }
             });
         case Action.AddStory:
@@ -25,6 +31,20 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
         case Action.AddMyStoryChapter:
             return update(state, {
                 myStoryChapters: { $push: [action.payload] }
+            });
+        case Action.SetEditingChapterId:
+            return update(state, {
+                editingChapterId: { $set: action.payload }
+            });
+        case Action.UpdateChaptersFilter:
+            const { tagFilters, typeFilters } = action.payload;
+            return update(state, {
+                tagFilters: {
+                    $set: tagFilters || []
+                },
+                typeFilters: {
+                    $set: typeFilters || []
+                },
             });
         default:
             return state;

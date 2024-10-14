@@ -33,7 +33,7 @@ export type IStoryChapterCard = ViewProps & {
   expandOnLoad?: Boolean;
   executor: User;
   setAppError: Function;
-  refreshData: Function;
+  refreshData?: Function;
 };
 
 function getHeight(expanded: Boolean, editing: Boolean) {

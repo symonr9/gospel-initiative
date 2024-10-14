@@ -27,6 +27,9 @@ export enum Action {
     AddActionStep = "ADD_ACTION_STEP",
     EditActionSteps = "EDIT_ACTION_STEPS",
 
+    UpdateChaptersFilter = "UPDATE_CHAPTERS_FILTER",
+    SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
+
     LoadServerData = "LOAD_SERVER_DATA",
     LoadLocalData = "LOAD_LOCAL_DATA",
     LoadPreferences = "LOAD_PREFERENCES",

@@ -285,9 +285,11 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
   } else if (pageState === PageState.Page6) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
       return (
-        <StoryChapterCard chapter={item} 
-          canEdit={false} 
-          expandOnLoad={true}/>
+        <StoryChapterCard chapter={item}
+          canEdit={false}
+          expandOnLoad={true}
+          executor={executor} 
+          setAppError={setAppError}/>
       );
     };
 
