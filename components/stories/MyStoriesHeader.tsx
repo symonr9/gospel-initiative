@@ -53,8 +53,6 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
     const isFilteringSalvationMoment = typeFilters?.includes(StoryChapterType.SalvationMoment);
     const isFilteringAfterChrist = typeFilters?.includes(StoryChapterType.AfterChrist);
 
-    console.log("TAG FILTER: ", tagFilters, " type  - ", typeFilters);
-
     return (
         <ScrollLayout style={{ height: 200 }}>
             <PageColumn style={{}}>

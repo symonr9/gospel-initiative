@@ -885,7 +885,6 @@ export function getRandomString(strings: string[]): string {
     return strings[randomIndex];
 }
 
-
 export function getAppIconKey(value: any): string | undefined {
     for (const [key, val] of Object.entries(AppIcon)) {
         if (val === value) {

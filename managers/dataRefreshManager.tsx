@@ -5,8 +5,9 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
 import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage } from '@/utils/storageUtils';
-import { fetchActiveBeacons, fetchServerData } from '@/requests/Requests';
+import { createUser, fetchActiveBeacons, fetchServerData } from '@/requests/Requests';
 import Error from '@/models/error';
+import { generateRandomId, getRandomString } from '@/utils/appUtils';
 
 export type IDataRefreshManager = {
     state: any,
@@ -24,14 +25,49 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
 
     console.log("State: ", state);
 
+    useEffect(() => {
+        if (!hasConstantsLoaded()) {
+            setAppError(new Error('Invalid Server Configuration', 'Please contact your administrator.'));
+            return;
+        }
+
+        console.log("Expo Config: ", Constants.expoConfig);
+        console.log("Loading settings...");
+        loadSettings();
+    }, []);
+
+    useEffect(() => {
+        if (!state.app.userId) {
+            return;
+        }
+        console.log("Loading server data...");
+        fetchData(state.app.userId);
+    }, [state.app.userId, state.app.shouldRefreshData]);
+
+    const loadSettings = async () => {
+        const userId = await getLocalUserId();
+        const authToken = await getLocalAuthToken();
+
+        if (!userId) {
+            const data = await createUser();
+            if (data.error) {
+                setAppError(new Error(data.error, 'Something went wrong'));
+                return;
+            }
+            saveToStorage("userId", data.id);
+            loadSettings();
+            return;
+        }
+
+        loadLocalData({
+            userId,
+            authToken
+        });
+    }
+
     const getLocalUserId = async () => {
         try {
-            let userId = await getFromStorage('userId');
-            if (!userId) {
-                userId = 'clzxrugkq0000xz8dixbcj3pl';
-                saveToStorage('userId', userId);
-            }
-            return userId;
+            return await getFromStorage('userId');
         } catch (error) {
             console.error('Failed to load user id:', error);
             return null;
@@ -45,40 +81,12 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
                 console.error('Secure share is not available on this device');
                 return null;
             }
-
-            let authToken = await getFromSecureStorage('authToken');
-            if (!authToken) {
-                authToken = 'test';
-                await saveToSecureStorage('authToken', authToken);
-            }
-
-            return authToken;
+            return await getFromSecureStorage('authToken');
         } catch (error) {
             console.error('Failed to load auth token:', error);
         }
         return null;
     };
-
-    const fetchLocalData = async () => {
-        const userId = await getLocalUserId();
-        const authToken = await getLocalAuthToken();
-
-        loadLocalData({
-            userId,
-            authToken
-        });
-    };
-
-    useEffect(() => {
-        if (!hasConstantsLoaded()) {
-            setAppError(new Error('Invalid Server Configuration', 'Please contact your administrator.'));
-            return;
-        }
-
-        console.log("Expo Config: ", Constants.expoConfig);
-        console.log("Loading local data...");
-        fetchLocalData();
-    }, []);
 
     const fetchData = async (userId: string) => {
         const { user, ones, actionSteps, myStoryChapters, error } = await fetchServerData(userId);
@@ -110,15 +118,6 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
             beaconLogs: JsonFunctions.getBeaconLogsFromJson()
         });
     };
-
-    useEffect(() => {
-        if (!state.app.userId) {
-            return;
-        }
-
-        console.log("Loading server data...");
-        fetchData(state.app.userId);
-    }, [state.app.userId, state.app.shouldRefreshData]);
 
     return <></>;
 }

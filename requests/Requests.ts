@@ -50,14 +50,51 @@ export const fetchActiveBeacons = async (userId: string) => {
     return [];
 };
 
+export const createUser = async () => {
+    const response = await postData(`/users/create`, {
+    });
+
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    return response.data;
+}
+
+export const fetchServerSettings = async (userId: string) => {
+    const response = await getData(`/users/settings/${userId}`, {
+        headers: {
+            user_id: userId
+        }
+    });
+    
+    console.log("fetchServerSettings: ", response);
+
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    return response.data;
+}
+
 export const fetchServerData = async (userId: string) => {
     try {
-        const response = await getData(`/users/${userId}`, {
+        const response = await getData(`/users/data/${userId}`, {
             headers: {
                 user_id: userId
             }
         });
+
         console.log("fetchServerData: ", response);
+        
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
