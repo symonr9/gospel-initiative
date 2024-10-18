@@ -99,7 +99,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor, editOne,
             };
 
             try {
-                const response = await updateOne(updatedOne, executor.id);
+                const response = await updateOne(updatedOne);
                 if (response.error) {                
                     setAppError(new Error('Error updating one: ', response.error));
                     return;

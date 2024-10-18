@@ -1,10 +1,10 @@
 import { loadServerData, loadLocalData, setAppError } from '@/redux/actions';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Constants from 'expo-constants';
 
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
-import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage } from '@/utils/storageUtils';
+import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage, getLocalAuthToken, getLocalUserId } from '@/utils/storageUtils';
 import { createUser, fetchActiveBeacons, fetchServerData } from '@/requests/Requests';
 import Error from '@/models/error';
 import { generateRandomId, getRandomString } from '@/utils/appUtils';
@@ -50,12 +50,23 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
 
         if (!userId) {
             const data = await createUser();
-            if (data.error) {
+            if (data.error || !data.user.id || !data.token) {
                 setAppError(new Error(data.error, 'Something went wrong'));
                 return;
             }
-            saveToStorage("userId", data.id);
-            loadSettings();
+            saveToStorage("userId", data.user.id);
+
+            const isSecureAvailable = await isSecureStorageAvailable();
+            if (isSecureAvailable) {
+                saveToSecureStorage("authToken", data.token);
+            } else {
+                saveToStorage("authToken", data.token);
+            }
+
+            loadLocalData({
+                userId: data.user.id,
+                authToken: data.token
+            });
             return;
         }
 
@@ -65,37 +76,14 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
         });
     }
 
-    const getLocalUserId = async () => {
-        try {
-            return await getFromStorage('userId');
-        } catch (error) {
-            console.error('Failed to load user id:', error);
-            return null;
-        }
-    };
-
-    const getLocalAuthToken = async () => {
-        try {
-            const isAvailable = await isSecureStorageAvailable();
-            if (!isAvailable) {
-                console.error('Secure share is not available on this device');
-                return null;
-            }
-            return await getFromSecureStorage('authToken');
-        } catch (error) {
-            console.error('Failed to load auth token:', error);
-        }
-        return null;
-    };
-
     const fetchData = async (userId: string) => {
-        const { user, ones, actionSteps, myStoryChapters, error } = await fetchServerData(userId);
+        const { user, ones, actionSteps, myStoryChapters, error } = await fetchServerData();
         if (error) {
             setAppError(new Error(error, 'Something went wrong'));
             return;
         }
 
-        const beacons = await fetchActiveBeacons(userId);
+        const beacons = await fetchActiveBeacons();
 
         loadServerData({
             localEvents: JsonFunctions.getLocalEventsJson(),

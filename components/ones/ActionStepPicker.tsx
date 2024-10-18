@@ -139,7 +139,7 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
             newActionSteps.push(formActionStep);
         }
 
-        const response = await updateActionSteps(newActionSteps, selectedOne.id, executor.id);
+        const response = await updateActionSteps(newActionSteps, selectedOne.id);
         if (response.error) {
             setAppError(new Error('Error updating action steps: ', response.error));
             return;

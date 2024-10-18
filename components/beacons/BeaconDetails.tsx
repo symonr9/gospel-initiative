@@ -147,7 +147,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             note: note
         };
 
-        const response = await updateBeaconActivity(newActivity, executor.id);
+        const response = await updateBeaconActivity(newActivity);
         if (response.error) {
             setAppError(new Error('Error updating beacon activity: ', response.error));
             return;
@@ -171,7 +171,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             beacon
         );
 
-        const response = await createBeaconActivity(newActivity, executor.id);
+        const response = await createBeaconActivity(newActivity);
         if (response.error) {
             setAppError(new Error('Error creating beacon activity: ', response.error));
             return;

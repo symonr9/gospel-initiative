@@ -7,13 +7,21 @@ import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
+import { getLocalAuthToken, getLocalUserId } from "@/utils/storageUtils";
 
-export const fetchActiveBeacons = async (userId: string) => {
+export const fetchActiveBeacons = async () => {
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
     try {
         const response = await getData(`/beacons/active`, {
             headers: {
-                user_id: userId
-            }
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
+            },
         });
         console.log("fetchActiveBeacons: ", response);
         if (!response) {
@@ -65,11 +73,18 @@ export const createUser = async () => {
     return response.data;
 }
 
-export const fetchServerSettings = async (userId: string) => {
+export const fetchServerSettings = async () => {
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
     const response = await getData(`/users/settings/${userId}`, {
         headers: {
-            user_id: userId
-        }
+            user_id: userId,
+            Authorization: `Bearer ${authToken}`
+        },
     });
     
     console.log("fetchServerSettings: ", response);
@@ -85,12 +100,19 @@ export const fetchServerSettings = async (userId: string) => {
     return response.data;
 }
 
-export const fetchServerData = async (userId: string) => {
+export const fetchServerData = async () => {
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
     try {
         const response = await getData(`/users/data/${userId}`, {
             headers: {
-                user_id: userId
-            }
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
+            },
         });
 
         console.log("fetchServerData: ", response);
@@ -179,10 +201,16 @@ export const fetchServerData = async (userId: string) => {
     return {};
 };
 
-export const partition = async (question: string, userResponse: string, userId: string, controller?: AbortController) => {
-    if (!question || !userResponse || !userId) {
-        console.error('Missing required parameters: question, userResponse, or userId.');
+export const partition = async (question: string, userResponse: string, controller?: AbortController) => {
+    if (!question || !userResponse) {
+        console.error('Missing required parameters: question or userResponse.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     try {
@@ -191,7 +219,8 @@ export const partition = async (question: string, userResponse: string, userId: 
             userResponse
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller?.signal,
             timeout: 10000 
@@ -228,10 +257,16 @@ export const partition = async (question: string, userResponse: string, userId: 
     }
 };
 
-export const createChapters = async (chapterArray: StoryChapter[] | null, userId: string, controller?: AbortController) => {
-    if (!chapterArray || !userId) {
-        console.error('Missing required parameters: chapterArray, userId.');
+export const createChapters = async (chapterArray: StoryChapter[] | null, controller?: AbortController) => {
+    if (!chapterArray) {
+        console.error('Missing required parameters: chapterArray.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     const preparedChapterArray = chapterArray.map((chapter) => ({...chapter, iconKey: getAppIconKey(chapter.icon)}));
@@ -241,7 +276,8 @@ export const createChapters = async (chapterArray: StoryChapter[] | null, userId
             chapterArray: preparedChapterArray
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller?.signal,
         });
@@ -261,10 +297,16 @@ export const createChapters = async (chapterArray: StoryChapter[] | null, userId
     }
 }
 
-export const updateChapter = async (chapter: StoryChapter, userId: string, controller?: AbortController) => {
-    if (!chapter || !userId) {
-        console.error('Missing required parameters: chapter, userId.');
+export const updateChapter = async (chapter: StoryChapter, controller?: AbortController) => {
+    if (!chapter) {
+        console.error('Missing required parameters: chapter.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     const preparedChapter = {...chapter, iconKey: getAppIconKey(chapter.icon)};
@@ -274,7 +316,8 @@ export const updateChapter = async (chapter: StoryChapter, userId: string, contr
             chapter: preparedChapter
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller?.signal,
         });
@@ -294,10 +337,16 @@ export const updateChapter = async (chapter: StoryChapter, userId: string, contr
     }
 }
 
-export const deleteChapter = async (chapter: StoryChapter, userId: string, controller?: AbortController) => {
-    if (!chapter || !userId) {
-        console.error('Missing required parameters: chapter, userId.');
-        return { error: 'Invalid parameters.' };
+export const deleteChapter = async (chapter: StoryChapter, controller?: AbortController) => {
+    if (!chapter) {
+        console.error('Missing required parameters: chapter.');
+        return { error: 'Invalid parameters.' };        
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     try {
@@ -305,7 +354,8 @@ export const deleteChapter = async (chapter: StoryChapter, userId: string, contr
             chapter
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller?.signal,
         });
@@ -325,18 +375,24 @@ export const deleteChapter = async (chapter: StoryChapter, userId: string, contr
     }
 }
 
-export const createOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
-    return performOneRequest(true, one, userId, controller);
+export const createOne = async (one: One, controller?: AbortController): Promise<One | any> => {
+    return performOneRequest(true, one, controller);
 }
 
-export const updateOne = async (one: One, userId: string, controller?: AbortController): Promise<One | any> => {
-    return performOneRequest(false, one, userId, controller);
+export const updateOne = async (one: One, controller?: AbortController): Promise<One | any> => {
+    return performOneRequest(false, one, controller);
 }
 
-export const performOneRequest = async (adding: boolean, one: One, userId: string, controller?: AbortController): Promise<One | any> => {
-    if (!one || !userId) {
-        console.error('Missing required parameters: one, userId.');
+export const performOneRequest = async (adding: boolean, one: One, controller?: AbortController): Promise<One | any> => {
+    if (!one) {
+        console.error('Missing required parameters: one.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     const preparedOne = {
@@ -349,7 +405,8 @@ export const performOneRequest = async (adding: boolean, one: One, userId: strin
             one: preparedOne
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller ? controller.signal : undefined,
         });
@@ -381,10 +438,16 @@ export const performOneRequest = async (adding: boolean, one: One, userId: strin
     }
 };
 
-export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string, userId: string, controller?: AbortController): Promise<ActionStep[] | any> => {
-    if (!actionSteps || !oneId || !userId) {
-        console.error('Missing required parameters: actionSteps, oneId, userId.');
+export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string, controller?: AbortController): Promise<ActionStep[] | any> => {
+    if (!actionSteps || !oneId) {
+        console.error('Missing required parameters: actionSteps, oneId.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     try {
@@ -393,7 +456,8 @@ export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string
             oneId
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller ? controller.signal : undefined,
         });
@@ -427,10 +491,16 @@ export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string
     }
 };
 
-export const createBeacon = async (beacon: Beacon, userId: string, controller?: AbortController): Promise<Beacon | any> => {
-    if (!beacon || !userId) {
-        console.error('Missing required parameters: beacon, userId.');
+export const createBeacon = async (beacon: Beacon, controller?: AbortController): Promise<Beacon | any> => {
+    if (!beacon) {
+        console.error('Missing required parameters: beacon.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     try {
@@ -438,7 +508,8 @@ export const createBeacon = async (beacon: Beacon, userId: string, controller?: 
             beacon
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller ? controller.signal : undefined,
         });
@@ -471,18 +542,24 @@ export const createBeacon = async (beacon: Beacon, userId: string, controller?: 
     }
 };
 
-export const createBeaconActivity = async (activity: BeaconActivity, userId: string, controller?: AbortController): Promise<One | any> => {
-    return performBeaconActivityRequest(true, activity, userId, controller);
+export const createBeaconActivity = async (activity: BeaconActivity, controller?: AbortController): Promise<One | any> => {
+    return performBeaconActivityRequest(true, activity, controller);
 }
 
-export const updateBeaconActivity = async (activity: BeaconActivity, userId: string, controller?: AbortController): Promise<One | any> => {
-    return performBeaconActivityRequest(false, activity, userId, controller);
+export const updateBeaconActivity = async (activity: BeaconActivity, controller?: AbortController): Promise<One | any> => {
+    return performBeaconActivityRequest(false, activity, controller);
 }
 
-export const performBeaconActivityRequest = async (adding: boolean, activity: BeaconActivity, userId: string, controller?: AbortController): Promise<One | any> => {
-    if (!activity || !userId) {
-        console.error('Missing required parameters: activity, userId.');
+export const performBeaconActivityRequest = async (adding: boolean, activity: BeaconActivity, controller?: AbortController): Promise<One | any> => {
+    if (!activity) {
+        console.error('Missing required parameters: activity.');
         return { error: 'Invalid parameters.' };
+    }
+
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAuthToken();
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
     }
 
     try {
@@ -490,7 +567,8 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
             activity
         }, {
             headers: {
-                user_id: userId
+                user_id: userId,
+                Authorization: `Bearer ${authToken}`
             },
             signal: controller ? controller.signal : undefined,
         });

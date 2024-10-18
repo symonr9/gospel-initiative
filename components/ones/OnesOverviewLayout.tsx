@@ -95,7 +95,7 @@ function OnesOverviewLayout({ selectedOne, ones, oneForm, executor,
             );
 
             try {
-                const response = await createOne(newOne, executor.id);
+                const response = await createOne(newOne);
                 if (response.error) {                
                     setAppError(new Error('Error adding one: ', response.error));
                     return;

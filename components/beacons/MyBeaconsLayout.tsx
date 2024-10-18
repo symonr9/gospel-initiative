@@ -138,7 +138,7 @@ function MyBeaconsLayout({ ones, executor, beaconTemplates, beaconForm,
                 []
             );
 
-            const response = await createBeacon(newBeacon, executor.id);
+            const response = await createBeacon(newBeacon);
             if (response.error) {
                 setAppError(new Error('Error creating beacon: ', response.error));
                 return;

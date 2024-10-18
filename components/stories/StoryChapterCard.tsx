@@ -88,7 +88,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           : item
       )));
     } else if (refreshData) {
-      const response = await updateChapter(formChapter, executor.id);
+      const response = await updateChapter(formChapter);
       if (response.error) {
         setAppError(new Error('Error updating chapter: ', response.error));
         return;
@@ -115,7 +115,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               setChapterArray((prev: StoryChapter[]) => prev.filter((item) => (
                 item.id !== formChapter.id)));
             } else if (refreshData) {
-              const response = await deleteChapter(formChapter, executor.id);
+              const response = await deleteChapter(formChapter);
               if (response.error) {
                 setAppError(new Error('Error deleting chapter: ', response.error));
                 return;

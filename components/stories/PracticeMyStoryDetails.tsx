@@ -54,7 +54,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
 
   const partitionResponse = async (controller: AbortController) => {
     try {
-      const data = await partition(question, response, executor.id, controller);
+      const data = await partition(question, response, controller);
 
       if (!data || data.error) {
         setAppError(new Error(data.error.toString() || 'Something went wrong'));
@@ -71,7 +71,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
 
   const saveChapters = async (controller: AbortController) => {
     try {
-      const data = await createChapters(chapterArray, executor.id, controller);
+      const data = await createChapters(chapterArray, controller);
 
       if (!data || data.error) {
         setAppError(new Error(data.error || 'Something went wrong'));
