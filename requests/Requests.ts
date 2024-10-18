@@ -7,7 +7,7 @@ import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
-import { getLocalAuthToken, getLocalUserId } from "@/utils/storageUtils";
+import { getLocalAuthToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
 
 export const fetchActiveBeacons = async () => {
     const userId = await getLocalUserId();
@@ -23,7 +23,7 @@ export const fetchActiveBeacons = async () => {
                 Authorization: `Bearer ${authToken}`
             },
         });
-        console.log("fetchActiveBeacons: ", response);
+        
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -70,7 +70,53 @@ export const createUser = async () => {
         return { error: `Response returned error: ${response.status}` };
     }
 
-    return response.data;
+    return {
+        user: response.data.user,
+        token: response.data.token
+    };
+}
+
+export const tryToRefreshAccessToken = async () => {
+    const { token, error } = await refreshAccessToken();
+    if (error) {
+        return false;
+    }
+
+    const isSecureAvailable = await isSecureStorageAvailable();
+    if (isSecureAvailable) {
+        saveToSecureStorage("authToken", token);
+    } else {
+        saveToStorage("authToken", token);
+    }
+
+    return true;
+}
+
+export const refreshAccessToken = async () => {
+    const userId = await getLocalUserId();
+    if (!userId) {
+        return { error: 'Invalid configuration.' };
+    }
+
+    const response = await postData(`/auth/refresh`, {}, {
+        headers: {
+            user_id: userId,
+        },
+    });
+
+    console.log("Refresh access token: ", response);
+
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    return {
+        token: response.data.token
+    };
 }
 
 export const fetchServerSettings = async () => {
@@ -100,12 +146,9 @@ export const fetchServerSettings = async () => {
     return response.data;
 }
 
-export const fetchServerData = async () => {
+export const fetchServerData = async (refreshTokenIfNeeded = true): Promise<any> => {
     const userId = await getLocalUserId();
     const authToken = await getLocalAuthToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
 
     try {
         const response = await getData(`/users/data/${userId}`, {
@@ -119,6 +162,11 @@ export const fetchServerData = async () => {
         
         if (!response) {
             return { error: 'Failed to contact server.' };
+        } else if (refreshTokenIfNeeded && response.status === 403) { // Token may have expired
+            if (!await tryToRefreshAccessToken()) {
+                return { error: 'Failed to refresh access token' };
+            }
+            return await fetchServerData(false);
         } else if (response.data.error) {
             return { error: response.data.error };
         } else if (response.status !== 200) {

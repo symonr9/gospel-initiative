@@ -49,23 +49,23 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
         const authToken = await getLocalAuthToken();
 
         if (!userId) {
-            const data = await createUser();
-            if (data.error || !data.user.id || !data.token) {
-                setAppError(new Error(data.error, 'Something went wrong'));
+            const { error, user, token } = await createUser();
+            if (error || !user.id || !token) {
+                setAppError(new Error(error, 'Something went wrong'));
                 return;
             }
-            saveToStorage("userId", data.user.id);
+            saveToStorage("userId", user.id);
 
             const isSecureAvailable = await isSecureStorageAvailable();
             if (isSecureAvailable) {
-                saveToSecureStorage("authToken", data.token);
+                saveToSecureStorage("authToken", token);
             } else {
-                saveToStorage("authToken", data.token);
+                saveToStorage("authToken", token);
             }
 
             loadLocalData({
-                userId: data.user.id,
-                authToken: data.token
+                userId: user.id,
+                authToken: token
             });
             return;
         }
