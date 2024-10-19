@@ -20,18 +20,29 @@ export const fetchActiveBeacons = async () => {
             return { error: `Response returned error: ${response.status}` };
         }
 
-        return response.data.map((beacon: any) => new Beacon(
-            beacon.id,
-            beacon.name,
-            beacon.message,
-            beacon.oneId,
-            beacon.priority as Priority,
-            beacon.userId,
-            beacon.type as BeaconType,
-            beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
-            beacon.shareOwnName,
-            beacon.activities
-        ));
+        return response.data.map((beacon: any) => {
+            const item = new Beacon(
+                beacon.id,
+                beacon.name,
+                beacon.message,
+                beacon.oneId,
+                beacon.priority as Priority,
+                beacon.userId,
+                beacon.type as BeaconType,
+                beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
+                beacon.shareOwnName,
+                beacon.activities
+            );
+
+            item.userName = beacon.user.name;
+            item.userIcon = AvatarIcon[beacon.user.icon as keyof typeof AvatarIcon];
+            
+            item.oneName = beacon.one.name;
+            item.oneIcon = AvatarIcon[beacon.one.icon as keyof typeof AvatarIcon];
+            item.oneStage = beacon.one.stage as OneStage;
+
+            return item;
+        });
     } catch (error) {
         console.error('Error retrieving data:', error);
     }
@@ -72,7 +83,7 @@ export const createUser = async () => {
 export const fetchServerSettings = async () => {
     try {
         const response = await makeRequest(`/users/settings`);
-        console.log("fetchServerSettings: ", response);        
+        console.log("fetchServerSettings: ", response);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -90,7 +101,7 @@ export const fetchServerSettings = async () => {
 export const fetchServerData = async (): Promise<any> => {
     try {
         const response = await makeRequest(`/users/data`);
-        console.log("fetchServerData: ", response);        
+        console.log("fetchServerData: ", response);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -196,7 +207,7 @@ export const partition = async (question: string, userResponse: string, controll
             1,
             item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as StoryChapterTag) : [],
             item.names ? item.names.split(',') : [],
-            item.quality,            
+            item.quality,
             userId,
             false
         ));
@@ -212,7 +223,7 @@ export const createChapters = async (chapterArray: StoryChapter[] | null, contro
         return { error: 'Invalid parameters.' };
     }
 
-    const preparedChapterArray = chapterArray.map((chapter) => ({...chapter, iconKey: getAppIconKey(chapter.icon)}));
+    const preparedChapterArray = chapterArray.map((chapter) => ({ ...chapter, iconKey: getAppIconKey(chapter.icon) }));
 
     try {
         const response = await makeRequest(`/stories/create`, 'POST', { chapterArray: preparedChapterArray }, controller);
@@ -237,7 +248,7 @@ export const updateChapter = async (chapter: StoryChapter, controller?: AbortCon
         return { error: 'Invalid parameters.' };
     }
 
-    const preparedChapter = {...chapter, iconKey: getAppIconKey(chapter.icon)};
+    const preparedChapter = { ...chapter, iconKey: getAppIconKey(chapter.icon) };
 
     try {
         const response = await makeRequest(`/stories/update`, 'POST', { chapter: preparedChapter }, controller);
@@ -259,7 +270,7 @@ export const updateChapter = async (chapter: StoryChapter, controller?: AbortCon
 export const deleteChapter = async (chapter: StoryChapter, controller?: AbortController) => {
     if (!chapter) {
         console.error('Missing required parameters: chapter.');
-        return { error: 'Invalid parameters.' };        
+        return { error: 'Invalid parameters.' };
     }
 
     try {
@@ -416,7 +427,7 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
     }
 
     try {
-        const response = await makeRequest(`/beacons/activity/${adding ? 'create' : 'update'}`, 
+        const response = await makeRequest(`/beacons/activity/${adding ? 'create' : 'update'}`,
             'POST', { activity }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
@@ -511,8 +522,8 @@ const makeRequest = async (url: string, method: string = 'GET', body: any = null
 
         const newAuthToken = await getLocalAccessToken();
         headers.Authorization = `Bearer ${newAuthToken}`;
-        return await (method === 'POST' 
-            ? postData(url, body, { ...options, headers }) 
+        return await (method === 'POST'
+            ? postData(url, body, { ...options, headers })
             : getData(url, { ...options, headers }));
     }
 

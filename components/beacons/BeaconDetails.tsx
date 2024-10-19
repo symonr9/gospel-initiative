@@ -66,8 +66,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     });
 
     if (!beacon || (incomingCursorIdx === -1 && completedCursorIdx === -1)) {
-        const hasCompleted = completedBeacons.find((beacon) => beacon.userId === executor.id) !== undefined
-            && incomingBeacons.find((beacon) => beacon.userId === executor.id) === undefined;
+        const hasCompleted = incomingBeacons.length === 0;
         if (hasCompleted) {
             return (
                 <View style={[]}>
@@ -83,8 +82,9 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    const { message, user, one, activeUntil, completedActivities } = beacon;
-    if (!user || !one || !activeUntil || !completedActivities) {
+    console.log("beacon: ", beacon);
+    const { message, userName, userIcon, oneName, oneIcon, oneStage, activeUntil, completedActivities } = beacon;
+    if (!userName || !userIcon || !oneName || !oneIcon || !oneStage || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
     }
@@ -108,10 +108,10 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     rows.push(
         <PageRow spaceEvenly style={[styles.section, {}]}>
-            <DetailsSection iconSrc={mapStageToIcon(one.stage)} 
+            <DetailsSection iconSrc={mapStageToIcon(oneStage)} 
                         prefix={"Their One is..."}
                         style={{ marginRight: 24 }}
-                        title={mapStageToText(one.stage)} />
+                        title={mapStageToText(oneStage)} />
 
             <DetailsSection iconSrc={AppIcon.UserGroup} 
                             prefix={"Completed Prayers"} 
@@ -237,14 +237,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                 <PageRow style={[{ gap: 12 }]}>
                     <AnimatedElement element={
-                        <Image source={user.icon} style={styles.profileIcon} />
+                        <Image source={userIcon} style={styles.profileIcon} />
                     } delay={300} direction={FadeDirection.Left} />
                     <AnimatedElement element={
                         <Image source={mapBeaconTypeToAppIcon(beacon.type)}
                             style={[styles.profileIcon, { width: 42, height: 42 }]} />
                     } delay={900} direction={FadeDirection.Up} />
                     <AnimatedElement element={
-                        <Image source={one.icon} style={styles.profileIcon} />
+                        <Image source={oneIcon} style={styles.profileIcon} />
                     } delay={600} direction={FadeDirection.Right} />
                 </PageRow>
                 <AnimatedHeader title={beacon.name}
@@ -304,12 +304,12 @@ function getBeacon(incomingCursorIdx: number, completedCursorIdx: number,
 }
 
 function getTitleText(beacon: EnhancedBeacon): string | undefined {
-    const { user, one, activeUntil, type, shareOwnName } = beacon;
-    if (!user || !one || !activeUntil) {
+    const { userName, oneName, activeUntil, type, shareOwnName } = beacon;
+    if (!userName || !oneName || !activeUntil) {
         return undefined;
     }
 
-    return mapBeaconTypeToTitleText(type, shareOwnName, user, one);
+    return mapBeaconTypeToTitleText(type, shareOwnName, userName, oneName);
 }
 
 const { width: screenWidth, height: screenHeight} = Dimensions.get('window');

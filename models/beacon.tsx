@@ -1,4 +1,4 @@
-import { BeaconType, Priority } from "@/enums/enums";
+import { AvatarIcon, BeaconType, OneStage, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity, { ActivityWithUser } from "./beaconActivity";
@@ -26,6 +26,12 @@ interface IBeacon {
     activeUntil: Date | undefined;
     shareOwnName: boolean | true;
     activities: BeaconActivity[] | undefined;
+    
+    userName: string | null;
+    userIcon: AvatarIcon | null;
+    oneName: string | null;
+    oneIcon: AvatarIcon | null;
+    oneStage: OneStage | null;
 }
 
 export default class Beacon implements IBeacon {
@@ -39,6 +45,12 @@ export default class Beacon implements IBeacon {
     activeUntil: Date | undefined;
     shareOwnName: boolean | true;
     activities: BeaconActivity[] | undefined;
+
+    userName: string | null;
+    userIcon: AvatarIcon | null;
+    oneName: string | null;
+    oneIcon: AvatarIcon | null;
+    oneStage: OneStage | null;
 
     constructor(id: string, name: string, message: string | null, oneId: string | null,
         priority: Priority, userId: string,
@@ -55,6 +67,12 @@ export default class Beacon implements IBeacon {
         this.activeUntil = activeUntil;
         this.shareOwnName = shareOwnName;
         this.activities = activities;
+
+        this.userName = null;
+        this.userIcon = null;
+        this.oneName = null;
+        this.oneIcon = null;
+        this.oneStage = null;
     }
 
     static createNew() {

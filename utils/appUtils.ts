@@ -343,8 +343,8 @@ export function mapBeaconTypeToAppIcon(type: BeaconType) {
 }
 
 export function mapBeaconTypeToTitleText(type: BeaconType,
-    shareOwnName: boolean, user: User, one: One) {
-    const userName = shareOwnName ? user.name : 'A User';
+    shareOwnName: boolean, initUserName: string, initOneName: string) {
+    const userName = shareOwnName ? initUserName : 'A User';
     const oneName = 'their One';
     switch (type) {
         case BeaconType.SpiritualConversation:
