@@ -19,12 +19,8 @@ import { OneLayoutType } from './OnesLayout';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
-import { AnimatedBanner } from '../common/AnimatedBanner';
-import { AnimatedHeader } from '../common/AnimatedHeader';
 import PageResponse from '../common/PageResponse';
 import ScrollLayout from '../common/ScrollLayout';
-import { SimpleIcon } from '../common/SimpleIcon';
-import AllOnesGrid from './AllOnesGrid';
 
 export type IActionStepPicker = ViewProps & {
     selectedOne: One;

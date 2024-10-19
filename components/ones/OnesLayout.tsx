@@ -197,7 +197,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
         );
 
         BodyLayout.push(
-            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} changeTab />
+            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} />
         );
     } else { // Normal
         const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOne?.id);

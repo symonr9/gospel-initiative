@@ -22,11 +22,14 @@ export type IBeaconCard = {
     idx: number;
     activeBeaconId: string | null;
     selectedIdx: number | null;
-    setActiveBeaconId: Function;
+    setActiveBeaconId?: Function;
+    onPress?: Function;
+    useAnimations?: boolean;
 };
 
 export function BeaconCard({ beacon, one, user, activities,
-    activeBeaconId, idx, selectedIdx, setActiveBeaconId }: IBeaconCard) {
+    activeBeaconId, idx, selectedIdx, setActiveBeaconId, onPress,
+    useAnimations = true }: IBeaconCard) {
     const progress = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -54,16 +57,21 @@ export function BeaconCard({ beacon, one, user, activities,
         }
     }, [selectedIdx]);
 
-    const onPress = () => {
-        setActiveBeaconId(beacon.id === activeBeaconId ? null : beacon.id);
+    const onCardPress = () => {
+        if (setActiveBeaconId) {
+            setActiveBeaconId(beacon.id === activeBeaconId ? null : beacon.id);
+        }
+        if (onPress) {
+            onPress();
+        }
     };
 
     return (
-        <TouchableOpacity onPress={onPress} style={styles.touchable}>
+        <TouchableOpacity onPress={onCardPress} style={styles.touchable}>
             <Animated.View 
                 entering={ZoomIn}
                 exiting={ZoomOut.duration(250)}
-                style={[styles.iconContainer, animatedStyle]}
+                style={[styles.iconContainer, useAnimations && animatedStyle]}
             >
                 <Image source={mapBeaconTypeToAppIcon(beacon.type)} 
                        style={styles.icon} 
@@ -81,20 +89,21 @@ const styles = StyleSheet.create({
         marginEnd: 8
     },
     iconContainer: {
-        width: 60,
-        height: 60,
+        width: 48,
+        height: 48,
         borderRadius: 40,
+        backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
+        shadowRadius: 3,
+        elevation: 2,
         zIndex: 0,
     },
     icon: {
-        width: 36,
-        height: 36,
+        width: 28,
+        height: 28,
     },
 });

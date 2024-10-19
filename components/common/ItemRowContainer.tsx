@@ -79,7 +79,7 @@ export function ItemRowContainer({
                 </PageRow>
 
                 <ScrollLayout horizontal
-                              style={[animatedStyle]}>
+                              style={[{ paddingHorizontal: 4, }, animatedStyle]}>
                     {itemsToRender.map((item, index) => (
                         <View key={index}>{item}</View>
                     ))}
