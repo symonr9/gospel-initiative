@@ -1,81 +1,100 @@
-import React, { useState } from 'react';
-import { type ViewProps, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { type ViewProps, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 import { connect, useSelector } from 'react-redux';
-import Checkbox from 'expo-checkbox';
 
-import PromptBanner from '../prompts/PromptBanner';
 import ScrollLayout from '../common/ScrollLayout';
-import { PageRow } from '../common/PageRow';
-import { selectActionStepsByOneId } from '@/redux/selectors';
+import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { PageColumn } from '../common/PageColumn';
-import ActionStep from '@/models/actionStep';
-import One from '@/models/one';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import User from '@/models/user';
-import PageHeader from '../common/PageHeader';
 import { PageSubHeader } from '../common/PageSubHeader';
-import { AppText, TextType } from '../common/AppText';
 import { SimpleCard } from '../common/SimpleCard';
 import { AppIcon } from '@/enums/enums';
-import { formStyles } from '@/styles/Styles';
-import SimpleIconButton from '../common/SimpleIconButton';
+import { setHomeDailies } from '@/redux/actions';
+import HomeChecklistItem from './HomeChecklistItem';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
-  ones: One[];
 };
 
 
-function HomeLayout({ executor, ones }: IHomeLayout) {
-  const [isActionStepChecked, setIsActionStepChecked] = useState(false);
+function HomeLayout({ executor }: IHomeLayout) {
+  const router = useRouter();
 
-  const firstOne = ones.length > 0 ? ones[0] : null;
+  const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
   const title = executor ? `Hello, ${executor.name}` : `Hello`;
   const subtitle = executor ? `Welcome to the Gospel Initiative App. Please take a look at tasks below.` : ``;
 
-  const onActionStepPress = () => {
-    setIsActionStepChecked((val) => !val);
-  };
-
-  const detailsView = (
+  const oneCardDetailsView = (
     <PageColumn>
-      <TouchableOpacity onPress={onActionStepPress}>
-        <PageRow style={styles.checklistItem}>
-          <Checkbox
-            value={isActionStepChecked}
-            onValueChange={onActionStepPress}
-            color={isActionStepChecked ? '#4630EB' : undefined}
-            style={[formStyles.checkbox, { alignSelf: 'center', marginStart: 4, marginEnd: 12 }]}
-          />
-          <PageColumn>
-            <AppText type={TextType.DefaultSemiBold}>
-              Action Steps
-            </AppText>
-            <PageRow style={{ flexShrink: 1, width: '90%' }}>
-              <AppText type={TextType.Body}>
-                Have you checked your action step today?
-              </AppText>
-            </PageRow>
-          </PageColumn>
-        </PageRow>
-      </TouchableOpacity>
+      <HomeChecklistItem itemKey={'actionSteps'} 
+        title={'Action Steps'} 
+        subtitle={'Have you checked your action steps today?'}/>
+      
+      <HomeChecklistItem itemKey={'gospelChecklist'} 
+        title={'Gospel Checklist'} 
+        subtitle={'Have you updated your Gospel Checklist today?'}/>
 
+      <HomeChecklistItem itemKey={'oneBeaconSent'} 
+        title={'Beacon Sent'} 
+        subtitle={'Have you sent a beacon for your one today?'}/>
     </PageColumn>
   );
+
+  const prayerDetailsView = (
+    <PageColumn>
+      <HomeChecklistItem itemKey={'prayedForBeacons'} 
+        title={'Prayer Beacons'} 
+        subtitle={'Have you prayed for other beacons today?'}/>
+    </PageColumn>
+  );
+
+  const storyDetailsView = (
+    <PageColumn>
+      <HomeChecklistItem itemKey={'storyPracticed'} 
+        title={'Practice Testimony'} 
+        subtitle={'Have you practiced your testimony today?'}/>
+    </PageColumn>
+  );
+
+  const prayerTitle = incomingBeacons.length > 0 ? `Incoming Beacons (${incomingBeacons.length})` : `All Beacons Completed`;
+  const prayerSubtitle = incomingBeacons.length > 0 ? `Tap on this card to pray.` : `Check back again later.`
+  const prayerIcon = incomingBeacons.length > 0 ? AppIcon.Prayer : AppIcon.Checkmark;
+
+  const onPrayerClick = () => {
+    router.push('/ones?tab=1');
+  };
 
   return (
     <ScrollLayout style={styles.container}>
       <PageColumn style={{ gap: 8 }}>
         <AnimatedHeader title={title} subtitle={subtitle} />
 
-        <PageColumn style={{ marginHorizontal: 12 }}>
+        <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
           <PageSubHeader title={'Tasks'} />
+
+          <SimpleCard iconSrc={prayerIcon}
+            style={styles.card}
+            title={prayerTitle}
+            subtitle={prayerSubtitle}
+            onClick={onPrayerClick} />
 
           <SimpleCard iconSrc={AppIcon.UserGroup}
             style={styles.card}
             title={'Your One'}
-            detailsView={detailsView} />
+            detailsView={oneCardDetailsView} />
+
+          <SimpleCard iconSrc={AppIcon.OpenHands}
+            style={styles.card}
+            title={'Prayer'}
+            detailsView={prayerDetailsView} />
+
+          <SimpleCard iconSrc={AppIcon.Book}
+            style={styles.card}
+            title={'Stories'}
+            detailsView={storyDetailsView} />
         </PageColumn>
       </PageColumn>
     </ScrollLayout>
@@ -91,18 +110,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 20
   },
-  checklistItem: {
-    padding: 6,
-  },
 });
 
 const mapStateToProps = (state: any) => ({
-  ones: state.ones.ones,
   executor: state.users.executor
 });
 
 const mapDispatchToProps = {
-
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeLayout);

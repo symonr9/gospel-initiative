@@ -15,6 +15,13 @@ export const loadPreferences = (data: any) => {
     }
 };
 
+export const setHomeDailies = (data: any) => {
+    return {
+        type: Action.SetHomeDailies,
+        payload: data,
+    }
+};
+
 export const openPage = (item: Page) => ({
     type: Action.OpenPage,
     payload: item,
@@ -23,11 +30,6 @@ export const openPage = (item: Page) => ({
 export const refreshData = () => ({
     type: Action.RefreshData,
     payload: null
-});
-
-export const updateTabIndex = (item: number) => ({
-    type: Action.UpdateTabIndex,
-    payload: item,
 });
 
 export const setAppError = (error: Error) => ({

@@ -4,8 +4,14 @@ import update from 'immutability-helper';
 
 const initialState = {
     page: Page.ShareChrist,
-    tabIndex: 0,
     shouldRefreshData: false,
+    homeDailies: {
+        actionSteps: false,
+        gospelChecklist: false,
+        oneBeaconSent: false,
+        prayedForBeacons: false,
+        storyPracticed: false,
+    },
 };
 
 export function appReducer(state = initialState, action: ActionPackage) {
@@ -24,11 +30,11 @@ export function appReducer(state = initialState, action: ActionPackage) {
                     shouldRefreshData: !state.shouldRefreshData,
                 }
             });
-        case Action.UpdateTabIndex:
+        case Action.SetHomeDailies: 
             return update(state, {
                 $set: {
                     ...state,
-                    tabIndex: action.payload,
+                    homeDailies: action.payload,
                 }
             });
         default:

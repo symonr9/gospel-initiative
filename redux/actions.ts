@@ -32,7 +32,6 @@ export enum Action {
 
     LoadServerData = "LOAD_SERVER_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
-    UpdateTabIndex = "UPDATE_TAB_INDEX",
 
     SetSelectedOne = "SET_SELECTED_ONE",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
@@ -45,6 +44,7 @@ export enum Action {
     AddNoteToActivity = "ADD_NOTE_TO_ACTIVITY",
 
     SetOneForm = "SET_ONE_FORM",
+    SetHomeDailies = 'SET_HOME_DAILIES',
 
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR"

@@ -14,11 +14,12 @@ import { PageColumn } from './PageColumn';
 export type ISimpleCard = ViewProps & {
   iconSrc: AppIcon | null;
   title: string;
+  subtitle?: string;
   detailsView?: any;
   onClick?: Function;
 }
 
-export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
+export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></>,
   onClick, style
 }: ISimpleCard) {
   const backgroundColor = useBackgroundThemeColor();
@@ -40,7 +41,13 @@ export function SimpleCard({ iconSrc = null, title, detailsView = <></>,
             )
           }
           <PageColumn style={{}}>
-            <AppText type={TextType.Subtitle} style={{ alignSelf: 'center' }}>{title}</AppText>
+            <AppText type={TextType.Subtitle} style={{}}>{title}</AppText>
+            {
+              subtitle && (
+                <AppText type={TextType.Body} style={{}}>{subtitle}</AppText>
+              )
+            }
+
             {detailsView}
           </PageColumn>
         </PageRow>

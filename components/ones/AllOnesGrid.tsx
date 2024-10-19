@@ -3,7 +3,7 @@ import { type ViewProps, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import ScrollLayout from '../common/ScrollLayout';
-import { setSelectedOne, updateTabIndex } from '@/redux/actions';
+import { setSelectedOne } from '@/redux/actions';
 import One from '@/models/one';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
@@ -19,18 +19,13 @@ export type IAllOnesGrid = ViewProps & {
     setSelectedOne: Function;
     setActiveLayoutType?: Function;
     setSelectedOneId?: Function;
-    updateTabIndex: Function;
-    changeTab?: boolean;
 };
 
 
-function AllOnesGrid({ ones, setSelectedOne, setSelectedOneId, setActiveLayoutType, updateTabIndex, changeTab = false }: IAllOnesGrid) {
+function AllOnesGrid({ ones, setSelectedOne, setSelectedOneId, setActiveLayoutType }: IAllOnesGrid) {
     const renderItem = ({ item }: { item: One }) => {
         const onPress = () => {
             setSelectedOne(item);
-            if (changeTab) {
-                updateTabIndex(0);
-            }
             if (setSelectedOneId) {
                 setSelectedOneId(item.id);
             }
@@ -86,7 +81,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     setSelectedOne,
-    updateTabIndex,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllOnesGrid);

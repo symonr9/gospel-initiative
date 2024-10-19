@@ -7,14 +7,12 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import DataRefreshManager from '../../managers/dataRefreshManager';
 import AppStateManager from '../../managers/appStateManager';
-import { updateTabIndex } from '@/redux/actions';
 import { ViewProps } from 'react-native';
 
 export type ITabLayout = ViewProps & {
-  updateTabIndex: Function;
 };
 
-function TabLayout({ updateTabIndex }: ITabLayout) {
+function TabLayout({ }: ITabLayout) {
   const colorScheme = useColorScheme();
 
   const tabScreenOptions = {
@@ -71,7 +69,6 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  updateTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabLayout);

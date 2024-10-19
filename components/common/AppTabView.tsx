@@ -5,17 +5,16 @@ import { TabView, TabBar, SceneRendererProps, Route } from 'react-native-tab-vie
 
 import { AppText } from '@/components/common/AppText';
 import { Colors } from '@/constants/Colors';
-import { updateTabIndex } from '@/redux/actions';
 
 export type IAppTabView = {
     title: string,
     routes: any,
-    tabIndex: number,
-    updateTabIndex: Function,
+    index: number,
+    setIndex: Function,
     renderScene: (props: SceneRendererProps & { route: Route; }) => ReactNode,
 };
 
-function AppTabView({ title, tabIndex, updateTabIndex, renderScene, routes }: IAppTabView) {
+function AppTabView({ title, index, setIndex, renderScene, routes }: IAppTabView) {
     const layout = useWindowDimensions();
 
     const renderTabBar = (props: any) => (
@@ -34,7 +33,7 @@ function AppTabView({ title, tabIndex, updateTabIndex, renderScene, routes }: IA
 
     return (
         <TabView
-            navigationState={{ index: tabIndex, routes }}
+            navigationState={{ index, routes }}
             renderScene={renderScene}
             onIndexChange={(idx) => {}}
             renderTabBar={renderTabBar}
@@ -90,12 +89,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
-        tabIndex: state.app.tabIndex
     };
 };
 
 const mapDispatchToProps = {
-    updateTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppTabView);

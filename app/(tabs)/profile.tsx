@@ -1,5 +1,6 @@
 import PageView from '@/components/common/PageView';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
 import { SceneMap } from 'react-native-tab-view';
@@ -22,10 +23,18 @@ const renderScene = SceneMap({
 });
 
 function Profile({ error, clearAppError }: IProfile) {
+  const { tab } = useLocalSearchParams();
+  const initialIndex = tab ? parseInt(tab) : 0;
+
+  const [index, setIndex] = useState(initialIndex);
   const [routes] = React.useState([
     { key: 'profile', title: 'Profile' },
     { key: 'settings', title: 'Settings' },
   ]);
+  
+  useEffect(() => {
+    setIndex(initialIndex);
+  }, [initialIndex]);
 
   return (
     <PageView>
@@ -40,6 +49,8 @@ function Profile({ error, clearAppError }: IProfile) {
 
       <AppTabView title={'Profile'}
         renderScene={renderScene}
+        index={index}
+        setIndex={setIndex}
         routes={routes} />
     </PageView>
   );
