@@ -52,7 +52,7 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, t
         if (!doesChapterMatchFilter(item, tagFilters, typeFilters)) {
             return <></>;
         }
-    
+
         return (
             <StoryChapterCard chapter={item}
                 setEditingChapterId={setEditingChapterId}
@@ -67,9 +67,12 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, t
 
     return (
         <PageColumn>
-            <AppText type={TextType.Subtitle}>
-                {title} ({filteredListCount})
-            </AppText>
+            {
+                filteredListCount > 0 && (
+                    <AppText type={TextType.Subtitle}>
+                        {title} ({filteredListCount})
+                    </AppText>)
+            }
 
             <FlatList
                 data={chapters}

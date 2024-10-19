@@ -51,8 +51,8 @@ function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
 
 const styles = StyleSheet.create({
     container: {
-        gap: 32,
-        paddingHorizontal: 8,
+        gap: 8,
+        paddingHorizontal: 12,
     },
     iconDiv: {
         alignItems: 'center',

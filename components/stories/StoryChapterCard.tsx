@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { type ViewProps, StyleSheet, TextInput, Alert } from 'react-native';
+import { type ViewProps, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
-import { mapStoryChapterQualityToText, mapStoryChapterTypeToAppIcon, mapStoryChapterTypeToText, shouldKeepChapter } from '@/utils/appUtils';
+import { mapStoryChapterTypeToAppIcon, mapStoryChapterTypeToText, shouldKeepChapter } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';
@@ -39,7 +39,7 @@ export type IStoryChapterCard = ViewProps & {
 function getHeight(expanded: Boolean, editing: Boolean) {
   if (editing) return '90%';
   if (expanded) return 400;
-  return 150;
+  return 100;
 }
 
 export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
@@ -183,10 +183,10 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     </PageColumn>
   );
 
-  if (!editing) {
+  if (!editing && expanded) {
     ExpandedLayoutButtons.push(
-      <SimpleIconButton iconSrc={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
-        title={expanded ? 'Collapse' : 'Expand'}
+      <SimpleIconButton iconSrc={AppIcon.ChevronUp}
+        title={'Collapse'}
         onClick={onExpandClick}
         small />
     );
@@ -242,14 +242,6 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
       );
     }
 
-    ExpandedLayout.push(
-      <PageRow style={{ marginTop: 8 }}>
-        <PageChip title={`Quality: ${mapStoryChapterQualityToText(chapter.quality)}`}
-          style={{ backgroundColor: '#d0e0e3' }}
-          small />
-      </PageRow>
-    );
-
     if (canEdit) {
       if (canDiscard) {
         ExpandedLayoutButtons.push(
@@ -297,10 +289,10 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     );
   }
 
-  return (
+  const Element = (
     <Animated.View style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing)}, style]}>
       <PageColumn style={{}}>
-        <ScrollLayout style={{ height: 400 }}>
+        <ScrollLayout style={{ maxHeight: 400 }}>
           <PageRow>
             <PageRow style={{ marginBottom: 8 }}>
               {
@@ -325,6 +317,16 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
         </PageRow>
       </PageColumn>
     </Animated.View>
+  );
+
+  if (expanded) {
+    return Element;
+  }
+
+  return (
+    <TouchableOpacity onPress={onExpandClick}>
+      {Element}
+    </TouchableOpacity>
   );
 }
 

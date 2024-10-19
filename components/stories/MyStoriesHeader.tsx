@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, type ViewProps } from 'react-native';
+import { StyleSheet, View, Modal, TouchableOpacity, FlatList } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { AppIcon, StoryChapterTag, StoryChapterType } from '@/enums/enums';
 import ScrollLayout from '../common/ScrollLayout';
@@ -8,12 +9,13 @@ import StoryChapter from '@/models/storyChapter';
 import { PageColumn } from '../common/PageColumn';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import DetailsSection from '../common/DetailsSection';
-import { PageRow } from '../common/PageRow';
-import { mapStoryChapterTagToText, partitionChaptersByTag, toggleTagFromFilter, toggleTypeFromFilter } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
+import { mapStoryChapterTagToText, partitionChaptersByTag, toggleTagFromFilter, toggleTypeFromFilter } from '@/utils/appUtils';
 import { updateChaptersFilter } from '@/redux/actions';
+import { AppText, TextType } from '../common/AppText';
+import { PageRow } from '../common/PageRow';
 
-export type IMyStoriesHeader = ViewProps & {
+export type IMyStoriesHeader = {
     chapters: StoryChapter[];
     tagFilters: StoryChapterTag[];
     typeFilters: StoryChapterType[];
@@ -21,21 +23,14 @@ export type IMyStoriesHeader = ViewProps & {
     updateChaptersFilter: Function;
 };
 
-export enum StoryLayoutType {
-    BeforeChrist,
-    SalvationMoment,
-    AfterChrist,
-};
-
-function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilter, error }: IMyStoriesHeader) {
-    const [message, setMessage] = useState<string | null>(null);
+function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilter }: IMyStoriesHeader) {
+    const [modalVisible, setModalVisible] = useState(false);
 
     const chaptersIsLoaded = chapters !== null;
     const beforeChristChapters = chapters.filter((value) => value.chapterType === StoryChapterType.BeforeChrist);
     const salvationMomentChapters = chapters.filter((value) => value.chapterType === StoryChapterType.SalvationMoment);
     const afterChristChapters = chapters.filter((value) => value.chapterType === StoryChapterType.AfterChrist);
-
-    const partitionedChapters = partitionChaptersByTag(chapters);
+    let partitionedChapters = partitionChaptersByTag(chapters);
 
     const beforeChristClick = () => {
         updateChaptersFilter(tagFilters, toggleTypeFromFilter(StoryChapterType.BeforeChrist, typeFilters));
@@ -53,96 +48,166 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
     const isFilteringSalvationMoment = typeFilters?.includes(StoryChapterType.SalvationMoment);
     const isFilteringAfterChrist = typeFilters?.includes(StoryChapterType.AfterChrist);
 
+    const toggleModalVisibility = () => {
+        setModalVisible(!modalVisible);
+    };
+
+    const numOfActiveFilters = (tagFilters?.length || 0) + (typeFilters?.length || 0) + (updateChaptersFilter?.length || 0);
+    const hasActiveFilter = numOfActiveFilters > 0;
+    const openFilterBtnText = hasActiveFilter ? `Filter (${numOfActiveFilters} Active)` : 'Filter';
+
+    // Reanimated shared value and animation styles
+    const scale = useSharedValue(1);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: scale.value }],
+    }));
+
+    useEffect(() => {
+        if (hasActiveFilter) {
+            scale.value = withRepeat(
+                withSequence(
+                    withTiming(1.05, { duration: 1000 }),
+                    withTiming(1, { duration: 1000 })
+                ),
+                -1,
+                true
+            );
+        } else {
+            scale.value = 1;
+        }
+    }, [hasActiveFilter]);
+
     return (
-        <ScrollLayout style={{ height: 200 }}>
-            <PageColumn style={{}}>
-                <AnimatedHeader title={'My Stories'} subtitle={'Tap type and tags below to filter list.'} />
+        <PageColumn>
+            <AnimatedHeader title="My Stories" subtitle="Tap button below to filter list." />
 
-                {
-                    chaptersIsLoaded && (
-                        <PageRow style={{ gap: 24, marginVertical: 12, marginHorizontal: 8 }}>
-                            <DetailsSection iconSrc={AppIcon.Rainy}
-                                prefix={"Before Christ"}
-                                onClick={beforeChristClick}
-                                style={[isFilteringBeforeChrist && styles.selectedTypeFilter]}
-                                title={`${beforeChristChapters.length}`} />
-                            <DetailsSection iconSrc={AppIcon.OpenHands}
-                                prefix={"Salvation Moment"}
-                                onClick={salvationMomentClick}
-                                style={[isFilteringSalvationMoment && styles.selectedTypeFilter]}
-                                title={`${salvationMomentChapters.length}`} />
-                            <DetailsSection iconSrc={AppIcon.PlantGrow}
-                                prefix={"After Christ"}
-                                onClick={afterChristClick}
-                                style={[isFilteringAfterChrist && styles.selectedTypeFilter]}
-                                title={`${afterChristChapters.length}`} />
-                        </PageRow>
-                    )
-                }
+            <PageRow>
+                <Animated.View style={animatedStyle}>
+                    <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]} 
+                        onPress={toggleModalVisibility}>
+                        <AppText>{openFilterBtnText}</AppText>
+                    </TouchableOpacity>
+                </Animated.View>
+            </PageRow>
 
-                <PageRow style={{ flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-                    {
-                        partitionedChapters.map((value: { key: StoryChapterTag, items: StoryChapter[] }) => {
-                            const onClick = () => {
-                                updateChaptersFilter(toggleTagFromFilter(value.key, tagFilters), typeFilters);
-                            };
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={toggleModalVisibility}>
+                <View style={styles.modalContainer}>
+                    <PageColumn style={styles.modalContent}>
+                        <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'}/>
 
-                            const label = mapStoryChapterTagToText(value.key);
-                            const isFiltering = tagFilters.includes(value.key);
+                        {chaptersIsLoaded && (
+                            <PageRow spaceBetween style={{ marginHorizontal: 12, marginBottom: 16 }}>
+                                <DetailsSection iconSrc={AppIcon.Rainy}
+                                    prefix="Before Christ"
+                                    title={beforeChristChapters.length}
+                                    onClick={beforeChristClick}
+                                    style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
+                                />
+                                <DetailsSection iconSrc={AppIcon.OpenHands}
+                                    prefix="Salvation Moment"
+                                    title={salvationMomentChapters.length}
+                                    onClick={salvationMomentClick}
+                                    style={[styles.typeFilterItem, isFilteringSalvationMoment && styles.selectedTypeFilter]}
+                                />
+                                <DetailsSection iconSrc={AppIcon.PlantGrow}
+                                    prefix="After Christ"
+                                    title={afterChristChapters.length}
+                                    onClick={afterChristClick}
+                                    style={[styles.typeFilterItem, isFilteringAfterChrist && styles.selectedTypeFilter]}
+                                />
+                            </PageRow>
+                        )}
 
-                            return (
-                                <PageChip title={`${label} (${value.items.length})`}
-                                    onClick={onClick}
-                                    style={[{ flexBasis: '15%', }, isFiltering && styles.selectedTagFilter]} />
-                            );
-                        })
-                    }
-                </PageRow>
+                        <ScrollLayout style={{ maxHeight: 300 }}>
+                            <FlatList data={partitionedChapters}
+                                keyExtractor={(key, idx) => `tag-${idx}`}
+                                numColumns={3}
+                                renderItem={(props) => {
+                                    const { key, items } = props.item;
 
-            </PageColumn>
-        </ScrollLayout>
+                                    const onClick = () => {
+                                        updateChaptersFilter(toggleTagFromFilter(key, tagFilters), typeFilters);
+                                    };
+                                    const label = mapStoryChapterTagToText(key);
+                                    const isFiltering = tagFilters.includes(key);
+
+                                    return (
+                                        <PageChip
+                                            key={key}
+                                            title={`${label} (${items.length})`}
+                                            onClick={onClick}
+                                            small
+                                            style={[isFiltering && styles.selectedTagFilter]}
+                                        />
+                                    );
+                                }}
+                            />
+                        </ScrollLayout>
+
+                        <TouchableOpacity style={styles.closeButton} onPress={toggleModalVisibility}>
+                            <AppText>Close</AppText>
+                        </TouchableOpacity>
+                    </PageColumn>
+                </View>
+            </Modal>
+        </PageColumn>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        gap: 32,
-        paddingHorizontal: 8,
+    filterButton: {
+        padding: 10,
+        backgroundColor: '#e0e0e0',
+        marginVertical: 10,
+        borderRadius: 5,
+        alignSelf: 'center',
     },
-    iconDiv: {
+    activeFilter: {
+        backgroundColor: '#a2c4c9',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    icon: {
-        height: 82,
-        width: 82,
+    modalContent: {
+        width: '90%',
+        backgroundColor: 'white',
+        paddingVertical: 16,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
+    typeFilterItem: {
+        padding: 8,
+        borderRadius: 8,
     },
     selectedTypeFilter: {
         backgroundColor: '#d0e0e3',
-        borderRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
     },
     selectedTagFilter: {
         backgroundColor: '#d0e0e3',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
+    },
+    closeButton: {
+        marginTop: 20,
+        padding: 10,
+        backgroundColor: '#ff6666',
+        borderRadius: 5,
+        alignSelf: 'center',
     },
 });
 
-const mapStateToProps = (state: any) => {
-    return {
-        chapters: state.stories.myStoryChapters,
-        tagFilters: state.stories.tagFilters,
-        typeFilters: state.stories.typeFilters,
-        error: state.errors.error
-    };
-}
+const mapStateToProps = (state: any) => ({
+    chapters: state.stories.myStoryChapters,
+    tagFilters: state.stories.tagFilters,
+    typeFilters: state.stories.typeFilters,
+    error: state.errors.error,
+});
 
 const mapDispatchToProps = {
     updateChaptersFilter,
