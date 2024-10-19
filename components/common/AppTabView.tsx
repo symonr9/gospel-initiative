@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tabBar: {
-        backgroundColor: '#e8e9e8',
+        backgroundColor: 'transparent',
         shadowOpacity: 0.2,
-        shadowRadius: 8,
+        shadowRadius: 6,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
@@ -69,17 +69,18 @@ const styles = StyleSheet.create({
     },
     labelContainer: {
         paddingVertical: 4,
-        paddingHorizontal: 8,
-        borderRadius: 8,
+        paddingHorizontal: 4,
+        borderRadius: 6,
     },
     label: {
         fontSize: 14,
-        fontWeight: '500',
+        fontWeight: 'bold',
         minWidth: 100,
         textAlign: 'center'
     },
     activeTab: {
         backgroundColor: Colors.light.secondary,
+
     },
     activeLabel: {
         color: Colors.light.primary,

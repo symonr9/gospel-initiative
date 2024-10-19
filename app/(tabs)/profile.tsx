@@ -8,7 +8,8 @@ import Error from '@/models/error';
 import { clearAppError } from '@/redux/actions';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
-import HomeLayout from '@/components/home/HomeLayout';
+import SettingsLayout from '@/components/profile/SettingsLayout';
+import ProfileLayout from '@/components/profile/ProfileLayout';
 
 export type IProfile = ViewProps & {
   error: Error,
@@ -16,8 +17,8 @@ export type IProfile = ViewProps & {
 };
 
 const renderScene = SceneMap({
-  profile: HomeLayout,
-  settings: HomeLayout,
+  profile: ProfileLayout,
+  settings: SettingsLayout,
 });
 
 function Profile({ error, clearAppError }: IProfile) {

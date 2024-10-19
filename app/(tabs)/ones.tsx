@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import OnesLayout from '@/components/ones/OnesLayout';
-import OnesOverviewLayout from '@/components/ones/OnesOverviewLayout';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
 import Error from '@/models/error';

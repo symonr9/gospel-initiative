@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
+import { setStatusBarStyle } from "expo-status-bar";
 import { Ionicons } from '@expo/vector-icons';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
@@ -29,6 +30,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      setStatusBarStyle("dark");
     }
   }, [loaded]);
 
@@ -83,7 +85,7 @@ export default function RootLayout() {
 
   const MenuIcon = (
     <TouchableOpacity onPress={showMenuOptions}>
-      <Ionicons name="ellipsis-vertical" size={24} color={Colors.light.alternateText} />
+      <Ionicons name="ellipsis-vertical" size={24} color={Colors.light.text} />
     </TouchableOpacity>
   );
 
@@ -95,11 +97,14 @@ export default function RootLayout() {
             headerTitle: 'Gospel Initiative',
             headerRight: () => MenuIcon,
             headerStyle: {
-              backgroundColor: Colors.light.primary,
+              backgroundColor: 'transparent',
+              elevation: 0, // Remove shadow on Android
+              shadowOpacity: 0, // Remove shadow on iOS
             },
-            headerTintColor: Colors.light.alternateText,
+            headerTintColor: Colors.light.text,
             headerTitleStyle: {
               fontWeight: 'bold',
+              color: Colors.light.text,
             },
           }}>
           <Stack.Screen name="(tabs)" options={{}} />
