@@ -1,5 +1,5 @@
 import { ActionStepType, AppIcon } from '@/enums/enums';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -38,7 +38,6 @@ export type IActionStepPicker = ViewProps & {
 };
 
 export enum PickerState {
-    Launch,
     Normal,
     Adding,
     Editing,
@@ -48,7 +47,9 @@ export enum PickerState {
 
 const ActionStepPicker = ({ executor, selectedOne, actionSteps, 
     addActionStep, editActionSteps, setAppError }: IActionStepPicker) => {
-    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Launch);
+    const isFirstRender = useRef(false);
+
+    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
 
     const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOne?.id || ""));
@@ -59,6 +60,11 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
     const selectedActionStepIndex = selectedActionStep ? actionStepTypeArray.findIndex((step) => step.value === selectedActionStep.type) : 0;
 
     useEffect(() => {
+        if (!isFirstRender.current) {
+            isFirstRender.current = true;
+            return;
+        }
+        
         if (pickerState === PickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
@@ -212,26 +218,7 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
         </PageColumn>
     );
 
-    const onExpandPress = () => {
-        setPickerState(pickerState === PickerState.Launch ? PickerState.Normal : PickerState.Launch);
-    }
-
-    if (pickerState === PickerState.Launch) {
-        Body.push(
-            <PageRow spaceEvenly style={{}}>
-                {
-                    firstActionStep && (
-                        <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)} 
-                            prefix={getAppTimeAgoText(firstActionStep.targetDate)} 
-                            title={mapActionStepTypeToText(firstActionStep.type)}/>
-                    )
-                }
-                <SimpleIconButton iconSrc={AppIcon.ChevronDown}
-                    title={'Expand'}
-                    onClick={onExpandPress} />
-            </PageRow>
-        );
-    } else if (pickerState !== PickerState.Normal) {
+    if (pickerState !== PickerState.Normal) {
         Body.push(
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
@@ -252,9 +239,6 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
                                 customStyles={ { container: { marginStart: 10, marginEnd: 10 }}}
                                 title={'Add'}
                                 onClick={() => setPickerState(PickerState.Adding)} />
-                            <SimpleIconButton iconSrc={AppIcon.ChevronUp}
-                                title={'Collapse'}
-                                onClick={onExpandPress} />
                         </>
                     )
                 }

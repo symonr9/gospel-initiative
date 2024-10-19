@@ -3,16 +3,19 @@ import { Provider } from 'react-redux';
 import store from '../redux/store';
 import { setStatusBarStyle } from "expo-status-bar";
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { Alert, TouchableOpacity, LogBox } from 'react-native';
+import { Alert, TouchableOpacity, LogBox, View } from 'react-native';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { clearAll } from '@/utils/storageUtils';
+import { SimpleIcon } from '@/components/common/SimpleIcon';
+import { AppIcon } from '@/enums/enums';
 
 LogBox.ignoreAllLogs(true);
 
@@ -83,6 +86,17 @@ export default function RootLayout() {
     );
   };
 
+  const MenuTitle = (
+    <View>
+      <Image source={AppIcon.AppLogo} style={{
+        width: 80,
+        height: 30,
+        backgroundColor: '#FFF',
+      }}/>
+    </View>
+
+  );
+
   const MenuIcon = (
     <TouchableOpacity onPress={showMenuOptions}>
       <Ionicons name="ellipsis-vertical" size={24} color={Colors.light.text} />
@@ -94,10 +108,10 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack
           screenOptions={{
-            headerTitle: 'Gospel Initiative',
+            headerTitle: () => MenuTitle,
             headerRight: () => MenuIcon,
             headerStyle: {
-              backgroundColor: 'transparent',
+              backgroundColor: Colors.light.background,
               elevation: 0, // Remove shadow on Android
               shadowOpacity: 0, // Remove shadow on iOS
             },
