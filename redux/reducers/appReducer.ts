@@ -6,9 +6,6 @@ const initialState = {
     page: Page.ShareChrist,
     tabIndex: 0,
     shouldRefreshData: false,
-
-    userId: null,
-    authToken: null,
 };
 
 export function appReducer(state = initialState, action: ActionPackage) {
@@ -18,15 +15,6 @@ export function appReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     ...state,
                     page: action.payload,
-                }
-            });
-        case Action.LoadLocalData:
-            const { userId, authToken } = action.payload;
-            return update(state, {
-                $set: {
-                    ...state,
-                    userId,
-                    authToken
                 }
             });
         case Action.RefreshData:

@@ -1,19 +1,18 @@
-import { loadServerData, loadLocalData, setAppError } from '@/redux/actions';
-import React, { useState, useEffect } from 'react';
+import { loadServerData, refreshData, setAppError } from '@/redux/actions';
+import React, { useEffect, useRef } from 'react';
 import Constants from 'expo-constants';
 
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
-import { getFromSecureStorage, getFromStorage, isSecureStorageAvailable, saveToStorage, saveToSecureStorage, getLocalAuthToken, getLocalUserId } from '@/utils/storageUtils';
+import { getLocalUserId } from '@/utils/storageUtils';
 import { createUser, fetchActiveBeacons, fetchServerData } from '@/requests/Requests';
 import Error from '@/models/error';
-import { generateRandomId, getRandomString } from '@/utils/appUtils';
 
 export type IDataRefreshManager = {
     state: any,
 
     loadServerData: (data: any) => void,
-    loadLocalData: (data: any) => void,
+    refreshData: Function,
     setAppError: Function,
 };
 
@@ -21,7 +20,9 @@ function hasConstantsLoaded() {
     return Constants.expoConfig?.extra?.serverUrl;
 }
 
-function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError }: IDataRefreshManager) {
+function DataRefreshManager({ state, loadServerData, refreshData, setAppError }: IDataRefreshManager) {
+
+    const isFirstRender = useRef(false);
 
     console.log("State: ", state);
 
@@ -30,53 +31,38 @@ function DataRefreshManager({ state, loadServerData, loadLocalData, setAppError 
             setAppError(new Error('Invalid Server Configuration', 'Please contact your administrator.'));
             return;
         }
-
         console.log("Expo Config: ", Constants.expoConfig);
-        console.log("Loading settings...");
         loadSettings();
     }, []);
 
     useEffect(() => {
-        if (!state.app.userId) {
+        if (!isFirstRender.current) {
+            isFirstRender.current = true;
             return;
         }
-        console.log("Loading server data...");
-        fetchData(state.app.userId);
-    }, [state.app.userId, state.app.shouldRefreshData]);
+
+        fetchData();
+    }, [state.app.shouldRefreshData]);
 
     const loadSettings = async () => {
         const userId = await getLocalUserId();
-        const authToken = await getLocalAuthToken();
-
         if (!userId) {
-            const { error, user, token } = await createUser();
-            if (error || !user.id || !token) {
+            const { error } = await createUser();
+            if (error) {
                 setAppError(new Error(error, 'Something went wrong'));
                 return;
             }
-            saveToStorage("userId", user.id);
+        }
+        fetchData();
+    }
 
-            const isSecureAvailable = await isSecureStorageAvailable();
-            if (isSecureAvailable) {
-                saveToSecureStorage("authToken", token);
-            } else {
-                saveToStorage("authToken", token);
-            }
-
-            loadLocalData({
-                userId: user.id,
-                authToken: token
-            });
+    const fetchData = async () => {
+        const userId = await getLocalUserId();
+        if (!userId) {
+            setAppError(new Error('Missing User ID...', 'Something went wrong'));
             return;
         }
 
-        loadLocalData({
-            userId,
-            authToken
-        });
-    }
-
-    const fetchData = async (userId: string) => {
         const { user, ones, actionSteps, myStoryChapters, error } = await fetchServerData();
         if (error) {
             setAppError(new Error(error, 'Something went wrong'));
@@ -116,7 +102,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
     loadServerData,
-    loadLocalData,
+    refreshData,
     setAppError,
 };
 

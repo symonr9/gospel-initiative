@@ -7,11 +7,11 @@ import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
-import { getLocalAuthToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
+import { getLocalAccessToken, getLocalRefreshToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
 
 export const fetchActiveBeacons = async () => {
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -23,7 +23,7 @@ export const fetchActiveBeacons = async () => {
                 Authorization: `Bearer ${authToken}`
             },
         });
-        
+
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -59,8 +59,7 @@ export const fetchActiveBeacons = async () => {
 };
 
 export const createUser = async () => {
-    const response = await postData(`/users/create`, {
-    });
+    const response = await postData(`/users/create`, {});
 
     if (!response) {
         return { error: 'Failed to contact server.' };
@@ -70,41 +69,38 @@ export const createUser = async () => {
         return { error: `Response returned error: ${response.status}` };
     }
 
-    return {
-        user: response.data.user,
-        token: response.data.token
-    };
-}
-
-export const tryToRefreshAccessToken = async () => {
-    const { token, error } = await refreshAccessToken();
-    if (error) {
-        return false;
+    const { user, accessToken, refreshToken } = response.data;
+    if (!user || !user.id || !accessToken || !refreshToken) {
+        return { error: 'Failed to retrieve expected data from server.' };
     }
+
+    saveToStorage("userId", user.id);
 
     const isSecureAvailable = await isSecureStorageAvailable();
     if (isSecureAvailable) {
-        saveToSecureStorage("authToken", token);
+        saveToSecureStorage("accessToken", accessToken);
+        saveToSecureStorage("refreshToken", refreshToken);
     } else {
-        saveToStorage("authToken", token);
+        saveToStorage("accessToken", accessToken);
+        saveToStorage("refreshToken", refreshToken);
     }
 
-    return true;
+    return {};
 }
 
 export const refreshAccessToken = async () => {
     const userId = await getLocalUserId();
-    if (!userId) {
+    const currentRefreshToken = await getLocalRefreshToken();
+    if (!userId || !currentRefreshToken) {
         return { error: 'Invalid configuration.' };
     }
 
     const response = await postData(`/auth/refresh`, {}, {
         headers: {
             user_id: userId,
+            refresh_token: currentRefreshToken
         },
     });
-
-    console.log("Refresh access token: ", response);
 
     if (!response) {
         return { error: 'Failed to contact server.' };
@@ -114,14 +110,27 @@ export const refreshAccessToken = async () => {
         return { error: `Response returned error: ${response.status}` };
     }
 
-    return {
-        token: response.data.token
-    };
+    const { accessToken, refreshToken } = response.data;
+
+    const isSecureAvailable = await isSecureStorageAvailable();
+    if (isSecureAvailable) {
+        saveToSecureStorage("accessToken", accessToken);
+        if (refreshToken) {
+            saveToSecureStorage("refreshToken", refreshToken);
+        }
+    } else {
+        saveToStorage("accessToken", accessToken);
+        if (refreshToken) {
+            saveToStorage("refreshToken", refreshToken);
+        }
+    }
+
+    return {};
 }
 
 export const fetchServerSettings = async () => {
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -148,7 +157,7 @@ export const fetchServerSettings = async () => {
 
 export const fetchServerData = async (refreshTokenIfNeeded = true): Promise<any> => {
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
 
     try {
         const response = await getData(`/users/data/${userId}`, {
@@ -163,9 +172,11 @@ export const fetchServerData = async (refreshTokenIfNeeded = true): Promise<any>
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (refreshTokenIfNeeded && response.status === 403) { // Token may have expired
-            if (!await tryToRefreshAccessToken()) {
-                return { error: 'Failed to refresh access token' };
+            const { error } = await refreshAccessToken();
+            if (error) {
+                return { error: error };
             }
+
             return await fetchServerData(false);
         } else if (response.data.error) {
             return { error: response.data.error };
@@ -256,7 +267,7 @@ export const partition = async (question: string, userResponse: string, controll
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -312,7 +323,7 @@ export const createChapters = async (chapterArray: StoryChapter[] | null, contro
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -352,7 +363,7 @@ export const updateChapter = async (chapter: StoryChapter, controller?: AbortCon
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -392,7 +403,7 @@ export const deleteChapter = async (chapter: StoryChapter, controller?: AbortCon
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -438,7 +449,7 @@ export const performOneRequest = async (adding: boolean, one: One, controller?: 
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -493,7 +504,7 @@ export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -546,7 +557,7 @@ export const createBeacon = async (beacon: Beacon, controller?: AbortController)
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }
@@ -605,7 +616,7 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
     }
 
     const userId = await getLocalUserId();
-    const authToken = await getLocalAuthToken();
+    const authToken = await getLocalAccessToken();
     if (!userId || !authToken) {
         return { error: 'Invalid configuration.' };
     }

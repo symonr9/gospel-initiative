@@ -31,7 +31,6 @@ export enum Action {
     SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
 
     LoadServerData = "LOAD_SERVER_DATA",
-    LoadLocalData = "LOAD_LOCAL_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
     UpdateTabIndex = "UPDATE_TAB_INDEX",
 

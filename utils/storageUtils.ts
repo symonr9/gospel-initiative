@@ -10,15 +10,28 @@ export const getLocalUserId = async () => {
     }
 };
 
-export const getLocalAuthToken = async () => {
+export const getLocalAccessToken = async () => {
     try {
         const isAvailable = await isSecureStorageAvailable();
         if (isAvailable) {
-            return await getFromSecureStorage('authToken');
+            return await getFromSecureStorage('accessToken');
         }
-        return getFromStorage('authToken');
+        return getFromStorage('accessToken');
     } catch (error) {
-        console.error('Failed to load auth token:', error);
+        console.error('Failed to load access token:', error);
+    }
+    return null;
+};
+
+export const getLocalRefreshToken = async () => {
+    try {
+        const isAvailable = await isSecureStorageAvailable();
+        if (isAvailable) {
+            return await getFromSecureStorage('refreshToken');
+        }
+        return getFromStorage('refreshToken');
+    } catch (error) {
+        console.error('Failed to load refresh token:', error);
     }
     return null;
 };

@@ -8,13 +8,6 @@ export const loadServerData = (data: any) => {
     }
 };
 
-export const loadLocalData = (data: any) => {
-    return {
-        type: Action.LoadLocalData,
-        payload: data,
-    }
-};
-
 export const loadPreferences = (data: any) => {
     return {
         type: Action.LoadPreferences,
