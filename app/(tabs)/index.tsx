@@ -34,11 +34,8 @@ function Home({ error, clearAppError }: IHome) {
                         onClick={() => clearAppError()} />
                 )
             }
-
-
-            <AppTabView title={'Share Christ'}
-                renderScene={renderScene}
-                routes={routes} />
+            
+            <HomeLayout/>
         </PageView>
     );
 }

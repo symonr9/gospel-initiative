@@ -1,24 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, type ViewProps } from 'react-native';
+import { StyleSheet, type ViewProps } from 'react-native';
 
-import { AppIcon, StoryChapterTag, StoryChapterType } from '@/enums/enums';
-import { selectPartionedEnhancedStories } from '@/redux/selectors';
+import { AppIcon } from '@/enums/enums';
 import ScrollLayout from '../common/ScrollLayout';
 import StoryChapter from '@/models/storyChapter';
 import { AnimatedBanner } from '../common/AnimatedBanner';
-import BrowseChaptersList from './BrowseChaptersList';
 import { PageColumn } from '../common/PageColumn';
 import BeforeChristList from './BeforeChristList';
 import SalvationMomentsList from './SalvationMomentsList';
 import AfterChristList from './AfterChristList';
-import PageHeader from '../common/PageHeader';
-import { PageSubHeader } from '../common/PageSubHeader';
-import { AnimatedHeader } from '../common/AnimatedHeader';
-import DetailsSection from '../common/DetailsSection';
-import { PageRow } from '../common/PageRow';
-import { mapStoryChapterTagToText, partitionChaptersByTag } from '@/utils/appUtils';
-import { PageChip } from '../common/PageChip';
 import MyStoriesHeader from './MyStoriesHeader';
 
 export type IMyStoriesLayout = ViewProps & {
