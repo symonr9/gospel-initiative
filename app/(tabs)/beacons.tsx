@@ -7,9 +7,14 @@ import AppTabView from '@/components/common/AppTabView';
 import BeaconsHistoryLayout from '@/components/beacons/BeaconsHistoryLayout';
 import MyBeaconsLayout from '@/components/beacons/MyBeaconsLayout';
 import BeaconsPrayLayout from '@/components/beacons/BeaconsPrayLayout';
+import Error from '@/models/error';
+import { clearAppError } from '@/redux/actions';
+import { AnimatedBanner } from '@/components/common/AnimatedBanner';
+import { AppIcon } from '@/enums/enums';
 
 export type IBeacons = ViewProps & {
-  error: string,
+  error: Error,
+  clearAppError: Function
 };
 
 const renderScene = SceneMap({
@@ -18,7 +23,7 @@ const renderScene = SceneMap({
   myBeacons: MyBeaconsLayout
 });
 
-function Beacons({ error }: IBeacons) {
+function Beacons({ error, clearAppError }: IBeacons) {
   const [routes] = React.useState([
     { key: 'pray', title: 'Pray' },
     { key: 'history', title: 'History' },
@@ -27,6 +32,15 @@ function Beacons({ error }: IBeacons) {
 
   return (
     <PageView>
+      {
+        error && (
+          <AnimatedBanner iconSrc={AppIcon.Info}
+            text={error.title}
+            prefixText={error.details}
+            onClick={() => clearAppError()} />
+        )
+      }
+
       <AppTabView title={'Beacons'}
         renderScene={renderScene}
         routes={routes} />
@@ -39,7 +53,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-
+  clearAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Beacons);

@@ -35,7 +35,8 @@ function Ones({ error, clearAppError }: IOnes) {
             text={error.title}
             prefixText={error.details}
             onClick={() => clearAppError()} />
-        )}
+        )
+      }
 
       <AppTabView title={'Ones'}
         renderScene={renderScene}
