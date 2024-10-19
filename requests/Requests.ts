@@ -95,6 +95,8 @@ export const fetchServerData = async (): Promise<any> => {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
             return { error: response.data.error };
+        } else if (response.error) {
+            return { error: response.error };
         } else if (response.status !== 200) {
             return { error: `Response returned error: ${response.status}` };
         }
@@ -482,9 +484,8 @@ export const refreshAccessToken = async () => {
 const makeRequest = async (url: string, method: string = 'GET', body: any = null, controller?: AbortController): Promise<any> => {
     const userId = await getLocalUserId();
     const authToken = await getLocalAccessToken();
-
     if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
+        return { data: { error: 'Invalid configuration.' } };
     }
 
     const headers = {
@@ -500,19 +501,19 @@ const makeRequest = async (url: string, method: string = 'GET', body: any = null
         ...(body && { body: JSON.stringify(body) }),
     };
 
-    // Make the request
     const response = await (method === 'POST' ? postData(url, body, options) : getData(url, options));
 
-    if (response.status === 403) {
+    if (response && response.status === 403) {
         const refreshResult = await refreshAccessToken();
-
-        if (!refreshResult.error) {
-            const newAuthToken = await getLocalAccessToken(); // Fetch the new token after refreshing
-            headers.Authorization = `Bearer ${newAuthToken}`;
-            const retryResponse = await (method === 'POST' ? postData(url, body, { ...options, headers }) : getData(url, { ...options, headers }));
-
-            return retryResponse;
+        if (refreshResult.error) {
+            return { data: { error: `Failed to refresh access token: ${refreshResult.error}` } };
         }
+
+        const newAuthToken = await getLocalAccessToken();
+        headers.Authorization = `Bearer ${newAuthToken}`;
+        return await (method === 'POST' 
+            ? postData(url, body, { ...options, headers }) 
+            : getData(url, { ...options, headers }));
     }
 
     return response;

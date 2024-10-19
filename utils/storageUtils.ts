@@ -55,3 +55,18 @@ export async function getFromSecureStorage(key: any) {
 export async function isSecureStorageAvailable() {
     return await SecureStore.isAvailableAsync();
 }
+
+export const clearAll = async () => {
+    try {
+        await AsyncStorage.clear();
+
+        const isAvailable = await isSecureStorageAvailable();
+        if (isAvailable) {
+            await SecureStore.deleteItemAsync('accessToken');
+            await SecureStore.deleteItemAsync('refreshToken');
+            await SecureStore.deleteItemAsync('userId');
+        }
+    } catch (error) {
+        console.error('Error clearing storage:', error);
+    }
+};

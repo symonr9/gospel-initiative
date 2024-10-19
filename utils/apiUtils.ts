@@ -16,7 +16,7 @@ export const getData = async (url: string, config?: AxiosRequestConfig) => {
       } 
     });
   } catch (error: any) {
-    console.error('Error fetching data:', error);
+    console.error('Error getting data:', error);
     return error.response;
   }
 };
