@@ -10,20 +10,8 @@ import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeT
 import { getLocalAccessToken, getLocalRefreshToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
 
 export const fetchActiveBeacons = async () => {
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     try {
-        const response = await getData(`/beacons/active`, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-        });
-
+        const response = await makeRequest(`/beacons/active`);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -32,25 +20,18 @@ export const fetchActiveBeacons = async () => {
             return { error: `Response returned error: ${response.status}` };
         }
 
-        const beacons = [];
-        for (let beacon of response.data) {
-            beacons.push(
-                new Beacon(
-                    beacon.id,
-                    beacon.name,
-                    beacon.message,
-                    beacon.oneId,
-                    beacon.priority as Priority,
-                    beacon.userId,
-                    beacon.type as BeaconType,
-                    beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
-                    beacon.shareOwnName,
-                    beacon.activities
-                )
-            );
-        }
-
-        return beacons;
+        return response.data.map((beacon: any) => new Beacon(
+            beacon.id,
+            beacon.name,
+            beacon.message,
+            beacon.oneId,
+            beacon.priority as Priority,
+            beacon.userId,
+            beacon.type as BeaconType,
+            beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
+            beacon.shareOwnName,
+            beacon.activities
+        ));
     } catch (error) {
         console.error('Error retrieving data:', error);
     }
@@ -59,8 +40,8 @@ export const fetchActiveBeacons = async () => {
 };
 
 export const createUser = async () => {
+    // Plain postData, no makeRequest() here
     const response = await postData(`/users/create`, {});
-
     if (!response) {
         return { error: 'Failed to contact server.' };
     } else if (response.data.error) {
@@ -88,171 +69,37 @@ export const createUser = async () => {
     return {};
 }
 
-export const refreshAccessToken = async () => {
-    const userId = await getLocalUserId();
-    const currentRefreshToken = await getLocalRefreshToken();
-    if (!userId || !currentRefreshToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
-    const response = await postData(`/auth/refresh`, {}, {
-        headers: {
-            user_id: userId,
-            refresh_token: currentRefreshToken
-        },
-    });
-
-    if (!response) {
-        return { error: 'Failed to contact server.' };
-    } else if (response.data.error) {
-        return { error: response.data.error };
-    } else if (response.status !== 200) {
-        return { error: `Response returned error: ${response.status}` };
-    }
-
-    const { accessToken, refreshToken } = response.data;
-
-    const isSecureAvailable = await isSecureStorageAvailable();
-    if (isSecureAvailable) {
-        saveToSecureStorage("accessToken", accessToken);
-        if (refreshToken) {
-            saveToSecureStorage("refreshToken", refreshToken);
-        }
-    } else {
-        saveToStorage("accessToken", accessToken);
-        if (refreshToken) {
-            saveToStorage("refreshToken", refreshToken);
-        }
-    }
-
-    return {};
-}
-
 export const fetchServerSettings = async () => {
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
-    const response = await getData(`/users/settings/${userId}`, {
-        headers: {
-            user_id: userId,
-            Authorization: `Bearer ${authToken}`
-        },
-    });
-    
-    console.log("fetchServerSettings: ", response);
-
-    if (!response) {
-        return { error: 'Failed to contact server.' };
-    } else if (response.data.error) {
-        return { error: response.data.error };
-    } else if (response.status !== 200) {
-        return { error: `Response returned error: ${response.status}` };
-    }
-
-    return response.data;
-}
-
-export const fetchServerData = async (refreshTokenIfNeeded = true): Promise<any> => {
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-
     try {
-        const response = await getData(`/users/data/${userId}`, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-        });
-
-        console.log("fetchServerData: ", response);
-        
+        const response = await makeRequest(`/users/settings`);
+        console.log("fetchServerSettings: ", response);        
         if (!response) {
             return { error: 'Failed to contact server.' };
-        } else if (refreshTokenIfNeeded && response.status === 403) { // Token may have expired
-            const { error } = await refreshAccessToken();
-            if (error) {
-                return { error: error };
-            }
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+        return response.data;
+    } catch (error) {
+        console.error('Error retrieving settings:', error);
+        return { error: error };
+    }
+}
 
-            return await fetchServerData(false);
+export const fetchServerData = async (): Promise<any> => {
+    try {
+        const response = await makeRequest(`/users/data`);
+        console.log("fetchServerData: ", response);        
+        if (!response) {
+            return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
             return { error: response.data.error };
         } else if (response.status !== 200) {
             return { error: `Response returned error: ${response.status}` };
         }
 
-        const serverData = response.data;
-
-        const user = new User(
-            serverData.id,
-            serverData.name,
-            serverData.email,
-            serverData.type as Role,
-            AvatarIcon[serverData.icon as keyof typeof AvatarIcon],
-            serverData.createdAt,
-        );
-
-        const ones = [];
-        const actionSteps = [];
-        for (let one of serverData.ones) {
-            ones.push(
-                new One(
-                    one.id,
-                    one.name,
-                    AvatarIcon[one.icon as keyof typeof AvatarIcon],
-                    one.stage as OneStage,
-                    one.category as OneCategory,
-                    one.prayingSince,
-                    one.gospelChecklist ? one.gospelChecklist.split(',').map((item: any) => parseInt(item)) : [],
-                    one.hidden,
-                    serverData.id,
-                )
-            );
-
-            for (let step of one.actionSteps) {
-                actionSteps.push(
-                    new ActionStep(
-                        step.id,
-                        step.notes,
-                        step.oneId,
-                        step.isComplete,
-                        step.targetDate ? new Date(step.targetDate) : undefined,
-                        step.type as ActionStepType
-                    )
-                );
-            }
-        }
-
-        const myStoryChapters = [];
-        for (let chapter of serverData.chapters) {
-            myStoryChapters.push(
-                new StoryChapter(
-                    chapter.id,
-                    chapter.storyId,
-                    chapter.type as StoryChapterType,
-                    chapter.title,
-                    chapter.content,
-                    chapter.questions ? chapter.questions.split(',') : [],
-                    AppIcon[chapter.icon as keyof typeof AppIcon],
-                    chapter.order,
-                    chapter.tags ? chapter.tags.split(',').map((item: any) => parseInt(item)) : [],
-                    chapter.names ? chapter.names.split(',') : [],
-                    chapter.quality,
-                    chapter.userId,
-                    shouldKeepChapter(chapter.quality)
-                )
-            );
-        }
-
-        return {
-            user,
-            ones,
-            actionSteps,
-            myStoryChapters
-        };
+        return parseServerData(response.data);
     } catch (error) {
         console.error('Error retrieving data:', error);
     }
@@ -260,31 +107,72 @@ export const fetchServerData = async (refreshTokenIfNeeded = true): Promise<any>
     return {};
 };
 
+const parseServerData = (serverData: any) => {
+    const user = new User(
+        serverData.id,
+        serverData.name,
+        serverData.email,
+        serverData.type as Role,
+        AvatarIcon[serverData.icon as keyof typeof AvatarIcon],
+        serverData.createdAt,
+    );
+
+    const ones = serverData.ones.map((one: any) => new One(
+        one.id,
+        one.name,
+        AvatarIcon[one.icon as keyof typeof AvatarIcon],
+        one.stage as OneStage,
+        one.category as OneCategory,
+        one.prayingSince,
+        one.gospelChecklist ? one.gospelChecklist.split(',').map(Number) : [],
+        one.hidden,
+        serverData.id,
+    ));
+
+    const actionSteps = serverData.ones.flatMap((one: any) =>
+        one.actionSteps.map((step: any) => new ActionStep(
+            step.id,
+            step.notes,
+            step.oneId,
+            step.isComplete,
+            step.targetDate ? new Date(step.targetDate) : undefined,
+            step.type as ActionStepType
+        ))
+    );
+
+    const myStoryChapters = serverData.chapters.map((chapter: any) => new StoryChapter(
+        chapter.id,
+        chapter.storyId,
+        chapter.type as StoryChapterType,
+        chapter.title,
+        chapter.content,
+        chapter.questions ? chapter.questions.split(',') : [],
+        AppIcon[chapter.icon as keyof typeof AppIcon],
+        chapter.order,
+        chapter.tags ? chapter.tags.split(',').map(Number) : [],
+        chapter.names ? chapter.names.split(',') : [],
+        chapter.quality,
+        chapter.userId,
+        shouldKeepChapter(chapter.quality)
+    ));
+
+    return {
+        user,
+        ones,
+        actionSteps,
+        myStoryChapters,
+    };
+};
+
 export const partition = async (question: string, userResponse: string, controller?: AbortController) => {
-    if (!question || !userResponse) {
-        console.error('Missing required parameters: question or userResponse.');
+    const userId = await getLocalUserId();
+    if (!userId || !question || !userResponse) {
+        console.error('Missing required parameters: userId or question or userResponse.');
         return { error: 'Invalid parameters.' };
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     try {
-        const response = await postData(`/stories/partition`, {
-            question,
-            userResponse
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller?.signal,
-            timeout: 10000 
-        });
-
+        const response = await makeRequest(`/stories/partition`, 'POST', { question, userResponse }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -322,25 +210,10 @@ export const createChapters = async (chapterArray: StoryChapter[] | null, contro
         return { error: 'Invalid parameters.' };
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     const preparedChapterArray = chapterArray.map((chapter) => ({...chapter, iconKey: getAppIconKey(chapter.icon)}));
 
     try {
-        const response = await postData(`/stories/create`, {
-            chapterArray: preparedChapterArray
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller?.signal,
-        });
-
+        const response = await makeRequest(`/stories/create`, 'POST', { chapterArray: preparedChapterArray }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -362,25 +235,10 @@ export const updateChapter = async (chapter: StoryChapter, controller?: AbortCon
         return { error: 'Invalid parameters.' };
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     const preparedChapter = {...chapter, iconKey: getAppIconKey(chapter.icon)};
 
     try {
-        const response = await postData(`/stories/update`, {
-            chapter: preparedChapter
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller?.signal,
-        });
-
+        const response = await makeRequest(`/stories/update`, 'POST', { chapter: preparedChapter }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -402,23 +260,8 @@ export const deleteChapter = async (chapter: StoryChapter, controller?: AbortCon
         return { error: 'Invalid parameters.' };        
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     try {
-        const response = await postData(`/stories/delete`, {
-            chapter
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller?.signal,
-        });
-
+        const response = await makeRequest(`/stories/delete`, 'POST', { chapter }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -443,15 +286,10 @@ export const updateOne = async (one: One, controller?: AbortController): Promise
 }
 
 export const performOneRequest = async (adding: boolean, one: One, controller?: AbortController): Promise<One | any> => {
-    if (!one) {
-        console.error('Missing required parameters: one.');
-        return { error: 'Invalid parameters.' };
-    }
-
     const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
+    if (!userId || !one) {
+        console.error('Missing required parameters: userId, one.');
+        return { error: 'Invalid parameters.' };
     }
 
     const preparedOne = {
@@ -460,16 +298,7 @@ export const performOneRequest = async (adding: boolean, one: One, controller?: 
     };
 
     try {
-        const response = await postData(`/ones/${adding ? 'create' : 'update'}`, {
-            one: preparedOne
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller ? controller.signal : undefined,
-        });
-
+        const response = await makeRequest(`/ones/${adding ? 'create' : 'update'}`, 'POST', { one: preparedOne }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -503,24 +332,8 @@ export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string
         return { error: 'Invalid parameters.' };
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     try {
-        const response = await postData(`/ones/action-steps/update`, {
-            actionSteps,
-            oneId
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller ? controller.signal : undefined,
-        });
-
+        const response = await makeRequest(`/ones/action-steps/update`, 'POST', { actionSteps, oneId }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -556,23 +369,8 @@ export const createBeacon = async (beacon: Beacon, controller?: AbortController)
         return { error: 'Invalid parameters.' };
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     try {
-        const response = await postData(`/beacons/create`, {
-            beacon
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller ? controller.signal : undefined,
-        });
-
+        const response = await makeRequest(`/beacons/create`, 'POST', { beacon }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -615,23 +413,9 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
         return { error: 'Invalid parameters.' };
     }
 
-    const userId = await getLocalUserId();
-    const authToken = await getLocalAccessToken();
-    if (!userId || !authToken) {
-        return { error: 'Invalid configuration.' };
-    }
-
     try {
-        const response = await postData(`/beacons/activity/${adding ? 'create' : 'update'}`, {
-            activity
-        }, {
-            headers: {
-                user_id: userId,
-                Authorization: `Bearer ${authToken}`
-            },
-            signal: controller ? controller.signal : undefined,
-        });
-
+        const response = await makeRequest(`/beacons/activity/${adding ? 'create' : 'update'}`, 
+            'POST', { activity }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -653,4 +437,83 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
         console.error('Error adding/editing beacon activity:', error.message || error);
         return { error: error.message || 'An error occurred while adding/editing beacon activity.' };
     }
+};
+
+export const refreshAccessToken = async () => {
+    const userId = await getLocalUserId();
+    const currentRefreshToken = await getLocalRefreshToken();
+    if (!userId || !currentRefreshToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
+    const response = await postData(`/auth/refresh`, {}, {
+        headers: {
+            user_id: userId,
+            refresh_token: currentRefreshToken
+        },
+    });
+
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    const { accessToken, refreshToken } = response.data;
+
+    const isSecureAvailable = await isSecureStorageAvailable();
+    if (isSecureAvailable) {
+        saveToSecureStorage("accessToken", accessToken);
+        if (refreshToken) {
+            saveToSecureStorage("refreshToken", refreshToken);
+        }
+    } else {
+        saveToStorage("accessToken", accessToken);
+        if (refreshToken) {
+            saveToStorage("refreshToken", refreshToken);
+        }
+    }
+
+    return {};
+}
+
+const makeRequest = async (url: string, method: string = 'GET', body: any = null, controller?: AbortController): Promise<any> => {
+    const userId = await getLocalUserId();
+    const authToken = await getLocalAccessToken();
+
+    if (!userId || !authToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
+    const headers = {
+        user_id: userId,
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+    };
+
+    const options = {
+        method,
+        headers,
+        signal: controller?.signal,
+        ...(body && { body: JSON.stringify(body) }),
+    };
+
+    // Make the request
+    const response = await (method === 'POST' ? postData(url, body, options) : getData(url, options));
+
+    if (response.status === 403) {
+        const refreshResult = await refreshAccessToken();
+
+        if (!refreshResult.error) {
+            const newAuthToken = await getLocalAccessToken(); // Fetch the new token after refreshing
+            headers.Authorization = `Bearer ${newAuthToken}`;
+            const retryResponse = await (method === 'POST' ? postData(url, body, { ...options, headers }) : getData(url, { ...options, headers }));
+
+            return retryResponse;
+        }
+    }
+
+    return response;
 };
