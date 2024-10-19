@@ -4,30 +4,26 @@ import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
 import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
-import BeaconsHistoryLayout from '@/components/beacons/BeaconsHistoryLayout';
-import MyBeaconsLayout from '@/components/beacons/MyBeaconsLayout';
-import BeaconsPrayLayout from '@/components/beacons/BeaconsPrayLayout';
 import Error from '@/models/error';
 import { clearAppError } from '@/redux/actions';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
+import HomeLayout from '@/components/home/HomeLayout';
 
-export type IBeacons = ViewProps & {
+export type IProfile = ViewProps & {
   error: Error,
   clearAppError: Function
 };
 
 const renderScene = SceneMap({
-  pray: BeaconsPrayLayout,
-  history: BeaconsHistoryLayout,
-  myBeacons: MyBeaconsLayout
+  profile: HomeLayout,
+  settings: HomeLayout,
 });
 
-function Beacons({ error, clearAppError }: IBeacons) {
+function Profile({ error, clearAppError }: IProfile) {
   const [routes] = React.useState([
-    { key: 'pray', title: 'Pray' },
-    { key: 'history', title: 'History' },
-    { key: 'myBeacons', title: 'My Beacons' },
+    { key: 'profile', title: 'Profile' },
+    { key: 'settings', title: 'Settings' },
   ]);
 
   return (
@@ -41,7 +37,7 @@ function Beacons({ error, clearAppError }: IBeacons) {
         )
       }
 
-      <AppTabView title={'Beacons'}
+      <AppTabView title={'Profile'}
         renderScene={renderScene}
         routes={routes} />
     </PageView>
@@ -56,4 +52,4 @@ const mapDispatchToProps = {
   clearAppError
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Beacons);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

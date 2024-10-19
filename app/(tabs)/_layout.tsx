@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import React, {  } from 'react';
+import React, { } from 'react';
 import { connect } from 'react-redux';
 
 import { TabBarIcon } from '@/components/common/TabBarIcon';
@@ -28,7 +28,7 @@ function TabLayout({ updateTabIndex }: ITabLayout) {
   return (
     <>
       <DataRefreshManager />
-      <AppStateManager/>
+      <AppStateManager />
       <Tabs
         screenOptions={tabScreenOptions}>
         <Tabs.Screen
@@ -39,10 +39,10 @@ function TabLayout({ updateTabIndex }: ITabLayout) {
           }}
         />
         <Tabs.Screen
-          name="beacons"
+          name="ones"
           options={{
-            title: 'Beacons',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'paper-plane'),
+            title: 'Ones',
+            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'chatbubbles'),
           }}
         />
         <Tabs.Screen
@@ -53,10 +53,10 @@ function TabLayout({ updateTabIndex }: ITabLayout) {
           }}
         />
         <Tabs.Screen
-          name="ones"
+          name="profile"
           options={{
-            title: 'Ones',
-            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'person'),
+            title: 'Profile',
+            tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'person-circle'),
           }}
         />
       </Tabs>

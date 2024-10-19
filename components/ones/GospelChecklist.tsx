@@ -139,7 +139,7 @@ const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAp
         <View style={styles.container}>
             <AppText type={TextType.Subtitle} style={styles.title}>Gospel Checklist</AppText>
             <PageRow spaceEvenly>
-                <DetailsSection iconSrc={AppIcon.Atheist}
+                <DetailsSection iconSrc={AppIcon.Book}
                     title={`${completedPercentage}% Shared`}
                     prefix={'Gospel Shared'} />
 

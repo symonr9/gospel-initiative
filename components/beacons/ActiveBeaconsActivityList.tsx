@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
@@ -27,7 +27,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, style =
         return (
             <PageRow style={styles.beaconCard}>
                 <PageColumn>
-                    <PageRow style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 8,}} spaceBetween>
+                    <PageRow style={{ width: '100%', borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 8, }} spaceBetween>
                         <PageRow style={{ flexShrink: 1, width: '60%', marginEnd: 8 }}>
                             <Image source={mapBeaconTypeToAppIcon(beaconWithActivity.type)}
                                 style={styles.icon}
@@ -48,10 +48,10 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, style =
                                 </AppText>
                             </PageColumn>
                         </PageRow>
-                        <DetailsSection iconSrc={AppIcon.UserGroup} 
-                                    style={{ marginEnd: 8 }}
-                                    prefix={"Prayed For"} 
-                                    title={activities.length} />
+                        <DetailsSection iconSrc={AppIcon.UserGroup}
+                            style={{ marginEnd: 8 }}
+                            prefix={"Prayed For"}
+                            title={activities.length} />
                     </PageRow>
 
                     <PageColumn>
@@ -82,7 +82,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, style =
             <PageRow>
                 <AppText type={TextType.Subtitle}>Beacon Activity</AppText>
             </PageRow>
-            <ScrollLayout style={{ maxHeight: 350 }}>
+            <ScrollLayout style={{ marginTop: 12, maxHeight: 350 }}>
                 {itemsToRender.map((item) => item)}
             </ScrollLayout>
         </Animated.View>
@@ -106,9 +106,7 @@ const styles = StyleSheet.create({
     },
     beaconCard: {
         padding: 16,
-        borderBottomWidth: 2,
-        borderBottomColor: 'lightgray',
-        backgroundColor: '#e3e3e3',
+        backgroundColor: '#f3f3f3',
         borderRadius: 4,
         marginBottom: 8
     },

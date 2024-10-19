@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { type ViewProps, StyleSheet, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Checkbox from 'expo-checkbox';
 
 import PromptBanner from '../prompts/PromptBanner';

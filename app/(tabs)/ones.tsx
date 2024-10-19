@@ -10,6 +10,7 @@ import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
 import Error from '@/models/error';
 import { clearAppError } from '@/redux/actions';
+import BeaconsPrayLayout from '@/components/beacons/BeaconsPrayLayout';
 
 export type IOnes = ViewProps & {
   error: Error,
@@ -17,14 +18,14 @@ export type IOnes = ViewProps & {
 };
 
 const renderScene = SceneMap({
-  overview: OnesOverviewLayout,
   ones: OnesLayout,
+  pray: BeaconsPrayLayout,
 });
 
 function Ones({ error, clearAppError }: IOnes) {
   const [routes] = React.useState([
-    { key: 'overview', title: 'Overview' },
     { key: 'ones', title: 'Ones' },
+    { key: 'pray', title: 'Pray' },
   ]);
 
   return (
