@@ -12,7 +12,6 @@ export const getData = async (url: string, config?: AxiosRequestConfig) => {
       ...config, 
       headers: { 
         ...config?.headers,
-        fixed_auth_token: Constants.expoConfig?.extra?.fixedAuthToken, 
       } 
     });
   } catch (error: any) {
@@ -26,8 +25,7 @@ export const postData = async (url: string, body: any, config?: AxiosRequestConf
     return await axiosInstance.post(url, body, { 
       ...config, 
       headers: { 
-        ...config?.headers, 
-        fixed_auth_token: Constants.expoConfig?.extra?.fixedAuthToken, 
+        ...config?.headers,
       } 
     });
   } catch (error: any) {
