@@ -21,6 +21,10 @@ export enum StoryLayoutType {
     BeforeChrist,
     SalvationMoment,
     AfterChrist,
+
+    // Gods Story
+    Normal,
+    Adding
 };
 
 function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {

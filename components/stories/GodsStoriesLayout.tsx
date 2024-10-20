@@ -15,15 +15,12 @@ import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import StoriesGrid from './StoriesGrid';
+import { StoryLayoutType } from './MyStoriesLayout';
 
 export type IGodsStoriesLayout = ViewProps & {
     GodsStories: EnhancedStory[];
 };
 
-export enum StoryLayoutType {
-    Normal,
-    Adding
-};
 
 function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
     const [activeStoryId, setActiveStoryId] = useState(null);
@@ -63,9 +60,7 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                                     title={'Back'}
                                     onClick={() => {
-                                        if (activeLayoutType === StoryLayoutType.Editing) {
-                                            setActiveLayoutType(StoryLayoutType.Normal);
-                                        } else if (activeStoryId != null) {
+                                        if (activeStoryId != null) {
                                             setActiveStoryId(null);
                                             return;
                                         }
@@ -75,7 +70,8 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                     }
                 </PageRow>
 
-                <StoryDetails activeStory={activeStory} activeLayoutType={activeLayoutType} />
+                <StoryDetails activeStory={activeStory} 
+                    activeLayoutType={activeLayoutType} />
 
                 {
                     activeStory === null && (
