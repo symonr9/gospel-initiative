@@ -1,28 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { type ViewProps, StyleSheet } from 'react-native';
+import { View, Modal, TouchableOpacity, FlatList, StyleSheet, ViewProps } from 'react-native';
 import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
-import { Priority } from '@/enums/enums';
+import { AppIcon, BeaconTag, Priority } from '@/enums/enums'; // Import any enums or constants related to tags
 import { ThemedView } from '../common/ThemedView';
 import { PageColumn } from '../common/PageColumn';
-import { getShowHideIcon } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { BeaconTemplateCard } from './BeaconTemplateCard';
 import One from '@/models/one';
 import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
+import { getShowHideIcon, mapBeaconTagToDetailsText, mapBeaconTagToTitleText } from '@/utils/appUtils';
+import ScrollLayout from '../common/ScrollLayout';
+
+const beaconTagArray = Object.keys(BeaconTag)
+    .filter(key => isNaN(Number(key)))
+    .map((key, index) => ({
+        value: BeaconTag[key as keyof typeof BeaconTag],
+        title: mapBeaconTagToTitleText(BeaconTag[key as keyof typeof BeaconTag]),
+        details: mapBeaconTagToDetailsText(BeaconTag[key as keyof typeof BeaconTag]),
+    }));
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
     selectedOne: One;
-
     setBeaconForm: Function;
 };
 
 function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
+    const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
+    const [selectedTags, setSelectedTags] = useState<BeaconTag[]>([]); // State for selected tags
 
     useEffect(() => {
         setBeaconForm(formData);
@@ -35,26 +45,89 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
         }));
     };
 
-    const setPriority = (priority: Priority) => {
-        setFormData((prev) => ({
-            ...prev,
-            priority
-        }));
+    const onChangeTag = () => {
+        setModalVisible(!modalVisible); // Toggle modal visibility
     };
 
-    const { shareOwnName, priority, notes } = formData;
+    const onTagSelect = (tag: BeaconTag) => {
+        const isSelected = selectedTags.includes(tag);
+        if (isSelected) {
+            setSelectedTags(selectedTags.filter((t) => t !== tag));
+        } else {
+            setSelectedTags([...selectedTags, tag]);
+        }
+    };
+
+    const { shareOwnName } = formData;
 
     return (
         <ThemedView style={[styles.container]}>
             <BeaconTemplateCard template={template}
                 selectedTemplateId={template.id} />
 
+
+            <ScrollLayout style={{ maxHeight: 100, marginVertical: 16 }}>
+                <FlatList
+                    data={selectedTags}
+                    keyExtractor={(item) => item.toString()}
+                    numColumns={3}
+                    renderItem={({ item }) => (
+                        <PageChip
+                            title={mapBeaconTagToTitleText(item)}
+                            small
+                        />
+                    )}
+                />
+            </ScrollLayout>
+
+
+            <PageColumn style={styles.section}>
+                <PageChip iconSrc={AppIcon.Tag}
+                    onClick={onChangeTag}
+                    title={`Add Tags`}
+                    subtitle={'Tags give others more details on how they can be praying for you.'} />
+            </PageColumn>
+
             <PageColumn style={styles.section}>
                 <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                    style={{ width: 220 }}
+                    style={{ width: 280 }}
                     onClick={() => setShareOwnName(!shareOwnName)}
-                    title={shareOwnName ? `Show your own name` : `Hide your own name`} />
+                    title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
             </PageColumn>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <AppText type={TextType.Subtitle}>Select Tags</AppText>
+
+                        <ScrollLayout style={{ height: 400 }}>
+                            <FlatList
+                                data={beaconTagArray}
+                                keyExtractor={(item) => item.value.toString()}
+                                renderItem={({ item }) => (
+                                    <PageChip
+                                        title={item.title}
+                                        subtitle={item.details}
+                                        onClick={() => onTagSelect(item.value)}
+                                        style={selectedTags.includes(item.value) && styles.selectedTag}
+                                    />
+                                )}
+                            />
+                        </ScrollLayout>
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <AppText>Close</AppText>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
 
             <PageColumn style={styles.section}>
                 <AppText type={TextType.Subtitle}>
@@ -78,12 +151,29 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     section: {
-        marginVertical: 16
+        marginBottom: 8
     },
-    icon: {
-        margin: 8,
-        width: 48,
-        height: 48,
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: '90%',
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+    },
+    closeButton: {
+        marginTop: 20,
+        padding: 10,
+        backgroundColor: '#ff6666',
+        borderRadius: 5,
+        alignSelf: 'center',
+    },
+    selectedTag: {
+        backgroundColor: '#d0e0e3',
     },
 });
 

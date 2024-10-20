@@ -88,6 +88,39 @@ export enum Location {
     Trip = 13
 };
 
+export enum BeaconTag {
+    BoldnessToShare = 1,
+    OpenHeart = 2,
+    ClarityOfMessage = 3,
+    FruitfulConversations = 4,
+    EncounterWithJesus = 5,
+    WisdomAndDiscernment = 6,
+    HolySpiritsGuidance = 7,
+    OpportunitiesToServe = 8,
+    PeaceInConversation = 9,
+    RestorationOfRelationships = 10,
+    TrustInGodsPlan = 11,
+    PatienceInWaiting = 12,
+    NewHabits = 13,
+    FindingCommunity = 14,
+    VictoryOverTemptation = 15,
+    FinancialProvision = 16,
+    SafeTravels = 17,
+    Mentorship = 18,
+    FamilyUnity = 19,
+    Forgiveness = 20,
+    Hope = 21,
+    SpiritualGrowth = 22,
+    OvercomingFear = 23,
+    Healing = 24,
+    EmotionalHealing = 25,
+    BreakingEnemyLies = 26,
+    Perserverence = 27,
+    GodsPresence = 28,
+    ComfortInGrief = 29,
+    EyesToSee = 30,
+}
+
 // One
 
 export enum OneCategory {

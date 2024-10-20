@@ -65,18 +65,6 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             );
         }
 
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setMessage(null);
-                        setSelectedTemplateId(null);
-                        setActiveLayoutType(OneLayoutType.Normal);
-                    }}
-                    title={'Back'} />
-            </PageRow>
-        );
-
         BodyLayout.push(
             <BeaconTemplatesList activeLayoutType={activeLayoutType}
                 setActiveLayoutType={setActiveLayoutType} />

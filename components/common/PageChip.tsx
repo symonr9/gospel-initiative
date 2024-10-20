@@ -6,17 +6,18 @@ import { Image } from 'expo-image';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
+import { PageColumn } from './PageColumn';
 
 export type IPageTag = ViewProps & {
     iconSrc?: AppIcon | null;
     title: string;
+    subtitle?: string;
     small?: boolean;
     onClick?: Function;
 }
 
 export function PageChip({ iconSrc = null, title,
-    small = false, onClick, style
-}: IPageTag) {
+    subtitle, small = false, onClick, style }: IPageTag) {
     const onPress = (e: GestureResponderEvent) => {
         if (onClick) {
             e.stopPropagation();
@@ -24,7 +25,7 @@ export function PageChip({ iconSrc = null, title,
         }
     }
 
-    const textType = small ? TextType.Smol : TextType.DefaultSemiBold;
+    const textType = small ? TextType.Smol : TextType.Subtitle2;
 
     return (
         <TouchableOpacity onPress={onPress}>
@@ -34,7 +35,15 @@ export function PageChip({ iconSrc = null, title,
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                     )
                 }
-                <AppText type={textType} style={{ alignSelf: 'center'}}>{title}</AppText>
+
+                <PageColumn>
+                    <AppText type={textType} style={{}}>{title}</AppText>
+                    {
+                        subtitle && (
+                            <AppText type={TextType.Smol} style={{}}>{subtitle}</AppText>
+                        )
+                    }
+                </PageColumn>
             </ThemedView>
         </TouchableOpacity>
     );
@@ -47,15 +56,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fbfbfb',
         borderRadius: 4,
-        padding: 2,
         paddingHorizontal: 4,
+        paddingVertical: 6,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 6,
         elevation: 4,
         margin: 4,
-        minHeight: 20
+        minHeight: 20,
     },
     smallContainer: {
         backgroundColor: '#fbfbfb',
@@ -63,9 +72,9 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     icon: {
-        width: 16,
-        height: 16,
+        width: 20,
+        height: 20,
         alignSelf: 'center',
-        marginEnd: 4,
+        marginEnd: 8,
     },
 });

@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
@@ -315,6 +315,138 @@ export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
         default:
             return AppIcon.Globe;
     }
+}
+
+export function mapBeaconTagToTitleText(type: BeaconTag) {
+    switch (type) {
+        case BeaconTag.BoldnessToShare:
+            return 'Boldness To Share';
+        case BeaconTag.OpenHeart:
+            return 'Open Heart';
+        case BeaconTag.ClarityOfMessage:
+            return 'Clarity Of Message';
+        case BeaconTag.FruitfulConversations:
+            return 'Fruitful Conversations';
+        case BeaconTag.EncounterWithJesus:
+            return 'Encounter With Jesus';
+        case BeaconTag.WisdomAndDiscernment:
+            return 'Wisdom And Discernment';
+        case BeaconTag.HolySpiritsGuidance:
+            return 'Holy Spirit’s Guidance';
+        case BeaconTag.OpportunitiesToServe:
+            return 'Opportunities To Serve';
+        case BeaconTag.PeaceInConversation:
+            return 'Peace In Conversation';
+        case BeaconTag.RestorationOfRelationships:
+            return 'Restoration Of Relationships';
+        case BeaconTag.TrustInGodsPlan:
+            return 'Trust In God’s Plan';
+        case BeaconTag.PatienceInWaiting:
+            return 'Patience In Waiting';
+        case BeaconTag.NewHabits:
+            return 'New Habits';
+        case BeaconTag.FindingCommunity:
+            return 'Finding Community';
+        case BeaconTag.VictoryOverTemptation:
+            return 'Victory Over Temptation';
+        case BeaconTag.FinancialProvision:
+            return 'Financial Provision';
+        case BeaconTag.SafeTravels:
+            return 'Safe Travels';
+        case BeaconTag.Mentorship:
+            return 'Mentorship';
+        case BeaconTag.FamilyUnity:
+            return 'Family Unity';
+        case BeaconTag.Forgiveness:
+            return 'Forgiveness';
+        case BeaconTag.Hope:
+            return 'Hope';
+        case BeaconTag.SpiritualGrowth:
+            return 'Spiritual Growth';
+        case BeaconTag.OvercomingFear:
+            return 'Overcoming Fear';
+        case BeaconTag.Healing:
+            return 'Healing';
+        case BeaconTag.EmotionalHealing:
+            return 'Emotional Healing';
+        case BeaconTag.BreakingEnemyLies:
+            return 'Breaking Enemy Lies';
+        case BeaconTag.Perserverence:
+            return 'Perseverance';
+        case BeaconTag.GodsPresence:
+            return 'God’s Presence';
+        case BeaconTag.ComfortInGrief:
+            return 'Comfort In Grief';
+        case BeaconTag.EyesToSee:
+            return 'Eyes To See';
+    }
+    return '';
+}
+
+export function mapBeaconTagToDetailsText(type: BeaconTag) {
+    switch (type) {
+        case BeaconTag.BoldnessToShare:
+            return 'Pray for boldness to share my testimony or the Gospel.';
+        case BeaconTag.OpenHeart:
+            return 'Pray for my one to have an open heart to talk about God.';
+        case BeaconTag.ClarityOfMessage:
+            return 'Pray for clarity and effectiveness in sharing the message of Christ.';
+        case BeaconTag.FruitfulConversations:
+            return 'Pray for conversations that are meaningful and lead to spiritual growth.';
+        case BeaconTag.EncounterWithJesus:
+            return 'Pray for a life-changing encounter with Jesus for my one.';
+        case BeaconTag.WisdomAndDiscernment:
+            return 'Pray for wisdom and discernment in navigating spiritual conversations.';
+        case BeaconTag.HolySpiritsGuidance:
+            return 'Pray for the Holy Spirit to guide my words and actions.';
+        case BeaconTag.OpportunitiesToServe:
+            return 'Pray for practical opportunities to serve my one.';
+        case BeaconTag.PeaceInConversation:
+            return 'Pray for peace in my conversation, especially if discussing difficult topics.';
+        case BeaconTag.RestorationOfRelationships:
+            return 'Pray for healing and restoration in my one\'s relationships.';
+        case BeaconTag.TrustInGodsPlan:
+            return 'Pray for me to have a deeper trust in God’s plan for my one.';
+        case BeaconTag.PatienceInWaiting:
+            return 'Pray for patience and perseverance for my one.';
+        case BeaconTag.NewHabits:
+            return 'Pray for the formation of new, God-honoring habits in my one’s life.';
+        case BeaconTag.FindingCommunity:
+            return 'Pray for my one to find and engage in a supportive Christian community.';
+        case BeaconTag.VictoryOverTemptation:
+            return 'Pray for my one to have victory over sins and temptations.';
+        case BeaconTag.FinancialProvision:
+            return 'Pray for God’s financial provision for my one.';
+        case BeaconTag.SafeTravels:
+            return 'Pray for safety and protection for my one during their travel.';
+        case BeaconTag.Mentorship:
+            return 'Pray for opportunities to mentor and disciple my one effectively.';
+        case BeaconTag.FamilyUnity:
+            return 'Pray for unity and love within my one\'s family.';
+        case BeaconTag.Forgiveness:
+            return 'Pray for my one to receive God\'s forgivess and extend it to others.';
+        case BeaconTag.Hope:
+            return 'Pray for hope to fill my one\'s heart.';
+        case BeaconTag.SpiritualGrowth:
+            return 'Pray for spiritual growth in my one\'s walk with God.';
+        case BeaconTag.OvercomingFear:
+            return 'Pray for strength for my one to overcome fears holding them back.';
+        case BeaconTag.Healing:
+            return 'Pray for physical, emotional, or spiritual healing where needed.';
+        case BeaconTag.EmotionalHealing:
+            return 'Pray for healing from emotional pain, trauma, or anxiety.';
+        case BeaconTag.BreakingEnemyLies:
+            return 'Pray for the truth to replace any lies or deceptions from the enemy.';
+        case BeaconTag.Perserverence:
+            return 'Pray for perseverance in faith, especially during trials and challenges.';
+        case BeaconTag.GodsPresence:
+            return 'Pray for a deep awareness of God’s presence in my one\'s situation.';
+        case BeaconTag.ComfortInGrief:
+            return 'Pray for comfort and peace for my one as they grieve.';
+        case BeaconTag.EyesToSee:
+            return 'Pray for us to have eyes to see God\'s work in both our lives.';
+    }
+    return '';
 }
 
 export function mapBeaconTypeToAppIcon(type: BeaconType) {
