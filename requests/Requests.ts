@@ -1,4 +1,4 @@
-import { AvatarIcon, OneStage, OneCategory, Priority, BeaconType, ActionStepType, Role, StoryChapterType, StoryChapterTag, AppIcon } from "@/enums/enums";
+import { AvatarIcon, OneStage, OneCategory, Priority, BeaconType, ActionStepType, Role, StoryChapterType, StoryChapterTag, AppIcon, BeaconTag } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import BeaconActivity from "@/models/beaconActivity";
@@ -31,7 +31,8 @@ export const fetchActiveBeacons = async () => {
                 beacon.type as BeaconType,
                 beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
                 beacon.shareOwnName,
-                beacon.activities
+                beacon.activities,                
+                beacon.tags ? beacon.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
             );
 
             item.userName = beacon.user.name;
@@ -404,7 +405,8 @@ export const createBeacon = async (beacon: Beacon, controller?: AbortController)
             beaconResponse.type as BeaconType,
             beaconResponse.activeUntil ? new Date(beaconResponse.activeUntil) : undefined,
             beaconResponse.shareOwnName,
-            []
+            [],
+            beaconResponse.tags ? beaconResponse.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
         );
     } catch (error: any) {
         console.error('Error creating beacon:', error.message || error);

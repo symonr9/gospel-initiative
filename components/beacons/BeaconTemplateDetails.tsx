@@ -32,7 +32,6 @@ export type IBeaconTemplateDetails = ViewProps & {
 function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
     const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
-    const [selectedTags, setSelectedTags] = useState<BeaconTag[]>([]); // State for selected tags
 
     useEffect(() => {
         setBeaconForm(formData);
@@ -50,11 +49,17 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
     };
 
     const onTagSelect = (tag: BeaconTag) => {
-        const isSelected = selectedTags.includes(tag);
+        const isSelected = formData.tags.includes(tag);
         if (isSelected) {
-            setSelectedTags(selectedTags.filter((t) => t !== tag));
+            setFormData((prev) => ({
+                ...prev,
+                tags: formData.tags.filter((t) => t !== tag)
+            }));
         } else {
-            setSelectedTags([...selectedTags, tag]);
+            setFormData((prev) => ({
+                ...prev,
+                tags: [...formData.tags, tag]
+            }));
         }
     };
 
@@ -68,7 +73,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
 
             <ScrollLayout style={{ maxHeight: 100, marginVertical: 16 }}>
                 <FlatList
-                    data={selectedTags}
+                    data={formData.tags}
                     keyExtractor={(item) => item.toString()}
                     numColumns={3}
                     renderItem={({ item }) => (
@@ -114,7 +119,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                                         title={item.title}
                                         subtitle={item.details}
                                         onClick={() => onTagSelect(item.value)}
-                                        style={selectedTags.includes(item.value) && styles.selectedTag}
+                                        style={formData.tags.includes(item.value) && styles.selectedTag}
                                     />
                                 )}
                             />

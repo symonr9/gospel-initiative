@@ -1,4 +1,4 @@
-import { AvatarIcon, BeaconType, OneStage, Priority } from "@/enums/enums";
+import { AvatarIcon, BeaconTag, BeaconType, OneStage, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity, { ActivityWithUser } from "./beaconActivity";
@@ -26,6 +26,7 @@ interface IBeacon {
     activeUntil: Date | undefined;
     shareOwnName: boolean | true;
     activities: BeaconActivity[] | undefined;
+    tags: BeaconTag[];
     
     userName: string | null;
     userIcon: AvatarIcon | null;
@@ -45,6 +46,7 @@ export default class Beacon implements IBeacon {
     activeUntil: Date | undefined;
     shareOwnName: boolean | true;
     activities: BeaconActivity[] | undefined;
+    tags: BeaconTag[];
 
     userName: string | null;
     userIcon: AvatarIcon | null;
@@ -53,9 +55,9 @@ export default class Beacon implements IBeacon {
     oneStage: OneStage | null;
 
     constructor(id: string, name: string, message: string | null, oneId: string | null,
-        priority: Priority, userId: string,
-        type: BeaconType, activeUntil: Date | undefined,
-        shareOwnName: boolean | true, activities: BeaconActivity[] | undefined
+        priority: Priority, userId: string, type: BeaconType, activeUntil: Date | undefined,
+        shareOwnName: boolean | true, activities: BeaconActivity[] | undefined,
+        tags: BeaconTag[]
     ) {
         this.id = id;
         this.name = name;
@@ -67,6 +69,7 @@ export default class Beacon implements IBeacon {
         this.activeUntil = activeUntil;
         this.shareOwnName = shareOwnName;
         this.activities = activities;
+        this.tags = tags;
 
         this.userName = null;
         this.userIcon = null;
@@ -86,6 +89,7 @@ export default class Beacon implements IBeacon {
             BeaconType.Meeting,
             new Date(),
             true,
+            [],
             []
         );
     }

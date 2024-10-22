@@ -104,7 +104,8 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 selectedTemplate.type,
                 getTomorrow(),
                 beaconForm.shareOwnName,
-                []
+                [],
+                beaconForm.tags
             );
 
             const response = await createBeacon(newBeacon);
