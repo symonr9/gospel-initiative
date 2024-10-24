@@ -265,9 +265,7 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
         );
     }
 
-    if (pickerState === PickerState.Launch) {
-        Body.push(<></>);
-    } else if (pickerState === PickerState.Normal) {
+    if (pickerState === PickerState.Normal) {
         const sortedSteps = ActionStep.sortActionSteps(actionSteps);
         Body.push(
             <FlatList

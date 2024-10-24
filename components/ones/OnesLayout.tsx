@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
 import One from '@/models/one';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, GospelChecklistItem } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
@@ -13,10 +13,10 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { addActionStep, editOne, setOneForm, setSelectedOne, editActionSteps, setAppError, refreshData, addOne } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
-import { getNow, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { calculatePercent, getAppTimeAgoText, getNow, mapActionStepTypeToIcon, mapActionStepTypeToText, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
-import { selectActionStepsByOneId } from '@/redux/selectors';
+import { selectActionStepsByOneId, selectActiveBeaconsByUserId, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
@@ -26,10 +26,19 @@ import GospelChecklist from './GospelChecklist';
 import { createOne, updateOne } from '@/requests/Requests';
 import AllOnesGrid from './AllOnesGrid';
 import BeaconPicker from './BeaconPicker';
+import { SimpleGridCard } from '../common/SimpleGridCard';
+import ActionStep from '@/models/actionStep';
+import Beacon from '@/models/beacon';
+
+const gospelChecklistItems = Object.keys(GospelChecklistItem)
+    .filter(key => isNaN(Number(key)))
+    .map((item) => ({ value: GospelChecklistItem[item as keyof typeof GospelChecklistItem] }));
 
 export type IOnesLayout = ViewProps & {
     selectedOne: One | undefined,
     ones: One[],
+    actionSteps: ActionStep[],
+    userBeacons: Beacon[],
     executor: User,
     oneForm: OneForm,
     addOne: Function,
@@ -39,6 +48,13 @@ export type IOnesLayout = ViewProps & {
     setAppError: Function,
     refreshData: Function,
     setSelectedOne: Function
+};
+
+enum BodyType {
+    Base,
+    ActionStep,
+    GospelChecklist,
+    Beacons
 };
 
 export enum OneLayoutType {
@@ -53,12 +69,14 @@ export enum OneLayoutType {
 }
 
 function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
-    setAppError, editActionSteps, refreshData, setSelectedOne }: IOnesLayout) {
+    setAppError, userBeacons, refreshData, actionSteps, setSelectedOne }: IOnesLayout) {
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
     const [message, setMessage] = useState<string | null>(null);
+    const [bodyType, setBodyType] = useState(BodyType.Base);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
-    const [showHeaderButtons, setShowHeaderButtons] = useState(false);
+
+    const firstActionStep = actionSteps.length > 0 ? actionSteps[0] : null;
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
@@ -69,13 +87,6 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
         }
         setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
     }, [executor]);
-
-    useEffect(() => {
-        if (activeLayoutType !== OneLayoutType.Normal) {
-            setShowHeaderButtons(true);
-            return;
-        }
-    }, [activeLayoutType]);
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
         BodyLayout.push(
@@ -100,7 +111,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
 
             try {
                 const response = await createOne(newOne);
-                if (response.error) {                
+                if (response.error) {
                     setAppError(new Error('Error adding one: ', response.error));
                     return;
                 }
@@ -219,24 +230,6 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                     )
                 }
 
-                <SimpleIconButton iconSrc={AppIcon.Plus}
-                    onClick={() => {
-                        setMessage(null);
-                        setActiveLayoutType(OneLayoutType.AddingOne);
-                    }}
-                    title={'New One'} />
-
-                {
-                    selectedOne && (
-                        <SimpleIconButton iconSrc={AppIcon.Pencil}
-                            onClick={() => {
-                                setMessage(null);
-                                setActiveLayoutType(OneLayoutType.EditingOne);
-                            }}
-                            title={'Edit'} />
-                    )
-                }
-
                 {
                     showArrowRight && (
                         <SimpleIconButton iconSrc={AppIcon.ChevronRight}
@@ -252,21 +245,89 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
             </PageRow>
         );
 
-        BodyLayout.push(
-            <PageColumn style={{ gap: 16 }}>
-                {
-                    selectedOne && (
+        if (selectedOne) {
+            const BodyBackHeader = (
+                <PageRow style={{ marginBottom: 8, marginHorizontal: 4 }}>
+                    <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                        title={'Back'}
+                        onClick={() => setBodyType(BodyType.Base)} />
+                </PageRow>
+            );
+
+            if (bodyType === BodyType.ActionStep) {
+                BodyLayout.push(
+                    <PageColumn>
+                        {BodyBackHeader}
+                        <ActionStepPicker />
+                    </PageColumn>
+                );
+            } else if (bodyType === BodyType.GospelChecklist) {
+                BodyLayout.push(
+                    <PageColumn>
+                        {BodyBackHeader}
+                        <GospelChecklist />
+                    </PageColumn>
+                );
+            } else if (bodyType === BodyType.Beacons) {
+                BodyLayout.push(
+                    <PageColumn>
+                        {BodyBackHeader}
+                        <BeaconPicker />
+                    </PageColumn>
+                );
+            } else { // Base
+                let actionStepsDetailView = <></>;
+                if (firstActionStep) {
+                    actionStepsDetailView = (
                         <>
-                            <ActionStepPicker />
-                            <GospelChecklist />
-                            <BeaconPicker />
+                            <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)}
+                                prefix={getAppTimeAgoText(firstActionStep.targetDate)}
+                                onClick={() => setBodyType(BodyType.ActionStep)}
+                                title={mapActionStepTypeToText(firstActionStep.type)} />
                         </>
-                    )
+                    );
+                } else {
+                    actionStepsDetailView = (<View />);
                 }
 
-                {/* <OneFactsList /> */}
-            </PageColumn>
-        );
+                const selectedOneItems = Array.from(new Set(selectedOne.gospelChecklist)); // Set removes dupes.
+                const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItems.map((item) => item.value));
+                const gospelChecklistDetailView = (
+                    <>
+                        <DetailsSection iconSrc={AppIcon.Book}
+                            prefix={"Gospel Shared"}
+                            onClick={() => setBodyType(BodyType.GospelChecklist)}
+                            title={`${completedPercentage}% shared`} />
+                    </>
+                );
+
+                const beaconsDetailView = (
+                    <>
+                        <DetailsSection iconSrc={AppIcon.Star}
+                            prefix={"Active Beacons"}
+                            onClick={() => setBodyType(BodyType.Beacons)}
+                            title={userBeacons.length} />
+                    </>
+                );
+
+                BodyLayout.push(
+                    <PageColumn>
+                        <SimpleGridCard iconSrc={AppIcon.LightBulb}
+                            title={'Action Steps'}
+                            detailsView={actionStepsDetailView}
+                            onClick={() => setBodyType(BodyType.ActionStep)} />
+                        <SimpleGridCard iconSrc={AppIcon.Book}
+                            title={'Gospel Checklist'}
+                            detailsView={gospelChecklistDetailView}
+                            onClick={() => setBodyType(BodyType.GospelChecklist)} />
+                        <SimpleGridCard iconSrc={AppIcon.Prayer}
+                            title={'Prayer Beacons'}
+                            detailsView={beaconsDetailView}
+                            onClick={() => setBodyType(BodyType.Beacons)} />
+                    </PageColumn>
+                );
+            }
+        }
     }
 
     const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
@@ -274,77 +335,92 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
     return (
         <ScrollLayout>
             <View style={styles.container}>
+                {
+                    message && (
+                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} onClick={() => setMessage(null)} />
+                    )
+                }
+
                 <PageColumn>
                     {
                         showYourSelectedOne && (
                             <PageRow spaceBetween>
-                                <PageRow>
-                                    <SimpleIcon iconSrc={selectedOne.icon} large />
-                                    <AnimatedHeader title={selectedOne.name}
-                                        style={{ alignItems: 'flex-start', marginStart: 8 }}
-                                        subtitle='Your One' />
-                                </PageRow>
+                                <PageColumn style={{ gap: 12 }}>
+                                    <PageRow>
+                                        <SimpleIcon iconSrc={selectedOne.icon} large />
+                                        <AnimatedHeader title={selectedOne.name}
+                                            style={{ alignItems: 'flex-start', marginStart: 8 }}
+                                            subtitle='Your One' />
+                                    </PageRow>
+                                    {
+                                        selectedOne && activeLayoutType === OneLayoutType.Normal && (
+                                            <PageRow style={styles.headerRow}>
+                                                <Animated.View entering={FadeInDown.duration(200)}
+                                                    exiting={FadeOutDown.duration(200)}>
+                                                    <PageRow style={{ marginStart: 12, gap: 12 }}>
+                                                        <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
+                                                            prefix={"Stage"}
+                                                            style={{ marginRight: 16 }}
+                                                            title={mapStageToText(selectedOne.stage)} />
+
+                                                        <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
+                                                            prefix={"Category"}
+                                                            title={mapOneCategoryToText(selectedOne.category)} />
+                                                    </PageRow>
+                                                </Animated.View>
+                                            </PageRow>
+                                        )
+                                    }
+
+                                    {HeaderLayout.map((item) => item)}
+                                </PageColumn>
+
                                 {
                                     activeLayoutType === OneLayoutType.Normal && (
-                                        <PageRow style={{ marginEnd: 12 }}>
+                                        <PageColumn style={{ gap: 8 }} center>
                                             {
                                                 ones.length > 1 && (
                                                     <SimpleIconButton iconSrc={AppIcon.UserGroup}
                                                         title={'All'}
                                                         small
-                                                        customStyles={{ container: { marginEnd: 16 } }}
                                                         onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
                                                 )
                                             }
 
-                                            <SimpleIconButton iconSrc={showHeaderButtons ? AppIcon.ChevronUp : AppIcon.ChevronDown}
+                                            <SimpleIconButton iconSrc={AppIcon.Plus}
                                                 small
-                                                title={showHeaderButtons ? 'Hide' : 'More'}
-                                                customStyles={{}}
-                                                onClick={() => setShowHeaderButtons(val => !val)} />
-                                        </PageRow>
+                                                onClick={() => {
+                                                    setMessage(null);
+                                                    setActiveLayoutType(OneLayoutType.AddingOne);
+                                                }}
+                                                title={'Add New'} />
+
+                                            {
+                                                selectedOne && (
+                                                    <SimpleIconButton iconSrc={AppIcon.Pencil}
+                                                        small
+                                                        onClick={() => {
+                                                            setMessage(null);
+                                                            setActiveLayoutType(OneLayoutType.EditingOne);
+                                                        }}
+                                                        title={'Edit'} />
+                                                )
+                                            }
+                                        </PageColumn>
                                     )
                                 }
                             </PageRow>
                         )
                     }
 
-                    <PageRow style={styles.headerRow}>
-                        {
-                            selectedOne && activeLayoutType === OneLayoutType.Normal && !showHeaderButtons && (
-                                <Animated.View entering={FadeInDown.duration(200)}
-                                    exiting={FadeOutDown.duration(200)}>
-                                    <PageRow style={{ marginStart: 12, gap: 12 }}>
-                                        <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
-                                            prefix={"Stage"}
-                                            style={{ marginRight: 16 }}
-                                            title={mapStageToText(selectedOne.stage)} />
-
-                                        <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
-                                            prefix={"Category"}
-                                            title={mapOneCategoryToText(selectedOne.category)} />
-                                    </PageRow>
-                                </Animated.View>
-                            )
-                        }
-
-                        {
-                            (activeLayoutType !== OneLayoutType.Normal || showHeaderButtons) && (
-                                <Animated.View entering={FadeInDown.duration(200).delay(50)}
-                                    style={{ width: '100%' }}
-                                    exiting={FadeOutDown.duration(200)}>
-                                    {HeaderLayout.map((item) => item)}
-                                </Animated.View>
-                            )
-                        }
-                    </PageRow>
+                    {
+                        !showYourSelectedOne && (
+                            <>
+                                {HeaderLayout.map((item) => item)}
+                            </>
+                        )
+                    }
                 </PageColumn>
-
-                {
-                    message && (
-                        <AnimatedBanner iconSrc={AppIcon.Info} text={message} onClick={() => setMessage(null)} />
-                    )
-                }
 
                 {BodyLayout.map((item) => item)}
             </View>
@@ -363,12 +439,18 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
+    const executor = state.users.executor;
     const selectedOne = state.ones.selectedOne;
+    const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
+    const userBeacons = executor ? selectActiveBeaconsByUserId(executor.id) : [];
     return {
         selectedOne,
+        actionSteps,
+        userBeacons,
         ones: state.ones.ones,
-        executor: state.users.executor,
+        executor,
         oneForm: state.ones.oneForm,
+
     };
 };
 

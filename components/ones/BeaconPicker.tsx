@@ -16,7 +16,6 @@ import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { OneLayoutType } from './OnesLayout';
-import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import PageResponse from '../common/PageResponse';
@@ -50,11 +49,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOne?.id));
-    const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
-    const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
-
-    const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
 
     if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
@@ -120,8 +115,8 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             setActiveLayoutType(OneLayoutType.SentBeaconResponse);
         };
 
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
+        const headerLayout = (
+            <PageRow spaceEvenly style={{ marginBottom: 24 }}>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setSelectedTemplateId(null);
@@ -136,6 +131,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
 
         BodyLayout.push(
             <BeaconTemplatesList activeLayoutType={activeLayoutType}
+                headerLayout={headerLayout}
                 setActiveLayoutType={setActiveLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.SentBeaconResponse) {
@@ -146,29 +142,26 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             );
         }
 
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setMessage(null);
-                        setSelectedTemplateId(null);
-                        setActiveLayoutType(OneLayoutType.Normal);
-                    }}
-                    title={'Back'} />
-            </PageRow>
-        );
-
         BodyLayout.push(
             <View>
                 <PageResponse title={'Beacon successful!'}
                     details={'Your church community is praying for you. Please check in later.'} />
+                <PageRow spaceEvenly>
+                    <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                        onClick={() => {
+                            setMessage(null);
+                            setSelectedTemplateId(null);
+                            setActiveLayoutType(OneLayoutType.Normal);
+                        }}
+                        title={'Back'} />
+                </PageRow>
             </View>
         );
     } else { // Normal
         if (activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
-                <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities} 
-                    setAppError={setAppError}/>
+                <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities}
+                    setAppError={setAppError} />
             );
         } else {
             BodyLayout.push(
@@ -179,19 +172,9 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     }
 
     return (
-        <ScrollLayout>
-            <View style={styles.container}>
-                <PageColumn>
-                    <Animated.View entering={FadeInDown.duration(200).delay(50)}
-                        style={{ width: '100%' }}
-                        exiting={FadeOutDown.duration(200)}>
-                        {HeaderLayout.map((item) => item)}
-                    </Animated.View>
-                </PageColumn>
-
-                {BodyLayout.map((item) => item)}
-            </View>
-        </ScrollLayout>
+        <View style={styles.container}>
+            {BodyLayout.map((item) => item)}
+        </View>
     );
 };
 

@@ -49,5 +49,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         padding: 8,
+        marginBottom: 16,
     },
 });

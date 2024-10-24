@@ -15,6 +15,7 @@ import ScrollLayout from '../common/ScrollLayout';
 
 export type IBeaconTemplatesList = ViewProps & {
     activeLayoutType: OneLayoutType;
+    headerLayout?: any;
 
     selectedTemplateId: string | null;
     beaconTemplates: BeaconTemplate[];
@@ -23,7 +24,7 @@ export type IBeaconTemplatesList = ViewProps & {
 };
 
 function BeaconTemplatesList({ selectedTemplateId, beaconTemplates, 
-    setSelectedTemplateId, activeLayoutType, setActiveLayoutType }: IBeaconTemplatesList) {
+    headerLayout = <></>, setSelectedTemplateId, activeLayoutType, setActiveLayoutType }: IBeaconTemplatesList) {
 
     const renderItem = ({ item }: { item: BeaconTemplate }) => {
         if (selectedTemplateId != null) {
@@ -49,14 +50,15 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
     return (
         <View style={[listStyles.container, styles.container]}>
-            <BeaconsListHeader activeLayoutType={activeLayoutType} selectedTemplateId={selectedTemplateId}/>
-            <ScrollLayout style={{ maxHeight: 300 }}>
-                <FlatList
-                    data={beaconTemplates}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderItem}
-                />
-            </ScrollLayout>
+            <BeaconsListHeader activeLayoutType={activeLayoutType} 
+                selectedTemplateId={selectedTemplateId}/>
+            {headerLayout}
+
+            <FlatList
+                data={beaconTemplates}
+                keyExtractor={(item) => item.id}
+                renderItem={renderItem}
+            />
         </View>
     );
 }

@@ -85,7 +85,6 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                 />
             </ScrollLayout>
 
-
             <PageColumn style={styles.section}>
                 <PageChip iconSrc={AppIcon.Tag}
                     onClick={onChangeTag}
@@ -95,7 +94,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
 
             <PageColumn style={styles.section}>
                 <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                    style={{ width: 280 }}
+                    style={{ width: 300 }}
                     onClick={() => setShareOwnName(!shareOwnName)}
                     title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
             </PageColumn>
@@ -134,7 +133,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                 </View>
             </Modal>
 
-            <PageColumn style={styles.section}>
+            <PageColumn style={[styles.section, { marginTop: 16 }]}>
                 <AppText type={TextType.Subtitle}>
                     When you send...
                 </AppText>

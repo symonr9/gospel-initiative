@@ -65,8 +65,8 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppE
             <PageRow style={styles.beaconCard}>
                 <PageColumn>
                     <PageColumn style={styles.beaconHeader}>
-                        <PageRow style={{ paddingBottom: 8, }} spaceBetween>
-                            <PageRow style={{ flexShrink: 1, marginEnd: 8 }}>
+                        <PageRow style={{ paddingBottom: 8, }}>
+                            <PageRow>
                                 <Image source={mapBeaconTypeToAppIcon(beaconWithActivity.type)}
                                     style={styles.icon}
                                     contentFit="contain" />
@@ -91,9 +91,11 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppE
                                 </PageColumn>
                             </PageRow>
 
-                            <SimpleIconButton iconSrc={AppIcon.Edit}
-                                title={'Edit'}
-                                onClick={onEditClick} />
+                            <PageRow style={{ marginStart: 8 }}>
+                                <SimpleIconButton iconSrc={AppIcon.Settings}
+                                    title={'Actions'}
+                                    onClick={onEditClick} />
+                            </PageRow>
                         </PageRow>
                     </PageColumn>
 

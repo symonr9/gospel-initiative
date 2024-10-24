@@ -34,15 +34,7 @@ export type IGospelChecklist = ViewProps & {
     setAppError: Function;
 };
 
-enum PickerState {
-    Launch,
-    Expanded,
-}
-
 const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAppError }: IGospelChecklist) => {
-    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Launch);
-
-    const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
     const [expandedIndices, setExpandedIndices] = useState<number[]>([]);
 
     const selectedOneItems = Array.from(new Set(selectedOne.gospelChecklist)); // Set removes dupes.
@@ -93,11 +85,11 @@ const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAp
                         style={[formStyles.checkbox, { alignSelf: 'center', marginStart: 4, marginEnd: 12 }]}
                     />
                     <PageColumn>
-                        <AppText type={TextType.DefaultSemiBold}>
+                        <AppText type={TextType.Subtitle}>
                             {item.title}
                         </AppText>
                         <PageRow style={{ flexShrink: 1, width: 300 }}>
-                            <AppText type={TextType.Body}>
+                            <AppText type={TextType.Default}>
                                 {item.details}
                             </AppText>
                         </PageRow>
@@ -119,36 +111,20 @@ const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAp
         );
     };
 
-    const Body = [];
-
-    if (pickerState === PickerState.Expanded) {
-        Body.push(
-            <FlatList
-                data={gospelChecklistItemsArray}
-                keyExtractor={(item, index) => item.value}
-                renderItem={renderItem}
-            />
-        );
-    }
-
-    const onExpandPress = () => {
-        setPickerState(pickerState === PickerState.Launch ? PickerState.Expanded : PickerState.Launch);
-    }
-
     return (
         <View style={styles.container}>
             <AppText type={TextType.Subtitle} style={styles.title}>Gospel Checklist</AppText>
-            <PageRow spaceEvenly>
+            <PageRow>
                 <DetailsSection iconSrc={AppIcon.Book}
                     title={`${completedPercentage}% Shared`}
                     prefix={'Gospel Shared'} />
-
-                <SimpleIconButton iconSrc={pickerState === PickerState.Launch ? AppIcon.ChevronDown : AppIcon.ChevronUp} 
-                    title={pickerState === PickerState.Launch ? 'Expand' : 'Collapse'}
-                    onClick={onExpandPress} />
             </PageRow>
 
-            {Body.map((item) => item)}
+            <FlatList
+                data={gospelChecklistItemsArray}
+                keyExtractor={(item, index) => item.title}
+                renderItem={renderItem}
+            />
         </View>
     );
 };

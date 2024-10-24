@@ -13,6 +13,7 @@ import { OneLayoutType } from './OnesLayout';
 import { gridStyles } from '@/styles/Styles';
 import { mapStageToIcon, mapStageToText, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
 import DetailsSection from '../common/DetailsSection';
+import { SimpleGridCard } from '../common/SimpleGridCard';
 
 export type IAllOnesGrid = ViewProps & {
     ones: One[];
@@ -34,25 +35,24 @@ function AllOnesGrid({ ones, setSelectedOne, setSelectedOneId, setActiveLayoutTy
             }
         };
 
-        return (
-            <TouchableOpacity onPress={onPress}>
-                <PageRow style={gridStyles.itemCard} spaceEvenly>
-                    <PageColumn>
-                        <Image source={item.icon} style={gridStyles.img} />
-                        <AppText type={TextType.BodyBold} style={{ alignSelf: 'center' }}>
-                            {item.name}
-                        </AppText>
-                    </PageColumn>
-                    <DetailsSection iconSrc={mapStageToIcon(item.stage)}
-                        prefix={"Stage"}
-                        style={{ marginRight: 16 }}
-                        title={mapStageToText(item.stage)} />
+        const detailsView = (
+            <>
+                <DetailsSection iconSrc={mapStageToIcon(item.stage)}
+                    prefix={"Stage"}
+                    style={{ marginRight: 16 }}
+                    title={mapStageToText(item.stage)} />
 
-                    <DetailsSection iconSrc={mapOneCategoryToIcon(item.category)}
-                        prefix={"Category"}
-                        title={mapOneCategoryToText(item.category)} />
-                </PageRow>
-            </TouchableOpacity>
+                <DetailsSection iconSrc={mapOneCategoryToIcon(item.category)}
+                    prefix={"Category"}
+                    title={mapOneCategoryToText(item.category)} />
+            </>
+        );
+
+        return (
+            <SimpleGridCard title={item.name} 
+                detailsView={detailsView} 
+                onClick={onPress} 
+                iconSrc={item.icon}/>
         );
     };
 

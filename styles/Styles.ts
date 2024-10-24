@@ -137,8 +137,8 @@ export const gridStyles = StyleSheet.create({
     alignItems: 'center'
   },
   img: {
-    height: 52,
-    width: 52,
+    height: 42,
+    width: 42,
     margin: 4,
   },
 });
