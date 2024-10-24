@@ -13,10 +13,10 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { addActionStep, editOne, setOneForm, setSelectedOne, editActionSteps, setAppError, refreshData, addOne } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
-import { calculatePercent, getAppTimeAgoText, getNow, mapActionStepTypeToIcon, mapActionStepTypeToText, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { calculatePercent, getAppTimeAgoText, getNow, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToText, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
-import { selectActionStepsByOneId, selectActiveBeaconsByUserId, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
+import { selectActionStepsByOneId, selectActiveBeaconsByOneId, selectActiveBeaconsByUserId, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
@@ -38,7 +38,7 @@ export type IOnesLayout = ViewProps & {
     selectedOne: One | undefined,
     ones: One[],
     actionSteps: ActionStep[],
-    userBeacons: Beacon[],
+    oneBeacons: Beacon[],
     executor: User,
     oneForm: OneForm,
     addOne: Function,
@@ -69,7 +69,7 @@ export enum OneLayoutType {
 }
 
 function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
-    setAppError, userBeacons, refreshData, actionSteps, setSelectedOne }: IOnesLayout) {
+    setAppError, oneBeacons, refreshData, actionSteps, setSelectedOne }: IOnesLayout) {
     const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
 
     const [message, setMessage] = useState<string | null>(null);
@@ -301,12 +301,13 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                     </>
                 );
 
+                const beaconsDetailText = oneBeacons.length === 1 ? 'Active Beacon' : 'Active Beacons';
                 const beaconsDetailView = (
                     <>
                         <DetailsSection iconSrc={AppIcon.Star}
-                            prefix={"Active Beacons"}
+                            prefix={beaconsDetailText}
                             onClick={() => setBodyType(BodyType.Beacons)}
-                            title={userBeacons.length} />
+                            title={oneBeacons.length} />
                     </>
                 );
 
@@ -442,11 +443,13 @@ const mapStateToProps = (state: any) => {
     const executor = state.users.executor;
     const selectedOne = state.ones.selectedOne;
     const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
-    const userBeacons = executor ? selectActiveBeaconsByUserId(executor.id) : [];
+    const oneBeacons = selectedOne ? state.beacons.beacons.filter((beacon: any) => {
+        return beacon.oneId === selectedOne.id && isBeaconActive(beacon)
+    }) : [];
     return {
         selectedOne,
         actionSteps,
-        userBeacons,
+        oneBeacons,
         ones: state.ones.ones,
         executor,
         oneForm: state.ones.oneForm,
