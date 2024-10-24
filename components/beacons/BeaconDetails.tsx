@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions, FlatList } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
@@ -7,7 +7,7 @@ import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from '
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, FadeDirection } from '@/enums/enums';
-import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText } from '@/utils/appUtils';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
@@ -20,6 +20,7 @@ import { PageColumn } from '../common/PageColumn';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
 import { createBeaconActivity, updateBeaconActivity } from '@/requests/Requests';
+import { PageChip } from '../common/PageChip';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -82,8 +83,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    console.log("beacon: ", beacon);
-    const { message, userName, userIcon, oneName, oneIcon, oneStage, activeUntil, completedActivities } = beacon;
+    const { message, userName, userIcon, oneName, oneIcon, oneStage, activeUntil, tags, completedActivities } = beacon;
     if (!userName || !userIcon || !oneName || !oneIcon || !oneStage || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
@@ -96,16 +96,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     }
 
     const rows = [];
-
-    // if (message) {
-    //     rows.push(
-    //         <View style={[styles.section, styles.notesSection]}>
-    //             <AppText type={TextType.Body}>Notes:</AppText>
-    //             <AppText type={TextType.DefaultSemiBold}>{message}</AppText>
-    //         </View>
-    //     );
-    // }
-
     rows.push(
         <PageRow spaceEvenly style={[styles.section, {}]}>
             <DetailsSection iconSrc={mapStageToIcon(oneStage)} 
@@ -180,6 +170,13 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         addBeaconActivity(response);
     };
 
+    const beaconTagArray = tags ? tags
+        .map((tag, index) => ({
+            value: tag,
+            title: mapBeaconTagToTitleText(tag),
+            details: mapBeaconTagToDetailsText(tag),
+        })) : [];
+
     return (
         <View style={[styles.container, animatedStyle]}>
             <Modal
@@ -251,6 +248,26 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     subtitle={titleText}
                     delay={600}
                     style={{ textAlign: 'center' }} />
+                
+                {
+                    beaconTagArray.length > 0 && (
+                            <AnimatedElement element={
+                                <ScrollLayout style={{ maxHeight: 150 }}>
+                                <FlatList
+                                    data={beaconTagArray}
+                                    keyExtractor={(item) => item.value.toString()}
+                                    renderItem={({ item }) => (
+                                        <PageChip
+                                            title={item.title}
+                                            subtitle={item.details}
+                                            style={{ marginBottom: 12 }}
+                                        />
+                                    )}
+                                />
+                            </ScrollLayout>
+                        } delay={900} direction={FadeDirection.Up} style={{ marginVertical: 12 }}/>
+                    )
+                }
             </View>
 
             <AnimatedElement element={
