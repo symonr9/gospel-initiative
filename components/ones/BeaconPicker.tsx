@@ -167,7 +167,8 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     } else { // Normal
         if (activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
-                <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities} />
+                <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities} 
+                setAppError={setAppError}/>
             );
         } else {
             BodyLayout.push(

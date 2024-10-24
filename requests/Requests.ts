@@ -21,6 +21,18 @@ export const fetchActiveBeacons = async () => {
         }
 
         return response.data.map((beacon: any) => {
+            const activities = beacon.activities.map((item: any) => {
+                let activity = new BeaconActivity(
+                    item.id,
+                    item.note,
+                    item.date,
+                    item.userId,
+                    item.beaconId
+                );
+                activity.username = item.username || "";
+                return activity;
+            });
+
             const item = new Beacon(
                 beacon.id,
                 beacon.name,
@@ -31,7 +43,7 @@ export const fetchActiveBeacons = async () => {
                 beacon.type as BeaconType,
                 beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
                 beacon.shareOwnName,
-                beacon.activities,                
+                activities,                
                 beacon.tags ? beacon.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
             );
 
@@ -451,6 +463,30 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
     } catch (error: any) {
         console.error('Error adding/editing beacon activity:', error.message || error);
         return { error: error.message || 'An error occurred while adding/editing beacon activity.' };
+    }
+};
+
+export const deactivateBeacon = async (beacon: Beacon, controller?: AbortController): Promise<One | any> => {
+    if (!beacon) {
+        console.error('Missing required parameters: beacon.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await makeRequest(`/beacons/deactivate`,
+            'POST', { beacon }, controller);
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+        
+        return response.data;
+    } catch (error: any) {
+        console.error('Error deleting beacon:', error.message || error);
+        return { error: error.message || 'An error occurred while deleting beacon.' };
     }
 };
 

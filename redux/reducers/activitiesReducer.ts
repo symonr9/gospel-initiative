@@ -10,7 +10,6 @@ export function activitiesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
             const { beacons, storyActivities } = action.payload;
-
             return update(state, {
                 $set: {
                     beaconActivities: beacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || [],

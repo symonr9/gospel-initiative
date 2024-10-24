@@ -119,7 +119,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                                         title={item.title}
                                         subtitle={item.details}
                                         onClick={() => onTagSelect(item.value)}
-                                        style={formData.tags.includes(item.value) && styles.selectedTag}
+                                        style={[{ marginBottom: 12 }, formData.tags.includes(item.value) && styles.selectedTag]}
                                     />
                                 )}
                             />

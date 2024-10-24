@@ -70,6 +70,10 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
         }
 
         const beacons = await fetchActiveBeacons();
+        if (beacons.error) {
+            setAppError(new Error(beacons.error, 'Something went wrong'));
+            return;
+        }
 
         loadServerData({
             localEvents: JsonFunctions.getLocalEventsJson(),
