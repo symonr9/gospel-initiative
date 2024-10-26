@@ -16,6 +16,7 @@ import AvatarIconPicker from '../common/AvatarIconPicker';
 import StagePicker from '../common/StagePicker';
 import ActionStep from '@/models/actionStep';
 import CategoryPicker from '../common/CategoryPicker';
+import { PageRow } from '../common/PageRow';
 
 export type IAddEditOneForm = ViewProps & {
     selectedOne: One;
@@ -25,7 +26,7 @@ export type IAddEditOneForm = ViewProps & {
     setOneForm: Function;
 };
 
-function AddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneForm }: IAddEditOneForm) {    
+function AddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneForm }: IAddEditOneForm) {
     const [formData, setFormData] = useState(initialOneForm);
 
     useEffect(() => {
@@ -72,33 +73,37 @@ function AddEditOneForm({ selectedOne, editing = false, initialOneForm, setOneFo
 
     return (
         <PageColumn>
-            <AnimatedHeader title={title}/>
+            <AnimatedHeader title={title} />
 
-            <PageColumn style={styles.section}>
-                <AvatarIconPicker selectedIcon={icon} setSelectedIcon={setIcon}/>
-            </PageColumn>
+            <PageRow spaceEvenly>
+                <PageColumn style={styles.section}>
+                    <AvatarIconPicker selectedIcon={icon} setSelectedIcon={setIcon} />
+                </PageColumn>
 
-            <PageColumn style={[styles.section, styles.nameSection]}>
-                <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
-                <TextInput
-                    style={formStyles.textInput}
-                    placeholder="Enter response here..."
-                    placeholderTextColor={'gray'}
-                    value={name}
-                    numberOfLines={4}
-                    onChangeText={(text) => setName(text)}
-                />
-            </PageColumn>
-            
-            <PageColumn style={styles.section}>
-                <StagePicker selectedStage={stage} 
-                             setSelectedStage={setStage}/>
-            </PageColumn>
+                <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
+                    <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
+                    <TextInput
+                        style={formStyles.textInput}
+                        placeholder="Enter response here..."
+                        placeholderTextColor={'gray'}
+                        value={name}
+                        numberOfLines={4}
+                        onChangeText={(text) => setName(text)}
+                    />
+                </PageColumn>
+            </PageRow>
 
-            <PageColumn style={styles.section}>
-                <CategoryPicker selectedCategory={category} 
-                                setSelectedCategory={setCategory}/>
-            </PageColumn>
+            <PageRow spaceEvenly>
+                <PageColumn style={styles.section}>
+                    <StagePicker selectedStage={stage}
+                        setSelectedStage={setStage} />
+                </PageColumn>
+
+                <PageColumn style={styles.section}>
+                    <CategoryPicker selectedCategory={category}
+                        setSelectedCategory={setCategory} />
+                </PageColumn>
+            </PageRow>
         </PageColumn>
     );
 }
@@ -111,7 +116,8 @@ const styles = StyleSheet.create({
         gap: 16
     },
     section: {
-        marginVertical: 12
+        marginVertical: 12,
+        alignItems: 'center'
     },
     nameSection: {
         padding: 8,
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 8
+        borderRadius: 8,
     },
 });
 

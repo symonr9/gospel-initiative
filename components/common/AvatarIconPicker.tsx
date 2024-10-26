@@ -1,89 +1,110 @@
 import { AvatarIcon, AvatarIconArray } from '@/enums/enums';
-import React from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps } from 'react-native';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, FlatList, StyleSheet, Modal, Text } from 'react-native';
 import { Image } from 'expo-image';
 import { AppText, TextType } from './AppText';
 import ScrollLayout from './ScrollLayout';
+import { PageRow } from './PageRow';
+import { PageColumn } from './PageColumn';
+import { modalStyles } from '@/styles/Styles';
 
-export type IAvatarIconPicker = ViewProps & {
+export type IAvatarIconPicker = {
     selectedIcon: AvatarIcon;
-    setSelectedIcon: Function;
+    setSelectedIcon: (icon: AvatarIcon) => void;
 };
 
 const AvatarIconPicker = ({ selectedIcon, setSelectedIcon }: IAvatarIconPicker) => {
-    const renderIcon = ({ item }: { item: AvatarIcon }) => {
-        const handleIconPress = () => {
-            setSelectedIcon(item);
-        };
+    const [modalVisible, setModalVisible] = useState(false);
 
-        return (
-            <TouchableOpacity onPress={handleIconPress}>
-                <Image source={item} style={[styles.icon, selectedIcon === item && styles.selected]} />
-            </TouchableOpacity>
-        );
-    }
+    const handleIconPress = (icon: AvatarIcon) => {
+        setSelectedIcon(icon);
+    };
+
+    const renderIcon = ({ item }: { item: AvatarIcon }) => (
+        <TouchableOpacity onPress={() => handleIconPress(item)}>
+            <Image source={item} style={[styles.icon, selectedIcon === item && styles.selected]} />
+        </TouchableOpacity>
+    );
 
     return (
         <View style={styles.container}>
-            <View style={styles.selectedContainer}>
-                {selectedIcon ? (
-                    <>                        
-                        <AppText type={TextType.DefaultSemiBold}>Selected Icon:</AppText>
-                        <Image source={selectedIcon} style={styles.selectedIcon} />
-                    </>
-                ) : (
-                    <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
-                )}
-            </View>
+            <PageColumn>
+                <PageRow style={styles.selectedContainer}>
+                    {selectedIcon ? (
+                        <PageColumn>
+                            <AppText type={TextType.DefaultSemiBold}>Selected Icon:</AppText>
+                            <Image source={selectedIcon} style={styles.selectedIcon} />
+                        </PageColumn>
+                    ) : (
+                        <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
+                    )}
+                </PageRow>
 
-            <ScrollLayout style={{height: 200}}>
-                <FlatList
-                    data={AvatarIconArray}
-                    renderItem={renderIcon}
-                    numColumns={4}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </ScrollLayout>
+                <TouchableOpacity onPress={() => setModalVisible(true)}
+                    style={modalStyles.editButton}>
+                    <AppText>Edit Icon</AppText>
+                </TouchableOpacity>
+            </PageColumn>
 
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={modalStyles.modalContainer}>
+                    <View style={modalStyles.modalContent}>
+                        <Text style={modalStyles.modalTitle}>Select an Icon</Text>
+
+                        <ScrollLayout style={{ height: 300 }}>
+                            <FlatList
+                                data={AvatarIconArray}
+                                renderItem={renderIcon}
+                                numColumns={4}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </ScrollLayout>
+
+                        <TouchableOpacity
+                            style={modalStyles.closeButton}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <AppText>Close</AppText>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 4,
         padding: 8,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
+        elevation: 4,
         borderRadius: 8,
     },
     icon: {
-        width: 50,
-        height: 50,
+        width: 64,
+        height: 64,
         margin: 4,
-        opacity: 0.4
+        opacity: 0.4,
     },
     selected: {
-        opacity: 1
+        opacity: 1,
     },
     selectedContainer: {
-        alignItems: 'center'
-    },
-    selectedText: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        alignItems: 'center',
     },
     selectedIcon: {
-        width: 100,
-        height: 100,
-        marginTop: 10,
+        width: 64,
+        height: 64,
+        alignSelf: 'center'
     },
 });
 

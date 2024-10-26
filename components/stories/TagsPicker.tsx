@@ -8,6 +8,7 @@ import { AppText } from '../common/AppText';
 import ScrollLayout from '../common/ScrollLayout';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
+import { modalStyles } from '@/styles/Styles';
 
 function createTagMap(keys: string[]) {
     return keys
@@ -74,9 +75,9 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Select Tags</Text>
+                <View style={modalStyles.modalContainer}>
+                    <View style={modalStyles.modalContent}>
+                        <Text style={modalStyles.modalTitle}>Select Tags</Text>
 
                         <ScrollLayout style={{ height: 300 }}>
                             <FlatList
@@ -98,7 +99,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                         </ScrollLayout>
 
                         <TouchableOpacity
-                            style={styles.closeButton}
+                            style={modalStyles.closeButton}
                             onPress={() => setModalVisible(false)}>
                             <AppText>Close</AppText>
                         </TouchableOpacity>
@@ -116,23 +117,6 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: 20,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        width: '80%',
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
     tagOption: {
         padding: 8,
         backgroundColor: '#f0f0f0',
@@ -142,12 +126,5 @@ const styles = StyleSheet.create({
     },
     selectedTagOption: {
         backgroundColor: '#d0e0e3',
-    },
-    closeButton: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: '#ff6666',
-        borderRadius: 10,
-        alignSelf: 'center',
     },
 });

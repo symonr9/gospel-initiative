@@ -229,20 +229,68 @@ export function mapOneCategoryToText(category: OneCategory): String {
         case OneCategory.Teammate:
             return "Teammate";
         case OneCategory.HouseholdHelp:
-            return "Household Help";
+            return "Help";
         case OneCategory.WorkoutPartner:
-            return "Workout Partner";
+            return "Workout";
         case OneCategory.PersonalCareProfessional:
-            return "Personal Care Professional";
+            return "Personal";
         case OneCategory.MedicalProf:
-            return "Medical Professional";
+            return "Medical";
         case OneCategory.LongDistanceFriend:
-            return "Long Distance Friend";
+            return "Long Distance";
         case OneCategory.Friend:
         default:
             return "Friend";
     }
 };
+
+export function mapOneCategoryToDetailsText(category: OneCategory): String {
+    switch (category) {
+        case OneCategory.Family:
+            return "A relative or family member you are close to.";
+        case OneCategory.CloseFriend:
+            return "A lifelong friend with a strong bond.";
+        case OneCategory.Neighbor:
+            return "A person living near you.";
+        case OneCategory.Coworker:
+            return "Someone you work with.";
+        case OneCategory.Classmate:
+            return "A peer from your classes or courses.";
+        case OneCategory.Roommate:
+            return "Someone you share a living space with.";
+        case OneCategory.Client:
+            return "A person you provide services to.";
+        case OneCategory.Cashier:
+            return "A store or service counter attendant.";
+        case OneCategory.Server:
+            return "A person who serves food or drinks.";
+        case OneCategory.Barista:
+            return "A coffee shop staff member.";
+        case OneCategory.Tutor:
+            return "Someone who helps you with learning.";
+        case OneCategory.Teacher:
+            return "An educator or instructor.";
+        case OneCategory.FellowParent:
+            return "A parent of a child in your community.";
+        case OneCategory.ClubMember:
+            return "A participant in the same club or group.";
+        case OneCategory.Teammate:
+            return "A partner in sports or group activities.";
+        case OneCategory.HouseholdHelp:
+            return "Someone who assists with domestic tasks.";
+        case OneCategory.WorkoutPartner:
+            return "A companion for exercise or fitness.";
+        case OneCategory.PersonalCareProfessional:
+            return "A specialist in beauty, grooming, or wellness.";
+        case OneCategory.MedicalProf:
+            return "A healthcare or medical service provider.";
+        case OneCategory.LongDistanceFriend:
+            return "A friend who lives far away.";
+        case OneCategory.Friend:
+        default:
+            return "A person you share a friendly relationship with.";
+    }
+}
 
 export function mapOneCategoryToIcon(category: OneCategory): AppIcon {
     switch (category) {

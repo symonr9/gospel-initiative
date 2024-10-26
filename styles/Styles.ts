@@ -142,3 +142,38 @@ export const gridStyles = StyleSheet.create({
     margin: 4,
   },
 });
+
+
+export const modalStyles = StyleSheet.create({
+  editButton: {
+    marginTop: 8,
+    padding: 4,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    padding: 20,
+    marginHorizontal: 20,
+    borderRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#ff6666',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
+});

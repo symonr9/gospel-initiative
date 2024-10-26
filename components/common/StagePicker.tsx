@@ -1,14 +1,14 @@
 import { OneStage } from '@/enums/enums';
 import React, { useState } from 'react';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet, ViewProps } from 'react-native';
+import { View, TouchableOpacity, FlatList, Modal, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 import { mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
+import { modalStyles } from '@/styles/Styles';
 
-// TODO: Map it, refactor!
 const stageArray = [
     OneStage.Hostile,
     OneStage.Apathetic,
@@ -30,71 +30,108 @@ export type IStagePicker = ViewProps & {
 };
 
 const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
-    const renderIcon = ({ item }: { item: { stage: OneStage, icon: any, label: string } }) => {
-        const handleIconPress = () => {
-            setSelectedStage(item.stage);
-        };
+    const [modalVisible, setModalVisible] = useState(false);
 
-        return (
-            <TouchableOpacity onPress={handleIconPress}>
-                <PageRow style={styles.iconCard}>
-                    <PageColumn>
-                        <Image
-                            source={item.icon}
-                            style={[styles.icon, selectedStage === item.stage && styles.selected]}
-                        />
-                        <AppText type={TextType.Italic}>{item.label}</AppText>
-                    </PageColumn>
-                </PageRow>
-            </TouchableOpacity>
-        );
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
     };
+
+    const handleStageSelect = (stage: OneStage) => {
+        setSelectedStage(stage);
+    };
+
+    const renderIcon = ({ item }: { item: { stage: OneStage, icon: any, label: string } }) => (
+        <TouchableOpacity onPress={() => handleStageSelect(item.stage)}>
+            <PageRow style={styles.iconCard}>
+                <PageColumn>
+                    <Image
+                        source={item.icon}
+                        style={[styles.icon, selectedStage === item.stage && styles.selected]}
+                    />
+                    <AppText type={TextType.Italic}>{item.label}</AppText>
+                </PageColumn>
+            </PageRow>
+        </TouchableOpacity>
+    );
 
     const selectedStageData = stageArray.find(item => item.stage === selectedStage);
 
     return (
         <View style={styles.container}>
-            <View style={styles.selectedContainer}>
-                {selectedStage ? (
-                    <>
-                        <AppText type={TextType.DefaultSemiBold}>Stage:</AppText>
-                        <Image
-                            source={selectedStageData?.icon}
-                            style={styles.selectedIcon}
-                        />
-                        <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
-                        <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData?.details}</AppText>
-                    </>
-                ) : (
-                    <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
-                )}
-            </View>
-            <ScrollLayout style={{ maxHeight: 220 }}>
-                <FlatList
-                    data={stageArray}
-                    renderItem={renderIcon}
-                    numColumns={2}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={styles.iconList}
-                />
-            </ScrollLayout>
+            <TouchableOpacity onPress={toggleModal}>
+                <View style={styles.selectedContainer}>
+                    {selectedStage ? (
+                        <>
+                            <AppText type={TextType.DefaultSemiBold}>Stage:</AppText>
+                            <Image
+                                source={selectedStageData?.icon}
+                                style={styles.selectedIcon}
+                            />
+                            <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
+                            <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData?.details}</AppText>
+                        </>
+                    ) : (
+                        <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
+                    )}
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={toggleModal} style={modalStyles.editButton}>
+                <AppText>Edit Stage</AppText>
+            </TouchableOpacity>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={toggleModal}
+            >
+                <View style={modalStyles.modalContainer}>
+                    <View style={modalStyles.modalContent}>
+                        <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
+                            Select a Stage
+                        </AppText>
+                        {selectedStageData && (
+                            <View style={styles.selectedDetails}>
+                                <Image
+                                    source={selectedStageData.icon}
+                                    style={styles.selectedIconModal}
+                                />
+                                <AppText type={TextType.DefaultSemiBold}>{selectedStageData.label}</AppText>
+                                <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData.details}</AppText>
+                            </View>
+                        )}
+                        <ScrollLayout style={{ maxHeight: 300 }}>
+                            <FlatList
+                                data={stageArray}
+                                renderItem={renderIcon}
+                                numColumns={4}
+                                keyExtractor={(item, index) => index.toString()}
+                                contentContainerStyle={styles.iconList}
+                            />
+                        </ScrollLayout>
+                        <TouchableOpacity
+                            style={modalStyles.closeButton}
+                            onPress={toggleModal}
+                        >
+                            <AppText>Close</AppText>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 4,
         padding: 8,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
+        elevation: 4,
         borderRadius: 8,
     },
     iconList: {
@@ -118,14 +155,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 170,
     },
-    selectedText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
     selectedIcon: {
         width: 50,
         height: 50,
         marginTop: 10,
+    },
+    selectedDetails: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    selectedIconModal: {
+        width: 60,
+        height: 60,
+        marginBottom: 10,
     },
 });
 
