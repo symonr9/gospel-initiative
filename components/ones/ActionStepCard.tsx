@@ -8,7 +8,7 @@ import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
 import { AnimatedCard } from '../common/AnimatedCard';
-import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
+import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToDetails, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { SimpleIcon } from '../common/SimpleIcon';
@@ -36,9 +36,10 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>        
 
-          <PageRow style={{ flexShrink: 1, width: '100%'}}>
+          <PageColumn style={{ flexShrink: 1, width: '100%'}}>
             <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapActionStepTypeToTitle(actionStep.type)}</AppText>
-          </PageRow>
+            <AppText type={TextType.Default} style={{}}>{mapActionStepTypeToDetails(actionStep.type)}</AppText>
+          </PageColumn>
 
             {
               actionStep.notes && (

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
 import One from '@/models/one';
-import { AppIcon, GospelChecklistItem } from '@/enums/enums';
+import { ActionStepType, AppIcon, GospelChecklistItem } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
@@ -23,7 +23,7 @@ import DetailsSection from '../common/DetailsSection';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import ActionStepPicker from './ActionStepPicker';
 import GospelChecklist from './GospelChecklist';
-import { createOne, updateOne } from '@/requests/Requests';
+import { createOne, updateActionSteps, updateOne } from '@/requests/Requests';
 import AllOnesGrid from './AllOnesGrid';
 import BeaconPicker from './BeaconPicker';
 import { SimpleGridCard } from '../common/SimpleGridCard';
@@ -121,6 +121,18 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                 setOneForm(OneForm.createDefault());
                 setMessage("Your One has been successfully created!");
                 setActiveLayoutType(OneLayoutType.Normal);
+
+                if (oneForm.actionSteps?.length > 0) {
+                    const actionStepResponse = await updateActionSteps(oneForm.actionSteps, response.id);
+                    if (actionStepResponse.error) {
+                        setAppError(new Error('Error adding action steps: ', response.error));
+                        return;
+                    }
+    
+                    for (let step of oneForm.actionSteps) {
+                        addActionStep(step);
+                    }
+                }
             } catch (err: any) {
                 setAppError(new Error('Error adding one: ', err));
             }

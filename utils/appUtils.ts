@@ -1,10 +1,10 @@
 import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 
-// console.log(formatEnumKey(OneFactType, OneFactType.SpiritualBeliefs)); // Output: "Spiritual Beliefs"
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
     const enumKey = Object.keys(enumObj).find(key => enumObj[key as keyof T] === enumValue);
     return enumKey ? enumKey.replace(/([a-z])([A-Z])/g, '$1 $2') : '';
@@ -24,7 +24,14 @@ export function getTomorrow() {
 export function getNextWeek() {
     const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 7);
+    tomorrow.setDate(today.getDate() + 8);
+    return tomorrow;
+}
+
+export function getDayInFuture(day: number) {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + day);
     return tomorrow;
 }
 
@@ -137,6 +144,8 @@ export function mapPriorityToText(priority: Priority) {
 
 export function mapStageToText(stage: OneStage) {
     switch (stage) {
+        case OneStage.Leader:
+            return "Leader";
         case OneStage.Disciple:
             return "Disciple";
         case OneStage.NewBeliever:
@@ -157,10 +166,12 @@ export function mapStageToText(stage: OneStage) {
 
 export function mapStageToDetailsText(stage: OneStage) {
     switch (stage) {
+        case OneStage.Leader:
+            return "This person's faith is strong and independent of others and they are in or are ready to step into leadership positions."
         case OneStage.Disciple:
-            return "This person is actively following Christ, growing in faith, and learning to disciple others. They are committed to living out biblical principles and sharing their faith with others.";
+            return "This person has intentionally followed Christ for multiple seasons of their life. They are committed to Scripture, growing in their faith, and sharing the Gospel.";
         case OneStage.NewBeliever:
-            return "This person has recently made a commitment to follow Christ. They are in the early stages of understanding their faith and beginning their spiritual journey.";
+            return "This person has made a commitment to follow Christ within the last year. They are in the early stages of understanding their faith and beginning their spiritual journey.";
         case OneStage.Seeking:
             return "This person is actively seeking answers about Christianity and the gospel. They are open to learning more and are considering a commitment to faith.";
         case OneStage.Curious:
@@ -178,6 +189,8 @@ export function mapStageToDetailsText(stage: OneStage) {
 
 export function mapStageToIcon(stage: OneStage) {
     switch (stage) {
+        case OneStage.Leader:
+            return AppIcon.StageLeader;
         case OneStage.Disciple:
             return AppIcon.StageDisciple;
         case OneStage.NewBeliever:
@@ -554,6 +567,7 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
         case ActionStepType.ShareGospel:
             return AppIcon.Christ;
         case ActionStepType.ShareTestimony:
+        case ActionStepType.ListenToTestimony:
         case ActionStepType.AskSpiritualQuestion:
             return AppIcon.Conversation;
         case ActionStepType.InviteToEvent:
@@ -591,6 +605,8 @@ export function mapActionStepTypeToTitle(type: ActionStepType): string {
             return "Share Gospel";
         case ActionStepType.ShareTestimony:
             return "Share Testimony";
+        case ActionStepType.ListenToTestimony:
+            return "Listen to Testimony";
         case ActionStepType.InviteToEvent:
             return "Invite to Event";
         case ActionStepType.AskSpiritualQuestion:
@@ -629,6 +645,8 @@ export function mapActionStepTypeToDetails(type: ActionStepType): string {
             return "Share the message of the Gospel and the hope it offers.";
         case ActionStepType.ShareTestimony:
             return "Share your personal story of faith and transformation.";
+        case ActionStepType.ListenToTestimony:
+            return "Listen to their life story and get to know more about them.";
         case ActionStepType.InviteToEvent:
             return "Invite them to a church event, social gathering, or study.";
         case ActionStepType.AskSpiritualQuestion:
@@ -659,6 +677,81 @@ export function mapActionStepTypeToDetails(type: ActionStepType): string {
         default:
             return "Other - a custom action step.";
     }
+}
+
+export function generateActionStepsForStage(stage: OneStage, oneId: string): ActionStep[] {
+    const actionSteps: ActionStep[] = [];
+
+    switch (stage) {
+        case OneStage.Leader:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.SendEncouragementText, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.HostAtHome, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.DiscussScripture, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.OfferToHelpWithErrands, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Disciple:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.AskForPrayerRequest, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.InviteToGroup, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.HostAtHome, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.DiscussScripture, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.NewBeliever:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.TakeOutToCoffee, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.InviteToGroup, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.OfferToHelpWithErrands, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.HostAtHome, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Seeking:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.TakeOutToCoffee, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.ShareGospel, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.InviteToGroup, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.ShareTestimony, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Curious:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.TakeOutToCoffee, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.ListenToTestimony, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.ShareTestimony, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.ShareGospel, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Friendly:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.SendEncouragementText, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.DropOffGiftWithBlessingNote, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.InviteToGroup, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.ShareGospel, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Apathetic:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.SendEncouragementText, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.OfferToHelpWithErrands, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.InviteToEvent, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.AskSpiritualQuestion, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Hostile:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.OfferToHelpWithErrands, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.SendEncouragementText, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.TakeOutToCoffee, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.ListenToTestimony, getDayInFuture(30)),
+            );
+            break;
+        default:
+            break;
+    }
+
+    return actionSteps;
 }
 
 export function mapGospelChecklistItemTypeToTitle(item: GospelChecklistItem): string {

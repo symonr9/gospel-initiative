@@ -10,6 +10,7 @@ export enum TextType {
   DefaultSemiBold = 'defaultSemiBold',
   Subtitle = 'subtitle',
   Subtitle2 = 'subtitle2',
+  Subtitle3 = 'subtitle3',
   Link = 'link',
   Prefix = 'prefix',
   Body = 'body',
@@ -44,6 +45,7 @@ export function AppText({
         type === TextType.DefaultSemiBold ? styles.defaultSemiBold : undefined,
         type === TextType.Subtitle ? styles.subtitle : undefined,
         type === TextType.Subtitle2 ? styles.subtitle2 : undefined,
+        type === TextType.Subtitle3 ? styles.subtitle3 : undefined,
         type === TextType.Link ? styles.link : undefined,
         type === TextType.Prefix ? styles.prefix : undefined,
         type === TextType.Body ? styles.body : undefined,
@@ -81,6 +83,11 @@ const styles = StyleSheet.create({
   },
   subtitle2: {
     fontSize: 18,
+  },
+  subtitle3: {    
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'LeagueSpartanBold'
   },
   link: {
     lineHeight: 30,

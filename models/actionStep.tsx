@@ -40,6 +40,17 @@ export default class ActionStep implements IActionStep {
         );
     }
 
+    static create(oneId: string, type: ActionStepType, date: Date = getNextWeek()): ActionStep {
+        return new ActionStep(
+            generateRandomId(),
+            "",
+            oneId,
+            false,
+            date,
+            type
+        );
+    }
+
     static sortActionSteps(steps: ActionStep[]): ActionStep[] {
         return steps.sort((a, b) => {
             // Compare based on completion status (incomplete first)
@@ -48,7 +59,7 @@ export default class ActionStep implements IActionStep {
             }
             const dateA = a.targetDate ? a.targetDate.getTime() : 0;
             const dateB = b.targetDate ? b.targetDate.getTime() : 0;        
-            return dateB - dateA; // Most recent first
+            return dateA - dateB; // Most recent first
         });
     }
 

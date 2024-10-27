@@ -148,13 +148,14 @@ export enum OneCategory {
 }
 
 export enum OneStage {
-    Disciple = 1,
-    NewBeliever = 2,
-    Seeking = 3,
-    Curious = 4,
-    Friendly = 5,
-    Apathetic = 6,
-    Hostile = 7
+    Leader = 1,
+    Disciple = 2,
+    NewBeliever = 3,
+    Seeking = 4,
+    Curious = 5,
+    Friendly = 6,
+    Apathetic = 7,
+    Hostile = 8
 };
 
 export enum OneFactType {
@@ -211,17 +212,18 @@ export enum MissionalLivingWheelStep {
 export enum ActionStepType {
     ShareGospel = 1,
     ShareTestimony = 2,
-    InviteToEvent = 3,
-    AskSpiritualQuestion = 4,
-    AskForPrayerRequest = 5,
-    InviteToGroup = 6,
-    SendEncouragementText = 7,
-    DiscussScripture = 8,
-    HostAtHome = 9,
-    ShareDevotional = 10,
-    ProvideBiblicalCounsel = 11,
-    ConnectWithOtherChristians = 12,
-    DropOffGiftWithBlessingNote = 13,
+    ListenToTestimony = 3,
+    InviteToEvent = 4,
+    AskSpiritualQuestion = 5,
+    AskForPrayerRequest = 6,
+    InviteToGroup = 7,
+    SendEncouragementText = 8,
+    DiscussScripture = 9,
+    HostAtHome = 10,
+    ShareDevotional = 11,
+    ProvideBiblicalCounsel = 12,
+    ConnectWithOtherChristians = 13,
+    DropOffGiftWithBlessingNote = 14,
     OfferToHelpWithErrands = 15,
     Other = 16,
     TakeOutToCoffee = 17,
@@ -430,6 +432,7 @@ export enum AppIcon {
     StageHostile = require('../assets/images/app-icons/stage-hostile.png'),
     StageNewBeliever = require('../assets/images/app-icons/stage-new-believer.png'),
     StageDisciple = require('../assets/images/app-icons/stage-disciple.png'),
+    StageLeader = require('../assets/images/app-icons/stage-leader.png'),
 }
 
 export enum AvatarIcon {

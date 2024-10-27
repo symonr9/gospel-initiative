@@ -1,4 +1,5 @@
 import { AvatarIcon, OneCategory, OneStage, } from "@/enums/enums";
+import ActionStep from "./actionStep";
 
 interface IOne {
     id: string;
