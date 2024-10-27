@@ -13,7 +13,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { addActionStep, editOne, setOneForm, setSelectedOne, editActionSteps, setAppError, refreshData, addOne } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
-import { calculatePercent, getAppTimeAgoText, getNow, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToText, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { calculatePercent, getAppTimeAgoText, getNow, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
 import { selectActionStepsByOneId, selectActiveBeaconsByOneId, selectActiveBeaconsByUserId, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
@@ -283,7 +283,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                             <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)}
                                 prefix={getAppTimeAgoText(firstActionStep.targetDate)}
                                 onClick={() => setBodyType(BodyType.ActionStep)}
-                                title={mapActionStepTypeToText(firstActionStep.type)} />
+                                title={mapActionStepTypeToTitle(firstActionStep.type)} />
                         </>
                     );
                 } else {

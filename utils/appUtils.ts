@@ -585,7 +585,7 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
     }
 }
 
-export function mapActionStepTypeToText(type: ActionStepType): string {
+export function mapActionStepTypeToTitle(type: ActionStepType): string {
     switch (type) {
         case ActionStepType.ShareGospel:
             return "Share Gospel";
@@ -620,6 +620,44 @@ export function mapActionStepTypeToText(type: ActionStepType): string {
         case ActionStepType.Other:
         default:
             return "Other";
+    }
+}
+
+export function mapActionStepTypeToDetails(type: ActionStepType): string {
+    switch (type) {
+        case ActionStepType.ShareGospel:
+            return "Share the message of the Gospel and the hope it offers.";
+        case ActionStepType.ShareTestimony:
+            return "Share your personal story of faith and transformation.";
+        case ActionStepType.InviteToEvent:
+            return "Invite them to a church event, social gathering, or study.";
+        case ActionStepType.AskSpiritualQuestion:
+            return "Engage them in a conversation by asking a thought-provoking spiritual question.";
+        case ActionStepType.AskForPrayerRequest:
+            return "Offer to pray for them by asking if they have any prayer requests.";
+        case ActionStepType.InviteToGroup:
+            return "Invite them to join a small group, Bible study, or fellowship.";
+        case ActionStepType.SendEncouragementText:
+            return "Send a text message to encourage or uplift them.";
+        case ActionStepType.DiscussScripture:
+            return "Discuss a passage from the Bible and its meaning.";
+        case ActionStepType.HostAtHome:
+            return "Invite them to your home for a meal or gathering.";
+        case ActionStepType.ShareDevotional:
+            return "Share a devotional reading or spiritual reflection.";
+        case ActionStepType.ProvideBiblicalCounsel:
+            return "Offer guidance or advice based on biblical principles.";
+        case ActionStepType.ConnectWithOtherChristians:
+            return "Introduce them to other Christians who can support their spiritual journey.";
+        case ActionStepType.DropOffGiftWithBlessingNote:
+            return "Drop off a small gift with a note explaining its spiritual significance.";
+        case ActionStepType.TakeOutToCoffee:
+            return "Take them out for coffee to talk and build a relationship.";
+        case ActionStepType.OfferToHelpWithErrands:
+            return "Offer practical help by assisting with errands or tasks.";
+        case ActionStepType.Other:
+        default:
+            return "Other - a custom action step.";
     }
 }
 
@@ -1018,7 +1056,7 @@ function shuffleArray<T>(array: T[]): T[] {
 /**
  * Function to calculate the difference in days between two dates
  */
-function getDaysDifference(startDate: Date, currentDate: Date): number {
+export function getDaysDifference(startDate: Date, currentDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
     const diffInTime = currentDate.getTime() - startDate.getTime();
     return Math.floor(diffInTime / oneDay);

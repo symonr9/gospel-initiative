@@ -1,10 +1,10 @@
 import { ActionStepType, AppIcon } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToText } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -12,19 +12,21 @@ import ActionStep from '@/models/actionStep';
 import { ActionStepCard } from './ActionStepCard';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, modalStyles } from '@/styles/Styles';
 import SelectDatePicker from '../common/SelectDatePicker';
 import { selectActionStepsByOneId } from '@/redux/selectors';
 import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
 import { updateActionSteps } from '@/requests/Requests';
 import User from '@/models/user';
+import ScrollLayout from '../common/ScrollLayout';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
     .map((key, index) => ({
         value: ActionStepType[key as keyof typeof ActionStepType],
-        label: mapActionStepTypeToText(ActionStepType[key as keyof typeof ActionStepType]),
+        label: mapActionStepTypeToTitle(ActionStepType[key as keyof typeof ActionStepType]),
+        details: mapActionStepTypeToDetails(ActionStepType[key as keyof typeof ActionStepType]),
         icon: mapActionStepTypeToIcon(ActionStepType[key as keyof typeof ActionStepType]),
     }));
 
@@ -45,7 +47,7 @@ export enum PickerState {
     Completing
 }
 
-const ActionStepPicker = ({ executor, selectedOne, actionSteps, 
+const ActionStepPicker = ({ executor, selectedOne, actionSteps,
     addActionStep, editActionSteps, setAppError }: IActionStepPicker) => {
     const isFirstRender = useRef(false);
 
@@ -55,16 +57,18 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
     const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOne?.id || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
-    const firstActionStep = actionSteps.length > 0 ? actionSteps[0] : null;
+    const [modalVisible, setModalVisible] = useState(false);
+
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
     const selectedActionStepIndex = selectedActionStep ? actionStepTypeArray.findIndex((step) => step.value === selectedActionStep.type) : 0;
+    const selectedActionStepTypeData = actionStepTypeArray[formSelectedTypeIdx];
 
     useEffect(() => {
         if (!isFirstRender.current) {
             isFirstRender.current = true;
             return;
         }
-        
+
         if (pickerState === PickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
@@ -84,6 +88,10 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
     useEffect(() => {
         setFormActionStep((prev) => ({ ...prev, type: actionStepTypeArray[formSelectedTypeIdx].value }));
     }, [formSelectedTypeIdx]);
+
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
+    };
 
     const renderActionStep = ({ item }: { item: ActionStep }) => {
         const isSelected = selectedStepId === item.id;
@@ -157,10 +165,10 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
         setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
     };
 
-    const onDateSelected = (date: string) => {
+    const onDateSelected = (date: Date) => {
         setFormActionStep((prev) => ({
             ...prev,
-            targetDate: new Date(date)
+            targetDate: date
         }));
     };
 
@@ -168,18 +176,21 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
 
     const Body = [];
 
-    const renderIcon = ({ item, index }: { item: { value: ActionStepType, icon: AppIcon, label: string }; index: number }) => {
+    const renderIcon = ({ item, index }: { item: { value: ActionStepType, icon: AppIcon, label: string, details: string }; index: number }) => {
         const handleIconPress = () => {
             setFormSelectedTypeIdx(index);
         };
-    
+
         return (
             <TouchableOpacity onPress={handleIconPress}>
                 <PageRow style={[styles.iconCard, formSelectedTypeIdx === index && styles.selectedIconCard]}>
                     <Image source={item.icon} style={[styles.icon, formSelectedTypeIdx === index && styles.selected]} />
-                    <AppText type={TextType.DefaultSemiBold} style={{ alignSelf: 'center' }}>{item.label}</AppText>
+                    <PageColumn style={{ marginStart: 8, width: 250 }}>
+                        <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
+                        <AppText type={TextType.Italic} style={{ }}>{item.details}</AppText>
+                    </PageColumn>
                 </PageRow>
-            </TouchableOpacity>
+            </TouchableOpacity>  
         );
     };
 
@@ -188,14 +199,61 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
             {
                 pickerState === PickerState.Adding && (
                     <>
-                        <AppText type={TextType.Default}>Type</AppText>
-                        <FlatList
-                            data={actionStepTypeArray}
-                            renderItem={renderIcon}
-                            numColumns={1}
-                            keyExtractor={(item, index) => index.toString()}
-                            contentContainerStyle={styles.iconList}
-                        />
+                        <PageColumn style={{ marginHorizontal: 8 }}>
+                            <AppText type={TextType.DefaultSemiBold}>Type</AppText>
+                            <View>
+                                {selectedActionStepTypeData ? (
+                                    <>
+                                        <TouchableOpacity onPress={toggleModal}>
+                                            <PageRow style={[styles.iconCard]}>
+                                                <Image source={selectedActionStepTypeData.icon} style={[styles.icon, styles.selected]} />
+                                                <PageColumn style={{ marginStart: 8, width: 250 }}>
+                                                    <AppText type={TextType.DefaultSemiBold} style={{}}>{selectedActionStepTypeData.label}</AppText>
+                                                    <AppText type={TextType.Italic} style={{}}>{selectedActionStepTypeData.details}</AppText>
+                                                </PageColumn>
+                                            </PageRow>
+                                        </TouchableOpacity>
+                                    </>
+                                ) : (
+                                    <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
+                                )}
+                            </View>
+                            <TouchableOpacity onPress={toggleModal} 
+                                style={[modalStyles.editButton, { width: 100, alignSelf: 'center' }]}>
+                                <AppText>Edit Type</AppText>
+                            </TouchableOpacity>
+                        </PageColumn>
+
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={toggleModal}
+                        >
+                            <View style={modalStyles.modalContainer}>
+                                <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                                    <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
+                                        Select a Category
+                                    </AppText>
+
+                                    <ScrollLayout style={{ maxHeight: 300 }}>
+                                        <FlatList
+                                            data={actionStepTypeArray}
+                                            renderItem={renderIcon}
+                                            numColumns={1}
+                                            keyExtractor={(item, index) => index.toString()}
+                                            contentContainerStyle={styles.iconList}
+                                        />
+                                    </ScrollLayout>
+                                    <TouchableOpacity
+                                        style={modalStyles.closeButton}
+                                        onPress={toggleModal}
+                                    >
+                                        <AppText>Close</AppText>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
                     </>
                 )
             }
@@ -210,9 +268,8 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
                 onChangeText={(text) => setFormActionStep((prev) => ({ ...prev, notes: text }))}
             />
 
-            <PageRow style={{ width: '80%' }}>
+            <PageRow style={{ alignSelf: 'center' }}>
                 <SelectDatePicker events={events}
-                    title={"Select Target Date"}
                     onDateSelected={onDateSelected} />
             </PageRow>
         </PageColumn>
@@ -236,7 +293,7 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
                     selectedStepId === null && (
                         <>
                             <SimpleIconButton iconSrc={AppIcon.Plus}
-                                customStyles={ { container: { marginStart: 10, marginEnd: 10 }}}
+                                customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
                                 title={'Add'}
                                 onClick={() => setPickerState(PickerState.Adding)} />
                         </>
@@ -291,7 +348,7 @@ const ActionStepPicker = ({ executor, selectedOne, actionSteps,
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Editing action step
                 </AppText>
-                <ActionStepCard actionStep={selectedActionStep} selected/>
+                <ActionStepCard actionStep={selectedActionStep} selected />
                 {Form}
             </View>
         );
@@ -354,15 +411,18 @@ const styles = StyleSheet.create({
     iconCard: {
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
-        shadowRadius: 8,
+        shadowRadius: 4,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
-        paddingVertical: 8
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        marginVertical: 8,
+        marginHorizontal: 10
     },
-    selectedIconCard: {  
+    selectedIconCard: {
         backgroundColor: '#bbeccc',
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -377,7 +437,8 @@ const styles = StyleSheet.create({
         width: 28,
         height: 28,
         margin: 2,
-        opacity: 0.5
+        verticalAlign: 'middle',
+        opacity: 0.7
     },
     selected: {
         opacity: 1,
@@ -388,9 +449,9 @@ const mapStateToProps = (state: any) => {
     const selectedOne = state.ones.selectedOne;
     const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
     return {
-      executor: state.users.executor,
-      selectedOne,
-      actionSteps,
+        executor: state.users.executor,
+        selectedOne,
+        actionSteps,
     };
 };
 

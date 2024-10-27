@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Calendar, DateObject } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import { AppText, TextType } from './AppText';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+import { PageColumn } from './PageColumn';
+import { formatDateTime, getDaysDifference, getNextWeek } from '@/utils/appUtils';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -17,7 +19,7 @@ export type ISelectDatePicker = ViewProps & {
     title?: string;
     currentDate?: Date;
     initialDate?: Date;
-    onDateSelected: (date: string) => void; // Callback to send the selected date
+    onDateSelected: (date: Date) => void;
 };
 
 export function createSimpleMarkedDates(events: Date[]) {
@@ -36,13 +38,14 @@ export function createSimpleMarkedDates(events: Date[]) {
     }, {});
 }
 
-function SelectDatePicker({ title, events, markingType = MarkingType.Dot, currentDate = new Date(), initialDate = new Date(), onDateSelected }: ISelectDatePicker) {
-    const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to store the selected date
+function SelectDatePicker({ title, events, markingType = MarkingType.Dot, currentDate = new Date(), initialDate = getNextWeek(), onDateSelected }: ISelectDatePicker) {
+    const [selectedDate, setSelectedDate] = useState<Date>(initialDate); // State to store the selected date
     const markedDates = createSimpleMarkedDates(events);
 
-    const onDayPress = (day: DateObject) => {
-        setSelectedDate(day.dateString);
-        onDateSelected(day.dateString);
+    const onDayPress = (day: any) => {
+        const dayDate = new Date(day.dateString);
+        setSelectedDate(dayDate);
+        onDateSelected(dayDate);
     };
 
     return (
@@ -53,18 +56,22 @@ function SelectDatePicker({ title, events, markingType = MarkingType.Dot, curren
                         {title}
                     </AppText>
                 )}
-                {selectedDate && (
-                    <View style={styles.selectedDateWrapper}>
-                        <AppText type={TextType.DefaultSemiBold}>
-                            Selected Deadline: {selectedDate}
-                        </AppText>
-                    </View>
-                )}
+
+                <PageColumn style={{ marginVertical: 8 }}>
+                    <AppText type={TextType.Subtitle}>
+                        Goal: Complete in {getDaysDifference(new Date(), selectedDate)} days
+                    </AppText>
+                    <AppText type={TextType.Default}>
+                        Target Date: {formatDateTime(selectedDate)}
+                    </AppText>
+                </PageColumn>
+
                 <Calendar
                     markedDates={markedDates}
                     markingType={markingType}
                     onDayPress={onDayPress}
                     initialDate={initialDate}
+                    minDate={currentDate}
                     current={currentDate}
                     theme={calendarTheme}
                     enableSwipeMonths={true}
@@ -103,6 +110,7 @@ const styles = StyleSheet.create({
     },
     calendarWrapper: {
         padding: 10,
+        marginHorizontal: 8
     },
     calendarTitle: {
         marginBottom: 10,
@@ -118,18 +126,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 6, // Shadow radius for a softer shadow
         elevation: 4,
-    },
-    selectedDateWrapper: {
-        marginVertical: 20,
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        padding: 8,
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 8,
     },
 });
 
