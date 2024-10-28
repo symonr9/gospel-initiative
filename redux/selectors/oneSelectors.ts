@@ -6,7 +6,6 @@ import OneFact from "@/models/oneFact";
 
 export const selectAllOnes = (state: any): One[] => state.ones.ones;
 export const selectAllOneFacts = (state: any): OneFact[] => state.ones.oneFacts;
-export const selectAllActionSteps = (state: any): ActionStep[] => state.ones.actionSteps;
 
 // Ones
 export const selectOneById = (state: any, id: string): One | undefined =>
@@ -30,9 +29,3 @@ export const selectOneFactsByOneId = (oneId: string) =>
             .filter((fact) => fact.oneId === oneId)
             .sort((a, b) => b.priority - a.priority)
     );
-
-// Action Steps 
-
-export const selectActionStepsByOneId = (state: any, oneId: string | undefined): ActionStep[] =>
-    selectAllActionSteps(state).filter(actionStep => actionStep.oneId === oneId);
-  
