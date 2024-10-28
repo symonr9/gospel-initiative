@@ -147,12 +147,6 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             </View>
         );
     } else { // Normal
-        if (expiredBeaconsWithActivities.length > 0) {
-            BodyLayout.push(
-                <ExpiredBeaconsList />
-            );
-        }
-
         if (activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
                 <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities}
@@ -162,6 +156,12 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             BodyLayout.push(
                 <BeaconTemplatesList activeLayoutType={activeLayoutType}
                     setActiveLayoutType={setActiveLayoutType} />
+            );
+        }
+
+        if (expiredBeaconsWithActivities.length > 0) {
+            BodyLayout.push(
+                <ExpiredBeaconsList />
             );
         }
     }

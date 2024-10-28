@@ -144,8 +144,8 @@ export function mapPriorityToText(priority: Priority) {
 
 export function mapStageToText(stage: OneStage) {
     switch (stage) {
-        case OneStage.Leader:
-            return "Leader";
+        case OneStage.Hurt:
+            return "Hurt";
         case OneStage.Disciple:
             return "Disciple";
         case OneStage.NewBeliever:
@@ -166,8 +166,6 @@ export function mapStageToText(stage: OneStage) {
 
 export function mapStageToDetailsText(stage: OneStage) {
     switch (stage) {
-        case OneStage.Leader:
-            return "This person's faith is strong and independent of others and they are in or are ready to step into leadership positions."
         case OneStage.Disciple:
             return "This person has intentionally followed Christ for multiple seasons of their life. They are committed to Scripture, growing in their faith, and sharing the Gospel.";
         case OneStage.NewBeliever:
@@ -180,6 +178,8 @@ export function mapStageToDetailsText(stage: OneStage) {
             return "This person is friendly and open to believers, but they are not actively seeking faith or asking questions about Christianity.";
         case OneStage.Apathetic:
             return "This person shows little interest in spiritual matters or the Christian faith. They are indifferent and not currently open to discussions about faith.";
+        case OneStage.Hurt:
+            return "This person grew up with a religious background but has been hurt by church or religion. They may be averse to similar religious experiences.";
         case OneStage.Hostile:
             return "This person is opposed to Christianity and may actively resist conversations about faith. They have negative perceptions or strong objections to the gospel.";
     }
@@ -189,8 +189,6 @@ export function mapStageToDetailsText(stage: OneStage) {
 
 export function mapStageToIcon(stage: OneStage) {
     switch (stage) {
-        case OneStage.Leader:
-            return AppIcon.StageLeader;
         case OneStage.Disciple:
             return AppIcon.StageDisciple;
         case OneStage.NewBeliever:
@@ -203,6 +201,8 @@ export function mapStageToIcon(stage: OneStage) {
             return AppIcon.StageFriendly;
         case OneStage.Apathetic:
             return AppIcon.StageApathetic;
+        case OneStage.Hurt:
+            return AppIcon.StageHurt;
         case OneStage.Hostile:
             return AppIcon.StageHostile;
     }
@@ -683,14 +683,6 @@ export function generateActionStepsForStage(stage: OneStage, oneId: string): Act
     const actionSteps: ActionStep[] = [];
 
     switch (stage) {
-        case OneStage.Leader:
-            actionSteps.push(
-                ActionStep.create(oneId, ActionStepType.SendEncouragementText, getDayInFuture(7)),
-                ActionStep.create(oneId, ActionStepType.HostAtHome, getDayInFuture(14)),
-                ActionStep.create(oneId, ActionStepType.DiscussScripture, getDayInFuture(21)),
-                ActionStep.create(oneId, ActionStepType.OfferToHelpWithErrands, getDayInFuture(30)),
-            );
-            break;
         case OneStage.Disciple:
             actionSteps.push(
                 ActionStep.create(oneId, ActionStepType.AskForPrayerRequest, getDayInFuture(7)),
@@ -737,6 +729,14 @@ export function generateActionStepsForStage(stage: OneStage, oneId: string): Act
                 ActionStep.create(oneId, ActionStepType.OfferToHelpWithErrands, getDayInFuture(14)),
                 ActionStep.create(oneId, ActionStepType.InviteToEvent, getDayInFuture(21)),
                 ActionStep.create(oneId, ActionStepType.AskSpiritualQuestion, getDayInFuture(30)),
+            );
+            break;
+        case OneStage.Hurt:
+            actionSteps.push(
+                ActionStep.create(oneId, ActionStepType.SendEncouragementText, getDayInFuture(7)),
+                ActionStep.create(oneId, ActionStepType.TakeOutToCoffee, getDayInFuture(14)),
+                ActionStep.create(oneId, ActionStepType.ListenToTestimony, getDayInFuture(21)),
+                ActionStep.create(oneId, ActionStepType.InviteToEvent, getDayInFuture(30)),
             );
             break;
         case OneStage.Hostile:

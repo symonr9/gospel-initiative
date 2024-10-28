@@ -11,13 +11,13 @@ import { modalStyles } from '@/styles/Styles';
 
 const stageArray = [
     OneStage.Hostile,
+    OneStage.Hurt,
     OneStage.Apathetic,
     OneStage.Friendly,
     OneStage.Curious,
     OneStage.Seeking,
     OneStage.NewBeliever,
     OneStage.Disciple,
-    OneStage.Leader
 ].map((value: OneStage) => ({
     stage: value,
     icon: mapStageToIcon(value),

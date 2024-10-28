@@ -120,13 +120,13 @@ export enum OneCategory {
 }
 
 export enum OneStage {
-    Leader = 1,
-    Disciple = 2,
-    NewBeliever = 3,
-    Seeking = 4,
-    Curious = 5,
-    Friendly = 6,
-    Apathetic = 7,
+    Disciple = 1,
+    NewBeliever = 2,
+    Seeking = 3,
+    Curious = 4,
+    Friendly = 5,
+    Apathetic = 6,
+    Hurt = 7,
     Hostile = 8
 };
 
@@ -404,7 +404,7 @@ export enum AppIcon {
     StageHostile = require('../assets/images/app-icons/stage-hostile.png'),
     StageNewBeliever = require('../assets/images/app-icons/stage-new-believer.png'),
     StageDisciple = require('../assets/images/app-icons/stage-disciple.png'),
-    StageLeader = require('../assets/images/app-icons/stage-leader.png'),
+    StageHurt = require('../assets/images/app-icons/stage-hurt.png'),
 }
 
 export enum AvatarIcon {
