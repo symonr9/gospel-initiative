@@ -177,3 +177,32 @@ export const modalStyles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+export const beaconStyles = StyleSheet.create({
+  beaconNameText: {
+  },
+  beaconDetailsText: {
+      marginBottom: 8,
+  },
+  beaconHeader: {
+      paddingBottom: 8,
+      borderBottomColor: 'lightgray',
+      borderBottomWidth: 2,
+  },
+  beaconCard: {
+      padding: 16,
+      backgroundColor: '#f3f3f3',
+      borderRadius: 4,
+      marginBottom: 8
+  },
+  icon: {
+      width: 36,
+      height: 36,
+      alignSelf: 'center',
+      marginEnd: 8
+  },
+  activityView: {
+    padding: 8,
+    marginTop: 8
+},
+});

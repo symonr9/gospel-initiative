@@ -13,6 +13,7 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
 import { deactivateBeacon } from '@/requests/Requests';
+import { beaconStyles } from '@/styles/Styles';
 
 type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
@@ -62,21 +63,21 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppE
         };
 
         return (
-            <PageRow style={styles.beaconCard}>
+            <PageRow style={beaconStyles.beaconCard}>
                 <PageColumn>
-                    <PageColumn style={styles.beaconHeader}>
+                    <PageColumn style={beaconStyles.beaconHeader}>
                         <PageRow style={{ paddingBottom: 8, }}>
                             <PageRow>
                                 <Image source={mapBeaconTypeToAppIcon(beaconWithActivity.type)}
-                                    style={styles.icon}
+                                    style={beaconStyles.icon}
                                     contentFit="contain" />
                                 <PageColumn style={{ gap: 4 }}>
-                                    <AppText type={TextType.Subtitle} style={styles.beaconNameText}>
+                                    <AppText type={TextType.Subtitle} style={beaconStyles.beaconNameText}>
                                         {beaconWithActivity.name}
                                     </AppText>
                                     {
                                         beaconWithActivity.message && (
-                                            <AppText type={TextType.Body} style={styles.beaconDetailsText}>
+                                            <AppText type={TextType.Body} style={beaconStyles.beaconDetailsText}>
                                                 {beaconWithActivity.message}
                                             </AppText>
                                         )
@@ -116,7 +117,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppE
                                     data={activities}
                                     keyExtractor={(item) => item.id}
                                     renderItem={({ item }) => (
-                                        <View style={styles.activityView}>
+                                        <View style={beaconStyles.activityView}>
                                             <AppText type={TextType.Body}>{item.username}</AppText>
                                             <AppText type={TextType.Italic}>{item.note}</AppText>
                                         </View>
@@ -151,31 +152,5 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         marginBottom: 8,
-    },
-    activityView: {
-        padding: 8,
-        marginTop: 8
-    },
-    beaconNameText: {
-    },
-    beaconDetailsText: {
-        marginBottom: 8,
-    },
-    beaconHeader: {
-        paddingBottom: 8,
-        borderBottomColor: 'lightgray',
-        borderBottomWidth: 2,
-    },
-    beaconCard: {
-        padding: 16,
-        backgroundColor: '#f3f3f3',
-        borderRadius: 4,
-        marginBottom: 8
-    },
-    icon: {
-        width: 36,
-        height: 36,
-        alignSelf: 'center',
-        marginEnd: 8
     },
 });

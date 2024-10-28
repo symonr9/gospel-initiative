@@ -36,7 +36,6 @@ export enum Action {
     SetSelectedOne = "SET_SELECTED_ONE",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
     UpdateBeacon = "UPDATE_BEACON",
-    SetBeaconActiveUntil = "SET_BEACON_ACTIVE_UNTIL",
 
     SetBeaconForm = "SET_BEACON_FORM",
     AddBeaconActivity = "ADD_BEACON_ACTIVITY",

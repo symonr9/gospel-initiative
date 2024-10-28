@@ -14,6 +14,7 @@ import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
 import { getShowHideIcon, mapBeaconTagToDetailsText, mapBeaconTagToTitleText } from '@/utils/appUtils';
 import ScrollLayout from '../common/ScrollLayout';
+import { modalStyles } from '@/styles/Styles';
 
 const beaconTagArray = Object.keys(BeaconTag)
     .filter(key => isNaN(Number(key)))
@@ -31,7 +32,7 @@ export type IBeaconTemplateDetails = ViewProps & {
 
 function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
-    const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         setBeaconForm(formData);
@@ -45,7 +46,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
     };
 
     const onChangeTag = () => {
-        setModalVisible(!modalVisible); // Toggle modal visibility
+        setModalVisible(!modalVisible);
     };
 
     const onTagSelect = (tag: BeaconTag) => {
@@ -69,7 +70,6 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
         <ThemedView style={[styles.container]}>
             <BeaconTemplateCard template={template}
                 selectedTemplateId={template.id} />
-
 
             <ScrollLayout style={{ maxHeight: 100, marginVertical: 16 }}>
                 <FlatList
@@ -105,8 +105,8 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
             >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
+                <View style={modalStyles.modalContainer}>
+                    <View style={modalStyles.modalContent}>
                         <AppText type={TextType.Subtitle}>Select Tags</AppText>
 
                         <ScrollLayout style={{ height: 400 }}>
@@ -124,7 +124,7 @@ function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeacon
                             />
                         </ScrollLayout>
                         <TouchableOpacity
-                            style={styles.closeButton}
+                            style={modalStyles.closeButton}
                             onPress={() => setModalVisible(false)}
                         >
                             <AppText>Close</AppText>
@@ -156,25 +156,6 @@ const styles = StyleSheet.create({
     },
     section: {
         marginBottom: 8
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        width: '90%',
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-    },
-    closeButton: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: '#ff6666',
-        borderRadius: 5,
-        alignSelf: 'center',
     },
     selectedTag: {
         backgroundColor: '#d0e0e3',

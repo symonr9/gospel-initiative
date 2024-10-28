@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
 import { getLocalUserId } from '@/utils/storageUtils';
-import { createUser, fetchActiveBeacons, fetchServerData } from '@/requests/Requests';
+import { createUser, fetchBeacons, fetchServerData } from '@/requests/Requests';
 import Error from '@/models/error';
 
 export type IDataRefreshManager = {
@@ -69,9 +69,15 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             return;
         }
 
-        const beacons = await fetchActiveBeacons();
-        if (beacons.error) {
-            setAppError(new Error(beacons.error, 'Something went wrong'));
+        const activeBeacons = await fetchBeacons();
+        if (activeBeacons.error) {
+            setAppError(new Error(activeBeacons.error, 'Something went wrong'));
+            return;
+        }
+
+        const expiredBeacons = await fetchBeacons(false);
+        if (expiredBeacons.error) {
+            setAppError(new Error(expiredBeacons.error, 'Something went wrong'));
             return;
         }
 
@@ -84,7 +90,8 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             ones: ones,
             oneFacts: JsonFunctions.getOneFactsFromJson(),
             actionSteps: actionSteps,
-            beacons: beacons,
+            activeBeacons: activeBeacons,
+            expiredBeacons: expiredBeacons,
             beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),
             prompts: JsonFunctions.getPromptsFromJson(),
             stories: JsonFunctions.getStoriesFromJson(),
@@ -93,7 +100,6 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
             users: [user],
             executor: user,
-            beaconLogs: JsonFunctions.getBeaconLogsFromJson()
         });
     };
 

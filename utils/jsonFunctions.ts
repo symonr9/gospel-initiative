@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, BeaconLogTag, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -22,7 +22,6 @@ const storyChaptersJson = require('../data/story-chapters.json');
 const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
-const beaconLogsJson = require('../data/beacon-logs.json');
 
 export function getActionStepsJson() {
     return actionStepsJson.map(item => {
@@ -273,21 +272,6 @@ export function getBeaconActivitiesFromJson() {
             date: item.date ? new Date(item.date) : undefined,
             userId: item.userId,
             beaconId: item.beaconId
-        };
-    });
-}
-
-
-export function getBeaconLogsFromJson() {
-    return beaconLogsJson.map(item => {
-        const tags: BeaconLogTag[] = item.tags?.map((tagValue: number) => tagValue as BeaconLogTag) || [];
-        return {
-            id: item.id,
-            note: item.note,
-            date: item.date ? new Date(item.date) : undefined,
-            userId: item.userId,
-            beaconId: item.beaconId,
-            tags: tags
         };
     });
 }

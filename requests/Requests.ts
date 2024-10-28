@@ -9,9 +9,9 @@ import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
 import { getLocalAccessToken, getLocalRefreshToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
 
-export const fetchActiveBeacons = async () => {
+export const fetchBeacons = async (active: Boolean = true) => {
     try {
-        const response = await makeRequest(`/beacons/active`);
+        const response = await makeRequest(`/beacons/${active ? 'active' : 'expired'}`);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
@@ -53,7 +53,7 @@ export const fetchActiveBeacons = async () => {
             item.oneName = beacon.one.name;
             item.oneIcon = AvatarIcon[beacon.one.icon as keyof typeof AvatarIcon];
             item.oneStage = beacon.one.stage as OneStage;
-
+            
             return item;
         });
     } catch (error) {

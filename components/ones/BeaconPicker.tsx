@@ -8,7 +8,7 @@ import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { selectActiveBeaconsWithActivities, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
+import { selectActiveBeaconsWithActivities, selectExpiredBeaconsWithActivities, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import { addBeacon, setAppError, setSelectedTemplateId } from '@/redux/actions';
 import { createBeacon } from '@/requests/Requests';
 import User from '@/models/user';
@@ -20,6 +20,7 @@ import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList'
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import PageResponse from '../common/PageResponse';
 import ScrollLayout from '../common/ScrollLayout';
+import ExpiredBeaconsList from '../beacons/ExpiredBeaconsList';
 
 export type IActionStepPicker = ViewProps & {
     selectedOne: One;
@@ -44,27 +45,15 @@ export enum PickerState {
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     selectedTemplateId, setSelectedTemplateId, addBeacon, selectedOne, setAppError }: IActionStepPicker) => {
-    const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOne?.id));
+    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOne?.id));
 
     const BodyLayout: any[] = [];
 
-    if (activeLayoutType === OneLayoutType.AllBeaconTemplates) {
-        if (!selectedOne) {
-            return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'}
-                    title={'Something went wrong'} />
-            );
-        }
-
-        BodyLayout.push(
-            <BeaconTemplatesList activeLayoutType={activeLayoutType}
-                setActiveLayoutType={setActiveLayoutType} />
-        );
-    } else if (activeLayoutType === OneLayoutType.ConfirmBeacon) {
+    if (activeLayoutType === OneLayoutType.ConfirmBeacon) {
         if (!selectedOne) {
             return (
                 <PageResponse details={'Invalid page state (missing selectedOne).'}
@@ -120,7 +109,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setSelectedTemplateId(null);
-                        setActiveLayoutType(OneLayoutType.AllBeaconTemplates);
+                        setActiveLayoutType(OneLayoutType.Normal);
                     }}
                     title={'Back'} />
                 <SimpleIconButton iconSrc={AppIcon.Checkmark}
@@ -158,6 +147,12 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             </View>
         );
     } else { // Normal
+        if (expiredBeaconsWithActivities.length > 0) {
+            BodyLayout.push(
+                <ExpiredBeaconsList />
+            );
+        }
+
         if (activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
                 <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities}
@@ -172,9 +167,9 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     }
 
     return (
-        <View style={styles.container}>
+        <PageColumn style={styles.container}>
             {BodyLayout.map((item) => item)}
-        </View>
+        </PageColumn>
     );
 };
 
@@ -183,7 +178,8 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         paddingBottom: 8,
         borderBottomColor: 'lightgray',
-        borderBottomWidth: 2
+        borderBottomWidth: 2,
+        gap: 12
     },
     pageHeader: {
         marginBottom: 8,

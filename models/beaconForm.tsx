@@ -1,4 +1,4 @@
-import { BeaconLogTag, BeaconTag, Priority } from "@/enums/enums";
+import { BeaconTag, Priority } from "@/enums/enums";
 
 interface IBeaconForm {
     shareOwnName: boolean;

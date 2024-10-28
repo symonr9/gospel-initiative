@@ -63,7 +63,6 @@ export enum OneLayoutType {
     AddingOne,
     EditingOne,
     AllOnes,
-    AllBeaconTemplates,
     ConfirmBeacon,
     SentBeaconResponse,
 }
@@ -455,8 +454,8 @@ const mapStateToProps = (state: any) => {
     const executor = state.users.executor;
     const selectedOne = state.ones.selectedOne;
     const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
-    const oneBeacons = selectedOne ? state.beacons.beacons.filter((beacon: any) => {
-        return beacon.oneId === selectedOne.id && isBeaconActive(beacon)
+    const oneBeacons = selectedOne ? state.beacons.activeBeacons.filter((beacon: any) => {
+        return beacon.oneId === selectedOne.id
     }) : [];
     return {
         selectedOne,

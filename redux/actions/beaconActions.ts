@@ -7,11 +7,6 @@ export const setSelectedTemplateId = (item: string) => ({
     payload: item,
 });
 
-export const setBeaconActiveUntil = (id: string, date: Date | undefined) => ({
-    type: Action.SetBeaconActiveUntil,
-    payload: { id, date },
-});
-
 export const updateBeacon = (item: Beacon) => ({
     type: Action.UpdateBeacon,
     payload: item,

@@ -10,12 +10,13 @@ import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
 import User from '@/models/user';
 
-export const selectAllBeacons = (state: any): Beacon[] => state.beacons.beacons;
+export const selectAllActiveBeacons = (state: any): Beacon[] => state.beacons.activeBeacons;
+export const selectAllExpiredBeacons = (state: any): Beacon[] => state.beacons.expiredBeacons;
 export const selectAllBeaconTemplates = (state: any): BeaconTemplate[] => state.beacons.beaconTemplates;
 
 export const selectBeaconsByUserId = (userId: string) =>
     createSelector(
-        [selectAllBeacons],
+        [selectAllActiveBeacons],
         (beacons) => beacons
             .filter((beacon) => beacon.userId === userId)
             .sort((a, b) => b.priority - a.priority)
@@ -23,7 +24,7 @@ export const selectBeaconsByUserId = (userId: string) =>
 
 export const selectBeaconsByOneId = (oneId: string) =>
     createSelector(
-        [selectAllBeacons],
+        [selectAllActiveBeacons],
         (beacons) => beacons
             .filter((beacon) => beacon.oneId === oneId)
             .sort((a, b) => b.priority - a.priority)
@@ -31,30 +32,26 @@ export const selectBeaconsByOneId = (oneId: string) =>
 
 export const selectActiveBeaconsByOneId = (oneId: string) =>
     createSelector(
-        [selectAllBeacons],
+        [selectAllActiveBeacons],
         (beacons) => beacons
             .filter((beacon) => {
-                return beacon.oneId === oneId && isBeaconActive(beacon)
+                return beacon.oneId === oneId
             })
             .sort((a, b) => new Date(b.activeUntil).getTime() - new Date(a.activeUntil).getTime())
     );
 
 export const selectActiveBeaconsByUserId = (userId: string) =>
     createSelector(
-        [selectAllBeacons],
+        [selectAllActiveBeacons],
         (beacons) => beacons
             .filter((beacon) => {
-                return beacon.userId === userId && isBeaconActive(beacon)
+                return beacon.userId === userId
             })
             .sort((a, b) => new Date(b.activeUntil).getTime() - new Date(a.activeUntil).getTime())
     );
 
-
-export const selectAllActiveBeacons = (state: any): Beacon[] =>
-    selectAllBeacons(state).filter(beacon => isBeaconActive(beacon));
-
 export const selectBeaconById = (state: any, id: string): Beacon | undefined =>
-    selectAllBeacons(state).find(beacon => beacon.id === id);
+    selectAllActiveBeacons(state).find(beacon => beacon.id === id);
 
 export const selectBeaconDetailsById = (state: any, id: string) => {
     const beacon = selectBeaconById(state, id);
@@ -75,10 +72,10 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
 
 export const selectActiveBeaconsWithActivities = (oneId: string | undefined) =>
     createSelector(
-        [selectAllBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
+        [selectAllActiveBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
         (beacons, executor, beaconActivities, users) => {
             return beacons
-                .filter((beacon: any) => beacon.userId === executor.id && beacon.oneId === oneId && isBeaconActive(beacon))
+                .filter((beacon: any) => beacon.userId === executor.id && beacon.oneId === oneId)
                 .map((beacon: any) => {
                     const activities = beaconActivities
                         .filter((activity) => activity.beaconId === beacon.id)
@@ -89,7 +86,31 @@ export const selectActiveBeaconsWithActivities = (oneId: string | undefined) =>
                                 user
                             };
                         })
-                        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+                    return {
+                        ...beacon,
+                        activities
+                    };
+                });
+        });
+
+export const selectExpiredBeaconsWithActivities = (oneId: string | undefined) =>
+    createSelector(
+        [selectAllExpiredBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
+        (beacons, executor, beaconActivities, users) => {
+            return beacons
+                .filter((beacon: any) => beacon.userId === executor.id && beacon.oneId === oneId)
+                .map((beacon: any) => {
+                    const activities = beaconActivities
+                        .filter((activity) => activity.beaconId === beacon.id)
+                        .map((activity) => {
+                            const user = users.find((user) => user.id === activity.userId) || null;
+                            return {
+                                ...activity,
+                                user
+                            };
+                        })
+                        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
                     return {
                         ...beacon,
                         activities
@@ -103,7 +124,7 @@ export const selectActiveBeaconsWithActivities = (oneId: string | undefined) =>
  * are all appended into an enhanced object.
  */
 export const selectPartitionedActiveEnhancedBeacons = createSelector(
-    [selectAllBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
+    [selectAllActiveBeacons, selectAllOnes, selectAllUsers, selectAllBeaconActivities, selectExecutor],
     (beacons, ones, users, beaconActivities, executor): any => {
         const partitionedBeacons = beacons
             .filter((beacon: Beacon) => isBeaconActive(beacon))
