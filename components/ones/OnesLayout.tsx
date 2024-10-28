@@ -16,7 +16,6 @@ import User from '@/models/user';
 import { calculatePercent, getAppTimeAgoText, getNow, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
-import { selectActionStepsByOneId, selectActiveBeaconsByOneId, selectActiveBeaconsByUserId, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
@@ -37,7 +36,6 @@ const gospelChecklistItems = Object.keys(GospelChecklistItem)
 export type IOnesLayout = ViewProps & {
     selectedOne: One | undefined,
     ones: One[],
-    actionSteps: ActionStep[],
     oneBeacons: Beacon[],
     executor: User,
     oneForm: OneForm,
@@ -68,8 +66,9 @@ export enum OneLayoutType {
 }
 
 function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
-    setAppError, oneBeacons, refreshData, actionSteps, setSelectedOne }: IOnesLayout) {
-    const actionsStepsForSelectedOne = useSelector((state: any) => selectActionStepsByOneId(state, selectedOne?.id));
+    setAppError, oneBeacons, refreshData, setSelectedOne }: IOnesLayout) {
+
+    const actionSteps = selectedOne ? selectedOne.actionSteps : [];
 
     const [message, setMessage] = useState<string | null>(null);
     const [bodyType, setBodyType] = useState(BodyType.Base);
@@ -105,7 +104,11 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                 getNow(),
                 [],
                 false,
-                executor.id
+                executor.id,
+                [],
+                [],
+                [],
+                []
             );
 
             try {
@@ -453,13 +456,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => {
     const executor = state.users.executor;
     const selectedOne = state.ones.selectedOne;
-    const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
     const oneBeacons = selectedOne ? state.beacons.activeBeacons.filter((beacon: any) => {
         return beacon.oneId === selectedOne.id
     }) : [];
     return {
         selectedOne,
-        actionSteps,
         oneBeacons,
         ones: state.ones.ones,
         executor,

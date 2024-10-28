@@ -7,6 +7,7 @@ import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
+import { getActionStepsFromJson, getChristiansFromJson, getGospelStepsFromJson, getOneNotesFromJson } from "@/utils/jsonFunctions";
 import { getLocalAccessToken, getLocalRefreshToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
 
 export const fetchBeacons = async (active: Boolean = true) => {
@@ -149,22 +150,15 @@ const parseServerData = (serverData: any) => {
         AvatarIcon[one.icon as keyof typeof AvatarIcon],
         one.stage as OneStage,
         one.category as OneCategory,
-        one.prayingSince,
+        one.knownSince,
         one.gospelChecklist ? one.gospelChecklist.split(',').map(Number) : [],
         one.hidden,
         serverData.id,
+        getActionStepsFromJson(one.actionSteps),
+        getOneNotesFromJson(one.oneNotes),
+        getGospelStepsFromJson(one.gospelSteps),
+        getChristiansFromJson(one.christians)
     ));
-
-    const actionSteps = serverData.ones.flatMap((one: any) =>
-        one.actionSteps.map((step: any) => new ActionStep(
-            step.id,
-            step.notes,
-            step.oneId,
-            step.isComplete,
-            step.targetDate ? new Date(step.targetDate) : undefined,
-            step.type as ActionStepType
-        ))
-    );
 
     const myStoryChapters = serverData.chapters.map((chapter: any) => new StoryChapter(
         chapter.id,
@@ -179,13 +173,13 @@ const parseServerData = (serverData: any) => {
         chapter.names ? chapter.names.split(',') : [],
         chapter.quality,
         chapter.userId,
-        shouldKeepChapter(chapter.quality)
+        shouldKeepChapter(chapter.quality),
+        chapter.originalPrompt
     ));
 
     return {
         user,
         ones,
-        actionSteps,
         myStoryChapters,
     };
 };
@@ -222,7 +216,8 @@ export const partition = async (question: string, userResponse: string, controll
             item.names ? item.names.split(',') : [],
             item.quality,
             userId,
-            false
+            false,
+            question
         ));
     } catch (error: any) {
         console.error('Error partition():', error.message || error);
@@ -341,10 +336,11 @@ export const performOneRequest = async (adding: boolean, one: One, controller?: 
             AvatarIcon[one.icon as keyof typeof AvatarIcon],
             one.stage as OneStage,
             one.category as OneCategory,
-            one.prayingSince,
+            one.knownSince,
             one.gospelChecklist ? one.gospelChecklist.split(',').map((item: any) => parseInt(item)) : [],
             one.hidden,
             userId,
+            
         );
     } catch (error: any) {
         console.error('Error adding/editing one:', error.message || error);

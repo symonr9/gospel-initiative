@@ -242,6 +242,21 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
       );
     }
 
+    if (expanded && !editing && chapter.originalPrompt) {
+      ExpandedLayout.push(
+        <>
+          <AppText type={TextType.Body}>
+            Original Prompt:
+          </AppText>
+          <PageColumn style={{ gap: 2, flexShrink: 1, width: 350 }}>
+            <AppText type={TextType.DefaultSemiBold}>
+              {chapter.originalPrompt}
+            </AppText>
+          </PageColumn>
+        </>
+      );
+    }
+
     if (canEdit) {
       if (canDiscard) {
         ExpandedLayoutButtons.push(

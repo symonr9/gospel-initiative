@@ -146,6 +146,27 @@ export enum OneFactType {
     PrayerPoint = 13,
 };
 
+export enum OneNoteType {
+    StoryOfHowYouBothMet = 1,
+    WhatIsRelationshipLike = 2,
+    InterestsHobbiesGoals = 3,
+    CoreValues = 4,
+    SpiritualBackgroundAndWorldView = 5,
+    PerceptionOfChristianity = 6,
+    EnvisionChristChangeLife = 7,
+    CurrentChallenges = 8,
+    PrayersForThem = 9
+};
+
+export enum GospelStepType {
+    GodIsReal = 1,
+    ConfessSin = 2,
+    JesusAsLord = 3,
+    Repent = 4,
+    Baptism = 5,
+    JoinCommunity = 6,
+}
+
 export enum GospelChecklistItem {
     Creation = 0,                 // The creation of the world by God
     Fall = 1,                     // Humanity's fall into sin

@@ -1,9 +1,13 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
 import { LeaderType } from "@/enums/enums";
 import { Role } from "@/enums/enums";
+import ActionStep from "@/models/actionStep";
+import OneNote from "@/models/oneNote";
+import GospelStep from "@/models/gospelStep";
+import Christian from "@/models/christian";
 
 const actionStepsJson = require('../data/action-steps.json');
 const journalEntriesJson = require('../data/journal-entries.json');
@@ -23,17 +27,62 @@ const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
 
-export function getActionStepsJson() {
-    return actionStepsJson.map(item => {
-        const type: ActionStepType = item.type as ActionStepType;
-        return {
-            id: item.id,
-            notes: item.notes,
-            oneId: item.oneId,
-            isComplete: item.isComplete,
-            targetDate: item.targetDate ? new Date(item.targetDate) : undefined,
-            type: type
-        };
+export function getActionStepsFromJson(json: any[]) {
+    return json.map((item: any) => {
+        return new ActionStep(
+            item.id,
+            item.notes,
+            item.oneId,
+            item.isComplete,
+            item.targetDate ? new Date(item.targetDate) : undefined,
+            item.type as ActionStepType
+        );
+    });
+}
+
+export function getOneNotesFromJson(json: any[]) {
+    return json.map((item: any) => {
+        return new OneNote(
+            item.id,
+            item.type as OneNoteType,
+            item.notes,
+            item.oneId,
+        );
+    });
+}
+
+export function getGospelStepsFromJson(json: any[]) {
+    return json.map((item: any) => {
+        return new GospelStep(
+            item.id,
+            new Date(item.date),
+            item.type as GospelStepType,
+            item.notes,
+            item.nextSteps,
+            item.oneId
+        );
+    });
+}
+
+export function getChristiansFromJson(json: any[]) {
+    return json.map((item: any) => {
+        const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
+        return new Christian(
+            item.id,
+            item.name,
+            item.oneCategory as OneCategory,
+            item.category as OneCategory,
+            icon,
+            item.oneKnownSince ? new Date(item.oneKnownSince) : undefined,
+            item.knownSince ? new Date(item.knownSince) : undefined,
+            item.notes,
+            item.mutualInterests,
+            item.lastPrayedFor ? new Date(item.lastPrayedFor) : undefined,
+            item.lastReachedOutTo ? new Date(item.lastReachedOutTo) : undefined,
+            item.timesPrayed,
+            item.timesReachedOut,
+            item.oneId
+        );
     });
 }
 
@@ -75,7 +124,7 @@ export function getLocalEventsJson() {
             startDate: item.startDate ? new Date(item.startDate) : undefined,
             endDate: item.endDate ? new Date(item.endDate) : undefined,
             location: item.location,
-            icon: icon,  
+            icon: icon,
         };
     });
 }
@@ -92,7 +141,7 @@ export function getLocalMinistriesJson() {
             location: item.location,
             recurring: item.recurring,
             isActive: item.isActive,
-            icon: icon     
+            icon: icon
         };
     });
 }
@@ -117,23 +166,27 @@ export function getOnesFromJson() {
         const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
         const stage: OneStage = item.stage as OneStage;
         const category: OneCategory = item.category as OneCategory;
-        
+
         return new One(
             item.id,
             item.name,
             icon,
             stage,
             category,
-            item.prayingSince ? new Date(item.prayingSince) : undefined,
+            item.knownSince ? new Date(item.knownSince) : undefined,
             item.gospelChecklist,
             false,
-            item.userId
+            item.userId,
+            getActionStepsFromJson(item.actionSteps),
+            getOneNotesFromJson(item.oneNotes),
+            getGospelStepsFromJson(item.gospelSteps),
+            getChristiansFromJson(item.christians)
         );
     });
 }
 
 export function getBeaconsFromJson() {
-    return beaconsJson.map(item => {        
+    return beaconsJson.map(item => {
         const type: BeaconType = item.type as BeaconType;
         return {
             id: item.id,
@@ -166,7 +219,7 @@ export function getBeaconTemplatesFromJson() {
 export function getPreferencesFromJson() {
     return preferencesJson.map(item => {
         return {
-            
+
         };
     });
 }
@@ -179,13 +232,13 @@ export function getPromptsFromJson() {
             userId: item.userId,
             question: item.question,
             response: item.response,
-            type: type       
+            type: type
         };
     });
 }
 
 export function getOneFactsFromJson() {
-    return onesFactsJson.map(item => {        
+    return onesFactsJson.map(item => {
         const type: OneFactType = item.type as OneFactType;
         return {
             id: item.id,
@@ -199,7 +252,7 @@ export function getOneFactsFromJson() {
 }
 
 export function getStoriesFromJson() {
-    return storiesJson.map(item => {    
+    return storiesJson.map(item => {
         const type: StoryType = item.type as StoryType;
         const icon = AppIcon[item.icon as keyof typeof AppIcon];
         return {
@@ -213,7 +266,7 @@ export function getStoriesFromJson() {
 }
 
 export function getStoryChaptersFromJson() {
-    return storyChaptersJson.map(item => {  
+    return storyChaptersJson.map(item => {
         const chapterType: StoryChapterType = item.chapterType as StoryChapterType;
         const icon = AppIcon[item.icon as keyof typeof AppIcon];
 

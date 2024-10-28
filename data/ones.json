@@ -5,7 +5,6 @@
     "icon": "Man6",
     "stage": 4,
     "category": 4,
-    "prayingSince": "2023-06-01T00:00:00Z",
     "gospelChecklist": [0, 1, 2, 5, 7, 8, 12],
     "userId": "user1",
     "hidden": "false"
@@ -16,7 +15,6 @@
     "icon": "Man4",
     "stage": 7,
     "category": 6,
-    "prayingSince": "2023-06-01T00:00:00Z",
     "gospelChecklist": [10, 11, 15, 8, 2],
     "userId": "user1",
     "hidden": "false"
@@ -27,7 +25,6 @@
     "icon": "Man7",
     "stage": 5,
     "category": 15,
-    "prayingSince": "2023-06-01T00:00:00Z",
     "gospelChecklist": [3, 4],
     "userId": "user1",
     "hidden": "false"
@@ -38,7 +35,6 @@
     "icon": "Woman1",
     "stage": 4,
     "category": 3,
-    "prayingSince": "2023-06-01T00:00:00Z",
     "gospelChecklist": [13, 1, 4, 6, 2, 3],
     "userId": "user1",
     "hidden": "false"

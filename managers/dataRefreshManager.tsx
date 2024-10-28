@@ -63,7 +63,7 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             return;
         }
 
-        const { user, ones, actionSteps, myStoryChapters, error } = await fetchServerData();
+        const { user, ones, myStoryChapters, error } = await fetchServerData();
         if (error) {
             setAppError(new Error(error, 'Something went wrong'));
             return;
@@ -89,7 +89,6 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             missionsTripLeaders: [],
             ones: ones,
             oneFacts: JsonFunctions.getOneFactsFromJson(),
-            actionSteps: actionSteps,
             activeBeacons: activeBeacons,
             expiredBeacons: expiredBeacons,
             beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),

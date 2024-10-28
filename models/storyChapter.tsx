@@ -6,6 +6,7 @@ interface IStoryChapter {
     chapterType: StoryChapterType;
     title: string;
     content: string;
+    originalPrompt: string;
     questions: string[];
     icon: AppIcon;
     order: number;
@@ -20,6 +21,7 @@ export default class StoryChapter implements IStoryChapter {
     storyId: string;
     chapterType: StoryChapterType;
     title: string;
+    originalPrompt: string;
     content: string;
     questions: string[];
     icon: AppIcon;
@@ -33,7 +35,7 @@ export default class StoryChapter implements IStoryChapter {
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
         title: string, content: string, questions: string[], icon: AppIcon, 
         order: number, tags: StoryChapterTag[], names: string[], quality: number,
-        userId: string, essential: boolean,
+        userId: string, essential: boolean, originalPrompt: string
     ) {
         this.id = id;
         this.storyId = storyId;
@@ -48,6 +50,7 @@ export default class StoryChapter implements IStoryChapter {
         this.quality = quality;
         this.userId = userId;
         this.isEssential = essential;
+        this.originalPrompt = originalPrompt;
     }
 
 }

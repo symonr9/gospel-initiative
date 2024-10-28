@@ -4,7 +4,6 @@ import update from 'immutability-helper';
 const initialState = {
     selectedOne: null,
     ones: [],
-    actionSteps: [],
     oneFacts: [],
     oneForm: null
 };
@@ -12,12 +11,11 @@ const initialState = {
 export function onesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
-            const { ones, actionSteps, oneFacts } = action.payload;
+            const { ones, oneFacts } = action.payload;
             return update(state, {
                 $set: {
                     selectedOne: ones ? ones[0] : null,
                     ones: ones || [],
-                    actionSteps: actionSteps || [],
                     oneFacts: oneFacts || [],
                     oneForm: null,
                 }
@@ -40,18 +38,33 @@ export function onesReducer(state = initialState, action: ActionPackage) {
             });
         case Action.AddActionStep:
             return update(state, {
-                actionSteps: { $push: [action.payload] }
+                ones: {
+                    $apply: (ones) => ones.map((one) =>
+                        one.id === action.payload.oneId 
+                            ? { 
+                                ...one, 
+                                actionSteps: [...one.actionSteps, action.payload] 
+                            } : one
+                    )
+                }
             });
         case Action.EditActionSteps:
             return update(state, {
-                actionSteps: {
-                    $apply: (existingActionSteps) => {
-                        const currentActionStepsForOne = existingActionSteps.filter(actionStep => actionStep.oneId === action.payload.oneId);
-                        const updatedActionSteps = currentActionStepsForOne
+                ones: {
+                    $apply: (ones) => ones.map((one) => {
+                        if (one.id !== action.payload.oneId) {
+                            return one;
+                        }
+
+                        const updatedActionSteps = [...one.actionSteps]
                             .filter(actionStep => actionStep.oneId !== action.payload.oneId) // Remove current action steps for this oneId
                             .concat(action.payload.actionSteps);
-                        return updatedActionSteps;
-                    }
+
+                        return {
+                            ...one,
+                            actionSteps: updatedActionSteps
+                        };
+                    })
                 }
             });
         case Action.AddOneFact:

@@ -14,7 +14,6 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles, modalStyles } from '@/styles/Styles';
 import SelectDatePicker from '../common/SelectDatePicker';
-import { selectActionStepsByOneId } from '@/redux/selectors';
 import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
 import { updateActionSteps } from '@/requests/Requests';
@@ -33,7 +32,6 @@ const actionStepTypeArray = Object.keys(ActionStepType)
 export type IActionStepPicker = ViewProps & {
     executor: User;
     selectedOne: One;
-    actionSteps: ActionStep[];
     addActionStep: Function;
     editActionSteps: Function;
     setAppError: Function;
@@ -47,8 +45,11 @@ export enum PickerState {
     Completing
 }
 
-const ActionStepPicker = ({ executor, selectedOne, actionSteps,
+const ActionStepPicker = ({ executor, selectedOne,
     addActionStep, editActionSteps, setAppError }: IActionStepPicker) => {
+
+    const actionSteps = selectedOne ? selectedOne.actionSteps : [];
+
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -447,11 +448,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     const selectedOne = state.ones.selectedOne;
-    const actionSteps = selectedOne ? selectActionStepsByOneId(state, selectedOne.id) : [];
     return {
         executor: state.users.executor,
         selectedOne,
-        actionSteps,
     };
 };
 
