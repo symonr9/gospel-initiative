@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import PageView from '@/components/common/PageView';
 import HomeLayout from '@/components/home/HomeLayout';
 import { clearAppError } from '@/redux/actions';
-import Error from '@/models/error';
+import AppError from '@/models/error';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
 
 export type IHome = {
-    error: Error,
+    error: AppError,
     clearAppError: Function
 };
 

@@ -21,6 +21,7 @@ import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import PageResponse from '../common/PageResponse';
 import ScrollLayout from '../common/ScrollLayout';
 import ExpiredBeaconsList from '../beacons/ExpiredBeaconsList';
+import AppError from '@/models/error';
 
 export type IActionStepPicker = ViewProps & {
     selectedOne: One;
@@ -94,7 +95,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
 
             const response = await createBeacon(newBeacon);
             if (response.error) {
-                setAppError(new Error('Error creating beacon: ', response.error));
+                setAppError(new AppError('Error creating beacon: ', response.error));
                 return;
             }
 

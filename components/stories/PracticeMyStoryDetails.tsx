@@ -18,6 +18,7 @@ import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleLoadingSection } from '../common/SimpleLoadingSection';
+import AppError from '@/models/error';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -58,14 +59,14 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
       const data = await partition(question, response, controller);
 
       if (!data || data.error) {
-        setAppError(new Error(data.error.toString() || 'Something went wrong'));
+        setAppError(new AppError(data.error.toString() || 'Something went wrong'));
         resetPage();
         return;
       }
 
       setChapterArray(data);
     } catch (err: any) {
-      setAppError(new Error('Error partioning data: ', err));
+      setAppError(new AppError('Error partioning data: ', err));
       resetPage();
     }
   };
@@ -75,14 +76,14 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
       const data = await createChapters(chapterArray, controller);
 
       if (!data || data.error) {
-        setAppError(new Error(data.error || 'Something went wrong'));
+        setAppError(new AppError(data.error || 'Something went wrong'));
         resetPage();
         return;
       }
 
       setPageState(PageState.Page8);
     } catch (err: any) {
-      setAppError(new Error('Error saving chapters: ', err));
+      setAppError(new AppError('Error saving chapters: ', err));
       resetPage();
     }
   };

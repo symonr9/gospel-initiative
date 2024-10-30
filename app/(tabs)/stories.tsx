@@ -11,10 +11,10 @@ import PracticeMyStoryDetails from '@/components/stories/PracticeMyStoryDetails'
 import { clearAppError } from '@/redux/actions';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
-import Error from '@/models/error';
+import AppError from '@/models/error';
 
 export type IStories = ViewProps & {
-  error: Error,
+  error: AppError,
   clearAppError: Function
 };
 

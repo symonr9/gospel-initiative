@@ -15,6 +15,7 @@ import DetailsSection from '../common/DetailsSection';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { updateOne } from "@/requests/oneRequests";
 import User from '@/models/user';
+import AppError from '@/models/error';
 
 const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -60,14 +61,14 @@ const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAp
             try {
                 const response = await updateOne(updatedOne);
                 if (response.error) {                
-                    setAppError(new Error('Error updating one: ', response.error));
+                    setAppError(new AppError('Error updating one: ', response.error));
                     return;
                 }
 
                 editOne(response);
                 setSelectedOne(response);
             } catch (err: any) {
-                setAppError(new Error('Error updating one: ', err));
+                setAppError(new AppError('Error updating one: ', err));
             }
         };
 

@@ -14,6 +14,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
 import { deactivateBeacon } from "@/requests/beaconRequests";
 import { beaconStyles } from '@/styles/Styles';
+import AppError from '@/models/error';
 
 type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
@@ -53,7 +54,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppE
                         onPress: async () => {
                             const response = await deactivateBeacon(beaconWithActivity);
                             if (response.error) {
-                                setAppError(new Error('Error deactivating beacon: ', response.error));
+                                setAppError(new AppError('Error deactivating beacon: ', response.error));
                                 return;
                             }
                         }

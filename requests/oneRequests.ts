@@ -10,7 +10,7 @@ import OneNote from "@/models/oneNote";
 export const createOne = async (one: One, controller?: AbortController): Promise<One | any> => {
     const preparedOne = {
         ...one,
-        iconKey: getAvatarIconKey(one.icon)
+        icon: getAvatarIconKey(one.icon)
     };
     return performCreateOrUpdateRequest(true, preparedOne, 'ones', controller);
 };
@@ -18,7 +18,7 @@ export const createOne = async (one: One, controller?: AbortController): Promise
 export const updateOne = async (one: One, controller?: AbortController): Promise<One | any> => {
     const preparedOne = {
         ...one,
-        iconKey: getAvatarIconKey(one.icon)
+        icon: getAvatarIconKey(one.icon)
     };
     return performCreateOrUpdateRequest(false, preparedOne, 'ones', controller);
 };
@@ -26,7 +26,7 @@ export const updateOne = async (one: One, controller?: AbortController): Promise
 export const createChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
     const preparedChristian = {
         ...christian,
-        iconKey: getAvatarIconKey(christian.icon)
+        icon: getAvatarIconKey(christian.icon)
     };
     return performCreateOrUpdateRequest(true, preparedChristian, 'christians', controller);
 }
@@ -34,7 +34,7 @@ export const createChristian = async (christian: Christian, controller?: AbortCo
 export const updateChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
     const preparedChristian = {
         ...christian,
-        iconKey: getAvatarIconKey(christian.icon)
+        icon: getAvatarIconKey(christian.icon)
     };
     return performCreateOrUpdateRequest(false, preparedChristian, 'christians', controller);
 };

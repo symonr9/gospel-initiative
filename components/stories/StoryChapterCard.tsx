@@ -23,6 +23,7 @@ import { deleteChapter } from "@/requests/storyRequests";
 import { updateChapter } from "@/requests/storyRequests";
 import ChapterTypePicker from './ChapterTypePicker';
 import { SimpleIcon } from '../common/SimpleIcon';
+import AppError from '@/models/error';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -91,7 +92,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     } else if (refreshData) {
       const response = await updateChapter(formChapter);
       if (response.error) {
-        setAppError(new Error('Error updating chapter: ', response.error));
+        setAppError(new AppError('Error updating chapter: ', response.error));
         return;
       }
       refreshData();
@@ -118,7 +119,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
             } else if (refreshData) {
               const response = await deleteChapter(formChapter);
               if (response.error) {
-                setAppError(new Error('Error deleting chapter: ', response.error));
+                setAppError(new AppError('Error deleting chapter: ', response.error));
                 return;
               }
               refreshData();

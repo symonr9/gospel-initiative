@@ -8,12 +8,12 @@ import AppTabView from '@/components/common/AppTabView';
 import OnesLayout from '@/components/ones/OnesLayout';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 import { AppIcon } from '@/enums/enums';
-import Error from '@/models/error';
+import AppError from '@/models/error';
 import { clearAppError } from '@/redux/actions';
 import BeaconsPrayLayout from '@/components/beacons/BeaconsPrayLayout';
 
 export type IOnes = ViewProps & {
-  error: Error,
+  error: AppError,
   clearAppError: Function
 };
 

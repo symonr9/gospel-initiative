@@ -19,6 +19,7 @@ import DetailsSection from '../common/DetailsSection';
 import { updateActionSteps } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
+import AppError from '@/models/error';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -156,7 +157,7 @@ const ActionStepPicker = ({ executor, selectedOne,
 
         const response = await updateActionSteps(newActionSteps, selectedOne.id);
         if (response.error) {
-            setAppError(new Error('Error updating action steps: ', response.error));
+            setAppError(new AppError('Error updating action steps: ', response.error));
             return;
         }
 

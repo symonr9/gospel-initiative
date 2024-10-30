@@ -30,6 +30,7 @@ import BeaconPicker from './BeaconPicker';
 import { SimpleGridCard } from '../common/SimpleGridCard';
 import ActionStep from '@/models/actionStep';
 import Beacon from '@/models/beacon';
+import AppError from '@/models/error';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -71,12 +72,11 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
     setAppError, oneBeacons, refreshData, setSelectedOne }: IOnesLayout) {
 
     const actionSteps = selectedOne ? selectedOne.actionSteps : [];
+    const firstActionStep = actionSteps?.length > 0 ? actionSteps[0] : null;
 
     const [message, setMessage] = useState<string | null>(null);
     const [bodyType, setBodyType] = useState(BodyType.Base);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
-
-    const firstActionStep = actionSteps.length > 0 ? actionSteps[0] : null;
 
     const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
@@ -116,7 +116,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
             try {
                 const response = await createOne(newOne);
                 if (response.error) {
-                    setAppError(new Error('Error adding one: ', response.error));
+                    setAppError(new AppError('Error adding one: ', response.error));
                     return;
                 }
 
@@ -129,7 +129,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                 if (oneForm.actionSteps?.length > 0) {
                     const actionStepResponse = await updateActionSteps(oneForm.actionSteps, response.id);
                     if (actionStepResponse.error) {
-                        setAppError(new Error('Error adding action steps: ', response.error));
+                        setAppError(new AppError('Error adding action steps: ', response.error));
                         return;
                     }
     
@@ -138,7 +138,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                     }
                 }
             } catch (err: any) {
-                setAppError(new Error('Error adding one: ', err));
+                setAppError(new AppError('Error adding one: ', err));
             }
         };
 
@@ -179,7 +179,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
             try {
                 const response = await updateOne(updatedOne);
                 if (response.error) {
-                    setAppError(new Error('Error updating one: ', response.error));
+                    setAppError(new AppError('Error updating one: ', response.error));
                     return;
                 }
 
@@ -189,7 +189,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                 setMessage("Your One has been successfully updated!");
                 setActiveLayoutType(OneLayoutType.Normal);
             } catch (err: any) {
-                setAppError(new Error('Error updating one: ', err));
+                setAppError(new AppError('Error updating one: ', err));
             }
         };
 
@@ -206,7 +206,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
             </PageRow>
         );
 
-        const initialOneForm = OneForm.createFromOne(selectedOne, actionsStepsForSelectedOne);
+        const initialOneForm = OneForm.createFromOne(selectedOne, actionSteps);
         BodyLayout.push(
             <AddEditOneForm editing
                 initialOneForm={initialOneForm} />

@@ -8,7 +8,7 @@ import { getLocalUserId } from '@/utils/storageUtils';
 import { fetchServerData } from "@/requests/userRequests";
 import { createUser } from "@/requests/userRequests";
 import { fetchBeacons } from "@/requests/beaconRequests";
-import Error from '@/models/error';
+import AppError from '@/models/error';
 
 export type IDataRefreshManager = {
     state: any,
@@ -30,7 +30,7 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
 
     useEffect(() => {
         if (!hasConstantsLoaded()) {
-            setAppError(new Error('Invalid Server Configuration', 'Please contact your administrator.'));
+            setAppError(new AppError('Invalid Server Configuration', 'Please contact your administrator.'));
             return;
         }
         console.log("Expo Config: ", Constants.expoConfig);
@@ -51,7 +51,7 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
         if (!userId) {
             const { error } = await createUser();
             if (error) {
-                setAppError(new Error(error, 'Something went wrong'));
+                setAppError(new AppError(error, 'Something went wrong'));
                 return;
             }
         }
@@ -61,25 +61,25 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
     const fetchData = async () => {
         const userId = await getLocalUserId();
         if (!userId) {
-            setAppError(new Error('Missing User ID...', 'Something went wrong'));
+            setAppError(new AppError('Missing User ID...', 'Something went wrong'));
             return;
         }
 
         const { user, ones, myStoryChapters, error } = await fetchServerData();
         if (error) {
-            setAppError(new Error(error, 'Something went wrong'));
+            setAppError(new AppError(error, 'Something went wrong'));
             return;
         }
 
         const activeBeacons = await fetchBeacons();
         if (activeBeacons.error) {
-            setAppError(new Error(activeBeacons.error, 'Something went wrong'));
+            setAppError(new AppError(activeBeacons.error, 'Something went wrong'));
             return;
         }
 
         const expiredBeacons = await fetchBeacons(false);
         if (expiredBeacons.error) {
-            setAppError(new Error(expiredBeacons.error, 'Something went wrong'));
+            setAppError(new AppError(expiredBeacons.error, 'Something went wrong'));
             return;
         }
 

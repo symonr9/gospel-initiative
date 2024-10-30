@@ -22,6 +22,7 @@ import DetailsSection from '../common/DetailsSection';
 import { updateBeaconActivity } from "@/requests/beaconRequests";
 import { createBeaconActivity } from "@/requests/beaconRequests";
 import { PageChip } from '../common/PageChip';
+import AppError from '@/models/error';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -140,7 +141,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         const response = await updateBeaconActivity(newActivity);
         if (response.error) {
-            setAppError(new Error('Error updating beacon activity: ', response.error));
+            setAppError(new AppError('Error updating beacon activity: ', response.error));
             return;
         }
 
@@ -164,7 +165,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         const response = await createBeaconActivity(newActivity);
         if (response.error) {
-            setAppError(new Error('Error creating beacon activity: ', response.error));
+            setAppError(new AppError('Error creating beacon activity: ', response.error));
             return;
         }
 
