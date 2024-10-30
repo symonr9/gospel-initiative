@@ -19,14 +19,12 @@ const localEventsJson = require('../data/local-events.json');
 const localMinistriesJson = require('../data/local-ministries.json');
 const missionsTripsJson = require('../data/missions-trips.json');
 const onesFactsJson = require('../data/one-facts.json');
-const beaconsJson = require('../data/beacons.json');
 const beaconTemplatesJson = require('../data/beacon-templates.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
 const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
-const beaconActivitiesJson = require('../data/beacon-activities.json');
 
 export function getOnesFromJson(json: any[]) {
     return json.map((one) => getOneFromJson(one));
@@ -153,8 +151,8 @@ export function getStoryChapterFromJson(item: any) {
     );
 };
 
-export function getBeaconsFromJson() {
-    return beaconsJson.map(item => {
+export function getBeaconsFromJson(json: any[]) {
+    return json.map(item => {
         const type: BeaconType = item.type as BeaconType;
         return {
             id: item.id,

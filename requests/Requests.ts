@@ -1,8 +1,6 @@
 import { getData, postData } from "@/utils/apiUtils";
 import { getLocalAccessToken, getLocalUserId } from "@/utils/storageUtils";
 import { refreshAccessToken } from "./userRequests";
-import { AppIcon, AvatarIcon } from "@/enums/enums";
-import { getAppIconKey, getAvatarIconKey } from "@/utils/appUtils";
 
 export const makeRequest = async (url: string, method: string = 'GET', body: any = null, controller?: AbortController): Promise<any> => {
     const userId = await getLocalUserId();
