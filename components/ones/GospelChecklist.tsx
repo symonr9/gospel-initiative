@@ -13,7 +13,7 @@ import { formStyles } from '@/styles/Styles';
 import { PageColumn } from '../common/PageColumn';
 import DetailsSection from '../common/DetailsSection';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { updateOne } from '@/requests/Requests';
+import { updateOne } from "@/requests/oneRequests";
 import User from '@/models/user';
 
 const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)

@@ -19,7 +19,8 @@ import { ActivityNoteOptions } from '@/constants/Strings';
 import { PageColumn } from '../common/PageColumn';
 import ScrollLayout from '../common/ScrollLayout';
 import DetailsSection from '../common/DetailsSection';
-import { createBeaconActivity, updateBeaconActivity } from '@/requests/Requests';
+import { updateBeaconActivity } from "@/requests/beaconRequests";
+import { createBeaconActivity } from "@/requests/beaconRequests";
 import { PageChip } from '../common/PageChip';
 
 export type IBeaconDetails = ViewProps & {

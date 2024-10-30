@@ -19,7 +19,8 @@ import { QuestionsPicker } from './QuestionsPicker';
 import TagsPicker from './TagsPicker';
 import NamesPicker from './NamesPicker';
 import User from '@/models/user';
-import { deleteChapter, updateChapter } from '@/requests/Requests';
+import { deleteChapter } from "@/requests/storyRequests";
+import { updateChapter } from "@/requests/storyRequests";
 import ChapterTypePicker from './ChapterTypePicker';
 import { SimpleIcon } from '../common/SimpleIcon';
 

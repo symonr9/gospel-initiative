@@ -1,0 +1,126 @@
+import { postData } from "@/utils/apiUtils";
+import { saveToStorage, isSecureStorageAvailable, saveToSecureStorage, getLocalRefreshToken, getLocalUserId } from "@/utils/storageUtils";
+import { makeRequest } from "./Requests";
+import { getUserFromJson, getOnesFromJson, getStoryChaptersFromJson } from "@/utils/jsonFunctions";
+
+export const createUser = async () => {
+    // Plain postData, no makeRequest() here
+    const response = await postData(`/users/create`, {});
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    const { user, accessToken, refreshToken } = response.data;
+    if (!user || !user.id || !accessToken || !refreshToken) {
+        return { error: 'Failed to retrieve expected data from server.' };
+    }
+
+    saveToStorage("userId", user.id);
+
+    const isSecureAvailable = await isSecureStorageAvailable();
+    if (isSecureAvailable) {
+        saveToSecureStorage("accessToken", accessToken);
+        saveToSecureStorage("refreshToken", refreshToken);
+    } else {
+        saveToStorage("accessToken", accessToken);
+        saveToStorage("refreshToken", refreshToken);
+    }
+
+    return {};
+};
+
+export const fetchServerData = async (): Promise<any> => {
+    try {
+        const response = await makeRequest(`/users/data`);
+        console.log("fetchServerData: ", response);
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.error) {
+            return { error: response.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        return parseServerData(response.data);
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+    }
+
+    return {};
+};
+
+export const parseServerData = (serverData: any) => {
+    const user = getUserFromJson(serverData);
+    const ones = getOnesFromJson(serverData.ones);
+    const myStoryChapters = getStoryChaptersFromJson(serverData.chapters);
+    return {
+        user,
+        ones,
+        myStoryChapters,
+    };
+};
+
+export const fetchServerSettings = async () => {
+    try {
+        const response = await makeRequest(`/users/settings`);
+        console.log("fetchServerSettings: ", response);
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+        return response.data;
+    } catch (error) {
+        console.error('Error retrieving settings:', error);
+        return { error: error };
+    }
+};
+
+export const refreshAccessToken = async () => {
+    const userId = await getLocalUserId();
+    const currentRefreshToken = await getLocalRefreshToken();
+    if (!userId || !currentRefreshToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
+    const response = await postData(`/auth/refresh`, {}, {
+        headers: {
+            user_id: userId,
+            refresh_token: currentRefreshToken
+        },
+    });
+
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    const { accessToken, refreshToken } = response.data;
+
+    const isSecureAvailable = await isSecureStorageAvailable();
+    if (isSecureAvailable) {
+        saveToSecureStorage("accessToken", accessToken);
+        if (refreshToken) {
+            saveToSecureStorage("refreshToken", refreshToken);
+        }
+    } else {
+        saveToStorage("accessToken", accessToken);
+        if (refreshToken) {
+            saveToStorage("refreshToken", refreshToken);
+        }
+    }
+
+    return {};
+};
+

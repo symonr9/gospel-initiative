@@ -10,7 +10,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { selectActiveBeaconsWithActivities, selectExpiredBeaconsWithActivities, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import { addBeacon, setAppError, setSelectedTemplateId } from '@/redux/actions';
-import { createBeacon } from '@/requests/Requests';
+import { createBeacon } from "@/requests/beaconRequests";
 import User from '@/models/user';
 import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';

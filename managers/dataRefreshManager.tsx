@@ -5,7 +5,9 @@ import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
 import { getLocalUserId } from '@/utils/storageUtils';
-import { createUser, fetchBeacons, fetchServerData } from '@/requests/Requests';
+import { fetchServerData } from "@/requests/userRequests";
+import { createUser } from "@/requests/userRequests";
+import { fetchBeacons } from "@/requests/beaconRequests";
 import Error from '@/models/error';
 
 export type IDataRefreshManager = {

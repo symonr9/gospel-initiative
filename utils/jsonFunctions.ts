@@ -1,6 +1,6 @@
 import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType } from "@/enums/enums";
 import One from "@/models/one";
-import { mapOneFactTypeToAppIcon } from "./appUtils";
+import { mapOneFactTypeToAppIcon, shouldKeepChapter } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
 import { LeaderType } from "@/enums/enums";
 import { Role } from "@/enums/enums";
@@ -8,21 +8,20 @@ import ActionStep from "@/models/actionStep";
 import OneNote from "@/models/oneNote";
 import GospelStep from "@/models/gospelStep";
 import Christian from "@/models/christian";
+import User from "@/models/user";
+import StoryChapter from "@/models/storyChapter";
 
-const actionStepsJson = require('../data/action-steps.json');
 const journalEntriesJson = require('../data/journal-entries.json');
 const leadersJson = require('../data/leaders.json');
 const localEventsJson = require('../data/local-events.json');
 const localMinistriesJson = require('../data/local-ministries.json');
 const missionsTripsJson = require('../data/missions-trips.json');
 const onesFactsJson = require('../data/one-facts.json');
-const onesData = require('../data/ones.json');
 const beaconsJson = require('../data/beacons.json');
 const beaconTemplatesJson = require('../data/beacon-templates.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
-const storyChaptersJson = require('../data/story-chapters.json');
 const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
@@ -67,6 +66,7 @@ export function getOneNotesFromJson(json: any[]) {
         return new OneNote(
             item.id,
             item.type as OneNoteType,
+            new Date(item.date),
             item.notes,
             item.oneId,
         );
@@ -107,6 +107,40 @@ export function getChristiansFromJson(json: any[]) {
         );
     });
 }
+
+export function getUserFromJson(item: any) {
+    return new User(
+        item.id,
+        item.name,
+        item.email,
+        item.type as Role,
+        AvatarIcon[item.icon as keyof typeof AvatarIcon],
+        item.createdAt,
+    );
+}
+
+export function getStoryChaptersFromJson(json: any[]) {
+    return json.map((item) => getStoryChapterFromJson(item));
+}
+
+export function getStoryChapterFromJson(item: any) {
+    return new StoryChapter(
+        item.id,
+        item.storyId,
+        item.type as StoryChapterType,
+        item.title,
+        item.content,
+        item.questions ? item.questions.split(',') : [],
+        AppIcon[item.icon as keyof typeof AppIcon],
+        item.order,
+        item.tags ? item.tags.split(',').map(Number) : [],
+        item.names ? item.names.split(',') : [],
+        item.quality,
+        item.userId,
+        shouldKeepChapter(item.quality),
+        item.originalPrompt
+    );
+};
 
 export function getJournalEntriesJson() {
     return journalEntriesJson.map(item => {
@@ -259,29 +293,6 @@ export function getStoriesFromJson() {
             type: type,
             title: item.title,
             icon: icon
-        };
-    });
-}
-
-export function getStoryChaptersFromJson() {
-    return storyChaptersJson.map(item => {
-        const chapterType: StoryChapterType = item.chapterType as StoryChapterType;
-        const icon = AppIcon[item.icon as keyof typeof AppIcon];
-
-        return {
-            id: item.id,
-            storyId: item.storyId,
-            chapterType: chapterType,
-            title: item.title,
-            content: item.content,
-            questions: item.questions,
-            icon: icon,
-            order: item.order,
-            tags: item.tags,
-            names: item.names,
-            quality: item.quality,
-            userId: item.userId,
-            isEsential: item.isEssential
         };
     });
 }

@@ -12,7 +12,7 @@ import { getAppTimeAgoText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
-import { deactivateBeacon } from '@/requests/Requests';
+import { deactivateBeacon } from "@/requests/beaconRequests";
 import { beaconStyles } from '@/styles/Styles';
 
 type IActiveBeaconsActivityList = {
