@@ -226,7 +226,7 @@ export function mapOneCategoryToText(category: OneCategory): String {
         case OneCategory.Client:
             return "Client";
         case OneCategory.Cashier:
-            return "Cashief";
+            return "Cashier";
         case OneCategory.Server:
             return "Server";
         case OneCategory.Barista:

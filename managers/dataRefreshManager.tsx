@@ -97,7 +97,7 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             prompts: JsonFunctions.getPromptsFromJson(),
             stories: JsonFunctions.getStoriesFromJson(),
             myStoryChapters: myStoryChapters,
-            GodsStoryChapters: JsonFunctions.getStoryChaptersFromJson(),
+            GodsStoryChapters: JsonFunctions.getGodsStoryChaptersFromJson(),
             storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
             users: [user],
             executor: user,

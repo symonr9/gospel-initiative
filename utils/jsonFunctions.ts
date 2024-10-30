@@ -23,6 +23,7 @@ const beaconTemplatesJson = require('../data/beacon-templates.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
 const storiesJson = require('../data/stories.json');
+const storyChaptersJson = require('../data/story-chapters.json');
 const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
 
@@ -41,11 +42,11 @@ export function getOneFromJson(item: any) {
         item.gospelChecklist ? item.gospelChecklist.split(',').map(Number) : [],
         item.hidden,
         item.userId,
-        getActionStepsFromJson(item.actionSteps),
-        getOneNotesFromJson(item.oneNotes),
-        getGospelStepsFromJson(item.gospelSteps),
-        getChristiansFromJson(item.christians)
-    ));
+        getActionStepsFromJson(item.actionSteps || []),
+        getOneNotesFromJson(item.oneNotes || []),
+        getGospelStepsFromJson(item.gospelSteps || []),
+        getChristiansFromJson(item.christians || [])
+    );
 }
 
 export function getActionStepsFromJson(json: any[]) {
@@ -128,22 +129,48 @@ export function getUserFromJson(item: any) {
     );
 }
 
+export function getGodsStoryChaptersFromJson() {
+    return storyChaptersJson.map((item) => getStoryChapterFromJson(item));
+}
+
 export function getStoryChaptersFromJson(json: any[]) {
     return json.map((item) => getStoryChapterFromJson(item));
 }
 
+// Special because chapters are also locally imported from JSON.
 export function getStoryChapterFromJson(item: any) {
+    let questions = [];
+    if (item.questions && item.questions instanceof Array) {
+        questions = item.questions;
+    } else if (item.questions) {
+        questions = item.questions.split(',');
+    }
+
+    let tags = [];
+    if (item.tags && item.tags instanceof Array) {
+        tags = item.tags;
+    } else if (item.tags) {
+        tags = item.tags.split(',').map(Number);
+    }
+
+    let names = [];
+    if (item.names && item.names instanceof Array) {
+        names = item.names;
+    } else if (item.names) {
+        names = item.names.split(',');
+    }
+
     return new StoryChapter(
         item.id,
         item.storyId,
         item.type as StoryChapterType,
         item.title,
         item.content,
-        item.questions ? item.questions.split(',') : [],
+        questions,
         AppIcon[item.icon as keyof typeof AppIcon],
         item.order,
-        item.tags ? item.tags.split(',').map(Number) : [],
-        item.names ? item.names.split(',') : [],
+        tags,
+        names,
         item.quality,
         item.userId,
         shouldKeepChapter(item.quality),

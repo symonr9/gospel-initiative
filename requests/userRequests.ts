@@ -59,6 +59,10 @@ export const parseServerData = (serverData: any) => {
     const user = getUserFromJson(serverData);
     const ones = getOnesFromJson(serverData.ones);
     const myStoryChapters = getStoryChaptersFromJson(serverData.chapters);
+
+console.log("server data - ", serverData);
+console.log("server myStoryChapters - ", myStoryChapters);
+
     return {
         user,
         ones,
