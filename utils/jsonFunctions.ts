@@ -27,6 +27,28 @@ const storyActivitiesJson = require('../data/story-activities.json');
 const usersJson = require('../data/users.json');
 const beaconActivitiesJson = require('../data/beacon-activities.json');
 
+export function getOnesFromJson(json: any[]) {
+    return json.map((one) => getOneFromJson(one));
+}
+
+export function getOneFromJson(item: any) {
+    return new One(
+        item.id,
+        item.name,
+        AvatarIcon[item.icon as keyof typeof AvatarIcon],
+        item.stage as OneStage,
+        item.category as OneCategory,
+        item.knownSince,
+        item.gospelChecklist ? item.gospelChecklist.split(',').map(Number) : [],
+        item.hidden,
+        item.userId,
+        getActionStepsFromJson(item.actionSteps),
+        getOneNotesFromJson(item.oneNotes),
+        getGospelStepsFromJson(item.gospelSteps),
+        getChristiansFromJson(item.christians)
+    ));
+}
+
 export function getActionStepsFromJson(json: any[]) {
     return json.map((item: any) => {
         return new ActionStep(
@@ -158,30 +180,6 @@ export function getMissionsTripsJson() {
             location: item.location,
             icon: icon,
         };
-    });
-}
-
-export function getOnesFromJson() {
-    return onesData.map(item => {
-        const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
-        const stage: OneStage = item.stage as OneStage;
-        const category: OneCategory = item.category as OneCategory;
-
-        return new One(
-            item.id,
-            item.name,
-            icon,
-            stage,
-            category,
-            item.knownSince ? new Date(item.knownSince) : undefined,
-            item.gospelChecklist,
-            false,
-            item.userId,
-            getActionStepsFromJson(item.actionSteps),
-            getOneNotesFromJson(item.oneNotes),
-            getGospelStepsFromJson(item.gospelSteps),
-            getChristiansFromJson(item.christians)
-        );
     });
 }
 

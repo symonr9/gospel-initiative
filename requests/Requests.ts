@@ -7,7 +7,7 @@ import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 import { getData, postData } from "@/utils/apiUtils";
 import { generateRandomId, getAppIconKey, getAvatarIconKey, mapStoryChapterTypeToAppIcon, shouldKeepChapter } from "@/utils/appUtils";
-import { getActionStepsFromJson, getChristiansFromJson, getGospelStepsFromJson, getOneNotesFromJson } from "@/utils/jsonFunctions";
+import { getActionStepsFromJson, getChristiansFromJson, getGospelStepsFromJson, getOneFromJson, getOneNotesFromJson, getOnesFromJson } from "@/utils/jsonFunctions";
 import { getLocalAccessToken, getLocalRefreshToken, getLocalUserId, isSecureStorageAvailable, saveToSecureStorage, saveToStorage } from "@/utils/storageUtils";
 
 export const fetchBeacons = async (active: Boolean = true) => {
@@ -143,22 +143,8 @@ const parseServerData = (serverData: any) => {
         AvatarIcon[serverData.icon as keyof typeof AvatarIcon],
         serverData.createdAt,
     );
-
-    const ones = serverData.ones.map((one: any) => new One(
-        one.id,
-        one.name,
-        AvatarIcon[one.icon as keyof typeof AvatarIcon],
-        one.stage as OneStage,
-        one.category as OneCategory,
-        one.knownSince,
-        one.gospelChecklist ? one.gospelChecklist.split(',').map(Number) : [],
-        one.hidden,
-        serverData.id,
-        getActionStepsFromJson(one.actionSteps),
-        getOneNotesFromJson(one.oneNotes),
-        getGospelStepsFromJson(one.gospelSteps),
-        getChristiansFromJson(one.christians)
-    ));
+    
+    const ones = getOnesFromJson(serverData.ones);
 
     const myStoryChapters = serverData.chapters.map((chapter: any) => new StoryChapter(
         chapter.id,
@@ -328,20 +314,7 @@ export const performOneRequest = async (adding: boolean, one: One, controller?: 
             return { error: `Response returned error: ${response.status}` };
         }
 
-        const one = response.data;
-
-        return new One(
-            one.id,
-            one.name,
-            AvatarIcon[one.icon as keyof typeof AvatarIcon],
-            one.stage as OneStage,
-            one.category as OneCategory,
-            one.knownSince,
-            one.gospelChecklist ? one.gospelChecklist.split(',').map((item: any) => parseInt(item)) : [],
-            one.hidden,
-            userId,
-            
-        );
+        return getOneFromJson(response.data);
     } catch (error: any) {
         console.error('Error adding/editing one:', error.message || error);
         return { error: error.message || 'An error occurred while adding/editing one.' };
