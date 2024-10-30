@@ -1,46 +1,58 @@
 import One from "@/models/one";
 import { getAvatarIconKey } from "@/utils/appUtils";
-import { getOneFromJson } from "@/utils/jsonFunctions";
-import { getLocalUserId } from "@/utils/storageUtils";
-import { makeRequest } from "./Requests";
+import { makeRequest, performCreateOrUpdateRequest } from "./Requests";
 import { ActionStepType } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
+import Christian from "@/models/christian";
+import GospelStep from "@/models/gospelStep";
+import OneNote from "@/models/oneNote";
 
 export const createOne = async (one: One, controller?: AbortController): Promise<One | any> => {
-    return performOneRequest(true, one, controller);
-};
-
-export const updateOne = async (one: One, controller?: AbortController): Promise<One | any> => {
-    return performOneRequest(false, one, controller);
-};
-
-const performOneRequest = async (adding: boolean, one: One, controller?: AbortController): Promise<One | any> => {
-    const userId = await getLocalUserId();
-    if (!userId || !one) {
-        console.error('Missing required parameters: userId, one.');
-        return { error: 'Invalid parameters.' };
-    }
-
     const preparedOne = {
         ...one,
         iconKey: getAvatarIconKey(one.icon)
     };
+    return performCreateOrUpdateRequest(true, preparedOne, 'ones', controller);
+};
 
-    try {
-        const response = await makeRequest(`/ones/${adding ? 'create' : 'update'}`, 'POST', { one: preparedOne }, controller);
-        if (!response) {
-            return { error: 'Failed to contact server.' };
-        } else if (response.data.error) {
-            return { error: response.data.error };
-        } else if (response.status !== 200) {
-            return { error: `Response returned error: ${response.status}` };
-        }
+export const updateOne = async (one: One, controller?: AbortController): Promise<One | any> => {
+    const preparedOne = {
+        ...one,
+        iconKey: getAvatarIconKey(one.icon)
+    };
+    return performCreateOrUpdateRequest(false, preparedOne, 'ones', controller);
+};
 
-        return getOneFromJson(response.data);
-    } catch (error: any) {
-        console.error('Error adding/editing one:', error.message || error);
-        return { error: error.message || 'An error occurred while adding/editing one.' };
-    }
+export const createChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
+    const preparedChristian = {
+        ...christian,
+        iconKey: getAvatarIconKey(christian.icon)
+    };
+    return performCreateOrUpdateRequest(true, preparedChristian, 'christians', controller);
+}
+
+export const updateChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
+    const preparedChristian = {
+        ...christian,
+        iconKey: getAvatarIconKey(christian.icon)
+    };
+    return performCreateOrUpdateRequest(false, preparedChristian, 'christians', controller);
+};
+
+export const createGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<GospelStep | any> => {
+    return performCreateOrUpdateRequest(true, gospelStep, 'gospelSteps', controller);
+}
+
+export const updateGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<GospelStep | any> => {
+    return performCreateOrUpdateRequest(false, gospelStep, 'gospelSteps', controller);
+};
+
+export const createOneNote = async (oneNote: OneNote, controller?: AbortController): Promise<OneNote | any> => {
+    return performCreateOrUpdateRequest(true, oneNote, 'oneNotes', controller);
+}
+
+export const updateOneNote = async (oneNote: OneNote, controller?: AbortController): Promise<OneNote | any> => {
+    return performCreateOrUpdateRequest(false, oneNote, 'oneNotes', controller);
 };
 
 export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string, controller?: AbortController): Promise<ActionStep[] | any> => {

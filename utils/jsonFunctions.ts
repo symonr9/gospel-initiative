@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority } from "@/enums/enums";
 import One from "@/models/one";
 import { mapOneFactTypeToAppIcon, shouldKeepChapter } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -10,6 +10,8 @@ import GospelStep from "@/models/gospelStep";
 import Christian from "@/models/christian";
 import User from "@/models/user";
 import StoryChapter from "@/models/storyChapter";
+import Beacon from "@/models/beacon";
+import BeaconActivity from "@/models/beaconActivity";
 
 const journalEntriesJson = require('../data/journal-entries.json');
 const leadersJson = require('../data/leaders.json');
@@ -49,64 +51,73 @@ export function getOneFromJson(item: any) {
 }
 
 export function getActionStepsFromJson(json: any[]) {
-    return json.map((item: any) => {
-        return new ActionStep(
-            item.id,
-            item.notes,
-            item.oneId,
-            item.isComplete,
-            item.targetDate ? new Date(item.targetDate) : undefined,
-            item.type as ActionStepType
-        );
-    });
+    return json.map((item: any) => getActionStepFromJson(item));
+}
+
+export function getActionStepFromJson(item: any) {
+    return new ActionStep(
+        item.id,
+        item.notes,
+        item.oneId,
+        item.isComplete,
+        item.targetDate ? new Date(item.targetDate) : undefined,
+        item.type as ActionStepType
+    );
 }
 
 export function getOneNotesFromJson(json: any[]) {
-    return json.map((item: any) => {
-        return new OneNote(
-            item.id,
-            item.type as OneNoteType,
-            new Date(item.date),
-            item.notes,
-            item.oneId,
-        );
-    });
+    return json.map((item: any) => getOneNoteFromJson(item));
+}
+
+export function getOneNoteFromJson(item: any) {
+    return new OneNote(
+        item.id,
+        item.type as OneNoteType,
+        new Date(item.date),
+        item.notes,
+        item.oneId,
+    );
 }
 
 export function getGospelStepsFromJson(json: any[]) {
-    return json.map((item: any) => {
-        return new GospelStep(
-            item.id,
-            new Date(item.date),
-            item.type as GospelStepType,
-            item.notes,
-            item.nextSteps,
-            item.oneId
-        );
-    });
+    return json.map((item: any) => getGospelStepFromJson(item));
+}
+
+export function getGospelStepFromJson(item: any) {
+    return new GospelStep(
+        item.id,
+        new Date(item.date),
+        item.type as GospelStepType,
+        item.notes,
+        item.nextSteps,
+        item.oneId
+    );
 }
 
 export function getChristiansFromJson(json: any[]) {
-    return json.map((item: any) => {
-        const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
-        return new Christian(
-            item.id,
-            item.name,
-            item.oneCategory as OneCategory,
-            item.category as OneCategory,
-            icon,
-            item.oneKnownSince ? new Date(item.oneKnownSince) : undefined,
-            item.knownSince ? new Date(item.knownSince) : undefined,
-            item.notes,
-            item.mutualInterests,
-            item.lastPrayedFor ? new Date(item.lastPrayedFor) : undefined,
-            item.lastReachedOutTo ? new Date(item.lastReachedOutTo) : undefined,
-            item.timesPrayed,
-            item.timesReachedOut,
-            item.oneId
-        );
-    });
+    return json.map((item: any) => getChristianFromJson(item));
 }
+
+export function getChristianFromJson(item: any) {
+    const icon = AvatarIcon[item.icon as keyof typeof AvatarIcon];
+    return new Christian(
+        item.id,
+        item.name,
+        item.oneCategory as OneCategory,
+        item.category as OneCategory,
+        icon,
+        item.oneKnownSince ? new Date(item.oneKnownSince) : undefined,
+        item.knownSince ? new Date(item.knownSince) : undefined,
+        item.notes,
+        item.mutualInterests,
+        item.lastPrayedFor ? new Date(item.lastPrayedFor) : undefined,
+        item.lastReachedOutTo ? new Date(item.lastReachedOutTo) : undefined,
+        item.timesPrayed,
+        item.timesReachedOut,
+        item.oneId
+    );
+}
+
 
 export function getUserFromJson(item: any) {
     return new User(
@@ -141,6 +152,55 @@ export function getStoryChapterFromJson(item: any) {
         item.originalPrompt
     );
 };
+
+export function getBeaconsFromJson() {
+    return beaconsJson.map(item => {
+        const type: BeaconType = item.type as BeaconType;
+        return {
+            id: item.id,
+            name: item.name,
+            message: item.message,
+            userId: item.userId,
+            oneId: item.oneId,
+            priority: item.priority,
+            type: type,
+            activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
+            shareOwnName: item.shareOwnName
+        }
+    });
+}
+
+export function getBeaconFromJson(item: any) {
+    return new Beacon(
+        item.id,
+        item.name,
+        item.message,
+        item.oneId,
+        item.priority as Priority,
+        item.userId,
+        item.type as BeaconType,
+        item.activeUntil ? new Date(item.activeUntil) : undefined,
+        item.shareOwnName,
+        getBeaconActivitiesFromJson(item.activities || []),
+        item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : []
+    );
+}
+
+export function getBeaconActivitiesFromJson(json: any[]) {
+    return json.map((item) => getBeaconActivityFromJson(item));
+}
+
+export function getBeaconActivityFromJson(item: any) {
+    const activity = new BeaconActivity(
+        item.id,
+        item.note,
+        item.date,
+        item.userId,
+        item.beaconId
+    );
+    activity.username = item.username || "";
+    return activity;
+}
 
 export function getJournalEntriesJson() {
     return journalEntriesJson.map(item => {
@@ -214,23 +274,6 @@ export function getMissionsTripsJson() {
             location: item.location,
             icon: icon,
         };
-    });
-}
-
-export function getBeaconsFromJson() {
-    return beaconsJson.map(item => {
-        const type: BeaconType = item.type as BeaconType;
-        return {
-            id: item.id,
-            name: item.name,
-            message: item.message,
-            userId: item.userId,
-            oneId: item.oneId,
-            priority: item.priority,
-            type: type,
-            activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
-            shareOwnName: item.shareOwnName
-        }
     });
 }
 
@@ -322,18 +365,6 @@ export function getUsersFromJson() {
             role: role,
             createdAt: item.createdAt ? new Date(item.createdAt) : undefined,
             icon: icon
-        };
-    });
-}
-
-export function getBeaconActivitiesFromJson() {
-    return beaconActivitiesJson.map(item => {
-        return {
-            id: item.id,
-            note: item.note,
-            date: item.date ? new Date(item.date) : undefined,
-            userId: item.userId,
-            beaconId: item.beaconId
         };
     });
 }

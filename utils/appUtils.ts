@@ -1196,6 +1196,14 @@ export function getRandomString(strings: string[]): string {
     return strings[randomIndex];
 }
 
+export const isAppIcon = (value: any): value is AppIcon => {
+    return Object.values(AppIcon).includes(value);
+};
+
+export const isAvatarIcon = (value: any): value is AvatarIcon => {
+    return Object.values(AvatarIcon).includes(value);
+};
+
 export function getAppIconKey(value: any): string | undefined {
     for (const [key, val] of Object.entries(AppIcon)) {
         if (val === value) {

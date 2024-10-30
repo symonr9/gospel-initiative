@@ -3,6 +3,7 @@ import Beacon from "@/models/beacon";
 import BeaconActivity from "@/models/beaconActivity";
 import { makeRequest } from "./Requests";
 import One from "@/models/one";
+import { getBeaconActivityFromJson, getBeaconFromJson } from "@/utils/jsonFunctions";
 
 export const fetchBeacons = async (active: Boolean = true) => {
     try {
@@ -15,41 +16,16 @@ export const fetchBeacons = async (active: Boolean = true) => {
             return { error: `Response returned error: ${response.status}` };
         }
 
-        return response.data.map((beacon: any) => {
-            const activities = beacon.activities.map((item: any) => {
-                let activity = new BeaconActivity(
-                    item.id,
-                    item.note,
-                    item.date,
-                    item.userId,
-                    item.beaconId
-                );
-                activity.username = item.username || "";
-                return activity;
-            });
+        return response.data.map((item: any) => {
+            const beacon = getBeaconFromJson(item);
 
-            const item = new Beacon(
-                beacon.id,
-                beacon.name,
-                beacon.message,
-                beacon.oneId,
-                beacon.priority as Priority,
-                beacon.userId,
-                beacon.type as BeaconType,
-                beacon.activeUntil ? new Date(beacon.activeUntil) : undefined,
-                beacon.shareOwnName,
-                activities,
-                beacon.tags ? beacon.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : []
-            );
+            beacon.userName = item.user.name;
+            beacon.userIcon = AvatarIcon[item.user.icon as keyof typeof AvatarIcon];
+            beacon.oneName = item.one.name;
+            beacon.oneIcon = AvatarIcon[item.one.icon as keyof typeof AvatarIcon];
+            beacon.oneStage = item.one.stage as OneStage;
 
-            item.userName = beacon.user.name;
-            item.userIcon = AvatarIcon[beacon.user.icon as keyof typeof AvatarIcon];
-
-            item.oneName = beacon.one.name;
-            item.oneIcon = AvatarIcon[beacon.one.icon as keyof typeof AvatarIcon];
-            item.oneStage = beacon.one.stage as OneStage;
-
-            return item;
+            return beacon;
         });
     } catch (error) {
         console.error('Error retrieving data:', error);
@@ -74,21 +50,7 @@ export const createBeacon = async (beacon: Beacon, controller?: AbortController)
             return { error: `Response returned error: ${response.status}` };
         }
 
-        const beaconResponse = response.data;
-
-        return new Beacon(
-            beaconResponse.id,
-            beaconResponse.name,
-            beaconResponse.notes,
-            beaconResponse.oneId,
-            beaconResponse.priority as Priority,
-            beaconResponse.userId,
-            beaconResponse.type as BeaconType,
-            beaconResponse.activeUntil ? new Date(beaconResponse.activeUntil) : undefined,
-            beaconResponse.shareOwnName,
-            [],
-            beaconResponse.tags ? beaconResponse.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : []
-        );
+        return getBeaconFromJson(response.data);
     } catch (error: any) {
         console.error('Error creating beacon:', error.message || error);
         return { error: error.message || 'An error occurred while creating beacon.' };
@@ -111,16 +73,8 @@ export const performBeaconActivityRequest = async (adding: boolean, activity: Be
         } else if (response.status !== 200) {
             return { error: `Response returned error: ${response.status}` };
         }
-
-        const data = response.data;
-
-        return new BeaconActivity(
-            data.id,
-            data.note,
-            new Date(data.date),
-            data.userId,
-            data.beaconId
-        );
+        
+        return getBeaconActivityFromJson(response.data);
     } catch (error: any) {
         console.error('Error adding/editing beacon activity:', error.message || error);
         return { error: error.message || 'An error occurred while adding/editing beacon activity.' };

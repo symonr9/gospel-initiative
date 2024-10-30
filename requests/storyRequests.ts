@@ -50,24 +50,13 @@ export const createChapters = async (chapterArray: StoryChapter[] | null, contro
         console.error('Missing required parameters: chapterArray.');
         return { error: 'Invalid parameters.' };
     }
-
-    const preparedChapterArray = chapterArray.map((chapter) => ({ ...chapter, iconKey: getAppIconKey(chapter.icon) }));
-
-    try {
-        const response = await makeRequest(`/stories/create`, 'POST', { chapterArray: preparedChapterArray }, controller);
-        if (!response) {
-            return { error: 'Failed to contact server.' };
-        } else if (response.data.error) {
-            return { error: response.data.error };
-        } else if (response.status !== 200) {
-            return { error: `Response returned error: ${response.status}` };
-        }
-
-        return response.data;
-    } catch (error: any) {
-        console.error('Error addingChapters():', error.message || error);
-        return { error: error.message || 'An error occurred while adding chapters.' };
-    }
+    
+    const preparedChapterArray = chapterArray.map((chapter) => ({
+        ...chapter,
+        icon: getAppIconKey(chapter.icon)
+    }));
+    
+    return await processChapterRequest(`/stories/create`, { chapterArray: preparedChapterArray }, controller);
 };
 
 export const updateChapter = async (chapter: StoryChapter, controller?: AbortController) => {
@@ -76,23 +65,12 @@ export const updateChapter = async (chapter: StoryChapter, controller?: AbortCon
         return { error: 'Invalid parameters.' };
     }
 
-    const preparedChapter = { ...chapter, iconKey: getAppIconKey(chapter.icon) };
+    const preparedChapter = {
+        ...chapter,
+        icon: getAppIconKey(chapter.icon)
+    };
 
-    try {
-        const response = await makeRequest(`/stories/update`, 'POST', { chapter: preparedChapter }, controller);
-        if (!response) {
-            return { error: 'Failed to contact server.' };
-        } else if (response.data.error) {
-            return { error: response.data.error };
-        } else if (response.status !== 200) {
-            return { error: `Response returned error: ${response.status}` };
-        }
-
-        return response.data;
-    } catch (error: any) {
-        console.error('Error updateChapter():', error.message || error);
-        return { error: error.message || 'An error occurred while updating chapter.' };
-    }
+    return await processChapterRequest(`/stories/update`, { chapter: preparedChapter }, controller);
 };
 
 export const deleteChapter = async (chapter: StoryChapter, controller?: AbortController) => {
@@ -100,21 +78,20 @@ export const deleteChapter = async (chapter: StoryChapter, controller?: AbortCon
         console.error('Missing required parameters: chapter.');
         return { error: 'Invalid parameters.' };
     }
+    return await processChapterRequest(`/stories/delete`, { chapter }, controller);
+};
 
+const processChapterRequest = async (url: string, data: any, controller?: AbortController) => {
     try {
-        const response = await makeRequest(`/stories/delete`, 'POST', { chapter }, controller);
-        if (!response) {
-            return { error: 'Failed to contact server.' };
-        } else if (response.data.error) {
-            return { error: response.data.error };
-        } else if (response.status !== 200) {
-            return { error: `Response returned error: ${response.status}` };
-        }
+        const response = await makeRequest(url, 'POST', data, controller);
+        
+        if (!response) return { error: 'Failed to contact server.' };
+        if (response.data?.error) return { error: response.data.error };
+        if (response.status !== 200) return { error: `Response returned error: ${response.status}` };
 
         return response.data;
     } catch (error: any) {
-        console.error('Error deleteChapter():', error.message || error);
-        return { error: error.message || 'An error occurred while deleting chapter.' };
+        console.error(`Error in ${url}:`, error.message || error);
+        return { error: error.message || 'An error occurred during the request.' };
     }
 };
-
