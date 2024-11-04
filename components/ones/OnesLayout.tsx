@@ -51,11 +51,13 @@ export type IOnesLayout = ViewProps & {
     setSelectedOne: Function
 };
 
-enum BodyType {
+export enum BodyType {
     Base,
+    Info,
     ActionStep,
     GospelChecklist,
-    Beacons
+    Beacons,
+    Christians,
 };
 
 export enum OneLayoutType {
@@ -270,7 +272,14 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                 </PageRow>
             );
 
-            if (bodyType === BodyType.ActionStep) {
+            if (bodyType === BodyType.Info) {
+                BodyLayout.push(
+                    <PageColumn>
+                        {BodyBackHeader}
+                        <InfoPicker />
+                    </PageColumn>
+                );
+            } else if (bodyType === BodyType.ActionStep) {
                 BodyLayout.push(
                     <PageColumn>
                         {BodyBackHeader}
@@ -291,6 +300,13 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                         <BeaconPicker />
                     </PageColumn>
                 );
+            } else if (bodyType === BodyType.Christians) {
+                BodyLayout.push(
+                    <PageColumn>
+                        {BodyBackHeader}
+                        <ChristianPicker/>
+                    </PageColumn>
+                )
             } else { // Base
                 let actionStepsDetailView = <></>;
                 if (firstActionStep) {

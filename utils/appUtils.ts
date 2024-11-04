@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
@@ -344,6 +344,81 @@ export function mapOneCategoryToIcon(category: OneCategory): AppIcon {
             return AppIcon.Rapport;
     }
 };
+
+export function mapOneNoteTypeToTitle(type: OneNoteType): string {
+    switch (type) {
+        case OneNoteType.CoreValues:
+            return "";
+        case OneNoteType.StoryOfHowYouBothMet:
+            return "";
+        case OneNoteType.WhatIsRelationshipLike:
+            return "";
+        case OneNoteType.InterestsHobbiesGoals:
+            return "";
+        case OneNoteType.SpiritualBackgroundAndWorldView:
+            return "";
+        case OneNoteType.PerceptionOfChristianity:
+            return "";
+        case OneNoteType.EnvisionChristChangeLife:
+            return "";
+        case OneNoteType.CurrentChallenges:
+            return "";
+        case OneNoteType.PrayersForThem:
+            return "";
+        default:
+            return "";
+    }
+}
+
+export function mapOneNoteTypeToDetails(type: OneNoteType): string {
+    switch (type) {
+        case OneNoteType.CoreValues:
+            return "";
+        case OneNoteType.StoryOfHowYouBothMet:
+            return "";
+        case OneNoteType.WhatIsRelationshipLike:
+            return "";
+        case OneNoteType.InterestsHobbiesGoals:
+            return "";
+        case OneNoteType.SpiritualBackgroundAndWorldView:
+            return "";
+        case OneNoteType.PerceptionOfChristianity:
+            return "";
+        case OneNoteType.EnvisionChristChangeLife:
+            return "";
+        case OneNoteType.CurrentChallenges:
+            return "";
+        case OneNoteType.PrayersForThem:
+            return "";
+        default:
+            return "";
+    }
+}
+
+export function mapOneNoteTypeToAppIcon(type: OneNoteType): AppIcon {
+    switch (type) {
+        case OneNoteType.CoreValues:
+            return AppIcon.Heart;
+        case OneNoteType.StoryOfHowYouBothMet:
+            return AppIcon.NetworkPeople;
+        case OneNoteType.WhatIsRelationshipLike:
+            return AppIcon.Conversation;
+        case OneNoteType.InterestsHobbiesGoals:
+            return AppIcon.Popcorn;
+        case OneNoteType.SpiritualBackgroundAndWorldView:
+            return AppIcon.Globe;
+        case OneNoteType.PerceptionOfChristianity:
+            return AppIcon.CrossChurch;
+        case OneNoteType.EnvisionChristChangeLife:
+            return AppIcon.Christ;
+        case OneNoteType.CurrentChallenges:
+            return AppIcon.Fighting;
+        case OneNoteType.PrayersForThem:
+            return AppIcon.Prayer;
+        default:
+            return AppIcon.LightBulb;
+    }
+}
 
 export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
     switch (oneFactType) {

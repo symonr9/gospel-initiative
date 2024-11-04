@@ -1,4 +1,5 @@
 import { AppIcon, AvatarIcon, OneCategory } from "@/enums/enums";
+import { generateRandomId } from "@/utils/appUtils";
 
 interface IChristian {
     id: string;
@@ -54,6 +55,25 @@ export default class Christian implements IChristian {
         this.timesPrayed = timesPrayed;
         this.timesReachedOut = timesReachedOut;
         this.oneId = oneId;
+    }
+
+    static createDefault(oneId: string) {
+        return new Christian(
+            generateRandomId(),
+            "",
+            OneCategory.Friend,
+            OneCategory.CloseFriend,
+            AvatarIcon.Man1,
+            new Date(),
+            new Date(),
+            "",
+            "",
+            new Date(),
+            new Date(),
+            0,
+            0,
+            oneId
+        );
     }
 
 }
