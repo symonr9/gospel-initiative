@@ -31,6 +31,8 @@ import { SimpleGridCard } from '../common/SimpleGridCard';
 import ActionStep from '@/models/actionStep';
 import Beacon from '@/models/beacon';
 import AppError from '@/models/error';
+import ChristianPicker from './ChristianPicker';
+import InfoPicker from './InfoPicker';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -75,6 +77,8 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
 
     const actionSteps = selectedOne ? selectedOne.actionSteps : [];
     const firstActionStep = actionSteps?.length > 0 ? actionSteps[0] : null;
+    const christians = selectedOne ? selectedOne.christians : [];
+    const oneNotes = selectedOne ? selectedOne.oneNotes : [];
 
     const [message, setMessage] = useState<string | null>(null);
     const [bodyType, setBodyType] = useState(BodyType.Base);
@@ -233,39 +237,41 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
         const showArrowLeft = ones.length > 1;
         const showArrowRight = ones.length > 1;
 
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                {
-                    showArrowLeft && (
-                        <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
-                            disabled={idxOfSelectedOne === 0}
-                            title={'Back'}
-                            small
-                            onClick={() => {
-                                setMessage(null);
-                                setSelectedOne(ones[idxOfSelectedOne - 1]);
-                            }} />
-                    )
-                }
-
-                {
-                    showArrowRight && (
-                        <SimpleIconButton iconSrc={AppIcon.ChevronRight}
-                            disabled={idxOfSelectedOne === ones.length - 1}
-                            title={'Next'}
-                            small
-                            onClick={() => {
-                                setMessage(null);
-                                setSelectedOne(ones[idxOfSelectedOne + 1])
-                            }} />
-                    )
-                }
-            </PageRow>
-        );
+        if (bodyType === BodyType.Base) {
+            HeaderLayout.push(
+                <PageRow spaceEvenly>
+                    {
+                        showArrowLeft && (
+                            <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
+                                disabled={idxOfSelectedOne === 0}
+                                title={'Back'}
+                                small
+                                onClick={() => {
+                                    setMessage(null);
+                                    setSelectedOne(ones[idxOfSelectedOne - 1]);
+                                }} />
+                        )
+                    }
+    
+                    {
+                        showArrowRight && (
+                            <SimpleIconButton iconSrc={AppIcon.ChevronRight}
+                                disabled={idxOfSelectedOne === ones.length - 1}
+                                title={'Next'}
+                                small
+                                onClick={() => {
+                                    setMessage(null);
+                                    setSelectedOne(ones[idxOfSelectedOne + 1])
+                                }} />
+                        )
+                    }
+                </PageRow>
+            );
+        }
 
         if (selectedOne) {
             const BodyBackHeader = (
-                <PageRow style={{ marginBottom: 8, marginHorizontal: 4 }}>
+                <PageRow style={{ marginVertical: 8, marginHorizontal: 4 }}>
                     <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                         title={'Back'}
                         onClick={() => setBodyType(BodyType.Base)} />
@@ -308,6 +314,15 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                     </PageColumn>
                 )
             } else { // Base
+                const infoDetailView = (
+                    <>
+                        <DetailsSection iconSrc={AppIcon.Book2}
+                            prefix={"Notes Taken"}
+                            onClick={() => setBodyType(BodyType.Info)}
+                            title={`${oneNotes.length} Notes`} />
+                    </>
+                );
+
                 let actionStepsDetailView = <></>;
                 if (firstActionStep) {
                     actionStepsDetailView = (
@@ -339,12 +354,25 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                         <DetailsSection iconSrc={AppIcon.Star}
                             prefix={beaconsDetailText}
                             onClick={() => setBodyType(BodyType.Beacons)}
-                            title={oneBeacons.length} />
+                            title={`${oneBeacons.length} Active`} />
+                    </>
+                );
+
+                const christianDetailView = (
+                    <>
+                        <DetailsSection iconSrc={AppIcon.User}
+                            prefix={"Christians"}
+                            onClick={() => setBodyType(BodyType.Info)}
+                            title={`${christians.length} In Their Life`} />
                     </>
                 );
 
                 BodyLayout.push(
                     <PageColumn>
+                        <SimpleGridCard iconSrc={AppIcon.Book2}
+                            title={'Info'}
+                            detailsView={infoDetailView}
+                            onClick={() => setBodyType(BodyType.Info)} />
                         <SimpleGridCard iconSrc={AppIcon.LightBulb}
                             title={'Action Steps'}
                             detailsView={actionStepsDetailView}
@@ -357,6 +385,10 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                             title={'Prayer Beacons'}
                             detailsView={beaconsDetailView}
                             onClick={() => setBodyType(BodyType.Beacons)} />
+                        <SimpleGridCard iconSrc={AppIcon.UserGroup}
+                            title={'Christians'}
+                            detailsView={christianDetailView}
+                            onClick={() => setBodyType(BodyType.Christians)} />
                     </PageColumn>
                 );
             }
@@ -386,7 +418,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                                             subtitle='Your One' />
                                     </PageRow>
                                     {
-                                        selectedOne && activeLayoutType === OneLayoutType.Normal && (
+                                        selectedOne && activeLayoutType === OneLayoutType.Normal && bodyType === BodyType.Base && (
                                             <PageRow style={styles.headerRow}>
                                                 <Animated.View entering={FadeInDown.duration(200)}
                                                     exiting={FadeOutDown.duration(200)}>
@@ -409,7 +441,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                                 </PageColumn>
 
                                 {
-                                    activeLayoutType === OneLayoutType.Normal && (
+                                    activeLayoutType === OneLayoutType.Normal && bodyType === BodyType.Base && (
                                         <PageColumn style={{ gap: 8 }} center>
                                             {
                                                 ones.length > 1 && (

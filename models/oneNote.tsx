@@ -9,6 +9,11 @@ interface IOneNote {
     oneId: string;
 }
 
+type PartitionedNotes = {
+    [key in OneNoteType]?: OneNote[];
+};
+
+
 export default class OneNote implements IOneNote {
     id: string;
     type: OneNoteType;
@@ -33,6 +38,16 @@ export default class OneNote implements IOneNote {
             "",
             oneId
         );
+    }
+
+    static partitionNotes(notes: OneNote[]) : PartitionedNotes {
+        return notes.reduce<PartitionedNotes>((acc, note) => {
+            if (!acc[note.type]) {
+                acc[note.type] = [];
+            }
+            acc[note.type]?.push(note);
+            return acc;
+        }, {});
     }
 
 }

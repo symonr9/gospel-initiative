@@ -42,7 +42,7 @@ export function isWithinNext24Hours(date: Date): boolean {
 }
 
 
-export function getAppTimeAgoText(date: Date | undefined, expiration = false): string {
+export function getAppTimeAgoText(date: Date | undefined, expiration = false, plain = false): string {
     if (!date) {
         return '';
     }
@@ -68,7 +68,9 @@ export function getAppTimeAgoText(date: Date | undefined, expiration = false): s
         const count = Math.floor(seconds / intervalSeconds);
         if (count > 0) {
             const unit = `${interval}${count !== 1 ? 's' : ''}`;
-            if (expiration) {
+            if (plain) {
+                return isFuture ? `${count} ${unit}` : `${count} ${unit} ago`;
+            } else if (expiration) {
                 return isFuture ? `Expires in ${count} ${unit}` : `Expired ${count} ${unit} ago`;
             }
             return isFuture ? `In ${count} ${unit}` : `Passed ${count} ${unit} ago`;
@@ -348,50 +350,50 @@ export function mapOneCategoryToIcon(category: OneCategory): AppIcon {
 export function mapOneNoteTypeToTitle(type: OneNoteType): string {
     switch (type) {
         case OneNoteType.CoreValues:
-            return "";
+            return "Core Values";
         case OneNoteType.StoryOfHowYouBothMet:
-            return "";
+            return "Story of How You Both Met";
         case OneNoteType.WhatIsRelationshipLike:
-            return "";
+            return "What Is Your Relationship Like?";
         case OneNoteType.InterestsHobbiesGoals:
-            return "";
+            return "Interests, Hobbies, and Goals";
         case OneNoteType.SpiritualBackgroundAndWorldView:
-            return "";
+            return "Spiritual Background and Worldview";
         case OneNoteType.PerceptionOfChristianity:
-            return "";
+            return "Their Perception of Christianity";
         case OneNoteType.EnvisionChristChangeLife:
-            return "";
+            return "How Could Christ Change Their Life?";
         case OneNoteType.CurrentChallenges:
-            return "";
+            return "Current Challenges They’re Facing";
         case OneNoteType.PrayersForThem:
-            return "";
+            return "Prayers for Them";
         default:
-            return "";
+            return "Unknown Note Type";
     }
 }
 
 export function mapOneNoteTypeToDetails(type: OneNoteType): string {
     switch (type) {
         case OneNoteType.CoreValues:
-            return "";
+            return "Describe their core values and what principles guide their life.";
         case OneNoteType.StoryOfHowYouBothMet:
-            return "";
+            return "Share the story of how you first met and got to know each other.";
         case OneNoteType.WhatIsRelationshipLike:
-            return "";
+            return "Describe the nature of your relationship and any key dynamics.";
         case OneNoteType.InterestsHobbiesGoals:
-            return "";
+            return "List their main interests, hobbies, and personal goals.";
         case OneNoteType.SpiritualBackgroundAndWorldView:
-            return "";
+            return "Provide an overview of their spiritual background and worldview.";
         case OneNoteType.PerceptionOfChristianity:
-            return "";
+            return "Detail their perception or understanding of Christianity.";
         case OneNoteType.EnvisionChristChangeLife:
-            return "";
+            return "Reflect on how knowing Christ might transform their life.";
         case OneNoteType.CurrentChallenges:
-            return "";
+            return "Discuss any challenges or struggles they are currently experiencing.";
         case OneNoteType.PrayersForThem:
-            return "";
+            return "List specific prayers you have for them and their journey.";
         default:
-            return "";
+            return "No details available for this note type.";
     }
 }
 

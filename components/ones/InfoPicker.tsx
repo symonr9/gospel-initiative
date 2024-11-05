@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, formatDateTime } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -21,6 +21,7 @@ import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
+import { SimpleCard } from '../common/SimpleCard';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -78,10 +79,37 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
             }
         };
 
+        const handleEdit = () => {
+
+        };
+
+        const handleRemove = () => {
+
+        };
+
         return (
-            <PageRow>
-                {item.notes}
-            </PageRow>
+            <TouchableOpacity onPress={handleOnPress}>
+                <PageColumn style={[styles.noteCard, isSelected && styles.selectedNoteCard]}>
+                    <AppText type={TextType.Default}>
+                        {item.notes}
+                    </AppText>
+                    <AppText type={TextType.Body}>
+                        {getAppTimeAgoText(item.date, false, true)}
+                    </AppText>
+                    {
+                        isSelected && (
+                            <PageRow style={{ gap: 16, marginTop: 20 }}>
+                                <SimpleIconButton iconSrc={AppIcon.Edit} 
+                                    title={'Edit'}
+                                    onClick={handleEdit}/>
+                                <SimpleIconButton iconSrc={AppIcon.Trash} 
+                                    title={'Remove'}
+                                    onClick={handleRemove}/>
+                            </PageRow>
+                        )
+                    }
+                </PageColumn>
+            </TouchableOpacity>
         );
     };
 
@@ -106,14 +134,45 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
     const Body = [];
 
     if (pickerState === PickerState.Normal) {
+        const partitionedNotes = OneNote.partitionNotes(oneNotes);
+
+        // TODO: Add an add button here
+
         Body.push(
-            <FlatList
-                data={oneNotes}
-                renderItem={renderItem}
-                numColumns={1}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.list}
-            />
+            <PageColumn>
+                {Object.entries(partitionedNotes).map(([typeAsString, notesArray]) => {
+                    const type = parseInt(typeAsString) || 0;
+                    const title = mapOneNoteTypeToTitle(type);
+                    const details = mapOneNoteTypeToDetails(type);
+                    const icon = mapOneNoteTypeToAppIcon(type);
+
+                    return (
+                        <PageColumn style={{ marginBottom: 20 }}>
+                            <PageRow>
+                                <Image source={icon}
+                                    style={[styles.icon, { marginEnd: 8 }]}
+                                    contentFit="contain" />
+                                <PageColumn>
+                                    <AppText type={TextType.Subtitle2}>
+                                        {title}
+                                    </AppText>
+                                    <AppText type={TextType.Body}>
+                                        {details}
+                                    </AppText>
+                                </PageColumn>
+                            </PageRow>
+
+                            <FlatList
+                                data={notesArray}
+                                renderItem={renderItem}
+                                numColumns={1}
+                                keyExtractor={(item, index) => index.toString()}
+                                contentContainerStyle={styles.list}
+                            />
+                        </PageColumn>
+                    );
+                })}
+            </PageColumn>
         );
     } else {
         Body.push(
@@ -153,21 +212,23 @@ const styles = StyleSheet.create({
     },
     buttonRow: {
     },
-    iconCard: {
-        backgroundColor: '#fff',
+    noteCard: {
+        backgroundColor: '#FAF7DC',
         shadowOpacity: 0.2,
         shadowRadius: 4,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
         borderRadius: 4,
+        borderColor: 'gray',
+        borderWidth: 2,
         flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 10,
         marginVertical: 8,
         marginHorizontal: 10
     },
-    selectedIconCard: {
+    selectedNoteCard: {
         backgroundColor: '#bbeccc',
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -179,11 +240,10 @@ const styles = StyleSheet.create({
     iconList: {
     },
     icon: {
-        width: 28,
-        height: 28,
+        width: 32,
+        height: 32,
         margin: 2,
         verticalAlign: 'middle',
-        opacity: 0.7
     },
     selected: {
         opacity: 1,
