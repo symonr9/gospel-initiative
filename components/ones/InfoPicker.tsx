@@ -1,27 +1,22 @@
-import { ActionStepType, AppIcon, OneNoteType } from '@/enums/enums';
+import { AppIcon, OneNoteType } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, formatDateTime } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
-import ActionStep from '@/models/actionStep';
-import { ActionStepCard } from './ActionStepCard';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles, modalStyles } from '@/styles/Styles';
-import SelectDatePicker from '../common/SelectDatePicker';
-import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
-import DetailsSection from '../common/DetailsSection';
-import { createOneNote, removeOneNote, updateActionSteps, updateOneNote } from "@/requests/oneRequests";
+import { setAppError } from '@/redux/actions';
+import { createOneNote, removeOneNote, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
-import { SimpleCard } from '../common/SimpleCard';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -55,7 +50,7 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const oneNotes = selectedOne?.oneNotes || [];
+    const oneNotes = selectedOne?.christians || [];
     const selectedNote = selectedNoteId ? oneNotes.find((note) => note.id === selectedNoteId) : null;
     const selectedNoteTypeIndex = selectedNote ? oneNoteTypeArray.findIndex((note) => note.value === selectedNote.type) : 0;
     const selectedOneNoteTypeData = oneNoteTypeArray[formSelectedTypeIdx];

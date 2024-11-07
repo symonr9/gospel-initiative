@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, formatDateTime } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -16,11 +16,12 @@ import { formStyles, modalStyles } from '@/styles/Styles';
 import SelectDatePicker from '../common/SelectDatePicker';
 import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
-import { createChristian, createOneNote, updateActionSteps, updateChristian, updateOneNote } from "@/requests/oneRequests";
+import { createChristian, createOneNote, removeChristian, removeOneNote, updateActionSteps, updateChristian, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
+import { SimpleCard } from '../common/SimpleCard';
 import Christian from '@/models/christian';
 
 export type IChristianPicker = ViewProps & {
@@ -31,6 +32,9 @@ export type IChristianPicker = ViewProps & {
 
 enum PickerState {
     Normal,
+    Adding,
+    Editing,
+    Removing,
 }
 
 const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicker) => {
@@ -38,12 +42,13 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedChristianId, setSelectedChristianId] = useState<string | null>(null);
-    const [adding, setAdding] = useState(false);
     const [formChristian, setFormChristian] = useState<Christian>(Christian.createDefault(selectedOne?.id || ""));
-
     const [modalVisible, setModalVisible] = useState(false);
 
     const christians = selectedOne?.christians || [];
+    const selectedChristian = selectedChristianId ? christians.find((christian) => christian.id === selectedChristianId) : null;
+    const adding = pickerState === PickerState.Adding;
+    const removing = pickerState === PickerState.Removing;
 
     useEffect(() => {
         if (!isFirstRender.current) {
@@ -53,8 +58,16 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
 
         if (pickerState === PickerState.Normal) {
             setSelectedChristianId(null);
+            setFormChristian(Christian.createDefault(selectedOne?.id || ""));
         }
     }, [pickerState]);
+
+    useEffect(() => {
+        if (!selectedChristianId || !selectedChristian) {
+            return;
+        }
+        setFormChristian(selectedChristian);
+    }, [selectedChristianId]);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
@@ -65,15 +78,20 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
         const handleOnPress = () => {
             if (isSelected) {
                 setSelectedChristianId(null);
+                setFormChristian(Christian.createDefault(selectedOne?.id || ""));
             } else {
                 setSelectedChristianId(item.id);
             }
         };
 
         return (
-            <PageRow>
-                {item.notes}
-            </PageRow>
+            <TouchableOpacity onPress={handleOnPress}>
+                <PageColumn style={[styles.noteCard, isSelected && styles.selectedNoteCard]}>
+                    <AppText type={TextType.Default}>
+                        {item.notes}
+                    </AppText>
+                </PageColumn>
+            </TouchableOpacity>
         );
     };
 
@@ -83,10 +101,16 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
     };
 
     const onSaveClick = async () => {
-
-        const response = adding ? await createChristian(formChristian) : await updateChristian(formChristian);
+        let response;
+        if (adding) {
+            response = await createChristian(formChristian);
+        } else if (removing) {
+            response = await removeChristian(formChristian);
+        } else {
+            response = await updateChristian(formChristian);
+        }
         if (response.error) {
-            setAppError(new AppError('Error updating action steps: ', response.error));
+            setAppError(new AppError('Error saving christian: ', response.error));
             return;
         }
 
@@ -97,15 +121,105 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
 
     const Body = [];
 
+    // TODO: Fill out this form
+    
+    const Form = (
+        <PageColumn>
+
+            <AppText type={TextType.Default}>Notes</AppText>
+            <TextInput
+                style={formStyles.textInput}
+                placeholder="Enter text here..."
+                placeholderTextColor={'gray'}
+                value={formChristian.notes}
+                numberOfLines={4}
+                onChangeText={(text) => setFormChristian((prev) => ({ ...prev, notes: text }))}
+            />
+
+        </PageColumn>
+    );
+
+    if (pickerState !== PickerState.Normal) {
+        Body.push(
+            <PageRow spaceEvenly>
+                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                    title={'Back'}
+                    onClick={onBackClick} />
+                <SimpleIconButton iconSrc={AppIcon.Checkmark}
+                    title={'Save'}
+                    onClick={onSaveClick} />
+            </PageRow>
+        );
+    } else {
+        Body.push(
+            <PageRow spaceEvenly>
+                {
+                    selectedChristianId === null && (
+                        <SimpleIconButton iconSrc={AppIcon.Plus}
+                            customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
+                            title={'Add'}
+                            onClick={() => setPickerState(PickerState.Adding)} />
+                    )
+                }
+
+                {
+                    selectedChristianId !== null && (
+                        <>
+                            <SimpleIconButton iconSrc={AppIcon.Edit}
+                                title={'Edit'}
+                                onClick={() => setPickerState(PickerState.Editing)} />
+                            <SimpleIconButton iconSrc={AppIcon.Trash}
+                                title={'Remove'}
+                                onClick={() => setPickerState(PickerState.Removing)} />
+                        </>
+                    )
+                }
+            </PageRow>
+        );
+    }
+
     if (pickerState === PickerState.Normal) {
         Body.push(
-            <FlatList
-                data={christians}
-                renderItem={renderItem}
-                numColumns={1}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.list}
-            />
+            <PageColumn>
+                <FlatList
+                    data={christians}
+                    renderItem={renderItem}
+                    numColumns={1}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.iconList}
+                />
+            </PageColumn>
+        );
+    } else if (pickerState === PickerState.Adding) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Adding Christian
+                </AppText>
+                {Form}
+            </View>
+        );
+    } else if (pickerState === PickerState.Editing) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Editing Christian
+                </AppText>
+                {Form}
+            </View>
+        );
+    } else if (pickerState === PickerState.Removing && selectedChristian) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Are you sure you want to remove this Christian?
+                </AppText>
+                <PageColumn style={[styles.noteCard, styles.selectedNoteCard]}>
+                    <AppText type={TextType.Default}>
+                        {selectedChristian.notes}
+                    </AppText>
+                </PageColumn>
+            </View>
         );
     } else {
         Body.push(
@@ -119,7 +233,7 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
 
     return (
         <View style={styles.container}>
-            <AppText type={TextType.Subtitle} style={styles.title}>Christians</AppText>
+            <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
             {Body.map((item) => item)}
         </View>
     );
@@ -145,21 +259,23 @@ const styles = StyleSheet.create({
     },
     buttonRow: {
     },
-    iconCard: {
-        backgroundColor: '#fff',
+    noteCard: {
+        backgroundColor: '#FAF7DC',
         shadowOpacity: 0.2,
         shadowRadius: 4,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
         borderRadius: 4,
+        borderColor: 'gray',
+        borderWidth: 2,
         flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 10,
         marginVertical: 8,
         marginHorizontal: 10
     },
-    selectedIconCard: {
+    selectedNoteCard: {
         backgroundColor: '#bbeccc',
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -171,11 +287,10 @@ const styles = StyleSheet.create({
     iconList: {
     },
     icon: {
-        width: 28,
-        height: 28,
+        width: 32,
+        height: 32,
         margin: 2,
         verticalAlign: 'middle',
-        opacity: 0.7
     },
     selected: {
         opacity: 1,
