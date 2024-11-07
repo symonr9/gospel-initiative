@@ -176,33 +176,68 @@ export const modalStyles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
   },
+  card: {
+    backgroundColor: '#fff',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
+    borderRadius: 4,
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    marginVertical: 8,
+    marginHorizontal: 10
+  },
+  selectedCard: {
+    backgroundColor: '#bbeccc',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
+    borderRadius: 8,
+  },
+  iconList: {
+  },
+  icon: {
+    width: 28,
+    height: 28,
+    margin: 2,
+    verticalAlign: 'middle',
+    opacity: 0.7
+  },
+  selected: {
+      opacity: 1,
+  },
 });
 
 export const beaconStyles = StyleSheet.create({
   beaconNameText: {
   },
   beaconDetailsText: {
-      marginBottom: 8,
+    marginBottom: 8,
   },
   beaconHeader: {
-      paddingBottom: 8,
-      borderBottomColor: 'lightgray',
-      borderBottomWidth: 2,
+    paddingBottom: 8,
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 2,
   },
   beaconCard: {
-      padding: 16,
-      backgroundColor: '#f3f3f3',
-      borderRadius: 4,
-      marginBottom: 8
+    padding: 16,
+    backgroundColor: '#f3f3f3',
+    borderRadius: 4,
+    marginBottom: 8
   },
   icon: {
-      width: 36,
-      height: 36,
-      alignSelf: 'center',
-      marginEnd: 8
+    width: 36,
+    height: 36,
+    alignSelf: 'center',
+    marginEnd: 8
   },
   activityView: {
     padding: 8,
     marginTop: 8
-},
+  },
 });

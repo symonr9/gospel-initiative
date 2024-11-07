@@ -16,7 +16,7 @@ import { formStyles, modalStyles } from '@/styles/Styles';
 import SelectDatePicker from '../common/SelectDatePicker';
 import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
-import { createOneNote, updateActionSteps, updateOneNote } from "@/requests/oneRequests";
+import { createOneNote, removeOneNote, updateActionSteps, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
@@ -40,6 +40,9 @@ export type IInfoPicker = ViewProps & {
 
 enum PickerState {
     Normal,
+    Adding,
+    Editing,
+    Removing,
 }
 
 const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
@@ -47,12 +50,17 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
-    const [adding, setAdding] = useState(false);
     const [formOneNote, setFormOneNote] = useState<OneNote>(OneNote.createDefault(selectedOne?.id || ""));
+    const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const oneNotes = selectedOne?.oneNotes || [];
+    const selectedNote = selectedNoteId ? oneNotes.find((note) => note.id === selectedNoteId) : null;
+    const selectedNoteTypeIndex = selectedNote ? oneNoteTypeArray.findIndex((note) => note.value === selectedNote.type) : 0;
+    const selectedOneNoteTypeData = oneNoteTypeArray[formSelectedTypeIdx];
+    const adding = pickerState === PickerState.Adding;
+    const removing = pickerState === PickerState.Removing;
 
     useEffect(() => {
         if (!isFirstRender.current) {
@@ -62,8 +70,23 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
 
         if (pickerState === PickerState.Normal) {
             setSelectedNoteId(null);
+            setFormSelectedTypeIdx(0);
+            setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
+        } else if (pickerState === PickerState.Editing) {
+            setFormSelectedTypeIdx(selectedNoteTypeIndex);
         }
     }, [pickerState]);
+
+    useEffect(() => {
+        if (!selectedNoteId || !selectedNote) {
+            return;
+        }
+        setFormOneNote(selectedNote);
+    }, [selectedNoteId]);
+
+    useEffect(() => {
+        setFormOneNote((prev) => ({ ...prev, type: oneNoteTypeArray[formSelectedTypeIdx].value }));
+    }, [formSelectedTypeIdx]);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
@@ -74,17 +97,11 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
         const handleOnPress = () => {
             if (isSelected) {
                 setSelectedNoteId(null);
+                setFormSelectedTypeIdx(0);
+                setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
             } else {
                 setSelectedNoteId(item.id);
             }
-        };
-
-        const handleEdit = () => {
-
-        };
-
-        const handleRemove = () => {
-
         };
 
         return (
@@ -96,18 +113,6 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
                     <AppText type={TextType.Body}>
                         {getAppTimeAgoText(item.date, false, true)}
                     </AppText>
-                    {
-                        isSelected && (
-                            <PageRow style={{ gap: 16, marginTop: 20 }}>
-                                <SimpleIconButton iconSrc={AppIcon.Edit} 
-                                    title={'Edit'}
-                                    onClick={handleEdit}/>
-                                <SimpleIconButton iconSrc={AppIcon.Trash} 
-                                    title={'Remove'}
-                                    onClick={handleRemove}/>
-                            </PageRow>
-                        )
-                    }
                 </PageColumn>
             </TouchableOpacity>
         );
@@ -119,25 +124,164 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
     };
 
     const onSaveClick = async () => {
-
-        const response = adding ? await createOneNote(formOneNote) : await updateOneNote(formOneNote);
+        let response;
+        if (adding) {
+            response = await createOneNote(formOneNote);
+        } else if (removing) {
+            response = await removeOneNote(formOneNote);
+        } else {
+            response = await updateOneNote(formOneNote);
+        }
         if (response.error) {
-            setAppError(new AppError('Error updating action steps: ', response.error));
+            setAppError(new AppError('Error saving note: ', response.error));
             return;
         }
 
         setPickerState(PickerState.Normal);
         setSelectedNoteId(null);
+        setFormSelectedTypeIdx(0);
         setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
     };
 
     const Body = [];
 
+    const renderTypeItem = ({ item, index }: { item: { value: OneNoteType, icon: AppIcon, label: string, details: string }; index: number }) => {
+        const handlePress = () => {
+            setFormSelectedTypeIdx(index);
+        };
+
+        return (
+            <TouchableOpacity onPress={handlePress}>
+                <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
+                    <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
+                    <PageColumn style={{ marginStart: 8, width: 250 }}>
+                        <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
+                        <AppText type={TextType.Italic} style={{}}>{item.details}</AppText>
+                    </PageColumn>
+                </PageRow>
+            </TouchableOpacity>
+        );
+    };
+
+    const Form = (
+        <PageColumn>
+            {
+                pickerState === PickerState.Adding && (
+                    <>
+                        <PageColumn style={{ marginHorizontal: 8 }}>
+                            <AppText type={TextType.DefaultSemiBold}>Type</AppText>
+                            <View>
+                                {selectedOneNoteTypeData ? (
+                                    <>
+                                        <TouchableOpacity onPress={toggleModal}>
+                                            <PageRow style={[modalStyles.card]}>
+                                                <Image source={selectedOneNoteTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
+                                                <PageColumn style={{ marginStart: 8, width: 250 }}>
+                                                    <AppText type={TextType.DefaultSemiBold} style={{}}>{selectedOneNoteTypeData.label}</AppText>
+                                                    <AppText type={TextType.Italic} style={{}}>{selectedOneNoteTypeData.details}</AppText>
+                                                </PageColumn>
+                                            </PageRow>
+                                        </TouchableOpacity>
+                                    </>
+                                ) : (
+                                    <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
+                                )}
+                            </View>
+                            <TouchableOpacity onPress={toggleModal} 
+                                style={[modalStyles.editButton, { width: 100, alignSelf: 'center' }]}>
+                                <AppText>Edit Type</AppText>
+                            </TouchableOpacity>
+                        </PageColumn>
+
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={toggleModal}
+                        >
+                            <View style={modalStyles.modalContainer}>
+                                <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                                    <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
+                                        Select a Category
+                                    </AppText>
+
+                                    <ScrollLayout style={{ maxHeight: 300 }}>
+                                        <FlatList
+                                            data={oneNoteTypeArray}
+                                            renderItem={renderTypeItem}
+                                            numColumns={1}
+                                            keyExtractor={(item, index) => index.toString()}
+                                            contentContainerStyle={modalStyles.iconList}
+                                        />
+                                    </ScrollLayout>
+                                    <TouchableOpacity
+                                        style={modalStyles.closeButton}
+                                        onPress={toggleModal}
+                                    >
+                                        <AppText>Close</AppText>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                    </>
+                )
+            }
+
+            <AppText type={TextType.Default}>Notes</AppText>
+            <TextInput
+                style={formStyles.textInput}
+                placeholder="Enter text here..."
+                placeholderTextColor={'gray'}
+                value={formOneNote.notes}
+                numberOfLines={4}
+                onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
+            />
+
+        </PageColumn>
+    );
+
+    if (pickerState !== PickerState.Normal) {
+        Body.push(
+            <PageRow spaceEvenly>
+                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+                    title={'Back'}
+                    onClick={onBackClick} />
+                <SimpleIconButton iconSrc={AppIcon.Checkmark}
+                    title={'Save'}
+                    onClick={onSaveClick} />
+            </PageRow>
+        );
+    } else {
+        Body.push(
+            <PageRow spaceEvenly>
+                {
+                    selectedNoteId === null && (
+                        <SimpleIconButton iconSrc={AppIcon.Plus}
+                            customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
+                            title={'Add'}
+                            onClick={() => setPickerState(PickerState.Adding)} />
+                    )
+                }
+
+                {
+                    selectedNoteId !== null && (
+                        <>
+                            <SimpleIconButton iconSrc={AppIcon.Edit}
+                                title={'Edit'}
+                                onClick={() => setPickerState(PickerState.Editing)} />
+                            <SimpleIconButton iconSrc={AppIcon.Trash}
+                                title={'Remove'}
+                                onClick={() => setPickerState(PickerState.Removing)} />
+                        </>
+                    )
+                }
+            </PageRow>
+        );
+    }
+
+
     if (pickerState === PickerState.Normal) {
         const partitionedNotes = OneNote.partitionNotes(oneNotes);
-
-        // TODO: Add an add button here
-
         Body.push(
             <PageColumn>
                 {Object.entries(partitionedNotes).map(([typeAsString, notesArray]) => {
@@ -173,6 +317,40 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
                     );
                 })}
             </PageColumn>
+        );
+    } else if (pickerState === PickerState.Adding) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Adding Note
+                </AppText>
+                {Form}
+            </View>
+        );
+    } else if (pickerState === PickerState.Editing) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Editing Note
+                </AppText>
+                {Form}
+            </View>
+        );
+    } else if (pickerState === PickerState.Removing && selectedNote) {
+        Body.push(
+            <View>
+                <AppText type={TextType.BodyBold} style={styles.pageHeader}>
+                    Are you sure you want to remove this action step?
+                </AppText>
+                <PageColumn style={[styles.noteCard, styles.selectedNoteCard]}>
+                    <AppText type={TextType.Default}>
+                        {selectedNote.notes}
+                    </AppText>
+                    <AppText type={TextType.Body}>
+                        {getAppTimeAgoText(selectedNote.date, false, true)}
+                    </AppText>
+                </PageColumn>
+            </View>
         );
     } else {
         Body.push(

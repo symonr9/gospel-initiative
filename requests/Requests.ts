@@ -40,7 +40,13 @@ export const makeRequest = async (url: string, method: string = 'GET', body: any
     return response;
 };
 
-export const performCreateOrUpdateRequest = async (adding: boolean, entity: any, entityType: string, controller?: AbortController): Promise<any> => {
+export enum RequestType {
+    Create,
+    Update,
+    Remove
+};
+
+export const performRequest = async (type: RequestType, entity: any, prefix: string = '', entityType: string, controller?: AbortController): Promise<any> => {
     const userId = await getLocalUserId();
     if (!userId || !entity) {
         console.error('Missing required parameters: userId, entity.');
@@ -48,7 +54,7 @@ export const performCreateOrUpdateRequest = async (adding: boolean, entity: any,
     }
 
     try {
-        const response = await makeRequest(`/${entityType}/${adding ? 'create' : 'update'}`, 'POST', 
+        const response = await makeRequest(`${prefix}/${entityType}/${getRequestSuffix(type)}`, 'POST', 
             { [entityType.slice(0, -1)]: entity }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
@@ -64,3 +70,15 @@ export const performCreateOrUpdateRequest = async (adding: boolean, entity: any,
         return { error: error.message || `An error occurred while adding/editing ${entityType.slice(0, -1)}.` };
     }
 };
+
+const getRequestSuffix = (type: RequestType) => {
+    switch (type) {
+        case RequestType.Create:
+            return 'create';
+        case RequestType.Update:
+            return 'update';
+        case RequestType.Remove:
+            return 'delete';
+    }
+    return '';
+}

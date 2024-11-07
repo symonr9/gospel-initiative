@@ -178,15 +178,15 @@ const ActionStepPicker = ({ executor, selectedOne,
 
     const Body = [];
 
-    const renderIcon = ({ item, index }: { item: { value: ActionStepType, icon: AppIcon, label: string, details: string }; index: number }) => {
-        const handleIconPress = () => {
+    const renderTypeItem = ({ item, index }: { item: { value: ActionStepType, icon: AppIcon, label: string, details: string }; index: number }) => {
+        const handlePress = () => {
             setFormSelectedTypeIdx(index);
         };
 
         return (
-            <TouchableOpacity onPress={handleIconPress}>
-                <PageRow style={[styles.iconCard, formSelectedTypeIdx === index && styles.selectedIconCard]}>
-                    <Image source={item.icon} style={[styles.icon, formSelectedTypeIdx === index && styles.selected]} />
+            <TouchableOpacity onPress={handlePress}>
+                <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
+                    <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
                     <PageColumn style={{ marginStart: 8, width: 250 }}>
                         <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Italic} style={{ }}>{item.details}</AppText>
@@ -207,8 +207,8 @@ const ActionStepPicker = ({ executor, selectedOne,
                                 {selectedActionStepTypeData ? (
                                     <>
                                         <TouchableOpacity onPress={toggleModal}>
-                                            <PageRow style={[styles.iconCard]}>
-                                                <Image source={selectedActionStepTypeData.icon} style={[styles.icon, styles.selected]} />
+                                            <PageRow style={[modalStyles.card]}>
+                                                <Image source={selectedActionStepTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
                                                 <PageColumn style={{ marginStart: 8, width: 250 }}>
                                                     <AppText type={TextType.DefaultSemiBold} style={{}}>{selectedActionStepTypeData.label}</AppText>
                                                     <AppText type={TextType.Italic} style={{}}>{selectedActionStepTypeData.details}</AppText>
@@ -241,10 +241,10 @@ const ActionStepPicker = ({ executor, selectedOne,
                                     <ScrollLayout style={{ maxHeight: 300 }}>
                                         <FlatList
                                             data={actionStepTypeArray}
-                                            renderItem={renderIcon}
+                                            renderItem={renderTypeItem}
                                             numColumns={1}
                                             keyExtractor={(item, index) => index.toString()}
-                                            contentContainerStyle={styles.iconList}
+                                            contentContainerStyle={modalStyles.iconList}
                                         />
                                     </ScrollLayout>
                                     <TouchableOpacity
@@ -409,41 +409,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     buttonRow: {
-    },
-    iconCard: {
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 4,
-        flex: 1,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        marginVertical: 8,
-        marginHorizontal: 10
-    },
-    selectedIconCard: {
-        backgroundColor: '#bbeccc',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 8,
-    },
-    iconList: {
-    },
-    icon: {
-        width: 28,
-        height: 28,
-        margin: 2,
-        verticalAlign: 'middle',
-        opacity: 0.7
-    },
-    selected: {
-        opacity: 1,
     },
 });
 
