@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Modal, TouchableOpacity, Button } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { AppText, TextType } from './AppText';
-import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { PageColumn } from './PageColumn';
-import { formatDateTime, getDaysDifference, getNextWeek } from '@/utils/appUtils';
+import { formatDateTime, formatDateTimeSimple, getDaysDifference, getNextWeek } from '@/utils/appUtils';
+import DetailsSection from './DetailsSection';
+import { AppIcon } from '@/enums/enums';
+import { PageRow } from './PageRow';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -13,12 +15,9 @@ export enum MarkingType {
     Dot = 'dot',
 };
 
-export type ISelectDatePicker = ViewProps & {
+export type ISelectDatePicker = {
     events: Date[];
-    markingType?: MarkingType;
-    title?: string;
-    currentDate?: Date;
-    initialDate?: Date;
+    variation?: DatePickerVariation;
     onDateSelected: (date: Date) => void;
 };
 
@@ -27,7 +26,7 @@ export function createSimpleMarkedDates(events: Date[]) {
         const date = event.toISOString().split('T')[0]; // Ensure the date is in YYYY-MM-DD format        
         acc[date] = {
             marked: true,
-            selected: true, // Optional: highlight the selected date
+            selected: true,
             selectedColor: '#1f77b4',
             color: 'green',
             textColor: 'white',
@@ -38,46 +37,110 @@ export function createSimpleMarkedDates(events: Date[]) {
     }, {});
 }
 
-function SelectDatePicker({ title, events, markingType = MarkingType.Dot, currentDate = new Date(), initialDate = getNextWeek(), onDateSelected }: ISelectDatePicker) {
-    const [selectedDate, setSelectedDate] = useState<Date>(initialDate); // State to store the selected date
+export enum DatePickerVariation {
+    Goal,
+    KnownSince,
+    Simple
+};
+
+function SelectDatePicker({ events, variation = DatePickerVariation.Simple, onDateSelected }: ISelectDatePicker) {
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Date>(getNextWeek());
     const markedDates = createSimpleMarkedDates(events);
+
+    const toggleModal = () => setModalVisible(!isModalVisible);
+
+    const isGoal = variation === DatePickerVariation.Goal;
+    const isKnownSince = variation === DatePickerVariation.KnownSince;
 
     const onDayPress = (day: any) => {
         const dayDate = new Date(day.dateString);
         setSelectedDate(dayDate);
         onDateSelected(dayDate);
+        toggleModal(); // Close the modal after selecting a date
     };
 
+    let Details;
+    if (variation === DatePickerVariation.Goal) {
+        Details = (
+            <PageColumn style={{ marginVertical: 8 }}>
+                <AppText type={TextType.Subtitle}>
+                    Goal: Complete in {getDaysDifference(new Date(), selectedDate)} days
+                </AppText>
+                <AppText type={TextType.Default} style={{ marginBottom: 8 }}>
+                    Target Date: {formatDateTime(selectedDate)}
+                </AppText>
+
+                <Button title={'Set Goal'}
+                    onPress={toggleModal} />
+            </PageColumn>
+        );
+    } else if (variation === DatePickerVariation.KnownSince) {
+        Details = (
+            <PageColumn style={{ marginVertical: 8 }}>
+                <AppText type={TextType.Body} style={{ marginBottom: 8 }}>
+                   {formatDateTimeSimple(selectedDate)}
+                </AppText>
+                <PageRow center>
+                    <DetailsSection iconSrc={AppIcon.Calendar} 
+                        prefix={'Known For'}
+                        title={`${getDaysDifference(new Date(), selectedDate)} Days`} 
+                    />
+                </PageRow>
+                <Button title={'Set Date'} 
+                    onPress={toggleModal} />
+            </PageColumn>
+        );
+    } else {
+        Details = (
+            <PageColumn style={{ marginVertical: 8 }}>
+                <AppText type={TextType.Subtitle2} style={{ marginBottom: 8 }}>
+                    Date: {formatDateTime(selectedDate)}
+                </AppText>
+                <Button title={'Set Date'} 
+                    onPress={toggleModal} />
+            </PageColumn>
+        );
+    }
+
     return (
-        <View style={styles.container}>
-            <View style={styles.calendarWrapper}>
-                {title && (
-                    <AppText type={TextType.BodyBold} style={styles.calendarTitle}>
-                        {title}
-                    </AppText>
-                )}
+        <View>
+            {Details}
 
-                <PageColumn style={{ marginVertical: 8 }}>
-                    <AppText type={TextType.Subtitle}>
-                        Goal: Complete in {getDaysDifference(new Date(), selectedDate)} days
-                    </AppText>
-                    <AppText type={TextType.Default}>
-                        Target Date: {formatDateTime(selectedDate)}
-                    </AppText>
-                </PageColumn>
+            <Modal
+                transparent={true}
+                visible={isModalVisible}
+                animationType="slide"
+                onRequestClose={toggleModal}>
+                <View style={styles.overlay}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.calendarWrapper}>
+                            <AppText type={TextType.BodyBold} style={styles.calendarTitle}>
+                                Select a Date
+                            </AppText>
 
-                <Calendar
-                    markedDates={markedDates}
-                    markingType={markingType}
-                    onDayPress={onDayPress}
-                    initialDate={initialDate}
-                    minDate={currentDate}
-                    current={currentDate}
-                    theme={calendarTheme}
-                    enableSwipeMonths={true}
-                    style={styles.calendar}
-                />
-            </View>
+                            <Calendar
+                                markedDates={markedDates}
+                                markingType={MarkingType.Dot}
+                                onDayPress={onDayPress}
+                                initialDate={getNextWeek()}
+                                minDate={isGoal ? new Date() : null}
+                                maxDate={isKnownSince ? new Date() : null}
+                                current={new Date()}
+                                theme={calendarTheme}
+                                enableSwipeMonths={true}
+                                style={styles.calendar}
+                            />
+
+                            <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
+                                <AppText type={TextType.BodyBold} style={styles.closeButtonText}>
+                                    Close
+                                </AppText>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -105,12 +168,22 @@ const calendarTheme = {
 };
 
 const styles = StyleSheet.create({
-    container: {
+    overlay: {
         flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent background
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 10,
+        width: '90%',
+        maxHeight: '80%',
     },
     calendarWrapper: {
         padding: 10,
-        marginHorizontal: 8
+        marginHorizontal: 8,
     },
     calendarTitle: {
         marginBottom: 10,
@@ -124,8 +197,17 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
-        shadowRadius: 6, // Shadow radius for a softer shadow
+        shadowRadius: 6,
         elevation: 4,
+    },
+    closeButton: {
+        alignItems: 'center',
+        paddingVertical: 12,
+        marginTop: 16,
+    },
+    closeButtonText: {
+        color: '#007aff',
+        fontSize: 16,
     },
 });
 

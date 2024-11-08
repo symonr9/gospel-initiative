@@ -7,12 +7,12 @@ import { Image } from 'expo-image';
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 import { useBackgroundThemeColor } from '@/constants/Colors';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 
 export type ISimpleCard = ViewProps & {
-  iconSrc: AppIcon | null;
+  iconSrc: AppIcon | AvatarIcon | null;
   title: string;
   subtitle?: string;
   detailsView?: any;

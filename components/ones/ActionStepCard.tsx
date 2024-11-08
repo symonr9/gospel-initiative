@@ -31,7 +31,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <PageRow style={[styles.actionStepCard, actionStep.isComplete && styles.completed, selected && styles.selected, style]}>
+      <PageRow style={[styles.card, actionStep.isComplete && styles.completed, selected && styles.selected, style]}>
         <Image source={icon} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>        
@@ -61,7 +61,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
 }
 
 const styles = StyleSheet.create({
-  actionStepCard: {
+  card: {
     padding: 10,
     marginBottom: 12,
     borderRadius: 8,

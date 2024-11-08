@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, formatDateTime } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, formatDateTime, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -13,7 +13,7 @@ import { ActionStepCard } from './ActionStepCard';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles, modalStyles } from '@/styles/Styles';
-import SelectDatePicker from '../common/SelectDatePicker';
+import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
 import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
 import { createChristian, createOneNote, removeChristian, removeOneNote, updateActionSteps, updateChristian, updateOneNote } from "@/requests/oneRequests";
@@ -23,6 +23,9 @@ import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
 import { SimpleCard } from '../common/SimpleCard';
 import Christian from '@/models/christian';
+import AvatarIconPicker from '../common/AvatarIconPicker';
+import CategoryPicker from '../common/CategoryPicker';
+import { ChristianCard } from './ChristianCard';
 
 export type IChristianPicker = ViewProps & {
     executor: User;
@@ -49,6 +52,9 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
     const selectedChristian = selectedChristianId ? christians.find((christian) => christian.id === selectedChristianId) : null;
     const adding = pickerState === PickerState.Adding;
     const removing = pickerState === PickerState.Removing;
+
+    const oneKnownSinceEvents = formChristian.oneKnownSince ? [formChristian.oneKnownSince] : [];
+    const knownSinceEvents = formChristian.knownSince ? [formChristian.knownSince] : [];
 
     useEffect(() => {
         if (!isFirstRender.current) {
@@ -85,13 +91,9 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
         };
 
         return (
-            <TouchableOpacity onPress={handleOnPress}>
-                <PageColumn style={[styles.noteCard, isSelected && styles.selectedNoteCard]}>
-                    <AppText type={TextType.Default}>
-                        {item.notes}
-                    </AppText>
-                </PageColumn>
-            </TouchableOpacity>
+            <ChristianCard christian={item} 
+                selected={isSelected}
+                handleOnPress={handleOnPress}/>
         );
     };
 
@@ -109,6 +111,7 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
         } else {
             response = await updateChristian(formChristian);
         }
+
         if (response.error) {
             setAppError(new AppError('Error saving christian: ', response.error));
             return;
@@ -121,32 +124,95 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
 
     const Body = [];
 
-    // TODO: Fill out this form
-    
     const Form = (
         <PageColumn>
+            <PageRow spaceEvenly>
+                <PageColumn style={styles.section}>
+                    <AvatarIconPicker selectedIcon={formChristian.icon}
+                        setSelectedIcon={(icon) => setFormChristian((prev) => ({ ...prev, icon }))} />
+                </PageColumn>
 
-            <AppText type={TextType.Default}>Notes</AppText>
-            <TextInput
-                style={formStyles.textInput}
-                placeholder="Enter text here..."
-                placeholderTextColor={'gray'}
-                value={formChristian.notes}
-                numberOfLines={4}
-                onChangeText={(text) => setFormChristian((prev) => ({ ...prev, notes: text }))}
-            />
+                <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
+                    <AppText type={TextType.DefaultSemiBold}>Name of Christian</AppText>
+                    <TextInput
+                        style={formStyles.textInput}
+                        placeholder="Enter name here..."
+                        placeholderTextColor={'gray'}
+                        value={formChristian.name}
+                        numberOfLines={1}
+                        onChangeText={(name) => setFormChristian((prev) => ({ ...prev, name }))}
+                    />
+                </PageColumn>
+            </PageRow>
+
+            <PageRow spaceEvenly>
+                <PageColumn style={[styles.section, { gap: 8, width: '50%' }]}>
+                    <AppText type={TextType.DefaultSemiBold}>Relationship with One</AppText>
+                    <CategoryPicker selectedCategory={formChristian.oneCategory}
+                        setSelectedCategory={(oneCategory) => setFormChristian((prev) => ({ ...prev, oneCategory }))}
+                    />
+                </PageColumn>
+
+                <PageColumn style={[styles.section, { gap: 8, width: '50%' }]}>
+                    <AppText type={TextType.DefaultSemiBold}>Relationship with You</AppText>
+                    <CategoryPicker selectedCategory={formChristian.category}
+                        setSelectedCategory={(category) => setFormChristian((prev) => ({ ...prev, category }))}
+                    />
+                </PageColumn>
+            </PageRow>
+
+            <PageRow spaceEvenly>
+                <PageColumn style={[styles.section, { gap: 8, width: '45%' }]}>
+                    <AppText type={TextType.DefaultSemiBold}>Known One since</AppText>
+                    <SelectDatePicker events={oneKnownSinceEvents}
+                        variation={DatePickerVariation.KnownSince}
+                        onDateSelected={(oneKnownSince) => setFormChristian((prev) => ({ ...prev, oneKnownSince }))} />
+                </PageColumn>
+                <PageColumn style={[styles.section, { gap: 8, width: '45%' }]}>
+                    <AppText type={TextType.DefaultSemiBold}>Known You since</AppText>
+                    <SelectDatePicker events={knownSinceEvents}
+                        variation={DatePickerVariation.KnownSince}
+                        onDateSelected={(knownSince) => setFormChristian((prev) => ({ ...prev, knownSince }))} />
+                </PageColumn>
+            </PageRow>
+
+            <PageColumn style={{ marginHorizontal: 12, marginVertical: 10 }}>
+                <AppText type={TextType.DefaultSemiBold}>Notes</AppText>
+                <TextInput
+                    style={formStyles.multiLineTextInput}
+                    placeholder="Enter text here..."
+                    placeholderTextColor={'gray'}
+                    value={formChristian.notes}
+                    numberOfLines={4}
+                    onChangeText={(notes) => setFormChristian((prev) => ({ ...prev, notes }))}
+                />
+            </PageColumn>
+
+            <PageColumn style={{ marginHorizontal: 12, marginVertical: 10 }}>
+                <AppText type={TextType.DefaultSemiBold}>Mutual Interests</AppText>
+                <TextInput
+                    style={formStyles.multiLineTextInput}
+                    placeholder="Enter mutual interests here..."
+                    placeholderTextColor={'gray'}
+                    value={formChristian.mutualInterests}
+                    numberOfLines={4}
+                    onChangeText={(mutualInterests) => setFormChristian((prev) => ({ ...prev, mutualInterests }))}
+                />
+            </PageColumn>
 
         </PageColumn>
     );
 
     if (pickerState !== PickerState.Normal) {
+        const saveIcon = removing ? AppIcon.Trash : AppIcon.Checkmark;
+        const saveText = removing ? 'Confirm' : 'Save';
         Body.push(
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     title={'Back'}
                     onClick={onBackClick} />
-                <SimpleIconButton iconSrc={AppIcon.Checkmark}
-                    title={'Save'}
+                <SimpleIconButton iconSrc={saveIcon}
+                    title={saveText}
                     onClick={onSaveClick} />
             </PageRow>
         );
@@ -214,11 +280,7 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Are you sure you want to remove this Christian?
                 </AppText>
-                <PageColumn style={[styles.noteCard, styles.selectedNoteCard]}>
-                    <AppText type={TextType.Default}>
-                        {selectedChristian.notes}
-                    </AppText>
-                </PageColumn>
+                <ChristianCard christian={selectedChristian}/>
             </View>
         );
     } else {
@@ -233,7 +295,7 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
 
     return (
         <View style={styles.container}>
-            <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
+            <AppText type={TextType.Subtitle} style={styles.title}>Christians</AppText>
             {Body.map((item) => item)}
         </View>
     );
@@ -244,13 +306,27 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         paddingBottom: 8,
         borderBottomColor: 'lightgray',
-        borderBottomWidth: 2
+        borderBottomWidth: 2,
     },
     pageHeader: {
         marginBottom: 8,
     },
     title: {
         marginBottom: 8,
+    },
+    section: {
+        marginVertical: 12,
+        alignItems: 'center'
+    },
+    nameSection: {
+        padding: 8,
+        backgroundColor: '#fff',
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        elevation: 4,
+        borderRadius: 8,
     },
     list: {
         marginTop: 16,

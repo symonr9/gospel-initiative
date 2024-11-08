@@ -41,7 +41,7 @@ const categoryArray = [
 
 export type ICategoryPicker = ViewProps & {
     selectedCategory: OneCategory;
-    setSelectedCategory: Function;
+    setSelectedCategory: (oneCategory: OneCategory) => void;
 };
 
 const CategoryPicker = ({ selectedCategory, setSelectedCategory }: ICategoryPicker) => {

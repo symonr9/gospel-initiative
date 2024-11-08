@@ -106,6 +106,23 @@ export function formatDateTime(date: Date | null | undefined): string {
     return `${dayOfWeek}, ${month} ${day}, ${year} at ${hour}:${minute} ${ampm}`;
 }
 
+export function formatDateTimeSimple(date: Date | null | undefined): string {
+    if (!date) {
+        return '';
+    }
+
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+}
+
 export function getDaysPrayedForText(date: Date): string {
     const now = new Date();
     const timeDifference = now.getTime() - date.getTime();
@@ -1229,7 +1246,7 @@ function shuffleArray<T>(array: T[]): T[] {
 export function getDaysDifference(startDate: Date, currentDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
     const diffInTime = currentDate.getTime() - startDate.getTime();
-    return Math.floor(diffInTime / oneDay);
+    return Math.abs(Math.floor(diffInTime / oneDay));
 }
 
 /**

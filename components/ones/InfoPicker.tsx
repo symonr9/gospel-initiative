@@ -50,7 +50,7 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const oneNotes = selectedOne?.christians || [];
+    const oneNotes = selectedOne?.oneNotes || [];
     const selectedNote = selectedNoteId ? oneNotes.find((note) => note.id === selectedNoteId) : null;
     const selectedNoteTypeIndex = selectedNote ? oneNoteTypeArray.findIndex((note) => note.value === selectedNote.type) : 0;
     const selectedOneNoteTypeData = oneNoteTypeArray[formSelectedTypeIdx];

@@ -13,7 +13,7 @@ import { ActionStepCard } from './ActionStepCard';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles, modalStyles } from '@/styles/Styles';
-import SelectDatePicker from '../common/SelectDatePicker';
+import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
 import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
 import DetailsSection from '../common/DetailsSection';
 import { updateActionSteps } from "@/requests/oneRequests";
@@ -272,6 +272,7 @@ const ActionStepPicker = ({ executor, selectedOne,
 
             <PageRow style={{ alignSelf: 'center' }}>
                 <SelectDatePicker events={events}
+                    variation={DatePickerVariation.Goal}
                     onDateSelected={onDateSelected} />
             </PageRow>
         </PageColumn>

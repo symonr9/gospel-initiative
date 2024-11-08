@@ -78,7 +78,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
     const actionSteps = selectedOne ? selectedOne.actionSteps : [];
     const firstActionStep = actionSteps?.length > 0 ? actionSteps[0] : null;
     const christians = selectedOne ? selectedOne.christians : [];
-    const oneNotes = selectedOne ? selectedOne.christians : [];
+    const oneNotes = selectedOne ? selectedOne.oneNotes : [];
 
     const [message, setMessage] = useState<string | null>(null);
     const [bodyType, setBodyType] = useState(BodyType.Base);
