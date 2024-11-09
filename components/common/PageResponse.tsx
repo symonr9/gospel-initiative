@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    oneFacts: state.ones.facts,
+
 });
 
 

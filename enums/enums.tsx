@@ -139,22 +139,6 @@ export enum OneStage {
     Hostile = 8
 };
 
-export enum OneFactType {
-    Background = 1,
-    Family = 2,
-    Likes = 3,
-    Dislikes = 4,
-    Work = 5,
-    Hobbies = 6,
-    Education = 7,
-    SpiritualBeliefs = 8,
-    LifeGoals = 9,
-    Favorite = 10,
-    FaithBackground = 11,
-    CommonGround = 12,
-    PrayerPoint = 13,
-};
-
 export enum OneNoteType {
     StoryOfHowYouBothMet = 1,
     WhatIsRelationshipLike = 2,

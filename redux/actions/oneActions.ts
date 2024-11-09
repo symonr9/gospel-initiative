@@ -1,7 +1,6 @@
 import One from "@/models/one";
 import { Action } from "../actions";
 import ActionStep from "@/models/actionStep";
-import OneFact from "@/models/oneFact";
 import OneForm from "@/models/oneForm";
 
 export const addOne = (item: One) => ({
@@ -27,11 +26,6 @@ export const addActionStep = (item: ActionStep) => ({
 export const editActionSteps = (actionSteps: ActionStep[], oneId: string) => ({
     type: Action.EditActionSteps,
     payload: { actionSteps, oneId },
-});
-
-export const AddOneFact = (item: OneFact) => ({
-    type: Action.AddOneFact,
-    payload: item,
 });
 
 export const setOneForm = (item: OneForm) => ({

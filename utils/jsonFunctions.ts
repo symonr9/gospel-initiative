@@ -1,6 +1,6 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneFactType, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority } from "@/enums/enums";
 import One from "@/models/one";
-import { mapOneFactTypeToAppIcon, shouldKeepChapter } from "./appUtils";
+import { shouldKeepChapter } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
 import { LeaderType } from "@/enums/enums";
 import { Role } from "@/enums/enums";
@@ -328,20 +328,6 @@ export function getPromptsFromJson() {
             response: item.response,
             type: type
         };
-    });
-}
-
-export function getOneFactsFromJson() {
-    return onesFactsJson.map(item => {
-        const type: OneFactType = item.type as OneFactType;
-        return {
-            id: item.id,
-            notes: item.notes,
-            priority: item.priority,
-            type: item.type,
-            oneId: item.oneId,
-            icon: mapOneFactTypeToAppIcon(type)
-        }
     });
 }
 

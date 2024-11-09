@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneFactType, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import One from "@/models/one";
@@ -436,39 +436,6 @@ export function mapOneNoteTypeToAppIcon(type: OneNoteType): AppIcon {
             return AppIcon.Prayer;
         default:
             return AppIcon.LightBulb;
-    }
-}
-
-export function mapOneFactTypeToAppIcon(oneFactType: OneFactType): AppIcon {
-    switch (oneFactType) {
-        case OneFactType.Background:
-            return AppIcon.Man1;
-        case OneFactType.Family:
-            return AppIcon.Tree;
-        case OneFactType.Likes:
-            return AppIcon.Cherries;
-        case OneFactType.Dislikes:
-            return AppIcon.Skull;
-        case OneFactType.Work:
-            return AppIcon.City;
-        case OneFactType.Hobbies:
-            return AppIcon.Bird;
-        case OneFactType.Education:
-            return AppIcon.Edit;
-        case OneFactType.SpiritualBeliefs:
-            return AppIcon.Christ;
-        case OneFactType.LifeGoals:
-            return AppIcon.CrossChurch;
-        case OneFactType.Favorite:
-            return AppIcon.ChurchValentines;
-        case OneFactType.FaithBackground:
-            return AppIcon.Church;
-        case OneFactType.CommonGround:
-            return AppIcon.NetworkPeople;
-        case OneFactType.PrayerPoint:
-            return AppIcon.Prayer;
-        default:
-            return AppIcon.Globe;
     }
 }
 

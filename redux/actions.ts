@@ -22,7 +22,6 @@ export enum Action {
     AddLocalMinistry = "ADD_LOCAL_MINISTRY",
     AddMissionsTrip = "ADD_MISSIONS_TRIP",
     AddPrompt = "ADD_PROMPT",
-    AddOneFact = "ADD_ONE_FACT",
     AddMyStoryChapter = "ADD_MY_STORY_CHAPTER",
     AddActionStep = "ADD_ACTION_STEP",
     EditActionSteps = "EDIT_ACTION_STEPS",
