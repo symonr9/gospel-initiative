@@ -66,7 +66,6 @@ const GospelChecklist = ({ executor, selectedOne, refreshData, setSelectedOne, s
                 }
 
                 refreshData(RefreshSpec.Ones);
-                setSelectedOne(response);
             } catch (err: any) {
                 setAppError(new AppError('Error updating one: ', err));
             }

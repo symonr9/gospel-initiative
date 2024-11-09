@@ -122,23 +122,31 @@ const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPi
     const onSaveClick = async () => {
         let response;
         if (adding) {
-            response = await createOneNote(formOneNote);
+            await createOneNote(formOneNote).then((response) => {
+                handleResponse(response);
+            });
         } else if (removing) {
-            response = await removeOneNote(formOneNote);
+            await removeOneNote(formOneNote).then((response) => {
+                handleResponse(response);
+            });
         } else {
-            response = await updateOneNote(formOneNote);
+            await updateOneNote(formOneNote).then((response) => {
+                handleResponse(response);
+            });
         }
+    };
+
+    const handleResponse = async (response: any) => {
         if (response.error) {
             setAppError(new AppError('Error saving note: ', response.error));
             return;
         }
-
         refreshData(RefreshSpec.Ones);
         setPickerState(PickerState.Normal);
         setSelectedNoteId(null);
         setFormSelectedTypeIdx(0);
         setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
-    };
+    }
 
     const Body = [];
 

@@ -131,7 +131,6 @@ function OnesLayout({ selectedOne, ones, oneForm, executor,
                 }
 
                 refreshData(RefreshSpec.Ones);
-                setSelectedOne(response);
                 setOneForm(OneForm.createDefault());
                 setMessage("Your One has been successfully created!");
                 setActiveLayoutType(OneLayoutType.Normal);
@@ -182,7 +181,6 @@ function OnesLayout({ selectedOne, ones, oneForm, executor,
                 }
 
                 refreshData(RefreshSpec.Ones);
-                setSelectedOne(response);
                 setOneForm(OneForm.createDefault());
                 setMessage("Your One has been successfully updated!");
                 setActiveLayoutType(OneLayoutType.Normal);

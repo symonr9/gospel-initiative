@@ -78,7 +78,6 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             missionsTrips: JsonFunctions.getMissionsTripsJson(),
             missionsTripLeaders: [],
             ones: ones,
-            oneFacts: JsonFunctions.getOneFactsFromJson(),
             activeBeacons: activeBeacons,
             expiredBeacons: expiredBeacons,
             beaconTemplates: JsonFunctions.getBeaconTemplatesFromJson(),

@@ -152,16 +152,17 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
             newActionSteps.push(formActionStep);
         }
 
-        const response = await updateActionSteps(newActionSteps, selectedOne.id);
-        if (response.error) {
-            setAppError(new AppError('Error updating action steps: ', response.error));
-            return;
-        }
-
-        refreshData(RefreshSpec.Ones);
-        setSelectedStepId(null);
-        setFormSelectedTypeIdx(0);
-        setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
+        await updateActionSteps(newActionSteps, selectedOne.id).then((response) => {
+            if (response.error) {
+                setAppError(new AppError('Error updating action steps: ', response.error));
+                return;
+            }
+    
+            refreshData(RefreshSpec.Ones);
+            setSelectedStepId(null);
+            setFormSelectedTypeIdx(0);
+            setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
+        });
     };
 
     const onDateSelected = (date: Date) => {
@@ -411,10 +412,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const selectedOne = state.ones.selectedOne;
     return {
         executor: state.users.executor,
-        selectedOne,
+        selectedOne: state.ones.selectedOne,
     };
 };
 

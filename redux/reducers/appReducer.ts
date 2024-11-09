@@ -26,8 +26,8 @@ export function appReducer(state = initialState, action: ActionPackage) {
         case Action.RefreshData:
             return update(state, {
                 $set: {
-                    ...state,
-                    refreshSpec: action.payload,
+                    ...state,                
+                    refreshSpec: action.payload === state.refreshSpec ? {...action.payload} : action.payload,
                 }
             });
         case Action.SetHomeDailies: 

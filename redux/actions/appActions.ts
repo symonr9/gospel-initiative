@@ -30,10 +30,12 @@ export const openPage = (item: Page) => ({
 /**
  * By default, refresh all server data.
  */
-export const refreshData = (items: RefreshSpec = RefreshSpec.None) => ({
+export const refreshData = (item: RefreshSpec = RefreshSpec.None) => ({
     type: Action.RefreshData,
-    payload: items
+    payload: item
 });
+
+
 
 export const setAppError = (error: Error) => ({
     type: Action.SetAppError,
