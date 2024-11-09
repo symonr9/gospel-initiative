@@ -7,8 +7,8 @@ import * as JsonFunctions from '../utils/jsonFunctions';
 import { getLocalUserId } from '@/utils/storageUtils';
 import { fetchServerData } from "@/requests/userRequests";
 import { createUser } from "@/requests/userRequests";
-import { fetchBeacons } from "@/requests/beaconRequests";
 import AppError from '@/models/error';
+import { RefreshSpec } from '@/enums/enums';
 
 export type IDataRefreshManager = {
     state: any,
@@ -23,9 +23,6 @@ function hasConstantsLoaded() {
 }
 
 function DataRefreshManager({ state, loadServerData, refreshData, setAppError }: IDataRefreshManager) {
-
-    const isFirstRender = useRef(false);
-
     console.log("State: ", state);
 
     useEffect(() => {
@@ -38,13 +35,11 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
     }, []);
 
     useEffect(() => {
-        if (!isFirstRender.current) {
-            isFirstRender.current = true;
+        if (state.app.refreshSpec === RefreshSpec.None) {
             return;
         }
-
-        fetchData();
-    }, [state.app.shouldRefreshData]);
+        fetchData(state.app.refreshSpec);
+    }, [state.app.refreshSpec]);
 
     const loadSettings = async () => {
         const userId = await getLocalUserId();
@@ -55,31 +50,24 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
                 return;
             }
         }
-        fetchData();
+        fetchData(RefreshSpec.All);
     }
 
-    const fetchData = async () => {
+    const fetchData = async (refreshSpec: RefreshSpec) => {
+        if (refreshSpec === RefreshSpec.None) {
+            return;
+        }
+
         const userId = await getLocalUserId();
         if (!userId) {
             setAppError(new AppError('Missing User ID...', 'Something went wrong'));
             return;
         }
 
-        const { user, ones, myStoryChapters, error } = await fetchServerData();
+        const { user, ones, myStoryChapters, 
+            activeBeacons, expiredBeacons, error } = await fetchServerData(refreshSpec);
         if (error) {
             setAppError(new AppError(error, 'Something went wrong'));
-            return;
-        }
-
-        const activeBeacons = await fetchBeacons();
-        if (activeBeacons.error) {
-            setAppError(new AppError(activeBeacons.error, 'Something went wrong'));
-            return;
-        }
-
-        const expiredBeacons = await fetchBeacons(false);
-        if (expiredBeacons.error) {
-            setAppError(new AppError(expiredBeacons.error, 'Something went wrong'));
             return;
         }
 
@@ -99,7 +87,7 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
             myStoryChapters: myStoryChapters,
             GodsStoryChapters: JsonFunctions.getGodsStoryChaptersFromJson(),
             storyActivities: JsonFunctions.getStoryActivitiesFromJson(),
-            users: [user],
+            users: user ? [user] : null,
             executor: user,
         });
     };

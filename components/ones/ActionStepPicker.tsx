@@ -1,10 +1,10 @@
-import { ActionStepType, AppIcon } from '@/enums/enums';
+import { ActionStepType, AppIcon, RefreshSpec } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails } from '@/utils/appUtils';
+import { mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -14,8 +14,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles, modalStyles } from '@/styles/Styles';
 import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
-import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
-import DetailsSection from '../common/DetailsSection';
+import { refreshData, setAppError } from '@/redux/actions';
 import { updateActionSteps } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
@@ -33,8 +32,7 @@ const actionStepTypeArray = Object.keys(ActionStepType)
 export type IActionStepPicker = ViewProps & {
     executor: User;
     selectedOne: One;
-    addActionStep: Function;
-    editActionSteps: Function;
+    refreshData: Function;
     setAppError: Function;
 };
 
@@ -46,8 +44,7 @@ export enum PickerState {
     Completing
 }
 
-const ActionStepPicker = ({ executor, selectedOne,
-    addActionStep, editActionSteps, setAppError }: IActionStepPicker) => {
+const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: IActionStepPicker) => {
 
     const actionSteps = selectedOne ? selectedOne.actionSteps : [];
 
@@ -161,7 +158,7 @@ const ActionStepPicker = ({ executor, selectedOne,
             return;
         }
 
-        editActionSteps(response);
+        refreshData(RefreshSpec.Ones);
         setSelectedStepId(null);
         setFormSelectedTypeIdx(0);
         setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
@@ -423,8 +420,7 @@ const mapStateToProps = (state: any) => {
 
 
 const mapDispatchToProps = {
-    addActionStep,
-    editActionSteps,
+    refreshData,
     setAppError
 };
 

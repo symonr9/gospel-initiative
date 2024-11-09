@@ -1,6 +1,15 @@
 
 // App
 
+export enum RefreshSpec {
+    None,
+    All,
+    User,
+    Ones,
+    Stories,
+    Beacons
+};
+
 // TODO: Refactor into ShareChristPageState.
 export enum Page {
     ShareChrist = 1,

@@ -12,8 +12,8 @@ export function usersReducer(state = initialState, action: ActionPackage) {
             const { executor, users } = action.payload;
             return update(state, {
                 $set: {
-                    executor: executor || null,
-                    users: users || [],
+                    executor: executor || state.executor,
+                    users: users || state.users,
                 }
             });
         default:

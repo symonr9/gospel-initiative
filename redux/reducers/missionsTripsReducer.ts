@@ -12,8 +12,8 @@ export function missionsTripsReducer(state = initialState, action: ActionPackage
             const { missionsTrips, missionsTripLeaders } = action.payload;
             return update(state, {
                 $set: {
-                    missionsTrips: missionsTrips || [],
-                    missionsTripLeaders: missionsTripLeaders,
+                    missionsTrips: missionsTrips || state.missionsTrips,
+                    missionsTripLeaders: missionsTripLeaders || state.missionsTripLeaders,
                 }
             });
         case Action.AddMissionsTrip:

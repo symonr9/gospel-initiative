@@ -11,14 +11,17 @@ export function activitiesReducer(state = initialState, action: ActionPackage) {
         case Action.LoadServerData:
             const { activeBeacons, expiredBeacons, storyActivities } = action.payload;
 
-            const activeBeaconActivities = activeBeacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || [];
-            const expiredBeaconActivities = expiredBeacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || [];
-            const beaconActivities = activeBeaconActivities.concat(expiredBeaconActivities);
+            const activeBeaconActivities = activeBeacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || null;
+            const expiredBeaconActivities = expiredBeacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || null;
+            const needsUpdate = activeBeaconActivities && expiredBeaconActivities;
+            const beaconActivities = needsUpdate 
+                ? activeBeaconActivities.concat(expiredBeaconActivities)
+                : state.beaconActivities;
             
             return update(state, {
                 $set: {
                     beaconActivities: beaconActivities,
-                    storyActivities: storyActivities || []
+                    storyActivities: storyActivities || state.storyActivities
                 }
             });
         case Action.AddBeaconActivity:

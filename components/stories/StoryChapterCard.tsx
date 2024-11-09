@@ -11,7 +11,7 @@ import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';
 import { PageChip } from '../common/PageChip';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, RefreshSpec } from '@/enums/enums';
 import ScrollLayout from '../common/ScrollLayout';
 import { SimpleCard } from '../common/SimpleCard';
 import { formStyles } from '@/styles/Styles';
@@ -95,7 +95,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
         setAppError(new AppError('Error updating chapter: ', response.error));
         return;
       }
-      refreshData();
+      refreshData(RefreshSpec.Stories);
       resetPage();
     }
   };
@@ -122,7 +122,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                 setAppError(new AppError('Error deleting chapter: ', response.error));
                 return;
               }
-              refreshData();
+              refreshData(RefreshSpec.Stories);
               resetPage();
             }
           }

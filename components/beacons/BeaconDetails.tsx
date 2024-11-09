@@ -6,12 +6,12 @@ import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from '
 
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedBeacon } from '@/models/beacon';
-import { AppIcon, FadeDirection } from '@/enums/enums';
+import { AppIcon, FadeDirection, RefreshSpec } from '@/enums/enums';
 import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText } from '@/utils/appUtils';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
-import { addNoteToActivity, addBeaconActivity, setAppError } from '@/redux/actions';
+import { setAppError, refreshData } from '@/redux/actions';
 import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
@@ -33,13 +33,12 @@ export type IBeaconDetails = ViewProps & {
     executor: User;
     beaconActivities: BeaconActivity[];
 
-    addNoteToActivity: Function;
-    addBeaconActivity: Function;
+    refreshData: Function;
     setAppError: Function;
 };
 
 function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
-    completedBeacons, incomingBeacons, executor, addBeaconActivity, addNoteToActivity,
+    completedBeacons, incomingBeacons, executor, refreshData,
     beaconActivities, setAppError }: IBeaconDetails) {
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
@@ -145,7 +144,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             return;
         }
 
-        addNoteToActivity(response.id, response.note);
+        refreshData(RefreshSpec.Beacons);
         setCustomNote('');
         setSelectedNoteIdx(0);
     };
@@ -169,7 +168,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             return;
         }
 
-        addBeaconActivity(response);
+        refreshData(RefreshSpec.Beacons);
     };
 
     const beaconTagArray = tags ? tags
@@ -456,8 +455,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-    addBeaconActivity,
-    addNoteToActivity,
+    refreshData,
     setAppError
 };
 

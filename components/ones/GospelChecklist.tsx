@@ -1,4 +1,4 @@
-import { AppIcon, GospelChecklistItem } from '@/enums/enums';
+import { AppIcon, GospelChecklistItem, RefreshSpec } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, ViewProps, FlatList } from 'react-native';
 import Checkbox from 'expo-checkbox';
@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import One from '@/models/one';
-import { editOne, setAppError, setSelectedOne } from '@/redux/actions';
+import { refreshData, setAppError, setSelectedOne } from '@/redux/actions';
 import { calculatePercent, mapGospelChecklistItemTypeToDetails, mapGospelChecklistItemTypeToIcon, mapGospelChecklistItemTypeToTitle, mapGospelChecklistItemTypeToVersesAndQuestions } from '@/utils/appUtils';
 import { formStyles } from '@/styles/Styles';
 import { PageColumn } from '../common/PageColumn';
@@ -30,12 +30,12 @@ const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
 export type IGospelChecklist = ViewProps & {
     executor: User;
     selectedOne: One;
-    editOne: Function;
+    refreshData: Function;
     setSelectedOne: Function;
     setAppError: Function;
 };
 
-const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAppError }: IGospelChecklist) => {
+const GospelChecklist = ({ executor, selectedOne, refreshData, setSelectedOne, setAppError }: IGospelChecklist) => {
     const [expandedIndices, setExpandedIndices] = useState<number[]>([]);
 
     const selectedOneItems = Array.from(new Set(selectedOne.gospelChecklist)); // Set removes dupes.
@@ -65,7 +65,7 @@ const GospelChecklist = ({ executor, selectedOne, editOne, setSelectedOne, setAp
                     return;
                 }
 
-                editOne(response);
+                refreshData(RefreshSpec.Ones);
                 setSelectedOne(response);
             } catch (err: any) {
                 setAppError(new AppError('Error updating one: ', err));
@@ -186,7 +186,7 @@ const mapStateToProps = (state: any) => {
 
 
 const mapDispatchToProps = {
-    editOne,
+    refreshData,
     setAppError,
     setSelectedOne
 };

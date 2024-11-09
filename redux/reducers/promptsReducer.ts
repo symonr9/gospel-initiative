@@ -11,7 +11,7 @@ export function promptsReducer(state = initialState, action: ActionPackage) {
             const { prompts } = action.payload;
             return update(state, {
                 $set: {
-                    prompts: prompts || [],
+                    prompts: prompts || state.prompts,
                 }
             });
         case Action.AddPrompt:

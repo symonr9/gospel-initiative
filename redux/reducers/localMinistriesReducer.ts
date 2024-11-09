@@ -13,9 +13,9 @@ export function localMinistriesReducer(state = initialState, action: ActionPacka
             const { localMinistries, localEvents, localMinistryLeaders } = action.payload;
             return update(state, {
                 $set: {
-                    localMinistries: localMinistries || [],
-                    localEvents: localEvents || [],
-                    localMinistryLeaders: localMinistryLeaders || []
+                    localMinistries: localMinistries || state.localMinistries,
+                    localEvents: localEvents || state.localEvents,
+                    localMinistryLeaders: localMinistryLeaders || state.localMinistryLeaders
                 }
             });
         case Action.AddLocalMinistry:

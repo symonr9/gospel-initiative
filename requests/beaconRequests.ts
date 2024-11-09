@@ -5,35 +5,6 @@ import { makeRequest } from "./Requests";
 import One from "@/models/one";
 import { getBeaconActivityFromJson, getBeaconFromJson } from "@/utils/jsonFunctions";
 
-export const fetchBeacons = async (active: Boolean = true) => {
-    try {
-        const response = await makeRequest(`/beacons/${active ? 'active' : 'expired'}`);
-        if (!response) {
-            return { error: 'Failed to contact server.' };
-        } else if (response.data.error) {
-            return { error: response.data.error };
-        } else if (response.status !== 200) {
-            return { error: `Response returned error: ${response.status}` };
-        }
-
-        return response.data.map((item: any) => {
-            const beacon = getBeaconFromJson(item);
-
-            beacon.userName = item.user.name;
-            beacon.userIcon = AvatarIcon[item.user.icon as keyof typeof AvatarIcon];
-            beacon.oneName = item.one.name;
-            beacon.oneIcon = AvatarIcon[item.one.icon as keyof typeof AvatarIcon];
-            beacon.oneStage = item.one.stage as OneStage;
-
-            return beacon;
-        });
-    } catch (error) {
-        console.error('Error retrieving data:', error);
-    }
-
-    return [];
-};
-
 export const createBeacon = async (beacon: Beacon, controller?: AbortController): Promise<Beacon | any> => {
     if (!beacon) {
         console.error('Missing required parameters: beacon.');

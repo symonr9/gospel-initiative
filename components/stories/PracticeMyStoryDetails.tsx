@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View, ScrollView, TextInput } from 'react-native'
 
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, RefreshSpec } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
@@ -74,13 +74,13 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
   const saveChapters = async (controller: AbortController) => {
     try {
       const data = await createChapters(chapterArray, controller);
-
       if (!data || data.error) {
         setAppError(new AppError(data.error || 'Something went wrong'));
         resetPage();
         return;
       }
-
+      
+      refreshData(RefreshSpec.Stories);
       setPageState(PageState.Page8);
     } catch (err: any) {
       setAppError(new AppError('Error saving chapters: ', err));
@@ -329,7 +329,6 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     );
   } else if (pageState === PageState.Page8) {
     const onCompleteClick = () => {
-      refreshData();
       resetPage();
     };
 

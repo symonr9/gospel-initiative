@@ -1,17 +1,14 @@
 
 import React from 'react';
-import { View, type ViewProps, StyleSheet, TouchableOpacity } from 'react-native';
+import { type ViewProps, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
-import { SimpleCard } from '../common/SimpleCard';
 import ActionStep from '@/models/actionStep';
 import { AppIcon } from '@/enums/enums';
-import { AnimatedCard } from '../common/AnimatedCard';
 import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToDetails, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
-import { SimpleIcon } from '../common/SimpleIcon';
 
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;

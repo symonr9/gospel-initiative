@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList, Alert } from 'react-native'; // Import Aler
 import { Image } from 'expo-image';
 
 import Animated, { FadeInRight } from 'react-native-reanimated';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, RefreshSpec } from '@/enums/enums';
 import { AppText, TextType } from '../common/AppText';
 import { BeaconWithActivities } from '@/models/beacon';
 import { PageRow } from '../common/PageRow';
@@ -20,10 +20,12 @@ type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
     style?: any;
 
+    refreshData: Function;
     setAppError: Function;
 };
 
-export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppError, style = {} }: IActiveBeaconsActivityList) {
+export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, 
+    refreshData, setAppError, style = {} }: IActiveBeaconsActivityList) {
     const duration = 400;
     const delay = 200;
 
@@ -57,6 +59,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, setAppE
                                 setAppError(new AppError('Error deactivating beacon: ', response.error));
                                 return;
                             }
+                            refreshData(RefreshSpec.Beacons);
                         }
                     }
                 ]

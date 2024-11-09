@@ -1,4 +1,4 @@
-import { AppIcon, OneNoteType } from '@/enums/enums';
+import { AppIcon, OneNoteType, RefreshSpec } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
 
@@ -11,7 +11,7 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { formStyles, modalStyles } from '@/styles/Styles';
-import { setAppError } from '@/redux/actions';
+import { refreshData, setAppError } from '@/redux/actions';
 import { createOneNote, removeOneNote, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
@@ -30,6 +30,7 @@ const oneNoteTypeArray = Object.keys(OneNoteType)
 export type IInfoPicker = ViewProps & {
     executor: User;
     selectedOne: One;
+    refreshData: Function;
     setAppError: Function;
 };
 
@@ -40,7 +41,7 @@ enum PickerState {
     Removing,
 }
 
-const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
+const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -132,6 +133,7 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
             return;
         }
 
+        refreshData(RefreshSpec.Ones);
         setPickerState(PickerState.Normal);
         setSelectedNoteId(null);
         setFormSelectedTypeIdx(0);
@@ -224,7 +226,7 @@ const InfoPicker = ({ executor, selectedOne, setAppError }: IInfoPicker) => {
 
             <AppText type={TextType.Default}>Notes</AppText>
             <TextInput
-                style={formStyles.textInput}
+                style={formStyles.multiLineTextInput}
                 placeholder="Enter text here..."
                 placeholderTextColor={'gray'}
                 value={formOneNote.notes}
@@ -433,6 +435,7 @@ const mapStateToProps = (state: any) => {
 
 
 const mapDispatchToProps = {
+    refreshData,
     setAppError
 };
 

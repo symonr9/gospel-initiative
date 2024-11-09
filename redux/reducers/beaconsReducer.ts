@@ -16,11 +16,11 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
             const { activeBeacons, expiredBeacons, beaconTemplates } = action.payload;
             return update(state, {
                 $set: {
-                    activeBeacons: activeBeacons || [],
-                    expiredBeacons: expiredBeacons || [],
-                    beaconTemplates: beaconTemplates || [],
-                    selectedTemplateId: null,
-                    beaconForm: null,
+                    activeBeacons: activeBeacons || state.activeBeacons,
+                    expiredBeacons: expiredBeacons || state.expiredBeacons,
+                    beaconTemplates: beaconTemplates || state.beaconTemplates,
+                    selectedTemplateId: state.selectedTemplateId,
+                    beaconForm: state.beaconForm,
                 }
             });
         case Action.SetSelectedBeaconId:

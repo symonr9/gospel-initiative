@@ -1,27 +1,19 @@
-import { ActionStepType, AppIcon, OneNoteType } from '@/enums/enums';
+import { AppIcon, RefreshSpec } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
+import { View, FlatList, StyleSheet, ViewProps, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, formatDateTime, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
-import ActionStep from '@/models/actionStep';
-import { ActionStepCard } from './ActionStepCard';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { formStyles, modalStyles } from '@/styles/Styles';
+import { formStyles } from '@/styles/Styles';
 import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
-import { addActionStep, editActionSteps, setAppError } from '@/redux/actions';
-import DetailsSection from '../common/DetailsSection';
-import { createChristian, createOneNote, removeChristian, removeOneNote, updateActionSteps, updateChristian, updateOneNote } from "@/requests/oneRequests";
+import { refreshData, setAppError } from '@/redux/actions';
+import { createChristian, removeChristian, updateChristian } from "@/requests/oneRequests";
 import User from '@/models/user';
-import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
-import OneNote from '@/models/oneNote';
-import { SimpleCard } from '../common/SimpleCard';
 import Christian from '@/models/christian';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import CategoryPicker from '../common/CategoryPicker';
@@ -30,6 +22,7 @@ import { ChristianCard } from './ChristianCard';
 export type IChristianPicker = ViewProps & {
     executor: User;
     selectedOne: One;
+    refreshData: Function;
     setAppError: Function;
 };
 
@@ -40,7 +33,7 @@ enum PickerState {
     Removing,
 }
 
-const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicker) => {
+const ChristianPicker = ({ executor, selectedOne, refreshData, setAppError }: IChristianPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -117,6 +110,7 @@ const ChristianPicker = ({ executor, selectedOne, setAppError }: IChristianPicke
             return;
         }
 
+        refreshData(RefreshSpec.Ones);
         setPickerState(PickerState.Normal);
         setSelectedChristianId(null);
         setFormChristian(Christian.createDefault(selectedOne?.id || ""));
@@ -383,6 +377,7 @@ const mapStateToProps = (state: any) => {
 
 
 const mapDispatchToProps = {
+    refreshData,
     setAppError
 };
 

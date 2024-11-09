@@ -117,7 +117,6 @@ export function getChristianFromJson(item: any) {
     );
 }
 
-
 export function getUserFromJson(item: any) {
     return new User(
         item.id,
@@ -180,18 +179,13 @@ export function getStoryChapterFromJson(item: any) {
 
 export function getBeaconsFromJson(json: any[]) {
     return json.map(item => {
-        const type: BeaconType = item.type as BeaconType;
-        return {
-            id: item.id,
-            name: item.name,
-            message: item.message,
-            userId: item.userId,
-            oneId: item.oneId,
-            priority: item.priority,
-            type: type,
-            activeUntil: item.activeUntil ? new Date(item.activeUntil) : undefined,
-            shareOwnName: item.shareOwnName
-        }
+        const beacon = getBeaconFromJson(item);
+        beacon.userName = item?.user?.name;
+        beacon.userIcon = AvatarIcon[item.user.icon as keyof typeof AvatarIcon];
+        beacon.oneName = item?.one?.name;
+        beacon.oneIcon = AvatarIcon[item.one.icon as keyof typeof AvatarIcon];
+        beacon.oneStage = item?.one?.stage as OneStage;
+        return beacon;
     });
 }
 

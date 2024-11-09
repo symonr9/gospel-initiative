@@ -1,10 +1,10 @@
-import { Page } from "@/enums/enums";
+import { Page, RefreshSpec } from "@/enums/enums";
 import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
     page: Page.ShareChrist,
-    shouldRefreshData: false,
+    refreshSpec: RefreshSpec.None,
     homeDailies: {
         actionSteps: false,
         gospelChecklist: false,
@@ -27,7 +27,7 @@ export function appReducer(state = initialState, action: ActionPackage) {
             return update(state, {
                 $set: {
                     ...state,
-                    shouldRefreshData: !state.shouldRefreshData,
+                    refreshSpec: action.payload,
                 }
             });
         case Action.SetHomeDailies: 

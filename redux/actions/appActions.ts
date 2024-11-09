@@ -1,4 +1,4 @@
-import { Page } from "@/enums/enums";
+import { Page, RefreshSpec } from "@/enums/enums";
 import { Action } from "../actions";
 
 export const loadServerData = (data: any) => {
@@ -27,9 +27,12 @@ export const openPage = (item: Page) => ({
     payload: item,
 });
 
-export const refreshData = () => ({
+/**
+ * By default, refresh all server data.
+ */
+export const refreshData = (items: RefreshSpec = RefreshSpec.None) => ({
     type: Action.RefreshData,
-    payload: null
+    payload: items
 });
 
 export const setAppError = (error: Error) => ({

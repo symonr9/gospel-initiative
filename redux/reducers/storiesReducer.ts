@@ -16,12 +16,12 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
             const { stories, myStoryChapters, GodsStoryChapters } = action.payload;
             return update(state, {
                 $set: {
-                    stories: stories || [],
-                    myStoryChapters: myStoryChapters || [],
-                    GodsStoryChapters: GodsStoryChapters || [],
+                    stories: stories || state.stories,
+                    myStoryChapters: myStoryChapters || state.myStoryChapters,
+                    GodsStoryChapters: GodsStoryChapters || state.GodsStoryChapters,
                     tagFilters: state.tagFilters,
                     typeFilters: state.typeFilters,
-                    editingChapterId: null
+                    editingChapterId: state.editingChapterId
                 }
             });
         case Action.AddStory:

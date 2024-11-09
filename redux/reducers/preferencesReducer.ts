@@ -12,7 +12,7 @@ export function preferencesReducer(state = initialState, action: ActionPackage) 
             const { preferences } = action.payload;
             return update(state, {
                 $set: {
-                    preferences: preferences,
+                    preferences: preferences || state.preferences,
                 }
             });
         case Action.LoadPreferences:

@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect, useSelector } from 'react-redux';
 import One from '@/models/one';
-import { ActionStepType, AppIcon, GospelChecklistItem } from '@/enums/enums';
+import { ActionStepType, AppIcon, GospelChecklistItem, RefreshSpec } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { addActionStep, editOne, setOneForm, setSelectedOne, editActionSteps, setAppError, refreshData, addOne } from '@/redux/actions';
+import { setOneForm, setSelectedOne, setAppError, refreshData } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
 import { calculatePercent, getAppTimeAgoText, getNow, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
@@ -44,10 +44,6 @@ export type IOnesLayout = ViewProps & {
     oneBeacons: Beacon[],
     executor: User,
     oneForm: OneForm,
-    addOne: Function,
-    editOne: Function,
-    addActionStep: Function,
-    editActionSteps: Function,
     setAppError: Function,
     refreshData: Function,
     setSelectedOne: Function
@@ -72,7 +68,7 @@ export enum OneLayoutType {
     SentBeaconResponse,
 }
 
-function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
+function OnesLayout({ selectedOne, ones, oneForm, executor,
     setAppError, oneBeacons, refreshData, setSelectedOne }: IOnesLayout) {
 
     const actionSteps = selectedOne ? selectedOne.actionSteps : [];
@@ -126,23 +122,19 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                     return;
                 }
 
-                addOne(response);
-                setSelectedOne(response);
-                setOneForm(OneForm.createDefault());
-                setMessage("Your One has been successfully created!");
-                setActiveLayoutType(OneLayoutType.Normal);
-
                 if (oneForm.actionSteps?.length > 0) {
                     const actionStepResponse = await updateActionSteps(oneForm.actionSteps, response.id);
                     if (actionStepResponse.error) {
                         setAppError(new AppError('Error adding action steps: ', response.error));
                         return;
                     }
-    
-                    for (let step of oneForm.actionSteps) {
-                        addActionStep(step);
-                    }
                 }
+
+                refreshData(RefreshSpec.Ones);
+                setSelectedOne(response);
+                setOneForm(OneForm.createDefault());
+                setMessage("Your One has been successfully created!");
+                setActiveLayoutType(OneLayoutType.Normal);
             } catch (err: any) {
                 setAppError(new AppError('Error adding one: ', err));
             }
@@ -189,7 +181,7 @@ function OnesLayout({ selectedOne, ones, addOne, oneForm, executor, editOne,
                     return;
                 }
 
-                editOne(response);
+                refreshData(RefreshSpec.Ones);
                 setSelectedOne(response);
                 setOneForm(OneForm.createDefault());
                 setMessage("Your One has been successfully updated!");
@@ -520,10 +512,6 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    addOne,
-    editOne,
-    addActionStep,
-    editActionSteps,
     setSelectedOne,
     refreshData,
     setAppError

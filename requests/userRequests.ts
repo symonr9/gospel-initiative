@@ -1,7 +1,8 @@
 import { postData } from "@/utils/apiUtils";
 import { saveToStorage, isSecureStorageAvailable, saveToSecureStorage, getLocalRefreshToken, getLocalUserId } from "@/utils/storageUtils";
 import { makeRequest } from "./Requests";
-import { getUserFromJson, getOnesFromJson, getStoryChaptersFromJson } from "@/utils/jsonFunctions";
+import { getUserFromJson, getOnesFromJson, getStoryChaptersFromJson, getBeaconsFromJson } from "@/utils/jsonFunctions";
+import { RefreshSpec } from "@/enums/enums";
 
 export const createUser = async () => {
     // Plain postData, no makeRequest() here
@@ -33,9 +34,9 @@ export const createUser = async () => {
     return {};
 };
 
-export const fetchServerData = async (): Promise<any> => {
+export const fetchServerData = async (refreshSpec: RefreshSpec): Promise<any> => {
     try {
-        const response = await makeRequest(`/users/data`);
+        const response = await makeRequest(getServerDataEndpoint(refreshSpec));
         console.log("fetchServerData: ", response);
         if (!response) {
             return { error: 'Failed to contact server.' };
@@ -56,15 +57,35 @@ export const fetchServerData = async (): Promise<any> => {
 };
 
 export const parseServerData = (serverData: any) => {
-    const user = getUserFromJson(serverData);
-    const ones = getOnesFromJson(serverData.ones);
-    const myStoryChapters = getStoryChaptersFromJson(serverData.chapters);
+    const user = serverData.user ? getUserFromJson(serverData.user) : null;
+    const ones = serverData.ones ? getOnesFromJson(serverData.ones) : null;
+    const myStoryChapters = serverData.chapters ? getStoryChaptersFromJson(serverData.chapters) : null;
+    const activeBeacons = serverData.activeBeacons ? getBeaconsFromJson(serverData.activeBeacons) : null;
+    const expiredBeacons = serverData.expiredBeacons ? getBeaconsFromJson(serverData.expiredBeacons) : null;
     return {
         user,
         ones,
         myStoryChapters,
+        activeBeacons,
+        expiredBeacons
     };
 };
+
+const getServerDataEndpoint = (spec: RefreshSpec) : string => {
+    switch(spec) {
+        case RefreshSpec.User:
+            return `/users/data/user`;
+        case RefreshSpec.Ones:
+            return `/users/data/ones`;
+        case RefreshSpec.Stories:
+            return `/users/data/stories`;
+        case RefreshSpec.Beacons:
+            return `/users/data/beacons`;
+        case RefreshSpec.All:
+        default:
+            return `/users/data/all`;
+    }
+}
 
 export const fetchServerSettings = async () => {
     try {

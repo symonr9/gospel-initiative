@@ -1,3 +1,4 @@
+import One from "@/models/one";
 import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
@@ -8,16 +9,30 @@ const initialState = {
     oneForm: null
 };
 
+const decideSelectedOne = (state: any, ones: any) => {
+    if (!state.selectedOne && ones) {
+        return ones[0]; // Load first by default;
+    }
+
+    const newOne = ones.find((one: One) => one.id === state.selectedOne.id) || null;
+    if (newOne) {
+        return newOne;
+    }
+
+    return state.selectedOne;
+}
+
 export function onesReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
         case Action.LoadServerData:
             const { ones, oneFacts } = action.payload;
+
             return update(state, {
                 $set: {
-                    selectedOne: ones ? ones[0] : null,
-                    ones: ones || [],
-                    oneFacts: oneFacts || [],
-                    oneForm: null,
+                    selectedOne: decideSelectedOne(state, ones),
+                    ones: ones || state.ones,
+                    oneFacts: oneFacts || state.oneFacts,
+                    oneForm: state.oneForm,
                 }
             });
         case Action.SetSelectedOne:

@@ -1,5 +1,5 @@
-import { AppIcon, Priority } from '@/enums/enums';
-import React, { useEffect, useState } from 'react';
+import { AppIcon, Priority, RefreshSpec } from '@/enums/enums';
+import React, { useState } from 'react';
 import { View, StyleSheet, ViewProps } from 'react-native';
 
 import { connect, useSelector } from 'react-redux';
@@ -9,17 +9,16 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
 import { selectActiveBeaconsWithActivities, selectExpiredBeaconsWithActivities, selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
-import { addBeacon, setAppError, setSelectedTemplateId } from '@/redux/actions';
+import { refreshData, setAppError, setSelectedTemplateId } from '@/redux/actions';
 import { createBeacon } from "@/requests/beaconRequests";
 import User from '@/models/user';
 import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
-import Beacon, { EnhancedBeacon } from '@/models/beacon';
+import Beacon from '@/models/beacon';
 import { OneLayoutType } from './OnesLayout';
 import { ActiveBeaconsActivityList } from '../beacons/ActiveBeaconsActivityList';
 import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
 import PageResponse from '../common/PageResponse';
-import ScrollLayout from '../common/ScrollLayout';
 import ExpiredBeaconsList from '../beacons/ExpiredBeaconsList';
 import AppError from '@/models/error';
 
@@ -31,7 +30,7 @@ export type IActionStepPicker = ViewProps & {
     beaconForm: BeaconForm,
     selectedTemplateId: String,
     setSelectedTemplateId: Function,
-    addBeacon: Function,
+    refreshData: Function,
     setAppError: Function,
 };
 
@@ -45,7 +44,7 @@ export enum PickerState {
 }
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
-    selectedTemplateId, setSelectedTemplateId, addBeacon, selectedOne, setAppError }: IActionStepPicker) => {
+    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOne, setAppError }: IActionStepPicker) => {
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
@@ -99,7 +98,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 return;
             }
 
-            addBeacon(response);
+            refreshData(RefreshSpec.Beacons);
             setMessage(null);
             setSelectedTemplateId(null);
             setActiveLayoutType(OneLayoutType.SentBeaconResponse);
@@ -151,6 +150,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
         if (activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
                 <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities}
+                    refreshData={refreshData}
                     setAppError={setAppError} />
             );
         } else {
@@ -245,7 +245,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     setSelectedTemplateId,
-    addBeacon,
+    refreshData,
     setAppError,
 };
 
