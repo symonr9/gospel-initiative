@@ -18,7 +18,6 @@ const leadersJson = require('../data/leaders.json');
 const localEventsJson = require('../data/local-events.json');
 const localMinistriesJson = require('../data/local-ministries.json');
 const missionsTripsJson = require('../data/missions-trips.json');
-const onesFactsJson = require('../data/one-facts.json');
 const beaconTemplatesJson = require('../data/beacon-templates.json');
 const preferencesJson = require('../data/preferences.json');
 const promptsJson = require('../data/prompts.json');
