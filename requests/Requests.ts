@@ -55,7 +55,7 @@ export const performRequest = async (type: RequestType, entity: any, prefix: str
 
     try {
         const response = await makeRequest(`${prefix}/${entityType}/${getRequestSuffix(type)}`, 'POST', 
-            { [entityType.slice(0, -1)]: entity }, controller);
+            { [entityType]: entity }, controller);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {

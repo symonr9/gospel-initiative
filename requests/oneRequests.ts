@@ -12,7 +12,7 @@ export const createOne = async (one: One, controller?: AbortController): Promise
         ...one,
         icon: getAvatarIconKey(one.icon)
     };
-    return performRequest(RequestType.Create, preparedOne, '/ones', 'ones', controller);
+    return performRequest(RequestType.Create, preparedOne, '/ones', 'one', controller);
 };
 
 export const updateOne = async (one: One, controller?: AbortController): Promise<One | any> => {
@@ -20,11 +20,11 @@ export const updateOne = async (one: One, controller?: AbortController): Promise
         ...one,
         icon: getAvatarIconKey(one.icon)
     };
-    return performRequest(RequestType.Update, preparedOne, '/ones', 'ones', controller);
+    return performRequest(RequestType.Update, preparedOne, '/ones', 'one', controller);
 };
 
 export const removeOne = async (one: One, controller?: AbortController): Promise<One | any> => {
-    return performRequest(RequestType.Remove, one, '/ones', 'ones', controller);
+    return performRequest(RequestType.Remove, one, '/ones', 'one', controller);
 };
 
 export const createChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
