@@ -3,7 +3,6 @@ import { type ViewProps, StyleSheet, FlatList, TouchableOpacity } from 'react-na
 import { connect } from 'react-redux';
 
 import ScrollLayout from '../common/ScrollLayout';
-import { setSelectedOne } from '@/redux/actions';
 import { PageColumn } from '../common/PageColumn';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
@@ -59,7 +58,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    setSelectedOne
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoriesGrid);

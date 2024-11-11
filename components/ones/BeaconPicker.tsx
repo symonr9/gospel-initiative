@@ -147,7 +147,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             </View>
         );
     } else { // Normal
-        if (activeBeaconsWithActivities.length > 0) {
+        if (!selectedTemplateId && activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
                 <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities}
                     refreshData={refreshData}
@@ -160,7 +160,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             );
         }
 
-        if (expiredBeaconsWithActivities.length > 0) {
+        if (selectedTemplateId && expiredBeaconsWithActivities.length > 0) {
             BodyLayout.push(
                 <ExpiredBeaconsList />
             );

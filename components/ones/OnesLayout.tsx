@@ -10,7 +10,7 @@ import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
 import SimpleIconButton from '../common/SimpleIconButton';
-import { setOneForm, setSelectedOne, setAppError, refreshData } from '@/redux/actions';
+import { setOneForm, setSelectedOneId, setAppError, refreshData } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
 import { calculatePercent, getAppTimeAgoText, getNow, getSelectedOne, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
@@ -46,7 +46,7 @@ export type IOnesLayout = ViewProps & {
     oneForm: OneForm,
     setAppError: Function,
     refreshData: Function,
-    setSelectedOne: Function
+    setSelectedOneId: Function
 };
 
 export enum BodyType {
@@ -69,7 +69,7 @@ export enum OneLayoutType {
 }
 
 function OnesLayout({ selectedOneId, ones, oneForm, executor,
-    setAppError, oneBeacons, refreshData, setSelectedOne }: IOnesLayout) {
+    setAppError, oneBeacons, refreshData, setSelectedOneId }: IOnesLayout) {
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const actionSteps = selectedOne?.actionSteps || [];
@@ -239,7 +239,10 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                                 small
                                 onClick={() => {
                                     setMessage(null);
-                                    setSelectedOne(ones[idxOfSelectedOne - 1]);
+                                    const previousOne = ones[idxOfSelectedOne - 1] || null;
+                                    if (previousOne) {
+                                        setSelectedOneId(previousOne.id);
+                                    }
                                 }} />
                         )
                     }
@@ -252,7 +255,10 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                                 small
                                 onClick={() => {
                                     setMessage(null);
-                                    setSelectedOne(ones[idxOfSelectedOne + 1])
+                                    const nextOne = ones[idxOfSelectedOne + 1] || null;
+                                    if (nextOne) {
+                                        setSelectedOneId(nextOne.id);
+                                    }
                                 }} />
                         )
                     }
@@ -511,7 +517,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    setSelectedOne,
+    setSelectedOneId,
     refreshData,
     setAppError
 };

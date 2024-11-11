@@ -19,11 +19,16 @@ export const cardStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginVertical: 6,
+    backgroundColor: '#fff',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
     borderRadius: 4,
-    padding: 4,
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 2,
-    marginVertical: 6
   }
 });
 

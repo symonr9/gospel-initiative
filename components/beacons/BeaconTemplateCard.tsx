@@ -1,72 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { type ViewProps, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React, {  } from 'react';
+import { type ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
-import { OneLayoutType } from '../ones/OnesLayout';
+import { PageRow } from '../common/PageRow';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;
-  selectedTemplateId: string | null;
-  setSelectedTemplateId?: Function;
-  setActiveLayoutType?: Function;
+  isSelected?: boolean;
 };
 
-export function BeaconTemplateCard({ template, selectedTemplateId, setSelectedTemplateId,
-  setActiveLayoutType
- }: IBeaconCard) {
-  const [bgColor, setBgColor] = useState(new Animated.Value(0));
-
-  useEffect(() => {
-    const isMatch = selectedTemplateId != null && template.id !== selectedTemplateId;
-    Animated.timing(bgColor, {
-      toValue: isMatch ? 1 : 0,
-      duration: 400,
-      useNativeDriver: false,
-    }).start();
-  }, [selectedTemplateId]);
-
-  const interpolatedBgColor = bgColor.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['white', 'whitesmoke']
-  });
-
-  const onPress = () => {
-    if (setSelectedTemplateId) {
-      setSelectedTemplateId(template.id);
-    }
-    if (setActiveLayoutType) {
-      setActiveLayoutType(OneLayoutType.ConfirmBeacon);
-    }
-  };
-
+export function BeaconTemplateCard({ template, isSelected = false }: IBeaconCard) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Animated.View style={[cardStyles.container, flexStyles.row, { backgroundColor: interpolatedBgColor }]}>
-        <Image source={template.icon}
-          style={styles.icon}
-          contentFit="contain" />
+    <PageRow style={[cardStyles.container, flexStyles.row, isSelected && styles.selected]}>
+      <Image source={template.icon}
+        style={styles.icon}
+        contentFit="contain" />
 
-        <PageColumn style={{ width: '80%'}}>
-          <AppText type={TextType.Subtitle}>
-            {template.name}
-          </AppText>
-          <AppText type={TextType.Default}>
-            {template.message}
-          </AppText>
-        </PageColumn>
-      </Animated.View>
-    </TouchableOpacity>
+      <PageColumn style={{ width: '80%'}}>
+        <AppText type={TextType.Subtitle}>
+          {template.name}
+        </AppText>
+        <AppText type={TextType.Default}>
+          {template.message}
+        </AppText>
+      </PageColumn>
+    </PageRow>
   );
 }
 
 const styles = StyleSheet.create({
-  selectedContainer: {
-    height: 800,
-    flex: 1,
+  selected: {
+    backgroundColor: '#d9ead3'
   },
   icon: {
     width: 36,

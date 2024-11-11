@@ -200,7 +200,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                     ActivityNoteOptions.map((value, idx) => (
                                         <TouchableOpacity onPress={() => setSelectedNoteIdx(idx)}>
                                             <View style={[styles.defaultNoteCard, selectedNoteIdx === idx && styles.selectedDefaultNoteCard]}>
-                                                <AppText type={TextType.DefaultSemiBold}>
+                                                <AppText type={TextType.Default}>
                                                     {value}
                                                 </AppText>
                                             </View>
@@ -425,15 +425,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     defaultNoteCard: {
-        padding: 8,
-        marginVertical: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        marginVertical: 6,
         backgroundColor: '#fff',
         shadowOpacity: 0.2,
-        shadowRadius: 8,
+        shadowRadius: 4,
         shadowColor: '#000',
         shadowOffset: { height: 2, width: 0 },
         elevation: 4, // Shadow for Android
-        borderRadius: 8,
+        borderRadius: 4,
     },
     selectedDefaultNoteCard: {
         backgroundColor: '#bbeccc'

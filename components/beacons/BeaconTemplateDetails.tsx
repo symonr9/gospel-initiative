@@ -15,6 +15,7 @@ import BeaconForm from '@/models/beaconForm';
 import { getShowHideIcon, mapBeaconTagToDetailsText, mapBeaconTagToTitleText } from '@/utils/appUtils';
 import ScrollLayout from '../common/ScrollLayout';
 import { modalStyles } from '@/styles/Styles';
+import { OneLayoutType } from '../ones/OnesLayout';
 
 const beaconTagArray = Object.keys(BeaconTag)
     .filter(key => isNaN(Number(key)))
@@ -26,10 +27,11 @@ const beaconTagArray = Object.keys(BeaconTag)
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
+    activeLayoutType: OneLayoutType;
     setBeaconForm: Function;
 };
 
-function BeaconTemplateDetails({ template, setBeaconForm }: IBeaconTemplateDetails) {
+function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -67,8 +69,7 @@ function BeaconTemplateDetails({ template, setBeaconForm }: IBeaconTemplateDetai
 
     return (
         <ThemedView style={[styles.container]}>
-            <BeaconTemplateCard template={template}
-                selectedTemplateId={template.id} />
+            <BeaconTemplateCard template={template} />
 
             <ScrollLayout style={{ maxHeight: 100, marginVertical: 16 }}>
                 <FlatList
@@ -84,19 +85,25 @@ function BeaconTemplateDetails({ template, setBeaconForm }: IBeaconTemplateDetai
                 />
             </ScrollLayout>
 
-            <PageColumn style={styles.section}>
-                <PageChip iconSrc={AppIcon.Tag}
-                    onClick={onChangeTag}
-                    title={`Add Tags`}
-                    subtitle={'Tags give others more details on how they can be praying for you.'} />
-            </PageColumn>
+            {
+                activeLayoutType === OneLayoutType.ConfirmBeacon && (
+                    <>
+                        <PageColumn style={styles.section}>
+                            <PageChip iconSrc={AppIcon.Tag}
+                                onClick={onChangeTag}
+                                title={`Add Tags`}
+                                subtitle={'Tags give others more details on how they can be praying for you.'} />
+                        </PageColumn>
 
-            <PageColumn style={styles.section}>
-                <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                    style={{ width: 300 }}
-                    onClick={() => setShareOwnName(!shareOwnName)}
-                    title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
-            </PageColumn>
+                        <PageColumn style={styles.section}>
+                            <PageChip iconSrc={getShowHideIcon(shareOwnName)}
+                                style={{ width: 300 }}
+                                onClick={() => setShareOwnName(!shareOwnName)}
+                                title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
+                        </PageColumn>
+                    </>
+                )
+            }
 
             <Modal
                 animationType="slide"

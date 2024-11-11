@@ -3,7 +3,7 @@ import { Action } from "../actions";
 import ActionStep from "@/models/actionStep";
 import OneForm from "@/models/oneForm";
 
-export const setSelectedOne = (item: string | null) => ({
+export const setSelectedOneId = (item: string | null) => ({
     type: Action.SetSelectedOneId,
     payload: item,
 });

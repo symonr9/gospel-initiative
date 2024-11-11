@@ -1,14 +1,11 @@
 import React from 'react';
-import { type ViewProps, FlatList, TouchableOpacity } from 'react-native';
+import { type ViewProps, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import ScrollLayout from '../common/ScrollLayout';
-import { setSelectedOne } from '@/redux/actions';
+import { setSelectedOneId } from '@/redux/actions';
 import One from '@/models/one';
 import { PageColumn } from '../common/PageColumn';
-import { PageRow } from '../common/PageRow';
-import { Image } from 'expo-image';
-import { AppText, TextType } from '../common/AppText';
 import { OneLayoutType } from './OnesLayout';
 import { gridStyles } from '@/styles/Styles';
 import { mapStageToIcon, mapStageToText, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
@@ -17,16 +14,14 @@ import { SimpleGridCard } from '../common/SimpleGridCard';
 
 export type IAllOnesGrid = ViewProps & {
     ones: One[];
-    setSelectedOne: Function;
     setActiveLayoutType?: Function;
-    setSelectedOneId?: Function;
+    setSelectedOneId: Function;
 };
 
 
-function AllOnesGrid({ ones, setSelectedOne, setSelectedOneId, setActiveLayoutType }: IAllOnesGrid) {
+function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGrid) {
     const renderItem = ({ item }: { item: One }) => {
         const onPress = () => {
-            setSelectedOne(item);
             if (setSelectedOneId) {
                 setSelectedOneId(item.id);
             }
@@ -80,7 +75,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    setSelectedOne,
+    setSelectedOneId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllOnesGrid);
