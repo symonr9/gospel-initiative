@@ -38,7 +38,7 @@ export function getOneFromJson(item: any) {
         item.stage as OneStage,
         item.category as OneCategory,
         item.knownSince,
-        item.gospelChecklist ? item.gospelChecklist.split(',').map(Number) : [],
+        item.gospelChecklist ? item.gospelChecklist.split('∫').map(Number) : [],
         item.hidden,
         item.userId,
         getActionStepsFromJson(item.actionSteps || []),
@@ -141,21 +141,21 @@ export function getStoryChapterFromJson(item: any) {
     if (item.questions && item.questions instanceof Array) {
         questions = item.questions;
     } else if (item.questions) {
-        questions = item.questions.split(',');
+        questions = item.questions.split('∫');
     }
 
     let tags = [];
     if (item.tags && item.tags instanceof Array) {
         tags = item.tags;
     } else if (item.tags) {
-        tags = item.tags.split(',').map(Number);
+        tags = item.tags.split('∫').map(Number);
     }
 
     let names = [];
     if (item.names && item.names instanceof Array) {
         names = item.names;
     } else if (item.names) {
-        names = item.names.split(',');
+        names = item.names.split('∫');
     }
 
     return new StoryChapter(
@@ -200,7 +200,7 @@ export function getBeaconFromJson(item: any) {
         item.activeUntil ? new Date(item.activeUntil) : undefined,
         item.shareOwnName,
         getBeaconActivitiesFromJson(item.activities || []),
-        item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : []
+        item.tags ? item.tags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : []
     );
 }
 
