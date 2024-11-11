@@ -3,29 +3,9 @@ import { Action } from "../actions";
 import ActionStep from "@/models/actionStep";
 import OneForm from "@/models/oneForm";
 
-export const addOne = (item: One) => ({
-    type: Action.AddOne,
+export const setSelectedOne = (item: string | null) => ({
+    type: Action.SetSelectedOneId,
     payload: item,
-});
-
-export const editOne = (item: One) => ({
-    type: Action.EditOne,
-    payload: item
-});
-
-export const setSelectedOne = (item: One) => ({
-    type: Action.SetSelectedOne,
-    payload: item,
-});
-
-export const addActionStep = (item: ActionStep) => ({
-    type: Action.AddActionStep,
-    payload: item,
-});
-
-export const editActionSteps = (actionSteps: ActionStep[], oneId: string) => ({
-    type: Action.EditActionSteps,
-    payload: { actionSteps, oneId },
 });
 
 export const setOneForm = (item: OneForm) => ({

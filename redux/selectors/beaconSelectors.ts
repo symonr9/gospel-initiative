@@ -70,7 +70,7 @@ export const selectBeaconDetailsById = (state: any, id: string) => {
     };
 };
 
-export const selectActiveBeaconsWithActivities = (oneId: string | undefined) =>
+export const selectActiveBeaconsWithActivities = (oneId: string | null) =>
     createSelector(
         [selectAllActiveBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
         (beacons, executor, beaconActivities, users) => {
@@ -94,7 +94,7 @@ export const selectActiveBeaconsWithActivities = (oneId: string | undefined) =>
                 });
         });
 
-export const selectExpiredBeaconsWithActivities = (oneId: string | undefined) =>
+export const selectExpiredBeaconsWithActivities = (oneId: string | null) =>
     createSelector(
         [selectAllExpiredBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
         (beacons, executor, beaconActivities, users) => {

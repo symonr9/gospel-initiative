@@ -3,29 +3,26 @@ import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import One from '@/models/one';
 import User from '@/models/user';
-import {  setSelectedTemplateId, addBeacon, setSelectedOne } from '@/redux/actions';
+import {  setSelectedTemplateId } from '@/redux/actions';
 import React, { useEffect } from 'react';
 
 import { connect } from 'react-redux';
 
 export type IAppStateManager = {
     executor: User;
-    selectedOne: One;
+    selectedOneId: string | null;
     selectedTemplateId: string | null;
     beaconTemplates: BeaconTemplate[];
-    beaconForm: BeaconForm | null;
     setSelectedTemplateId: Function;
-    setSelectedOne: Function;
-    addBeacon: Function;
 };
 
-function AppStateManager({ executor, selectedOne, selectedTemplateId, beaconTemplates, 
-    setSelectedTemplateId, setSelectedOne, addBeacon, beaconForm }: IAppStateManager) {
+function AppStateManager({ executor, selectedOneId, selectedTemplateId, beaconTemplates, 
+    setSelectedTemplateId }: IAppStateManager) {
 
     useEffect(() => {
         const shouldAddBeacon = selectedTemplateId != null 
             && executor != null
-            && selectedOne != null;
+            && selectedOneId != null;
 
         if (shouldAddBeacon) {
             setSelectedTemplateId(null);
@@ -37,16 +34,13 @@ function AppStateManager({ executor, selectedOne, selectedTemplateId, beaconTemp
 
 const mapStateToProps = (state: any) => ({
     executor: state.users.executor,
-    selectedOne: state.ones.selectedOne,
+    selectedOneId: state.ones.selectedOneId,
     selectedTemplateId: state.beacons.selectedTemplateId,
     beaconTemplates: state.beacons.beaconTemplates,
-    beaconForm: state.beacons.beaconForm
 });
 
 const mapDispatchToProps = {
     setSelectedTemplateId,
-    setSelectedOne,
-    addBeacon
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppStateManager);

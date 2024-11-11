@@ -13,7 +13,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { setOneForm, setSelectedOne, setAppError, refreshData } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
-import { calculatePercent, getAppTimeAgoText, getNow, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { calculatePercent, getAppTimeAgoText, getNow, getSelectedOne, isBeaconActive, mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import AddEditOneForm from './AddEditOneForm';
 import OneForm from '@/models/oneForm';
 import { AnimatedBanner } from '../common/AnimatedBanner';
@@ -39,7 +39,7 @@ const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .map((item) => ({ value: GospelChecklistItem[item as keyof typeof GospelChecklistItem] }));
 
 export type IOnesLayout = ViewProps & {
-    selectedOne: One | undefined,
+    selectedOneId: string | null,
     ones: One[],
     oneBeacons: Beacon[],
     executor: User,
@@ -68,13 +68,14 @@ export enum OneLayoutType {
     SentBeaconResponse,
 }
 
-function OnesLayout({ selectedOne, ones, oneForm, executor,
+function OnesLayout({ selectedOneId, ones, oneForm, executor,
     setAppError, oneBeacons, refreshData, setSelectedOne }: IOnesLayout) {
 
-    const actionSteps = selectedOne ? selectedOne.actionSteps : [];
+    const selectedOne = getSelectedOne(selectedOneId, ones);
+    const actionSteps = selectedOne?.actionSteps || [];
     const firstActionStep = actionSteps?.length > 0 ? actionSteps[0] : null;
-    const christians = selectedOne ? selectedOne.christians : [];
-    const oneNotes = selectedOne ? selectedOne.oneNotes : [];
+    const christians = selectedOne?.christians || [];
+    const oneNotes = selectedOne?.oneNotes || [];
 
     const [message, setMessage] = useState<string | null>(null);
     const [bodyType, setBodyType] = useState(BodyType.Base);
@@ -223,7 +224,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor,
             <AllOnesGrid setActiveLayoutType={setActiveLayoutType} />
         );
     } else { // Normal
-        const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOne?.id);
+        const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOneId);
         const showArrowLeft = ones.length > 1;
         const showArrowRight = ones.length > 1;
 
@@ -327,7 +328,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor,
                     actionStepsDetailView = (<View />);
                 }
 
-                const selectedOneItems = Array.from(new Set(selectedOne.gospelChecklist)); // Set removes dupes.
+                const selectedOneItems = selectedOne ? Array.from(new Set(selectedOne.gospelChecklist)) : []; // Set removes dupes.
                 const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItems.map((item) => item.value));
                 const gospelChecklistDetailView = (
                     <>
@@ -408,7 +409,7 @@ function OnesLayout({ selectedOne, ones, oneForm, executor,
                                             subtitle='Your One' />
                                     </PageRow>
                                     {
-                                        selectedOne && activeLayoutType === OneLayoutType.Normal && bodyType === BodyType.Base && (
+                                        activeLayoutType === OneLayoutType.Normal && bodyType === BodyType.Base && (
                                             <PageRow style={styles.headerRow}>
                                                 <Animated.View entering={FadeInDown.duration(200)}
                                                     exiting={FadeOutDown.duration(200)}>
@@ -495,12 +496,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     const executor = state.users.executor;
-    const selectedOne = state.ones.selectedOne;
-    const oneBeacons = selectedOne ? state.beacons.activeBeacons.filter((beacon: any) => {
-        return beacon.oneId === selectedOne.id
+    const selectedOneId = state.ones.selectedOneId;
+    const oneBeacons = selectedOneId ? state.beacons.activeBeacons.filter((beacon: any) => {
+        return beacon.oneId === selectedOneId
     }) : [];
     return {
-        selectedOne,
+        selectedOneId,
         oneBeacons,
         ones: state.ones.ones,
         executor,

@@ -1,11 +1,11 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { connect, useSelector } from 'react-redux';
-import { FlatList, ViewProps, StyleSheet, View, Modal, TouchableOpacity } from 'react-native';
+import { FlatList, ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
-import { beaconStyles, listStyles, modalStyles } from '@/styles/Styles';
+import { beaconStyles, listStyles } from '@/styles/Styles';
 import { setAppError } from '@/redux/actions';
 import One from '@/models/one';
 import User from '@/models/user';
@@ -14,18 +14,15 @@ import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { mapBeaconTypeToAppIcon, getAppTimeAgoText } from '@/utils/appUtils';
 import { PageRow } from '../common/PageRow';
-import ScrollLayout from '../common/ScrollLayout';
-import { AppIcon } from '@/enums/enums';
-import { PageChip } from '../common/PageChip';
 
 export type IExpiredBeaconsList = ViewProps & {
-    selectedOne: One;
+    selectedOneId: string | null;
     executor: User,
     setAppError: Function,
 };
 
-function ExpiredBeaconsList({ selectedOne, executor, setAppError }: IExpiredBeaconsList) {
-    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOne?.id));
+function ExpiredBeaconsList({ selectedOneId, executor, setAppError }: IExpiredBeaconsList) {
+    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOneId));
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -99,7 +96,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    selectedOne: state.ones.selectedOne,
+    selectedOneId: state.ones.selectedOneId,
     executor: state.users.executor,
 });
 

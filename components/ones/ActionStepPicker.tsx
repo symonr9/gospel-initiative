@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails } from '@/utils/appUtils';
+import { mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, getSelectedOne } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -31,7 +31,8 @@ const actionStepTypeArray = Object.keys(ActionStepType)
 
 export type IActionStepPicker = ViewProps & {
     executor: User;
-    selectedOne: One;
+    selectedOneId: string | null;
+    ones: One[];
     refreshData: Function;
     setAppError: Function;
 };
@@ -44,20 +45,19 @@ export enum PickerState {
     Completing
 }
 
-const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: IActionStepPicker) => {
-
-    const actionSteps = selectedOne ? selectedOne.actionSteps : [];
-
+const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }: IActionStepPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
 
-    const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOne?.id || ""));
+    const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
     const [modalVisible, setModalVisible] = useState(false);
 
+    const selectedOne = getSelectedOne(selectedOneId, ones);
+    const actionSteps = selectedOne?.actionSteps || [];
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
     const selectedActionStepIndex = selectedActionStep ? actionStepTypeArray.findIndex((step) => step.value === selectedActionStep.type) : 0;
     const selectedActionStepTypeData = actionStepTypeArray[formSelectedTypeIdx];
@@ -71,7 +71,7 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
         if (pickerState === PickerState.Normal) {
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
-            setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
+            setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
         } else if (pickerState === PickerState.Editing) {
             setFormSelectedTypeIdx(selectedActionStepIndex);
         }
@@ -98,7 +98,7 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
             if (isSelected) {
                 setSelectedStepId(null);
                 setFormSelectedTypeIdx(0);
-                setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
+                setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
             } else {
                 setSelectedStepId(item.id);
             }
@@ -117,6 +117,11 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
     };
 
     const onSaveClick = async () => {
+        if (!selectedOneId) {
+            setAppError(new AppError('Error updating action steps, invalid state...'));
+            return;
+        }
+
         setPickerState(PickerState.Normal);
 
         let newActionSteps = actionSteps;
@@ -124,7 +129,7 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
             newActionSteps = actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
                 return {
                     ...actionStep,
-                    oneId: selectedOne.id
+                    oneId: selectedOneId
                 };
             });
         } else if (pickerState === PickerState.Completing && selectedStepId) {
@@ -134,7 +139,7 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
                 }
                 return {
                     ...actionStep,
-                    oneId: selectedOne.id
+                    oneId: selectedOneId
                 };
             });
         } else if (pickerState === PickerState.Editing && selectedStepId) {
@@ -144,15 +149,15 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
                 }
                 return {
                     ...actionStep,
-                    oneId: selectedOne.id
+                    oneId: selectedOneId
                 };
             });
         } else if (pickerState === PickerState.Adding) {
-            formActionStep.oneId = selectedOne.id;
+            formActionStep.oneId = selectedOneId;
             newActionSteps.push(formActionStep);
         }
 
-        await updateActionSteps(newActionSteps, selectedOne.id).then((response) => {
+        await updateActionSteps(newActionSteps, selectedOneId).then((response) => {
             if (response.error) {
                 setAppError(new AppError('Error updating action steps: ', response.error));
                 return;
@@ -161,7 +166,7 @@ const ActionStepPicker = ({ executor, selectedOne, refreshData, setAppError }: I
             refreshData(RefreshSpec.Ones);
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
-            setFormActionStep(ActionStep.createDefault(selectedOne?.id || ""));
+            setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
         });
     };
 
@@ -414,7 +419,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => {
     return {
         executor: state.users.executor,
-        selectedOne: state.ones.selectedOne,
+        selectedOneId: state.ones.selectedOneId,
+        ones: state.ones.ones,
     };
 };
 

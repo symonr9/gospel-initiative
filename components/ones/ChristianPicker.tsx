@@ -18,10 +18,12 @@ import Christian from '@/models/christian';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import CategoryPicker from '../common/CategoryPicker';
 import { ChristianCard } from './ChristianCard';
+import { getSelectedOne } from '@/utils/appUtils';
 
 export type IChristianPicker = ViewProps & {
     executor: User;
-    selectedOne: One;
+    selectedOneId: string | null;
+    ones: One[];
     refreshData: Function;
     setAppError: Function;
 };
@@ -33,14 +35,15 @@ enum PickerState {
     Removing,
 }
 
-const ChristianPicker = ({ executor, selectedOne, refreshData, setAppError }: IChristianPicker) => {
+const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }: IChristianPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedChristianId, setSelectedChristianId] = useState<string | null>(null);
-    const [formChristian, setFormChristian] = useState<Christian>(Christian.createDefault(selectedOne?.id || ""));
+    const [formChristian, setFormChristian] = useState<Christian>(Christian.createDefault(selectedOneId || ""));
     const [modalVisible, setModalVisible] = useState(false);
 
+    const selectedOne = getSelectedOne(selectedOneId, ones);
     const christians = selectedOne?.christians || [];
     const selectedChristian = selectedChristianId ? christians.find((christian) => christian.id === selectedChristianId) : null;
     const adding = pickerState === PickerState.Adding;
@@ -57,7 +60,7 @@ const ChristianPicker = ({ executor, selectedOne, refreshData, setAppError }: IC
 
         if (pickerState === PickerState.Normal) {
             setSelectedChristianId(null);
-            setFormChristian(Christian.createDefault(selectedOne?.id || ""));
+            setFormChristian(Christian.createDefault(selectedOneId || ""));
         }
     }, [pickerState]);
 
@@ -77,7 +80,7 @@ const ChristianPicker = ({ executor, selectedOne, refreshData, setAppError }: IC
         const handleOnPress = () => {
             if (isSelected) {
                 setSelectedChristianId(null);
-                setFormChristian(Christian.createDefault(selectedOne?.id || ""));
+                setFormChristian(Christian.createDefault(selectedOneId || ""));
             } else {
                 setSelectedChristianId(item.id);
             }
@@ -113,7 +116,7 @@ const ChristianPicker = ({ executor, selectedOne, refreshData, setAppError }: IC
         refreshData(RefreshSpec.Ones);
         setPickerState(PickerState.Normal);
         setSelectedChristianId(null);
-        setFormChristian(Christian.createDefault(selectedOne?.id || ""));
+        setFormChristian(Christian.createDefault(selectedOneId || ""));
     };
 
     const Body = [];
@@ -368,13 +371,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const selectedOne = state.ones.selectedOne;
     return {
         executor: state.users.executor,
-        selectedOne,
+        selectedOneId: state.ones.selectedOneId,
+        ones: state.ones.ones,
     };
 };
-
 
 const mapDispatchToProps = {
     refreshData,

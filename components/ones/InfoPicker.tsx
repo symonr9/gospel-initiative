@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -29,7 +29,8 @@ const oneNoteTypeArray = Object.keys(OneNoteType)
 
 export type IInfoPicker = ViewProps & {
     executor: User;
-    selectedOne: One;
+    selectedOneId: string | null;
+    ones: One[];
     refreshData: Function;
     setAppError: Function;
 };
@@ -41,7 +42,7 @@ enum PickerState {
     Removing,
 }
 
-const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPicker) => {
+const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }: IInfoPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -51,6 +52,7 @@ const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPi
 
     const [modalVisible, setModalVisible] = useState(false);
 
+    const selectedOne = getSelectedOne(selectedOneId, ones);
     const oneNotes = selectedOne?.oneNotes || [];
     const selectedNote = selectedNoteId ? oneNotes.find((note) => note.id === selectedNoteId) : null;
     const selectedNoteTypeIndex = selectedNote ? oneNoteTypeArray.findIndex((note) => note.value === selectedNote.type) : 0;
@@ -67,7 +69,7 @@ const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPi
         if (pickerState === PickerState.Normal) {
             setSelectedNoteId(null);
             setFormSelectedTypeIdx(0);
-            setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
+            setFormOneNote(OneNote.createDefault(selectedOneId || ""));
         } else if (pickerState === PickerState.Editing) {
             setFormSelectedTypeIdx(selectedNoteTypeIndex);
         }
@@ -94,7 +96,7 @@ const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPi
             if (isSelected) {
                 setSelectedNoteId(null);
                 setFormSelectedTypeIdx(0);
-                setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
+                setFormOneNote(OneNote.createDefault(selectedOneId || ""));
             } else {
                 setSelectedNoteId(item.id);
             }
@@ -145,7 +147,7 @@ const InfoPicker = ({ executor, selectedOne, refreshData, setAppError }: IInfoPi
         setPickerState(PickerState.Normal);
         setSelectedNoteId(null);
         setFormSelectedTypeIdx(0);
-        setFormOneNote(OneNote.createDefault(selectedOne?.id || ""));
+        setFormOneNote(OneNote.createDefault(selectedOneId || ""));
     }
 
     const Body = [];
@@ -434,10 +436,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const selectedOne = state.ones.selectedOne;
     return {
         executor: state.users.executor,
-        selectedOne,
+        selectedOneId: state.ones.selectedOneId,
+        ones: state.ones.ones,
     };
 };
 

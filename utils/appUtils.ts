@@ -5,6 +5,13 @@ import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 
+export const getSelectedOne = (selectedOneId: string | null, ones: One[]) => {
+    if (!selectedOneId) {
+        return null;
+    }
+    return ones.find((one) => one.id === selectedOneId);
+};
+
 export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
     const enumKey = Object.keys(enumObj).find(key => enumObj[key as keyof T] === enumValue);
     return enumKey ? enumKey.replace(/([a-z])([A-Z])/g, '$1 $2') : '';
@@ -740,8 +747,11 @@ export function mapActionStepTypeToDetails(type: ActionStepType): string {
     }
 }
 
-export function generateActionStepsForStage(stage: OneStage, oneId: string): ActionStep[] {
+export function generateActionStepsForStage(stage: OneStage, oneId: string | null): ActionStep[] {
     const actionSteps: ActionStep[] = [];
+    if (!oneId) {
+        return actionSteps;
+    }
 
     switch (stage) {
         case OneStage.Disciple:

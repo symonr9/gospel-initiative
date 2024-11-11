@@ -23,7 +23,7 @@ import ExpiredBeaconsList from '../beacons/ExpiredBeaconsList';
 import AppError from '@/models/error';
 
 export type IActionStepPicker = ViewProps & {
-    selectedOne: One;
+    selectedOneId: string | null;
     ones: One[],
     executor: User,
     beaconTemplates: BeaconTemplate[],
@@ -44,26 +44,26 @@ export enum PickerState {
 }
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
-    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOne, setAppError }: IActionStepPicker) => {
+    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, setAppError }: IActionStepPicker) => {
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
-    const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOne?.id));
-    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOne?.id));
+    const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOneId));
+    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOneId));
 
     const BodyLayout: any[] = [];
 
     if (activeLayoutType === OneLayoutType.ConfirmBeacon) {
-        if (!selectedOne) {
+        if (!selectedOneId) {
             return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'}
+                <PageResponse details={'Invalid page state (missing selectedOneId).'}
                     title={'Something went wrong'} />
             );
         }
 
         const onConfirm = async () => {
             const shouldAddBeacon = selectedTemplateId != null
-                && executor != null && selectedOne != null;
+                && executor != null && selectedOneId != null;
             if (!shouldAddBeacon) {
                 console.error('Failed to add beacon, invalid state');
                 return;
@@ -82,7 +82,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 generateRandomId(),
                 selectedTemplate.name,
                 beaconForm.notes || null,
-                selectedOne.id,
+                selectedOneId,
                 Priority.Normal,
                 executor.id,
                 selectedTemplate.type,
@@ -124,9 +124,9 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 setActiveLayoutType={setActiveLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.SentBeaconResponse) {
-        if (!selectedOne) {
+        if (!selectedOneId) {
             return (
-                <PageResponse details={'Invalid page state (missing selectedOne).'}
+                <PageResponse details={'Invalid page state (missing selectedOneId).'}
                     title={'Something went wrong'} />
             );
         }
@@ -232,7 +232,7 @@ const mapStateToProps = (state: any) => {
     const { completedBeacons = [], incomingBeacons = [] } = selectPartitionedActiveEnhancedBeacons(state);
     return {
         ones: state.ones.ones,
-        selectedOne: state.ones.selectedOne,
+        selectedOneId: state.ones.selectedOneId,
         executor: state.users.executor,
         beaconForm: state.beacons.beaconForm,
         selectedTemplateId: state.beacons.selectedTemplateId,

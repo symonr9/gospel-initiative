@@ -26,11 +26,10 @@ const beaconTagArray = Object.keys(BeaconTag)
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
-    selectedOne: One;
     setBeaconForm: Function;
 };
 
-function BeaconTemplateDetails({ template, selectedOne, setBeaconForm }: IBeaconTemplateDetails) {
+function BeaconTemplateDetails({ template, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -164,7 +163,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
-        selectedOne: state.ones.selectedOne
     };
 };
 

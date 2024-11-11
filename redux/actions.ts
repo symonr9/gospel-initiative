@@ -15,16 +15,12 @@ export enum Action {
     RefreshData = "REFRESH_DATA",
 
     AddBeacon = "ADD_BEACON",
-    AddOne = "ADD_ONE",
-    EditOne = "EDIT_ONE",
     AddStory = "ADD_STORY",
     AddLocalEvent = "ADD_LOCAL_EVENT",
     AddLocalMinistry = "ADD_LOCAL_MINISTRY",
     AddMissionsTrip = "ADD_MISSIONS_TRIP",
     AddPrompt = "ADD_PROMPT",
     AddMyStoryChapter = "ADD_MY_STORY_CHAPTER",
-    AddActionStep = "ADD_ACTION_STEP",
-    EditActionSteps = "EDIT_ACTION_STEPS",
 
     UpdateChaptersFilter = "UPDATE_CHAPTERS_FILTER",
     SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
@@ -32,7 +28,7 @@ export enum Action {
     LoadServerData = "LOAD_SERVER_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
 
-    SetSelectedOne = "SET_SELECTED_ONE",
+    SetSelectedOneId = "SET_SELECTED_ONE_ID",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
     UpdateBeacon = "UPDATE_BEACON",
 

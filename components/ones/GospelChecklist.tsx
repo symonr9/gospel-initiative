@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import One from '@/models/one';
-import { refreshData, setAppError, setSelectedOne } from '@/redux/actions';
-import { calculatePercent, mapGospelChecklistItemTypeToDetails, mapGospelChecklistItemTypeToIcon, mapGospelChecklistItemTypeToTitle, mapGospelChecklistItemTypeToVersesAndQuestions } from '@/utils/appUtils';
+import { refreshData, setAppError } from '@/redux/actions';
+import { calculatePercent, getSelectedOne, mapGospelChecklistItemTypeToDetails, mapGospelChecklistItemTypeToIcon, mapGospelChecklistItemTypeToTitle, mapGospelChecklistItemTypeToVersesAndQuestions } from '@/utils/appUtils';
 import { formStyles } from '@/styles/Styles';
 import { PageColumn } from '../common/PageColumn';
 import DetailsSection from '../common/DetailsSection';
@@ -29,16 +29,17 @@ const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
 
 export type IGospelChecklist = ViewProps & {
     executor: User;
-    selectedOne: One;
+    selectedOneId: string | null;
+    ones: One[];
     refreshData: Function;
-    setSelectedOne: Function;
     setAppError: Function;
 };
 
-const GospelChecklist = ({ executor, selectedOne, refreshData, setSelectedOne, setAppError }: IGospelChecklist) => {
+const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppError }: IGospelChecklist) => {
     const [expandedIndices, setExpandedIndices] = useState<number[]>([]);
 
-    const selectedOneItems = Array.from(new Set(selectedOne.gospelChecklist)); // Set removes dupes.
+    const selectedOne = getSelectedOne(selectedOneId, ones);
+    const selectedOneItems = selectedOne ? Array.from(new Set(selectedOne.gospelChecklist)) : []; // Set removes dupes.
     const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItemsArray.map((item) => item.value));
 
     const renderItem = ({ item, index }: {
@@ -52,6 +53,11 @@ const GospelChecklist = ({ executor, selectedOne, refreshData, setSelectedOne, s
         const isChecked = selectedOneItems?.includes(item.value);
 
         const onPress = async () => {
+            if (!selectedOne) {
+                setAppError(new AppError('Error updating one, invalid state'));
+                return;
+            }
+            
             const newItems = isChecked ? [...selectedOneItems].filter((value) => value !== item.value) : [...selectedOneItems, item.value];
             const updatedOne = {
                 ...selectedOne,
@@ -176,10 +182,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const selectedOne = state.ones.selectedOne;
     return {
         executor: state.users.executor,
-        selectedOne,
+        selectedOneId: state.ones.selectedOneId,
+        ones: state.ones.ones,
     };
 };
 
@@ -187,7 +193,6 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
     refreshData,
     setAppError,
-    setSelectedOne
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GospelChecklist);
