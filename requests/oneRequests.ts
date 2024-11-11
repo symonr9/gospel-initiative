@@ -32,7 +32,7 @@ export const createChristian = async (christian: Christian, controller?: AbortCo
         ...christian,
         icon: getAvatarIconKey(christian.icon)
     };
-    return performRequest(RequestType.Create, preparedChristian, '/ones', 'christians', controller);
+    return performRequest(RequestType.Create, preparedChristian, '/ones', 'christian', controller);
 }
 
 export const updateChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
@@ -40,35 +40,35 @@ export const updateChristian = async (christian: Christian, controller?: AbortCo
         ...christian,
         icon: getAvatarIconKey(christian.icon)
     };
-    return performRequest(RequestType.Update, preparedChristian, '/ones', 'christians', controller);
+    return performRequest(RequestType.Update, preparedChristian, '/ones', 'christian', controller);
 };
 
 export const removeChristian = async (christian: Christian, controller?: AbortController): Promise<Christian | any> => {
-    return performRequest(RequestType.Remove, christian, '/ones', 'christians', controller);
+    return performRequest(RequestType.Remove, christian, '/ones', 'christian', controller);
 };
 
 export const createGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<GospelStep | any> => {
-    return performRequest(RequestType.Create, gospelStep, '/ones', 'gospelSteps', controller);
+    return performRequest(RequestType.Create, gospelStep, '/ones', 'gospelStep', controller);
 }
 
 export const updateGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<GospelStep | any> => {
-    return performRequest(RequestType.Update, gospelStep, '/ones', 'gospelSteps', controller);
+    return performRequest(RequestType.Update, gospelStep, '/ones', 'gospelStep', controller);
 };
 
 export const removeGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<OneNote | any> => {
-    return performRequest(RequestType.Remove, gospelStep, '/ones', 'gospelSteps', controller);
+    return performRequest(RequestType.Remove, gospelStep, '/ones', 'gospelStep', controller);
 };
 
 export const createOneNote = async (oneNote: OneNote, controller?: AbortController): Promise<OneNote | any> => {
-    return performRequest(RequestType.Create, oneNote, '/ones', 'oneNotes', controller);
+    return performRequest(RequestType.Create, oneNote, '/ones', 'oneNote', controller);
 }
 
 export const updateOneNote = async (oneNote: OneNote, controller?: AbortController): Promise<OneNote | any> => {
-    return performRequest(RequestType.Update, oneNote, '/ones', 'oneNotes', controller);
+    return performRequest(RequestType.Update, oneNote, '/ones', 'oneNote', controller);
 };
 
 export const removeOneNote = async (oneNote: OneNote, controller?: AbortController): Promise<OneNote | any> => {
-    return performRequest(RequestType.Remove, oneNote, '/ones', 'oneNotes', controller);
+    return performRequest(RequestType.Remove, oneNote, '/ones', 'oneNote', controller);
 };
 
 export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string, controller?: AbortController): Promise<ActionStep[] | any> => {

@@ -57,7 +57,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
     const [modalVisible, setModalVisible] = useState(false);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
-    const actionSteps = selectedOne?.actionSteps || [];
+    const actionSteps = selectedOne ? [...selectedOne.actionSteps] : [];
     const selectedActionStep = selectedStepId ? actionSteps.find((step) => step.id === selectedStepId) : null;
     const selectedActionStepIndex = selectedActionStep ? actionStepTypeArray.findIndex((step) => step.value === selectedActionStep.type) : 0;
     const selectedActionStepTypeData = actionStepTypeArray[formSelectedTypeIdx];

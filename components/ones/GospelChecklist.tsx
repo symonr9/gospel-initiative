@@ -39,7 +39,7 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
     const [expandedIndices, setExpandedIndices] = useState<number[]>([]);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
-    const selectedOneItems = selectedOne ? Array.from(new Set(selectedOne.gospelChecklist)) : []; // Set removes dupes.
+    const selectedOneItems = selectedOne ? [...Array.from(new Set(selectedOne.gospelChecklist))] : []; // Set removes dupes.
     const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItemsArray.map((item) => item.value));
 
     const renderItem = ({ item, index }: {

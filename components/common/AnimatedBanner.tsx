@@ -7,6 +7,7 @@ import { flexStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
+import { PageRow } from './PageRow';
 
 export type IAnimatedBanner = {
     iconSrc: AppIcon | null;
@@ -42,19 +43,6 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                         <View style={flexStyles.column}>
                             <PageColumn>
                                 <Animated.Text
-                                    entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
-                                    exiting={FadeOutDown.duration(textDuration)}
-                                    style={[styles.textContainer]} >
-                                    {
-                                        prefixText && (
-                                            <AppText type={TextType.Prefix}>
-                                                {prefixText}
-                                            </AppText>
-                                        )
-                                    }
-                                </Animated.Text>
-
-                                <Animated.Text
                                     entering={FadeInUp.duration(textDuration).delay(textDelay)}
                                     exiting={FadeOutDown.duration(textDuration)}
                                     style={[styles.textContainer]} >
@@ -62,6 +50,21 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                                         {text}
                                     </AppText>
                                 </Animated.Text>
+
+                                {
+                                    prefixText && (
+                                        <PageRow style={{ flexShrink: 1, width: 350 }}>
+                                            <Animated.Text
+                                                entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
+                                                exiting={FadeOutDown.duration(textDuration)}
+                                                style={[styles.textContainer]} >
+                                            <AppText type={TextType.Prefix}>
+                                                {prefixText}
+                                            </AppText>
+                                            </Animated.Text>
+                                        </PageRow>
+                                    )
+                                }
                             </PageColumn>
                         </View>
                     </View>

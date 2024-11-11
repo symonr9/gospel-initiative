@@ -47,13 +47,13 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
-    const [formOneNote, setFormOneNote] = useState<OneNote>(OneNote.createDefault(selectedOne?.id || ""));
+    const [formOneNote, setFormOneNote] = useState<OneNote>(OneNote.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
-    const oneNotes = selectedOne?.oneNotes || [];
+    const oneNotes = selectedOne ? [...selectedOne.oneNotes] : [];
     const selectedNote = selectedNoteId ? oneNotes.find((note) => note.id === selectedNoteId) : null;
     const selectedNoteTypeIndex = selectedNote ? oneNoteTypeArray.findIndex((note) => note.value === selectedNote.type) : 0;
     const selectedOneNoteTypeData = oneNoteTypeArray[formSelectedTypeIdx];

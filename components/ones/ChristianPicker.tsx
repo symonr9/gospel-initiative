@@ -44,7 +44,7 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
     const [modalVisible, setModalVisible] = useState(false);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
-    const christians = selectedOne?.christians || [];
+    const christians = selectedOne ? [...selectedOne.christians] : [];
     const selectedChristian = selectedChristianId ? christians.find((christian) => christian.id === selectedChristianId) : null;
     const adding = pickerState === PickerState.Adding;
     const removing = pickerState === PickerState.Removing;
