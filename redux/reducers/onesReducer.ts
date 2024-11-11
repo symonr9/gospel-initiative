@@ -13,7 +13,7 @@ export function onesReducer(state = initialState, action: ActionPackage) {
         case Action.LoadServerData:
             const { ones } = action.payload;
             return update(state, {
-                selectedOneId: { $set: state.selectedOneId || (ones ? ones[0].id : null) },
+                selectedOneId: { $set: state.selectedOneId || (ones?.length > 0 ? ones[0].id : null) },
                 ones: { $set: ones || state.ones }
             });
         case Action.SetSelectedOneId:

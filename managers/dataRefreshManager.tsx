@@ -1,20 +1,21 @@
-import { loadServerData, refreshData, setAppError } from '@/redux/actions';
+import { loadServerData, refreshData, setAppError, setNewUserStep } from '@/redux/actions';
 import React, { useEffect, useRef } from 'react';
 import Constants from 'expo-constants';
 
 import { connect } from 'react-redux';
 import * as JsonFunctions from '../utils/jsonFunctions';
-import { getLocalUserId } from '@/utils/storageUtils';
+import { getLocalNewUserStep, getLocalUserId } from '@/utils/storageUtils';
 import { fetchServerData } from "@/requests/userRequests";
-import { createUser } from "@/requests/userRequests";
+import { createUserAndSaveToLocalStorage } from "@/requests/userRequests";
 import AppError from '@/models/error';
-import { RefreshSpec } from '@/enums/enums';
+import { NewUserStep, RefreshSpec } from '@/enums/enums';
 
 export type IDataRefreshManager = {
     state: any,
 
     loadServerData: (data: any) => void,
     refreshData: Function,
+    setNewUserStep: Function,
     setAppError: Function,
 };
 
@@ -22,7 +23,7 @@ function hasConstantsLoaded() {
     return Constants.expoConfig?.extra?.serverUrl;
 }
 
-function DataRefreshManager({ state, loadServerData, refreshData, setAppError }: IDataRefreshManager) {
+function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData, setAppError }: IDataRefreshManager) {
     console.log("State: ", state);
 
     useEffect(() => {
@@ -42,14 +43,18 @@ function DataRefreshManager({ state, loadServerData, refreshData, setAppError }:
     }, [state.app.refreshSpec]);
 
     const loadSettings = async () => {
+        const newUserStep = await getLocalNewUserStep();
+        setNewUserStep(newUserStep !== null ? newUserStep : NewUserStep.FirstStep);
+
         const userId = await getLocalUserId();
         if (!userId) {
-            const { error } = await createUser();
+            const { error } = await createUserAndSaveToLocalStorage();
             if (error) {
                 setAppError(new AppError(error, 'Something went wrong'));
-                return;
             }
+            return;
         }
+        
         fetchData(RefreshSpec.All);
     }
 
@@ -101,6 +106,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
     loadServerData,
     refreshData,
+    setNewUserStep,
     setAppError,
 };
 

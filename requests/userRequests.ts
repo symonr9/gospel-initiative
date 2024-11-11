@@ -2,9 +2,9 @@ import { postData } from "@/utils/apiUtils";
 import { saveToStorage, isSecureStorageAvailable, saveToSecureStorage, getLocalRefreshToken, getLocalUserId } from "@/utils/storageUtils";
 import { makeRequest } from "./Requests";
 import { getUserFromJson, getOnesFromJson, getStoryChaptersFromJson, getBeaconsFromJson } from "@/utils/jsonFunctions";
-import { RefreshSpec } from "@/enums/enums";
+import { NewUserStep, RefreshSpec } from "@/enums/enums";
 
-export const createUser = async () => {
+export const createUserAndSaveToLocalStorage = async () => {
     // Plain postData, no makeRequest() here
     const response = await postData(`/users/create`, {});
     if (!response) {
@@ -21,6 +21,7 @@ export const createUser = async () => {
     }
 
     saveToStorage("userId", user.id);
+    saveToStorage("newUserStep", NewUserStep.FirstStep);
 
     const isSecureAvailable = await isSecureStorageAvailable();
     if (isSecureAvailable) {

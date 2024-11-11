@@ -27,6 +27,11 @@ export const openPage = (item: Page) => ({
     payload: item,
 });
 
+export const setNewUserStep = (item: boolean) => ({
+    type: Action.SetNewUserStep,
+    payload: item,
+});
+
 /**
  * By default, refresh all server data.
  */
@@ -34,8 +39,6 @@ export const refreshData = (item: RefreshSpec = RefreshSpec.None) => ({
     type: Action.RefreshData,
     payload: item
 });
-
-
 
 export const setAppError = (error: Error) => ({
     type: Action.SetAppError,

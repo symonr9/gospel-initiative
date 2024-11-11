@@ -1,6 +1,15 @@
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const getLocalNewUserStep = async () => {
+    try {
+        return await getFromStorage('newUserStep');
+    } catch (error) {
+        console.error('Failed to load local new user step:', error);
+        return null;
+    }
+};
+
 export const getLocalUserId = async () => {
     try {
         return await getFromStorage('userId');

@@ -1,6 +1,15 @@
 
 // App
 
+export enum NewUserStep {
+    Completed = 0,
+    FirstStep = 1,
+    SecondStep = 2,
+    ThirdStep = 3,
+    FourthStep = 4,
+    Loading = 100,
+};
+
 export enum RefreshSpec {
     None,
     All,
