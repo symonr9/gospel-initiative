@@ -44,7 +44,7 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
 
     const loadSettings = async () => {
         const newUserStep = await getLocalNewUserStep();
-        setNewUserStep(newUserStep !== null ? newUserStep : NewUserStep.FirstStep);
+        setNewUserStep(newUserStep !== null && (parseInt(newUserStep) !== -1) ? parseInt(newUserStep) : NewUserStep.Splash);
 
         const userId = await getLocalUserId();
         if (!userId) {

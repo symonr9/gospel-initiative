@@ -3,10 +3,17 @@
 
 export enum NewUserStep {
     Completed = 0,
-    FirstStep = 1,
-    SecondStep = 2,
-    ThirdStep = 3,
-    FourthStep = 4,
+    Splash = 1,
+    WhatIsTheGospelInitiative = 2,
+    WhoIsYourOne = 3,
+    TheOnesPage = 4,
+    TheStoriesPage = 5,
+    ThingsToKnowAboutTheApp = 6,
+    CreateAProfile = 7,
+    AddOneNow = 8,
+    PrayForBeaconsNow = 9,
+    PracticeTestimonyNow = 10,
+    Finished = 11,
     Loading = 100,
 };
 

@@ -1,4 +1,4 @@
-import { Page, RefreshSpec } from "@/enums/enums";
+import { NewUserStep, Page, RefreshSpec } from "@/enums/enums";
 import { Action } from "../actions";
 
 export const loadServerData = (data: any) => {
@@ -27,7 +27,7 @@ export const openPage = (item: Page) => ({
     payload: item,
 });
 
-export const setNewUserStep = (item: boolean) => ({
+export const setNewUserStep = (item: NewUserStep) => ({
     type: Action.SetNewUserStep,
     payload: item,
 });

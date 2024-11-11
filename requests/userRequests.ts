@@ -21,7 +21,7 @@ export const createUserAndSaveToLocalStorage = async () => {
     }
 
     saveToStorage("userId", user.id);
-    saveToStorage("newUserStep", NewUserStep.FirstStep);
+    saveToStorage("newUserStep", NewUserStep.Splash);
 
     const isSecureAvailable = await isSecureStorageAvailable();
     if (isSecureAvailable) {
