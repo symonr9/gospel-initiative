@@ -1,8 +1,10 @@
 import { postData } from "@/utils/apiUtils";
 import { saveToStorage, isSecureStorageAvailable, saveToSecureStorage, getLocalRefreshToken, getLocalUserId } from "@/utils/storageUtils";
-import { makeRequest } from "./Requests";
+import { makeRequest, performRequest, RequestType } from "./Requests";
 import { getUserFromJson, getOnesFromJson, getStoryChaptersFromJson, getBeaconsFromJson } from "@/utils/jsonFunctions";
 import { NewUserStep, RefreshSpec } from "@/enums/enums";
+import User from "@/models/user";
+import { getAvatarIconKey } from "@/utils/appUtils";
 
 export const createUserAndSaveToLocalStorage = async () => {
     // Plain postData, no makeRequest() here
@@ -34,6 +36,14 @@ export const createUserAndSaveToLocalStorage = async () => {
 
     return {};
 };
+
+export const updateUser = async (user: User, controller?: AbortController) => {
+    const preparedUser = {
+        ...user,
+        icon: getAvatarIconKey(user.icon)
+    };
+    return performRequest(RequestType.Update, preparedUser, '/users', 'user', controller);
+}
 
 export const fetchServerData = async (refreshSpec: RefreshSpec): Promise<any> => {
     try {

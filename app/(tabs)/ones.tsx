@@ -6,15 +6,9 @@ import { useLocalSearchParams } from 'expo-router';
 import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import OnesLayout from '@/components/ones/OnesLayout';
-import { AnimatedBanner } from '@/components/common/AnimatedBanner';
-import { AppIcon } from '@/enums/enums';
-import AppError from '@/models/error';
-import { clearAppError } from '@/redux/actions';
 import BeaconsPrayLayout from '@/components/beacons/BeaconsPrayLayout';
 
 export type IOnes = ViewProps & {
-  error: AppError,
-  clearAppError: Function
 };
 
 const renderScene = SceneMap({
@@ -22,7 +16,7 @@ const renderScene = SceneMap({
   pray: BeaconsPrayLayout,
 });
 
-function Ones({ error, clearAppError }: IOnes) {
+function Ones({ }: IOnes) {
   const { tab } = useLocalSearchParams();
   const initialIndex = tab ? parseInt(tab) : 0;
 
@@ -38,15 +32,6 @@ function Ones({ error, clearAppError }: IOnes) {
 
   return (
     <PageView>
-      {
-        error && (
-          <AnimatedBanner iconSrc={AppIcon.Info}
-            text={error.title}
-            prefixText={error.details}
-            onClick={() => clearAppError()} />
-        )
-      }
-
       <AppTabView title={'Ones'}
         renderScene={renderScene}
         index={index}
@@ -57,11 +42,9 @@ function Ones({ error, clearAppError }: IOnes) {
 }
 
 const mapStateToProps = (state: any) => ({
-  error: state.errors.error,
 });
 
 const mapDispatchToProps = {
-  clearAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ones);

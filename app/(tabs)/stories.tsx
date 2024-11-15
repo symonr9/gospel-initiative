@@ -8,14 +8,8 @@ import AppTabView from '@/components/common/AppTabView';
 import MyStoriesLayout from '@/components/stories/MyStoriesLayout';
 import GodsStoriesLayout from '@/components/stories/GodsStoriesLayout';
 import PracticeMyStoryDetails from '@/components/stories/PracticeMyStoryDetails';
-import { clearAppError } from '@/redux/actions';
-import { AnimatedBanner } from '@/components/common/AnimatedBanner';
-import { AppIcon } from '@/enums/enums';
-import AppError from '@/models/error';
 
 export type IStories = ViewProps & {
-  error: AppError,
-  clearAppError: Function
 };
 
 const renderScene = SceneMap({
@@ -24,7 +18,7 @@ const renderScene = SceneMap({
   GodsStories: GodsStoriesLayout,
 });
 
-function Stories({ error, clearAppError }: IStories) {
+function Stories({ }: IStories) {
   const { tab } = useLocalSearchParams();
   const initialIndex = tab ? parseInt(tab) : 0;
 
@@ -41,15 +35,6 @@ function Stories({ error, clearAppError }: IStories) {
 
   return (
     <PageView>
-      {
-        error && (
-          <AnimatedBanner iconSrc={AppIcon.Info}
-            text={error.title}
-            prefixText={error.details}
-            onClick={() => clearAppError()} />
-        )
-      }
-
       <AppTabView title={'Beacons'}
         renderScene={renderScene}
         index={index}
@@ -60,11 +45,9 @@ function Stories({ error, clearAppError }: IStories) {
 }
 
 const mapStateToProps = (state: any) => ({
-  error: state.errors.error,
 });
 
 const mapDispatchToProps = {
-  clearAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stories);

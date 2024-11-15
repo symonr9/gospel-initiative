@@ -9,14 +9,19 @@ import DataRefreshManager from '../../managers/dataRefreshManager';
 import AppStateManager from '../../managers/appStateManager';
 import { ViewProps } from 'react-native';
 import NewUserLayout from '@/components/profile/NewUserLayout';
-import { NewUserStep } from '@/enums/enums';
+import { AppIcon, NewUserStep } from '@/enums/enums';
 import LoadingLayout from '@/components/common/LoadingLayout';
+import { clearAppError } from '@/redux/actions';
+import AppError from '@/models/error';
+import { AnimatedBanner } from '@/components/common/AnimatedBanner';
 
 export type ITabLayout = ViewProps & {
   newUserStep: NewUserStep;
+  error: AppError;
+  clearAppError: Function;
 };
 
-function TabLayout({ newUserStep }: ITabLayout) {
+function TabLayout({ newUserStep, error, clearAppError }: ITabLayout) {
   const colorScheme = useColorScheme();
 
   const tabScreenOptions = {
@@ -77,6 +82,14 @@ function TabLayout({ newUserStep }: ITabLayout) {
     <>
       <DataRefreshManager />
       <AppStateManager />
+      {
+        error && (
+          <AnimatedBanner iconSrc={AppIcon.Info}
+            text={error.title}
+            prefixText={error.details}
+            onClick={() => clearAppError()} />
+        )
+      }
       {Body}
     </>
   );
@@ -85,11 +98,13 @@ function TabLayout({ newUserStep }: ITabLayout) {
 
 const mapStateToProps = (state: any) => {
   return {
-    newUserStep: state.app.newUserStep
+    newUserStep: state.app.newUserStep,
+    error: state.errors.error,
   };
 };
 
 const mapDispatchToProps = {
+  clearAppError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabLayout);

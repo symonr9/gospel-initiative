@@ -28,8 +28,4 @@ export default class User implements IUser {
       this.createdAt = createdAt;
       this.icon = icon;
     }
-  
-    displayUser(): string {
-      return `${this.name} (${this.email})`;
-    }
   }

@@ -421,7 +421,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                             <PageRow spaceBetween>
                                 <PageColumn style={{ gap: 12 }}>
                                     <PageRow>
-                                        <SimpleIcon iconSrc={selectedOne.icon} large />
+                                        <SimpleIcon iconSrc={selectedOne.icon} large removeBackground={false}/>
                                         <AnimatedHeader title={selectedOne.name}
                                             style={{ alignItems: 'flex-start', marginStart: 8 }}
                                             subtitle='Your One' />

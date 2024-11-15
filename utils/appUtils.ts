@@ -17,6 +17,10 @@ export function formatEnumKey<T>(enumObj: T, enumValue: T[keyof T]): string {
     return enumKey ? enumKey.replace(/([a-z])([A-Z])/g, '$1 $2') : '';
 }
 
+export function getRandomElement(arr: Array<any>) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
 export function getNow() {
     return new Date();
 }

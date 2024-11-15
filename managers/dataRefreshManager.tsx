@@ -43,8 +43,9 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
     }, [state.app.refreshSpec]);
 
     const loadSettings = async () => {
-        const newUserStep = await getLocalNewUserStep();
-        setNewUserStep(newUserStep !== null && (parseInt(newUserStep) !== -1) ? parseInt(newUserStep) : NewUserStep.Splash);
+        const localNewUserStep = await getLocalNewUserStep();
+        const newUserStep = localNewUserStep !== null && (parseInt(localNewUserStep) !== -1) ? parseInt(localNewUserStep) : NewUserStep.Splash;
+        setNewUserStep(newUserStep);
 
         const userId = await getLocalUserId();
         if (!userId) {
@@ -53,6 +54,10 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
                 setAppError(new AppError(error, 'Something went wrong'));
             }
             return;
+        }
+
+        if (newUserStep !== NewUserStep.Completed) {
+            return; // Not done with onboarding!
         }
         
         fetchData(RefreshSpec.All);
