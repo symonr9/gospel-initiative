@@ -18,9 +18,6 @@ import NewUserTheOnesPage from './newUser/NewUserTheOnesPage';
 import NewUserTheStoriesPage from './newUser/NewUserTheStoriesPage';
 import NewUserThingsToKnowAboutTheApp from './newUser/NewUserThingsToKnowAboutTheApp';
 import NewUserCreateAProfile from './newUser/NewUserCreateAProfile';
-import NewUserAddOneNow from './newUser/NewUserAddOneNow';
-import NewUserPrayForBeaconsNow from './NewUserPrayForBeaconsNow';
-import NewUserPracticeTestimonyNow from './newUser/NewUserPracticeTestimonyNow';
 import NewUserFinished from './newUser/NewUserFinished';
 
 export type INewUserLayout = ViewProps & {
@@ -81,24 +78,6 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep,
                 setNewUserStep={setNewUserStep} 
                 setAppError={setAppError}
                 executor={executor}
-                styles={styles}/>
-        );
-    } else if (newUserStep == NewUserStep.AddOneNow) {
-        BodyLayout.push(
-            <NewUserAddOneNow newUserStep={newUserStep} 
-                setNewUserStep={setNewUserStep} 
-                styles={styles}/>
-        );
-    } else if (newUserStep == NewUserStep.PrayForBeaconsNow) {
-        BodyLayout.push(
-            <NewUserPrayForBeaconsNow newUserStep={newUserStep} 
-                setNewUserStep={setNewUserStep} 
-                styles={styles}/>
-        );
-    } else if (newUserStep == NewUserStep.PracticeTestimonyNow) {
-        BodyLayout.push(
-            <NewUserPracticeTestimonyNow newUserStep={newUserStep} 
-                setNewUserStep={setNewUserStep} 
                 styles={styles}/>
         );
     } else if (newUserStep === NewUserStep.Finished) {

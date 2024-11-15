@@ -49,7 +49,7 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             setAppError(new AppError('Error Updating User', response.error));
             return;
         }
-        setNewUserStep(NewUserStep.AddOneNow);
+        setNewUserStep(NewUserStep.Finished);
     };
 
     return (

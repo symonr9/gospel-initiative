@@ -10,10 +10,7 @@ export enum NewUserStep {
     TheStoriesPage = 5,
     ThingsToKnowAboutTheApp = 6,
     CreateAProfile = 7,
-    AddOneNow = 8,
-    PrayForBeaconsNow = 9,
-    PracticeTestimonyNow = 10,
-    Finished = 11,
+    Finished = 8,
     Loading = 100,
 };
 

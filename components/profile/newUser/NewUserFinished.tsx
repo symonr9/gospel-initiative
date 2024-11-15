@@ -22,10 +22,11 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
 
     return (
         <PageColumn style={{ gap: 16 }}>
-            <AppText type={TextType.Title}>Tutorial Complete</AppText>
+            <AppText type={TextType.Title}>Setup Complete</AppText>
 
             <AppText>
-                Thank you for downloading our app.
+                Thank you for downloading our app and we hope that it is helpful as you share your life
+                and faith with those around you!
             </AppText>
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
