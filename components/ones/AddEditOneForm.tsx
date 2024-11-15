@@ -19,22 +19,17 @@ import { PageRow } from '../common/PageRow';
 import { formatDateTime, generateActionStepsForStage, generateRandomId, getDaysDifference, getNextWeek, mapActionStepTypeToDetails, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
 
 export type IAddEditOneForm = ViewProps & {
-    selectedOneId: string | null;
     initialOneForm: OneForm;
     editing?: boolean;
 
     setOneForm: Function;
 };
 
-function AddEditOneForm({ selectedOneId, editing = false, initialOneForm, setOneForm }: IAddEditOneForm) {
+function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEditOneForm) {
     const [formData, setFormData] = useState(initialOneForm);
-    const [suggestedActionSteps, setSuggestedActionSteps] = useState<ActionStep[]>(generateActionStepsForStage(initialOneForm.stage, selectedOneId));
+    const [suggestedActionSteps, setSuggestedActionSteps] = useState<ActionStep[]>(generateActionStepsForStage(initialOneForm.stage));
     const [selectedSteps, setSelectedSteps] = useState(suggestedActionSteps.map(() => true));
     const [targetDates, setTargetDates] = useState(suggestedActionSteps.map((step) => step.targetDate));
-
-    if (!selectedOneId) {
-        return <></>;
-    }
 
     useEffect(() => {
         setOneForm(formData);
@@ -73,7 +68,7 @@ function AddEditOneForm({ selectedOneId, editing = false, initialOneForm, setOne
             stage
         }));
 
-        const newSteps = generateActionStepsForStage(stage, selectedOneId);
+        const newSteps = generateActionStepsForStage(stage);
         setSelectedSteps(newSteps.map(() => true));
         setTargetDates(newSteps.map((step) => step.targetDate));
         setSuggestedActionSteps(newSteps);
@@ -252,7 +247,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    selectedOneId: state.ones.selectedOneId,
 });
 
 const mapDispatchToProps = {

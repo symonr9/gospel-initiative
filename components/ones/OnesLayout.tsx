@@ -88,15 +88,27 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
         if (!executor) {
             return;
         }
-        setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+        revertToInitialLayoutType();
     }, [executor]);
+
+    const revertToInitialLayoutType = () => {        
+        setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    };
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
         BodyLayout.push(
-            <PageRow>
+            <PageColumn style={{ gap: 8 }}>
                 <PageResponse title={'Welcome'}
                     details={'Please add your One on the Overview page to get started.'} />
-            </PageRow>
+                <SimpleIconButton iconSrc={AppIcon.Plus}
+                    small
+                    onClick={() => {
+                        setMessage(null);
+                        setActiveLayoutType(OneLayoutType.AddingOne);
+                    }}
+                    title={'Add New'} />
+
+            </PageColumn>
         );
     } else if (activeLayoutType === OneLayoutType.AddingOne) {
         const onSave = async () => {
@@ -134,7 +146,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 refreshData(RefreshSpec.Ones);
                 setOneForm(OneForm.createDefault());
                 setMessage("Your One has been successfully created!");
-                setActiveLayoutType(OneLayoutType.Normal);
+                revertToInitialLayoutType();
             } catch (err: any) {
                 setAppError(new AppError('Error adding one: ', err));
             }
@@ -144,7 +156,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
-                        setActiveLayoutType(OneLayoutType.Normal);
+                        revertToInitialLayoutType();
                     }}
                     title={'Back'} />
                 <SimpleIconButton iconSrc={AppIcon.Save}
@@ -184,7 +196,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 refreshData(RefreshSpec.Ones);
                 setOneForm(OneForm.createDefault());
                 setMessage("Your One has been successfully updated!");
-                setActiveLayoutType(OneLayoutType.Normal);
+                revertToInitialLayoutType();
             } catch (err: any) {
                 setAppError(new AppError('Error updating one: ', err));
             }
@@ -194,7 +206,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
             <PageRow spaceEvenly>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
-                        setActiveLayoutType(OneLayoutType.Normal);
+                        revertToInitialLayoutType();
                     }}
                     title={'Back'} />
                 <SimpleIconButton iconSrc={AppIcon.Save}
@@ -214,7 +226,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         setMessage(null);
-                        setActiveLayoutType(OneLayoutType.Normal);
+                        revertToInitialLayoutType();
                     }}
                     title={'Back'} />
             </PageRow>

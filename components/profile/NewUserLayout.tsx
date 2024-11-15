@@ -10,6 +10,7 @@ import User from '@/models/user';
 import LoadingLayout from '../common/LoadingLayout';
 import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
+import { SimpleTextList } from '../common/SimpleTextList';
 
 export type INewUserLayout = ViewProps & {
     executor: User,
@@ -46,14 +47,14 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                     style={styles.logoIcon} />
                 <AppText type={TextType.Title}>Welcome to the Gospel Initiative App!</AppText>
                 <AppText>
-                    This app is a tool used to help us be intentional about loving those in our lives, connect with others in prayer, and gain confidence in sharing our testimony.
+                    This app helps you love others intentionally, connect in prayer, and grow in sharing your testimony.
                 </AppText>
                 <AppText style={{ marginVertical: 16 }}>
-                    Do you want to learn more about the Gospel Initiative or skip to the main features of the app?
+                    Would you like to learn more about the Gospel Initiative or go straight to the app’s main features?
                 </AppText>
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
                     <Button title={'Learn More About the Gospel Initiative'} onPress={onLearnGospelInitiative} />
-                    <Button title={'Learn More About this App'} onPress={onLearnApp} />
+                    <Button title={'Learn More About the App'} onPress={onLearnApp} />
                     <Button title={'Skip to User Creation'} onPress={onSkipToUserCreation} />
                 </PageColumn>
             </PageColumn>
@@ -69,23 +70,10 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                     style={styles.logoIcon} />
                 <AppText type={TextType.Title}>What is the Gospel Initiative?</AppText>
                 <AppText>
-                    The purpose of the Gospel Initiative is to empower Christians to share, live, and send the Gospel. As part of this directive, we are focusing our attention on:
+                    The Gospel Initiative empowers Christians to share, live, and spread the Gospel through:
                 </AppText>
-                <PageColumn style={{ marginVertical: 8 }}>
-                    <AppText>
-                        1. Sharing Jesus
-                    </AppText>
-                    <AppText>
-                        2. Loving the City
-                    </AppText>
-                    <AppText>
-                        3. Reaching our World
-                    </AppText>
-                </PageColumn>
 
-                <AppText style={{ marginVertical: 16 }}>
-                    As part of our endeavor, we have been praying for God to put someone in our heart who we are choosing to be more intentional to share our lives and faith with. We’re calling this person our “One”.
-                </AppText>
+                <SimpleTextList items={['Sharing Jesus', 'Loving the City', 'Reaching the World']}/>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
                     <Button title={'Continue'} onPress={onContinue} />
@@ -103,10 +91,11 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                     style={styles.logoIcon} />
                 <AppText type={TextType.Title}>Who is your One?</AppText>
                 <AppText>
-                    Our “One” is a person in our lives who doesn’t yet know Jesus. As Christians, we are committed to loving our neighbor through quality time, genuine listening, acts of service, and sharing both our story and the story of God.
+                    Your “One” is someone in your life who hasn’t met Jesus. Our goal is to love our neighbors genuinely by spending time, listening, serving, and sharing our stories and God’s story.
                 </AppText>
+
                 <AppText style={{ marginVertical: 16 }}>
-                        Our Ones aren’t projects but friends who we are choosing to intentionally share both our lives and our faith with, regardless of the outcome.
+                    
                 </AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
@@ -125,23 +114,17 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                     style={styles.logoIcon} />
                 <AppText type={TextType.Title}>The Ones Page</AppText>
                 <AppText>
-                    On the Ones page, you can edit details about your One. This can include:
+                    On the Ones page, you can:
                 </AppText>
 
-                <PageColumn style={{ marginVertical: 8 }}>
-                    <AppText>
-                        Info as to when you met, your mutual hobbies and interests, Christians in their life, etc.
-                    </AppText>
-                    <AppText>
-                        Managing “Action Steps”, next steps to take in your relationship with your One with goal dates.
-                    </AppText>
-                    <AppText>
-                        Sending out “Prayer Beacons”, which are prayer requests that are active for 24 hours that the rest of the Gospel Initiative community can be praying over.
-                    </AppText>
-                </PageColumn>
-
+                <SimpleTextList items={[
+                    'Edit details about your One, like how you met and shared interests.', 
+                    'Manage Action Steps with goal dates.',
+                    'Send Prayer Beacons (24-hour prayer requests for the community).']}
+                />
+                
                 <AppText style={{ marginVertical: 16 }}>
-
+                    
                 </AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
@@ -160,20 +143,14 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                     style={styles.logoIcon} />
                 <AppText type={TextType.Title}>The Stories Page</AppText>
                 <AppText>
-                    There are three components to the Story page.
+                    The Story page has three main parts:
                 </AppText>
 
-                <PageColumn style={{ marginVertical: 8 }}>
-                    <AppText>
-                        (1) Once a day, you are able to practice your testimony. You will be given a prompt to answer related to your story. You can answer either by text or using your phone’s built-in dictation feature. After submitting your response, the app will process your testimony and smartly paraphrase it into a card and apply “Story Tags” and “Name Tags”. Make edits and save.
-                    </AppText>
-                    <AppText>
-                        (2) As you create Story cards, they will appear in your library. All of the stories you create can be filtered so that you can find and identify specific themes of your testimony.
-                    </AppText>
-                    <AppText>
-                       (3) There are additionally resources with information about the Gospel in itself.
-                    </AppText>
-                </PageColumn>
+                <SimpleTextList items={[
+                    'Practice your testimony daily by responding to prompts. Save and tag your story in your library.', 
+                    'Find and filter your saved Story cards by theme.',
+                    'Access Gospel resources.']}
+                />
 
                 <AppText style={{ marginVertical: 16 }}>
                     
@@ -195,15 +172,12 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                     style={styles.logoIcon} />
                 <AppText type={TextType.Title}>Things about the App to know</AppText>
 
-                <PageColumn style={{ marginVertical: 8 }}>
-                    <AppText>
-                        (1) Anonymity: We care deeply about your privacy and the privacy of your One. As such, any information you add about your One does not get publicly shared with others. You can add ‘Beacon Tags’ that help specify how others can be praying for your One without disclosing personal information.
-                    </AppText>
-                    <AppText>
-                        (2) Habit-Forming: This app works best when it becomes a daily habit of praying for beacons, practicing your testimony, and challenging yourself with the action steps you set for yourself.
-                    </AppText>
-                </PageColumn>
-
+                <SimpleTextList items={[
+                    'Anonymity: Your One’s info remains private. Use “Beacon Tags” for prayer requests without sharing personal details.', 
+                    'Habit-Building: Best used daily to form habits of prayer, testimony, and action steps.',
+                    'Relationship Focused: This app supports genuine relationships based on compassion, not as a substitute for authentic engagement.']}
+                />
+                
                 <AppText style={{ marginVertical: 16 }}>
                     
                 </AppText>
@@ -225,7 +199,7 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                 <AppText type={TextType.Title}>New Profile</AppText>
 
                 <AppText>
-                    Time to create a profile! Add a name and profile picture for yourself.
+                    Time to create a profile! Add a name and picture.
                 </AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
@@ -242,15 +216,13 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
             <PageColumn style={{ gap: 16 }}>
                 <Image source={AppIcon.AppLogo}
                     style={styles.logoIcon} />
-                <AppText type={TextType.Title}>Prayer Beacons page</AppText>
+                <AppText type={TextType.Title}>Add One</AppText>
 
-                <AppText>
-                    Below is an example of what a prayer beacon looks like. Tap on the icon to open up the
-                    prayer details.
-                </AppText>
+                <AppText>Would you like to add your One?</AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                    <Button title={'Continue'} onPress={onContinue} />
+                    <Button title={'Yes - Add One'} onPress={onContinue} />
+                    <Button title={'Skip for Later'} onPress={onContinue} />
                 </PageColumn>
             </PageColumn>
         );
@@ -263,12 +235,9 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
             <PageColumn style={{ gap: 16 }}>
                 <Image source={AppIcon.AppLogo}
                     style={styles.logoIcon} />
-                <AppText type={TextType.Title}>Prayer Beacons page</AppText>
+                <AppText type={TextType.Title}>Prayer Beacons</AppText>
 
-                <AppText>
-                    Below is an example of what a prayer beacon looks like. Tap on the icon to open up the
-                    prayer details.
-                </AppText>
+                <AppText>Here is an example of what the Prayer page looks like.</AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
                     <Button title={'Continue'} onPress={onContinue} />
@@ -291,7 +260,8 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                 </AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                    <Button title={'Continue'} onPress={onContinue} />
+                    <Button title={'Yes - Practice Testimony'} onPress={onContinue} />
+                    <Button title={'Skip for Later'} onPress={onContinue} />
                 </PageColumn>
             </PageColumn>
         );
@@ -307,7 +277,7 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep, setAppError }: I
                 <AppText type={TextType.Title}>Tutorial Complete</AppText>
 
                 <AppText>
-                    Those are the main features of the Gospel Initiative app.
+                    Thank you for downloading our app.
                 </AppText>
 
                 <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

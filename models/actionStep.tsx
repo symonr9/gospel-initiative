@@ -40,11 +40,11 @@ export default class ActionStep implements IActionStep {
         );
     }
 
-    static create(oneId: string, type: ActionStepType, date: Date = getNextWeek()): ActionStep {
+    static create(type: ActionStepType, date: Date = getNextWeek()): ActionStep {
         return new ActionStep(
             generateRandomId(),
             "",
-            oneId,
+            "", // oneId is handled on the server
             false,
             date,
             type
