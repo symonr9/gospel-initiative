@@ -249,7 +249,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
 
     if (pickerState !== PickerState.Normal) {
         Body.push(
-            <PageRow spaceEvenly>
+            <PageRow spaceEvenly style={{ marginBottom: 8 }}>
                 <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                     title={'Back'}
                     onClick={onBackClick} />
@@ -260,7 +260,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
         );
     } else {
         Body.push(
-            <PageRow spaceEvenly>
+            <PageRow spaceEvenly style={{ marginBottom: 8 }}>
                 {
                     selectedNoteId === null && (
                         <SimpleIconButton iconSrc={AppIcon.Plus}

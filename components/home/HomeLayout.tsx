@@ -11,6 +11,9 @@ import { SimpleCard } from '../common/SimpleCard';
 import { AppIcon } from '@/enums/enums';
 import HomeChecklistItem from './HomeChecklistItem';
 import HomePrayerCard from './HomePrayerCard';
+import { PageRow } from '../common/PageRow';
+import { Image } from 'expo-image';
+import { SimpleIcon } from '../common/SimpleIcon';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -56,7 +59,10 @@ function HomeLayout({ executor }: IHomeLayout) {
   return (
     <ScrollLayout style={styles.container}>
       <PageColumn style={{ gap: 8 }}>
-        <AnimatedHeader title={title} subtitle={subtitle} />
+        <PageRow style={{ gap: 12, padding: 8 }}>
+          <SimpleIcon iconSrc={executor.icon} large/>
+          <AnimatedHeader title={title} subtitle={subtitle} style={{width: 300 }}/>
+        </PageRow>
 
         <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
           <PageSubHeader title={'Tasks'} />
