@@ -4,7 +4,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -17,6 +17,10 @@ import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
+import { AnimatedHeader } from '@/components/common/AnimatedHeader';
+import { SimpleIcon } from '@/components/common/SimpleIcon';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import DetailsSection from '../common/DetailsSection';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -194,7 +198,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                                 )}
                             </View>
-                            <TouchableOpacity onPress={toggleModal} 
+                            <TouchableOpacity onPress={toggleModal}
                                 style={[modalStyles.editButton, { width: 100, alignSelf: 'center' }]}>
                                 <AppText>Edit Type</AppText>
                             </TouchableOpacity>
@@ -288,6 +292,26 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
 
 
     if (pickerState === PickerState.Normal) {
+        if (selectedOne) {
+            Body.push(
+                <PageRow style={styles.headerRow}>
+                    <Animated.View entering={FadeInDown.duration(200)}
+                        exiting={FadeOutDown.duration(200)}>
+                        <PageRow style={{ marginStart: 12, gap: 12 }}>
+                            <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
+                                prefix={"Stage"}
+                                style={{ marginRight: 16 }}
+                                title={mapStageToText(selectedOne.stage)} />
+
+                            <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
+                                prefix={"Category"}
+                                title={mapOneCategoryToText(selectedOne.category)} />
+                        </PageRow>
+                    </Animated.View>
+                </PageRow>
+            );
+        }
+
         const partitionedNotes = OneNote.partitionNotes(oneNotes);
         Body.push(
             <PageColumn>
@@ -432,6 +456,10 @@ const styles = StyleSheet.create({
     },
     selected: {
         opacity: 1,
+    },
+    headerRow: {
+        height: 70,
+        marginBottom: 20
     },
 });
 

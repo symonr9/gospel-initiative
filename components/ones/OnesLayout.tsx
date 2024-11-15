@@ -33,10 +33,12 @@ import Beacon from '@/models/beacon';
 import AppError from '@/models/error';
 import ChristianPicker from './ChristianPicker';
 import InfoPicker from './InfoPicker';
+import { OnesLayoutFirstTime } from './layout/OnesLayoutFirstTime';
+import { OnesLayoutAddingOne } from './layout/OnesLayoutAddingOne';
+import { OnesLayoutEditingOne } from './layout/OnesLayoutEditingOne';
+import { OnesLayoutAllOnes } from './layout/OnesLayoutAllOnes';
+import { OnesLayoutNormal } from './layout/OnesLayoutNormal';
 
-const gospelChecklistItems = Object.keys(GospelChecklistItem)
-    .filter(key => isNaN(Number(key)))
-    .map((item) => ({ value: GospelChecklistItem[item as keyof typeof GospelChecklistItem] }));
 
 export type IOnesLayout = ViewProps & {
     selectedOneId: string | null,
@@ -49,14 +51,6 @@ export type IOnesLayout = ViewProps & {
     setSelectedOneId: Function
 };
 
-export enum BodyType {
-    Base,
-    Info,
-    ActionStep,
-    GospelChecklist,
-    Beacons,
-    Christians,
-};
 
 export enum OneLayoutType {
     Normal,
@@ -72,16 +66,10 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
     setAppError, oneBeacons, refreshData, setSelectedOneId }: IOnesLayout) {
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
-    const actionSteps = selectedOne?.actionSteps || [];
-    const firstActionStep = actionSteps?.length > 0 ? actionSteps[0] : null;
-    const christians = selectedOne?.christians || [];
-    const oneNotes = selectedOne?.oneNotes || [];
 
     const [message, setMessage] = useState<string | null>(null);
-    const [bodyType, setBodyType] = useState(BodyType.Base);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
-    const HeaderLayout: any[] = [];
     const BodyLayout: any[] = [];
 
     useEffect(() => {
@@ -97,76 +85,17 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
 
     if (activeLayoutType === OneLayoutType.FirstTime) {
         BodyLayout.push(
-            <PageColumn style={{ gap: 8 }}>
-                <PageResponse title={'Welcome'}
-                    details={'Please add your One on the Overview page to get started.'} />
-                <SimpleIconButton iconSrc={AppIcon.Plus}
-                    small
-                    onClick={() => {
-                        setMessage(null);
-                        setActiveLayoutType(OneLayoutType.AddingOne);
-                    }}
-                    title={'Add New'} />
-
-            </PageColumn>
+            <OnesLayoutFirstTime setMessage={setMessage} setActiveLayoutType={setActiveLayoutType}/>
         );
     } else if (activeLayoutType === OneLayoutType.AddingOne) {
-        const onSave = async () => {
-            const newOne = new One(
-                "",
-                oneForm.name,
-                oneForm.icon,
-                oneForm.stage,
-                oneForm.category,
-                getNow(),
-                [],
-                false,
-                executor.id,
-                [],
-                [],
-                [],
-                []
-            );
-
-            try {
-                const response = await createOne(newOne);
-                if (response.error) {
-                    setAppError(new AppError('Error adding one: ', response.error));
-                    return;
-                }
-
-                if (oneForm.actionSteps?.length > 0) {
-                    const actionStepResponse = await updateActionSteps(oneForm.actionSteps, response.id);
-                    if (actionStepResponse.error) {
-                        setAppError(new AppError('Error adding action steps: ', response.error));
-                        return;
-                    }
-                }
-
-                refreshData(RefreshSpec.Ones);
-                setOneForm(OneForm.createDefault());
-                setMessage("Your One has been successfully created!");
-                revertToInitialLayoutType();
-            } catch (err: any) {
-                setAppError(new AppError('Error adding one: ', err));
-            }
-        };
-
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        revertToInitialLayoutType();
-                    }}
-                    title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Save}
-                    onClick={onSave}
-                    title={'Save'} />
-            </PageRow>
-        );
-
         BodyLayout.push(
-            <AddEditOneForm initialOneForm={OneForm.createDefault()} />
+            <OnesLayoutAddingOne oneForm={oneForm} 
+                setAppError={setAppError} 
+                executor={executor} 
+                refreshData={refreshData} 
+                setMessage={setMessage} 
+                setOneForm={setOneForm} 
+                revertToInitialLayoutType={revertToInitialLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.EditingOne) {
         if (!selectedOne) {
@@ -176,232 +105,38 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
             );
         }
 
-        const onSave = async () => {
-            const updatedOne = {
-                ...selectedOne,
-                name: oneForm.name,
-                icon: oneForm.icon,
-                stage: oneForm.stage,
-                category: oneForm.category,
-                gospelChecklist: oneForm.gospelChecklist
-            };
-
-            try {
-                const response = await updateOne(updatedOne);
-                if (response.error) {
-                    setAppError(new AppError('Error updating one: ', response.error));
-                    return;
-                }
-
-                refreshData(RefreshSpec.Ones);
-                setOneForm(OneForm.createDefault());
-                setMessage("Your One has been successfully updated!");
-                revertToInitialLayoutType();
-            } catch (err: any) {
-                setAppError(new AppError('Error updating one: ', err));
-            }
-        };
-
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        revertToInitialLayoutType();
-                    }}
-                    title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Save}
-                    onClick={onSave}
-                    title={'Save'} />
-            </PageRow>
-        );
-
-        const initialOneForm = OneForm.createFromOne(selectedOne, actionSteps);
         BodyLayout.push(
-            <AddEditOneForm editing
-                initialOneForm={initialOneForm} />
+            <OnesLayoutEditingOne oneForm={oneForm}
+                setAppError={setAppError}
+                executor={executor}
+                refreshData={refreshData}
+                setMessage={setMessage}
+                setOneForm={setOneForm}
+                revertToInitialLayoutType={revertToInitialLayoutType} 
+                selectedOne={selectedOne} />
         );
     } else if (activeLayoutType === OneLayoutType.AllOnes) {
-        HeaderLayout.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        setMessage(null);
-                        revertToInitialLayoutType();
-                    }}
-                    title={'Back'} />
-            </PageRow>
-        );
-
         BodyLayout.push(
-            <AllOnesGrid setActiveLayoutType={setActiveLayoutType} />
+            <OnesLayoutAllOnes setMessage={setMessage} 
+                setActiveLayoutType={setActiveLayoutType} 
+                revertToInitialLayoutType={revertToInitialLayoutType}/>
         );
     } else { // Normal
-        const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOneId);
-        const showArrowLeft = ones.length > 1;
-        const showArrowRight = ones.length > 1;
-
-        if (bodyType === BodyType.Base) {
-            HeaderLayout.push(
-                <PageRow spaceEvenly>
-                    {
-                        showArrowLeft && (
-                            <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
-                                disabled={idxOfSelectedOne === 0}
-                                title={'Back'}
-                                small
-                                onClick={() => {
-                                    setMessage(null);
-                                    const previousOne = ones[idxOfSelectedOne - 1] || null;
-                                    if (previousOne) {
-                                        setSelectedOneId(previousOne.id);
-                                    }
-                                }} />
-                        )
-                    }
-    
-                    {
-                        showArrowRight && (
-                            <SimpleIconButton iconSrc={AppIcon.ChevronRight}
-                                disabled={idxOfSelectedOne === ones.length - 1}
-                                title={'Next'}
-                                small
-                                onClick={() => {
-                                    setMessage(null);
-                                    const nextOne = ones[idxOfSelectedOne + 1] || null;
-                                    if (nextOne) {
-                                        setSelectedOneId(nextOne.id);
-                                    }
-                                }} />
-                        )
-                    }
-                </PageRow>
-            );
-        }
-
-        if (selectedOne) {
-            const BodyBackHeader = (
-                <PageRow style={{ marginVertical: 8, marginHorizontal: 4 }}>
-                    <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                        title={'Back'}
-                        onClick={() => setBodyType(BodyType.Base)} />
-                </PageRow>
-            );
-
-            if (bodyType === BodyType.Info) {
-                BodyLayout.push(
-                    <PageColumn>
-                        {BodyBackHeader}
-                        <InfoPicker />
-                    </PageColumn>
-                );
-            } else if (bodyType === BodyType.ActionStep) {
-                BodyLayout.push(
-                    <PageColumn>
-                        {BodyBackHeader}
-                        <ActionStepPicker />
-                    </PageColumn>
-                );
-            } else if (bodyType === BodyType.GospelChecklist) {
-                BodyLayout.push(
-                    <PageColumn>
-                        {BodyBackHeader}
-                        <GospelChecklist />
-                    </PageColumn>
-                );
-            } else if (bodyType === BodyType.Beacons) {
-                BodyLayout.push(
-                    <PageColumn>
-                        {BodyBackHeader}
-                        <BeaconPicker />
-                    </PageColumn>
-                );
-            } else if (bodyType === BodyType.Christians) {
-                BodyLayout.push(
-                    <PageColumn>
-                        {BodyBackHeader}
-                        <ChristianPicker/>
-                    </PageColumn>
-                )
-            } else { // Base
-                const infoDetailView = (
-                    <>
-                        <DetailsSection iconSrc={AppIcon.Book2}
-                            prefix={"Notes Taken"}
-                            onClick={() => setBodyType(BodyType.Info)}
-                            title={`${oneNotes.length} Notes`} />
-                    </>
-                );
-
-                let actionStepsDetailView = <></>;
-                if (firstActionStep) {
-                    actionStepsDetailView = (
-                        <>
-                            <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)}
-                                prefix={getAppTimeAgoText(firstActionStep.targetDate)}
-                                onClick={() => setBodyType(BodyType.ActionStep)}
-                                title={mapActionStepTypeToTitle(firstActionStep.type)} />
-                        </>
-                    );
-                } else {
-                    actionStepsDetailView = (<View />);
-                }
-
-                const selectedOneItems = selectedOne ? Array.from(new Set(selectedOne.gospelChecklist)) : []; // Set removes dupes.
-                const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItems.map((item) => item.value));
-                const gospelChecklistDetailView = (
-                    <>
-                        <DetailsSection iconSrc={AppIcon.Book}
-                            prefix={"Gospel Shared"}
-                            onClick={() => setBodyType(BodyType.GospelChecklist)}
-                            title={`${completedPercentage}% shared`} />
-                    </>
-                );
-
-                const beaconsDetailText = oneBeacons.length === 1 ? 'Active Beacon' : 'Active Beacons';
-                const beaconsDetailView = (
-                    <>
-                        <DetailsSection iconSrc={AppIcon.Star}
-                            prefix={beaconsDetailText}
-                            onClick={() => setBodyType(BodyType.Beacons)}
-                            title={`${oneBeacons.length} Active`} />
-                    </>
-                );
-
-                const christianDetailView = (
-                    <>
-                        <DetailsSection iconSrc={AppIcon.User}
-                            prefix={"Christians"}
-                            onClick={() => setBodyType(BodyType.Info)}
-                            title={`${christians.length} In Their Life`} />
-                    </>
-                );
-
-                BodyLayout.push(
-                    <PageColumn>
-                        <SimpleGridCard iconSrc={AppIcon.Book2}
-                            title={'Info'}
-                            detailsView={infoDetailView}
-                            onClick={() => setBodyType(BodyType.Info)} />
-                        <SimpleGridCard iconSrc={AppIcon.LightBulb}
-                            title={'Action Steps'}
-                            detailsView={actionStepsDetailView}
-                            onClick={() => setBodyType(BodyType.ActionStep)} />
-                        <SimpleGridCard iconSrc={AppIcon.Book}
-                            title={'Gospel Checklist'}
-                            detailsView={gospelChecklistDetailView}
-                            onClick={() => setBodyType(BodyType.GospelChecklist)} />
-                        <SimpleGridCard iconSrc={AppIcon.Prayer}
-                            title={'Prayer Beacons'}
-                            detailsView={beaconsDetailView}
-                            onClick={() => setBodyType(BodyType.Beacons)} />
-                        <SimpleGridCard iconSrc={AppIcon.UserGroup}
-                            title={'Christians'}
-                            detailsView={christianDetailView}
-                            onClick={() => setBodyType(BodyType.Christians)} />
-                    </PageColumn>
-                );
-            }
-        }
+        BodyLayout.push(
+            <OnesLayoutNormal selectedOneId={selectedOneId} 
+                selectedOne={selectedOne} 
+                ones={ones} 
+                setAppError={setAppError} 
+                executor={executor} 
+                oneBeacons={oneBeacons}
+                refreshData={refreshData} 
+                setMessage={setMessage} 
+                setOneForm={setOneForm} 
+                setSelectedOneId={setSelectedOneId} 
+                setActiveLayoutType={setActiveLayoutType}
+                styles={styles}
+                revertToInitialLayoutType={revertToInitialLayoutType}/>
+        );
     }
 
     const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
@@ -426,72 +161,8 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                                             style={{ alignItems: 'flex-start', marginStart: 8 }}
                                             subtitle='Your One' />
                                     </PageRow>
-                                    {
-                                        activeLayoutType === OneLayoutType.Normal && bodyType === BodyType.Base && (
-                                            <PageRow style={styles.headerRow}>
-                                                <Animated.View entering={FadeInDown.duration(200)}
-                                                    exiting={FadeOutDown.duration(200)}>
-                                                    <PageRow style={{ marginStart: 12, gap: 12 }}>
-                                                        <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
-                                                            prefix={"Stage"}
-                                                            style={{ marginRight: 16 }}
-                                                            title={mapStageToText(selectedOne.stage)} />
-
-                                                        <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
-                                                            prefix={"Category"}
-                                                            title={mapOneCategoryToText(selectedOne.category)} />
-                                                    </PageRow>
-                                                </Animated.View>
-                                            </PageRow>
-                                        )
-                                    }
-
-                                    {HeaderLayout.map((item) => item)}
                                 </PageColumn>
-
-                                {
-                                    activeLayoutType === OneLayoutType.Normal && bodyType === BodyType.Base && (
-                                        <PageColumn style={{ gap: 8 }} center>
-                                            {
-                                                ones.length > 1 && (
-                                                    <SimpleIconButton iconSrc={AppIcon.UserGroup}
-                                                        title={'All'}
-                                                        small
-                                                        onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
-                                                )
-                                            }
-
-                                            <SimpleIconButton iconSrc={AppIcon.Plus}
-                                                small
-                                                onClick={() => {
-                                                    setMessage(null);
-                                                    setActiveLayoutType(OneLayoutType.AddingOne);
-                                                }}
-                                                title={'Add New'} />
-
-                                            {
-                                                selectedOne && (
-                                                    <SimpleIconButton iconSrc={AppIcon.Pencil}
-                                                        small
-                                                        onClick={() => {
-                                                            setMessage(null);
-                                                            setActiveLayoutType(OneLayoutType.EditingOne);
-                                                        }}
-                                                        title={'Edit'} />
-                                                )
-                                            }
-                                        </PageColumn>
-                                    )
-                                }
                             </PageRow>
-                        )
-                    }
-
-                    {
-                        !showYourSelectedOne && (
-                            <>
-                                {HeaderLayout.map((item) => item)}
-                            </>
                         )
                     }
                 </PageColumn>
@@ -505,10 +176,6 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
 const styles = StyleSheet.create({
     container: {
         padding: 8
-    },
-    headerRow: {
-        height: 70,
-        marginBottom: 20
     },
 });
 
