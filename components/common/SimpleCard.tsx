@@ -22,8 +22,6 @@ export type ISimpleCard = ViewProps & {
 export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></>,
   onClick, style
 }: ISimpleCard) {
-  const backgroundColor = useBackgroundThemeColor();
-
   const onPress = (e: GestureResponderEvent) => {
     if (onClick) {
       e.stopPropagation();
@@ -41,7 +39,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
             )
           }
           <PageColumn style={{}}>
-            <AppText type={TextType.Subtitle} style={{}}>{title}</AppText>
+            <AppText type={TextType.DefaultSemiBold} style={{}}>{title}</AppText>
             {
               subtitle && (
                 <AppText type={TextType.Body} style={{}}>{subtitle}</AppText>

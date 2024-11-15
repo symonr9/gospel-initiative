@@ -185,7 +185,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
     </PageColumn>
   );
 
-  if (!editing && expanded) {
+  if (!editing && expanded && !canDiscard) {
     ExpandedLayoutButtons.push(
       <SimpleIconButton iconSrc={AppIcon.ChevronUp}
         title={'Collapse'}
@@ -320,7 +320,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                 )
               }
 
-              <PageColumn>
+              <PageColumn style={{ width: 380 }}>
                 {Header.map((item) => item)}
               </PageColumn>
             </PageRow>
@@ -329,7 +329,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           {Body.map((item) => item)}
         </ScrollLayout>
 
-        <PageRow spaceBetween style={[styles.footer]}>
+        <PageRow style={[styles.footer]}>
           {ExpandedLayoutButtons.map((item) => item)}
         </PageRow>
       </PageColumn>
@@ -380,6 +380,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginTop: 12,
+    gap: 16,
     flexDirection: 'row',
   },
   stateBtn: {
