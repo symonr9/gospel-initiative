@@ -30,6 +30,7 @@ export default ({ config }) => ({
             "expo-router",
             "expo-asset",
             "expo-secure-store",
+            "expo-font"
         ],
         experiments: {
             typedRoutes: true,

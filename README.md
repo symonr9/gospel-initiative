@@ -56,6 +56,9 @@ Join our community of developers creating universal apps.
 - Run on iOS: `npm run ios`
 - Run on Web: `npm run web`
 - Get IP Address: `ipconfig`
+- Upgrade Expo SDK
+   - `npm install expo@latest`
+   - `npx expo install --fix`
 
 ## Setup for development with server
 
