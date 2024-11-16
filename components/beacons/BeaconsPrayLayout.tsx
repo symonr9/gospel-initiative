@@ -11,6 +11,7 @@ import BeaconDetails from './BeaconDetails';
 import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import { AnimatedHeader } from '../common/AnimatedHeader';
+import { PageColumn } from '../common/PageColumn';
 
 export type IBeaconsPrayLayout = ViewProps & {
 
@@ -49,17 +50,26 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
             selectedIdx={incomingCursorIdx} />
     )) : [];
 
+
+    const showLetsPrayHeader = activeBeaconId === null && incomingItemsToRender.length > 0;
+
     return (
         <ScrollLayout>
-            <View style={styles.container}>
+            <PageColumn spaceEvenly style={{ gap: 8 }}>
                 {
-                    activeBeaconId === null && (
+                    showLetsPrayHeader && (
                         <AnimatedHeader title={`Let's Pray!`}
                             subtitle='Select a beacon below to begin.' />
                     )
                 }
 
-                <View>
+                <BeaconDetails incomingCursorIdx={incomingCursorIdx}
+                    setActiveBeaconId={setActiveBeaconId}
+                    completedCursorIdx={completedCursorIdx}
+                    completedBeacons={completedBeacons}
+                    incomingBeacons={incomingBeacons} />
+
+                <PageColumn>
                     <ItemRowContainer title={`Completed (${completedCount})`}
                         iconSrc={AppIcon.Checkmark}
                         type={ItemRowContainerType.Completed}
@@ -67,7 +77,7 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                         setActiveType={setActiveRoadType}
                         expandedHeight={75}
                         itemsToRender={completedItemsToRender}
-                        customStyles={{ container: { backgroundColor: Colors.success }}} />
+                        customStyles={{ container: { backgroundColor: Colors.light.secondary } }} />
                     <ItemRowContainer title={`Incoming (${incomingCount})`}
                         iconSrc={AppIcon.Send}
                         type={ItemRowContainerType.Incoming}
@@ -76,22 +86,14 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                         expandedHeight={75}
                         setActiveType={setActiveRoadType}
                         itemsToRender={incomingItemsToRender}
-                        customStyles={{ container: { backgroundColor: Colors.white }}} />
-                </View>
-
-                <BeaconDetails incomingCursorIdx={incomingCursorIdx}
-                    completedCursorIdx={completedCursorIdx}
-                    completedBeacons={completedBeacons}
-                    incomingBeacons={incomingBeacons} />
-            </View>
+                        customStyles={{ container: { backgroundColor: Colors.white } }} />
+                </PageColumn>
+            </PageColumn>
         </ScrollLayout>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        gap: 12,
-    },
 });
 
 const mapStateToProps = (state: any) => {

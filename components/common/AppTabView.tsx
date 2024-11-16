@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tabBar: {
-        backgroundColor: 'transparent',
+        backgroundColor: Colors.white,
         shadowOpacity: 0.2,
         shadowRadius: 6,
         shadowColor: '#000',

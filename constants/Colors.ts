@@ -18,6 +18,7 @@ export const Colors = {
   success: '#d9ead3',
   error: '#ff6666',
   selected: '#d0e0e3',
+  open: '#f2ecc2',
   white: '#fff',
   light: {
     text: '#333',

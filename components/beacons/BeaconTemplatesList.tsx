@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Modal, Button, Text, TouchableOpacity } from 'react-native';
 
 import { BeaconTemplateCard } from './BeaconTemplateCard';
-import { listStyles } from '@/styles/Styles';
+import { listStyles, modalStyles } from '@/styles/Styles';
 import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
@@ -62,21 +62,27 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
             {
                 showBeaconActions && (
-                    <Button title="Choose Beacon Type" 
-                        onPress={openModal} />
+                    <TouchableOpacity
+                        style={modalStyles.openButton}
+                        onPress={openModal}>
+                        <AppText>Choose Beacon Type</AppText>
+                    </TouchableOpacity>
                 )
             }
 
             {selectedTemplate && (
                 <PageColumn style={{ marginTop: 8 }}>
-                    <BeaconTemplateDetails template={selectedTemplate} activeLayoutType={activeLayoutType}/>
+                    <BeaconTemplateDetails template={selectedTemplate} activeLayoutType={activeLayoutType} />
                     {
                         showBeaconActions && (
                             <PageRow style={{ marginTop: 8 }}>
-                                <Button title="Continue" 
-                                    onPress={handleContinue} />
+                                <TouchableOpacity
+                                    style={modalStyles.openButton}
+                                    onPress={handleContinue}>
+                                    <AppText>Continue</AppText>
+                                </TouchableOpacity>
                             </PageRow>
-                        ) 
+                        )
                     }
                 </PageColumn>
             )}
@@ -98,7 +104,11 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                             />
                         </ScrollLayout>
                         <PageRow style={{ marginTop: 8 }}>
-                            <Button title="Close" onPress={closeModal} />
+                            <TouchableOpacity
+                                style={modalStyles.closeButton}
+                                onPress={closeModal}>
+                                <AppText>Close</AppText>
+                            </TouchableOpacity>
                         </PageRow>
                     </View>
                 </View>

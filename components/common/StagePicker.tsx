@@ -97,8 +97,7 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
                         </ScrollLayout>
                         <TouchableOpacity
                             style={modalStyles.closeButton}
-                            onPress={toggleModal}
-                        >
+                            onPress={toggleModal}>
                             <AppText>Close</AppText>
                         </TouchableOpacity>
                     </View>

@@ -61,15 +61,14 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
-        shadowRadius: 2,
+        shadowRadius: 4,
         elevation: 4,
         margin: 4,
         minHeight: 20,
     },
     smallContainer: {
         backgroundColor: '#fbfbfb',
-        shadowRadius: 2,
-        elevation: 2,
+        elevation: 4,
     },
     icon: {
         width: 20,

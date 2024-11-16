@@ -157,13 +157,6 @@ export const gridStyles = StyleSheet.create({
 
 
 export const modalStyles = StyleSheet.create({
-  editButton: {
-    marginTop: 8,
-    padding: 4,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -180,6 +173,20 @@ export const modalStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  openButton: {
+    marginTop: 8,
+    padding: 10,
+    backgroundColor: Colors.open,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  editButton: {
+    marginTop: 8,
+    padding: 10,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 10,
+    alignItems: 'center',
   },
   closeButton: {
     marginTop: 20,

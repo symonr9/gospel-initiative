@@ -93,12 +93,13 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                             <PageChip iconSrc={AppIcon.Tag}
                                 onClick={onChangeTag}
                                 title={`Add Tags`}
+                                style={{ backgroundColor: Colors.open }}
                                 subtitle={'Tags give others more details on how they can be praying for you.'} />
                         </PageColumn>
 
                         <PageColumn style={styles.section}>
                             <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                                style={{ width: 300 }}
+                                style={{ width: 300, backgroundColor: Colors.open }}
                                 onClick={() => setShareOwnName(!shareOwnName)}
                                 title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
                         </PageColumn>

@@ -46,6 +46,7 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
         return (
             <SimpleGridCard title={item.name} 
                 detailsView={detailsView} 
+                horizontal={false}
                 onClick={onPress} 
                 iconSrc={item.icon}/>
         );

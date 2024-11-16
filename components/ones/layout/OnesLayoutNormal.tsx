@@ -171,26 +171,31 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                     <SimpleGridCard iconSrc={AppIcon.Book2}
                         title={'Info'}
                         detailsView={infoDetailView}
+                        horizontal={false}
                         onClick={() => setBodyType(BodyType.Info)} />
 
                     <SimpleGridCard iconSrc={AppIcon.LightBulb}
                         title={'Action Steps'}
                         detailsView={actionStepsDetailView}
+                        horizontal={false}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
 
                     <SimpleGridCard iconSrc={AppIcon.Book}
                         title={'Gospel Checklist'}
                         detailsView={gospelChecklistDetailView}
+                        horizontal={false}
                         onClick={() => setBodyType(BodyType.GospelChecklist)} />
 
                     <SimpleGridCard iconSrc={AppIcon.Prayer}
                         title={'Prayer Beacons'}
                         detailsView={beaconsDetailView}
+                        horizontal={false}
                         onClick={() => setBodyType(BodyType.Beacons)} />
 
                     <SimpleGridCard iconSrc={AppIcon.UserGroup}
                         title={'Christians'}
                         detailsView={christianDetailView}
+                        horizontal={false}
                         onClick={() => setBodyType(BodyType.Christians)} />
                 </PageColumn>
 

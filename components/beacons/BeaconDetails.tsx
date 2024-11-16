@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions, FlatList, ActivityIndicator } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
@@ -23,6 +23,8 @@ import { updateBeaconActivity } from "@/requests/beaconRequests";
 import { createBeaconActivity } from "@/requests/beaconRequests";
 import { PageChip } from '../common/PageChip';
 import AppError from '@/models/error';
+import { SimpleGridCard } from '../common/SimpleGridCard';
+import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -33,13 +35,14 @@ export type IBeaconDetails = ViewProps & {
     executor: User;
     beaconActivities: BeaconActivity[];
 
+    setActiveBeaconId?: Function;
     refreshData: Function;
     setAppError: Function;
 };
 
 function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, refreshData,
-    beaconActivities, setAppError }: IBeaconDetails) {
+    setActiveBeaconId, beaconActivities, setAppError }: IBeaconDetails) {
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
@@ -71,16 +74,39 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         const hasCompleted = incomingBeacons.length === 0;
         if (hasCompleted) {
             return (
-                <View style={[]}>
-                    <AnimatedHeader title='All Beacons Completed!'
+                <View style={styles.container}>
+                    <AnimatedHeader title='All Beacons Completed'
                         subtitle='Please check back later for new beacons.' />
+
+                    <ScrollLayout style={{ height: 400 }}>
+                        <FlatList
+                            data={completedBeacons}
+                            renderItem={({ item }) => {
+                                const title = getTitleText(item) || 'Prayer';
+                                const onClick = () => {
+                                    if (setActiveBeaconId) {
+                                        setActiveBeaconId(item.id);
+                                    }
+                                }
+                                return (
+                                    <SimpleGridCard iconSrc={item.userIcon}
+                                        onClick={onClick}
+                                        title={item.shareOwnName ? `Prayed for ${item.userName}` : `Prayed for a friend`}
+                                        subtitle={title} />
+                                );
+                            }}
+                            numColumns={1}
+                            keyExtractor={(item, index) => index.toString()}
+                            contentContainerStyle={gridStyles.itemList}
+                        />
+                    </ScrollLayout>
                 </View>
             );
         }
 
         // Needed for styling.
         return (
-            <View></View>
+            <View style={styles.container}></View>
         );
     }
 
@@ -98,15 +124,15 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
     const rows = [];
     rows.push(
-        <PageRow spaceEvenly style={[styles.section, {}]}>
-            <DetailsSection iconSrc={mapStageToIcon(oneStage)} 
-                        prefix={"Their One is..."}
-                        style={{ marginRight: 24 }}
-                        title={mapStageToText(oneStage)} />
+        <PageRow spaceEvenly style={[{}]}>
+            <DetailsSection iconSrc={mapStageToIcon(oneStage)}
+                prefix={"Their One is..."}
+                style={{ marginRight: 24 }}
+                title={mapStageToText(oneStage)} />
 
-            <DetailsSection iconSrc={AppIcon.UserGroup} 
-                            prefix={"Completed Prayers"} 
-                            title={completedActivities.length} />
+            <DetailsSection iconSrc={AppIcon.UserGroup}
+                prefix={"Completed Prayers"}
+                title={completedActivities.length} />
         </PageRow>
     );
 
@@ -179,7 +205,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         })) : [];
 
     return (
-        <View style={[styles.container, animatedStyle]}>
+        <ScrollLayout style={[styles.container, animatedStyle]}>
             <Modal
                 transparent={true}
                 animationType='slide'
@@ -188,15 +214,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-                            <AppText type={TextType.DefaultSemiBold} style={styles.closeButtonText}>X</AppText>
-                        </TouchableOpacity>
-
-                        <AppText type={TextType.Body}>Select a note:</AppText>
+                        <AppText type={TextType.Subtitle}>Select a note:</AppText>
 
                         <ScrollLayout style={{ height: 400 }}>
                             <View style={styles.defaultNoteOptionsDiv}>
-                            {
+                                {
                                     ActivityNoteOptions.map((value, idx) => (
                                         <TouchableOpacity onPress={() => setSelectedNoteIdx(idx)}>
                                             <View style={[styles.defaultNoteCard, selectedNoteIdx === idx && styles.selectedDefaultNoteCard]}>
@@ -212,7 +234,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                         {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
                             <TextInput
-                                style={styles.textInput}
+                                style={formStyles.textInput}
                                 placeholder="Enter your custom note"
                                 placeholderTextColor={'lightgray'}
                                 value={customNote}
@@ -221,7 +243,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             />
                         )}
 
-                        <Button title="Save" onPress={onSaveClick} />
+                        <PageRow style={{ gap: 8, marginTop: 12, marginBottom: 8 }} spaceEvenly>
+                            <TouchableOpacity style={modalStyles.closeButton} onPress={() => setModalVisible(false)}>
+                                <AppText>Close</AppText>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={modalStyles.saveButton} onPress={onSaveClick}>
+                                <AppText>Save</AppText>
+                            </TouchableOpacity>
+                        </PageRow>
                     </View>
                 </View>
             </Modal>
@@ -249,11 +278,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     subtitle={titleText}
                     delay={600}
                     style={{ textAlign: 'center' }} />
-                
+
                 {
                     beaconTagArray.length > 0 && (
-                            <AnimatedElement element={
-                                <ScrollLayout style={{ maxHeight: 150 }}>
+                        <AnimatedElement element={
+                            <ScrollLayout style={{ maxHeight: 130 }}>
                                 <FlatList
                                     data={beaconTagArray}
                                     keyExtractor={(item) => item.value.toString()}
@@ -266,7 +295,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                     )}
                                 />
                             </ScrollLayout>
-                        } delay={900} direction={FadeDirection.Up} style={{ marginVertical: 12 }}/>
+                        } delay={900} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
                     )
                 }
             </View>
@@ -280,20 +309,21 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
             } delay={800} style={styles.detailsContainer} />
 
-            <PageRow spaceEvenly>
-                {
-                    (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
-                        <View style={styles.myNoteForBeacon}>
-                            <AppText type={TextType.Body}>
-                                Your Note:
-                            </AppText>
-                            <AppText type={TextType.Italic}>
-                                {userActivityForBeacon.note}
-                            </AppText>
-                        </View>
-                    )
-                }
 
+            {
+                (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
+                    <PageColumn style={styles.myNoteForBeacon}>
+                        <AppText type={TextType.Body}>
+                            Your Note:
+                        </AppText>
+                        <AppText type={TextType.Default}>
+                            {userActivityForBeacon.note}
+                        </AppText>
+                    </PageColumn>
+                )
+            }
+
+            <PageRow spaceEvenly style={{ marginBottom: 8 }}>
                 <SimpleIconButton iconSrc={AppIcon.Mail}
                     title={'Leave a Note'}
                     disabled={!hasUserAlreadyPrayed}
@@ -305,7 +335,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     onClick={onPrayClick}
                     customStyles={customPrayButtonStyles} />
             </PageRow>
-        </View>
+        </ScrollLayout>
     );
 }
 
@@ -330,15 +360,15 @@ function getTitleText(beacon: EnhancedBeacon): string | undefined {
     return mapBeaconTypeToTitleText(type, shareOwnName, userName, oneName);
 }
 
-const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
+        height: 550,
         flexDirection: 'column',
         padding: 12,
-        marginLeft: 12,
-        marginRight: 12,
+        marginHorizontal: 16,
         backgroundColor: '#fff',
         borderRadius: 8,
         shadowColor: '#000',
@@ -346,7 +376,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 4,
-        marginBottom: 40
+        marginBottom: 10
     },
     center: {
         flex: 1,
@@ -357,7 +387,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     section: {
-        marginVertical: 12,
+        marginVertical: 8,
     },
     profileIcon: {
         width: 60,
@@ -372,14 +402,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
     },
-    notesSection: {
-        maxHeight: 80,
-        padding: 8,
-    },
     timeAgo: {
         alignSelf: 'flex-end',
         marginEnd: 16,
-        marginBottom: 12
+        marginBottom: 4
     },
     modalContainer: {
         height: screenHeight,
@@ -398,24 +424,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 8
-    },
-    closeButton: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        zIndex: 1,
-    },
-    closeButtonText: {
-        fontSize: 18,
-    },
-    textInput: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginTop: 10,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        borderRadius: 5,
     },
     defaultNoteOptionsDiv: {
         padding: 8,
@@ -440,7 +448,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#bbeccc'
     },
     myNoteForBeacon: {
-        maxWidth: 180
+        maxWidth: 350,
+        flexShrink: 1,
+        marginTop: 6,
+        marginBottom: 12
     },
 });
 

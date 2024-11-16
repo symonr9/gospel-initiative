@@ -16,10 +16,11 @@ export type ISimpleGridCard = ViewProps & {
     subtitle?: string;
     detailsView?: any;
     onClick?: Function;
+    horizontal?: boolean;
 }
 
 export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = <></>,
-    onClick, style
+    onClick, style, horizontal = true
 }: ISimpleGridCard) {
 
     const onPress = (e: GestureResponderEvent) => {
@@ -28,9 +29,38 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
         }
     }
 
-    return (
-        <TouchableOpacity onPress={onPress}>
-            <PageRow style={[gridStyles.itemCard, style]} spaceBetween>
+    let Layout = <></>;
+    if (horizontal) {
+        Layout = (
+            <PageRow style={{ gap: 8 }}>
+                {
+                    iconSrc && (
+                        <Image source={iconSrc} style={gridStyles.img} />
+                    )
+                }
+                <PageColumn style={{ width: 300, flexWrap: 'wrap' }}>
+                    {
+                        title && (
+                            <AppText type={TextType.Subtitle} style={{ }}>
+                                {title}
+                            </AppText>
+                        )
+                    }
+
+                    {
+                        subtitle && (
+                            <AppText type={TextType.Body} style={{ }}>
+                                {subtitle}
+                            </AppText>
+                        )
+                    }
+                </PageColumn>
+                {detailsView}
+            </PageRow >
+        );
+    } else {
+        Layout = (
+            <>
                 <PageRow style={{ gap: 8 }}>
                     <PageColumn>
                         {
@@ -40,7 +70,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                         }
                         {
                             title && (
-                                <AppText type={TextType.Subtitle} style={{ textAlign: 'center'}}>
+                                <AppText type={TextType.Subtitle} style={{ textAlign: 'center' }}>
                                     {title}
                                 </AppText>
                             )
@@ -55,8 +85,16 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                         }
                     </PageColumn>
                 </PageRow>
-                
+
                 {detailsView}
+            </>
+        );
+    }
+
+    return (
+        <TouchableOpacity onPress={onPress}>
+            <PageRow style={[gridStyles.itemCard, style]} spaceBetween>
+                {Layout}
             </PageRow>
         </TouchableOpacity>
     );

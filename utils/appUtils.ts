@@ -171,7 +171,7 @@ export function isBeaconActive(beacon: Beacon): boolean {
     if (!beacon.activeUntil) {
         return false;
     }
-    return beacon.activeUntil.getTime() >= new Date();
+    return beacon.activeUntil.getTime() >= new Date().getTime();
 }
 
 
