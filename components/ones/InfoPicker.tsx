@@ -1,10 +1,10 @@
-import { AppIcon, OneNoteType, RefreshSpec } from '@/enums/enums';
+import { AppIcon, OneNoteType, OneStage, RefreshSpec } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal, Button } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, mapStageToDetailsText } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -17,8 +17,6 @@ import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
-import { AnimatedHeader } from '@/components/common/AnimatedHeader';
-import { SimpleIcon } from '@/components/common/SimpleIcon';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import DetailsSection from '../common/DetailsSection';
 
@@ -30,6 +28,22 @@ const oneNoteTypeArray = Object.keys(OneNoteType)
         details: mapOneNoteTypeToDetails(OneNoteType[key as keyof typeof OneNoteType]),
         icon: mapOneNoteTypeToAppIcon(OneNoteType[key as keyof typeof OneNoteType]),
     }));
+
+const stageArray = [
+    OneStage.Hostile,
+    OneStage.Hurt,
+    OneStage.Apathetic,
+    OneStage.Friendly,
+    OneStage.Curious,
+    OneStage.Seeking,
+    OneStage.NewBeliever,
+    OneStage.Disciple,
+].map((value: OneStage) => ({
+    stage: value,
+    icon: mapStageToIcon(value),
+    label: mapStageToText(value),
+    details: mapStageToDetailsText(value)
+}));
 
 export type IInfoPicker = ViewProps & {
     executor: User;
@@ -54,7 +68,8 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
     const [formOneNote, setFormOneNote] = useState<OneNote>(OneNote.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
-    const [modalVisible, setModalVisible] = useState(false);
+    const [isNoteTypeModalVisible, setIsNoteTypeModalVisible] = useState(false);
+    const [isStageModalVisible, setIsStageModalVisible] = useState(false);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const oneNotes = selectedOne ? [...selectedOne.oneNotes] : [];
@@ -90,8 +105,8 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
         setFormOneNote((prev) => ({ ...prev, type: oneNoteTypeArray[formSelectedTypeIdx].value }));
     }, [formSelectedTypeIdx]);
 
-    const toggleModal = () => {
-        setModalVisible(!modalVisible);
+    const toggleNoteTypeModal = () => {
+        setIsNoteTypeModalVisible(!isNoteTypeModalVisible);
     };
 
     const renderItem = ({ item }: { item: OneNote }) => {
@@ -184,7 +199,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                             <View>
                                 {selectedOneNoteTypeData ? (
                                     <>
-                                        <TouchableOpacity onPress={toggleModal}>
+                                        <TouchableOpacity onPress={toggleNoteTypeModal}>
                                             <PageRow style={[modalStyles.card]}>
                                                 <Image source={selectedOneNoteTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
                                                 <PageColumn style={{ marginStart: 8, width: 250 }}>
@@ -198,7 +213,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                                 )}
                             </View>
-                            <TouchableOpacity onPress={toggleModal}
+                            <TouchableOpacity onPress={toggleNoteTypeModal}
                                 style={[modalStyles.editButton, { width: 100, alignSelf: 'center' }]}>
                                 <AppText>Edit Type</AppText>
                             </TouchableOpacity>
@@ -207,9 +222,8 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                         <Modal
                             animationType="slide"
                             transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={toggleModal}
-                        >
+                            visible={isNoteTypeModalVisible}
+                            onRequestClose={toggleNoteTypeModal}>
                             <View style={modalStyles.modalContainer}>
                                 <View style={[modalStyles.modalContent, { width: '90%' }]}>
                                     <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
@@ -222,13 +236,11 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                             renderItem={renderTypeItem}
                                             numColumns={1}
                                             keyExtractor={(item, index) => index.toString()}
-                                            contentContainerStyle={modalStyles.iconList}
-                                        />
+                                            contentContainerStyle={modalStyles.iconList} />
                                     </ScrollLayout>
                                     <TouchableOpacity
                                         style={modalStyles.closeButton}
-                                        onPress={toggleModal}
-                                    >
+                                        onPress={toggleNoteTypeModal}>
                                         <AppText>Close</AppText>
                                     </TouchableOpacity>
                                 </View>
@@ -310,6 +322,71 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                     </Animated.View>
                 </PageRow>
             );
+
+            const onUpdateStageClick = () => {
+                setIsStageModalVisible(true);
+            };
+
+            const handleStageSelect = (stage: OneStage) => {
+
+            };
+
+            const toggleStageModal = () => {
+                setIsStageModalVisible(!isStageModalVisible);
+            };
+
+            const renderStage = ({ item }: { item: { stage: OneStage, icon: any, label: string } }) => (
+                <TouchableOpacity onPress={() => handleStageSelect(item.stage)}>
+                    <PageRow style={styles.iconCard}>
+                        <PageColumn>
+                            <Image
+                                source={item.icon}
+                                style={[styles.icon, selectedOne.stage === item.stage && styles.selected]}
+                            />
+                            <AppText type={TextType.Italic}>{item.label}</AppText>
+                        </PageColumn>
+                    </PageRow>
+                </TouchableOpacity>
+            );
+
+            Body.push(
+                <PageRow style={{ marginTop: 8 }}>
+                    <Button title="Update Stage"
+                        onPress={onUpdateStageClick} />
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isStageModalVisible}
+                        onRequestClose={toggleStageModal}>
+                        <View style={modalStyles.modalContainer}>
+                            <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                                <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
+                                    Your One's Stage
+                                </AppText>
+                                <AppText>
+                                    Make changes to your One's stage.
+                                </AppText>
+
+                                <ScrollLayout style={{ maxHeight: 300 }}>
+                                    <FlatList
+                                        data={stageArray}
+                                        renderItem={renderStage}
+                                        numColumns={4}
+                                        keyExtractor={(item, index) => index.toString()}
+                                        contentContainerStyle={styles.iconList}
+                                    />
+                                </ScrollLayout>
+
+                                <TouchableOpacity
+                                    style={modalStyles.closeButton}
+                                    onPress={toggleStageModal}>
+                                    <AppText>Close</AppText>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                </PageRow>
+            );
         }
 
         const partitionedNotes = OneNote.partitionNotes(oneNotes);
@@ -371,7 +448,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
-                    Are you sure you want to remove this action step?
+                    Are you sure you want to remove this note?
                 </AppText>
                 <PageColumn style={[styles.noteCard, styles.selectedNoteCard]}>
                     <AppText type={TextType.Default}>
@@ -453,6 +530,11 @@ const styles = StyleSheet.create({
         height: 32,
         margin: 2,
         verticalAlign: 'middle',
+    },
+    iconCard: {
+        width: 80,
+        margin: 4,
+        alignItems: 'center',
     },
     selected: {
         opacity: 1,

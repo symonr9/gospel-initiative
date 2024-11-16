@@ -4,7 +4,7 @@ import { Button, ViewProps } from "react-native";
 import { AppIcon, NewUserStep, RefreshSpec } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
-import { SimpleTextList } from "@/components/common/SimpleTextList";
+import { setLocalNewUserStep } from "@/utils/storageUtils";
 
 type INewUserFinished = ViewProps & {
     newUserStep: NewUserStep;
@@ -15,9 +15,11 @@ type INewUserFinished = ViewProps & {
 
 export default function NewUserFinished({ newUserStep, setNewUserStep, refreshData, 
     styles }: INewUserFinished) {
-    const onDone = () => {
+    const onDone = async () => {
         refreshData(RefreshSpec.All);
         setNewUserStep(NewUserStep.Completed);
+        // TODO: Uncomment to escape new user workflow.
+        // await setLocalNewUserStep(NewUserStep.Completed);
     };
 
     return (

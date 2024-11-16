@@ -1,5 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NewUserStep } from '@/enums/enums';
 
 export const getLocalNewUserStep = async () => {
     try {
@@ -9,6 +10,14 @@ export const getLocalNewUserStep = async () => {
         return null;
     }
 };
+
+export const setLocalNewUserStep = async (newUserStep: NewUserStep) => {
+    try {
+        await saveToStorage("newUserStep", newUserStep);
+    } catch (error) {
+        console.error('Failed to save local new user step:', error);
+    }
+}
 
 export const getLocalUserId = async () => {
     try {

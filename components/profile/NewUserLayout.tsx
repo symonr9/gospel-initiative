@@ -1,16 +1,12 @@
 
-import React, { useEffect, useState } from 'react';
-import { Image } from 'expo-image';
-import { View, ViewProps, StyleSheet, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { AppIcon, NewUserStep } from '@/enums/enums';
+import { NewUserStep } from '@/enums/enums';
 import { refreshData, setAppError, setNewUserStep } from '@/redux/actions';
 import ScrollLayout from '../common/ScrollLayout';
 import User from '@/models/user';
 import LoadingLayout from '../common/LoadingLayout';
-import { PageColumn } from '../common/PageColumn';
-import { AppText, TextType } from '../common/AppText';
-import { SimpleTextList } from '../common/SimpleTextList';
 import NewUserSplash from './newUser/NewUserSplash';
 import NewUserWhatIsTheGospelInitiative from './newUser/NewUserWhatIsTheGospelInitiative';
 import NewUserWhoIsYourOne from './newUser/NewUserWhoIsYourOne';
