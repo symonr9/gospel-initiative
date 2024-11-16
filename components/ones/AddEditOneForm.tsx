@@ -105,7 +105,9 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
 
             <PageRow spaceEvenly>
                 <PageColumn style={styles.section}>
-                    <AvatarIconPicker selectedIcon={icon} setSelectedIcon={setIcon} />
+                    <AvatarIconPicker selectedIcon={icon}
+                        style={{ height: 150 }}
+                        setSelectedIcon={setIcon} />
                 </PageColumn>
 
                 <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
@@ -122,12 +124,20 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
             </PageRow>
 
             <PageRow spaceEvenly>
-                <PageColumn style={styles.section}>
-                    <StagePicker selectedStage={stage} setSelectedStage={setStage} />
-                </PageColumn>
+                {
+                    !editing && (
+                        <PageColumn style={[styles.section]}>
+                            <StagePicker selectedStage={stage}
+                                style={{ height: 280 }}
+                                setSelectedStage={setStage} />
+                        </PageColumn>
+                    )
+                }
 
-                <PageColumn style={styles.section}>
-                    <CategoryPicker selectedCategory={category} setSelectedCategory={setCategory} />
+                <PageColumn style={[styles.section]}>
+                    <CategoryPicker selectedCategory={category}
+                        style={{ height: !editing ? 280 : 220 }}
+                        setSelectedCategory={setCategory} />
                 </PageColumn>
             </PageRow>
 

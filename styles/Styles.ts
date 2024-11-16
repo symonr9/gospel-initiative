@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import { StyleSheet, Image, Platform } from 'react-native';
 
 export const listStyles = StyleSheet.create({
@@ -183,14 +184,14 @@ export const modalStyles = StyleSheet.create({
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#ff6666',
+    backgroundColor: Colors.error,
     borderRadius: 10,
     alignSelf: 'center',
   },
   saveButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#d9ead3',
+    backgroundColor: Colors.success,
     borderRadius: 10,
     alignSelf: 'center',
   },

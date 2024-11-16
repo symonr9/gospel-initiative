@@ -44,7 +44,7 @@ export type ICategoryPicker = ViewProps & {
     setSelectedCategory: (oneCategory: OneCategory) => void;
 };
 
-const CategoryPicker = ({ selectedCategory, setSelectedCategory }: ICategoryPicker) => {
+const CategoryPicker = ({ selectedCategory, setSelectedCategory, style }: ICategoryPicker) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -72,7 +72,7 @@ const CategoryPicker = ({ selectedCategory, setSelectedCategory }: ICategoryPick
     const selectedCategoryData = categoryArray.find(item => item.category === selectedCategory);
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <TouchableOpacity onPress={toggleModal}>
                 <View style={styles.selectedContainer}>
                     {selectedCategory ? (

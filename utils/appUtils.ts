@@ -772,66 +772,66 @@ export function generateActionStepsForStage(stage: OneStage): ActionStep[] {
     switch (stage) {
         case OneStage.Disciple:
             actionSteps.push(
-                ActionStep.create(ActionStepType.AskForPrayerRequest, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.HostAtHome, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.DiscussScripture, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.AskForPrayerRequest, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.HostAtHome, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.DiscussScripture, getDayInFuture(31)),
             );
             break;
         case OneStage.NewBeliever:
             actionSteps.push(
-                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.OfferToHelpWithErrands, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.HostAtHome, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.OfferToHelpWithErrands, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.HostAtHome, getDayInFuture(31)),
             );
             break;
         case OneStage.Seeking:
             actionSteps.push(
-                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.ShareGospel, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.ShareTestimony, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.ShareGospel, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.ShareTestimony, getDayInFuture(31)),
             );
             break;
         case OneStage.Curious:
             actionSteps.push(
-                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.ListenToTestimony, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.ShareTestimony, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.ShareGospel, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.ListenToTestimony, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.ShareTestimony, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.ShareGospel, getDayInFuture(31)),
             );
             break;
         case OneStage.Friendly:
             actionSteps.push(
-                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.DropOffGiftWithBlessingNote, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.ShareGospel, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.DropOffGiftWithBlessingNote, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.InviteToGroup, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.ShareGospel, getDayInFuture(31)),
             );
             break;
         case OneStage.Apathetic:
             actionSteps.push(
-                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.OfferToHelpWithErrands, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.InviteToEvent, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.AskSpiritualQuestion, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.OfferToHelpWithErrands, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.InviteToEvent, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.AskSpiritualQuestion, getDayInFuture(31)),
             );
             break;
         case OneStage.Hurt:
             actionSteps.push(
-                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.ListenToTestimony, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.InviteToEvent, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.ListenToTestimony, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.InviteToEvent, getDayInFuture(31)),
             );
             break;
         case OneStage.Hostile:
             actionSteps.push(
-                ActionStep.create(ActionStepType.OfferToHelpWithErrands, getDayInFuture(7)),
-                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(14)),
-                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(21)),
-                ActionStep.create(ActionStepType.ListenToTestimony, getDayInFuture(30)),
+                ActionStep.create(ActionStepType.OfferToHelpWithErrands, getDayInFuture(8)),
+                ActionStep.create(ActionStepType.SendEncouragementText, getDayInFuture(15)),
+                ActionStep.create(ActionStepType.TakeOutToCoffee, getDayInFuture(22)),
+                ActionStep.create(ActionStepType.ListenToTestimony, getDayInFuture(31)),
             );
             break;
         default:

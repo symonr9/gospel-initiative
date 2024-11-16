@@ -9,6 +9,7 @@ import { AppIcon } from '@/enums/enums';
 import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToDetails, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
+import { Colors } from '@/constants/Colors';
 
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     elevation: 4, // Shadow for Android
   },
   completed: {
-    backgroundColor: '#d9ead3',
+    backgroundColor: Colors.success,
   },
   selected: {
     backgroundColor: '#a2c4c9',

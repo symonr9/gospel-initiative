@@ -14,7 +14,7 @@ export type IStagePicker = ViewProps & {
     setSelectedStage: Function;
 };
 
-const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
+const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -42,7 +42,7 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
     const selectedStageData = StageArray.find(item => item.stage === selectedStage);
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <TouchableOpacity onPress={toggleModal}>
                 <View style={styles.selectedContainer}>
                     {selectedStage ? (

@@ -9,6 +9,7 @@ import { PageRow } from '../common/PageRow';
 import { formStyles } from '@/styles/Styles';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageColumn } from '../common/PageColumn';
+import { Colors } from '@/constants/Colors';
 
 type NamesPickerProps = {
     formChapter: StoryChapter;
@@ -52,7 +53,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                     renderItem={({ item }) => (
                         <PageChip title={item}
                             onClick={() => editing && setModalVisible(true)}
-                            style={{ backgroundColor: '#d9ead3' }}
+                            style={{ backgroundColor: Colors.success }}
                             small />
                     )} />
             </PageRow>
@@ -158,13 +159,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 4
     },
     selectedTagOption: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
         opacity: 1
     },
     closeButton: {
         marginTop: 20,
         padding: 10,
-        backgroundColor: '#ff6666',
+        backgroundColor: Colors.error,
         borderRadius: 10,
         alignSelf: 'center',
     },

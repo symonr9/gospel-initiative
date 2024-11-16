@@ -7,6 +7,7 @@ import { PageColumn } from '../common/PageColumn';
 import { cardStyles, flexStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { PageRow } from '../common/PageRow';
+import { Colors } from '@/constants/Colors';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;
@@ -34,7 +35,7 @@ export function BeaconTemplateCard({ template, isSelected = false }: IBeaconCard
 
 const styles = StyleSheet.create({
   selected: {
-    backgroundColor: '#d9ead3'
+    backgroundColor: Colors.success,
   },
   icon: {
     width: 36,

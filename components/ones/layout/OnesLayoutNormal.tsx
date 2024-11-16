@@ -16,6 +16,7 @@ import GospelChecklist from '../GospelChecklist';
 import InfoPicker from '../InfoPicker';
 import { OneLayoutType } from '../OnesLayout';
 import Beacon from '@/models/beacon';
+import { Colors } from '@/constants/Colors';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -77,7 +78,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
-                <InfoPicker />
+                <InfoPicker setActiveLayoutType={setActiveLayoutType} />
             </PageColumn>
         );
     } else if (bodyType === BodyType.ActionStep) {
@@ -164,95 +165,83 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
 
         BodyLayout.push(
             <>
-                <PageRow spaceBetween>
-                    <PageRow spaceEvenly>
-                        {
-                            showArrowLeft && (
-                                <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
-                                    disabled={idxOfSelectedOne === 0}
-                                    title={'Back'}
-                                    small
-                                    onClick={() => {
-                                        setMessage(null);
-                                        const previousOne = ones[idxOfSelectedOne - 1] || null;
-                                        if (previousOne) {
-                                            setSelectedOneId(previousOne.id);
-                                        }
-                                    }} />
-                            )
-                        }
-
-                        {
-                            showArrowRight && (
-                                <SimpleIconButton iconSrc={AppIcon.ChevronRight}
-                                    disabled={idxOfSelectedOne === ones.length - 1}
-                                    title={'Next'}
-                                    small
-                                    onClick={() => {
-                                        setMessage(null);
-                                        const nextOne = ones[idxOfSelectedOne + 1] || null;
-                                        if (nextOne) {
-                                            setSelectedOneId(nextOne.id);
-                                        }
-                                    }} />
-                            )
-                        }
-                    </PageRow>
-
-                    <PageColumn style={{ gap: 8 }} center>
-                        {
-                            ones.length > 1 && (
-                                <SimpleIconButton iconSrc={AppIcon.UserGroup}
-                                    title={'All'}
-                                    small
-                                    onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
-                            )
-                        }
-
-                        <SimpleIconButton iconSrc={AppIcon.Plus}
-                            small
-                            onClick={() => {
-                                setMessage(null);
-                                setActiveLayoutType(OneLayoutType.AddingOne);
-                            }}
-                            title={'Add New'} />
-
-                        {
-                            selectedOne && (
-                                <SimpleIconButton iconSrc={AppIcon.Pencil}
-                                    small
-                                    onClick={() => {
-                                        setMessage(null);
-                                        setActiveLayoutType(OneLayoutType.EditingOne);
-                                    }}
-                                    title={'Edit'} />
-                            )
-                        }
-                    </PageColumn>
-                </PageRow>
-
                 <PageColumn>
                     <SimpleGridCard iconSrc={AppIcon.Book2}
                         title={'Info'}
                         detailsView={infoDetailView}
                         onClick={() => setBodyType(BodyType.Info)} />
+
                     <SimpleGridCard iconSrc={AppIcon.LightBulb}
                         title={'Action Steps'}
                         detailsView={actionStepsDetailView}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
+
                     <SimpleGridCard iconSrc={AppIcon.Book}
                         title={'Gospel Checklist'}
                         detailsView={gospelChecklistDetailView}
                         onClick={() => setBodyType(BodyType.GospelChecklist)} />
+
                     <SimpleGridCard iconSrc={AppIcon.Prayer}
                         title={'Prayer Beacons'}
                         detailsView={beaconsDetailView}
                         onClick={() => setBodyType(BodyType.Beacons)} />
+
                     <SimpleGridCard iconSrc={AppIcon.UserGroup}
                         title={'Christians'}
                         detailsView={christianDetailView}
                         onClick={() => setBodyType(BodyType.Christians)} />
                 </PageColumn>
+
+                <PageRow spaceEvenly style={{ marginTop: 24 }}>
+                    <SimpleIconButton iconSrc={AppIcon.Plus}
+                        small
+                        onClick={() => {
+                            setMessage(null);
+                            setActiveLayoutType(OneLayoutType.AddingOne);
+                        }}
+                        title={'Add New'} />
+
+                    {
+                        ones.length > 1 && (
+                            <SimpleIconButton iconSrc={AppIcon.UserGroup}
+                                title={'All'}
+                                small
+                                onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
+                        )
+                    }
+
+                    {
+                        showArrowLeft && (
+                            <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
+                                disabled={idxOfSelectedOne === 0}
+                                title={'Back'}
+                                small
+                                onClick={() => {
+                                    setMessage(null);
+                                    const previousOne = ones[idxOfSelectedOne - 1] || null;
+                                    if (previousOne) {
+                                        setSelectedOneId(previousOne.id);
+                                    }
+                                }} />
+                        )
+                    }
+
+                    {
+                        showArrowRight && (
+                            <SimpleIconButton iconSrc={AppIcon.ChevronRight}
+                                disabled={idxOfSelectedOne === ones.length - 1}
+                                title={'Next'}
+                                small
+                                onClick={() => {
+                                    setMessage(null);
+                                    const nextOne = ones[idxOfSelectedOne + 1] || null;
+                                    if (nextOne) {
+                                        setSelectedOneId(nextOne.id);
+                                    }
+                                }} />
+                        )
+                    }
+                </PageRow>
             </>
         );
     }

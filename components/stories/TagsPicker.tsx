@@ -9,6 +9,7 @@ import ScrollLayout from '../common/ScrollLayout';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import { modalStyles } from '@/styles/Styles';
+import { Colors } from '@/constants/Colors';
 
 function createTagMap(keys: string[]) {
     return keys
@@ -125,6 +126,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 4
     },
     selectedTagOption: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
     },
 });

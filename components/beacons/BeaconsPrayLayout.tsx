@@ -67,7 +67,7 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                         setActiveType={setActiveRoadType}
                         expandedHeight={75}
                         itemsToRender={completedItemsToRender}
-                        customStyles={completedStyle} />
+                        customStyles={{ container: { backgroundColor: Colors.success }}} />
                     <ItemRowContainer title={`Incoming (${incomingCount})`}
                         iconSrc={AppIcon.Send}
                         type={ItemRowContainerType.Incoming}
@@ -76,7 +76,7 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                         expandedHeight={75}
                         setActiveType={setActiveRoadType}
                         itemsToRender={incomingItemsToRender}
-                        customStyles={incomingStyle} />
+                        customStyles={{ container: { backgroundColor: Colors.white }}} />
                 </View>
 
                 <BeaconDetails incomingCursorIdx={incomingCursorIdx}
@@ -93,36 +93,6 @@ const styles = StyleSheet.create({
         gap: 12,
     },
 });
-
-const completedStyle = {
-    container: {
-        backgroundColor: '#d9ead3'
-    },
-    header: {
-
-    },
-    title: {
-        color: '#333'
-    },
-    itemsContainer: {
-
-    }
-};
-
-const incomingStyle = {
-    container: {
-        backgroundColor: Colors.light.secondary
-    },
-    header: {
-
-    },
-    title: {
-        color: '#333'
-    },
-    itemsContainer: {
-
-    }
-};
 
 const mapStateToProps = (state: any) => {
     const { completedBeacons = [], incomingBeacons = [] } = selectPartitionedActiveEnhancedBeacons(state);

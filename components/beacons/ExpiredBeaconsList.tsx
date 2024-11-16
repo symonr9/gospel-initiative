@@ -14,6 +14,7 @@ import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { mapBeaconTypeToAppIcon, getAppTimeAgoText } from '@/utils/appUtils';
 import { PageRow } from '../common/PageRow';
+import { Colors } from '@/constants/Colors';
 
 export type IExpiredBeaconsList = ViewProps & {
     selectedOneId: string | null;
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     selectedTag: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
     },
 });
 

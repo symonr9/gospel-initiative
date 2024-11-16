@@ -16,6 +16,7 @@ import { getShowHideIcon, mapBeaconTagToDetailsText, mapBeaconTagToTitleText } f
 import ScrollLayout from '../common/ScrollLayout';
 import { modalStyles } from '@/styles/Styles';
 import { OneLayoutType } from '../ones/OnesLayout';
+import { Colors } from '@/constants/Colors';
 
 const beaconTagArray = Object.keys(BeaconTag)
     .filter(key => isNaN(Number(key)))
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     selectedTag: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
     },
 });
 

@@ -14,6 +14,7 @@ import { mapStoryChapterTagToText, partitionChaptersByTag, toggleTagFromFilter, 
 import { updateChaptersFilter } from '@/redux/actions';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
+import { Colors } from '@/constants/Colors';
 
 export type IMyStoriesHeader = {
     chapters: StoryChapter[];
@@ -188,15 +189,15 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     selectedTypeFilter: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
     },
     selectedTagFilter: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
     },
     closeButton: {
         marginTop: 20,
         padding: 10,
-        backgroundColor: '#ff6666',
+        backgroundColor: Colors.error,
         borderRadius: 5,
         alignSelf: 'center',
     },

@@ -30,7 +30,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
 
     return (
         <TouchableOpacity onPress={onPress}>
-            <PageRow style={gridStyles.itemCard} spaceBetween>
+            <PageRow style={[gridStyles.itemCard, style]} spaceBetween>
                 <PageRow style={{ gap: 8 }}>
                     <PageColumn>
                         {

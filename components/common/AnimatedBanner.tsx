@@ -8,6 +8,7 @@ import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
 import { PageRow } from './PageRow';
+import { Colors } from '@/constants/Colors';
 
 export type IAnimatedBanner = {
     iconSrc: AppIcon | null;
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: '#d9ead3',
+        backgroundColor: Colors.success,
         borderRadius: 4,
         padding: 8,
         shadowColor: '#000',

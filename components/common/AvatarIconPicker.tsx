@@ -1,6 +1,6 @@
 import { AvatarIcon, AvatarIconArray } from '@/enums/enums';
 import React, { useState } from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet, Modal, Text } from 'react-native';
+import { View, TouchableOpacity, FlatList, StyleSheet, Modal, Text, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
 import { AppText, TextType } from './AppText';
 import ScrollLayout from './ScrollLayout';
@@ -8,12 +8,12 @@ import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import { modalStyles } from '@/styles/Styles';
 
-export type IAvatarIconPicker = {
+export type IAvatarIconPicker = ViewProps & {
     selectedIcon: AvatarIcon;
     setSelectedIcon: (icon: AvatarIcon) => void;
 };
 
-const AvatarIconPicker = ({ selectedIcon, setSelectedIcon }: IAvatarIconPicker) => {
+const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconPicker) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleIconPress = (icon: AvatarIcon) => {
@@ -27,7 +27,7 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon }: IAvatarIconPicker) 
     );
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <PageColumn>
                 <PageRow style={styles.selectedContainer}>
                     {selectedIcon ? (

@@ -50,9 +50,9 @@ function HomePrayerCard({ }: IHomePrayerCard) {
     );
 
     const colorStyle = incomingBeacons.length > 0 ? {
-        backgroundColor: Colors.light.secondary
+        backgroundColor: Colors.white
     } : {
-        backgroundColor: '#d9ead3'
+        backgroundColor: Colors.success
     };
 
     return (

@@ -24,6 +24,7 @@ import { updateChapter } from "@/requests/storyRequests";
 import ChapterTypePicker from './ChapterTypePicker';
 import { SimpleIcon } from '../common/SimpleIcon';
 import AppError from '@/models/error';
+import { Colors } from '@/constants/Colors';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
     elevation: 4, // Shadow for Android
   },
   completed: {
-    backgroundColor: '#d9ead3',
+    backgroundColor: Colors.success,
   },
   shouldDiscard: {
     opacity: 0.4

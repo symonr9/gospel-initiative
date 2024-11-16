@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { AppText, TextType } from '../common/AppText';
 import { mapStoryChapterTypeToText } from '@/utils/appUtils';
+import { Colors } from '@/constants/Colors';
 
 type IChapterTypePicker = {
     formChapter: StoryChapter;
@@ -104,13 +105,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 4
     },
     selectedModalItem: {
-        backgroundColor: '#d0e0e3',
+        backgroundColor: Colors.selected,
         opacity: 1
     },
     closeButton: {
         marginTop: 20,
         padding: 10,
-        backgroundColor: '#ff6666',
+        backgroundColor: Colors.error,
         borderRadius: 10,
         alignSelf: 'center',
     },

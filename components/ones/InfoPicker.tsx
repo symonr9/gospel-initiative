@@ -1,10 +1,9 @@
 import { AppIcon, OneNoteType, OneStage, RefreshSpec } from '@/enums/enums';
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal, Button } from 'react-native';
-
+import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, mapStageToDetailsText, StageArray } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, StageArray } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -19,6 +18,8 @@ import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import DetailsSection from '../common/DetailsSection';
+import { SimpleConfetti } from '../common/SimpleConfetti';
+import { OneLayoutType } from './OnesLayout';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -35,6 +36,7 @@ export type IInfoPicker = ViewProps & {
     ones: One[];
     refreshData: Function;
     setAppError: Function;
+    setActiveLayoutType: Function
 };
 
 enum PickerState {
@@ -44,7 +46,7 @@ enum PickerState {
     Removing,
 }
 
-const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }: IInfoPicker) => {
+const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayoutType, setAppError }: IInfoPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -273,6 +275,10 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                 customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
                                 title={'Update Stage'}
                                 onClick={() => setIsStageModalVisible(true)} />
+                            <SimpleIconButton iconSrc={AppIcon.Pencil}
+                                customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
+                                title={'Edit Info'}
+                                onClick={() => setActiveLayoutType(OneLayoutType.EditingOne)} />
                         </>
                     )
                 }
@@ -322,7 +328,8 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                 }
             };
 
-            const toggleStageModal = () => {              
+            const toggleStageModal = () => {
+                setFormStage(null);
                 setFormOneNote(OneNote.createDefault(selectedOneId || ""));
                 setIsStageModalVisible(!isStageModalVisible);
             };
@@ -345,7 +352,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                         return;
                     }
 
-                    if (formStage === OneStage.NewBeliever && formOneNote.notes?.length > 0) {
+                    if (formStage === OneStage.NewBeliever && formOneNote.notes.length > 0) {
                         const updatedFormNote = {
                             ...formOneNote,
                             notes: `[Salvation Moment] ${formOneNote.notes}`,
@@ -456,6 +463,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                 {
                                     formStage === OneStage.NewBeliever && (
                                         <PageColumn style={{ marginVertical: 8 }}>
+                                            <SimpleConfetti />
                                             <AppText type={TextType.Subtitle}>
                                                 Woah!
                                             </AppText>

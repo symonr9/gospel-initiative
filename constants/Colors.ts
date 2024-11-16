@@ -5,22 +5,29 @@
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 
+/**
+ * Colors for reference:
+ * 
+ * Ocean blue: #84b2bd
+ * Lighter Ocean blue: #cde0e4
+ * Khaki: #f2ecc2
+ */
+
 export const Colors = {
   appLogo: '#a8543a',
+  success: '#d9ead3',
+  error: '#ff6666',
+  selected: '#d0e0e3',
+  white: '#fff',
   light: {
-    // text: '#5d6065',
     text: '#333',
     alternateText: '#ffffff',
-    // background: '#f2ecc2',
-    background: '#ffffff',
+    background: '#cde0e4',
     primary: '#5d6065',
     secondary: '#abceea',
-    alternate1: '#5f715b',
-    alternate2: '#674f43',
-    white: '#eee',
-    black: '#333'
   },
   dark: {
+    background: '#cde0e4'
   },
 };
 
