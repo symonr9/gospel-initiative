@@ -6,7 +6,7 @@ import SimpleIconButton from '@/components/common/SimpleIconButton';
 import { AppIcon, GospelChecklistItem } from '@/enums/enums';
 import One from '@/models/one';
 import User from '@/models/user';
-import { mapActionStepTypeToIcon, getAppTimeAgoText, mapActionStepTypeToTitle, calculatePercent, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { mapActionStepTypeToIcon, getAppTimeAgoText, mapActionStepTypeToTitle, calculatePercent, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, getDaysDifference } from '@/utils/appUtils';
 import React, { useState, useEffect } from 'react';
 import { View, ViewProps } from "react-native";
 import ActionStepPicker from '../ActionStepPicker';
@@ -17,6 +17,8 @@ import InfoPicker from '../InfoPicker';
 import { OneLayoutType } from '../OnesLayout';
 import Beacon from '@/models/beacon';
 import { Colors } from '@/constants/Colors';
+import { SimpleIcon } from '@/components/common/SimpleIcon';
+import { AppText } from '@/components/common/AppText';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -122,12 +124,12 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         let actionStepsDetailView = <></>;
         if (firstActionStep) {
             actionStepsDetailView = (
-                <>
+                <PageColumn>
                     <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)}
                         prefix={getAppTimeAgoText(firstActionStep.targetDate)}
                         onClick={() => setBodyType(BodyType.ActionStep)}
                         title={mapActionStepTypeToTitle(firstActionStep.type)} />
-                </>
+                </PageColumn>
             );
         } else {
             actionStepsDetailView = (<View />);

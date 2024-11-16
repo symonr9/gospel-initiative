@@ -13,11 +13,11 @@ export type ISimpleIcon = ViewProps & {
     removeBackground?: boolean;
 }
 
-export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false }: ISimpleIcon) {
+export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false, style }: ISimpleIcon) {
     const stylesToUse = large ? largeStyles : (small ? smallStyles : styles);
 
     return (
-        <View style={stylesToUse.container}>
+        <View style={[stylesToUse.container, style]}>
             <View style={stylesToUse.content}>
                 <View style={[stylesToUse.iconContainer,
                 removeBackground && styles.iconContainerMinimal]}>
