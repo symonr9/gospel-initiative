@@ -29,7 +29,13 @@ export const cardStyles = StyleSheet.create({
     shadowOffset: { height: 2, width: 0 },
     elevation: 4, // Shadow for Android
     borderRadius: 4,
-  }
+  },
+  section: {
+    paddingBottom: 8,
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 2,
+    marginVertical: 4,
+  },
 });
 
 export const formStyles = StyleSheet.create({
@@ -181,6 +187,13 @@ export const modalStyles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
   },
+  saveButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#d9ead3',
+    borderRadius: 10,
+    alignSelf: 'center',
+  },
   card: {
     backgroundColor: '#fff',
     shadowOpacity: 0.2,
@@ -214,7 +227,7 @@ export const modalStyles = StyleSheet.create({
     opacity: 0.7
   },
   selected: {
-      opacity: 1,
+    opacity: 1,
   },
 });
 

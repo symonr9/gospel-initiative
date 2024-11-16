@@ -60,7 +60,7 @@ function HomeLayout({ executor }: IHomeLayout) {
     <ScrollLayout style={styles.container}>
       <PageColumn style={{ gap: 8 }}>
         <PageRow style={{ gap: 12, padding: 8 }}>
-          <SimpleIcon iconSrc={executor.icon} large/>
+          <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large/>
           <AnimatedHeader title={title} subtitle={subtitle} style={{width: 300 }}/>
         </PageRow>
 

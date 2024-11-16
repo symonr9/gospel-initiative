@@ -18,8 +18,7 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
     const onDone = async () => {
         refreshData(RefreshSpec.All);
         setNewUserStep(NewUserStep.Completed);
-        // TODO: Uncomment to escape new user workflow.
-        // await setLocalNewUserStep(NewUserStep.Completed);
+        await setLocalNewUserStep(NewUserStep.Completed);
     };
 
     return (

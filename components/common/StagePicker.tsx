@@ -2,28 +2,12 @@ import { OneStage } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, FlatList, Modal, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
-import { mapStageToDetailsText, mapStageToIcon, mapStageToText } from '@/utils/appUtils';
+import { StageArray } from '@/utils/appUtils';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
 import { modalStyles } from '@/styles/Styles';
-
-const stageArray = [
-    OneStage.Hostile,
-    OneStage.Hurt,
-    OneStage.Apathetic,
-    OneStage.Friendly,
-    OneStage.Curious,
-    OneStage.Seeking,
-    OneStage.NewBeliever,
-    OneStage.Disciple,
-].map((value: OneStage) => ({
-    stage: value,
-    icon: mapStageToIcon(value),
-    label: mapStageToText(value),
-    details: mapStageToDetailsText(value)
-}));
 
 export type IStagePicker = ViewProps & {
     selectedStage: OneStage;
@@ -55,7 +39,7 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
         </TouchableOpacity>
     );
 
-    const selectedStageData = stageArray.find(item => item.stage === selectedStage);
+    const selectedStageData = StageArray.find(item => item.stage === selectedStage);
 
     return (
         <View style={styles.container}>
@@ -104,7 +88,7 @@ const StagePicker = ({ selectedStage, setSelectedStage }: IStagePicker) => {
                         )}
                         <ScrollLayout style={{ maxHeight: 300 }}>
                             <FlatList
-                                data={stageArray}
+                                data={StageArray}
                                 renderItem={renderIcon}
                                 numColumns={4}
                                 keyExtractor={(item, index) => index.toString()}

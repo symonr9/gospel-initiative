@@ -5,6 +5,22 @@ import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 
+export const StageArray = [
+    OneStage.Hostile,
+    OneStage.Hurt,
+    OneStage.Apathetic,
+    OneStage.Friendly,
+    OneStage.Curious,
+    OneStage.Seeking,
+    OneStage.NewBeliever,
+    OneStage.Disciple,
+].map((value: OneStage) => ({
+    stage: value,
+    icon: mapStageToIcon(value),
+    label: mapStageToText(value),
+    details: mapStageToDetailsText(value)
+}));
+
 export const getSelectedOne = (selectedOneId: string | null, ones: One[]) => {
     if (!selectedOneId) {
         return null;

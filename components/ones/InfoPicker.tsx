@@ -4,15 +4,15 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, mapStageToDetailsText } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, mapStageToDetailsText, StageArray } from '@/utils/appUtils';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { formStyles, modalStyles } from '@/styles/Styles';
+import { cardStyles, formStyles, modalStyles } from '@/styles/Styles';
 import { refreshData, setAppError } from '@/redux/actions';
-import { createOneNote, removeOneNote, updateOneNote } from "@/requests/oneRequests";
+import { createOneNote, removeOneNote, updateOne, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
 import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
@@ -28,22 +28,6 @@ const oneNoteTypeArray = Object.keys(OneNoteType)
         details: mapOneNoteTypeToDetails(OneNoteType[key as keyof typeof OneNoteType]),
         icon: mapOneNoteTypeToAppIcon(OneNoteType[key as keyof typeof OneNoteType]),
     }));
-
-const stageArray = [
-    OneStage.Hostile,
-    OneStage.Hurt,
-    OneStage.Apathetic,
-    OneStage.Friendly,
-    OneStage.Curious,
-    OneStage.Seeking,
-    OneStage.NewBeliever,
-    OneStage.Disciple,
-].map((value: OneStage) => ({
-    stage: value,
-    icon: mapStageToIcon(value),
-    label: mapStageToText(value),
-    details: mapStageToDetailsText(value)
-}));
 
 export type IInfoPicker = ViewProps & {
     executor: User;
@@ -67,6 +51,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
     const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
     const [formOneNote, setFormOneNote] = useState<OneNote>(OneNote.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
+    const [formStage, setFormStage] = useState<OneStage | null>(null);
 
     const [isNoteTypeModalVisible, setIsNoteTypeModalVisible] = useState(false);
     const [isStageModalVisible, setIsStageModalVisible] = useState(false);
@@ -279,10 +264,16 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
             <PageRow spaceEvenly style={{ marginBottom: 8 }}>
                 {
                     selectedNoteId === null && (
-                        <SimpleIconButton iconSrc={AppIcon.Plus}
-                            customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
-                            title={'Add'}
-                            onClick={() => setPickerState(PickerState.Adding)} />
+                        <>
+                            <SimpleIconButton iconSrc={AppIcon.Plus}
+                                customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
+                                title={'Add Note'}
+                                onClick={() => setPickerState(PickerState.Adding)} />
+                            <SimpleIconButton iconSrc={AppIcon.StageFriendly}
+                                customStyles={{ container: { marginStart: 10, marginEnd: 10 } }}
+                                title={'Update Stage'}
+                                onClick={() => setIsStageModalVisible(true)} />
+                        </>
                     )
                 }
 
@@ -306,7 +297,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
     if (pickerState === PickerState.Normal) {
         if (selectedOne) {
             Body.push(
-                <PageRow style={styles.headerRow}>
+                <PageRow style={[cardStyles.section]}>
                     <Animated.View entering={FadeInDown.duration(200)}
                         exiting={FadeOutDown.duration(200)}>
                         <PageRow style={{ marginStart: 12, gap: 12 }}>
@@ -323,16 +314,57 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                 </PageRow>
             );
 
-            const onUpdateStageClick = () => {
-                setIsStageModalVisible(true);
-            };
-
             const handleStageSelect = (stage: OneStage) => {
-
+                if (stage === formStage || stage === selectedOne.stage) {
+                    setFormStage(null);
+                } else {
+                    setFormStage(stage);
+                }
             };
 
-            const toggleStageModal = () => {
+            const toggleStageModal = () => {              
+                setFormOneNote(OneNote.createDefault(selectedOneId || ""));
                 setIsStageModalVisible(!isStageModalVisible);
+            };
+
+            const onSaveNewStage = async () => {
+                if (!formStage || !selectedOne) {
+                    console.error('Woah something went wrong!');
+                    return;
+                }
+
+                const updatedOne = {
+                    ...selectedOne,
+                    stage: formStage
+                };
+
+                try {
+                    const stageResponse = await updateOne(updatedOne);
+                    if (stageResponse.error) {
+                        setAppError(new AppError('Error updating one: ', stageResponse.error));
+                        return;
+                    }
+
+                    if (formStage === OneStage.NewBeliever && formOneNote.notes?.length > 0) {
+                        const updatedFormNote = {
+                            ...formOneNote,
+                            notes: `[Salvation Moment] ${formOneNote.notes}`,
+                            type: OneNoteType.PerceptionOfChristianity
+                        };
+
+                        const noteResponse = await createOneNote(updatedFormNote);
+                        if (noteResponse.error) {
+                            setAppError(new AppError('Error saving note: ', noteResponse.error));
+                        }
+                    }
+
+                    refreshData(RefreshSpec.Ones);
+                } catch (err: any) {
+                    setAppError(new AppError('Error updating one: ', err));
+                }
+
+                setFormOneNote(OneNote.createDefault(selectedOneId || ""));
+                setIsStageModalVisible(false);
             };
 
             const renderStage = ({ item }: { item: { stage: OneStage, icon: any, label: string } }) => (
@@ -341,18 +373,29 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                         <PageColumn>
                             <Image
                                 source={item.icon}
-                                style={[styles.icon, selectedOne.stage === item.stage && styles.selected]}
+                                style={[styles.modalIcon,
+                                selectedOne.stage === item.stage && styles.currentStage,
+                                formStage === item.stage && styles.selectedStage]}
                             />
-                            <AppText type={TextType.Italic}>{item.label}</AppText>
+                            <AppText type={TextType.Italic}
+                                style={[selectedOne.stage === item.stage && {
+                                    borderColor: 'lightgray', borderBottomWidth: 3, borderRadius: 2
+                                },
+                                formStage === item.stage && {
+                                    borderColor: 'lightgreen', borderBottomWidth: 3, borderRadius: 2
+                                }]}>
+                                {item.label}
+                            </AppText>
                         </PageColumn>
                     </PageRow>
                 </TouchableOpacity>
             );
 
+            const selectedStageData = StageArray.find(item => item.stage === selectedOne.stage);
+            const formStageData = StageArray.find(item => item.stage === formStage);
+
             Body.push(
                 <PageRow style={{ marginTop: 8 }}>
-                    <Button title="Update Stage"
-                        onPress={onUpdateStageClick} />
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -367,9 +410,42 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                     Make changes to your One's stage.
                                 </AppText>
 
+                                {
+                                    formStage ? (
+                                        <PageColumn center style={{ marginVertical: 16 }}>
+                                            <PageRow style={{ gap: 36 }}>
+                                                <PageColumn>
+                                                    <AppText type={TextType.DefaultSemiBold}>Previous Stage:</AppText>
+                                                    <Image
+                                                        source={selectedStageData?.icon}
+                                                        style={[styles.selectedIcon, { opacity: 0.4 }]} />
+                                                    <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
+                                                </PageColumn>
+                                                <PageColumn>
+                                                    <AppText type={TextType.DefaultSemiBold}>New Stage:</AppText>
+                                                    <Image
+                                                        source={formStageData?.icon}
+                                                        style={styles.selectedIcon} />
+                                                    <AppText type={TextType.DefaultSemiBold}>{formStageData?.label}</AppText>
+                                                </PageColumn>
+                                            </PageRow>
+                                            <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{formStageData?.details}</AppText>
+                                        </PageColumn>
+                                    ) : (
+                                        <PageColumn center style={{ marginVertical: 16 }}>
+                                            <AppText type={TextType.DefaultSemiBold}>Current Stage:</AppText>
+                                            <Image
+                                                source={selectedStageData?.icon}
+                                                style={styles.selectedIcon} />
+                                            <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
+                                            <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData?.details}</AppText>
+                                        </PageColumn>
+                                    )
+                                }
+
                                 <ScrollLayout style={{ maxHeight: 300 }}>
                                     <FlatList
-                                        data={stageArray}
+                                        data={StageArray}
                                         renderItem={renderStage}
                                         numColumns={4}
                                         keyExtractor={(item, index) => index.toString()}
@@ -377,11 +453,42 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                                     />
                                 </ScrollLayout>
 
-                                <TouchableOpacity
-                                    style={modalStyles.closeButton}
-                                    onPress={toggleStageModal}>
-                                    <AppText>Close</AppText>
-                                </TouchableOpacity>
+                                {
+                                    formStage === OneStage.NewBeliever && (
+                                        <PageColumn style={{ marginVertical: 8 }}>
+                                            <AppText type={TextType.Subtitle}>
+                                                Woah!
+                                            </AppText>
+                                            <AppText style={{ marginBottom: 8 }}>
+                                                Did your One decide to follow Jesus and accept Him as their Lord?
+                                                That's such a big deal! Please share more about it if you'd like (optional).
+                                            </AppText>
+                                            <TextInput
+                                                style={formStyles.multiLineTextInput}
+                                                placeholder="Enter text here..."
+                                                placeholderTextColor={'gray'}
+                                                value={formOneNote.notes}
+                                                numberOfLines={4}
+                                                onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
+                                            />
+                                        </PageColumn>
+                                    )
+                                }
+
+                                <PageRow spaceBetween style={{ gap: 64 }}>
+                                    <TouchableOpacity
+                                        style={modalStyles.closeButton}
+                                        onPress={toggleStageModal}>
+                                        <AppText>Close</AppText>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={modalStyles.saveButton}
+                                        disabled={!formStage}
+                                        onPress={onSaveNewStage}>
+                                        <AppText>Save</AppText>
+                                    </TouchableOpacity>
+                                </PageRow>
                             </View>
                         </View>
                     </Modal>
@@ -399,16 +506,16 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }:
                     const icon = mapOneNoteTypeToAppIcon(type);
 
                     return (
-                        <PageColumn style={{ marginBottom: 20 }}>
+                        <PageColumn style={{ marginBottom: 20, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }}>
                             <PageRow>
                                 <Image source={icon}
                                     style={[styles.icon, { marginEnd: 8 }]}
                                     contentFit="contain" />
-                                <PageColumn>
-                                    <AppText type={TextType.Subtitle2}>
+                                <PageColumn style={{ width: 350 }}>
+                                    <AppText type={TextType.Subtitle}>
                                         {title}
                                     </AppText>
-                                    <AppText type={TextType.Body}>
+                                    <AppText type={TextType.Default}>
                                         {details}
                                     </AppText>
                                 </PageColumn>
@@ -531,17 +638,28 @@ const styles = StyleSheet.create({
         margin: 2,
         verticalAlign: 'middle',
     },
+    selectedIcon: {
+        width: 50,
+        height: 50,
+        opacity: 1,
+    },
     iconCard: {
         width: 80,
         margin: 4,
         alignItems: 'center',
     },
-    selected: {
+    modalIcon: {
+        width: 32,
+        height: 32,
+        margin: 2,
+        verticalAlign: 'middle',
+        opacity: 0.3
+    },
+    currentStage: {
         opacity: 1,
     },
-    headerRow: {
-        height: 70,
-        marginBottom: 20
+    selectedStage: {
+        opacity: 1,
     },
 });
 
