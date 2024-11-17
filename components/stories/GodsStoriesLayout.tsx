@@ -106,21 +106,6 @@ const styles = StyleSheet.create({
     },
 });
 
-const GodsStoryStyle = {
-    container: {
-        backgroundColor: Colors.light.primary,
-    },
-    title: {
-        color: Colors.light.alternateText
-    },
-    header: {
-
-    },
-    itemsContainer: {
-
-    }
-};
-
 const mapStateToProps = (state: any) => {
     const { GodsStories } = selectPartionedEnhancedStories(state);
     return {

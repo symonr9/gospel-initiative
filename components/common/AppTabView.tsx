@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
     },
     activeLabel: {
-        color: Colors.light.primary,
+        color: Colors.light.header,
         fontWeight: 'bold',
     },
 });

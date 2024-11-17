@@ -328,7 +328,9 @@ export enum Priority {
 }
 
 export enum AppIcon {
-    AppLogo = require('../assets/images/app-icons/gospel-initiative-logo.png'),
+    AppLogoTransparent = require('../assets/images/app-icons/app-logo-transparent.png'),
+    GospelInitiativeTransparent = require('../assets/images/app-icons/gospel-initiative-transparent.png'),
+    GospelInitiativeGreen = require('../assets/images/app-icons/gospel-initiative-green.png'),
     Man1 = require('../assets/images/app-icons/man1.png'),
     Bird = require('../assets/images/app-icons/bird.png'),
     Cherries = require('../assets/images/app-icons/cherries.png'),

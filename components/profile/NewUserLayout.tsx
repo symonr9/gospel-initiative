@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { View, ViewProps, StyleSheet } from 'react-native';
+import { View, ViewProps, StyleSheet, useWindowDimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { NewUserStep } from '@/enums/enums';
 import { refreshData, setAppError, setNewUserStep } from '@/redux/actions';
@@ -15,6 +15,7 @@ import NewUserTheStoriesPage from './newUser/NewUserTheStoriesPage';
 import NewUserThingsToKnowAboutTheApp from './newUser/NewUserThingsToKnowAboutTheApp';
 import NewUserCreateAProfile from './newUser/NewUserCreateAProfile';
 import NewUserFinished from './newUser/NewUserFinished';
+import { Colors } from '@/constants/Colors';
 
 export type INewUserLayout = ViewProps & {
     executor: User,
@@ -26,6 +27,8 @@ export type INewUserLayout = ViewProps & {
 
 function NewUserLayout({ executor, newUserStep, setNewUserStep, 
     refreshData, setAppError }: INewUserLayout) {
+    const layout = useWindowDimensions();
+
     useEffect(() => {
 
     }, [newUserStep]);
@@ -88,10 +91,8 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep,
     }
 
     return (
-        <ScrollLayout>
-            <View style={styles.container}>
-                {BodyLayout.map((item) => item)}
-            </View>
+        <ScrollLayout style={[styles.container, { height: layout.height }]}>
+            {BodyLayout.map((item) => item)}
         </ScrollLayout>
     );
 }
@@ -99,11 +100,12 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep,
 const styles = StyleSheet.create({
     container: {
         padding: 12,
-        marginTop: 12,
+        backgroundColor: Colors.light.background,
     },
     logoIcon: {
-        height: 100,
-        width: 300,
+        marginVertical: 8,
+        height: 120,
+        width: 120,
         alignSelf: 'center',
     },
     avatarIcon: {

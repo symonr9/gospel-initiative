@@ -32,7 +32,7 @@ export function SimpleLoadingSection({ title, subtitle }: ISimpleLoadingSection)
 
             <ActivityIndicator
                 size="large"
-                color={Colors.light.primary}
+                color={Colors.light.header}
             />
         </PageColumn>
     );

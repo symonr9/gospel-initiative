@@ -88,10 +88,9 @@ export default function RootLayout() {
 
   const MenuTitle = (
     <View>
-      <Image source={AppIcon.AppLogo} style={{
-        width: 80,
-        height: 30,
-        backgroundColor: '#FFF',
+      <Image source={AppIcon.GospelInitiativeTransparent} style={{
+        width: 180,
+        height: 50,
       }}/>
     </View>
 
@@ -111,9 +110,7 @@ export default function RootLayout() {
             headerTitle: () => MenuTitle,
             headerRight: () => MenuIcon,
             headerStyle: {
-              backgroundColor: Colors.light.background,
-              elevation: 0, // Remove shadow on Android
-              shadowOpacity: 0, // Remove shadow on iOS
+              backgroundColor: Colors.light.primary,
             },
             headerTintColor: Colors.light.text,
             headerTitleStyle: {

@@ -22,13 +22,15 @@ export const Colors = {
   white: '#fff',
   light: {
     text: '#333',
+    header: '#333',
     alternateText: '#ffffff',
-    background: '#cde0e4',
-    primary: '#5d6065',
-    secondary: '#abceea',
+    background: '#f8f5e0',
+    primary: '#abceea',
+    secondary: '#cde0e4',
+    darkAlternative: '#6eaadb'
   },
   dark: {
-    background: '#cde0e4'
+    background: '#abceea'
   },
 };
 

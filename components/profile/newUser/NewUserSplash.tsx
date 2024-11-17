@@ -4,6 +4,7 @@ import { Button, ViewProps } from "react-native";
 import { AppIcon, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
+import { Colors } from "@/constants/Colors";
 
 type INewUserSplash = ViewProps & {
     newUserStep: NewUserStep;
@@ -26,7 +27,8 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
 
     return (
         <PageColumn style={{ gap: 16 }}>
-            <Image source={AppIcon.AppLogo}
+            <Image source={AppIcon.AppLogoTransparent}
+                tintColor={Colors.light.darkAlternative}
                 style={styles.logoIcon} />
             <AppText type={TextType.Title}>Welcome to the Gospel Initiative App!</AppText>
             <AppText>
