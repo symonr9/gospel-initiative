@@ -14,7 +14,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon, RefreshSpec } from '@/enums/enums';
 import ScrollLayout from '../common/ScrollLayout';
 import { SimpleCard } from '../common/SimpleCard';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, gridStyles } from '@/styles/Styles';
 import { QuestionsPicker } from './QuestionsPicker';
 import TagsPicker from './TagsPicker';
 import NamesPicker from './NamesPicker';
@@ -230,7 +230,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
       );
     } else {
       ExpandedLayout.push(
-        <>
+        <PageColumn style={{ marginVertical: 12 }}>
           <AppText type={TextType.Body}>
             Questions:
           </AppText>
@@ -241,22 +241,22 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               ))
             }
           </PageColumn>
-        </>
+        </PageColumn>
       );
     }
 
     if (expanded && !editing && chapter.originalPrompt) {
       ExpandedLayout.push(
-        <>
+        <PageColumn style={{ marginVertical: 12 }}>
           <AppText type={TextType.Body}>
             Original Prompt:
           </AppText>
-          <PageColumn style={{ gap: 2, flexShrink: 1, width: 350 }}>
-            <AppText type={TextType.DefaultSemiBold}>
+          <PageColumn style={{ flexShrink: 1, width: 350 }}>
+            <AppText type={TextType.Italic}>
               {chapter.originalPrompt}
             </AppText>
           </PageColumn>
-        </>
+        </PageColumn>
       );
     }
 
@@ -308,9 +308,9 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   }
 
   const Element = (
-    <Animated.View style={[styles.chapterCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing)}, style]}>
+    <Animated.View style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing)}, style]}>
       <PageColumn style={{}}>
-        <ScrollLayout style={{ maxHeight: 400 }}>
+        <ScrollLayout style={{ maxHeight: 320 }}>
           <PageRow>
             <PageRow style={{ marginBottom: 8 }}>
               {
@@ -349,22 +349,6 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 }
 
 const styles = StyleSheet.create({
-  chapterCard: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingTop: 8,
-    paddingHorizontal: 8,
-    marginVertical: 8,
-    borderRadius: 4,
-    backgroundColor: '#F3F1F3',
-    borderColor: 'gray',
-    borderWidth: 1,
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowColor: '#000',
-    shadowOffset: { height: 2, width: 0 },
-    elevation: 4, // Shadow for Android
-  },
   completed: {
     backgroundColor: Colors.success,
   },

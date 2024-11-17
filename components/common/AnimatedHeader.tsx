@@ -21,8 +21,8 @@ export function AnimatedHeader({ title, subtitle = null, duration = 400, delay =
                 entering={FadeInUp.duration(duration).delay(delay)}
                 exiting={FadeOutDown.duration(duration)}
                 style={[{ marginStart: 4, marginTop: 8 }]} >
-                <PageRow style={{ flexShrink : 1, maxWidth: 350 }}>
-                    <AppText type={TextType.Title}>
+                <PageRow style={{ flexShrink : 1, width: 300 }}>
+                    <AppText type={TextType.Subtitle}>
                         {title}
                     </AppText>
                 </PageRow>

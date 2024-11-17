@@ -30,7 +30,8 @@ export default ({ config }) => ({
             "expo-router",
             "expo-asset",
             "expo-secure-store",
-            "expo-font"
+            "expo-font",
+            "expo-speech-recognition"
         ],
         experiments: {
             typedRoutes: true,

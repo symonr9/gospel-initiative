@@ -48,7 +48,7 @@ function DetailsSection({ iconSrc, title, prefix, onClick, style }: IDetailsSect
         <TouchableOpacity onPress={onPress}>
             <PageColumn style={[styles.container, style]}>
                 <Image source={iconSrc} style={styles.icon} />
-                <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: 200 }}>
+                <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: 130 }}>
                     <AppText type={TextType.Body}>{prefix}</AppText>
                     <Animated.Text style={animatedStyle}>
                         <AppText type={TextType.DefaultSemiBold}>{title}</AppText>

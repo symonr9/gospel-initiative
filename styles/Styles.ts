@@ -146,7 +146,15 @@ export const gridStyles = StyleSheet.create({
     shadowOffset: { height: 2, width: 0 },
     elevation: 4, // Shadow for Android
     borderRadius: 4,
-    alignItems: 'center'
+  },
+  selected: {
+    backgroundColor: Colors.success,
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { height: 2, width: 0 },
+    elevation: 4, // Shadow for Android
+    borderRadius: 8,
   },
   img: {
     height: 42,

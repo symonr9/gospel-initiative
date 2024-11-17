@@ -9,7 +9,7 @@ import { PageRow } from '../common/PageRow';
 import One from '@/models/one';
 import { refreshData, setAppError } from '@/redux/actions';
 import { calculatePercent, getSelectedOne, mapGospelChecklistItemTypeToDetails, mapGospelChecklistItemTypeToIcon, mapGospelChecklistItemTypeToTitle, mapGospelChecklistItemTypeToVersesAndQuestions } from '@/utils/appUtils';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, gridStyles } from '@/styles/Styles';
 import { PageColumn } from '../common/PageColumn';
 import DetailsSection from '../common/DetailsSection';
 import SimpleIconButton from '../common/SimpleIconButton';
@@ -83,7 +83,7 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
 
         return (
             <TouchableOpacity onPress={onPress}>
-                <PageRow style={styles.checklistItem}>
+                <PageRow style={[gridStyles.itemCard]}>
                     <Checkbox
                         value={isChecked}
                         onValueChange={onPress}
@@ -94,14 +94,14 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
                         <AppText type={TextType.Subtitle}>
                             {item.title}
                         </AppText>
-                        <PageRow style={{ flexShrink: 1, width: 300 }}>
+                        <PageRow style={{ flexShrink: 1, width: 250 }}>
                             <AppText type={TextType.Default}>
                                 {item.details}
                             </AppText>
                         </PageRow>
                         {
                             isExpanded && (
-                                <PageRow style={{ flexShrink: 1, width: 300, marginTop: 12 }}>
+                                <PageRow style={{ flexShrink: 1, width: 250, marginTop: 12 }}>
                                     <AppText type={TextType.Body}>
                                         {item.versesAndQuestions}
                                     </AppText>
@@ -153,20 +153,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     buttonRow: {
-    },
-    checklistItem: {
-        borderBottomWidth: 2,
-        borderBottomColor: 'lightgray',
-        padding: 6,
-    },
-    selectedChecklistItem: {
-        backgroundColor: '#bbeccc',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 8,
     },
     iconList: {
     },

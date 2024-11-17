@@ -79,15 +79,10 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: Colors.success,
+        backgroundColor: Colors.info,
         borderRadius: 4,
         padding: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
         elevation: 4,
-        marginVertical: 6
     },
     icon: {
         width: 32,

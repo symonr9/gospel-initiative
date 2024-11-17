@@ -10,6 +10,7 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import Christian from '@/models/christian';
 import DetailsSection from '../common/DetailsSection';
+import { gridStyles } from '@/styles/Styles';
 
 export type IChristianCard = ViewProps & {
     christian: Christian;
@@ -26,7 +27,7 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
 
     return (
         <TouchableOpacity onPress={onPress}>
-            <PageColumn style={[styles.card, selected && styles.selected, style]}>
+            <PageColumn style={[gridStyles.itemCard, selected && gridStyles.selected, style]}>
                 <PageRow style={{ marginBottom: 8 }}>
                     <Image source={christian.icon} style={styles.icon} />
                     <AppText type={TextType.Subtitle} style={{ alignSelf: 'center' }}>
@@ -34,7 +35,7 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
                     </AppText>
                 </PageRow>
 
-                <PageRow spaceEvenly>
+                <PageRow style={styles.section}>
                     <DetailsSection iconSrc={mapOneCategoryToIcon(christian.oneCategory)}
                         prefix={"Relationship with your One"}
                         onClick={handleOnPress}
@@ -45,7 +46,7 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
                         title={mapOneCategoryToText(christian.category)} />
                 </PageRow>
 
-                <PageRow spaceEvenly>
+                <PageRow style={styles.section}>
                     {
                         christian.oneKnownSince && (
                             <PageColumn>
@@ -81,11 +82,11 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
 
                 {
                     christian.notes && (
-                        <PageColumn style={{ marginVertical: 4 }}>
+                        <PageColumn style={styles.section}>
                             <AppText type={TextType.DefaultSemiBold}>
                                 Notes
                             </AppText>
-                            <AppText type={TextType.Default}>
+                            <AppText type={TextType.Body}>
                                 {christian.notes}
                             </AppText>
                         </PageColumn>
@@ -94,11 +95,11 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
 
                 {
                     christian.mutualInterests && (
-                        <PageColumn style={{ marginVertical: 4 }}>
+                        <PageColumn style={styles.section}>
                             <AppText type={TextType.DefaultSemiBold}>
                                 Mutual Interests
                             </AppText>
-                            <AppText type={TextType.Default}>
+                            <AppText type={TextType.Body}>
                                 {christian.mutualInterests}
                             </AppText>
                         </PageColumn>
@@ -110,23 +111,13 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
 }
 
 const styles = StyleSheet.create({
-    card: {
-        padding: 10,
-        marginVertical: 12,
-        marginHorizontal: 16,
-        borderRadius: 8,
-        backgroundColor: '#FFF8DE',
-        borderColor: 'lightgray',
-        borderWidth: 1,
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        gap: 8,
-    },
-    selected: {
-        backgroundColor: '#a2c4c9',
+    section: {
+        margin: 4,
+        width: 300,
+        flexShrink: 1,
+        borderBottomColor: 'lightgray',
+        borderBottomWidth: 2,
+        paddingBottom: 9,
     },
     actionStepTextContainer: {
         flexShrink: 1

@@ -87,9 +87,9 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
         };
 
         return (
-            <ChristianCard christian={item} 
+            <ChristianCard christian={item}
                 selected={isSelected}
-                handleOnPress={handleOnPress}/>
+                handleOnPress={handleOnPress} />
         );
     };
 
@@ -142,21 +142,20 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 </PageColumn>
             </PageRow>
 
-            <PageRow spaceEvenly>
-                <PageColumn style={[styles.section, { gap: 8, width: '50%' }]}>
-                    <AppText type={TextType.DefaultSemiBold}>Relationship with One</AppText>
+            <PageColumn style={{ gap: 12, marginVertical: 12 }}>
+                <PageRow center>
                     <CategoryPicker selectedCategory={formChristian.oneCategory}
+                        title={'Relationship with One'}
                         setSelectedCategory={(oneCategory) => setFormChristian((prev) => ({ ...prev, oneCategory }))}
                     />
-                </PageColumn>
-
-                <PageColumn style={[styles.section, { gap: 8, width: '50%' }]}>
-                    <AppText type={TextType.DefaultSemiBold}>Relationship with You</AppText>
+                </PageRow>
+                <PageRow center>
                     <CategoryPicker selectedCategory={formChristian.category}
+                        title={'Relationship with You'}
                         setSelectedCategory={(category) => setFormChristian((prev) => ({ ...prev, category }))}
                     />
-                </PageColumn>
-            </PageRow>
+                </PageRow>
+            </PageColumn>
 
             <PageRow spaceEvenly>
                 <PageColumn style={[styles.section, { gap: 8, width: '45%' }]}>
@@ -277,7 +276,7 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Are you sure you want to remove this Christian?
                 </AppText>
-                <ChristianCard christian={selectedChristian}/>
+                <ChristianCard christian={selectedChristian} />
             </View>
         );
     } else {

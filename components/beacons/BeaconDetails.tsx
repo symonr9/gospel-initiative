@@ -49,6 +49,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
 
     const [isModalVisible, setModalVisible] = useState(false);
+    const [showBeaconTags, setShowBeaconTags] = useState(false);
     const [selectedNoteIdx, setSelectedNoteIdx] = useState(0);
     const [customNote, setCustomNote] = useState('');
 
@@ -280,7 +281,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     style={{ textAlign: 'center' }} />
 
                 {
-                    beaconTagArray.length > 0 && (
+                    showBeaconTags && (
                         <AnimatedElement element={
                             <ScrollLayout style={{ maxHeight: 130 }}>
                                 <FlatList
@@ -295,7 +296,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                     )}
                                 />
                             </ScrollLayout>
-                        } delay={900} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
+                        } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
                     )
                 }
             </View>
@@ -324,6 +325,12 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             }
 
             <PageRow spaceEvenly style={{ marginBottom: 8 }}>
+                <SimpleIconButton iconSrc={AppIcon.Tag}
+                    title={showBeaconTags ? 'Hide Tags' : 'Show Tags'}
+                    disabled={!hasUserAlreadyPrayed}
+                    onClick={() => setShowBeaconTags(val => !val)}
+                    customStyles={customPrayButtonStyles} />
+
                 <SimpleIconButton iconSrc={AppIcon.Mail}
                     title={'Leave a Note'}
                     disabled={!hasUserAlreadyPrayed}
@@ -365,7 +372,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        height: 550,
+        height: 400,
         flexDirection: 'column',
         padding: 12,
         marginHorizontal: 16,

@@ -38,7 +38,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                         <Image source={iconSrc} style={gridStyles.img} />
                     )
                 }
-                <PageColumn style={{ width: 300, flexWrap: 'wrap' }}>
+                <PageColumn style={{ width: 300, flexShrink: 1 }}>
                     {
                         title && (
                             <AppText type={TextType.Subtitle} style={{ }}>

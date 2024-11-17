@@ -9,7 +9,7 @@ import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { cardStyles, formStyles, modalStyles } from '@/styles/Styles';
+import { cardStyles, formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 import { refreshData, setAppError } from '@/redux/actions';
 import { createOneNote, removeOneNote, updateOne, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
@@ -20,6 +20,8 @@ import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import DetailsSection from '../common/DetailsSection';
 import { SimpleConfetti } from '../common/SimpleConfetti';
 import { OneLayoutType } from './OnesLayout';
+import { Colors } from '@/constants/Colors';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -110,7 +112,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
 
         return (
             <TouchableOpacity onPress={handleOnPress}>
-                <PageColumn style={[styles.noteCard, isSelected && styles.selectedNoteCard]}>
+                <PageColumn style={[gridStyles.itemCard, isSelected && gridStyles.selected]}>
                     <AppText type={TextType.Default}>
                         {item.notes}
                     </AppText>
@@ -167,9 +169,9 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: 250 }}>
-                        <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
-                        <AppText type={TextType.Italic} style={{}}>{item.details}</AppText>
+                    <PageColumn style={{ marginStart: 8, width: 300, flexShrink: 1 }}>
+                        <AppText type={TextType.Default} style={{}}>{item.label}</AppText>
+                        <AppText type={TextType.Body} style={{}}>{item.details}</AppText>
                     </PageColumn>
                 </PageRow>
             </TouchableOpacity>
@@ -189,9 +191,9 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                         <TouchableOpacity onPress={toggleNoteTypeModal}>
                                             <PageRow style={[modalStyles.card]}>
                                                 <Image source={selectedOneNoteTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
-                                                <PageColumn style={{ marginStart: 8, width: 250 }}>
-                                                    <AppText type={TextType.DefaultSemiBold} style={{}}>{selectedOneNoteTypeData.label}</AppText>
-                                                    <AppText type={TextType.Italic} style={{}}>{selectedOneNoteTypeData.details}</AppText>
+                                                <PageColumn style={{ marginStart: 8, width: 300, flexShrink: 1 }}>
+                                                    <AppText type={TextType.Default} style={{}}>{selectedOneNoteTypeData.label}</AppText>
+                                                    <AppText type={TextType.Body} style={{}}>{selectedOneNoteTypeData.details}</AppText>
                                                 </PageColumn>
                                             </PageRow>
                                         </TouchableOpacity>
@@ -200,10 +202,10 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                                 )}
                             </View>
-                            <TouchableOpacity onPress={toggleNoteTypeModal}
-                                style={[modalStyles.editButton, { width: 100, alignSelf: 'center' }]}>
-                                <AppText>Edit Type</AppText>
-                            </TouchableOpacity>
+
+                            <SimpleButton text={'Edit Type'} 
+                                onPress={toggleNoteTypeModal}
+                                style={{ width: 100, alignSelf: 'center' }}/>
                         </PageColumn>
 
                         <Modal
@@ -212,7 +214,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                             visible={isNoteTypeModalVisible}
                             onRequestClose={toggleNoteTypeModal}>
                             <View style={modalStyles.modalContainer}>
-                                <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                                <View style={[modalStyles.modalContent, { }]}>
                                     <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                                         Select a Category
                                     </AppText>
@@ -225,11 +227,10 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                             keyExtractor={(item, index) => index.toString()}
                                             contentContainerStyle={modalStyles.iconList} />
                                     </ScrollLayout>
-                                    <TouchableOpacity
-                                        style={modalStyles.closeButton}
-                                        onPress={toggleNoteTypeModal}>
-                                        <AppText>Close</AppText>
-                                    </TouchableOpacity>
+
+                                    <SimpleButton type={ButtonType.Close}
+                                        onPress={toggleNoteTypeModal} 
+                                        text={'Close'}/>
                                 </View>
                             </View>
                         </Modal>
@@ -514,12 +515,12 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                     const icon = mapOneNoteTypeToAppIcon(type);
 
                     return (
-                        <PageColumn style={{ marginBottom: 20, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }}>
-                            <PageRow>
+                        <PageColumn style={{ marginBottom: 12, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }}>
+                            <PageRow style={{ }}>
                                 <Image source={icon}
                                     style={[styles.icon, { marginEnd: 8 }]}
                                     contentFit="contain" />
-                                <PageColumn style={{ width: 350 }}>
+                                <PageColumn style={{ width: 350, flexShrink: 1, }}>
                                     <AppText type={TextType.Subtitle}>
                                         {title}
                                     </AppText>
@@ -565,7 +566,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Are you sure you want to remove this note?
                 </AppText>
-                <PageColumn style={[styles.noteCard, styles.selectedNoteCard]}>
+                <PageColumn style={[gridStyles.itemCard, gridStyles.selected]}>
                     <AppText type={TextType.Default}>
                         {selectedNote.notes}
                     </AppText>
@@ -628,15 +629,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 8,
         marginHorizontal: 10
-    },
-    selectedNoteCard: {
-        backgroundColor: '#bbeccc',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 8,
     },
     iconList: {
     },

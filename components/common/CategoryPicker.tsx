@@ -40,11 +40,12 @@ const categoryArray = [
 }));
 
 export type ICategoryPicker = ViewProps & {
+    title?: string;
     selectedCategory: OneCategory;
     setSelectedCategory: (oneCategory: OneCategory) => void;
 };
 
-const CategoryPicker = ({ selectedCategory, setSelectedCategory, style }: ICategoryPicker) => {
+const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCategory, style }: ICategoryPicker) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -77,7 +78,7 @@ const CategoryPicker = ({ selectedCategory, setSelectedCategory, style }: ICateg
                 <View style={styles.selectedContainer}>
                     {selectedCategory ? (
                         <>
-                            <AppText type={TextType.DefaultSemiBold}>Category:</AppText>
+                            <AppText type={TextType.DefaultSemiBold}>{title}:</AppText>
                             <Image
                                 source={selectedCategoryData?.icon}
                                 style={styles.selectedIcon}
