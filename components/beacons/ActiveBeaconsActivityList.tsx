@@ -13,7 +13,7 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
 import { deactivateBeacon } from "@/requests/beaconRequests";
-import { beaconStyles } from '@/styles/Styles';
+import { beaconStyles, gridStyles } from '@/styles/Styles';
 import AppError from '@/models/error';
 
 type IActiveBeaconsActivityList = {
@@ -67,16 +67,16 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
         };
 
         return (
-            <PageRow style={beaconStyles.beaconCard}>
+            <PageRow style={gridStyles.itemCard}>
                 <PageColumn>
                     <PageColumn style={beaconStyles.beaconHeader}>
-                        <PageRow style={{ paddingBottom: 8, }}>
+                        <PageRow spaceBetween style={{ paddingBottom: 8, }}>
                             <PageRow>
                                 <Image source={mapBeaconTypeToAppIcon(beaconWithActivity.type)}
                                     style={beaconStyles.icon}
                                     contentFit="contain" />
                                 <PageColumn style={{ gap: 4 }}>
-                                    <AppText type={TextType.Subtitle} style={beaconStyles.beaconNameText}>
+                                    <AppText type={TextType.Subtitle3} style={beaconStyles.beaconNameText}>
                                         {beaconWithActivity.name}
                                     </AppText>
                                     {
@@ -86,7 +86,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                                             </AppText>
                                         )
                                     }
-                                    <AppText type={TextType.Italic}>
+                                    <AppText type={TextType.Body}>
                                         {getAppTimeAgoText(beaconWithActivity.activeUntil, true)}
                                     </AppText>
 
@@ -96,7 +96,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                                 </PageColumn>
                             </PageRow>
 
-                            <PageRow style={{ marginStart: 8 }}>
+                            <PageRow style={{ marginStart: 16 }}>
                                 <SimpleIconButton iconSrc={AppIcon.Settings}
                                     title={'Actions'}
                                     onClick={onEditClick} />

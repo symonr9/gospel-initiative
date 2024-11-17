@@ -10,6 +10,7 @@ import { formatDateTime, getAppTimeAgoText, mapActionStepTypeToDetails, mapActio
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
+import { gridStyles } from '@/styles/Styles';
 
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;
@@ -29,7 +30,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <PageRow style={[styles.card, actionStep.isComplete && styles.completed, selected && styles.selected, style]}>
+      <PageRow style={[gridStyles.itemCard, actionStep.isComplete && styles.completed, selected && styles.selected, style]}>
         <Image source={icon} style={styles.icon} />
         <PageColumn style={styles.actionStepTextContainer}>
         <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>        
