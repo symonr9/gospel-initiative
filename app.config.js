@@ -4,11 +4,11 @@ export default ({ config }) => ({
         slug: "gospel-initiative",
         version: "1.0.0",
         orientation: "portrait",
-        icon: "./assets/images/icon.png",
+        icon: "./assets/images/gospel-initiative/app-logo.png",
         scheme: "myapp",
         userInterfaceStyle: "automatic",
         splash: {
-            image: "./assets/images/splash.png",
+            image: "./assets/images/gospel-initiative/app-splash.png",
             resizeMode: "contain",
             backgroundColor: "#ffffff",
         },
