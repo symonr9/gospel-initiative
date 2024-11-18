@@ -37,7 +37,7 @@ function AppTabView({ title, index, setIndex, renderScene, routes }: IAppTabView
             renderScene={renderScene}
             onIndexChange={(idx) => {}}
             renderTabBar={renderTabBar}
-            swipeEnabled={false}
+            swipeEnabled={true}
             initialLayout={{ width: layout.width }}
             style={styles.tabViewContainer}
         />

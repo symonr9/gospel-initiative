@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, type ViewProps } from 'react-native';
 
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, StoryChapterType } from '@/enums/enums';
 import ScrollLayout from '../common/ScrollLayout';
 import StoryChapter from '@/models/storyChapter';
 import { AnimatedBanner } from '../common/AnimatedBanner';
@@ -11,10 +11,12 @@ import BeforeChristList from './BeforeChristList';
 import SalvationMomentsList from './SalvationMomentsList';
 import AfterChristList from './AfterChristList';
 import MyStoriesHeader from './MyStoriesHeader';
+import BaseBrowseList from './BaseBrowseList';
 
 export type IMyStoriesLayout = ViewProps & {
-    chapters: StoryChapter[];
+    myStoryChapters: StoryChapter[];
     error: Error;
+    editingChapterId: string;
 };
 
 export enum StoryLayoutType {
@@ -27,9 +29,11 @@ export enum StoryLayoutType {
     Adding
 };
 
-function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
+function MyStoriesLayout({ myStoryChapters, editingChapterId, error }: IMyStoriesLayout) {
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.BeforeChrist);
     const [message, setMessage] = useState<string | null>(null);
+
+    const sortedChapters = myStoryChapters ? [...myStoryChapters].sort((a, b) => a.chapterType - b.chapterType) : [];
 
     return (
         <PageColumn>
@@ -40,15 +44,10 @@ function MyStoriesLayout({ chapters, error }: IMyStoriesLayout) {
                         prefixText={'Info'}
                         onClick={() => setMessage(null)} />
                 )}
-            <ScrollLayout>
-                <PageColumn style={styles.container}>
-                    <MyStoriesHeader/>
-
-                    <BeforeChristList />
-                    <SalvationMomentsList />
-                    <AfterChristList />
-                </PageColumn>
-            </ScrollLayout>
+            <PageColumn style={styles.container}>
+                <MyStoriesHeader />
+                <BaseBrowseList chapters={sortedChapters} />
+            </PageColumn>
         </PageColumn>
     );
 }
@@ -69,8 +68,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
-        chapters: state.stories.myStoryChapters,
-        error: state.errors.error
+        myStoryChapters: state.stories.myStoryChapters,
+        error: state.errors.error,
+        editingChapterId: state.stories.editingChapterId
     };
 }
 

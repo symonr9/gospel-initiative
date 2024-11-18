@@ -40,10 +40,10 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
             const { tagFilters, typeFilters } = action.payload;
             return update(state, {
                 tagFilters: {
-                    $set: tagFilters || []
+                    $set: tagFilters || state.tagFilters
                 },
                 typeFilters: {
-                    $set: typeFilters || []
+                    $set: typeFilters || state.typeFilters
                 },
             });
         default:

@@ -96,13 +96,13 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Select a Template</Text>
-                        <ScrollLayout style={{ height: 400 }}>
+                        <PageColumn style={{ height: 400 }}>
                             <FlatList
                                 data={beaconTemplates}
                                 keyExtractor={(item) => item.id}
                                 renderItem={renderItem}
                             />
-                        </ScrollLayout>
+                        </PageColumn>
                         <PageRow style={{ marginTop: 8 }}>
                             <TouchableOpacity
                                 style={modalStyles.closeButton}

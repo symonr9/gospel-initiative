@@ -55,7 +55,7 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
     return (
         <PageColumn>
 
-            <ScrollLayout style={{ maxHeight: 500 }}>
+            <PageColumn style={{ maxHeight: 500 }}>
                 <FlatList
                     data={ones}
                     renderItem={renderItem}
@@ -63,7 +63,7 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={gridStyles.itemList}
                 />
-            </ScrollLayout>
+            </PageColumn>
 
         </PageColumn>
     );

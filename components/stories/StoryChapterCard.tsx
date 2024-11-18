@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { type ViewProps, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { type ViewProps, StyleSheet, TextInput, Alert, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
@@ -40,8 +40,8 @@ export type IStoryChapterCard = ViewProps & {
 };
 
 function getHeight(expanded: Boolean, editing: Boolean) {
-  if (editing) return '90%';
-  if (expanded) return 400;
+  if (editing) return 500;
+  if (expanded) return undefined;
   return 100;
 }
 
@@ -51,10 +51,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const [expanded, setExpanded] = useState(expandOnLoad);
   const [formChapter, setFormChapter] = useState(chapter);
   const shouldKeep = shouldKeepChapter(chapter.quality);
-
-  const Header = [];
-  const Body = [];
-  const ExpandedLayoutButtons = [];
+  const height = getHeight(expanded, editing);
 
   const resetPage = () => {
     if (setEditingChapterId) {
@@ -90,6 +87,10 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           ? formChapter
           : item
       )));
+
+      if (setEditingChapterId) {
+        setEditingChapterId(null);
+      }
     } else if (refreshData) {
       const response = await updateChapter(formChapter);
       if (response.error) {
@@ -133,217 +134,159 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   };
 
   const onExpandClick = () => {
-    setExpanded(!expanded);
+    if (!editing) {
+      setExpanded(val => !val);
+    }
   };
 
-  // Building the Header
-  if (editing) {
-    Header.push(
-      <AppText type={TextType.Italic} style={{ fontSize: 16 }}>
-        Editing Item...
-      </AppText>
-    );
-  }
-
-  if (editing) {
-    Header.push(
-      <PageColumn style={{ marginVertical: 8 }}>
-        <TextInput
-          style={[formStyles.slimTextInput, { flexGrow: 1, marginBottom: 8 }]}
-          placeholder={'Enter title here...'}
-          placeholderTextColor={'gray'}
-          value={formChapter.title}
-          onChangeText={(text) => setFormChapter({ ...formChapter, title: text })} />
-
-        <ChapterTypePicker formChapter={formChapter}
-          setFormChapter={setFormChapter} />
-      </PageColumn>
-    )
-  } else {
-    Header.push(
-      <PageRow style={{ flexShrink: 1, width: 300 }}>
-        <AppText type={TextType.Subtitle} style={{ fontSize: 18 }}>{chapter.title}</AppText>
-      </PageRow>
-    );
-  }
-
-  if (canDiscard) {
-    Header.push(
-      <AppText type={TextType.Subtitle2}>
-        {mapStoryChapterTypeToText(chapter.chapterType)}
-      </AppText>
-    );
-  }
-
-  Header.push(
-    <PageColumn style={{ gap: 4 }}>
-      <TagsPicker formChapter={formChapter}
-        editing={editing}
-        setFormChapter={setFormChapter} />
-      <NamesPicker formChapter={formChapter}
-        editing={editing}
-        setFormChapter={setFormChapter} />
-    </PageColumn>
+  const Header = (
+    <PageRow>
+      <TouchableOpacity onPress={onExpandClick} activeOpacity={editing ? 1 : 0.2}>
+        <PageRow style={{ width: 300 }} spaceBetween>
+          <PageRow style={{}}>
+            <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
+              <Image source={mapStoryChapterTypeToAppIcon(chapter.chapterType)} style={styles.icon} />
+            </Animated.View>
+            <PageColumn style={{ width: 300, flexShrink: 1 }}>
+              <AppText type={TextType.Subtitle3}>
+                {chapter.title}
+              </AppText>
+              <TagsPicker formChapter={formChapter}
+                editing={editing}
+                maxToRender={expanded || editing ? null : 4}
+                setFormChapter={setFormChapter} />
+              <NamesPicker formChapter={formChapter}
+                editing={editing}
+                maxToRender={expanded || editing ? null : 2}
+                style={{ marginTop: 4 }}
+                setFormChapter={setFormChapter} />
+            </PageColumn>
+          </PageRow>
+          {
+            !editing && (
+              <Image source={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
+                style={{ height: 30, width: 30 }} />
+            )
+          }
+        </PageRow>
+      </TouchableOpacity>
+    </PageRow>
   );
 
-  if (!editing && expanded && !canDiscard) {
-    ExpandedLayoutButtons.push(
-      <SimpleIconButton iconSrc={AppIcon.ChevronUp}
-        title={'Collapse'}
-        onClick={onExpandClick}
-        small />
-    );
-  }
+  if (editing) {
+    return (
+      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
+        <ScrollLayout style={[ height !== undefined && { maxHeight: height - 140 }]}>
+          {Header}
 
-  // Building the Body
-  if (expanded || editing) {
-    const ExpandedLayout = [];
+          <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={200}>
+            <TextInput
+              style={[formStyles.multiLineTextInput, { maxHeight: 240, marginVertical: 8 }]}
+              placeholder="Enter note here..."
+              placeholderTextColor={'gray'}
+              value={formChapter.content}
+              multiline
+              numberOfLines={8}
+              onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
+          </KeyboardAvoidingView>
 
-    if (editing) {
-      ExpandedLayout.push(
-        <TextInput
-          style={[formStyles.multiLineTextInput, { height: 240, marginVertical: 8 }]}
-          placeholder="Enter note here..."
-          placeholderTextColor={'gray'}
-          value={formChapter.content}
-          multiline
-          numberOfLines={8}
-          onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
-      );
-    } else if (chapter.content) {
-      ExpandedLayout.push(
-        <PageRow style={{ flexShrink: 1 }}>
-          <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
-        </PageRow>
-      );
-    }
-
-    if (editing) {
-      ExpandedLayout.push(
-        <PageColumn style={{}}>
-          <AppText type={TextType.Body}>
-            Questions:
-          </AppText>
-          <QuestionsPicker formChapter={formChapter}
-            setFormChapter={setFormChapter} />
-        </PageColumn>
-      );
-    } else {
-      ExpandedLayout.push(
-        <PageColumn style={{ marginVertical: 12 }}>
-          <AppText type={TextType.Body}>
-            Questions:
-          </AppText>
-          <PageColumn style={{ gap: 2, flexShrink: 1, width: 350 }}>
-            {
-              chapter.questions.map((question) => (
-                <AppText type={TextType.Italic}>{question}</AppText>
-              ))
-            }
-          </PageColumn>
-        </PageColumn>
-      );
-    }
-
-    if (expanded && !editing && chapter.originalPrompt) {
-      ExpandedLayout.push(
-        <PageColumn style={{ marginVertical: 12 }}>
-          <AppText type={TextType.Body}>
-            Original Prompt:
-          </AppText>
-          <PageColumn style={{ flexShrink: 1, width: 350 }}>
-            <AppText type={TextType.Italic}>
-              {chapter.originalPrompt}
+          <PageColumn style={{ gap: 8 }}>
+            <AppText type={TextType.Body}>
+              Questions:
             </AppText>
+            <QuestionsPicker formChapter={formChapter}
+              setFormChapter={setFormChapter} />
           </PageColumn>
-        </PageColumn>
-      );
-    }
-
-    if (canEdit) {
-      if (canDiscard) {
-        ExpandedLayoutButtons.push(
-          <SimpleCard iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}
-            title={shouldKeep ? 'Keeping' : 'Discarding'}
-            onClick={onKeepClick} />
-        );
-      }
-
-      ExpandedLayoutButtons.push(
-        <SimpleIconButton iconSrc={AppIcon.Trash}
-          title={'Delete'}
-          small
-          onClick={onDeleteClick} />
-      );
-
-      if (editing) {
-        ExpandedLayoutButtons.push(
-          <PageRow style={{ gap: 20, marginEnd: 8 }}>
-            <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-              title={'Back'}
-              small
-              onClick={onBackClick} />
-            <SimpleIconButton iconSrc={AppIcon.Save}
-              title={'Save'}
-              small
-              onClick={onSaveClick} />
-          </PageRow>
-        );
-      } else {
-        ExpandedLayoutButtons.push(
-          <SimpleIconButton iconSrc={AppIcon.Pencil}
-            title={'Edit'}
-            small
-            customStyles={{ container: { marginEnd: 8 } }}
-            onClick={onEditClick} />
-        );
-      }
-    }
-
-    Body.push(
-      <PageColumn style={{ marginBottom: 12 }}>
-        {ExpandedLayout.map((item) => item)}
-      </PageColumn>
-    );
-  }
-
-  const Element = (
-    <Animated.View style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing)}, style]}>
-      <PageColumn style={{}}>
-        <ScrollLayout style={{ maxHeight: 320 }}>
-          <PageRow>
-            <PageRow style={{ marginBottom: 8 }}>
-              {
-                !editing && (
-                  <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
-                    <Image source={mapStoryChapterTypeToAppIcon(chapter.chapterType)} style={styles.icon} />
-                  </Animated.View>
-                )
-              }
-
-              <PageColumn style={{ width: 380 }}>
-                {Header.map((item) => item)}
-              </PageColumn>
-            </PageRow>
-          </PageRow>
-
-          {Body.map((item) => item)}
         </ScrollLayout>
 
-        <PageRow style={[styles.footer]}>
-          {ExpandedLayoutButtons.map((item) => item)}
+        <PageRow spaceEvenly style={{}}>
+          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+            title={'Back'}
+            small
+            onClick={onBackClick} />
+          <SimpleIconButton iconSrc={AppIcon.Save}
+            title={'Save'}
+            small
+            onClick={onSaveClick} />
         </PageRow>
       </PageColumn>
-    </Animated.View>
-  );
+    );
+  }
 
   if (expanded) {
-    return Element;
+    return (
+      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350, gap: 12 }, style]}>
+        {Header}
+
+        <ScrollLayout style={[ height !== undefined && { maxHeight: height - 200 }]}>
+          <PageColumn style={{ gap: 12 }}>
+            <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
+
+            <PageColumn style={{ marginVertical: 0 }}>
+              <AppText type={TextType.Body}>
+                Questions:
+              </AppText>
+              <PageColumn style={{ gap: 2, flexShrink: 1, width: 320 }}>
+                {
+                  chapter.questions.map((question) => (
+                    <AppText type={TextType.Italic}>{question}</AppText>
+                  ))
+                }
+              </PageColumn>
+            </PageColumn>
+
+            {
+              chapter.originalPrompt && (
+                <PageColumn style={{ marginVertical: 0 }}>
+                  <AppText type={TextType.Body}>
+                    Original Prompt:
+                  </AppText>
+                  <PageColumn style={{ flexShrink: 1, width: 320 }}>
+                    <AppText type={TextType.Italic}>
+                      {chapter.originalPrompt}
+                    </AppText>
+                  </PageColumn>
+                </PageColumn>
+              )
+            }
+          </PageColumn>
+        </ScrollLayout>
+
+        <PageRow style={[{}]} spaceEvenly>
+          {
+            canDiscard && (
+              <SimpleCard iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}
+                title={shouldKeep ? 'Keeping' : 'Discarding'}
+                onClick={onKeepClick} />
+            )
+          }
+
+          {
+            canEdit && (
+              <>
+                <SimpleIconButton iconSrc={AppIcon.Trash}
+                  title={'Delete'}
+                  small
+                  onClick={onDeleteClick} />
+                <SimpleIconButton iconSrc={AppIcon.Pencil}
+                  title={'Edit'}
+                  small
+                  customStyles={{ container: { marginEnd: 8 } }}
+                  onClick={onEditClick} />
+              </>
+            )
+          }
+        </PageRow>
+
+      </PageColumn>
+    );
   }
 
   return (
     <TouchableOpacity onPress={onExpandClick}>
-      {Element}
+      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
+        {Header}
+      </PageColumn>
     </TouchableOpacity>
   );
 }
@@ -362,11 +305,6 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginEnd: 6
-  },
-  footer: {
-    marginTop: 12,
-    gap: 16,
-    flexDirection: 'row',
   },
   stateBtn: {
     borderRadius: 8,

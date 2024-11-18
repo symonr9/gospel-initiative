@@ -7,6 +7,7 @@ import ScrollLayout from './ScrollLayout';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import { modalStyles } from '@/styles/Styles';
+import { ButtonType, SimpleButton } from './SimpleButton';
 
 export type IAvatarIconPicker = ViewProps & {
     selectedIcon: AvatarIcon;
@@ -40,10 +41,9 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
                     )}
                 </PageRow>
 
-                <TouchableOpacity onPress={() => setModalVisible(true)}
-                    style={modalStyles.editButton}>
-                    <AppText>Edit Icon</AppText>
-                </TouchableOpacity>
+                <SimpleButton type={ButtonType.Edit} 
+                    onPress={() => setModalVisible(true)}
+                    text={'Edit Icon'}/>
             </PageColumn>
 
             <Modal
@@ -56,14 +56,14 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
                     <View style={modalStyles.modalContent}>
                         <Text style={modalStyles.modalTitle}>Select an Icon</Text>
 
-                        <ScrollLayout style={{ height: 300 }}>
+                        <PageColumn style={{ height: 300 }}>
                             <FlatList
                                 data={AvatarIconArray}
                                 renderItem={renderIcon}
                                 numColumns={4}
                                 keyExtractor={(item, index) => index.toString()}
                             />
-                        </ScrollLayout>
+                        </PageColumn>
 
                         <TouchableOpacity
                             style={modalStyles.closeButton}

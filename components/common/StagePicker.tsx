@@ -86,7 +86,7 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
                                 <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData.details}</AppText>
                             </View>
                         )}
-                        <ScrollLayout style={{ maxHeight: 300 }}>
+                        <PageColumn style={{ maxHeight: 300 }}>
                             <FlatList
                                 data={StageArray}
                                 renderItem={renderIcon}
@@ -94,7 +94,7 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
                                 keyExtractor={(item, index) => index.toString()}
                                 contentContainerStyle={styles.iconList}
                             />
-                        </ScrollLayout>
+                        </PageColumn>
                         <TouchableOpacity
                             style={modalStyles.closeButton}
                             onPress={toggleModal}>

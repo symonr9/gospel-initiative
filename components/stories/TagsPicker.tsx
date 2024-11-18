@@ -1,7 +1,7 @@
 import { AppIcon, StoryChapterTag } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, ViewProps } from 'react-native';
 import { mapStoryChapterTagToText } from '@/utils/appUtils';
 import { PageChip } from '../common/PageChip';
 import { AppText } from '../common/AppText';
@@ -22,13 +22,14 @@ function createTagMap(keys: string[]) {
 
 const tagArray = createTagMap(Object.keys(StoryChapterTag));
 
-type TagsPickerProps = {
+type TagsPickerProps = ViewProps & {
     formChapter: StoryChapter;
     setFormChapter?: (updatedChapter: StoryChapter) => void;
     editing?: Boolean;
+    maxToRender?: number | null;
 };
 
-export default function TagsPicker({ formChapter, setFormChapter, editing = true }: TagsPickerProps) {
+export default function TagsPicker({ formChapter, setFormChapter, editing = true, style, maxToRender = null }: TagsPickerProps) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleTag = (tag: StoryChapterTag) => {
@@ -40,36 +41,45 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
         }
     };
 
-    const currentTags = formChapter.tags.map((value) => ({
+    let currentTags = formChapter.tags.map((value) => ({
         value: value,
         label: mapStoryChapterTagToText(value),
     }));
 
+    if (maxToRender !== null) {
+        currentTags = currentTags.filter((tag, idx) => idx < maxToRender);
+    }
+
     return (
-        <PageColumn>
+        <PageColumn style={[style]}>
+            {
+                editing && (
+                    <>
+                        <AppText>
+                            Related Tags:
+                        </AppText>
+                        <PageRow style={{ width: 100, marginTop: 4, height: 30 }}>
+                            <PageChip title={'Edit'}
+                                iconSrc={AppIcon.Edit}
+                                onClick={() => setModalVisible(true)}
+                                small />
+                        </PageRow>
+                    </>
+                )
+            }
+
             <PageRow style={{}}>
                 <FlatList
                     data={currentTags}
-                    numColumns={4}
-                    style={{ gap: 4 }}
+                    numColumns={3}
                     keyExtractor={(item, index) => item.label}
                     renderItem={({ item }) => (
                         <PageChip title={mapStoryChapterTagToText(item.value)}
                             onClick={() => editing && setModalVisible(true)}
+                            style={{}}
                             small />
                     )} />
             </PageRow>
-
-            {
-                editing && (
-                    <PageRow style={{ width: 100, marginTop: 4 }}>
-                        <PageChip title={'Edit'}
-                            iconSrc={AppIcon.Edit}
-                            onClick={() => setModalVisible(true)}
-                            small />                
-                    </PageRow>
-                )
-            }
 
             <Modal
                 animationType="slide"
@@ -80,10 +90,10 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                     <View style={modalStyles.modalContent}>
                         <Text style={modalStyles.modalTitle}>Select Tags</Text>
 
-                        <ScrollLayout style={{ height: 300 }}>
+                        <PageColumn style={{ height: 300 }}>
                             <FlatList
                                 data={tagArray}
-                                numColumns={2}
+                                numColumns={3}
                                 keyExtractor={(item) => item.label}
                                 renderItem={({ item }) => (
                                     <TouchableOpacity
@@ -97,7 +107,7 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                                         </AppText>
                                     </TouchableOpacity>
                                 )} />
-                        </ScrollLayout>
+                        </PageColumn>
 
                         <TouchableOpacity
                             style={modalStyles.closeButton}

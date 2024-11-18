@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     smallContainer: {
         backgroundColor: '#fbfbfb',
         elevation: 4,
+        minHeight: 23,
     },
     icon: {
         width: 20,

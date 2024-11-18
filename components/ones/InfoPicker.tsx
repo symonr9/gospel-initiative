@@ -219,14 +219,14 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                         Select a Category
                                     </AppText>
 
-                                    <ScrollLayout style={{ maxHeight: 300 }}>
+                                    <PageColumn style={{ maxHeight: 300 }}>
                                         <FlatList
                                             data={oneNoteTypeArray}
                                             renderItem={renderTypeItem}
                                             numColumns={1}
                                             keyExtractor={(item, index) => index.toString()}
                                             contentContainerStyle={modalStyles.iconList} />
-                                    </ScrollLayout>
+                                    </PageColumn>
 
                                     <SimpleButton type={ButtonType.Close}
                                         onPress={toggleNoteTypeModal} 
@@ -451,7 +451,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                     )
                                 }
 
-                                <ScrollLayout style={{ maxHeight: 300 }}>
+                                <PageColumn style={{ maxHeight: 300 }}>
                                     <FlatList
                                         data={StageArray}
                                         renderItem={renderStage}
@@ -459,7 +459,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                         keyExtractor={(item, index) => index.toString()}
                                         contentContainerStyle={styles.iconList}
                                     />
-                                </ScrollLayout>
+                                </PageColumn>
 
                                 {
                                     formStage === OneStage.NewBeliever && (

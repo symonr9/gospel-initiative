@@ -8,6 +8,7 @@ import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
 import { modalStyles } from '@/styles/Styles';
+import { ButtonType, SimpleButton } from './SimpleButton';
 
 // Map categories to include icon, label, and details
 const categoryArray = [
@@ -31,7 +32,7 @@ const categoryArray = [
     OneCategory.WorkoutPartner,
     OneCategory.PersonalCareProfessional,
     OneCategory.MedicalProf,
-    OneCategory.LongDistanceFriend,    
+    OneCategory.LongDistanceFriend,
 ].map((value: OneCategory) => ({
     category: value,
     icon: mapOneCategoryToIcon(value),
@@ -92,9 +93,9 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={toggleModal} style={modalStyles.editButton}>
-                <AppText>Edit Category</AppText>
-            </TouchableOpacity>
+            <SimpleButton type={ButtonType.Edit}
+                onPress={toggleModal}
+                text={'Edit Category'}/>
 
             <Modal
                 animationType="slide"
@@ -103,7 +104,7 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                 onRequestClose={toggleModal}
             >
                 <View style={modalStyles.modalContainer}>
-                    <View style={[modalStyles.modalContent, { width: '90%'}]}>
+                    <View style={[modalStyles.modalContent, { width: '90%' }]}>
                         <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                             Select a Category
                         </AppText>
@@ -117,7 +118,7 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                                 <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedCategoryData.details}</AppText>
                             </View>
                         )}
-                        <ScrollLayout style={{ maxHeight: 300 }}>
+                        <PageColumn style={{ maxHeight: 300 }}>
                             <FlatList
                                 data={categoryArray}
                                 renderItem={renderIcon}
@@ -125,13 +126,11 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                                 keyExtractor={(item, index) => index.toString()}
                                 contentContainerStyle={styles.iconList}
                             />
-                        </ScrollLayout>
-                        <TouchableOpacity
-                            style={modalStyles.closeButton}
+                        </PageColumn>
+
+                        <SimpleButton text={'Close'}
                             onPress={toggleModal}
-                        >
-                            <AppText>Close</AppText>
-                        </TouchableOpacity>
+                            type={ButtonType.Close} />
                     </View>
                 </View>
             </Modal>

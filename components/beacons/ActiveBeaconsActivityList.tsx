@@ -116,7 +116,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
 
                     {
                         !editing && (
-                            <ScrollLayout style={{ maxHeight: 200 }}>
+                            <PageColumn style={{ maxHeight: 200 }}>
                                 <FlatList
                                     data={activities}
                                     keyExtractor={(item) => item.id}
@@ -127,7 +127,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                                         </View>
                                     )}
                                 />
-                            </ScrollLayout>
+                            </PageColumn>
                         )
                     }
                 </PageColumn>

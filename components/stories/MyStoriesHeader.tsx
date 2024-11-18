@@ -17,16 +17,18 @@ import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 
 export type IMyStoriesHeader = {
-    chapters: StoryChapter[];
+    myStoryChapters: StoryChapter[];
     tagFilters: StoryChapterTag[];
     typeFilters: StoryChapterType[];
     error: Error;
+    editingChapterId: string;
     updateChaptersFilter: Function;
 };
 
-function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilter }: IMyStoriesHeader) {
+function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFilters, updateChaptersFilter }: IMyStoriesHeader) {
     const [modalVisible, setModalVisible] = useState(false);
 
+    const chapters = myStoryChapters ? [...myStoryChapters] : [];
     const chaptersIsLoaded = chapters !== null;
     const beforeChristChapters = chapters.filter((value) => value.chapterType === StoryChapterType.BeforeChrist);
     const salvationMomentChapters = chapters.filter((value) => value.chapterType === StoryChapterType.SalvationMoment);
@@ -45,15 +47,15 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
         updateChaptersFilter(tagFilters, toggleTypeFromFilter(StoryChapterType.AfterChrist, typeFilters));
     };
 
-    const isFilteringBeforeChrist = typeFilters?.includes(StoryChapterType.BeforeChrist);
-    const isFilteringSalvationMoment = typeFilters?.includes(StoryChapterType.SalvationMoment);
-    const isFilteringAfterChrist = typeFilters?.includes(StoryChapterType.AfterChrist);
+    const isFilteringBeforeChrist = typeFilters.includes(StoryChapterType.BeforeChrist);
+    const isFilteringSalvationMoment = typeFilters.includes(StoryChapterType.SalvationMoment);
+    const isFilteringAfterChrist = typeFilters.includes(StoryChapterType.AfterChrist);
 
     const toggleModalVisibility = () => {
         setModalVisible(!modalVisible);
     };
 
-    const numOfActiveFilters = (tagFilters?.length || 0) + (typeFilters?.length || 0) + (updateChaptersFilter?.length || 0);
+    const numOfActiveFilters = (tagFilters.length || 0) + (typeFilters.length || 0) + (updateChaptersFilter?.length || 0);
     const hasActiveFilter = numOfActiveFilters > 0;
     const openFilterBtnText = hasActiveFilter ? `Filter (${numOfActiveFilters} Active)` : 'Filter';
 
@@ -83,14 +85,18 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
         <PageColumn>
             <AnimatedHeader title="My Stories" subtitle="Tap button below to filter list." />
 
-            <PageRow>
-                <Animated.View style={animatedStyle}>
-                    <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]} 
-                        onPress={toggleModalVisibility}>
-                        <AppText>{openFilterBtnText}</AppText>
-                    </TouchableOpacity>
-                </Animated.View>
-            </PageRow>
+            {
+                editingChapterId === null && (
+                    <PageRow>
+                        <Animated.View style={animatedStyle}>
+                            <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
+                                onPress={toggleModalVisibility}>
+                                <AppText>{openFilterBtnText}</AppText>
+                            </TouchableOpacity>
+                        </Animated.View>
+                    </PageRow>
+                )
+            }
 
             <Modal
                 animationType="slide"
@@ -99,10 +105,10 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
                 onRequestClose={toggleModalVisibility}>
                 <View style={styles.modalContainer}>
                     <PageColumn style={styles.modalContent}>
-                        <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'}/>
+                        <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
 
                         {chaptersIsLoaded && (
-                            <PageRow spaceBetween style={{ marginHorizontal: 12, marginBottom: 16 }}>
+                            <PageRow spaceBetween style={{ gap: 8 }}>
                                 <DetailsSection iconSrc={AppIcon.Rainy}
                                     prefix="Before Christ"
                                     title={beforeChristChapters.length}
@@ -124,10 +130,10 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
                             </PageRow>
                         )}
 
-                        <ScrollLayout style={{ maxHeight: 300 }}>
+                        <PageColumn style={{ maxHeight: 300 }}>
                             <FlatList data={partitionedChapters}
                                 keyExtractor={(key, idx) => `tag-${idx}`}
-                                numColumns={3}
+                                numColumns={4}
                                 renderItem={(props) => {
                                     const { key, items } = props.item;
 
@@ -148,7 +154,7 @@ function MyStoriesHeader({ chapters, tagFilters, typeFilters, updateChaptersFilt
                                     );
                                 }}
                             />
-                        </ScrollLayout>
+                        </PageColumn>
 
                         <TouchableOpacity style={styles.closeButton} onPress={toggleModalVisibility}>
                             <AppText>Close</AppText>
@@ -204,7 +210,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    chapters: state.stories.myStoryChapters,
+    myStoryChapters: state.stories.myStoryChapters,
+    editingChapterId: state.stories.editingChapterId,
     tagFilters: state.stories.tagFilters,
     typeFilters: state.stories.typeFilters,
     error: state.errors.error,

@@ -79,7 +79,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     <AnimatedHeader title='All Beacons Completed'
                         subtitle='Please check back later for new beacons.' />
 
-                    <ScrollLayout style={{ height: 400 }}>
+                    <PageColumn style={{ height: 400 }}>
                         <FlatList
                             data={completedBeacons}
                             renderItem={({ item }) => {
@@ -100,7 +100,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             keyExtractor={(item, index) => index.toString()}
                             contentContainerStyle={gridStyles.itemList}
                         />
-                    </ScrollLayout>
+                    </PageColumn>
                 </View>
             );
         }
@@ -283,7 +283,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     showBeaconTags && (
                         <AnimatedElement element={
-                            <ScrollLayout style={{ maxHeight: 130 }}>
+                            <PageColumn style={{ maxHeight: 130 }}>
                                 <FlatList
                                     data={beaconTagArray}
                                     keyExtractor={(item) => item.value.toString()}
@@ -295,7 +295,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         />
                                     )}
                                 />
-                            </ScrollLayout>
+                            </PageColumn>
                         } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
                     )
                 }

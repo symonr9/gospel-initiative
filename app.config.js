@@ -20,6 +20,7 @@ export default ({ config }) => ({
                 foregroundImage: "./assets/images/adaptive-icon.png",
                 backgroundColor: "#ffffff",
             },
+            softwareKeyboardLayoutMode: "pan",
         },
         web: {
             bundler: "metro",

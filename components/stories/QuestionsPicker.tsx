@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
-import { TextInput, StyleSheet, FlatList } from 'react-native';
+import { TextInput, StyleSheet, FlatList, Modal, TouchableOpacity, View } from 'react-native';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 import ScrollLayout from '../common/ScrollLayout';
+import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
+import { AppText, TextType } from '../common/AppText';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 export type IQuestionsPicker = {
-    formChapter: StoryChapter;
-    setFormChapter: Function;
+  formChapter: StoryChapter;
+  setFormChapter: Function;
 };
 
-export const QuestionsPicker = ({ formChapter, setFormChapter } : IQuestionsPicker) => {
+export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicker) => {
   const [newQuestion, setNewQuestion] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const addQuestion = () => {
     if (newQuestion.trim() !== '') {
@@ -43,42 +51,71 @@ export const QuestionsPicker = ({ formChapter, setFormChapter } : IQuestionsPick
   };
 
   return (
-    <PageColumn style={styles.container}>
-      <FlatList
-        data={formChapter.questions}
-        renderItem={({ item, index }) => (
-          <PageRow style={{ marginBottom: 8 }}>
-            <SimpleIconButton
-              iconSrc={AppIcon.Trash}
-              customStyles={{ container: { marginEnd: 12, marginTop: 8 }}}
-              small
-              onClick={() => removeQuestion(index)}
-            />
-            <TextInput
-              style={[formStyles.slimTextInput, { }]}
-              value={item}
-              onChangeText={(text) => updateQuestion(text, index)}
-            />
+    <PageColumn style={{}}>
+      {
+        formChapter.questions.map((item, index) => (
+          <PageRow style={{ marginVertical: 4 }}>
+            <AppText type={TextType.Body}>
+              {item}
+            </AppText>
           </PageRow>
-        )}
-        keyExtractor={(item, index) => `question-${index}`}
-      />
+        ))
+      }
 
-      <PageRow>
-        <SimpleIconButton
-              iconSrc={AppIcon.Plus}
-              customStyles={{ container: { marginEnd: 12, marginTop: 8 }}}
-              small
-              onClick={addQuestion}
-          />
-        <TextInput
-          style={[formStyles.slimTextInput, {}]}
-          placeholder="Add a new question"
-          placeholderTextColor={'gray'}
-          value={newQuestion}
-          onChangeText={setNewQuestion}
-        />
-      </PageRow>
+      <SimpleButton text={'Edit Questions'}
+        onPress={() => setModalVisible(true)}
+        style={{ marginVertical: 8 }}
+        type={ButtonType.Edit} />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={toggleModal}>
+        <View style={modalStyles.modalContainer}>
+          <View style={[modalStyles.modalContent, { width: '90%' }]}>
+            {
+              formChapter.questions.map((item, index) => (
+                <PageRow style={{ marginBottom: 8 }}>
+                  <SimpleIconButton
+                    iconSrc={AppIcon.Trash}
+                    customStyles={{ container: { marginHorizontal: 8, marginTop: 8 } }}
+                    small
+                    onClick={() => removeQuestion(index)}
+                  />
+                  <SimpleKeyboardAvoidingView Element={
+                    <TextInput
+                      style={[formStyles.slimTextInput, { width: 280 }]}
+                      value={item}
+                      onChangeText={(text) => updateQuestion(text, index)}
+                    />
+                  } verticalOffset={300} />
+                </PageRow>
+              ))
+            }
+
+            <PageRow>
+              <SimpleIconButton
+                iconSrc={AppIcon.Plus}
+                customStyles={{ container: { marginHorizontal: 8, marginTop: 8 } }}
+                small
+                onClick={addQuestion}
+              />
+              <TextInput
+                style={[formStyles.slimTextInput, { width: 280 }]}
+                placeholder="Add a new question"
+                placeholderTextColor={'gray'}
+                value={newQuestion}
+                onChangeText={setNewQuestion}
+              />
+            </PageRow>
+
+            <SimpleButton text={'Close'}
+              onPress={toggleModal}
+              type={ButtonType.Close} />
+          </View>
+        </View>
+      </Modal>
     </PageColumn>
   );
 };

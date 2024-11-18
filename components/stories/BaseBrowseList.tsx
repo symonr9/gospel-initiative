@@ -14,7 +14,7 @@ import { StoryChapterTag, StoryChapterType } from '@/enums/enums';
 import { countRenderableChapters, doesChapterMatchFilter } from '@/utils/appUtils';
 
 export type IBaseBrowseList = ViewProps & {
-    title: string;
+    title?: string;
     chapters: StoryChapter[];
     executor: User;
     setAppError: Function;
@@ -26,17 +26,19 @@ export type IBaseBrowseList = ViewProps & {
 };
 
 function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, tagFilters, typeFilters, editingChapterId, setEditingChapterId }: IBaseBrowseList) {
-    const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
-
     const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === editingChapterId);
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
 
     if (editingChapterId !== null && activeChapter) {
         return (
-            <PageColumn style={{ height: 800 }}>
-                <AppText type={TextType.Subtitle}>
-                    {title} ({chapters.length})
-                </AppText>
+            <PageColumn style={{ height: 470 }}>
+                {
+                    title && (
+                        <AppText type={TextType.Subtitle}>
+                            {title} ({chapters.length})
+                        </AppText>
+                    )
+                }
 
                 <StoryChapterCard chapter={activeChapter}
                     setEditingChapterId={setEditingChapterId}
@@ -66,9 +68,9 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, t
     const filteredListCount = countRenderableChapters(chapters, tagFilters, typeFilters);
 
     return (
-        <PageColumn>
+        <PageColumn style={{ height: 450 }}>
             {
-                filteredListCount > 0 && (
+                title && filteredListCount > 0 && (
                     <AppText type={TextType.Subtitle}>
                         {title} ({filteredListCount})
                     </AppText>)

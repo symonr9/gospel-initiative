@@ -65,8 +65,6 @@ function HomeLayout({ executor }: IHomeLayout) {
         </PageRow>
 
         <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
-          <PageSubHeader title={'Tasks'} />
-
           <HomePrayerCard/>
 
           <SimpleCard iconSrc={AppIcon.UserGroup}

@@ -38,7 +38,7 @@ function StoriesGrid({ stories, activeStoryId = null, setActiveStoryId }: IStori
 
     return (
         <PageColumn>
-            <ScrollLayout style={{ }}>
+            <PageColumn style={{ }}>
                 <FlatList
                     data={stories}
                     renderItem={renderItem}
@@ -46,7 +46,7 @@ function StoriesGrid({ stories, activeStoryId = null, setActiveStoryId }: IStori
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={gridStyles.itemList}
                 />
-            </ScrollLayout>
+            </PageColumn>
         </PageColumn>
     );
 }

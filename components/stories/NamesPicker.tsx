@@ -1,7 +1,7 @@
 import { AppIcon } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, FlatList, StyleSheet, TextInput, ViewProps } from 'react-native';
 import { PageChip } from '../common/PageChip';
 import { AppText } from '../common/AppText';
 import ScrollLayout from '../common/ScrollLayout';
@@ -11,13 +11,14 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { PageColumn } from '../common/PageColumn';
 import { Colors } from '@/constants/Colors';
 
-type NamesPickerProps = {
+type NamesPickerProps = ViewProps & {
     formChapter: StoryChapter;
     setFormChapter?: (updatedChapter: StoryChapter) => void;
     editing?: Boolean;
+    maxToRender?: number | null;
 };
 
-export default function NamesPicker({ formChapter, setFormChapter, editing = true }: NamesPickerProps) {
+export default function NamesPicker({ formChapter, setFormChapter, editing = true, style, maxToRender = null }: NamesPickerProps) {
     const [formNames, setFormNames] = useState(formChapter.names);
     const [newName, setNewName] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
@@ -43,31 +44,41 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
         setNewName("");
     }
 
+    let names = formChapter.names;
+    if (maxToRender !== null) {
+        names = names.filter((name, idx) => idx < maxToRender);
+    }
+
     return (
-        <PageColumn>
+        <PageColumn style={[style]}>
+            {
+                editing && (
+                    <>
+                        <AppText>
+                            Related Names:
+                        </AppText>
+                        <PageRow style={{ width: 100, marginTop: 4, height: 30 }}>
+                            <PageChip title={'Edit'}
+                                iconSrc={AppIcon.Edit}
+                                onClick={() => setModalVisible(true)}
+                                small />
+                        </PageRow>
+                    </>
+                )
+            }
+
             <PageRow>
                 <FlatList
-                    data={formChapter.names}
-                    numColumns={4}
+                    data={names}
+                    numColumns={3}
                     keyExtractor={(item, index) => item}
                     renderItem={({ item }) => (
                         <PageChip title={item}
                             onClick={() => editing && setModalVisible(true)}
-                            style={{ backgroundColor: Colors.success }}
+                            style={{ backgroundColor: Colors.info }}
                             small />
                     )} />
             </PageRow>
-
-            {
-                editing && (
-                    <PageRow style={{ width: 100, marginTop: 4 }}>
-                        <PageChip title={'Edit'}
-                            iconSrc={AppIcon.Edit}
-                            onClick={() => setModalVisible(true)}
-                            small />
-                    </PageRow>
-                )
-            }
 
             <Modal
                 animationType="slide"
@@ -78,7 +89,24 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Select Names</Text>
 
-                        <ScrollLayout style={{ height: 300 }}>
+                        <PageRow spaceBetween>
+                            <TextInput
+                                style={[formStyles.slimTextInput, { flexGrow: 1 }]}
+                                placeholder="Add a new name"
+                                placeholderTextColor={'gray'}
+                                value={newName}
+                                onChangeText={(text) => setNewName(text)}
+                            />
+
+                            <SimpleIconButton
+                                iconSrc={AppIcon.Plus}
+                                customStyles={{ container: { marginStart: 12, marginTop: 8 } }}
+                                small
+                                onClick={onAddNewNameClick}
+                            />
+                        </PageRow>
+
+                        <PageColumn style={{ maxHeight: 300 }}>
                             <FlatList
                                 data={[...new Set([...formChapter.names, ...formNames])]}
                                 numColumns={3}
@@ -95,24 +123,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                                         </AppText>
                                     </TouchableOpacity>
                                 )} />
-
-                            <PageRow spaceBetween>
-                                <TextInput
-                                    style={[formStyles.slimTextInput, { flexGrow: 1 }]}
-                                    placeholder="Add a new name"
-                                    placeholderTextColor={'gray'}
-                                    value={newName}
-                                    onChangeText={(text) => setNewName(text)}
-                                />
-
-                                <SimpleIconButton
-                                    iconSrc={AppIcon.Plus}
-                                    customStyles={{ container: { marginStart: 12, marginTop: 8 } }}
-                                    small
-                                    onClick={onAddNewNameClick}
-                                />
-                            </PageRow>
-                        </ScrollLayout>
+                        </PageColumn>
 
                         <TouchableOpacity
                             style={styles.closeButton}

@@ -72,7 +72,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
         <ThemedView style={[styles.container]}>
             <BeaconTemplateCard template={template} />
 
-            <ScrollLayout style={{ maxHeight: 100, marginVertical: 16 }}>
+            <PageColumn style={{ maxHeight: 100, marginVertical: 16 }}>
                 <FlatList
                     data={formData.tags}
                     keyExtractor={(item) => item.toString()}
@@ -84,7 +84,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                         />
                     )}
                 />
-            </ScrollLayout>
+            </PageColumn>
 
             {
                 activeLayoutType === OneLayoutType.ConfirmBeacon && (
@@ -117,7 +117,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                     <View style={modalStyles.modalContent}>
                         <AppText type={TextType.Subtitle}>Select Tags</AppText>
 
-                        <ScrollLayout style={{ height: 400 }}>
+                        <PageColumn style={{ height: 400 }}>
                             <FlatList
                                 data={beaconTagArray}
                                 keyExtractor={(item) => item.value.toString()}
@@ -130,7 +130,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                                     />
                                 )}
                             />
-                        </ScrollLayout>
+                        </PageColumn>
                         <TouchableOpacity
                             style={modalStyles.closeButton}
                             onPress={() => setModalVisible(false)}

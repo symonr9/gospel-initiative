@@ -38,7 +38,7 @@ function StoryChaptersList({ stories, activeStoryId = null, setActiveStoryId }: 
 
     return (
         <PageColumn>
-            <ScrollLayout style={{ }}>
+            <PageColumn style={{ }}>
                 <FlatList
                     data={stories}
                     renderItem={renderItem}
@@ -46,7 +46,7 @@ function StoryChaptersList({ stories, activeStoryId = null, setActiveStoryId }: 
                     keyExtractor={(item, index) => index.toString()}
                     contentContainerStyle={gridStyles.itemList}
                 />
-            </ScrollLayout>
+            </PageColumn>
         </PageColumn>
     );
 }

@@ -17,7 +17,6 @@ import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicke
 import { refreshData, setAppError } from '@/redux/actions';
 import { updateActionSteps } from "@/requests/oneRequests";
 import User from '@/models/user';
-import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
@@ -190,7 +189,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: 250 }}>
+                    <PageColumn style={{ marginStart: 8, width: 210 }}>
                         <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Italic} style={{ }}>{item.details}</AppText>
                     </PageColumn>
@@ -241,7 +240,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
                                         Select a Category
                                     </AppText>
 
-                                    <ScrollLayout style={{ maxHeight: 300 }}>
+                                    <PageColumn style={{ maxHeight: 300 }}>
                                         <FlatList
                                             data={actionStepTypeArray}
                                             renderItem={renderTypeItem}
@@ -249,7 +248,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
                                             keyExtractor={(item, index) => index.toString()}
                                             contentContainerStyle={modalStyles.iconList}
                                         />
-                                    </ScrollLayout>
+                                    </PageColumn>
                                     <TouchableOpacity
                                         style={modalStyles.closeButton}
                                         onPress={toggleModal}
