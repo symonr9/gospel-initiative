@@ -183,14 +183,14 @@ export const modalStyles = StyleSheet.create({
     marginBottom: 10,
   },
   openButton: {
-    marginTop: 8,
+    marginTop: 20,
     padding: 10,
     backgroundColor: Colors.open,
     borderRadius: 10,
     alignItems: 'center',
   },
   editButton: {
-    marginTop: 8,
+    marginTop: 25,
     padding: 10,
     backgroundColor: '#e0e0e0',
     borderRadius: 10,

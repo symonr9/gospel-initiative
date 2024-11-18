@@ -5,6 +5,7 @@ import { AppIcon, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
 import { SimpleTextList } from "@/components/common/SimpleTextList";
+import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 
 type INewUserTheStoriesPage = ViewProps & {
     newUserStep: NewUserStep;
@@ -36,7 +37,9 @@ export default function NewUserTheStoriesPage({ newUserStep, setNewUserStep, sty
             </AppText>
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                <Button title={'Continue'} onPress={onContinue} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Continue'}
+                    onPress={onContinue} />
             </PageColumn>
         </PageColumn>
     );

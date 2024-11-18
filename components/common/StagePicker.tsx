@@ -7,7 +7,7 @@ import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
-import { modalStyles } from '@/styles/Styles';
+import { gridStyles, modalStyles } from '@/styles/Styles';
 
 export type IStagePicker = ViewProps & {
     selectedStage: OneStage;
@@ -42,7 +42,7 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
     const selectedStageData = StageArray.find(item => item.stage === selectedStage);
 
     return (
-        <View style={[styles.container, style]}>
+        <View style={[gridStyles.itemCard, style]}>
             <TouchableOpacity onPress={toggleModal}>
                 <View style={styles.selectedContainer}>
                     {selectedStage ? (
@@ -108,16 +108,6 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
 };
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 8,
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4,
-        borderRadius: 8,
-    },
     iconList: {
         display: 'flex',
         flexDirection: 'column',
@@ -137,7 +127,6 @@ const styles = StyleSheet.create({
     },
     selectedContainer: {
         alignItems: 'center',
-        width: 170,
     },
     selectedIcon: {
         width: 50,

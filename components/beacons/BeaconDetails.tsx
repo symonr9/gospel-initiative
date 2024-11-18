@@ -25,6 +25,8 @@ import { PageChip } from '../common/PageChip';
 import AppError from '@/models/error';
 import { SimpleGridCard } from '../common/SimpleGridCard';
 import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { Colors } from '@/constants/Colors';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -58,16 +60,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         const backgroundColor = interpolateColor(
             progress.value,
             [0, 1],
-            ['#FFF', 'lightgreen']
+            [Colors.white, Colors.success]
         );
-
-        const opacity = hasUserAlreadyPrayed
-            ? withTiming(1, { duration: 250 })
-            : withTiming(0.5, { duration: 250 });
 
         return {
             backgroundColor,
-            opacity,
         };
     });
 
@@ -107,7 +104,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         // Needed for styling.
         return (
-            <View style={styles.container}></View>
+            <View style={styles.invisibleContainer} />
         );
     }
 
@@ -217,22 +214,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     <View style={styles.modalContent}>
                         <AppText type={TextType.Subtitle}>Select a note:</AppText>
 
-                        <ScrollLayout style={{ height: 400 }}>
-                            <View style={styles.defaultNoteOptionsDiv}>
-                                {
-                                    ActivityNoteOptions.map((value, idx) => (
-                                        <TouchableOpacity onPress={() => setSelectedNoteIdx(idx)}>
-                                            <View style={[styles.defaultNoteCard, selectedNoteIdx === idx && styles.selectedDefaultNoteCard]}>
-                                                <AppText type={TextType.Default}>
-                                                    {value}
-                                                </AppText>
-                                            </View>
-                                        </TouchableOpacity>
-                                    ))
-                                }
-                            </View>
-                        </ScrollLayout>
-
                         {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
                             <TextInput
                                 style={formStyles.textInput}
@@ -244,13 +225,29 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             />
                         )}
 
-                        <PageRow style={{ gap: 8, marginTop: 12, marginBottom: 8 }} spaceEvenly>
-                            <TouchableOpacity style={modalStyles.closeButton} onPress={() => setModalVisible(false)}>
-                                <AppText>Close</AppText>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={modalStyles.saveButton} onPress={onSaveClick}>
-                                <AppText>Save</AppText>
-                            </TouchableOpacity>
+                        <ScrollLayout style={{ height: 300 }}>
+                            <View style={styles.defaultNoteOptionsDiv}>
+                                {
+                                    ActivityNoteOptions.map((value, idx) => (
+                                        <TouchableOpacity onPress={() => setSelectedNoteIdx(idx)}>
+                                            <View style={[gridStyles.itemCard, selectedNoteIdx === idx && gridStyles.selected]}>
+                                                <AppText type={TextType.Default}>
+                                                    {value}
+                                                </AppText>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                            </View>
+                        </ScrollLayout>
+
+                        <PageRow center style={{ gap: 64 }}>
+                            <SimpleButton text={'Close'}
+                                onPress={() => setModalVisible(false)}
+                                type={ButtonType.Close} />
+                            <SimpleButton text={'Save'}
+                                onPress={onSaveClick}
+                                type={ButtonType.Save} />
                         </PageRow>
                     </View>
                 </View>
@@ -279,26 +276,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     subtitle={titleText}
                     delay={600}
                     style={{ textAlign: 'center' }} />
-
-                {
-                    showBeaconTags && (
-                        <AnimatedElement element={
-                            <PageColumn style={{ maxHeight: 130 }}>
-                                <FlatList
-                                    data={beaconTagArray}
-                                    keyExtractor={(item) => item.value.toString()}
-                                    renderItem={({ item }) => (
-                                        <PageChip
-                                            title={item.title}
-                                            subtitle={item.details}
-                                            style={{ marginBottom: 12 }}
-                                        />
-                                    )}
-                                />
-                            </PageColumn>
-                        } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
-                    )
-                }
             </View>
 
             <AnimatedElement element={
@@ -327,7 +304,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             <PageRow spaceEvenly style={{ marginBottom: 8 }}>
                 <SimpleIconButton iconSrc={AppIcon.Tag}
                     title={showBeaconTags ? 'Hide Tags' : 'Show Tags'}
-                    disabled={!hasUserAlreadyPrayed}
                     onClick={() => setShowBeaconTags(val => !val)}
                     customStyles={customPrayButtonStyles} />
 
@@ -342,6 +318,26 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     onClick={onPrayClick}
                     customStyles={customPrayButtonStyles} />
             </PageRow>
+
+            {
+                showBeaconTags && (
+                    <AnimatedElement element={
+                        <PageColumn style={{ maxHeight: 130 }}>
+                            <FlatList
+                                data={beaconTagArray}
+                                keyExtractor={(item) => item.value.toString()}
+                                renderItem={({ item }) => (
+                                    <PageChip
+                                        title={item.title}
+                                        subtitle={item.details}
+                                        style={{ marginBottom: 12 }}
+                                    />
+                                )}
+                            />
+                        </PageColumn>
+                    } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
+                )
+            }
         </ScrollLayout>
     );
 }
@@ -384,6 +380,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 4,
         marginBottom: 10
+    },
+    invisibleContainer: {
+        height: 350,
+        padding: 12,
     },
     center: {
         flex: 1,
@@ -438,21 +438,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         display: 'flex',
         flexDirection: 'column',
-    },
-    defaultNoteCard: {
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        marginVertical: 6,
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 4,
-    },
-    selectedDefaultNoteCard: {
-        backgroundColor: '#bbeccc'
     },
     myNoteForBeacon: {
         maxWidth: 350,

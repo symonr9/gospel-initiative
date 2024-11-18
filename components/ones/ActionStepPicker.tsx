@@ -222,10 +222,6 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
                                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                                 )}
                             </View>
-                            <TouchableOpacity onPress={toggleModal} 
-                                style={[modalStyles.editButton, { width: 100, alignSelf: 'center' }]}>
-                                <AppText>Edit Type</AppText>
-                            </TouchableOpacity>
                         </PageColumn>
 
                         <Modal

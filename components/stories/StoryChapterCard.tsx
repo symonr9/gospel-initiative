@@ -25,6 +25,7 @@ import ChapterTypePicker from './ChapterTypePicker';
 import { SimpleIcon } from '../common/SimpleIcon';
 import AppError from '@/models/error';
 import { Colors } from '@/constants/Colors';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -42,7 +43,7 @@ export type IStoryChapterCard = ViewProps & {
 function getHeight(expanded: Boolean, editing: Boolean) {
   if (editing) return 500;
   if (expanded) return undefined;
-  return 100;
+  return undefined;
 }
 
 export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId,
@@ -153,12 +154,11 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               </AppText>
               <TagsPicker formChapter={formChapter}
                 editing={editing}
-                maxToRender={expanded || editing ? null : 4}
+                maxToRender={expanded || editing ? null : 3}
                 setFormChapter={setFormChapter} />
               <NamesPicker formChapter={formChapter}
                 editing={editing}
                 maxToRender={expanded || editing ? null : 2}
-                style={{ marginTop: 4 }}
                 setFormChapter={setFormChapter} />
             </PageColumn>
           </PageRow>
@@ -176,7 +176,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   if (editing) {
     return (
       <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
-        <ScrollLayout style={[ height !== undefined && { maxHeight: height - 140 }]}>
+        <ScrollLayout style={[height !== undefined && { maxHeight: height - 140 }]}>
           {Header}
 
           <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={200}>
@@ -200,14 +200,8 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
         </ScrollLayout>
 
         <PageRow spaceEvenly style={{}}>
-          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-            title={'Back'}
-            small
-            onClick={onBackClick} />
-          <SimpleIconButton iconSrc={AppIcon.Save}
-            title={'Save'}
-            small
-            onClick={onSaveClick} />
+          <SimpleButton type={ButtonType.Edit} text={'Back'} onPress={onBackClick} />
+          <SimpleButton type={ButtonType.Save} text={'Save'} onPress={onSaveClick} />
         </PageRow>
       </PageColumn>
     );
@@ -218,7 +212,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
       <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350, gap: 12 }, style]}>
         {Header}
 
-        <ScrollLayout style={[ height !== undefined && { maxHeight: height - 200 }]}>
+        <ScrollLayout style={[height !== undefined && { maxHeight: height - 200 }]}>
           <PageColumn style={{ gap: 12 }}>
             <AppText type={TextType.Default} style={{ marginBottom: 0 }}>{chapter.content}</AppText>
 
@@ -264,15 +258,8 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           {
             canEdit && (
               <>
-                <SimpleIconButton iconSrc={AppIcon.Trash}
-                  title={'Delete'}
-                  small
-                  onClick={onDeleteClick} />
-                <SimpleIconButton iconSrc={AppIcon.Pencil}
-                  title={'Edit'}
-                  small
-                  customStyles={{ container: { marginEnd: 8 } }}
-                  onClick={onEditClick} />
+                <SimpleButton type={ButtonType.Close} onPress={onDeleteClick} text={'Delete'} />
+                <SimpleButton type={ButtonType.Edit} onPress={onEditClick} text={'Edit'} />
               </>
             )
           }

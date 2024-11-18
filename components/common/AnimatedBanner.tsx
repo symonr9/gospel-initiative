@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
-import { flexStyles } from '@/styles/Styles';
+import { flexStyles, gridStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
@@ -34,7 +34,7 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
     return (
         <Animated.View entering={FadeInDown.duration(bannerDuration).delay(bannerDelay)}>
             <TouchableOpacity onPress={onPress}>
-                <ThemedView style={styles.container}>
+                <ThemedView style={[styles.container, gridStyles.itemCard]}>
                     <View style={flexStyles.row}>
                         {
                             iconSrc && (
@@ -77,12 +77,7 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: Colors.info,
-        borderRadius: 4,
-        padding: 8,
-        elevation: 4,
+        marginBottom: 8
     },
     icon: {
         width: 32,

@@ -8,6 +8,7 @@ import { SimpleTextList } from "@/components/common/SimpleTextList";
 import { SimpleIcon } from "@/components/common/SimpleIcon";
 import { getRandomElement } from "@/utils/appUtils";
 import { PageRow } from "@/components/common/PageRow";
+import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 
 type INewUserWhoIsYourOne = ViewProps & {
     newUserStep: NewUserStep;
@@ -25,20 +26,22 @@ export default function NewUserWhoIsYourOne({ newUserStep, setNewUserStep, style
             <AppText>
                 Your “One” is someone in your life who hasn’t met Jesus. Our goal is to love our neighbors genuinely by spending time, listening, serving, and sharing our stories and God’s story.
             </AppText>
-            
+
             <PageRow center>
                 <Image source={getRandomElement(AvatarIconArray)}
                     style={styles.avatarIcon} />
 
                 <Image source={getRandomElement(AvatarIconArray)}
-                                    style={styles.avatarIcon} />
+                    style={styles.avatarIcon} />
 
                 <Image source={getRandomElement(AvatarIconArray)}
-                                    style={styles.avatarIcon} />
+                    style={styles.avatarIcon} />
             </PageRow>
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                <Button title={'Continue'} onPress={onContinue} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Continue'}
+                    onPress={onContinue} />
             </PageColumn>
         </PageColumn>
     );

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Platform, Button, View, Alert, ViewProps } from 'react-native';
 import * as Calendar from 'expo-calendar';
+import { ButtonType, SimpleButton } from './SimpleButton';
+import { PageRow } from './PageRow';
 
 export type IAddToCalendarButton = ViewProps & {
     startDate: Date,
@@ -56,12 +58,11 @@ const AddToCalendarButton = ({ startDate, endDate, title, details, location }: I
     }
 
     return (
-        <View>
-            <Button
-                title="Add to Calendar"
-                onPress={() => addToCalendar()}
-            />
-        </View>
+        <PageRow center>
+            <SimpleButton type={ButtonType.Edit}
+                text={'Add to Calendar'}
+                onPress={() => addToCalendar()}/>
+        </PageRow>
     );
 };
 

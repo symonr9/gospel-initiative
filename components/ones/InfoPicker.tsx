@@ -22,6 +22,7 @@ import { SimpleConfetti } from '../common/SimpleConfetti';
 import { OneLayoutType } from './OnesLayout';
 import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -179,7 +180,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
     };
 
     const Form = (
-        <PageColumn>
+        <PageColumn style={{}}>
             {
                 pickerState === PickerState.Adding && (
                     <>
@@ -202,10 +203,6 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                     <AppText type={TextType.DefaultSemiBold}>None Selected</AppText>
                                 )}
                             </View>
-
-                            <SimpleButton text={'Edit Type'} 
-                                onPress={toggleNoteTypeModal}
-                                style={{ width: 100, alignSelf: 'center' }}/>
                         </PageColumn>
 
                         <Modal
@@ -214,7 +211,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                             visible={isNoteTypeModalVisible}
                             onRequestClose={toggleNoteTypeModal}>
                             <View style={modalStyles.modalContainer}>
-                                <View style={[modalStyles.modalContent, { }]}>
+                                <View style={[modalStyles.modalContent, {}]}>
                                     <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                                         Select a Category
                                     </AppText>
@@ -229,8 +226,8 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                     </PageColumn>
 
                                     <SimpleButton type={ButtonType.Close}
-                                        onPress={toggleNoteTypeModal} 
-                                        text={'Close'}/>
+                                        onPress={toggleNoteTypeModal}
+                                        text={'Close'} />
                                 </View>
                             </View>
                         </Modal>
@@ -239,15 +236,20 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
             }
 
             <AppText type={TextType.Default}>Notes</AppText>
-            <TextInput
-                style={formStyles.multiLineTextInput}
-                placeholder="Enter text here..."
-                placeholderTextColor={'gray'}
-                value={formOneNote.notes}
-                numberOfLines={4}
-                onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
-            />
 
+            <SimpleKeyboardAvoidingView Element={
+                <TextInput
+                    style={formStyles.multiLineTextInput}
+                    placeholder="Enter text here..."
+                    placeholderTextColor={'gray'}
+                    value={formOneNote.notes}
+                    numberOfLines={6}
+                    multiline
+                    onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
+                />
+            } verticalOffset={200}/>
+
+            <View style={{ height: 300 }}/>
         </PageColumn>
     );
 
@@ -451,7 +453,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                     )
                                 }
 
-                                <PageColumn style={{ maxHeight: 300 }}>
+                                <PageColumn style={{ maxHeight: 140 }}>
                                     <FlatList
                                         data={StageArray}
                                         renderItem={renderStage}
@@ -477,7 +479,8 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                                 placeholder="Enter text here..."
                                                 placeholderTextColor={'gray'}
                                                 value={formOneNote.notes}
-                                                numberOfLines={4}
+                                                numberOfLines={2}
+                                                multiline
                                                 onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
                                             />
                                         </PageColumn>
@@ -516,7 +519,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
 
                     return (
                         <PageColumn style={{ marginBottom: 12, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }}>
-                            <PageRow style={{ }}>
+                            <PageRow style={{}}>
                                 <Image source={icon}
                                     style={[styles.icon, { marginEnd: 8 }]}
                                     contentFit="contain" />

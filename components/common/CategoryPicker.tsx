@@ -7,7 +7,7 @@ import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
-import { modalStyles } from '@/styles/Styles';
+import { gridStyles, modalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from './SimpleButton';
 
 // Map categories to include icon, label, and details
@@ -74,7 +74,7 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
     const selectedCategoryData = categoryArray.find(item => item.category === selectedCategory);
 
     return (
-        <View style={[styles.container, style]}>
+        <View style={[gridStyles.itemCard, style]}>
             <TouchableOpacity onPress={toggleModal}>
                 <View style={styles.selectedContainer}>
                     {selectedCategory ? (
@@ -93,9 +93,11 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                 </View>
             </TouchableOpacity>
 
-            <SimpleButton type={ButtonType.Edit}
-                onPress={toggleModal}
-                text={'Edit Category'}/>
+            <PageRow center>
+                <SimpleButton type={ButtonType.Edit}
+                    onPress={toggleModal}
+                    text={'Edit Category'} />
+            </PageRow>
 
             <Modal
                 animationType="slide"
@@ -139,16 +141,6 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
 };
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 8,
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4,
-        borderRadius: 8,
-    },
     iconList: {
         display: 'flex',
         flexDirection: 'column',

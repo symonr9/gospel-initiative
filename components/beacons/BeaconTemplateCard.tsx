@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { cardStyles, flexStyles } from '@/styles/Styles';
+import { cardStyles, flexStyles, gridStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
@@ -16,13 +16,13 @@ export type IBeaconCard = ViewProps & {
 
 export function BeaconTemplateCard({ template, isSelected = false }: IBeaconCard) {
   return (
-    <PageRow style={[cardStyles.container, flexStyles.row, isSelected && styles.selected]}>
+    <PageRow style={[gridStyles.itemCard, flexStyles.row, isSelected && styles.selected]}>
       <Image source={template.icon}
         style={styles.icon}
         contentFit="contain" />
 
-      <PageColumn style={{ width: '80%'}}>
-        <AppText type={TextType.Subtitle}>
+      <PageColumn style={{ width: 300, flexShrink: 1 }}>
+        <AppText type={TextType.Subtitle3}>
           {template.name}
         </AppText>
         <AppText type={TextType.Default}>

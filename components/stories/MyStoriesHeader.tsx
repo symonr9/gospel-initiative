@@ -83,20 +83,21 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
     return (
         <PageColumn>
-            <AnimatedHeader title="My Stories" subtitle="Tap button below to filter list." />
-
-            {
-                editingChapterId === null && (
-                    <PageRow>
-                        <Animated.View style={animatedStyle}>
-                            <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
-                                onPress={toggleModalVisibility}>
-                                <AppText>{openFilterBtnText}</AppText>
-                            </TouchableOpacity>
-                        </Animated.View>
-                    </PageRow>
-                )
-            }
+            <PageRow style={{ width: 230, flexShrink: 1 }}>
+                <AnimatedHeader title="My Stories" subtitle="A library of chapters of your testimony." />
+                {
+                    editingChapterId === null && (
+                        <PageRow>
+                            <Animated.View style={animatedStyle}>
+                                <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
+                                    onPress={toggleModalVisibility}>
+                                    <AppText>{openFilterBtnText}</AppText>
+                                </TouchableOpacity>
+                            </Animated.View>
+                        </PageRow>
+                    )
+                }
+            </PageRow>
 
             <Modal
                 animationType="slide"
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '90%',
+        width: '95%',
         backgroundColor: 'white',
         paddingVertical: 16,
         paddingHorizontal: 10,

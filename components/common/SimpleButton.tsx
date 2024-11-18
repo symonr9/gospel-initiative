@@ -9,6 +9,7 @@ import { AppText } from './AppText';
 export type ISimpleButton = ViewProps & {
     type?: ButtonType;
     text: String;
+    disabled?: boolean;
     onPress: Function;
 };
 
@@ -19,7 +20,7 @@ export enum ButtonType {
     Save
 };
 
-export function SimpleButton({ style, text, onPress, type = ButtonType.Edit }: ISimpleButton) {
+export function SimpleButton({ style, text, onPress, type = ButtonType.Edit, disabled = false }: ISimpleButton) {
     return (
         <TouchableOpacity onPress={() => onPress()}
             style={[
@@ -28,7 +29,8 @@ export function SimpleButton({ style, text, onPress, type = ButtonType.Edit }: I
                 type === ButtonType.Close && modalStyles.closeButton,
                 type === ButtonType.Save && modalStyles.saveButton,
                 style
-            ]}>
+            ]} 
+            disabled={disabled}>
             <AppText>{text}</AppText>
         </TouchableOpacity>
     );

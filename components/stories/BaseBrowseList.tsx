@@ -68,7 +68,7 @@ function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, t
     const filteredListCount = countRenderableChapters(chapters, tagFilters, typeFilters);
 
     return (
-        <PageColumn style={{ height: 450 }}>
+        <PageColumn style={{ height: 500 }}>
             {
                 title && filteredListCount > 0 && (
                     <AppText type={TextType.Subtitle}>

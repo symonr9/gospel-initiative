@@ -5,6 +5,7 @@ import { AppIcon, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
 import { Colors } from "@/constants/Colors";
+import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 
 type INewUserSplash = ViewProps & {
     newUserStep: NewUserStep;
@@ -38,9 +39,15 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
                 Would you like to learn more about the Gospel Initiative or go straight to the app’s main features?
             </AppText>
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                <Button title={'Learn More About the Gospel Initiative'} onPress={onLearnGospelInitiative} />
-                <Button title={'Learn More About the App'} onPress={onLearnApp} />
-                <Button title={'Skip to User Creation'} onPress={onSkipToUserCreation} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Learn More About the Gospel Initiative'}
+                    onPress={onLearnGospelInitiative} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Learn More About the App'}
+                    onPress={onLearnApp} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Skip to User Creation'}
+                    onPress={onSkipToUserCreation} />
             </PageColumn>
         </PageColumn>
     );

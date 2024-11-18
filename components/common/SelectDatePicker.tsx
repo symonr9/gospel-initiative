@@ -7,6 +7,7 @@ import { formatDateTime, formatDateTimeSimple, getDaysDifference, getNextWeek } 
 import DetailsSection from './DetailsSection';
 import { AppIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
+import { ButtonType, SimpleButton } from './SimpleButton';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -71,24 +72,31 @@ function SelectDatePicker({ events, variation = DatePickerVariation.Simple, onDa
                     Target Date: {formatDateTime(selectedDate)}
                 </AppText>
 
-                <Button title={'Set Goal'}
-                    onPress={toggleModal} />
+                <PageRow center>
+                    <SimpleButton type={ButtonType.Edit}
+                        text={'Set Goal'}
+                        onPress={toggleModal} />
+                </PageRow>
             </PageColumn>
         );
     } else if (variation === DatePickerVariation.KnownSince) {
         Details = (
             <PageColumn style={{ marginVertical: 8 }}>
                 <AppText type={TextType.Body} style={{ marginBottom: 8 }}>
-                   {formatDateTimeSimple(selectedDate)}
+                    {formatDateTimeSimple(selectedDate)}
                 </AppText>
                 <PageRow center>
-                    <DetailsSection iconSrc={AppIcon.Calendar} 
+                    <DetailsSection iconSrc={AppIcon.Calendar}
                         prefix={'Known For'}
-                        title={`${getDaysDifference(new Date(), selectedDate)} Days`} 
+                        title={`${getDaysDifference(new Date(), selectedDate)} Days`}
                     />
                 </PageRow>
-                <Button title={'Set Date'} 
-                    onPress={toggleModal} />
+
+                <PageRow center>
+                    <SimpleButton type={ButtonType.Edit}
+                        text={'Set Date'}
+                        onPress={toggleModal} />
+                </PageRow>
             </PageColumn>
         );
     } else {
@@ -97,8 +105,11 @@ function SelectDatePicker({ events, variation = DatePickerVariation.Simple, onDa
                 <AppText type={TextType.Subtitle2} style={{ marginBottom: 8 }}>
                     Date: {formatDateTime(selectedDate)}
                 </AppText>
-                <Button title={'Set Date'} 
-                    onPress={toggleModal} />
+                <PageRow center>
+                    <SimpleButton type={ButtonType.Edit}
+                        text={'Set Date'}
+                        onPress={toggleModal} />
+                </PageRow>
             </PageColumn>
         );
     }

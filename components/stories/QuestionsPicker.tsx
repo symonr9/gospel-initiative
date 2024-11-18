@@ -62,10 +62,12 @@ export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicke
         ))
       }
 
-      <SimpleButton text={'Edit Questions'}
-        onPress={() => setModalVisible(true)}
-        style={{ marginVertical: 8 }}
-        type={ButtonType.Edit} />
+      <PageRow center>
+        <SimpleButton text={'Edit Questions'}
+          onPress={() => setModalVisible(true)}
+          style={{ marginVertical: 8 }}
+          type={ButtonType.Edit} />
+      </PageRow>
 
       <Modal
         animationType="slide"

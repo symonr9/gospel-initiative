@@ -17,6 +17,7 @@ import ScrollLayout from '../common/ScrollLayout';
 import { modalStyles } from '@/styles/Styles';
 import { OneLayoutType } from '../ones/OnesLayout';
 import { Colors } from '@/constants/Colors';
+import { SimpleButton } from '../common/SimpleButton';
 
 const beaconTagArray = Object.keys(BeaconTag)
     .filter(key => isNaN(Number(key)))
@@ -69,7 +70,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
     const { shareOwnName } = formData;
 
     return (
-        <ThemedView style={[styles.container]}>
+        <PageColumn style={[styles.container]}>
             <BeaconTemplateCard template={template} />
 
             <PageColumn style={{ maxHeight: 100, marginVertical: 16 }}>
@@ -89,17 +90,17 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
             {
                 activeLayoutType === OneLayoutType.ConfirmBeacon && (
                     <>
-                        <PageColumn style={styles.section}>
+                        <PageColumn style={[styles.section, { width: 300, flexShrink: 1 }]}>
                             <PageChip iconSrc={AppIcon.Tag}
                                 onClick={onChangeTag}
                                 title={`Add Tags`}
-                                style={{ backgroundColor: Colors.open }}
+                                style={{ backgroundColor: Colors.info }}
                                 subtitle={'Tags give others more details on how they can be praying for you.'} />
                         </PageColumn>
 
                         <PageColumn style={styles.section}>
                             <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                                style={{ width: 300, backgroundColor: Colors.open }}
+                                style={{ width: 240, backgroundColor: Colors.info }}
                                 onClick={() => setShareOwnName(!shareOwnName)}
                                 title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
                         </PageColumn>
@@ -150,7 +151,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                     be active for 24 hours.
                 </AppText>
             </PageColumn>
-        </ThemedView>
+        </PageColumn>
     );
 }
 

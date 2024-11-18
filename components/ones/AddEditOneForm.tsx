@@ -6,7 +6,7 @@ import Checkbox from 'expo-checkbox';
 import One from '@/models/one';
 import OneForm from '@/models/oneForm';
 import { setOneForm } from '@/redux/actions';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, gridStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { AvatarIcon, OneCategory, OneStage, ActionStepType } from '@/enums/enums';
@@ -104,16 +104,14 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
             <AnimatedHeader title={title} />
 
             <PageRow spaceEvenly>
-                <PageColumn style={styles.section}>
-                    <AvatarIconPicker selectedIcon={icon}
-                        style={{ height: 150 }}
-                        setSelectedIcon={setIcon} />
-                </PageColumn>
+                <AvatarIconPicker selectedIcon={icon}
+                    style={{ height: 180, alignItems: 'center' }}
+                    setSelectedIcon={setIcon} />
 
-                <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
+                <PageColumn style={[styles.section, gridStyles.itemCard]} spaceEvenly>
                     <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
                     <TextInput
-                        style={formStyles.textInput}
+                        style={[formStyles.textInput, { width: 150 }]}
                         placeholder="Enter name here..."
                         placeholderTextColor={'gray'}
                         value={name}
@@ -123,22 +121,20 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                 </PageColumn>
             </PageRow>
 
-            <PageRow spaceEvenly>
+            <PageRow center>
                 {
                     !editing && (
-                        <PageColumn style={[styles.section]}>
-                            <StagePicker selectedStage={stage}
-                                style={{ height: 280 }}
-                                setSelectedStage={setStage} />
-                        </PageColumn>
+                        <StagePicker selectedStage={stage}
+                            style={{ height: 250, flex: 1, alignItems: 'center' }}
+                            setSelectedStage={setStage} />
                     )
                 }
+            </PageRow>
 
-                <PageColumn style={[styles.section]}>
-                    <CategoryPicker selectedCategory={category}
-                        style={{ height: !editing ? 280 : 220 }}
-                        setSelectedCategory={setCategory} />
-                </PageColumn>
+            <PageRow center>
+                <CategoryPicker selectedCategory={category}
+                    style={{ height: !editing ? 250 : 230, flex: 1, alignItems: 'center' }}
+                    setSelectedCategory={setCategory} />
             </PageRow>
 
             {
@@ -146,17 +142,17 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                     <PageColumn style={styles.section}>
                         {
                             suggestedActionSteps.length > 0 && (
-                                <>
-                                    <AppText type={TextType.DefaultSemiBold}>Suggested Action Steps</AppText>
+                                <PageColumn style={{ marginBottom: 8, alignItems: 'center' }}>
+                                    <AppText type={TextType.Subtitle3}>Suggested Action Steps</AppText>
                                     <AppText type={TextType.Default} style={{ textAlign: 'center' }}>Select which action steps you would like to start with for your One. You can always add and update action steps after creating your One.</AppText>
-                                </>
+                                </PageColumn>
                             )
                         }
                         <FlatList
                             data={suggestedActionSteps}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item, index }) => (
-                                <PageRow style={[styles.iconCard, selectedSteps[index] && styles.selectedIconCard]}>
+                                <PageRow style={[gridStyles.itemCard, selectedSteps[index] && gridStyles.selected]}>
                                     <PageColumn style={{ alignSelf: 'center', alignItems: 'center' }}>
                                         <Checkbox
                                             style={[formStyles.checkbox, { width: 20, height: 20, marginBottom: 12, marginStart: 8 }]}
@@ -211,42 +207,7 @@ const styles = StyleSheet.create({
     },
     section: {
         marginVertical: 12,
-        alignItems: 'center'
-    },
-    nameSection: {
-        padding: 8,
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4,
-        borderRadius: 8,
-    },
-    iconCard: {
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 4,
-        flex: 1,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        marginVertical: 8,
-        opacity: 0.7,
-        marginHorizontal: 10
-    },
-    selectedIconCard: {
-        backgroundColor: '#bbeccc',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4, // Shadow for Android
-        borderRadius: 8,
-        opacity: 1
+        alignItems: 'center',
     },
     icon: {
         width: 28,

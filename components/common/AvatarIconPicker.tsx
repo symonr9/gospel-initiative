@@ -6,7 +6,7 @@ import { AppText, TextType } from './AppText';
 import ScrollLayout from './ScrollLayout';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
-import { modalStyles } from '@/styles/Styles';
+import { gridStyles, modalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from './SimpleButton';
 
 export type IAvatarIconPicker = ViewProps & {
@@ -28,7 +28,7 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
     );
 
     return (
-        <View style={[styles.container, style]}>
+        <View style={[gridStyles.itemCard, style]}>
             <PageColumn>
                 <PageRow style={styles.selectedContainer}>
                     {selectedIcon ? (
@@ -41,9 +41,11 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
                     )}
                 </PageRow>
 
-                <SimpleButton type={ButtonType.Edit} 
-                    onPress={() => setModalVisible(true)}
-                    text={'Edit Icon'}/>
+                <PageRow center>
+                    <SimpleButton type={ButtonType.Edit}
+                        onPress={() => setModalVisible(true)}
+                        text={'Edit Icon'} />
+                </PageRow>
             </PageColumn>
 
             <Modal
@@ -78,16 +80,6 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
 };
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 8,
-        backgroundColor: '#fff',
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 4,
-        borderRadius: 8,
-    },
     icon: {
         width: 64,
         height: 64,

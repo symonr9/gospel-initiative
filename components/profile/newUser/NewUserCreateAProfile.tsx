@@ -11,6 +11,7 @@ import { getRandomElement } from "@/utils/appUtils";
 import { updateUser } from "@/requests/userRequests";
 import User from "@/models/user";
 import AppError from "@/models/error";
+import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 
 type INewUserCreateAProfile = ViewProps & {
     executor: User;
@@ -82,9 +83,10 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             </PageColumn>
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                <Button title={'Continue'} 
-                    onPress={onContinue}
-                    disabled={!isValid} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Continue'}
+                    disabled={!isValid}
+                    onPress={onContinue}/>
             </PageColumn>
         </PageColumn>
     );

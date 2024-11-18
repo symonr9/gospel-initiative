@@ -8,7 +8,7 @@ import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, gridStyles } from '@/styles/Styles';
 import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
 import { refreshData, setAppError } from '@/redux/actions';
 import { createChristian, removeChristian, updateChristian } from "@/requests/oneRequests";
@@ -124,15 +124,14 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
     const Form = (
         <PageColumn>
             <PageRow spaceEvenly>
-                <PageColumn style={styles.section}>
-                    <AvatarIconPicker selectedIcon={formChristian.icon}
-                        setSelectedIcon={(icon) => setFormChristian((prev) => ({ ...prev, icon }))} />
-                </PageColumn>
+                <AvatarIconPicker selectedIcon={formChristian.icon}
+                    style={{ height: 180, alignItems: 'center' }}
+                    setSelectedIcon={(icon) => setFormChristian((prev) => ({ ...prev, icon }))} />
 
-                <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
+                <PageColumn style={[styles.section, gridStyles.itemCard]} spaceEvenly>
                     <AppText type={TextType.DefaultSemiBold}>Name of Christian</AppText>
                     <TextInput
-                        style={formStyles.textInput}
+                        style={[formStyles.textInput, { width: 150 }]}
                         placeholder="Enter name here..."
                         placeholderTextColor={'gray'}
                         value={formChristian.name}
@@ -146,12 +145,14 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 <PageRow center>
                     <CategoryPicker selectedCategory={formChristian.oneCategory}
                         title={'Relationship with One'}
+                        style={{ alignItems: 'center' }}
                         setSelectedCategory={(oneCategory) => setFormChristian((prev) => ({ ...prev, oneCategory }))}
                     />
                 </PageRow>
                 <PageRow center>
                     <CategoryPicker selectedCategory={formChristian.category}
                         title={'Relationship with You'}
+                        style={{ alignItems: 'center' }}
                         setSelectedCategory={(category) => setFormChristian((prev) => ({ ...prev, category }))}
                     />
                 </PageRow>
@@ -180,6 +181,7 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                     placeholderTextColor={'gray'}
                     value={formChristian.notes}
                     numberOfLines={4}
+                    multiline
                     onChangeText={(notes) => setFormChristian((prev) => ({ ...prev, notes }))}
                 />
             </PageColumn>
@@ -192,6 +194,7 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                     placeholderTextColor={'gray'}
                     value={formChristian.mutualInterests}
                     numberOfLines={4}
+                    multiline
                     onChangeText={(mutualInterests) => setFormChristian((prev) => ({ ...prev, mutualInterests }))}
                 />
             </PageColumn>

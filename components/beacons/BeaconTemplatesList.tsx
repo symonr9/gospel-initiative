@@ -13,6 +13,7 @@ import ScrollLayout from '../common/ScrollLayout';
 import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 export type IBeaconTemplatesList = ViewProps & {
     activeLayoutType: OneLayoutType;
@@ -62,11 +63,9 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
             {
                 showBeaconActions && (
-                    <TouchableOpacity
-                        style={modalStyles.openButton}
-                        onPress={openModal}>
-                        <AppText>Choose Beacon Type</AppText>
-                    </TouchableOpacity>
+                    <SimpleButton text={'Choose Beacon Type'}
+                        onPress={openModal}
+                        type={ButtonType.Edit}/>
                 )
             }
 
@@ -76,11 +75,9 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                     {
                         showBeaconActions && (
                             <PageRow style={{ marginTop: 8 }}>
-                                <TouchableOpacity
-                                    style={modalStyles.openButton}
-                                    onPress={handleContinue}>
-                                    <AppText>Continue</AppText>
-                                </TouchableOpacity>
+                                <SimpleButton text={'Continue'}
+                                    type={ButtonType.Edit} 
+                                    onPress={handleContinue} />
                             </PageRow>
                         )
                     }

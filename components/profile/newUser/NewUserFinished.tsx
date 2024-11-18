@@ -5,6 +5,7 @@ import { AppIcon, NewUserStep, RefreshSpec } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
 import { setLocalNewUserStep } from "@/utils/storageUtils";
+import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 
 type INewUserFinished = ViewProps & {
     newUserStep: NewUserStep;
@@ -13,7 +14,7 @@ type INewUserFinished = ViewProps & {
     styles: any;
 };
 
-export default function NewUserFinished({ newUserStep, setNewUserStep, refreshData, 
+export default function NewUserFinished({ newUserStep, setNewUserStep, refreshData,
     styles }: INewUserFinished) {
     const onDone = async () => {
         refreshData(RefreshSpec.All);
@@ -31,7 +32,9 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
             </AppText>
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
-                <Button title={'Done'} onPress={onDone} />
+                <SimpleButton type={ButtonType.Edit}
+                    text={'Done'}
+                    onPress={onDone} />
             </PageColumn>
         </PageColumn>
     );
