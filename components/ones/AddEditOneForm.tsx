@@ -125,7 +125,7 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                 {
                     !editing && (
                         <StagePicker selectedStage={stage}
-                            style={{ height: 250, flex: 1, alignItems: 'center' }}
+                            style={{ height: 260, flex: 1, alignItems: 'center' }}
                             setSelectedStage={setStage} />
                     )
                 }
@@ -133,7 +133,7 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
 
             <PageRow center>
                 <CategoryPicker selectedCategory={category}
-                    style={{ height: !editing ? 250 : 230, flex: 1, alignItems: 'center' }}
+                    style={{ height: !editing ? 260 : 230, flex: 1, alignItems: 'center' }}
                     setSelectedCategory={setCategory} />
             </PageRow>
 

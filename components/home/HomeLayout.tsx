@@ -14,6 +14,7 @@ import HomePrayerCard from './HomePrayerCard';
 import { PageRow } from '../common/PageRow';
 import { Image } from 'expo-image';
 import { SimpleIcon } from '../common/SimpleIcon';
+import { Colors } from '@/constants/Colors';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -60,12 +61,12 @@ function HomeLayout({ executor }: IHomeLayout) {
     <ScrollLayout style={styles.container}>
       <PageColumn style={{ gap: 8 }}>
         <PageRow style={{ gap: 12, padding: 8 }}>
-          <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large/>
-          <AnimatedHeader title={title} subtitle={subtitle} style={{width: 300 }}/>
+          <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large />
+          <AnimatedHeader title={title} subtitle={subtitle} style={{ width: 300 }} />
         </PageRow>
 
         <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
-          <HomePrayerCard/>
+          <HomePrayerCard />
 
           <SimpleCard iconSrc={AppIcon.UserGroup}
             style={styles.card}

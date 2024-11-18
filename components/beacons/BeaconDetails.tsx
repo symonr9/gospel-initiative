@@ -104,7 +104,16 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         // Needed for styling.
         return (
-            <View style={styles.invisibleContainer} />
+            <View style={styles.invisibleContainer}>
+                <Image source={AppIcon.Prayer}
+                    tintColor={Colors.light.darkAlternative}
+                    style={{
+                        marginVertical: 8,
+                        height: 120,
+                        width: 120,
+                        alignSelf: 'center',
+                    }} />
+            </View>
         );
     }
 

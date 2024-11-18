@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View, ScrollView, TextInput, Button } from 'react-native';
 
+import { Image } from 'expo-image';
+
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon, RefreshSpec } from '@/enums/enums';
@@ -19,6 +21,7 @@ import { formStyles } from '@/styles/Styles';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleLoadingSection } from '../common/SimpleLoadingSection';
 import AppError from '@/models/error';
+import { Colors } from '@/constants/Colors';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -79,7 +82,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
         resetPage();
         return;
       }
-      
+
       refreshData(RefreshSpec.Stories);
       setPageState(PageState.Page8);
     } catch (err: any) {
@@ -126,8 +129,17 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     Body.push(
       <>
         <AnimatedHeader title={'Practice your Testimony'}
-            subtitle={''}
-            delay={0} />
+          subtitle={''}
+          delay={0} />
+
+        <Image source={AppIcon.StageApathetic}
+          tintColor={Colors.light.darkAlternative}
+          style={{
+            marginVertical: 8,
+            height: 120,
+            width: 120,
+            alignSelf: 'center',
+          }} />
 
         <PageRow style={{ marginLeft: 4, marginVertical: 8 }}>
         </PageRow>
@@ -166,10 +178,10 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
           <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
             Your Question
           </AppText>
-          <SimpleIconButton iconSrc={AppIcon.Refresh} 
+          <SimpleIconButton iconSrc={AppIcon.Refresh}
             title='Refresh'
             onClick={() => setQuestion(getRandomString(PracticeTestimonyQuestions))}
-            small/>
+            small />
         </PageRow>
         <View style={{ flexShrink: 1, width: '90%' }}>
           <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
@@ -242,8 +254,8 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     );
   } else if (pageState === PageState.Page4) {
     Body.push(
-        <SimpleLoadingSection title={'Loading...'} 
-          subtitle={'Your partition is loading, please wait...'}/>
+      <SimpleLoadingSection title={'Loading...'}
+        subtitle={'Your partition is loading, please wait...'} />
     );
   } else if (pageState === PageState.Page5 && chapterArray != null) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
@@ -290,8 +302,8 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
         <StoryChapterCard chapter={item}
           canEdit={false}
           expandOnLoad={true}
-          executor={executor} 
-          setAppError={setAppError}/>
+          executor={executor}
+          setAppError={setAppError} />
       );
     };
 
@@ -324,8 +336,8 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     );
   } else if (pageState === PageState.Page7) {
     Body.push(
-      <SimpleLoadingSection title={'Loading...'} 
-        subtitle={'Your data is saving, please wait...'}/>
+      <SimpleLoadingSection title={'Loading...'}
+        subtitle={'Your data is saving, please wait...'} />
     );
   } else if (pageState === PageState.Page8) {
     const onCompleteClick = () => {
@@ -361,6 +373,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {Body.map((item) => item)}
+      <View style={{ height: 200 }}/>
     </ScrollView>
   );
 }

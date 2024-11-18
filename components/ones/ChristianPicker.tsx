@@ -199,6 +199,8 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 />
             </PageColumn>
 
+            <View style={{ height: 300 }} />
+
         </PageColumn>
     );
 

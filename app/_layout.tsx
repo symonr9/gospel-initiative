@@ -98,7 +98,7 @@ export default function RootLayout() {
 
   const MenuIcon = (
     <TouchableOpacity onPress={showMenuOptions}>
-      <Ionicons name="ellipsis-vertical" size={24} color={Colors.light.text} />
+      <Ionicons name="ellipsis-vertical" size={24} color={Colors.white} />
     </TouchableOpacity>
   );
 

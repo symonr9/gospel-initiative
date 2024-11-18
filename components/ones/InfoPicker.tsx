@@ -419,6 +419,29 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                                 <AppText>
                                     Make changes to your One's stage.
                                 </AppText>
+                                
+                                {
+                                    formStage === OneStage.NewBeliever && (
+                                        <PageColumn style={{ marginVertical: 8 }}>
+                                            <AppText type={TextType.Subtitle}>
+                                                Woah!
+                                            </AppText>
+                                            <AppText style={{ marginBottom: 8 }}>
+                                                Did your One decide to follow Jesus and accept Him as their Lord?
+                                                That's such a big deal! Please share more about it if you'd like (optional).
+                                            </AppText>
+                                            <TextInput
+                                                style={formStyles.multiLineTextInput}
+                                                placeholder="Enter text here..."
+                                                placeholderTextColor={'gray'}
+                                                value={formOneNote.notes}
+                                                numberOfLines={2}
+                                                multiline
+                                                onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
+                                            />
+                                        </PageColumn>
+                                    )
+                                }
 
                                 {
                                     formStage ? (
@@ -465,25 +488,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
 
                                 {
                                     formStage === OneStage.NewBeliever && (
-                                        <PageColumn style={{ marginVertical: 8 }}>
-                                            <SimpleConfetti />
-                                            <AppText type={TextType.Subtitle}>
-                                                Woah!
-                                            </AppText>
-                                            <AppText style={{ marginBottom: 8 }}>
-                                                Did your One decide to follow Jesus and accept Him as their Lord?
-                                                That's such a big deal! Please share more about it if you'd like (optional).
-                                            </AppText>
-                                            <TextInput
-                                                style={formStyles.multiLineTextInput}
-                                                placeholder="Enter text here..."
-                                                placeholderTextColor={'gray'}
-                                                value={formOneNote.notes}
-                                                numberOfLines={2}
-                                                multiline
-                                                onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
-                                            />
-                                        </PageColumn>
+                                        <SimpleConfetti />
                                     )
                                 }
 
