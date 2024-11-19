@@ -18,6 +18,7 @@ import { refreshData, setAppError } from '@/redux/actions';
 import { updateActionSteps } from "@/requests/oneRequests";
 import User from '@/models/user';
 import AppError from '@/models/error';
+import { SimpleConfetti } from '../common/SimpleConfetti';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -49,7 +50,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
-
+    const [showConfetti, setShowConfetti] = useState(false);
     const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
@@ -122,6 +123,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
         }
 
         setPickerState(PickerState.Normal);
+        setShowConfetti(false);
 
         let newActionSteps = actionSteps;
         if (pickerState === PickerState.Removing && selectedStepId) {
@@ -164,6 +166,7 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
     
             refreshData(RefreshSpec.Ones);
             setSelectedStepId(null);
+            setShowConfetti(true);
             setFormSelectedTypeIdx(0);
             setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
         });
@@ -385,6 +388,9 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
         <View style={styles.container}>
             <AppText type={TextType.Subtitle} style={styles.title}>Action Steps</AppText>
             {Body.map((item) => item)}
+            {
+                showConfetti && <SimpleConfetti/>
+            }
         </View>
     );
 };

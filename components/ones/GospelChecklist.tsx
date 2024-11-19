@@ -3,6 +3,14 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, ViewProps, FlatList } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withTiming,
+    withSpring,
+    FadeInDown,
+} from 'react-native-reanimated';
+
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
@@ -57,7 +65,7 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 setAppError(new AppError('Error updating one, invalid state'));
                 return;
             }
-            
+
             const newItems = isChecked ? [...selectedOneItems].filter((value) => value !== item.value) : [...selectedOneItems, item.value];
             const updatedOne = {
                 ...selectedOne,
@@ -66,7 +74,7 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
 
             try {
                 const response = await updateOne(updatedOne);
-                if (response.error) {                
+                if (response.error) {
                     setAppError(new AppError('Error updating one: ', response.error));
                     return;
                 }
@@ -101,11 +109,14 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
                         </PageRow>
                         {
                             isExpanded && (
-                                <PageRow style={{ flexShrink: 1, width: 250, marginTop: 12 }}>
-                                    <AppText type={TextType.Body}>
-                                        {item.versesAndQuestions}
-                                    </AppText>
-                                </PageRow>
+                                <Animated.View entering={FadeInDown.duration(400)}>
+                                    <PageRow style={{ flexShrink: 1, width: 250, marginTop: 12 }}>
+                                        <AppText type={TextType.Body}>
+                                            {item.versesAndQuestions}
+                                        </AppText>
+                                    </PageRow>
+
+                                </Animated.View>
                             )
                         }
                     </PageColumn>

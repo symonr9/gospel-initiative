@@ -15,6 +15,7 @@ import { updateChaptersFilter } from '@/redux/actions';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 export type IMyStoriesHeader = {
     myStoryChapters: StoryChapter[];
@@ -53,6 +54,10 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
     const toggleModalVisibility = () => {
         setModalVisible(!modalVisible);
+    };
+
+    const onClearClick = () => {
+        updateChaptersFilter([], []);
     };
 
     const numOfActiveFilters = (tagFilters.length || 0) + (typeFilters.length || 0) + (updateChaptersFilter?.length || 0);
@@ -157,9 +162,15 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                             />
                         </PageColumn>
 
-                        <TouchableOpacity style={styles.closeButton} onPress={toggleModalVisibility}>
-                            <AppText>Close</AppText>
-                        </TouchableOpacity>
+                        <PageRow center style={{ gap: 32 }}>
+                            <SimpleButton type={ButtonType.Close}
+                                text={'Close'}
+                                onPress={toggleModalVisibility} />
+                            <SimpleButton type={ButtonType.Edit}
+                                text={'Clear'}
+                                disabled={!hasActiveFilter}
+                                onPress={onClearClick} />
+                        </PageRow>
                     </PageColumn>
                 </View>
             </Modal>

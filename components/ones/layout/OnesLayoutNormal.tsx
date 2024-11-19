@@ -53,12 +53,8 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
     refreshData, setMessage, setOneForm, revertToInitialLayoutType, styles, oneBeacons, setActiveLayoutType, setSelectedOneId }: IOnesLayoutNormal) {
     const [bodyType, setBodyType] = useState(BodyType.Base);
 
-    const idxOfSelectedOne = ones.findIndex((one) => one.id === selectedOneId);
-    const showArrowLeft = ones.length > 1;
-    const showArrowRight = ones.length > 1;
-
     const actionSteps = selectedOne?.actionSteps || [];
-    const firstActionStep = actionSteps?.length > 0 ? actionSteps[0] : null;
+    const firstActionStep = actionSteps?.length > 0 ? actionSteps.find((value) => !value.isComplete) : null;
     const christians = selectedOne?.christians || [];
     const oneNotes = selectedOne?.oneNotes || [];
 
@@ -214,38 +210,6 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                                 title={'All'}
                                 small
                                 onClick={() => setActiveLayoutType(OneLayoutType.AllOnes)} />
-                        )
-                    }
-
-                    {
-                        showArrowLeft && (
-                            <SimpleIconButton iconSrc={AppIcon.ChevronLeft}
-                                disabled={idxOfSelectedOne === 0}
-                                title={'Back'}
-                                small
-                                onClick={() => {
-                                    setMessage(null);
-                                    const previousOne = ones[idxOfSelectedOne - 1] || null;
-                                    if (previousOne) {
-                                        setSelectedOneId(previousOne.id);
-                                    }
-                                }} />
-                        )
-                    }
-
-                    {
-                        showArrowRight && (
-                            <SimpleIconButton iconSrc={AppIcon.ChevronRight}
-                                disabled={idxOfSelectedOne === ones.length - 1}
-                                title={'Next'}
-                                small
-                                onClick={() => {
-                                    setMessage(null);
-                                    const nextOne = ones[idxOfSelectedOne + 1] || null;
-                                    if (nextOne) {
-                                        setSelectedOneId(nextOne.id);
-                                    }
-                                }} />
                         )
                     }
                 </PageRow>

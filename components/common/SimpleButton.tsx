@@ -28,6 +28,7 @@ export function SimpleButton({ style, text, onPress, type = ButtonType.Edit, dis
                 type === ButtonType.Open && modalStyles.openButton,
                 type === ButtonType.Close && modalStyles.closeButton,
                 type === ButtonType.Save && modalStyles.saveButton,
+                disabled && { opacity: 0.5 },
                 style
             ]} 
             disabled={disabled}>

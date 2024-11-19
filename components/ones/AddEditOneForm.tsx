@@ -133,7 +133,7 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
 
             <PageRow center>
                 <CategoryPicker selectedCategory={category}
-                    style={{ height: !editing ? 260 : 230, flex: 1, alignItems: 'center' }}
+                    style={{ height: !editing ? 260 : 250, flex: 1, alignItems: 'center' }}
                     setSelectedCategory={setCategory} />
             </PageRow>
 
