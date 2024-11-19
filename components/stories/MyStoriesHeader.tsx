@@ -163,11 +163,11 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                         </PageColumn>
 
                         <PageRow center style={{ gap: 32 }}>
-                            <SimpleButton type={ButtonType.Close}
+                            <SimpleButton type={ButtonType.Edit}
                                 text={'Close'}
                                 onPress={toggleModalVisibility} />
-                            <SimpleButton type={ButtonType.Edit}
-                                text={'Clear'}
+                            <SimpleButton type={ButtonType.Close}
+                                text={'Clear Filter'}
                                 disabled={!hasActiveFilter}
                                 onPress={onClearClick} />
                         </PageRow>

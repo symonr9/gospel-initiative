@@ -64,7 +64,7 @@ export function OnesLayoutEditingOne({ selectedOne, oneForm, setAppError, execut
             </PageRow>
 
             <AddEditOneForm editing 
-                initialOneForm={OneForm.createDefault()} />
+                initialOneForm={selectedOne} />
         </PageColumn>
     );
 }

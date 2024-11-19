@@ -179,16 +179,17 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
         <ScrollLayout style={[height !== undefined && { maxHeight: height - 140 }]}>
           {Header}
 
-          <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={200}>
-            <TextInput
-              style={[formStyles.multiLineTextInput, { maxHeight: 240, marginVertical: 8 }]}
-              placeholder="Enter note here..."
-              placeholderTextColor={'gray'}
-              value={formChapter.content}
-              multiline
-              numberOfLines={8}
-              onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
-          </KeyboardAvoidingView>
+          <ChapterTypePicker formChapter={formChapter}
+            setFormChapter={setFormChapter}/>
+
+          <TextInput
+            style={[formStyles.multiLineTextInput, { maxHeight: 240, marginVertical: 8 }]}
+            placeholder="Enter note here..."
+            placeholderTextColor={'gray'}
+            value={formChapter.content}
+            multiline
+            numberOfLines={8}
+            onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
 
           <PageColumn style={{ gap: 8 }}>
             <AppText type={TextType.Body}>

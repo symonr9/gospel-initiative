@@ -152,10 +152,10 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
             1.) Respond: Answer the question on the next page. You can either type your answer or use your phone's speech-to-text feature.
           </AppText>
           <AppText type={TextType.Default}>
-            2.) Review Partitions: The app will organize and split your testimony and provide insights and feedback. Choose which ones to save.
+            2.) Review Compilation: The app will organize and compile your testimony and provide insights and feedback. Choose which ones to save.
           </AppText>
           <AppText type={TextType.Default}>
-            3.) Save: When you are done reviewing the partitions, save your changes.
+            3.) Save: When you are done reviewing the compilations, save your changes.
           </AppText>
         </PageColumn>
 
@@ -255,7 +255,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
   } else if (pageState === PageState.Page4) {
     Body.push(
       <SimpleLoadingSection title={'Loading...'}
-        subtitle={'Your partition is loading, please wait...'} />
+        subtitle={'Your compilation is loading, please wait...'} />
     );
   } else if (pageState === PageState.Page5 && chapterArray != null) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
@@ -278,7 +278,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
           Partition successful!
         </AppText>
         <AppText type={TextType.Body} style={{ marginBottom: 16 }}>
-          Your response has been partitioned into 'Chapters' below. Take time to look over and edit them as you please.
+          Your response has been compiled into 'Chapters' below. Take time to look over and edit them as you please.
         </AppText>
 
         <FlatList
