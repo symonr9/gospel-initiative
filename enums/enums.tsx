@@ -173,6 +173,13 @@ export enum GospelStepType {
     JoinCommunity = 6,
 }
 
+export enum GospelStepLayoutType {
+    Binary = 1,
+    Scale = 2,
+    BinaryCounter = 3,
+    PositiveCounter = 4,
+};
+
 export enum GospelChecklistItem {
     Creation = 0,                 // The creation of the world by God
     Fall = 1,                     // Humanity's fall into sin

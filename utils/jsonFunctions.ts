@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority, GospelStepLayoutType } from "@/enums/enums";
 import One from "@/models/one";
 import { shouldKeepChapter } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -86,8 +86,10 @@ export function getGospelStepFromJson(item: any) {
         item.id,
         new Date(item.date),
         item.type as GospelStepType,
+        item.layoutType as GospelStepLayoutType,
         item.notes,
         item.nextSteps,
+        item.rating,
         item.oneId
     );
 }

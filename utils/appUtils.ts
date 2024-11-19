@@ -1,6 +1,7 @@
-import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, GospelStepLayoutType, GospelStepType, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
+import GospelStep from "@/models/gospelStep";
 import One from "@/models/one";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
@@ -841,6 +842,55 @@ export function generateActionStepsForStage(stage: OneStage): ActionStep[] {
     return actionSteps;
 }
 
+export function mapGospelStepTypeToTitle(item: GospelStepType): string {
+    switch (item) {
+        case GospelStepType.GodIsReal:
+        case GospelStepType.ConfessSin:
+        case GospelStepType.JesusAsLord:
+        case GospelStepType.Repent:
+        case GospelStepType.Baptism:
+        case GospelStepType.JoinCommunity:
+            return "";
+    }
+}
+
+export function mapGospelStepTypeToDetails(item: GospelStepType): string {
+    switch (item) {
+        case GospelStepType.GodIsReal:
+        case GospelStepType.ConfessSin:
+        case GospelStepType.JesusAsLord:
+        case GospelStepType.Repent:
+        case GospelStepType.Baptism:
+        case GospelStepType.JoinCommunity:
+            return "";
+    }
+}
+
+export function mapGospelStepTypeToIcon(item: GospelStepType): AppIcon {
+    switch (item) {
+        case GospelStepType.GodIsReal:
+        case GospelStepType.ConfessSin:
+        case GospelStepType.JesusAsLord:
+        case GospelStepType.Repent:
+        case GospelStepType.Baptism:
+        case GospelStepType.JoinCommunity:
+            return AppIcon.Basketball;
+    }
+};
+
+export function isGospelStepCompleted(item: GospelStep): boolean {
+    switch (item.layoutType) {
+        case GospelStepLayoutType.Binary:
+            return item.rating > 0;
+        case GospelStepLayoutType.Scale:
+            return item.rating > 3;
+        case GospelStepLayoutType.BinaryCounter:
+            return item.rating > 1;
+        case GospelStepLayoutType.PositiveCounter:
+            return item.rating > 1;
+    }
+}
+
 export function mapGospelChecklistItemTypeToTitle(item: GospelChecklistItem): string {
     switch (item) {
         case GospelChecklistItem.Creation:
@@ -999,7 +1049,6 @@ export function mapGospelChecklistItemTypeToVersesAndQuestions(item: GospelCheck
             return '';
     }
 }
-
 
 export function mapGospelChecklistItemTypeToIcon(item: GospelChecklistItem): AppIcon {
     switch (item) {

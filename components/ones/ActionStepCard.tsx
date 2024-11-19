@@ -60,19 +60,6 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, st
 }
 
 const styles = StyleSheet.create({
-  card: {
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 8,
-    backgroundColor: '#FFF8DE',
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowColor: '#000',
-    shadowOffset: { height: 2, width: 0 },
-    elevation: 4, // Shadow for Android
-  },
   completed: {
     backgroundColor: Colors.success,
   },
