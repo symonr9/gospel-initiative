@@ -165,12 +165,38 @@ export enum OneNoteType {
 };
 
 export enum GospelStepType {
-    GodIsReal = 1,
-    ConfessSin = 2,
-    JesusAsLord = 3,
-    Repent = 4,
-    Baptism = 5,
-    JoinCommunity = 6,
+    // Conversations
+    SpiritualConversations = 1,
+    GospelConversations = 2,
+    GodsExistence = 3,
+
+    // Core Gospel Message
+    GodsLoveForThem = 4,
+    SeparationFromGod = 5,
+    JesusLifeDeath = 6,
+    SalvationByGraceThroughFaith = 7,
+
+    // Salvation
+    SalvationMoment = 8,
+
+    // Spiritual Practices
+    Bible = 9,
+    Prayer = 10,
+    Worship = 11,
+    Repentance = 12,
+
+    // Doctrine
+    Creation = 13,
+    Heaven = 14,
+    Trinity = 15,
+    HolySpirit = 16,
+    Prophets = 17,
+
+    // Next Steps
+    Baptism = 18,
+    Community = 19,
+    Disciple = 20,
+    DiscipleOthers = 21
 }
 
 export enum GospelStepLayoutType {

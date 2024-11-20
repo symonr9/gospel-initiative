@@ -1,5 +1,5 @@
 import { AppIcon, GospelStepLayoutType, GospelStepType } from "@/enums/enums";
-import { generateRandomId } from "@/utils/appUtils";
+import { generateRandomId, mapGospelStepTypeToLayoutType } from "@/utils/appUtils";
 
 interface IGospelStep {
     id: string;
@@ -35,12 +35,12 @@ export default class GospelStep implements IGospelStep {
         this.oneId = oneId;
     }
 
-    static createDefault(oneId: string): GospelStep {
+    static createDefault(oneId: string, type: GospelStepType = GospelStepType.SpiritualConversations): GospelStep {
         return new GospelStep(
             generateRandomId(),
             new Date(),
-            GospelStepType.GodIsReal,
-            GospelStepLayoutType.Binary,
+            type,
+            mapGospelStepTypeToLayoutType(type),
             "",
             "",
             1,

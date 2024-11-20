@@ -19,6 +19,7 @@ import Beacon from '@/models/beacon';
 import { Colors } from '@/constants/Colors';
 import { SimpleIcon } from '@/components/common/SimpleIcon';
 import { AppText } from '@/components/common/AppText';
+import GospelStepPicker from '../GospelStepPicker';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -44,7 +45,7 @@ enum BodyType {
     Base,
     Info,
     ActionStep,
-    GospelChecklist,
+    GospelSteps,
     Beacons,
     Christians,
 };
@@ -86,11 +87,11 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                 <ActionStepPicker />
             </PageColumn>
         );
-    } else if (bodyType === BodyType.GospelChecklist) {
+    } else if (bodyType === BodyType.GospelSteps) {
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
-                <GospelChecklist />
+                <GospelStepPicker/>
             </PageColumn>
         );
     } else if (bodyType === BodyType.Beacons) {
@@ -135,9 +136,9 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItems.map((item) => item.value));
         const gospelChecklistDetailView = (
             <>
-                <DetailsSection iconSrc={AppIcon.Book}
+                <DetailsSection iconSrc={AppIcon.PlantGrow}
                     prefix={"Gospel Shared"}
-                    onClick={() => setBodyType(BodyType.GospelChecklist)}
+                    onClick={() => setBodyType(BodyType.GospelSteps)}
                     title={`${completedPercentage}% shared`} />
             </>
         );
@@ -170,17 +171,17 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         horizontal={false}
                         onClick={() => setBodyType(BodyType.Info)} />
 
-                    <SimpleGridCard iconSrc={AppIcon.LightBulb}
+                    <SimpleGridCard iconSrc={AppIcon.Coffee}
                         title={'Action Steps'}
                         detailsView={actionStepsDetailView}
                         horizontal={false}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
 
-                    <SimpleGridCard iconSrc={AppIcon.Book}
-                        title={'Gospel Checklist'}
+                    <SimpleGridCard iconSrc={AppIcon.PlantGrow}
+                        title={'Gospel Steps'}
                         detailsView={gospelChecklistDetailView}
                         horizontal={false}
-                        onClick={() => setBodyType(BodyType.GospelChecklist)} />
+                        onClick={() => setBodyType(BodyType.GospelSteps)} />
 
                     <SimpleGridCard iconSrc={AppIcon.Prayer}
                         title={'Prayer Beacons'}

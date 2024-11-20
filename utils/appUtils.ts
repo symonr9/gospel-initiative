@@ -844,44 +844,160 @@ export function generateActionStepsForStage(stage: OneStage): ActionStep[] {
 
 export function mapGospelStepTypeToTitle(item: GospelStepType): string {
     switch (item) {
-        case GospelStepType.GodIsReal:
-        case GospelStepType.ConfessSin:
-        case GospelStepType.JesusAsLord:
-        case GospelStepType.Repent:
+        case GospelStepType.SpiritualConversations:
+            return "Spiritual Conversations";
+        case GospelStepType.GospelConversations:
+            return "Gospel Conversations";
+        case GospelStepType.GodsExistence:
+            return "God's Existence";
+        case GospelStepType.GodsLoveForThem:
+            return "God's Love For Them";
+        case GospelStepType.SeparationFromGod:
+            return "Separation From God";
+        case GospelStepType.JesusLifeDeath:
+            return "Jesus' Life and Death";
+        case GospelStepType.SalvationByGraceThroughFaith:
+            return "Salvation By Grace Through Faith";
+        case GospelStepType.SalvationMoment:
+            return "Salvation Moment";
+        case GospelStepType.Bible:
+            return "Bible";
+        case GospelStepType.Prayer:
+            return "Prayer";
+        case GospelStepType.Worship:
+            return "Worship";
+        case GospelStepType.Repentance:
+            return "Repentance";
+        case GospelStepType.Creation:
+            return "Creation";
+        case GospelStepType.Heaven:
+            return "Heaven";
+        case GospelStepType.Trinity:
+            return "Trinity";
+        case GospelStepType.HolySpirit:
+            return "Holy Spirit";
+        case GospelStepType.Prophets:
+            return "Prophets";
         case GospelStepType.Baptism:
-        case GospelStepType.JoinCommunity:
-            return "";
+            return "Baptism";
+        case GospelStepType.Community:
+            return "Community";
+        case GospelStepType.Disciple:
+            return "Disciple"
+        case GospelStepType.DiscipleOthers:
+            return "Disciple Others";
     }
 }
 
 export function mapGospelStepTypeToDetails(item: GospelStepType): string {
     switch (item) {
-        case GospelStepType.GodIsReal:
-        case GospelStepType.ConfessSin:
-        case GospelStepType.JesusAsLord:
-        case GospelStepType.Repent:
+        case GospelStepType.SpiritualConversations:
+            return "Mark instances when you've had spiritual conversations.";
+        case GospelStepType.GospelConversations:
+            return "Mark instance when you've had Gospel conversations.";
+        case GospelStepType.GodsExistence:
+            return "Do they believe in the existence of a God?";
+        case GospelStepType.GodsLoveForThem:
+            return "Do they know that God loves them?";
+        case GospelStepType.SeparationFromGod:
+            return "Do they know that sin separates us from God?";
+        case GospelStepType.JesusLifeDeath:
+            return "Do they know that God sent his Son Jesus to live and die on your behalf?";
+        case GospelStepType.SalvationByGraceThroughFaith:
+            return "Do they know that accepting Jesus as their Savior is the only way to salvation?";
+        case GospelStepType.SalvationMoment:
+            return "Have they accepted Jesus as their Savior?";
+        case GospelStepType.Bible:
+            return "Do they know what the Bible is and how to read it?";
+        case GospelStepType.Prayer:
+            return "Do they know what the role of prayer is in the Chrisitan life?";
+        case GospelStepType.Worship:
+            return "Do they know what worship is?";
+        case GospelStepType.Repentance:
+            return "Do they know about the role that repentance and confession play in the Christian life?"
+        case GospelStepType.Creation:
+            return "Do they know about the Creation account?";
+        case GospelStepType.Heaven:
+            return "Do they know about what the Bible says about Heaven?";
+        case GospelStepType.Trinity:
+            return "Do they know about the concept of the Trinity?";
+        case GospelStepType.HolySpirit:
+            return "Do they know about the role and function of the Holy Spirit?";
+        case GospelStepType.Prophets:
+            return "Do they know about how the prophets all pointed in faith towards Jesus?";
         case GospelStepType.Baptism:
-        case GospelStepType.JoinCommunity:
-            return "";
+            return "Have they been baptized?";
+        case GospelStepType.Community:
+            return "Have they stepped into Christian community?";
+        case GospelStepType.Disciple:
+            return "Are they a disciple?";
+        case GospelStepType.DiscipleOthers:
+            return "Are they equipped to disciple others?";
     }
 }
 
 export function mapGospelStepTypeToIcon(item: GospelStepType): AppIcon {
     switch (item) {
-        case GospelStepType.GodIsReal:
-        case GospelStepType.ConfessSin:
-        case GospelStepType.JesusAsLord:
-        case GospelStepType.Repent:
+        case GospelStepType.SpiritualConversations:
+        case GospelStepType.GospelConversations:
+        case GospelStepType.GodsExistence:
+        case GospelStepType.GodsLoveForThem:
+        case GospelStepType.SeparationFromGod:
+        case GospelStepType.JesusLifeDeath:
+        case GospelStepType.SalvationByGraceThroughFaith:
+        case GospelStepType.SalvationMoment:
+        case GospelStepType.Bible:
+        case GospelStepType.Prayer:
+        case GospelStepType.Worship:
+        case GospelStepType.Repentance:
+        case GospelStepType.Creation:
+        case GospelStepType.Heaven:
+        case GospelStepType.Trinity:
+        case GospelStepType.HolySpirit:
+        case GospelStepType.Prophets:
         case GospelStepType.Baptism:
-        case GospelStepType.JoinCommunity:
-            return AppIcon.Basketball;
+        case GospelStepType.Community:
+        case GospelStepType.Disciple:
+        case GospelStepType.DiscipleOthers:
+            return AppIcon.Christ;
+    }
+};
+
+export function mapGospelStepTypeToLayoutType(item: GospelStepType): GospelStepLayoutType {
+    switch (item) {
+        case GospelStepType.GodsExistence:
+        case GospelStepType.SalvationMoment:
+        case GospelStepType.Baptism:
+        case GospelStepType.Community:
+        case GospelStepType.Disciple:
+        case GospelStepType.DiscipleOthers:
+            return GospelStepLayoutType.Binary;
+
+        case GospelStepType.GodsLoveForThem:
+        case GospelStepType.SeparationFromGod:
+        case GospelStepType.JesusLifeDeath:
+        case GospelStepType.SalvationByGraceThroughFaith:
+        case GospelStepType.Bible:
+        case GospelStepType.Prayer:
+        case GospelStepType.Worship:
+        case GospelStepType.Repentance:
+        case GospelStepType.Creation:
+        case GospelStepType.Heaven:
+        case GospelStepType.Trinity:
+        case GospelStepType.HolySpirit:
+        case GospelStepType.Prophets:
+            return GospelStepLayoutType.Scale;
+            
+        case GospelStepType.SpiritualConversations:
+        case GospelStepType.GospelConversations:
+            return GospelStepLayoutType.PositiveCounter;
     }
 };
 
 export function isGospelStepCompleted(item: GospelStep): boolean {
     switch (item.layoutType) {
         case GospelStepLayoutType.Binary:
-            return item.rating > 0;
+            return item.rating > 1;
         case GospelStepLayoutType.Scale:
             return item.rating > 3;
         case GospelStepLayoutType.BinaryCounter:
@@ -1358,7 +1474,8 @@ export function getAvatarIconKey(value: any): string | undefined {
     return undefined;
 }
 
-export function partitionChaptersByTag(storyChapters: StoryChapter[]): { key: StoryChapterTag; items: StoryChapter[] }[] {1
+export function partitionChaptersByTag(storyChapters: StoryChapter[]): { key: StoryChapterTag; items: StoryChapter[] }[] {
+    1
     const partitioned = new Map<StoryChapterTag, StoryChapter[]>();
 
     storyChapters.forEach((chapter) => {
@@ -1399,11 +1516,11 @@ export function toggleTypeFromFilter(type: StoryChapterType, typeFilters: StoryC
 }
 
 export const countRenderableChapters = (storyChapters: StoryChapter[], tagFilters: StoryChapterTag[],
-     typeFilters: StoryChapterType[]): number => {
+    typeFilters: StoryChapterType[]): number => {
     return storyChapters.filter(chapter => doesChapterMatchFilter(chapter, tagFilters, typeFilters)).length;
 };
 
-export function doesChapterMatchFilter(chapter: StoryChapter, tagFilters: StoryChapterTag[], typeFilters: StoryChapterType[]) : Boolean {
+export function doesChapterMatchFilter(chapter: StoryChapter, tagFilters: StoryChapterTag[], typeFilters: StoryChapterType[]): Boolean {
     const hasFilter = tagFilters.length + typeFilters.length > 0;
     return !hasFilter || (tagFilters.some((tag => chapter.tags.includes(tag))) || typeFilters.includes(chapter.chapterType));
 }

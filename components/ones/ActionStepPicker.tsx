@@ -30,7 +30,6 @@ const actionStepTypeArray = Object.keys(ActionStepType)
     }));
 
 export type IActionStepPicker = ViewProps & {
-    executor: User;
     selectedOneId: string | null;
     ones: One[];
     refreshData: Function;
@@ -45,7 +44,7 @@ export enum PickerState {
     Completing
 }
 
-const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppError }: IActionStepPicker) => {
+const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IActionStepPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -181,8 +180,6 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
 
     const events = formActionStep.targetDate ? [formActionStep.targetDate] : [];
 
-    const Body = [];
-
     const renderTypeItem = ({ item, index }: { item: { value: ActionStepType, icon: AppIcon, label: string, details: string }; index: number }) => {
         const handlePress = () => {
             setFormSelectedTypeIdx(index);
@@ -278,6 +275,8 @@ const ActionStepPicker = ({ executor, selectedOneId, ones, refreshData, setAppEr
             </PageRow>
         </PageColumn>
     );
+
+    const Body = [];
 
     if (pickerState !== PickerState.Normal) {
         Body.push(
@@ -419,7 +418,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
-        executor: state.users.executor,
         selectedOneId: state.ones.selectedOneId,
         ones: state.ones.ones,
     };

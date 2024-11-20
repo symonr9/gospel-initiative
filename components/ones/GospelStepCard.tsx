@@ -20,6 +20,7 @@ export type IGospelStepCard = ViewProps & {
 };
 
 export function GospelStepCard({ gospelStep, handleOnPress, selected = false, style }: IGospelStepCard) {
+
     const onPress = () => {
         if (handleOnPress) {
             handleOnPress();
@@ -70,11 +71,9 @@ export function GospelStepCard({ gospelStep, handleOnPress, selected = false, st
             <PageRow style={[gridStyles.itemCard, completed && styles.completed, selected && styles.selected, style]}>
                 <Image source={icon} style={styles.icon} />
                 <PageColumn style={styles.actionStepTextContainer}>
-                    <AppText type={TextType.Prefix}>{getAppTimeAgoText(gospelStep.date)}</AppText>
-
                     <PageColumn style={{ flexShrink: 1, width: '100%' }}>
-                        <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>{mapGospelStepTypeToTitle(gospelStep.type)}</AppText>
-                        <AppText type={TextType.Default} style={{}}>{mapGospelStepTypeToDetails(gospelStep.type)}</AppText>
+                        <AppText type={TextType.Subtitle3} style={{ fontSize: 20 }}>{mapGospelStepTypeToTitle(gospelStep.type)}</AppText>
+                        <AppText type={TextType.Italic} style={{}}>{mapGospelStepTypeToDetails(gospelStep.type)}</AppText>
                     </PageColumn>
 
                     {RatingEl}
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.success,
     },
     selected: {
-        backgroundColor: '#a2c4c9',
+        backgroundColor: Colors.selected,
     },
     actionStepTextContainer: {
         flexShrink: 1
