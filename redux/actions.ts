@@ -14,6 +14,7 @@ export enum Action {
     OpenPage = "OPEN_PAGE",
     RefreshData = "REFRESH_DATA",
 
+    UpdateOneNoteFilters = "UPDATE_ONE_NOTE_FILTER",
     UpdateChaptersFilter = "UPDATE_CHAPTERS_FILTER",
     SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
 

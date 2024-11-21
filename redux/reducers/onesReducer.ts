@@ -5,6 +5,8 @@ import update from 'immutability-helper';
 const initialState = {
     selectedOneId: null,
     ones: [],
+    oneNoteTypeFilters: [],
+    oneNoteTextFilter: "",
     oneForm: null
 };
 
@@ -14,7 +16,9 @@ export function onesReducer(state = initialState, action: ActionPackage) {
             const { ones } = action.payload;
             return update(state, {
                 selectedOneId: { $set: state.selectedOneId || (ones?.length > 0 ? ones[0].id : null) },
-                ones: { $set: ones || state.ones }
+                ones: { $set: ones || state.ones },
+                oneNoteTypeFilters: { $set: state.oneNoteTypeFilters },
+                oneNoteTextFilter: { $set: state.oneNoteTextFilter },
             });
         case Action.SetSelectedOneId:
             return update(state, {
@@ -23,6 +27,16 @@ export function onesReducer(state = initialState, action: ActionPackage) {
         case Action.SetOneForm:
             return update(state, {
                 oneForm: { $set: action.payload }
+            });
+        case Action.UpdateOneNoteFilters:
+            const { infoTypeFilters, infoTextFilter } = action.payload;
+            return update(state, {
+                oneNoteTypeFilters: {
+                    $set: infoTypeFilters || state.oneNoteTypeFilters
+                },
+                oneNoteTextFilter: {
+                    $set: infoTextFilter || state.oneNoteTextFilter
+                },
             });
         default:
             return state;

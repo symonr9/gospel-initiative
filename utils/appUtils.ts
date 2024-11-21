@@ -3,6 +3,7 @@ import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import GospelStep from "@/models/gospelStep";
 import One from "@/models/one";
+import OneNote from "@/models/oneNote";
 import StoryChapter from "@/models/storyChapter";
 import User from "@/models/user";
 
@@ -1475,7 +1476,7 @@ export function getAvatarIconKey(value: any): string | undefined {
 }
 
 export function partitionChaptersByTag(storyChapters: StoryChapter[]): { key: StoryChapterTag; items: StoryChapter[] }[] {
-    1
+    
     const partitioned = new Map<StoryChapterTag, StoryChapter[]>();
 
     storyChapters.forEach((chapter) => {
@@ -1493,6 +1494,19 @@ export function partitionChaptersByTag(storyChapters: StoryChapter[]): { key: St
         .sort((a, b) => b.items.length - a.items.length);
 }
 
+
+export function partitionNotesByType(notes: OneNote[]): { key: OneNoteType; items: OneNote[] }[] {
+    const partitioned = new Map<OneNoteType, OneNote[]>();
+    notes.forEach((note) => {
+        if (!partitioned.has(note.type)) {
+            partitioned.set(note.type, []);
+        }
+        partitioned.get(note.type)!.push(note);
+    });
+    return Array.from(partitioned, ([key, items]) => ({ key, items }))
+        .sort((a, b) => b.items.length - a.items.length);
+}
+
 export function toggleTagFromFilter(tag: StoryChapterTag, tagFilters: StoryChapterTag[]) {
     if (!tagFilters) {
         return [];
@@ -1505,6 +1519,17 @@ export function toggleTagFromFilter(tag: StoryChapterTag, tagFilters: StoryChapt
 }
 
 export function toggleTypeFromFilter(type: StoryChapterType, typeFilters: StoryChapterType[]) {
+    if (!typeFilters) {
+        return [];
+    }
+
+    if (typeFilters.includes(type)) {
+        return [...typeFilters].filter((t) => t !== type);
+    }
+    return [...typeFilters, type];
+}
+
+export function toggleOneNoteTypeFromFilter(type: OneNoteType, typeFilters: OneNoteType[]) {
     if (!typeFilters) {
         return [];
     }

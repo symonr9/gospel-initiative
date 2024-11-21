@@ -1,65 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Modal, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Modal, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
-import { AppIcon, StoryChapterTag, StoryChapterType } from '@/enums/enums';
-import StoryChapter from '@/models/storyChapter';
+import { AppIcon, OneNoteType } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import DetailsSection from '../common/DetailsSection';
-import { PageChip } from '../common/PageChip';
-import { mapStoryChapterTagToText, partitionChaptersByTag, toggleTagFromFilter, toggleTypeFromFilter } from '@/utils/appUtils';
-import { updateChaptersFilter } from '@/redux/actions';
+import { mapOneNoteTypeToTitle, partitionNotesByType, toggleOneNoteTypeFromFilter } from '@/utils/appUtils';
+import { updateOneNotesFilters } from '@/redux/actions';
 import { AppText } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import One from '@/models/one';
+import { PickerState } from './InfoPicker';
+import { formStyles } from '@/styles/Styles';
 
-export type IMyStoriesHeader = {
-    myStoryChapters: StoryChapter[];
-    tagFilters: StoryChapterTag[];
-    typeFilters: StoryChapterType[];
-    error: Error;
-    editingChapterId: string;
-    updateChaptersFilter: Function;
+export type IInfoPickerFilter = {
+    pickerState: PickerState;
+    selectedOne: One;
+    oneNoteTypeFilters: OneNoteType[];
+    oneNoteTextFilter: string;
+    updateOneNotesFilters: Function;
 };
 
-function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFilters, updateChaptersFilter }: IMyStoriesHeader) {
+function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNoteTextFilter, updateOneNotesFilters }: IInfoPickerFilter) {
     const [modalVisible, setModalVisible] = useState(false);
 
-    const chapters = myStoryChapters ? [...myStoryChapters] : [];
-    const chaptersIsLoaded = chapters !== null;
-    const beforeChristChapters = chapters.filter((value) => value.chapterType === StoryChapterType.BeforeChrist);
-    const salvationMomentChapters = chapters.filter((value) => value.chapterType === StoryChapterType.SalvationMoment);
-    const afterChristChapters = chapters.filter((value) => value.chapterType === StoryChapterType.AfterChrist);
-    let partitionedChapters = partitionChaptersByTag(chapters);
-
-    const beforeChristClick = () => {
-        updateChaptersFilter(tagFilters, toggleTypeFromFilter(StoryChapterType.BeforeChrist, typeFilters));
-    };
-
-    const salvationMomentClick = () => {
-        updateChaptersFilter(tagFilters, toggleTypeFromFilter(StoryChapterType.SalvationMoment, typeFilters));
-    };
-
-    const afterChristClick = () => {
-        updateChaptersFilter(tagFilters, toggleTypeFromFilter(StoryChapterType.AfterChrist, typeFilters));
-    };
-
-    const isFilteringBeforeChrist = typeFilters.includes(StoryChapterType.BeforeChrist);
-    const isFilteringSalvationMoment = typeFilters.includes(StoryChapterType.SalvationMoment);
-    const isFilteringAfterChrist = typeFilters.includes(StoryChapterType.AfterChrist);
+    const oneNotes = selectedOne ? [...selectedOne.oneNotes] : [];
+    const chaptersIsLoaded = oneNotes !== null;
+    const partitionedNotes = partitionNotesByType(oneNotes);
 
     const toggleModalVisibility = () => {
         setModalVisible(!modalVisible);
     };
 
     const onClearClick = () => {
-        updateChaptersFilter([], []);
+        updateOneNotesFilters([],);
     };
 
-    const numOfActiveFilters = (tagFilters.length || 0) + (typeFilters.length || 0) + (updateChaptersFilter?.length || 0);
+    const numOfActiveFilters = (oneNoteTypeFilters.length || 0) + oneNoteTextFilter.length;
     const hasActiveFilter = numOfActiveFilters > 0;
     const openFilterBtnText = hasActiveFilter ? `Filter (${numOfActiveFilters} Active)` : 'Filter';
 
@@ -88,9 +69,8 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
     return (
         <PageColumn>
             <PageRow style={{ width: 230, flexShrink: 1 }}>
-                <AnimatedHeader title="My Stories" subtitle="A library of chapters of your testimony." />
                 {
-                    editingChapterId === null && (
+                    pickerState === PickerState.Normal && (
                         <PageRow>
                             <Animated.View style={animatedStyle}>
                                 <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
@@ -114,48 +94,36 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
                         {chaptersIsLoaded && (
                             <PageRow spaceBetween style={{ gap: 8 }}>
-                                <DetailsSection iconSrc={AppIcon.Rainy}
-                                    prefix="Before Christ"
-                                    title={beforeChristChapters.length}
-                                    onClick={beforeChristClick}
-                                    style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
-                                />
-                                <DetailsSection iconSrc={AppIcon.OpenHands}
-                                    prefix="Salvation Moment"
-                                    title={salvationMomentChapters.length}
-                                    onClick={salvationMomentClick}
-                                    style={[styles.typeFilterItem, isFilteringSalvationMoment && styles.selectedTypeFilter]}
-                                />
-                                <DetailsSection iconSrc={AppIcon.PlantGrow}
-                                    prefix="After Christ"
-                                    title={afterChristChapters.length}
-                                    onClick={afterChristClick}
-                                    style={[styles.typeFilterItem, isFilteringAfterChrist && styles.selectedTypeFilter]}
+                                <TextInput
+                                    style={[formStyles.slimTextInput, { flexGrow: 1 }]}
+                                    placeholder="Filter by Text"
+                                    placeholderTextColor={'gray'}
+                                    value={oneNoteTextFilter}
+                                    onChangeText={(text) => updateOneNotesFilters(oneNoteTypeFilters, oneNoteTextFilter)}
                                 />
                             </PageRow>
                         )}
 
                         <PageColumn style={{ maxHeight: 300 }}>
-                            <FlatList data={partitionedChapters}
-                                keyExtractor={(key, idx) => `tag-${idx}`}
+                            <FlatList data={partitionedNotes}
+                                keyExtractor={(key, idx) => `note-${idx}`}
                                 numColumns={4}
                                 renderItem={(props) => {
                                     const { key, items } = props.item;
 
-                                    const onClick = () => {
-                                        updateChaptersFilter(toggleTagFromFilter(key, tagFilters), typeFilters);
+                                    const onTypeFilterClick = (type: OneNoteType) => {
+                                        updateOneNotesFilters(toggleOneNoteTypeFromFilter(type, oneNoteTypeFilters), oneNoteTextFilter);
                                     };
-                                    const label = mapStoryChapterTagToText(key);
-                                    const isFiltering = tagFilters.includes(key);
+
+                                    const label = mapOneNoteTypeToTitle(key);
+                                    const isFiltering = oneNoteTypeFilters.includes(key);
 
                                     return (
-                                        <PageChip
+                                        <DetailsSection iconSrc={AppIcon.OpenHands}
                                             key={key}
-                                            title={`${label} (${items.length})`}
-                                            onClick={onClick}
-                                            small
-                                            style={[isFiltering && styles.selectedTagFilter]}
-                                        />
+                                            title={label}
+                                            onClick={onTypeFilterClick}
+                                            style={[styles.typeFilterItem, isFiltering && styles.selectedTypeFilter]} />
                                     );
                                 }}
                             />
@@ -221,15 +189,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-    myStoryChapters: state.stories.myStoryChapters,
-    editingChapterId: state.stories.editingChapterId,
-    tagFilters: state.stories.tagFilters,
-    typeFilters: state.stories.typeFilters,
-    error: state.errors.error,
+    oneNoteTypeFilters: state.ones.oneNoteTypeFilters,
+    oneNoteTextFilter: state.ones.oneNoteTextFilter,
 });
 
 const mapDispatchToProps = {
-    updateChaptersFilter,
+    updateOneNotesFilters,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyStoriesHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(InfoPickerFilter);

@@ -13,16 +13,15 @@ import { cardStyles, formStyles, gridStyles, modalStyles } from '@/styles/Styles
 import { refreshData, setAppError } from '@/redux/actions';
 import { createOneNote, removeOneNote, updateOne, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
-import ScrollLayout from '../common/ScrollLayout';
 import AppError from '@/models/error';
 import OneNote from '@/models/oneNote';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import DetailsSection from '../common/DetailsSection';
 import { SimpleConfetti } from '../common/SimpleConfetti';
 import { OneLayoutType } from './OnesLayout';
-import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
+import InfoPickerFilter from './InfoPickerFilter';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -42,7 +41,7 @@ export type IInfoPicker = ViewProps & {
     setActiveLayoutType: Function
 };
 
-enum PickerState {
+export enum PickerState {
     Normal,
     Adding,
     Editing,
@@ -596,7 +595,11 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
 
     return (
         <View style={styles.container}>
-            <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
+            <PageRow spaceBetween>
+                <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
+                <InfoPickerFilter pickerState={pickerState}
+                    selectedOne={selectedOne}/>
+            </PageRow>
             {Body.map((item) => item)}
         </View>
     );
