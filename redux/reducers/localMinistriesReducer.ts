@@ -18,14 +18,6 @@ export function localMinistriesReducer(state = initialState, action: ActionPacka
                     localMinistryLeaders: localMinistryLeaders || state.localMinistryLeaders
                 }
             });
-        case Action.AddLocalMinistry:
-            return update(state, {
-                localMinistries: { $push: [action.payload] }
-            });
-        case Action.AddLocalEvent:
-            return update(state, {
-                localEvents: { $push: [action.payload] }
-            });
         default:
             return state;
     }

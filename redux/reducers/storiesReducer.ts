@@ -24,14 +24,6 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
                     editingChapterId: state.editingChapterId
                 }
             });
-        case Action.AddStory:
-            return update(state, {
-                stories: { $push: [action.payload] }
-            });
-        case Action.AddMyStoryChapter:
-            return update(state, {
-                myStoryChapters: { $push: [action.payload] }
-            });
         case Action.SetEditingChapterId:
             return update(state, {
                 editingChapterId: { $set: action.payload }

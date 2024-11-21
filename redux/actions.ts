@@ -14,14 +14,6 @@ export enum Action {
     OpenPage = "OPEN_PAGE",
     RefreshData = "REFRESH_DATA",
 
-    AddBeacon = "ADD_BEACON",
-    AddStory = "ADD_STORY",
-    AddLocalEvent = "ADD_LOCAL_EVENT",
-    AddLocalMinistry = "ADD_LOCAL_MINISTRY",
-    AddMissionsTrip = "ADD_MISSIONS_TRIP",
-    AddPrompt = "ADD_PROMPT",
-    AddMyStoryChapter = "ADD_MY_STORY_CHAPTER",
-
     UpdateChaptersFilter = "UPDATE_CHAPTERS_FILTER",
     SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
 
@@ -30,8 +22,7 @@ export enum Action {
 
     SetSelectedOneId = "SET_SELECTED_ONE_ID",
     SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
-    UpdateBeacon = "UPDATE_BEACON",
-
+    
     SetBeaconForm = "SET_BEACON_FORM",
     AddBeaconActivity = "ADD_BEACON_ACTIVITY",
     AddStoryActivity = "ADD_STORY_ACTIVITY",

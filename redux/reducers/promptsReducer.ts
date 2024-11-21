@@ -14,10 +14,6 @@ export function promptsReducer(state = initialState, action: ActionPackage) {
                     prompts: prompts || state.prompts,
                 }
             });
-        case Action.AddPrompt:
-            return update(state, {
-                prompts: { $push: [action.payload] }
-            });
         default:
             return state;
     }

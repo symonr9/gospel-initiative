@@ -16,10 +16,6 @@ export function missionsTripsReducer(state = initialState, action: ActionPackage
                     missionsTripLeaders: missionsTripLeaders || state.missionsTripLeaders,
                 }
             });
-        case Action.AddMissionsTrip:
-            return update(state, {
-                missionsTrips: { $push: [action.payload] }
-            });
         default:
             return state;
     }

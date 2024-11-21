@@ -27,20 +27,6 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
             return update(state, {
                 selectedTemplateId: { $set: action.payload }
             });
-        case Action.UpdateBeacon:
-            const updatedBeaconIdx = state.activeBeacons.findIndex(beacon => beacon.id === action.payload.id);
-            if (updatedBeaconIdx !== -1) {
-                return update(state, {
-                    activeBeacons: {
-                        [updatedBeaconIdx]: { $set: action.payload }
-                    }
-                });
-            }
-            return state;
-        case Action.AddBeacon:
-            return update(state, {
-                activeBeacons: { $push: [action.payload] }
-            });
         case Action.SetBeaconForm:
             return update(state, {
                 beaconForm: { $set: action.payload }
