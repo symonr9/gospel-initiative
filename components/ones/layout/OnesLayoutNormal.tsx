@@ -6,20 +6,17 @@ import SimpleIconButton from '@/components/common/SimpleIconButton';
 import { AppIcon, GospelChecklistItem } from '@/enums/enums';
 import One from '@/models/one';
 import User from '@/models/user';
-import { mapActionStepTypeToIcon, getAppTimeAgoText, mapActionStepTypeToTitle, calculatePercent, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, getDaysDifference } from '@/utils/appUtils';
-import React, { useState, useEffect } from 'react';
+import { mapActionStepTypeToIcon, getAppTimeAgoText, mapActionStepTypeToTitle, calculatePercent } from '@/utils/appUtils';
+import React, { useState } from 'react';
 import { View, ViewProps } from "react-native";
 import ActionStepPicker from '../ActionStepPicker';
 import BeaconPicker from '../BeaconPicker';
 import ChristianPicker from '../ChristianPicker';
-import GospelChecklist from '../GospelChecklist';
 import InfoPicker from '../InfoPicker';
 import { OneLayoutType } from '../OnesLayout';
 import Beacon from '@/models/beacon';
-import { Colors } from '@/constants/Colors';
-import { SimpleIcon } from '@/components/common/SimpleIcon';
-import { AppText } from '@/components/common/AppText';
 import GospelStepPicker from '../GospelStepPicker';
+import InfoPickerFilter from '../InfoPickerFilter';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -66,10 +63,15 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
     }
 
     const BodyBackHeader = (
-        <PageRow style={{ marginVertical: 8, marginHorizontal: 4 }}>
+        <PageRow spaceBetween style={{ marginBottom: 8, marginHorizontal: 16 }}>
             <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                 title={'Back'}
                 onClick={() => setBodyType(BodyType.Base)} />
+                {
+                    bodyType === BodyType.Info && (
+                        <InfoPickerFilter/>
+                    )
+                }
         </PageRow>
     );
 

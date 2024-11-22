@@ -7,7 +7,7 @@ import { AppIcon, OneNoteType } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import DetailsSection from '../common/DetailsSection';
-import { mapOneNoteTypeToTitle, partitionNotesByType, toggleOneNoteTypeFromFilter } from '@/utils/appUtils';
+import { getSelectedOne, mapOneNoteTypeToAppIcon, mapOneNoteTypeToTitle, partitionNotesByType, toggleOneNoteTypeFromFilter } from '@/utils/appUtils';
 import { updateOneNotesFilters } from '@/redux/actions';
 import { AppText } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
@@ -16,17 +16,20 @@ import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import One from '@/models/one';
 import { PickerState } from './InfoPicker';
 import { formStyles } from '@/styles/Styles';
+import { SimpleCard } from '../common/SimpleCard';
 
 export type IInfoPickerFilter = {
-    pickerState: PickerState;
-    selectedOne: One;
+    selectedOneId: string | null;
+    ones: One[];
     oneNoteTypeFilters: OneNoteType[];
     oneNoteTextFilter: string;
     updateOneNotesFilters: Function;
 };
 
-function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNoteTextFilter, updateOneNotesFilters }: IInfoPickerFilter) {
+function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteTextFilter, updateOneNotesFilters }: IInfoPickerFilter) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const selectedOne = getSelectedOne(selectedOneId, ones);
 
     const oneNotes = selectedOne ? [...selectedOne.oneNotes] : [];
     const chaptersIsLoaded = oneNotes !== null;
@@ -37,10 +40,10 @@ function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNot
     };
 
     const onClearClick = () => {
-        updateOneNotesFilters([],);
+        updateOneNotesFilters([], "");
     };
 
-    const numOfActiveFilters = (oneNoteTypeFilters.length || 0) + oneNoteTextFilter.length;
+    const numOfActiveFilters = (oneNoteTypeFilters.length || 0) + (oneNoteTextFilter.length > 0 ? 1 : 0);
     const hasActiveFilter = numOfActiveFilters > 0;
     const openFilterBtnText = hasActiveFilter ? `Filter (${numOfActiveFilters} Active)` : 'Filter';
 
@@ -68,19 +71,15 @@ function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNot
 
     return (
         <PageColumn>
-            <PageRow style={{ width: 230, flexShrink: 1 }}>
-                {
-                    pickerState === PickerState.Normal && (
-                        <PageRow>
-                            <Animated.View style={animatedStyle}>
-                                <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
-                                    onPress={toggleModalVisibility}>
-                                    <AppText>{openFilterBtnText}</AppText>
-                                </TouchableOpacity>
-                            </Animated.View>
-                        </PageRow>
-                    )
-                }
+            <PageRow>
+                <PageRow>
+                    <Animated.View style={animatedStyle}>
+                        <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
+                            onPress={toggleModalVisibility}>
+                            <AppText>{openFilterBtnText}</AppText>
+                        </TouchableOpacity>
+                    </Animated.View>
+                </PageRow>
             </PageRow>
 
             <Modal
@@ -89,17 +88,17 @@ function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNot
                 visible={modalVisible}
                 onRequestClose={toggleModalVisibility}>
                 <View style={styles.modalContainer}>
-                    <PageColumn style={styles.modalContent}>
+                    <PageColumn style={[styles.modalContent, { gap: 12, marginHorizontal: 8 }]}>
                         <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
 
                         {chaptersIsLoaded && (
-                            <PageRow spaceBetween style={{ gap: 8 }}>
+                            <PageRow center style={{ gap: 8, marginHorizontal: 12 }}>
                                 <TextInput
                                     style={[formStyles.slimTextInput, { flexGrow: 1 }]}
                                     placeholder="Filter by Text"
                                     placeholderTextColor={'gray'}
                                     value={oneNoteTextFilter}
-                                    onChangeText={(text) => updateOneNotesFilters(oneNoteTypeFilters, oneNoteTextFilter)}
+                                    onChangeText={(text) => updateOneNotesFilters(oneNoteTypeFilters, text)}
                                 />
                             </PageRow>
                         )}
@@ -107,23 +106,21 @@ function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNot
                         <PageColumn style={{ maxHeight: 300 }}>
                             <FlatList data={partitionedNotes}
                                 keyExtractor={(key, idx) => `note-${idx}`}
-                                numColumns={4}
+                                numColumns={1}
                                 renderItem={(props) => {
                                     const { key, items } = props.item;
+                                    const isFiltering = oneNoteTypeFilters.includes(key);
 
                                     const onTypeFilterClick = (type: OneNoteType) => {
                                         updateOneNotesFilters(toggleOneNoteTypeFromFilter(type, oneNoteTypeFilters), oneNoteTextFilter);
                                     };
 
-                                    const label = mapOneNoteTypeToTitle(key);
-                                    const isFiltering = oneNoteTypeFilters.includes(key);
-
                                     return (
-                                        <DetailsSection iconSrc={AppIcon.OpenHands}
+                                        <SimpleCard iconSrc={mapOneNoteTypeToAppIcon(key)} 
                                             key={key}
-                                            title={label}
-                                            onClick={onTypeFilterClick}
-                                            style={[styles.typeFilterItem, isFiltering && styles.selectedTypeFilter]} />
+                                            onClick={() => onTypeFilterClick(key)}
+                                            style={[styles.typeFilterItem, isFiltering && styles.selectedTypeFilter]}
+                                            title={`${mapOneNoteTypeToTitle(key)} (${items.length})`}/>
                                     );
                                 }}
                             />
@@ -132,7 +129,7 @@ function InfoPickerFilter({ pickerState, selectedOne, oneNoteTypeFilters, oneNot
                         <PageRow center style={{ gap: 32 }}>
                             <SimpleButton type={ButtonType.Edit}
                                 text={'Close'}
-                                onPress={toggleModalVisibility} />
+                                onPress={() => setModalVisible(false)} />
                             <SimpleButton type={ButtonType.Close}
                                 text={'Clear Filter'}
                                 disabled={!hasActiveFilter}
@@ -172,6 +169,7 @@ const styles = StyleSheet.create({
     typeFilterItem: {
         padding: 8,
         borderRadius: 8,
+        marginHorizontal: 12,
     },
     selectedTypeFilter: {
         backgroundColor: Colors.selected,
@@ -189,6 +187,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
+    selectedOneId: state.ones.selectedOneId,
+    ones: state.ones.ones,
     oneNoteTypeFilters: state.ones.oneNoteTypeFilters,
     oneNoteTextFilter: state.ones.oneNoteTextFilter,
 });

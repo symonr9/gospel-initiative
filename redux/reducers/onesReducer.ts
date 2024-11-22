@@ -29,13 +29,13 @@ export function onesReducer(state = initialState, action: ActionPackage) {
                 oneForm: { $set: action.payload }
             });
         case Action.UpdateOneNoteFilters:
-            const { infoTypeFilters, infoTextFilter } = action.payload;
+            const { oneNoteTypeFilters, oneNoteTextFilter } = action.payload;
             return update(state, {
                 oneNoteTypeFilters: {
-                    $set: infoTypeFilters || state.oneNoteTypeFilters
+                    $set: oneNoteTypeFilters || state.oneNoteTypeFilters
                 },
                 oneNoteTextFilter: {
-                    $set: infoTextFilter || state.oneNoteTextFilter
+                    $set: oneNoteTextFilter
                 },
             });
         default:

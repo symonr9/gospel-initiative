@@ -36,6 +36,8 @@ export type IInfoPicker = ViewProps & {
     executor: User;
     selectedOneId: string | null;
     ones: One[];
+    oneNoteTypeFilters: OneNoteType[];
+    oneNoteTextFilter: string;
     refreshData: Function;
     setAppError: Function;
     setActiveLayoutType: Function
@@ -48,7 +50,7 @@ export enum PickerState {
     Removing,
 }
 
-const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayoutType, setAppError }: IInfoPicker) => {
+const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNoteTextFilter, refreshData, setActiveLayoutType, setAppError }: IInfoPicker) => {
     const isFirstRender = useRef(false);
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
@@ -512,14 +514,28 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
             );
         }
 
+        const hasMatchingType = (typeAsString: string) => oneNoteTypeFilters.length === 0 
+        || oneNoteTypeFilters.includes(parseInt(typeAsString));
+
+        const hasMatchingText = (item: OneNote) => oneNoteTextFilter.length === 0 
+        || item.notes.includes(oneNoteTextFilter);
+        const noteArrHasMatchingText = (items: OneNote[]) => items.map((item) => hasMatchingText(item)).find((value) => value);
+
         const partitionedNotes = OneNote.partitionNotes(oneNotes);
+        const filteredPartitionedNotes = Object.entries(partitionedNotes)
+            .filter(([typeAsString, items]: [string, OneNote[]]) => 
+                hasMatchingType(typeAsString) && noteArrHasMatchingText(items)
+        );
+
         Body.push(
             <PageColumn>
-                {Object.entries(partitionedNotes).map(([typeAsString, notesArray]) => {
+                {filteredPartitionedNotes.map(([typeAsString, notesArray]) => {
                     const type = parseInt(typeAsString) || 0;
                     const title = mapOneNoteTypeToTitle(type);
                     const details = mapOneNoteTypeToDetails(type);
                     const icon = mapOneNoteTypeToAppIcon(type);
+
+                    const notesToRender = notesArray.filter((note) => hasMatchingText(note));
 
                     return (
                         <PageColumn style={{ marginBottom: 12, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }}>
@@ -538,7 +554,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
                             </PageRow>
 
                             <FlatList
-                                data={notesArray}
+                                data={notesToRender}
                                 renderItem={renderItem}
                                 numColumns={1}
                                 keyExtractor={(item, index) => index.toString()}
@@ -597,8 +613,6 @@ const InfoPicker = ({ executor, selectedOneId, ones, refreshData, setActiveLayou
         <View style={styles.container}>
             <PageRow spaceBetween>
                 <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
-                <InfoPickerFilter pickerState={pickerState}
-                    selectedOne={selectedOne}/>
             </PageRow>
             {Body.map((item) => item)}
         </View>
@@ -679,6 +693,8 @@ const mapStateToProps = (state: any) => {
         executor: state.users.executor,
         selectedOneId: state.ones.selectedOneId,
         ones: state.ones.ones,
+        oneNoteTypeFilters: state.ones.oneNoteTypeFilters,
+        oneNoteTextFilter: state.ones.oneNoteTextFilter,
     };
 };
 

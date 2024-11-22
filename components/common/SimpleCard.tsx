@@ -10,6 +10,7 @@ import { useBackgroundThemeColor } from '@/constants/Colors';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
+import { gridStyles } from '@/styles/Styles';
 
 export type ISimpleCard = ViewProps & {
   iconSrc: AppIcon | AvatarIcon | null;
@@ -31,14 +32,16 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <ThemedView style={[styles.container, style]}>
+      <ThemedView style={[gridStyles.itemCard, style]}>
         <PageRow>
           {
             iconSrc && (
-              <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+              <Image source={iconSrc} 
+                style={styles.icon} 
+                contentFit="contain" />
             )
           }
-          <PageColumn style={{}}>
+          <PageColumn style={{ maxWidth: 250 }}>
             <AppText type={TextType.DefaultSemiBold} style={{}}>{title}</AppText>
             {
               subtitle && (
@@ -55,22 +58,10 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fafafa',
-    borderRadius: 8,
-    alignItems: 'center',
-    padding: 4,
-    paddingVertical: 6,
-    marginVertical: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6, // Shadow radius for a softer shadow
-    elevation: 4,
-  },
   icon: {
     width: 24,
     height: 24,
     marginEnd: 8,
+    alignSelf: 'center'
   },
 });
