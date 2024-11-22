@@ -15,6 +15,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 
 export const Colors = {
   appLogo: '#a8543a',
+  sharpGood: '#134f5c',
   success: '#d9ead3',
   error: '#ff6666',
   selected: '#d0e0e3',

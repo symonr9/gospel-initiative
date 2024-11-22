@@ -13,6 +13,8 @@ import { Colors } from '@/constants/Colors';
 import { gridStyles } from '@/styles/Styles';
 import GospelStep from '@/models/gospelStep';
 
+import Slider from '@react-native-community/slider';
+
 export type IGospelStepCard = ViewProps & {
     gospelStep: GospelStep;
     handleOnPress?: Function;
@@ -40,14 +42,20 @@ export function GospelStepCard({ gospelStep, handleOnPress, selected = false, st
                     </AppText>
                 </>
             );
+            break;
         case GospelStepLayoutType.Scale:
             RatingEl = (
-                <>
-                    <AppText>
-                        Scale Rating: {gospelStep.rating}
-                    </AppText>
-                </>
+                <PageColumn>
+                        <Slider
+                            style={{ width: 220, height: 40 }}
+                            minimumValue={0}
+                            maximumValue={5}
+                            minimumTrackTintColor={Colors.sharpGood}
+                            maximumTrackTintColor={Colors.info}
+                        />
+                </PageColumn>
             );
+            break;
         case GospelStepLayoutType.BinaryCounter:
             RatingEl = (
                 <>
@@ -56,6 +64,7 @@ export function GospelStepCard({ gospelStep, handleOnPress, selected = false, st
                     </AppText>
                 </>
             );
+            break;
         case GospelStepLayoutType.PositiveCounter:
             RatingEl = (
                 <>
@@ -64,6 +73,7 @@ export function GospelStepCard({ gospelStep, handleOnPress, selected = false, st
                     </AppText>
                 </>
             );
+            break;
     }
 
     return (
