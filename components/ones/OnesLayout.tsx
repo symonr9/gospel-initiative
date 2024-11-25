@@ -22,6 +22,7 @@ import { OnesLayoutAddingOne } from './layout/OnesLayoutAddingOne';
 import { OnesLayoutEditingOne } from './layout/OnesLayoutEditingOne';
 import { OnesLayoutAllOnes } from './layout/OnesLayoutAllOnes';
 import { OnesLayoutNormal } from './layout/OnesLayoutNormal';
+import LoadingLayout from '../common/LoadingLayout';
 
 
 export type IOnesLayout = ViewProps & {
@@ -44,6 +45,7 @@ export enum OneLayoutType {
     AllOnes,
     ConfirmBeacon,
     SentBeaconResponse,
+    Loading,
 }
 
 function OnesLayout({ selectedOneId, ones, oneForm, executor,
@@ -52,7 +54,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
     const selectedOne = getSelectedOne(selectedOneId, ones);
 
     const [message, setMessage] = useState<string | null>(null);
-    const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Loading);
 
     const BodyLayout: any[] = [];
 
@@ -104,6 +106,10 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
             <OnesLayoutAllOnes setMessage={setMessage} 
                 setActiveLayoutType={setActiveLayoutType} 
                 revertToInitialLayoutType={revertToInitialLayoutType}/>
+        );
+    } else if (activeLayoutType === OneLayoutType.Loading) {
+        BodyLayout.push(
+            <LoadingLayout/>
         );
     } else { // Normal
         BodyLayout.push(

@@ -6,14 +6,12 @@ import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
-import { StoryLayoutType } from './MyStoriesLayout';
 
 export type IStoryDetails = {
   activeStory: EnhancedStory | null;
-  activeLayoutType: StoryLayoutType;
 };
 
-function StoryDetails({ activeStory, activeLayoutType }: IStoryDetails) {
+function StoryDetails({ activeStory }: IStoryDetails) {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
 
@@ -31,7 +29,7 @@ function StoryDetails({ activeStory, activeLayoutType }: IStoryDetails) {
     setOpenedChapterIds(prev => [...prev, expandedCardId]);
   }, [expandedCardId]);
 
-  if (!activeStory || activeLayoutType !== StoryLayoutType.Normal) {
+  if (!activeStory) {
     return <></>;
   }
 

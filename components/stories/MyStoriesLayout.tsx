@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, type ViewProps } from 'react-native';
 
@@ -12,28 +12,43 @@ import SalvationMomentsList from './SalvationMomentsList';
 import AfterChristList from './AfterChristList';
 import MyStoriesHeader from './MyStoriesHeader';
 import BaseBrowseList from './BaseBrowseList';
+import LoadingLayout from '../common/LoadingLayout';
+import User from '@/models/user';
 
 export type IMyStoriesLayout = ViewProps & {
+    executor: User;
     myStoryChapters: StoryChapter[];
     error: Error;
     editingChapterId: string;
 };
 
 export enum StoryLayoutType {
-    BeforeChrist,
-    SalvationMoment,
-    AfterChrist,
+    MyStoryNormal,
+    Loading,
 
     // Gods Story
     Normal,
     Adding
 };
 
-function MyStoriesLayout({ myStoryChapters, editingChapterId, error }: IMyStoriesLayout) {
-    const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.BeforeChrist);
+function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error }: IMyStoriesLayout) {
+    const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Loading);
     const [message, setMessage] = useState<string | null>(null);
 
     const sortedChapters = myStoryChapters ? [...myStoryChapters].sort((a, b) => a.chapterType - b.chapterType) : [];
+
+    useEffect(() => {
+        if (!executor) {
+            return;
+        }
+        setActiveLayoutType(StoryLayoutType.MyStoryNormal);
+    }, [executor]);
+
+    if (activeLayoutType === StoryLayoutType.Loading) {
+        return (
+            <LoadingLayout/>
+        );
+    }
 
     return (
         <PageColumn>
@@ -68,6 +83,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => {
     return {
+        executor: state.users.executor,
         myStoryChapters: state.stories.myStoryChapters,
         error: state.errors.error,
         editingChapterId: state.stories.editingChapterId
