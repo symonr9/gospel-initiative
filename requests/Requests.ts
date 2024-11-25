@@ -60,6 +60,8 @@ export const performRequest = async (type: RequestType, entity: any, prefix: str
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
             return { error: response.data.error };
+        } else if (response.data && response.data instanceof String) {
+            return { error: response.data };
         } else if (response.status !== 200) {
             return { error: `Response returned error: ${response.status}` };
         }

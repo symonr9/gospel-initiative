@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native';
+import { FlatList, Modal, StyleSheet, TextInput, TouchableOpacity, View, ViewProps } from 'react-native';
 import { refreshData, setAppError } from '@/redux/actions/appActions';
 import { Image } from 'expo-image';
 import One from '@/models/one';
 import User from '@/models/user';
 import GospelStep from '@/models/gospelStep';
-import { getSelectedOne } from '@/utils/appUtils';
+import { calculatePercent, calculatePercentByTotals, getSelectedOne, mapGospelStepTypeToDetails, mapGospelStepTypeToIcon, mapGospelStepTypeToTitle } from '@/utils/appUtils';
 import { GospelStepCard } from './GospelStepCard';
 import AppError from '@/models/error';
 import { updateGospelStep } from '@/requests/oneRequests';
@@ -14,9 +14,11 @@ import { AppIcon, GospelStepLayoutType, GospelStepType, RefreshSpec } from '@/en
 import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
 import { SimpleConfetti } from '../common/SimpleConfetti';
-import { gridStyles } from '@/styles/Styles';
+import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 import { PageRow } from '../common/PageRow';
 import * as Progress from 'react-native-progress';
+import { SimpleButton, ButtonType } from '../common/SimpleButton';
+import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 
 export type IGospelStepPicker = ViewProps & {
     selectedOneId: string | null;
@@ -25,12 +27,6 @@ export type IGospelStepPicker = ViewProps & {
     setAppError: Function;
 };
 
-enum PickerState {
-    Normal,
-    Editing,
-    Completing
-}
-
 // Only one copy of type can exist for each Gospel Step at a time.
 const getGospelStepByType = (type: GospelStepType, gospelSteps: GospelStep[], selectedOneId: string | null): GospelStep => {
     return gospelSteps.find((step) => step.type === type)
@@ -38,11 +34,12 @@ const getGospelStepByType = (type: GospelStepType, gospelSteps: GospelStep[], se
 }
 
 function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGospelStepPicker) {
-    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedStepType, setSelectedStepType] = useState<GospelStepType | null>(null);
     const [showConfetti, setShowConfetti] = useState(false);
-    const [formGospelStep, setFormGospelStep] = useState<GospelStep>(GospelStep.createDefault(selectedOneId || ""));
+
     const [modalVisible, setModalVisible] = useState(false);
+    const [formNotes, setFormNotes] = useState<string | null>(null);
+    const [formNextSteps, setFormNextSteps] = useState<string | null>(null);
 
     const [showGettingStartedSection, setShowGettingStartedSection] = useState(false);
     const [showCoreGospelMessageSection, setShowCoreGospelMessageSection] = useState(false);
@@ -55,13 +52,6 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
     const gospelSteps = selectedOne ? [...selectedOne.gospelSteps] : [];
     const selectedGospelStep = selectedStepType ? gospelSteps.find((step) => step.type === selectedStepType) : null;
 
-    const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
-    const coreGospelMessageSection = [GospelStepType.GodsLoveForThem, GospelStepType.SeparationFromGod, GospelStepType.JesusLifeDeath, GospelStepType.SalvationByGraceThroughFaith];
-    const salvationSection = [GospelStepType.SalvationMoment];
-    const spiritualPracticesSection = [GospelStepType.Bible, GospelStepType.Prayer, GospelStepType.Worship, GospelStepType.Repentance];
-    const doctrineSection = [GospelStepType.Creation, GospelStepType.Heaven, GospelStepType.Trinity, GospelStepType.HolySpirit, GospelStepType.Prophets];
-    const nextStepsSection = [GospelStepType.Baptism, GospelStepType.Community, GospelStepType.Disciple, GospelStepType.DiscipleOthers];
-
     const counters = {
         conversations: 0,
         existenceOfGod: false,
@@ -72,14 +62,52 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
         nextSteps: 0
     };
 
+    const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
+    const coreGospelMessageSection = [GospelStepType.GodsLoveForThem, GospelStepType.SeparationFromGod, GospelStepType.JesusLifeDeath, GospelStepType.SalvationByGraceThroughFaith];
+    const salvationSection = [GospelStepType.SalvationMoment];
+    const spiritualPracticesSection = [GospelStepType.Bible, GospelStepType.Prayer, GospelStepType.Worship, GospelStepType.Repentance];
+    const doctrineSection = [GospelStepType.Creation, GospelStepType.Heaven, GospelStepType.Trinity, GospelStepType.HolySpirit, GospelStepType.Prophets];
+    const nextStepsSection = [GospelStepType.Baptism, GospelStepType.Community, GospelStepType.Disciple, GospelStepType.DiscipleOthers];
+
     const thresholds = {
         existenceOfGod: true,
         coreGospelMessage: coreGospelMessageSection.length * 5,
         salvation: true,
         spiritualPractices: spiritualPracticesSection.length * 5,
         doctrine: doctrineSection.length * 5,
-        nextSteps: nextStepsSection.length
-    }
+        nextSteps: 1,
+    };
+
+    useEffect(() => {
+        if (selectedStepType === null || !modalVisible) {
+            return;
+        }
+        setFormNotes(selectedGospelStep?.notes || "");
+        setFormNextSteps(selectedGospelStep?.nextSteps || "");
+    }, [selectedStepType, modalVisible]);
+
+    const getThreshold = (step: GospelStep) => {
+        if (step.type === GospelStepType.GodsExistence) {
+            return 1;
+        }
+        if (step.type === GospelStepType.SalvationMoment) {
+            return 1;
+        }
+        if (coreGospelMessageSection.includes(step.type)) {
+            return thresholds.coreGospelMessage;
+        }
+        if (spiritualPracticesSection.includes(step.type)) {
+            return thresholds.spiritualPractices;
+        }
+        if (doctrineSection.includes(step.type)) {
+            return thresholds.doctrine;
+        }
+        if (nextStepsSection.includes(step.type)) {
+            return thresholds.nextSteps;
+        }
+
+        return step.rating;
+    };
 
     for (let i = 0; i < gospelSteps.length; i++) {
         const step = gospelSteps[i];
@@ -101,37 +129,24 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
             counters.doctrine += step.rating;
         }
 
-        if (nextStepsSection.includes(step.type) && step.rating > 1) {
+        if (nextStepsSection.includes(step.type)) {
             counters.nextSteps += 1;
         }
     }
-
-    useEffect(() => {
-        if (!selectedStepType || !selectedGospelStep) {
-            return;
-        }
-        setFormGospelStep(selectedGospelStep);
-    }, [selectedStepType]);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
 
-    const onBackClick = () => {
-        setSelectedStepType(null);
-        setPickerState(PickerState.Normal);
-    }
-
-    const onSaveClick = async () => {
+    const onRatingChange = async (newStep: any) => {
         if (!selectedOneId) {
             setAppError(new AppError('Error updating gospel steps, invalid state...'));
             return;
         }
 
-        setPickerState(PickerState.Normal);
         setShowConfetti(false);
 
-        const response = await updateGospelStep(formGospelStep);
+        const response = await updateGospelStep(newStep);
         if (response.error) {
             setAppError(new AppError('Error updating gospel step: ', response.error));
             return;
@@ -139,14 +154,35 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
 
         refreshData(RefreshSpec.Ones);
         setSelectedStepType(null);
-        setFormGospelStep(GospelStep.createDefault(selectedOneId || ""));
+    };
+
+    const onTextChange = async () => {
+        setModalVisible(false);
+        setShowConfetti(false);
+
+        if (!selectedOneId || selectedGospelStep === null || selectedGospelStep?.id === undefined) {
+            setAppError(new AppError('Error updating gospel steps, invalid state...'));
+            return;
+        }
+
+        const response = await updateGospelStep({ ...selectedGospelStep, notes: formNotes || "", nextSteps: formNextSteps || "" });
+        if (response.error) {
+            setAppError(new AppError('Error updating gospel step: ', response.error));
+            return;
+        }
+
+        refreshData(RefreshSpec.Ones);
+        setSelectedStepType(null);
+        setFormNotes(null);
+        setFormNextSteps(null);
     };
 
     const handleOnPress = (type: GospelStepType) => {
         const isSelected = selectedStepType === type;
         if (isSelected) {
             setSelectedStepType(null);
-            setFormGospelStep(GospelStep.createDefault(selectedOneId || ""));
+            setFormNotes(null);
+            setFormNextSteps(null);
         } else {
             setSelectedStepType(type);
         }
@@ -157,7 +193,10 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
         return (
             <GospelStepCard gospelStep={gospelStep}
                 selected={selectedStepType === gospelStep.type}
+                threshold={getThreshold(gospelStep)}
                 key={`gospel-step-${type}`}
+                handleOnEdit={() => setModalVisible(true)}
+                handleOnRatingChange={(newStep: any) => onRatingChange(newStep)}
                 handleOnPress={() => handleOnPress(gospelStep.type)} />
         );
     };
@@ -179,14 +218,14 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                     width={250}
                     borderRadius={8} />
             </View>
-            <AppText>{coreGospelMessagePercent * 100}%</AppText>
+            <AppText>{Math.ceil(percent * 100)}%</AppText>
         </PageRow>
     );
 
-    const coreGospelMessagePercent = counters.coreGospelMessage / thresholds.coreGospelMessage;
-    const spiritualPracticesPercent = counters.spiritualPractices / thresholds.spiritualPractices;
-    const doctrinePercent = counters.doctrine / thresholds.doctrine;
-    const nextStepsPercent = counters.nextSteps / thresholds.nextSteps;
+    const coreGospelMessagePercent = calculatePercentByTotals(counters.coreGospelMessage, thresholds.coreGospelMessage);
+    const spiritualPracticesPercent = calculatePercentByTotals(counters.spiritualPractices, thresholds.spiritualPractices);
+    const doctrinePercent = calculatePercentByTotals(counters.doctrine, thresholds.doctrine);
+    const nextStepsPercent = calculatePercentByTotals(counters.nextSteps, thresholds.nextSteps);
 
     return (
         <PageColumn>
@@ -264,6 +303,71 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                 </PageColumn>
             </PageColumn>
 
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={toggleModal}>
+                <View style={[modalStyles.modalContainer]}>
+                    <PageColumn style={[modalStyles.modalContent, { width: '90%', gap: 8 }]}>
+                        {
+                            selectedGospelStep && (
+                                <PageRow style={{ marginHorizontal: 12, marginBottom: 8 }}>
+                                    <Image source={mapGospelStepTypeToIcon(selectedGospelStep.type)} style={styles.icon} />
+                                    <PageColumn>
+                                        <AppText type={TextType.Subtitle}>
+                                            {mapGospelStepTypeToTitle(selectedGospelStep.type)}
+                                        </AppText>
+                                        <AppText type={TextType.Default}>
+                                            {mapGospelStepTypeToDetails(selectedGospelStep.type)}
+                                        </AppText>
+                                    </PageColumn>
+                                </PageRow>
+                            )
+                        }
+
+                        <AppText type={TextType.Subtitle3}>
+                            Notes
+                        </AppText>
+                        <TextInput
+                            style={[formStyles.multiLineTextInput, { width: '100%' }]}
+                            placeholder="Enter text here..."
+                            placeholderTextColor={'gray'}
+                            value={formNotes || ""}
+                            numberOfLines={6}
+                            multiline
+                            onChangeText={(text) => setFormNotes(text)}
+                        />
+
+                        <AppText type={TextType.Subtitle3}>
+                            Next Steps
+                        </AppText>
+                        <TextInput
+                            style={[formStyles.multiLineTextInput, { width: '100%' }]}
+                            placeholder="Enter Text here..."
+                            placeholderTextColor={'gray'}
+                            value={formNextSteps || ""}
+                            numberOfLines={6}
+                            multiline
+                            onChangeText={(text) => setFormNextSteps(text)}
+                        />
+
+                        <PageRow spaceBetween style={{ marginVertical: 16, gap: 100 }}>
+                            <SimpleButton type={ButtonType.Close}
+                                text={'Close'}
+                                style={{ height: 40 }}
+                                onPress={toggleModal} />
+                            <SimpleButton type={ButtonType.Save}
+                                text={'Save'}
+                                style={{ height: 40 }}
+                                onPress={onTextChange} />
+                        </PageRow>
+
+                        <View style={{ height: 150 }}/>
+                    </PageColumn>
+                </View>
+            </Modal>
+
             {
                 showConfetti && <SimpleConfetti />
             }
@@ -292,6 +396,12 @@ const styles = StyleSheet.create({
     gospelStepCard: {
         padding: 16
     },
+    icon: {
+        width: 32,
+        height: 32,
+        alignSelf: 'center',
+        marginEnd: 12
+    }
 });
 
 const mapStateToProps = (state: any) => ({

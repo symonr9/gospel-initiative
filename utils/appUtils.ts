@@ -941,24 +941,43 @@ export function mapGospelStepTypeToIcon(item: GospelStepType): AppIcon {
     switch (item) {
         case GospelStepType.SpiritualConversations:
         case GospelStepType.GospelConversations:
+            return AppIcon.Conversation;
         case GospelStepType.GodsExistence:
+            return AppIcon.Church;
         case GospelStepType.GodsLoveForThem:
+            return AppIcon.Heart;
         case GospelStepType.SeparationFromGod:
+            return AppIcon.Skull;
         case GospelStepType.JesusLifeDeath:
+            return AppIcon.Christ;
         case GospelStepType.SalvationByGraceThroughFaith:
+            return AppIcon.PlantGrow;
         case GospelStepType.SalvationMoment:
+            return AppIcon.OpenHands;
         case GospelStepType.Bible:
+            return AppIcon.Book;
         case GospelStepType.Prayer:
+            return AppIcon.Prayer;
         case GospelStepType.Worship:
+            return AppIcon.Music;
         case GospelStepType.Repentance:
+            return AppIcon.LightBulb;
         case GospelStepType.Creation:
+            return AppIcon.Globe;
         case GospelStepType.Heaven:
+            return AppIcon.Heaven;
         case GospelStepType.Trinity:
+            return AppIcon.GroupOfThree;
         case GospelStepType.HolySpirit:
+            return AppIcon.Dove;
         case GospelStepType.Prophets:
+            return AppIcon.Exodus;
         case GospelStepType.Baptism:
+            return AppIcon.Water;
         case GospelStepType.Community:
+            return AppIcon.UserGroup;
         case GospelStepType.Disciple:
+            return AppIcon.PlantGrow;
         case GospelStepType.DiscipleOthers:
             return AppIcon.Christ;
     }
@@ -988,23 +1007,54 @@ export function mapGospelStepTypeToLayoutType(item: GospelStepType): GospelStepL
         case GospelStepType.HolySpirit:
         case GospelStepType.Prophets:
             return GospelStepLayoutType.Scale;
-            
+
         case GospelStepType.SpiritualConversations:
         case GospelStepType.GospelConversations:
             return GospelStepLayoutType.PositiveCounter;
     }
 };
 
-export function isGospelStepCompleted(item: GospelStep): boolean {
+export function mapGospelStepBinaryRatingToText(type: GospelStepType, checked: boolean): string {
+    if (type === GospelStepType.GodsExistence) {
+        return checked ? "Yes, they believe in a God/a spiritual reality." : "No, they not believe in a God/spiritual reality.";
+    } else if (type === GospelStepType.SalvationMoment) {
+        return checked ? "Yes, they have confessed Jesus as their Savior." : "No, they have not accepted Jesus as their Savior.";
+    } else if (type === GospelStepType.Baptism) {
+        return checked ? "Yes, they have been baptized." : "No, they have not been baptized.";
+    } else if (type === GospelStepType.Community) {
+        return checked ? "Yes, they have joined Christian community." : "No, they haven't joined Christian community.";
+    } else if (type === GospelStepType.Disciple) {
+        return checked ? "Yes, they are being discipled by another Christian." : "No, they aren't being discipled by another Christian.";
+    } else if (type === GospelStepType.DiscipleOthers) {
+        return checked ? "Yes, they are discipling others." : "No, they are not yet discipling others.";
+    }
+    return checked ? "Yes, they have done this." : "No, they not yet done this.";
+}
+
+export function mapGospelStepScaleRatingToText(rating: number): string {
+    if (rating === 5) {
+        return "They could effectively share this concept to others.";
+    } else if (rating === 4) {
+        return "They understand the concept and what it means for their lives.";
+    } else if (rating == 3) {
+        return "You have explained this concept in detail and answered their questions about it.";
+    } else if (rating === 2) {
+        return "You have shared about what this concept means to you.";
+    } else if (rating === 1) {
+        return "You have briefly mentioned this concept to them.";
+    }
+
+    return "You haven't yet shared this concept with them.";
+};
+
+export function isGospelStepCompleted(item: GospelStep, threshold: number): boolean {
     switch (item.layoutType) {
         case GospelStepLayoutType.Binary:
-            return item.rating > 1;
         case GospelStepLayoutType.Scale:
-            return item.rating > 3;
+            return item.rating > threshold;
         case GospelStepLayoutType.BinaryCounter:
-            return item.rating > 1;
         case GospelStepLayoutType.PositiveCounter:
-            return item.rating > 1;
+            return false; // Never officially completes
     }
 }
 
@@ -1438,10 +1488,14 @@ export function truncateString(str: string, maxLength: number): string {
     return str.slice(0, maxLength - 3) + '...';
 }
 
-export function calculatePercent(arr1: Number[], arr2: Number[]): number {
+export function calculatePercent(arr1: any[], arr2: any[]): number {
     const countInSecondArray = arr2.filter(num => arr1.includes(num)).length;
     const percentage = Math.ceil((countInSecondArray / arr2.length) * 100);
     return percentage;
+}
+
+export function calculatePercentByTotals(value: number, total: number): number {
+    return value / total;
 }
 
 export function getRandomString(strings: string[]): string {
@@ -1476,7 +1530,7 @@ export function getAvatarIconKey(value: any): string | undefined {
 }
 
 export function partitionChaptersByTag(storyChapters: StoryChapter[]): { key: StoryChapterTag; items: StoryChapter[] }[] {
-    
+
     const partitioned = new Map<StoryChapterTag, StoryChapter[]>();
 
     storyChapters.forEach((chapter) => {

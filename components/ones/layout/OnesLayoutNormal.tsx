@@ -63,7 +63,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
     }
 
     const BodyBackHeader = (
-        <PageRow spaceBetween style={{ marginBottom: 8, marginHorizontal: 16 }}>
+        <PageRow spaceBetween style={{ marginVertical: 10, marginHorizontal: 16 }}>
             <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                 title={'Back'}
                 onClick={() => setBodyType(BodyType.Base)} />

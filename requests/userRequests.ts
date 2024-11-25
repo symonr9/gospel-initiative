@@ -55,6 +55,8 @@ export const fetchServerData = async (refreshSpec: RefreshSpec): Promise<any> =>
             return { error: response.data.error };
         } else if (response.error) {
             return { error: response.error };
+        } else if (response.data && response.data instanceof String) {
+            return { error: response.data };
         } else if (response.status !== 200) {
             return { error: `Response returned error: ${response.status}` };
         }

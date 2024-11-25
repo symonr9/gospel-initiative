@@ -47,10 +47,7 @@ export const removeChristian = async (christian: Christian, controller?: AbortCo
     return performRequest(RequestType.Remove, christian, '/ones', 'christian', controller);
 };
 
-export const createGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<GospelStep | any> => {
-    return performRequest(RequestType.Create, gospelStep, '/ones', 'gospelStep', controller);
-}
-
+// Create and update are both done in this request.
 export const updateGospelStep = async (gospelStep: GospelStep, controller?: AbortController): Promise<GospelStep | any> => {
     return performRequest(RequestType.Update, gospelStep, '/ones', 'gospelStep', controller);
 };

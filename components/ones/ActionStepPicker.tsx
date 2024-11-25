@@ -19,6 +19,7 @@ import { updateActionSteps } from "@/requests/oneRequests";
 import User from '@/models/user';
 import AppError from '@/models/error';
 import { SimpleConfetti } from '../common/SimpleConfetti';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -245,12 +246,10 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                                             contentContainerStyle={modalStyles.iconList}
                                         />
                                     </PageColumn>
-                                    <TouchableOpacity
-                                        style={modalStyles.closeButton}
-                                        onPress={toggleModal}
-                                    >
-                                        <AppText>Close</AppText>
-                                    </TouchableOpacity>
+
+                                    <SimpleButton type={ButtonType.Close}
+                                        text={'Close'}
+                                        onPress={toggleModal}/>
                                 </View>
                             </View>
                         </Modal>
