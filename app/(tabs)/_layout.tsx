@@ -56,13 +56,6 @@ function TabLayout({ newUserStep, error, clearAppError }: ITabLayout) {
           tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'book'),
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, focused }) => createTabBarIcon(color, focused, 'person-circle'),
-        }}
-      />
     </Tabs>
   );
 

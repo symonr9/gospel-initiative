@@ -20,6 +20,32 @@ import * as Progress from 'react-native-progress';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 
+
+const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
+export const coreGospelMessageSection = [GospelStepType.GodsLoveForThem, GospelStepType.SeparationFromGod, GospelStepType.JesusLifeDeath, GospelStepType.SalvationByGraceThroughFaith];
+const salvationSection = [GospelStepType.SalvationMoment];
+const spiritualPracticesSection = [GospelStepType.Bible, GospelStepType.Prayer, GospelStepType.Worship, GospelStepType.Repentance];
+const doctrineSection = [GospelStepType.Creation, GospelStepType.Heaven, GospelStepType.Trinity, GospelStepType.HolySpirit, GospelStepType.Prophets];
+const nextStepsSection = [GospelStepType.Baptism, GospelStepType.Community, GospelStepType.Disciple, GospelStepType.DiscipleOthers];
+
+const sectionThresholds = {
+    existenceOfGod: true,
+    coreGospelMessage: coreGospelMessageSection.length * 5,
+    salvation: true,
+    spiritualPractices: spiritualPracticesSection.length * 5,
+    doctrine: doctrineSection.length * 5,
+    nextSteps: 1,
+};
+
+export const getThreshold = (step: GospelStep) => {
+    if (step.layoutType === GospelStepLayoutType.Binary) {
+        return 1;
+    } else if (step.layoutType === GospelStepLayoutType.Scale) {
+        return 5;
+    }
+    return 0;
+};
+
 export type IGospelStepPicker = ViewProps & {
     selectedOneId: string | null;
     ones: One[];
@@ -62,22 +88,6 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
         nextSteps: 0
     };
 
-    const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
-    const coreGospelMessageSection = [GospelStepType.GodsLoveForThem, GospelStepType.SeparationFromGod, GospelStepType.JesusLifeDeath, GospelStepType.SalvationByGraceThroughFaith];
-    const salvationSection = [GospelStepType.SalvationMoment];
-    const spiritualPracticesSection = [GospelStepType.Bible, GospelStepType.Prayer, GospelStepType.Worship, GospelStepType.Repentance];
-    const doctrineSection = [GospelStepType.Creation, GospelStepType.Heaven, GospelStepType.Trinity, GospelStepType.HolySpirit, GospelStepType.Prophets];
-    const nextStepsSection = [GospelStepType.Baptism, GospelStepType.Community, GospelStepType.Disciple, GospelStepType.DiscipleOthers];
-
-    const thresholds = {
-        existenceOfGod: true,
-        coreGospelMessage: coreGospelMessageSection.length * 5,
-        salvation: true,
-        spiritualPractices: spiritualPracticesSection.length * 5,
-        doctrine: doctrineSection.length * 5,
-        nextSteps: 1,
-    };
-
     useEffect(() => {
         if (selectedStepType === null || !modalVisible) {
             return;
@@ -85,29 +95,6 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
         setFormNotes(selectedGospelStep?.notes || "");
         setFormNextSteps(selectedGospelStep?.nextSteps || "");
     }, [selectedStepType, modalVisible]);
-
-    const getThreshold = (step: GospelStep) => {
-        if (step.type === GospelStepType.GodsExistence) {
-            return 1;
-        }
-        if (step.type === GospelStepType.SalvationMoment) {
-            return 1;
-        }
-        if (coreGospelMessageSection.includes(step.type)) {
-            return thresholds.coreGospelMessage;
-        }
-        if (spiritualPracticesSection.includes(step.type)) {
-            return thresholds.spiritualPractices;
-        }
-        if (doctrineSection.includes(step.type)) {
-            return thresholds.doctrine;
-        }
-        if (nextStepsSection.includes(step.type)) {
-            return thresholds.nextSteps;
-        }
-
-        return step.rating;
-    };
 
     for (let i = 0; i < gospelSteps.length; i++) {
         const step = gospelSteps[i];
@@ -222,10 +209,10 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
         </PageRow>
     );
 
-    const coreGospelMessagePercent = calculatePercentByTotals(counters.coreGospelMessage, thresholds.coreGospelMessage);
-    const spiritualPracticesPercent = calculatePercentByTotals(counters.spiritualPractices, thresholds.spiritualPractices);
-    const doctrinePercent = calculatePercentByTotals(counters.doctrine, thresholds.doctrine);
-    const nextStepsPercent = calculatePercentByTotals(counters.nextSteps, thresholds.nextSteps);
+    const coreGospelMessagePercent = calculatePercentByTotals(counters.coreGospelMessage, sectionThresholds.coreGospelMessage);
+    const spiritualPracticesPercent = calculatePercentByTotals(counters.spiritualPractices, sectionThresholds.spiritualPractices);
+    const doctrinePercent = calculatePercentByTotals(counters.doctrine, sectionThresholds.doctrine);
+    const nextStepsPercent = calculatePercentByTotals(counters.nextSteps, sectionThresholds.nextSteps);
 
     return (
         <PageColumn>

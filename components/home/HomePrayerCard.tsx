@@ -20,7 +20,7 @@ function HomePrayerCard({ }: IHomePrayerCard) {
     const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
     const prayerTitle = incomingBeacons.length > 0 ? `Incoming Beacons (${incomingBeacons.length})` : `All Beacons Completed`;
-    const prayerSubtitle = incomingBeacons.length > 0 ? `Tap on this card to pray.` : `Check back again later.`
+    const prayerSubtitle = incomingBeacons.length > 0 ? `Tap on a beacon to pray.` : `Check back again later.`
     const prayerIcon = incomingBeacons.length > 0 ? AppIcon.Prayer : AppIcon.Checkmark;
 
     const onPrayerClick = () => {

@@ -15,6 +15,7 @@ import { PageRow } from '../common/PageRow';
 import { Image } from 'expo-image';
 import { SimpleIcon } from '../common/SimpleIcon';
 import { Colors } from '@/constants/Colors';
+import HomeStats from './HomeStats';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -24,38 +25,6 @@ export type IHomeLayout = ViewProps & {
 function HomeLayout({ executor }: IHomeLayout) {
   const title = executor ? `Hello, ${executor.name}` : `Hello`;
   const subtitle = executor ? `Welcome to the Gospel Initiative App. Please take a look at tasks below.` : ``;
-
-  const oneCardDetailsView = (
-    <PageColumn>
-      <HomeChecklistItem itemKey={'actionSteps'}
-        title={'Action Steps'}
-        subtitle={'Have you checked your action steps today?'} />
-
-      <HomeChecklistItem itemKey={'gospelChecklist'}
-        title={'Gospel Checklist'}
-        subtitle={'Have you updated your Gospel Checklist today?'} />
-
-      <HomeChecklistItem itemKey={'oneBeaconSent'}
-        title={'Beacon Sent'}
-        subtitle={'Have you sent a beacon for your one today?'} />
-    </PageColumn>
-  );
-
-  const prayerDetailsView = (
-    <PageColumn>
-      <HomeChecklistItem itemKey={'prayedForBeacons'}
-        title={'Prayer Beacons'}
-        subtitle={'Have you prayed for other beacons today?'} />
-    </PageColumn>
-  );
-
-  const storyDetailsView = (
-    <PageColumn>
-      <HomeChecklistItem itemKey={'storyPracticed'}
-        title={'Practice Testimony'}
-        subtitle={'Have you practiced your testimony today?'} />
-    </PageColumn>
-  );
 
   return (
     <ScrollLayout style={styles.container}>
@@ -67,21 +36,8 @@ function HomeLayout({ executor }: IHomeLayout) {
 
         <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
           <HomePrayerCard />
+          <HomeStats/>
 
-          <SimpleCard iconSrc={AppIcon.UserGroup}
-            style={styles.card}
-            title={'Your One'}
-            detailsView={oneCardDetailsView} />
-
-          <SimpleCard iconSrc={AppIcon.OpenHands}
-            style={styles.card}
-            title={'Prayer'}
-            detailsView={prayerDetailsView} />
-
-          <SimpleCard iconSrc={AppIcon.Book}
-            style={styles.card}
-            title={'Stories'}
-            detailsView={storyDetailsView} />
         </PageColumn>
       </PageColumn>
     </ScrollLayout>

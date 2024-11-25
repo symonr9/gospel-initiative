@@ -6,7 +6,7 @@ import SimpleIconButton from '@/components/common/SimpleIconButton';
 import { AppIcon, GospelChecklistItem } from '@/enums/enums';
 import One from '@/models/one';
 import User from '@/models/user';
-import { mapActionStepTypeToIcon, getAppTimeAgoText, mapActionStepTypeToTitle, calculatePercent } from '@/utils/appUtils';
+import { mapActionStepTypeToIcon, getAppTimeAgoText, mapActionStepTypeToTitle, calculatePercent, isGospelStepCompleted, calculatePercentByTotals } from '@/utils/appUtils';
 import React, { useState } from 'react';
 import { View, ViewProps } from "react-native";
 import ActionStepPicker from '../ActionStepPicker';
@@ -15,7 +15,7 @@ import ChristianPicker from '../ChristianPicker';
 import InfoPicker from '../InfoPicker';
 import { OneLayoutType } from '../OnesLayout';
 import Beacon from '@/models/beacon';
-import GospelStepPicker from '../GospelStepPicker';
+import GospelStepPicker, { coreGospelMessageSection, getThreshold } from '../GospelStepPicker';
 import InfoPickerFilter from '../InfoPickerFilter';
 
 const gospelChecklistItems = Object.keys(GospelChecklistItem)
@@ -134,14 +134,16 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             actionStepsDetailView = (<View />);
         }
 
-        const selectedOneItems = selectedOne ? Array.from(new Set(selectedOne.gospelChecklist)) : []; // Set removes dupes.
-        const completedPercentage = calculatePercent(selectedOneItems, gospelChecklistItems.map((item) => item.value));
+        const gospelSteps = selectedOne ? selectedOne.gospelSteps : []; // Set removes dupes.
+        const completedGospelSharing = gospelSteps.filter((step) => coreGospelMessageSection.includes(step.type)).reduce((sum, item) => sum + item.rating, 0);
+        const completedPercentage = calculatePercentByTotals(completedGospelSharing, coreGospelMessageSection.length * 5);
+        
         const gospelChecklistDetailView = (
             <>
                 <DetailsSection iconSrc={AppIcon.PlantGrow}
                     prefix={"Gospel Shared"}
                     onClick={() => setBodyType(BodyType.GospelSteps)}
-                    title={`${completedPercentage}% shared`} />
+                    title={`${Math.ceil(completedPercentage * 100)}% shared`} />
             </>
         );
 

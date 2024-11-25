@@ -105,7 +105,7 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
 }
 
 const mapStateToProps = (state: any) => ({
-    state: state
+    state
 });
 
 const mapDispatchToProps = {

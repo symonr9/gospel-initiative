@@ -1051,7 +1051,7 @@ export function isGospelStepCompleted(item: GospelStep, threshold: number): bool
     switch (item.layoutType) {
         case GospelStepLayoutType.Binary:
         case GospelStepLayoutType.Scale:
-            return item.rating > threshold;
+            return item.rating >= threshold;
         case GospelStepLayoutType.BinaryCounter:
         case GospelStepLayoutType.PositiveCounter:
             return false; // Never officially completes

@@ -114,7 +114,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
 
         return (
             <TouchableOpacity onPress={handleOnPress}>
-                <PageColumn style={[gridStyles.itemCard, isSelected && gridStyles.selected]}>
+                <PageColumn style={[gridStyles.itemCard, { backgroundColor: '#f3f6f4' }, isSelected && gridStyles.selected]}>
                     <AppText type={TextType.Default}>
                         {item.notes}
                     </AppText>
@@ -538,7 +538,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                     const notesToRender = notesArray.filter((note) => hasMatchingText(note));
 
                     return (
-                        <PageColumn style={{ marginBottom: 12, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }}>
+                        <PageColumn style={[gridStyles.itemCard, { marginBottom: 12, borderBottomColor: 'lightgray', borderBottomWidth: 2, paddingBottom: 12 }]}>
                             <PageRow style={{}}>
                                 <Image source={icon}
                                     style={[styles.icon, { marginEnd: 8 }]}
