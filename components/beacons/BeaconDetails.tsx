@@ -117,7 +117,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    const { message, userName, userIcon, oneName, oneIcon, oneStage, activeUntil, tags, completedActivities } = beacon;
+    const { message, userName, userIcon, oneName, oneIcon, oneStage, activeUntil, tags, completedActivities, shareOwnName } = beacon;
     if (!userName || !userIcon || !oneName || !oneIcon || !oneStage || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
@@ -271,14 +271,29 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                 <PageRow style={[{ gap: 12 }]}>
                     <AnimatedElement element={
-                        <Image source={userIcon} style={styles.profileIcon} />
+                        <PageColumn>
+                            <Image source={userIcon} style={styles.profileIcon} />
+                            {
+                                shareOwnName && (
+                                    <AppText type={TextType.Subtitle3} 
+                                        style={{ alignSelf: 'center' }}>
+                                        {userName}
+                                    </AppText>
+                                )
+                            }
+                        </PageColumn>
                     } delay={300} direction={FadeDirection.Left} />
                     <AnimatedElement element={
                         <Image source={mapBeaconTypeToAppIcon(beacon.type)}
                             style={[styles.profileIcon, { width: 42, height: 42 }]} />
                     } delay={900} direction={FadeDirection.Up} />
                     <AnimatedElement element={
-                        <Image source={oneIcon} style={styles.profileIcon} />
+                        <PageColumn>
+                            <Image source={oneIcon} style={styles.profileIcon} />
+                            <AppText style={{ alignSelf: 'center' }}>
+                                Their One
+                            </AppText>
+                        </PageColumn>
                     } delay={600} direction={FadeDirection.Right} />
                 </PageRow>
                 <AnimatedHeader title={beacon.name}
