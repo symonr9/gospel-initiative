@@ -59,6 +59,7 @@ export function getActionStepFromJson(item: any) {
         item.oneId,
         item.isComplete,
         item.targetDate ? new Date(item.targetDate) : undefined,
+        item.lastModified ? new Date(item.lastModified) : undefined,
         item.type as ActionStepType
     );
 }
@@ -174,7 +175,9 @@ export function getStoryChapterFromJson(item: any) {
         item.quality,
         item.userId,
         shouldKeepChapter(item.quality),
-        item.originalPrompt
+        item.originalPrompt,
+        item.lastModified ? new Date(item.lastModified) : undefined,
+        item.created ? new Date(item.created) : undefined
     );
 };
 

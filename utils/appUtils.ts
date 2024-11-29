@@ -70,6 +70,37 @@ export function isWithinNext24Hours(date: Date): boolean {
     return date && date > now && date <= future24Hours;
 }
 
+export function isWithinPast24Hours(date: Date | undefined): boolean {
+    if (!date) {
+        return false;
+    }
+    const now = new Date();
+    const past24Hours = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+    console.log("past24Hours: ", past24Hours);
+    return date && date <= now && date >= past24Hours;
+}
+
+export function countRecentActionSteps(ones: One[]): number {
+    return ones.reduce((total, one) => {
+        const recentSteps = one.actionSteps.filter((step) =>
+            isWithinPast24Hours(step.lastModified)
+        );
+        return total + recentSteps.length;
+    }, 0);
+}
+
+export function countRecentGospelSteps(ones: One[]): number {
+    return ones.reduce((total, one) => {
+        const recentSteps = one.gospelSteps.filter((step) =>
+            isWithinPast24Hours(step.date)
+        );
+        return total + recentSteps.length;
+    }, 0);
+}
+
+export function getRecentStoryChapters(myStoryChapters: StoryChapter[]): StoryChapter[] {
+    return myStoryChapters.filter((chapter) => isWithinPast24Hours(chapter.created));
+}
 
 export function getAppTimeAgoText(date: Date | undefined, expiration = false, plain = false): string {
     if (!date) {

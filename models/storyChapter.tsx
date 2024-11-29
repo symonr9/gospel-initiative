@@ -13,6 +13,8 @@ interface IStoryChapter {
     tags: StoryChapterTag[];
     names: string[];
     quality: number;
+    lastModified: Date | undefined;
+    created: Date | undefined;
     isEssential: boolean;
 }
 
@@ -30,12 +32,15 @@ export default class StoryChapter implements IStoryChapter {
     names: string[];
     quality: number;
     userId: string;
+    lastModified: Date | undefined;
+    created: Date | undefined;
     isEssential: boolean;
     
     constructor(id: string, storyId: string, chapterType: StoryChapterType,
         title: string, content: string, questions: string[], icon: AppIcon, 
         order: number, tags: StoryChapterTag[], names: string[], quality: number,
-        userId: string, essential: boolean, originalPrompt: string
+        userId: string, essential: boolean, originalPrompt: string, 
+        lastModified: Date | undefined, created: Date | undefined
     ) {
         this.id = id;
         this.storyId = storyId;
@@ -51,6 +56,8 @@ export default class StoryChapter implements IStoryChapter {
         this.userId = userId;
         this.isEssential = essential;
         this.originalPrompt = originalPrompt;
+        this.lastModified = lastModified;
+        this.created = created;
     }
 
 }

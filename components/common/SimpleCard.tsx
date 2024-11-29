@@ -13,7 +13,7 @@ import { PageColumn } from './PageColumn';
 import { gridStyles } from '@/styles/Styles';
 
 export type ISimpleCard = ViewProps & {
-  iconSrc: AppIcon | AvatarIcon | null;
+  iconSrc?: AppIcon | AvatarIcon | null;
   title: string;
   subtitle?: string;
   detailsView?: any;
@@ -31,29 +31,30 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
   }
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} activeOpacity={onClick === undefined ? 1 : 0.2}>
       <ThemedView style={[gridStyles.itemCard, style]}>
-        <PageRow>
-          {
-            iconSrc && (
-              <Image source={iconSrc} 
-                style={styles.icon} 
-                contentFit="contain" />
-            )
-          }
-          <PageColumn style={{ maxWidth: 250 }}>
-            <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
+        <PageColumn>
+          <PageRow>
             {
-              subtitle && (
-                <AppText type={TextType.Default} style={{}}>{subtitle}</AppText>
+              iconSrc && (
+                <Image source={iconSrc}
+                  style={styles.icon}
+                  contentFit="contain" />
               )
             }
-
-            {detailsView}
-          </PageColumn>
-        </PageRow>
+            <PageColumn style={{ maxWidth: 250 }}>
+              <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
+              {
+                subtitle && (
+                  <AppText type={TextType.Italic} style={{}}>{subtitle}</AppText>
+                )
+              }
+            </PageColumn>
+          </PageRow>
+          {detailsView}
+        </PageColumn>
       </ThemedView>
-    </TouchableOpacity>
+    </TouchableOpacity >
   );
 }
 

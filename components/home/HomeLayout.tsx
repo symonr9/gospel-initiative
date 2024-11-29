@@ -6,16 +6,11 @@ import ScrollLayout from '../common/ScrollLayout';
 import { PageColumn } from '../common/PageColumn';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import User from '@/models/user';
-import { PageSubHeader } from '../common/PageSubHeader';
-import { SimpleCard } from '../common/SimpleCard';
 import { AppIcon } from '@/enums/enums';
-import HomeChecklistItem from './HomeChecklistItem';
 import HomePrayerCard from './HomePrayerCard';
 import { PageRow } from '../common/PageRow';
-import { Image } from 'expo-image';
 import { SimpleIcon } from '../common/SimpleIcon';
-import { Colors } from '@/constants/Colors';
-import HomeStats from './HomeStats';
+import HomeDailyTasksCard from './HomeDailyTasksCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -36,8 +31,7 @@ function HomeLayout({ executor }: IHomeLayout) {
 
         <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
           <HomePrayerCard />
-          <HomeStats/>
-
+          <HomeDailyTasksCard/>
         </PageColumn>
       </PageColumn>
     </ScrollLayout>

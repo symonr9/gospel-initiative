@@ -1,42 +1,49 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, StyleSheet, TouchableOpacity, ViewProps } from 'react-native';
 import { formStyles } from '@/styles/Styles';
 import Checkbox from 'expo-checkbox';
+import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { setHomeDailies } from '@/redux/actions';
+import { AppIcon, AvatarIcon } from '@/enums/enums';
 
-export type IHomeChecklistItem = ViewProps & {
-    title: string;
-    subtitle: string;
-    itemKey: string;
-
-    homeDailies: any;
-    setHomeDailies: Function;
+export type IHomeDailyTasksItem = ViewProps & {
+  title: string;
+  subtitle: string;
+  checked: boolean;
+  onClick?: Function | undefined;
+  iconSrc?: AppIcon | AvatarIcon | null;
 };
 
-function HomeChecklistItem({ homeDailies, setHomeDailies, title, subtitle, itemKey }: IHomeChecklistItem) {
-    const onPress = () => {
-        setHomeDailies({
-            ...homeDailies,
-            [itemKey]: !homeDailies.itemKey
-        });
-    };
+function HomeDailyTasksItem({ title, subtitle, checked, onClick, iconSrc = null }: IHomeDailyTasksItem) {
+  const onPress = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
 
-    return (
-        <TouchableOpacity onPress={onPress}>
-        <PageRow style={styles.checklistItem}>
-          <Checkbox
-            value={homeDailies[itemKey]}
-            onValueChange={onPress}
-            color={homeDailies[itemKey] ? '#8ce665' : undefined}
-            style={[formStyles.checkbox, { alignSelf: 'center', marginStart: 4, marginEnd: 12 }]}
-          />
+  return (
+    <TouchableOpacity onPress={onPress} activeOpacity={onClick === undefined ? 1 : 0.2}>
+      <PageRow style={styles.checklistItem}>
+        <Checkbox
+          value={checked}
+          color={checked ? '#8ce665' : undefined}
+          style={[formStyles.checkbox, { alignSelf: 'center', marginStart: 4, marginEnd: 12 }]}
+        />
+        <PageRow>
+          {
+            iconSrc && (
+              <Image source={iconSrc}
+                style={styles.icon}
+                contentFit="contain" />
+            )
+          }
           <PageColumn>
             <AppText type={TextType.DefaultSemiBold}>
-                {title}
+              {title}
             </AppText>
             <PageRow style={{ flexShrink: 1, width: '90%' }}>
               <AppText type={TextType.Body}>
@@ -45,23 +52,30 @@ function HomeChecklistItem({ homeDailies, setHomeDailies, title, subtitle, itemK
             </PageRow>
           </PageColumn>
         </PageRow>
-      </TouchableOpacity>
-    );
+      </PageRow>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
-    checklistItem: {
-        padding: 6,
-      },
+  checklistItem: {
+    padding: 6,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginEnd: 8,
+    alignSelf: 'center'
+  },
 });
 
 const mapStateToProps = (state: any) => ({
-    homeDailies: state.app.homeDailies,
+
 });
 
 
 const mapDispatchToProps = {
-    setHomeDailies
+  setHomeDailies
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeChecklistItem);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeDailyTasksItem);

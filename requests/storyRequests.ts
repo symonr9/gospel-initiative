@@ -37,7 +37,9 @@ export const partition = async (question: string, userResponse: string, controll
             item.quality,
             userId,
             false,
-            question
+            question,
+            item.lastModified ? new Date(item.lastModified) : undefined,
+            item.created ? new Date(item.created) : undefined
         ));
     } catch (error: any) {
         console.error('Error partition():', error.message || error);

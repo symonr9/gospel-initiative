@@ -24,7 +24,7 @@ function HomePrayerCard({ }: IHomePrayerCard) {
     const prayerIcon = incomingBeacons.length > 0 ? AppIcon.Prayer : AppIcon.Checkmark;
 
     const onPrayerClick = () => {
-        router.push('/ones?tab=1');
+        router.replace('/ones?tab=1');
     };
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
