@@ -2,14 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, type ViewProps } from 'react-native';
 
-import { AppIcon, StoryChapterType } from '@/enums/enums';
-import ScrollLayout from '../common/ScrollLayout';
+import { AppIcon } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import { PageColumn } from '../common/PageColumn';
-import BeforeChristList from './BeforeChristList';
-import SalvationMomentsList from './SalvationMomentsList';
-import AfterChristList from './AfterChristList';
 import MyStoriesHeader from './MyStoriesHeader';
 import BaseBrowseList from './BaseBrowseList';
 import LoadingLayout from '../common/LoadingLayout';

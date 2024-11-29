@@ -1,0 +1,2 @@
+
+export const MAX_DAILY_TASKS_NEEDED_TO_COMPLETE = 4;

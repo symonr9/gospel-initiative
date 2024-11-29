@@ -29,9 +29,6 @@ function HomePrayerCard({ }: IHomePrayerCard) {
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
         <BeaconCard beacon={beacon}
-            one={beacon.one}
-            user={beacon.user}
-            activities={beacon.incomingActivities}
             idx={idx}
             useAnimations={false}
             activeBeaconId={null}
@@ -52,7 +49,7 @@ function HomePrayerCard({ }: IHomePrayerCard) {
     const colorStyle = incomingBeacons.length > 0 ? {
         backgroundColor: Colors.white
     } : {
-        backgroundColor: Colors.success
+        backgroundColor: Colors.info
     };
 
     return (
@@ -69,7 +66,7 @@ const styles = StyleSheet.create({
     card: {
         alignItems: 'flex-start',
         paddingHorizontal: 8,
-        paddingVertical: 20
+        paddingVertical: 16
       },
 });
 

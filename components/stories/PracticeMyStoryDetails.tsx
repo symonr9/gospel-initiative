@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, ScrollView, TextInput, Button } from 'react-native';
+import { FlatList, StyleSheet, View, ScrollView, TextInput } from 'react-native';
 
-import { Image } from 'expo-image';
 
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, RefreshSpec } from '@/enums/enums';
+import { AppIcon, BeaconType, RefreshSpec } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
@@ -15,16 +14,21 @@ import User from '@/models/user';
 import { setAppError, refreshData } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
-import { getRandomString, shouldKeepChapter } from '@/utils/appUtils';
+import { formatDateTime, getHoursLeft, getRandomString, getTheNextDay, getTimePercentage, isWithinPast24Hours, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleLoadingSection } from '../common/SimpleLoadingSection';
 import AppError from '@/models/error';
+import { ItemRowContainer } from '../common/ItemRowContainer';
+import { BeaconCard } from '../beacons/BeaconCard';
+import { SimpleCard } from '../common/SimpleCard';
+import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
+  myStoryChapters: StoryChapter[],
   setAppError: Function,
   refreshData: Function
 };
@@ -40,10 +44,11 @@ enum PageState {
   Page8
 };
 
-function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPracticeMyStoryDetails) {
+function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refreshData }: IPracticeMyStoryDetails) {
   const [pageState, setPageState] = useState(PageState.Page1);
   const [question, setQuestion] = useState(getRandomString(PracticeTestimonyQuestions));
   const [response, setResponse] = useState("");
+  const [showInfoOnPage1, setShowInfoOnPage1] = useState(true);
   const [chapterArray, setChapterArray] = useState<StoryChapter[] | null>(null);
   const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
 
@@ -54,6 +59,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
     setQuestion(getRandomString(PracticeTestimonyQuestions));
     setResponse("");
     setEditingChapterId(null);
+    setShowInfoOnPage1(true);
     setPageState(PageState.Page1);
   };
 
@@ -67,6 +73,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
         return;
       }
 
+      refreshData(RefreshSpec.User);
       setChapterArray(data);
     } catch (err: any) {
       setAppError(new AppError('Error partioning data: ', err));
@@ -126,45 +133,108 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
   }, [chapterArray]);
 
   if (pageState === PageState.Page1) {
+    const hasFreePractice = !isWithinPast24Hours(executor.lastPartitionDate);
+    const numOfAdditionalPractices = executor.extraPartitionCount;
+    const hasNoTokens = !hasFreePractice && numOfAdditionalPractices === 0;
+    const beaconPlaceholder = { type: BeaconType.SpiritualConversation };
+
+    const practiceTokens = [];
+    if (hasFreePractice) {
+      practiceTokens.push(
+        <BeaconCard beacon={beaconPlaceholder}
+          idx={0}
+          useAnimations={true}
+          activeBeaconId={null}
+          onPress={() => { }}
+          selectedIdx={null} />
+      );
+    }
+
+    for (let i = 0; i < numOfAdditionalPractices; i++) {
+      practiceTokens.push(
+        <BeaconCard beacon={beaconPlaceholder}
+          idx={0}
+          activeBeaconId={null}
+          useAnimations={true}
+          onPress={() => { }}
+          selectedIdx={null} />
+      );
+    }
+
+    if (hasNoTokens) {
+      const nextPartitionDate = getTheNextDay(executor.lastPartitionDate);
+      const hoursBetween = getHoursLeft(nextPartitionDate);
+      const timePercent = hoursBetween / 24;
+
+      practiceTokens.push(
+        <PageColumn style={{ gap: 8 }}>
+          <PageColumn style={{ flexShrink: 1, width: 300, marginTop: 8 }}>
+            <AppText type={TextType.Italic}>
+              You can practice your testimony again on {formatDateTime(nextPartitionDate)}.
+            </AppText>
+          </PageColumn>
+          <PageRow style={{ gap: 8, marginTop: 8 }}>
+            <View style={{ alignSelf: 'center' }}>
+              <Progress.Bar progress={timePercent}
+                width={200}
+                borderRadius={8} />
+            </View>
+            <AppText type={TextType.Body}>{ 24 - hoursBetween } hour{hoursBetween !== 1 ? 's' : ''} left</AppText>
+          </PageRow>
+
+
+        </PageColumn>
+      );
+    }
+
+    const title = hasNoTokens ? 'Practice Tokens' : `Practice Tokens (${practiceTokens.length})`;
+
     Body.push(
-      <>
+      <PageColumn style={{ marginVertical: 8, marginHorizontal: 8, gap: 10 }}>
         <AnimatedHeader title={'Practice your Testimony'}
           subtitle={''}
           delay={0} />
 
-        <Image source={AppIcon.StageApathetic}
-          tintColor={Colors.light.darkAlternative}
-          style={{
-            marginVertical: 8,
-            height: 120,
-            width: 120,
-            alignSelf: 'center',
-          }} />
-
-        <PageRow style={{ marginLeft: 4, marginVertical: 8 }}>
+        <PageRow style={{ marginStart: 4 }}>
+          <ItemRowContainer iconSrc={AppIcon.Book}
+            title={title}
+            expandedHeight={hasNoTokens ? 80 : 60}
+            customStyles={{ container: { width: 350, backgroundColor: Colors.white } }}
+            itemsToRender={practiceTokens} />
         </PageRow>
 
-        <AppText type={TextType.Default}>
-          The Gospel Initiative app provides users with the ability to practice their testimony.
-        </AppText>
-        <PageColumn style={{ marginTop: 8, gap: 16 }}>
-          <AppText type={TextType.Default}>
-            1.) Respond: Answer the question on the next page. You can either type your answer or use your phone's speech-to-text feature.
-          </AppText>
-          <AppText type={TextType.Default}>
-            2.) Review Compilation: The app will organize and compile your testimony and provide insights and feedback. Choose which ones to save.
-          </AppText>
-          <AppText type={TextType.Default}>
-            3.) Save: When you are done reviewing the compilations, save your changes.
-          </AppText>
-        </PageColumn>
+        <PageRow>
+          <SimpleCard title={`Testimony Practice Info`}
+            subtitle={''}
+            onClick={() => setShowInfoOnPage1(val => !val)}
+            style={{ width: 350 }}
+            detailsView={
+              <>
+                {showInfoOnPage1 && (
+                  <PageColumn style={{ marginTop: 12 }}>
+                    <PageColumn style={{ marginTop: 8, gap: 16 }}>
+                      <AppText type={TextType.Default}>
+                        <AppText type={TextType.Subtitle3}>1.) Respond:</AppText> Answer the question on the next page. You can either type your answer or use your phone's speech-to-text feature.
+                      </AppText>
+                      <AppText type={TextType.Default}>
+                        <AppText type={TextType.Subtitle3}>2.) Review:</AppText> The app will organize and compile your testimony and provide insights and feedback. Choose which ones to save.
+                      </AppText>
+                      <AppText type={TextType.Default}>
+                        <AppText type={TextType.Subtitle3}>3.) Save:</AppText> When you are done reviewing the compilations, save your changes.
+                      </AppText>
+                    </PageColumn>
+                  </PageColumn>
+                )}
+              </>
+            } />
+        </PageRow>
 
         <PageRow center style={{ marginTop: 16 }}>
           <SimpleIconButton iconSrc={AppIcon.ArrowNext}
             title='Start'
             onClick={() => setPageState(PageState.Page2)} />
         </PageRow>
-      </>
+      </PageColumn>
     );
   } else if (pageState === PageState.Page2) {
     Body.push(
@@ -373,7 +443,7 @@ function PracticeMyStoryDetails({ executor, setAppError, refreshData }: IPractic
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {Body.map((item) => item)}
-      <View style={{ height: 200 }}/>
+      <View style={{ height: 200 }} />
     </ScrollView>
   );
 }
@@ -389,6 +459,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => ({
   executor: state.users.executor,
+  myStoryChapters: state.stories.myStoryChapters,
 });
 
 const mapDispatchToProps = {

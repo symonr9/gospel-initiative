@@ -4,6 +4,32 @@ import { generateRandomId, getAppIconKey, mapStoryChapterTypeToAppIcon } from "@
 import { getLocalUserId } from "@/utils/storageUtils";
 import { makeRequest } from "./Requests";
 
+export const unlockAdditionalTestimonyPractice = async (controller?: AbortController) => {
+    const userId = await getLocalUserId();
+    if (!userId) {
+        console.error('Missing required parameters: userId.');
+        return { error: 'Invalid parameters.' };
+    }
+
+    try {
+        const response = await makeRequest(`/stories/unlockPractice`, 'POST', {}, controller);
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.data && response.data instanceof String) {
+            return { error: response.data };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
+
+        return { response: 'OK' };
+    } catch (error: any) {
+        console.error('Error unlockAdditionalTestimonyPractice():', error.message || error);
+        return { error: error.message || 'An error occurred.' };
+    }
+};
+
 export const partition = async (question: string, userResponse: string, controller?: AbortController) => {
     const userId = await getLocalUserId();
     if (!userId || !question || !userResponse) {
@@ -13,7 +39,6 @@ export const partition = async (question: string, userResponse: string, controll
 
     try {
         const response = await makeRequest(`/stories/partition`, 'POST', { question, userResponse }, controller);
-        console.log("PARtition - response.data.error: ", response.data?.error, " response err - ", response.error);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {

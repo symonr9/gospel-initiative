@@ -32,7 +32,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
 
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={onClick === undefined ? 1 : 0.2}>
-      <ThemedView style={[gridStyles.itemCard, style]}>
+      <ThemedView style={[gridStyles.itemCard, { padding: 12 }, style]}>
         <PageColumn>
           <PageRow>
             {
@@ -42,8 +42,8 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
                   contentFit="contain" />
               )
             }
-            <PageColumn style={{ maxWidth: 250 }}>
-              <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
+            <PageColumn style={{ maxWidth: 300 }}>
+              <AppText type={TextType.Subtitle} style={{}}>{title}</AppText>
               {
                 subtitle && (
                   <AppText type={TextType.Italic} style={{}}>{subtitle}</AppText>

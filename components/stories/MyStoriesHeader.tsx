@@ -88,7 +88,8 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
     return (
         <PageColumn>
             <PageRow style={{ width: 230, flexShrink: 1 }}>
-                <AnimatedHeader title="My Stories" subtitle="A library of chapters of your testimony." />
+                <AnimatedHeader title={hasActiveFilter ? `My Stories` : `My Stories (${myStoryChapters.length})`}
+                    subtitle="A library of chapters of your testimony." />
                 {
                     editingChapterId === null && (
                         <PageRow>

@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import * as Progress from 'react-native-progress';
 
 import { PageColumn } from '../common/PageColumn';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, RefreshSpec } from '@/enums/enums';
 import { SimpleCard } from '../common/SimpleCard';
 import BeaconActivity from '@/models/beaconActivity';
 import Beacon from '@/models/beacon';
@@ -13,10 +13,17 @@ import StoryChapter from '@/models/storyChapter';
 import User from '@/models/user';
 import { AppText } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
-import { countRecentActionSteps, countRecentGospelSteps, getRecentStoryChapters, isWithinPast24Hours } from '@/utils/appUtils';
+import { formatDateTime, getHomeDailyTasksData, getTheNextDay, isWithinPast24Hours } from '@/utils/appUtils';
 import HomeChecklistItem from './HomeChecklistItem';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors';
 import { useRouter } from 'expo-router';
+import { MAX_DAILY_TASKS_NEEDED_TO_COMPLETE } from '@/constants/Constants';
+import { ButtonType } from '../common/SimpleButton';
+import PulsingButton from '../common/PulsingButton';
+import AppError from '@/models/error';
+import { setAppError, refreshData } from '@/redux/actions';
+import { unlockAdditionalTestimonyPractice } from '@/requests/storyRequests';
+import { SimpleConfetti } from '../common/SimpleConfetti';
 
 export type IHomeDailyTasksCard = ViewProps & {
     beaconActivities: BeaconActivity[],
@@ -26,37 +33,55 @@ export type IHomeDailyTasksCard = ViewProps & {
     myStoryChapters: StoryChapter[],
     executor: User,
     users: User[],
+    setAppError: Function,
+    refreshData: Function
 };
 
 function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, ones,
-    myStoryChapters, executor, users }: IHomeDailyTasksCard) {
+    myStoryChapters, executor, users, setAppError, refreshData }: IHomeDailyTasksCard) {
     const router = useRouter();
-    const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
-    const hasPrayedForBeaconToday = completedBeacons.length > 0;
-    const hasSentBeaconToday = activeBeacons.length > 0;
+    const { completedBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
     if (!executor) {
         return <></>;
     }
 
-    const numOfRecentActionSteps = countRecentActionSteps(ones);
-    const hasUpdatedActionStepToday = numOfRecentActionSteps > 0;
+    const {
+        hasPrayedForBeaconToday,
+        hasSentBeaconToday,
+        numOfRecentActionSteps,
+        hasUpdatedActionStepToday,
+        numOfRecentGospelSteps,
+        hasUpdatedGospelStepToday,
+        numOfRecentOneNotes,
+        hasUpdatedOneNoteToday,
+        hasPracticedTestimonyToday,
+        percentDone
+    } = getHomeDailyTasksData(ones, executor, completedBeacons, activeBeacons);
 
-    const numOfRecentGospelSteps = countRecentGospelSteps(ones);
-    const hasUpdatedGospelStepToday = numOfRecentGospelSteps > 0;
+    const onUnlockPress = async () => {
+        try {
+            const data = await unlockAdditionalTestimonyPractice();
+            if (!data || data.error) {
+                setAppError(new AppError(data.error.toString() || 'Something went wrong'));
+                return;
+            }
 
-    const hasPracticedTestimonyToday = isWithinPast24Hours(executor.lastPartitionDate);
+            refreshData(RefreshSpec.User);
+            router.replace('/stories?tab=1');
+        } catch (err: any) {
+            setAppError(new AppError('Error partioning data: ', err));
+        }
+    };
 
-    const percentDone = ((hasPrayedForBeaconToday ? 1 : 0)
-        + (hasSentBeaconToday ? 1 : 0)
-        + (hasUpdatedActionStepToday ? 1 : 0)
-        + (hasUpdatedGospelStepToday ? 1 : 0)
-        + (hasPracticedTestimonyToday ? 1 : 0)
-    ) / 3;
+    const showUnlockBtn = percentDone >= 1 && (
+        !executor.lastExtraPartitionGranted ||
+        !isWithinPast24Hours(executor.lastExtraPartitionGranted)
+    );
 
     const detailsView = (
         <PageColumn>
-            <PageRow style={{ gap: 8, marginVertical: 8 }}>
+            <PageRow style={{ gap: 8, marginTop: 8 }}>
                 <View style={{ alignSelf: 'center' }}>
                     <Progress.Bar progress={percentDone}
                         width={200}
@@ -65,8 +90,18 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                 <AppText>{percentDone >= 1 ? '100' : Math.ceil(percentDone * 100)}%</AppText>
             </PageRow>
 
-            <HomeChecklistItem title={`Practice your testimony`}
-                subtitle={`You have ${hasPracticedTestimonyToday ? '' : 'not yet'} practiced your testimony today.`}
+            {
+                showUnlockBtn && (
+                    <PageRow style={{ marginBottom: 12, marginHorizontal: 10 }}>
+                        <PulsingButton type={ButtonType.Save}
+                            onPress={onUnlockPress}
+                            text={'Unlock Additional Practice'} />
+                    </PageRow>
+                )
+            }
+
+            <HomeChecklistItem title={`Testimony Practice`}
+                subtitle={`You have${hasPracticedTestimonyToday ? '' : ' not yet'} practiced your testimony today.`}
                 onClick={() => router.replace('/stories?tab=1')}
                 iconSrc={AppIcon.StageApathetic}
                 checked={hasPracticedTestimonyToday} />
@@ -95,14 +130,28 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                 iconSrc={AppIcon.PlantGrow}
                 checked={hasUpdatedGospelStepToday} />
 
+            <HomeChecklistItem title={`Update a One's Notes`}
+                subtitle={`You have updated your One's notes ${numOfRecentOneNotes} time${numOfRecentOneNotes !== 1 ? 's' : ''} today.`}
+                onClick={() => router.replace('/ones?tab=0')}
+                iconSrc={AppIcon.Book2}
+                checked={hasUpdatedOneNoteToday} />
+
+            {
+                showUnlockBtn && <SimpleConfetti />
+            }
         </PageColumn>
     );
 
+    const hasUnlockedSecondPractice = percentDone >= 1 && executor.lastExtraPartitionGranted && isWithinPast24Hours(executor.lastExtraPartitionGranted);
+    let cardSubtitle = hasUnlockedSecondPractice 
+        ? `You have unlocked your second practice for today. You can unlock a new practice on ${formatDateTime(getTheNextDay(executor.lastExtraPartitionGranted))}.`
+        : `Complete ${MAX_DAILY_TASKS_NEEDED_TO_COMPLETE} tasks below to unlock an additional testimony practice.`;
+    
     return (
         <SimpleCard iconSrc={AppIcon.Chart}
             style={[styles.card]}
             title={'Daily Tasks'}
-            subtitle={'Complete 3 tasks below to unlock an additional testimony practice.'}
+            subtitle={cardSubtitle}
             detailsView={detailsView} />
     );
 }
@@ -127,7 +176,8 @@ const mapStateToProps = (state: any) => ({
 
 
 const mapDispatchToProps = {
-
+    setAppError,
+    refreshData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeDailyTasksCard);

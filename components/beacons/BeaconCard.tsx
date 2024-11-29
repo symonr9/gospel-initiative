@@ -13,12 +13,10 @@ import Animated, {
 
 import BeaconActivity from '@/models/beaconActivity';
 import { mapBeaconTypeToAppIcon } from '@/utils/appUtils';
+import { Colors } from '@/constants/Colors';
 
 export type IBeaconCard = {
     beacon: any;
-    one: any;
-    user: any;
-    activities: BeaconActivity[];
     idx: number;
     activeBeaconId: string | null;
     selectedIdx: number | null;
@@ -27,8 +25,7 @@ export type IBeaconCard = {
     useAnimations?: boolean;
 };
 
-export function BeaconCard({ beacon, one, user, activities,
-    activeBeaconId, idx, selectedIdx, setActiveBeaconId, onPress,
+export function BeaconCard({ beacon, activeBeaconId, idx, selectedIdx, setActiveBeaconId, onPress,
     useAnimations = true }: IBeaconCard) {
     const progress = useSharedValue(0);
 
@@ -36,16 +33,11 @@ export function BeaconCard({ beacon, one, user, activities,
         const backgroundColor = interpolateColor(
             progress.value,
             [0, 1],
-            ['#FFF', 'lightgreen']
+            ['#FFF', '#94e173']
         );
-
-        const opacity = selectedIdx === -1 || selectedIdx === idx
-            ? withTiming(1, { duration: 250 })
-            : withTiming(0.5, { duration: 250 });
 
         return {
             backgroundColor,
-            opacity,
         };
     });
 

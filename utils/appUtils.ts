@@ -1,3 +1,4 @@
+import { MAX_DAILY_TASKS_NEEDED_TO_COMPLETE } from "@/constants/Constants";
 import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, GospelStepLayoutType, GospelStepType, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
@@ -64,6 +65,14 @@ export function getDayInFuture(day: number) {
     return tomorrow;
 }
 
+export function getTheNextDay(date: Date | undefined) {
+    if (!date) {
+        return null;
+    }    
+    date.setDate(date.getDate() + 1);
+    return date;
+}
+
 export function isWithinNext24Hours(date: Date): boolean {
     const now = new Date();
     const future24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
@@ -95,6 +104,36 @@ export function countRecentGospelSteps(ones: One[]): number {
         );
         return total + recentSteps.length;
     }, 0);
+}
+
+export function countRecentOneNotes(ones: One[]): number {
+    return ones.reduce((total, one) => {
+        const recentSteps = one.oneNotes.filter((note) =>
+            isWithinPast24Hours(note.date)
+        );
+        return total + recentSteps.length;
+    }, 0);
+}
+
+export function getTimePercentage(targetDate: Date | null): number {
+    if (!targetDate) {
+        return 0;
+    }
+
+    const now = new Date();
+    const differenceInMs = targetDate.getTime() - now.getTime();
+
+    // If the target date is in the past or right now
+    if (differenceInMs <= 0) {
+        return 0;
+    }
+
+    console.log("differenceInMs: ", differenceInMs);
+
+    const totalMillisecondsIn24Hours = 24 * 60 * 60 * 1000;
+    const percentage = (differenceInMs / totalMillisecondsIn24Hours) * 100;
+
+    return Math.min(Math.max(percentage, 0), 100) * 0.01;
 }
 
 export function getRecentStoryChapters(myStoryChapters: StoryChapter[]): StoryChapter[] {
@@ -198,6 +237,21 @@ export function getDaysPrayedForText(date: Date): string {
     return `Been praying for ${days} days.`;
 }
 
+export function getHoursLeft(date: Date | null): number {
+    if (!date) {
+        return 0;
+    }
+
+    const now = new Date();
+    const timeDifference = date.getTime() - now.getTime();
+    if (timeDifference < 0) {
+        return 24;
+    }
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    return 24 - hours;
+}
 
 export function isBeaconActive(beacon: Beacon): boolean {
     if (!beacon.activeUntil) {
@@ -1632,4 +1686,41 @@ export const countRenderableChapters = (storyChapters: StoryChapter[], tagFilter
 export function doesChapterMatchFilter(chapter: StoryChapter, tagFilters: StoryChapterTag[], typeFilters: StoryChapterType[]): Boolean {
     const hasFilter = tagFilters.length + typeFilters.length > 0;
     return !hasFilter || (tagFilters.some((tag => chapter.tags.includes(tag))) || typeFilters.includes(chapter.chapterType));
+}
+
+export function getHomeDailyTasksData(ones: One[], executor: User, completedBeacons: any, activeBeacons: Beacon[]) {
+    const hasPrayedForBeaconToday = completedBeacons.length > 0;
+    const hasSentBeaconToday = activeBeacons.length > 0;
+
+    const numOfRecentActionSteps = countRecentActionSteps(ones);
+    const hasUpdatedActionStepToday = numOfRecentActionSteps > 0;
+
+    const numOfRecentGospelSteps = countRecentGospelSteps(ones);
+    const hasUpdatedGospelStepToday = numOfRecentGospelSteps > 0;
+
+    const numOfRecentOneNotes = countRecentOneNotes(ones);
+    const hasUpdatedOneNoteToday = numOfRecentOneNotes > 0;
+
+    const hasPracticedTestimonyToday = isWithinPast24Hours(executor.lastPartitionDate);
+
+    const percentDone = ((hasPrayedForBeaconToday ? 1 : 0)
+        + (hasSentBeaconToday ? 1 : 0)
+        + (hasUpdatedActionStepToday ? 1 : 0)
+        + (hasUpdatedGospelStepToday ? 1 : 0)
+        + (hasUpdatedOneNoteToday ? 1 : 0)
+        + (hasPracticedTestimonyToday ? 1 : 0)
+    ) / MAX_DAILY_TASKS_NEEDED_TO_COMPLETE;
+
+    return {
+        hasPrayedForBeaconToday,
+        hasSentBeaconToday,
+        numOfRecentActionSteps,
+        hasUpdatedActionStepToday,
+        numOfRecentGospelSteps,
+        hasUpdatedGospelStepToday,
+        numOfRecentOneNotes,
+        hasUpdatedOneNoteToday,
+        hasPracticedTestimonyToday,
+        percentDone
+    };
 }

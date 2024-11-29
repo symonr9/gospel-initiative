@@ -19,7 +19,7 @@ export const Colors = {
   success: '#d9ead3',
   error: '#ff6666',
   selected: '#d0e0e3',
-  info: '#d0e0e3',
+  info: '#eeeeee',
   open: '#f2ecc2',
   white: '#fff',
   light: {

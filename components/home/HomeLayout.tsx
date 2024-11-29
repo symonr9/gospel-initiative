@@ -19,17 +19,15 @@ export type IHomeLayout = ViewProps & {
 
 function HomeLayout({ executor }: IHomeLayout) {
   const title = executor ? `Hello, ${executor.name}` : `Hello`;
-  const subtitle = executor ? `Welcome to the Gospel Initiative App. Please take a look at tasks below.` : ``;
-
+  const subtitle = executor ? `Welcome to the Gospel Initiative App.` : ``;
   return (
     <ScrollLayout style={styles.container}>
-      <PageColumn style={{ gap: 8 }}>
-        <PageRow style={{ gap: 12, padding: 8 }}>
+      <PageColumn>
+        <PageRow style={{ gap: 10, padding: 8 }}>
           <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large />
           <AnimatedHeader title={title} subtitle={subtitle} style={{ width: 300 }} />
         </PageRow>
-
-        <PageColumn style={{ marginHorizontal: 12, gap: 12 }}>
+        <PageColumn style={{ marginHorizontal: 12, gap: 8 }}>
           <HomePrayerCard />
           <HomeDailyTasksCard/>
         </PageColumn>
@@ -44,7 +42,7 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: 'flex-start',
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
     paddingVertical: 20
   },
 });

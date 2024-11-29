@@ -21,21 +21,21 @@ export type IItemRowContainer = {
     expandedHeight?: number;
     isTopPosition?: boolean;
 
-    type: ItemRowContainerType;
-    activeType: ItemRowContainerType;
-    setActiveType: (type: ItemRowContainerType) => void;
+    type?: ItemRowContainerType;
+    activeType?: ItemRowContainerType;
+    setActiveType?: Function | null;
 }
 
 export function ItemRowContainer({
     iconSrc = null,
     title = '',
     itemsToRender,
-    customStyles,
-    type,
+    customStyles = {},
+    type = ItemRowContainerType.Incoming,
     expandedHeight = 90,
-    isTopPosition =true,
-    activeType,
-    setActiveType
+    isTopPosition = true,
+    activeType = ItemRowContainerType.Incoming,
+    setActiveType = null
 }: IItemRowContainer) {
     const heightProgress = useSharedValue(0);
 
@@ -52,7 +52,7 @@ export function ItemRowContainer({
 
     const isActive = type === activeType;
     const onPress = () => {
-        if (!isActive) {
+        if (!isActive && setActiveType) {
             setActiveType(type);
         }
     };
@@ -71,7 +71,7 @@ export function ItemRowContainer({
                         {iconSrc && (
                             <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                         )}
-                        <AppText type={TextType.DefaultSemiBold} style={customStyles.title}>
+                        <AppText type={TextType.Subtitle} style={customStyles?.title}>
                             {title}
                         </AppText>
                     </PageRow>
@@ -89,8 +89,6 @@ export function ItemRowContainer({
     );
 }
 
-const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
-
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
@@ -104,9 +102,9 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     icon: {
-        width: 20,
-        height: 20,
-        marginEnd: 16,
+        width: 26,
+        height: 26,
+        marginEnd: 8,
         alignSelf: 'center',
     },
     hide: {

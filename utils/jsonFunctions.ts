@@ -128,6 +128,7 @@ export function getUserFromJson(item: any) {
         AvatarIcon[item.icon as keyof typeof AvatarIcon],
         item.createdAt ? new Date(item.createdAt) : undefined,
         item.lastPartitionDate ? new Date(item.lastPartitionDate) : undefined,
+        item.lastExtraPartitionGranted ? new Date(item.lastExtraPartitionGranted) : undefined,
         item.extraPartitionCount
     );
 }

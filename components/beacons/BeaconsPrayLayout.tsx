@@ -30,9 +30,6 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
-            one={beacon.one}
-            user={beacon.user}
-            activities={beacon.completedActivities}
             idx={idx}
             activeBeaconId={activeBeaconId}
             setActiveBeaconId={setActiveBeaconId}
@@ -41,9 +38,6 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
         <BeaconCard beacon={beacon}
-            one={beacon.one}
-            user={beacon.user}
-            activities={beacon.incomingActivities}
             idx={idx}
             activeBeaconId={activeBeaconId}
             setActiveBeaconId={setActiveBeaconId}
