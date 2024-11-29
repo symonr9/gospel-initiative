@@ -76,7 +76,6 @@ export function isWithinPast24Hours(date: Date | undefined): boolean {
     }
     const now = new Date();
     const past24Hours = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-    console.log("past24Hours: ", past24Hours);
     return date && date <= now && date >= past24Hours;
 }
 

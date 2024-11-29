@@ -13,14 +13,15 @@ export const partition = async (question: string, userResponse: string, controll
 
     try {
         const response = await makeRequest(`/stories/partition`, 'POST', { question, userResponse }, controller);
+        console.log("PARtition - response.data.error: ", response.data?.error, " response err - ", response.error);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
             return { error: response.data.error };
+        } else if (response.data && response.data instanceof String) {
+            return { error: response.data };
         } else if (response.status !== 200) {
             return { error: `Response returned error: ${response.status}` };
-        } else if (!response.data || !(response.data instanceof Array)) {
-            return { error: 'Invalid data format...' };
         }
 
         return response.data.map((item: any) => new StoryChapter(
@@ -86,11 +87,15 @@ export const deleteChapter = async (chapter: StoryChapter, controller?: AbortCon
 const processChapterRequest = async (url: string, data: any, controller?: AbortController) => {
     try {
         const response = await makeRequest(url, 'POST', data, controller);
-        
-        if (!response) return { error: 'Failed to contact server.' };
-        if (response.data?.error) return { error: response.data.error };
-        if (response.status !== 200) return { error: `Response returned error: ${response.status}` };
-
+        if (!response) {
+            return { error: 'Failed to contact server.' };
+        } else if (response.data.error) {
+            return { error: response.data.error };
+        } else if (response.data && response.data instanceof String) {
+            return { error: response.data };
+        } else if (response.status !== 200) {
+            return { error: `Response returned error: ${response.status}` };
+        }
         return response.data;
     } catch (error: any) {
         console.error(`Error in ${url}:`, error.message || error);

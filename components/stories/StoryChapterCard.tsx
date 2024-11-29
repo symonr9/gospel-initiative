@@ -247,12 +247,12 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           </PageColumn>
         </ScrollLayout>
 
-        <PageRow style={[{}]} spaceEvenly>
+        <PageRow style={[]} spaceEvenly>
           {
             canDiscard && (
-              <SimpleCard iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}
+              <SimpleIconButton iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}
                 title={shouldKeep ? 'Keeping' : 'Discarding'}
-                onClick={onKeepClick} />
+                onClick={onKeepClick}/>
             )
           }
 

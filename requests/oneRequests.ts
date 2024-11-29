@@ -93,6 +93,7 @@ export const updateActionSteps = async (actionSteps: ActionStep[], oneId: string
                     step.oneId,
                     step.isComplete,
                     step.targetDate ? new Date(step.targetDate) : undefined,
+                    step.lastModified ? new Date(step.lastModified) : undefined,
                     step.type as ActionStepType
                 )
             );

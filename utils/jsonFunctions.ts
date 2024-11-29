@@ -126,7 +126,9 @@ export function getUserFromJson(item: any) {
         item.email,
         item.type as Role,
         AvatarIcon[item.icon as keyof typeof AvatarIcon],
-        item.createdAt,
+        item.createdAt ? new Date(item.createdAt) : undefined,
+        item.lastPartitionDate ? new Date(item.lastPartitionDate) : undefined,
+        item.extraPartitionCount
     );
 }
 

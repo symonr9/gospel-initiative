@@ -45,15 +45,14 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
     const numOfRecentGospelSteps = countRecentGospelSteps(ones);
     const hasUpdatedGospelStepToday = numOfRecentGospelSteps > 0;
 
-    const recentStoryChapters = getRecentStoryChapters(myStoryChapters);
-    const hasCreatedChapterToday = recentStoryChapters.length > 0;
+    const hasPracticedTestimonyToday = isWithinPast24Hours(executor.lastPartitionDate);
 
     const percentDone = ((hasPrayedForBeaconToday ? 1 : 0)
         + (hasSentBeaconToday ? 1 : 0)
         + (hasUpdatedActionStepToday ? 1 : 0)
         + (hasUpdatedGospelStepToday ? 1 : 0)
-        + (hasCreatedChapterToday ? 1 : 0)
-    ) / 4;
+        + (hasPracticedTestimonyToday ? 1 : 0)
+    ) / 3;
 
     const detailsView = (
         <PageColumn>
@@ -63,14 +62,14 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                         width={200}
                         borderRadius={8} />
                 </View>
-                <AppText>{Math.ceil(percentDone * 100)}%</AppText>
+                <AppText>{percentDone >= 1 ? '100' : Math.ceil(percentDone * 100)}%</AppText>
             </PageRow>
 
             <HomeChecklistItem title={`Practice your testimony`}
-                subtitle={`You have created ${recentStoryChapters.length} chapter${completedBeacons.length !== 1 ? 's' : ''} today.`}
+                subtitle={`You have ${hasPracticedTestimonyToday ? '' : 'not yet'} practiced your testimony today.`}
                 onClick={() => router.replace('/stories?tab=1')}
                 iconSrc={AppIcon.StageApathetic}
-                checked={hasCreatedChapterToday} />
+                checked={hasPracticedTestimonyToday} />
 
             <HomeChecklistItem title={`Pray for a Beacon`}
                 subtitle={`You have prayed for ${completedBeacons.length} beacon${completedBeacons.length !== 1 ? 's' : ''} today.`}
