@@ -1,2 +1,4 @@
 
 export const MAX_DAILY_TASKS_NEEDED_TO_COMPLETE = 4;
+
+export const MAX_CHARACTER_LENGTH = 1000;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from 'expo-image';
-import { Button, TextInput, ViewProps } from "react-native";
+import { Button, TextInput, View, ViewProps } from "react-native";
 import { AppIcon, AvatarIcon, AvatarIconArray, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
@@ -54,7 +54,7 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
     };
 
     return (
-        <PageColumn style={{ gap: 16 }}>
+        <PageColumn style={{}}>
             <AppText type={TextType.Title}>New Profile</AppText>
 
             <AppText>
@@ -88,6 +88,8 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
                     disabled={!isValid}
                     onPress={onContinue}/>
             </PageColumn>
+
+            <View style={{ height: 300 }} />
         </PageColumn>
     );
 }

@@ -25,7 +25,7 @@ function HomeLayout({ executor }: IHomeLayout) {
       <PageColumn>
         <PageRow style={{ gap: 10, padding: 8 }}>
           <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large />
-          <AnimatedHeader title={title} subtitle={subtitle} style={{ width: 300 }} />
+          <AnimatedHeader title={title} subtitle={subtitle} style={{ width: 250 }} />
         </PageRow>
         <PageColumn style={{ marginHorizontal: 12, gap: 8 }}>
           <HomePrayerCard />

@@ -27,23 +27,23 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
     };
 
     return (
-        <PageColumn style={{ gap: 16 }}>
+        <PageColumn style={{ gap: 12 }}>
             <Image source={AppIcon.AppLogoTransparent}
                 tintColor={Colors.light.darkAlternative}
                 style={styles.logoIcon} />
-            <AppText type={TextType.Title}>Welcome to the Gospel Initiative App!</AppText>
+            <AppText type={TextType.Subtitle}>Welcome to the Gospel Initiative App!</AppText>
             <AppText>
                 This app helps you love others intentionally, connect in prayer, and grow in sharing your testimony.
             </AppText>
-            <AppText style={{ marginVertical: 16 }}>
+            <AppText style={{}}>
                 Would you like to learn more about the Gospel Initiative or go straight to the app’s main features?
             </AppText>
-            <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
+            <PageColumn style={{ alignSelf: 'center' }}>
                 <SimpleButton type={ButtonType.Edit}
-                    text={'Learn More About the Gospel Initiative'}
+                    text={'Learn about the Gospel Initiative'}
                     onPress={onLearnGospelInitiative} />
                 <SimpleButton type={ButtonType.Edit}
-                    text={'Learn More About the App'}
+                    text={'Learn about the App'}
                     onPress={onLearnApp} />
                 <SimpleButton type={ButtonType.Edit}
                     text={'Skip to User Creation'}

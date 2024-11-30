@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, ScrollView, TextInput } from 'react-native';
+import { FlatList, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView } from 'react-native';
 
 
 import { connect } from 'react-redux';
@@ -25,6 +25,8 @@ import { BeaconCard } from '../beacons/BeaconCard';
 import { SimpleCard } from '../common/SimpleCard';
 import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
+import { MAX_CHARACTER_LENGTH } from '@/constants/Constants';
+import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -179,7 +181,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
                 width={200}
                 borderRadius={8} />
             </View>
-            <AppText type={TextType.Body}>{ 24 - hoursBetween } hour{hoursBetween !== 1 ? 's' : ''} left</AppText>
+            <AppText type={TextType.Body}>{24 - hoursBetween} hour{hoursBetween !== 1 ? 's' : ''} left</AppText>
           </PageRow>
 
 
@@ -243,25 +245,32 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           Practice your Testimony
         </AppText>
 
-
         <PageRow spaceBetween style={{ marginRight: 8 }}>
-          <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-            Your Question
-          </AppText>
+          <View />
           <SimpleIconButton iconSrc={AppIcon.Refresh}
             title='Refresh'
             onClick={() => setQuestion(getRandomString(PracticeTestimonyQuestions))}
             small />
         </PageRow>
-        <View style={{ flexShrink: 1, width: '90%' }}>
-          <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
+
+        <AppText type={TextType.Subtitle2} style={{ marginVertical: 8 }}>
+          Your Question
+        </AppText>
+        <View style={{ flexShrink: 1, width: 350 }}>
+          <AppText type={TextType.Subtitle} style={[styles.textLabel]}>
             {question}
           </AppText>
         </View>
 
-        <AppText type={TextType.Subtitle2} style={{ marginVertical: 8, marginTop: 16 }}>
-          Your Response
-        </AppText>
+        <PageColumn style={{ marginVertical: 8, marginTop: 16 }}>
+          <AppText type={TextType.Subtitle2}>
+            Your Response
+          </AppText>
+          <AppText type={TextType.Body}>
+            Max character length: {MAX_CHARACTER_LENGTH}
+          </AppText>
+        </PageColumn>
+
         <TextInput
           style={[formStyles.multiLineTextInput, { height: 240 }]}
           placeholder="Enter note here..."
@@ -269,6 +278,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           value={response}
           multiline
           numberOfLines={8}
+          maxLength={MAX_CHARACTER_LENGTH}
           onChangeText={(text) => setResponse(text)} />
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
