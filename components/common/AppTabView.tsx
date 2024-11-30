@@ -72,8 +72,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     label: {
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 12,
         minWidth: 100,
         textAlign: 'center'
     },

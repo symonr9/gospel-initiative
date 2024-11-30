@@ -6,6 +6,7 @@ import { PageRow } from './PageRow';
 
 type IAnimatedHeader = {
     title: string;
+    titleType?: TextType;
     subtitle?: string | null;
     duration?: number;
     delay?: number;
@@ -13,7 +14,7 @@ type IAnimatedHeader = {
     style?: any;
 };
 
-export function AnimatedHeader({ title, subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
+export function AnimatedHeader({ title, titleType = TextType.Subtitle, subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
 
     return (
         <View style={[styles.container, style]}>
@@ -21,7 +22,7 @@ export function AnimatedHeader({ title, subtitle = null, duration = 400, delay =
                 entering={FadeInUp.duration(duration).delay(delay)}
                 style={[{ marginStart: 4, marginTop: 8 }]} >
                 <PageRow style={{ flexShrink : 1, width: 300 }}>
-                    <AppText type={TextType.Subtitle}>
+                    <AppText type={titleType}>
                         {title}
                     </AppText>
                 </PageRow>

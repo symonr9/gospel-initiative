@@ -125,7 +125,7 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                 {
                     !editing && (
                         <StagePicker selectedStage={stage}
-                            style={{ height: 260, flex: 1, alignItems: 'center' }}
+                            style={{ height: 300, flex: 1, alignItems: 'center' }}
                             setSelectedStage={setStage} />
                     )
                 }
@@ -133,7 +133,7 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
 
             <PageRow center>
                 <CategoryPicker selectedCategory={category}
-                    style={{ height: !editing ? 260 : 250, flex: 1, alignItems: 'center' }}
+                    style={{ height: !editing ? 300 : 290, flex: 1, alignItems: 'center' }}
                     setSelectedCategory={setCategory} />
             </PageRow>
 
@@ -163,9 +163,9 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                                             style={[styles.icon, {}]} />
                                     </PageColumn>
 
-                                    <PageColumn style={{ marginStart: 8, width: 300 }}>
+                                    <PageColumn style={{ marginStart: 8, width: 280 }}>
                                         <AppText type={TextType.Subtitle3}>{mapActionStepTypeToTitle(item.type)}</AppText>
-                                        <AppText type={TextType.Default}>{mapActionStepTypeToDetails(item.type)}</AppText>
+                                        <AppText type={TextType.Body}>{mapActionStepTypeToDetails(item.type)}</AppText>
 
                                         {
                                             targetDates[index] && (

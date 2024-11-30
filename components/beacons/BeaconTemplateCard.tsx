@@ -21,7 +21,7 @@ export function BeaconTemplateCard({ template, isSelected = false }: IBeaconCard
         style={styles.icon}
         contentFit="contain" />
 
-      <PageColumn style={{ width: 300, flexShrink: 1 }}>
+      <PageColumn style={{ width: 250, flexShrink: 1 }}>
         <AppText type={TextType.Subtitle3}>
           {template.name}
         </AppText>

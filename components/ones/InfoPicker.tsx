@@ -171,7 +171,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: 300, flexShrink: 1 }}>
+                    <PageColumn style={{ marginStart: 8, width: 250, flexShrink: 1 }}>
                         <AppText type={TextType.Default} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Body} style={{}}>{item.details}</AppText>
                     </PageColumn>
@@ -193,7 +193,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                         <TouchableOpacity onPress={toggleNoteTypeModal}>
                                             <PageRow style={[modalStyles.card]}>
                                                 <Image source={selectedOneNoteTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
-                                                <PageColumn style={{ marginStart: 8, width: 300, flexShrink: 1 }}>
+                                                <PageColumn style={{ marginStart: 8, width: 250, flexShrink: 1 }}>
                                                     <AppText type={TextType.Default} style={{}}>{selectedOneNoteTypeData.label}</AppText>
                                                     <AppText type={TextType.Body} style={{}}>{selectedOneNoteTypeData.details}</AppText>
                                                 </PageColumn>
@@ -417,17 +417,17 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                 <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                                     Your One's Stage
                                 </AppText>
-                                <AppText>
+                                <AppText type={TextType.Body}>
                                     Make changes to your One's stage.
                                 </AppText>
                                 
                                 {
                                     formStage === OneStage.NewBeliever && (
                                         <PageColumn style={{ marginVertical: 8 }}>
-                                            <AppText type={TextType.Subtitle}>
+                                            <AppText type={TextType.Subtitle3}>
                                                 Woah!
                                             </AppText>
-                                            <AppText style={{ marginBottom: 8 }}>
+                                            <AppText type={TextType.Body} style={{ marginBottom: 8 }}>
                                                 Did your One decide to follow Jesus and accept Him as their Lord?
                                                 That's such a big deal! Please share more about it if you'd like (optional).
                                             </AppText>
@@ -447,32 +447,32 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                 {
                                     formStage ? (
                                         <PageColumn center style={{ marginVertical: 16 }}>
-                                            <PageRow style={{ gap: 36 }}>
+                                            <PageRow style={{ gap: 24 }}>
                                                 <PageColumn>
-                                                    <AppText type={TextType.DefaultSemiBold}>Previous Stage:</AppText>
+                                                    <AppText type={TextType.Body}>Previous Stage:</AppText>
                                                     <Image
                                                         source={selectedStageData?.icon}
                                                         style={[styles.selectedIcon, { opacity: 0.4 }]} />
-                                                    <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
+                                                    <AppText type={TextType.Default}>{selectedStageData?.label}</AppText>
                                                 </PageColumn>
                                                 <PageColumn>
-                                                    <AppText type={TextType.DefaultSemiBold}>New Stage:</AppText>
+                                                    <AppText type={TextType.Body}>New Stage:</AppText>
                                                     <Image
                                                         source={formStageData?.icon}
                                                         style={styles.selectedIcon} />
-                                                    <AppText type={TextType.DefaultSemiBold}>{formStageData?.label}</AppText>
+                                                    <AppText type={TextType.Default}>{formStageData?.label}</AppText>
                                                 </PageColumn>
                                             </PageRow>
-                                            <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{formStageData?.details}</AppText>
+                                            <AppText type={TextType.Body} style={{ marginTop: 8 }}>{formStageData?.details}</AppText>
                                         </PageColumn>
                                     ) : (
                                         <PageColumn center style={{ marginVertical: 16 }}>
-                                            <AppText type={TextType.DefaultSemiBold}>Current Stage:</AppText>
+                                            <AppText type={TextType.Body}>Current Stage:</AppText>
                                             <Image
                                                 source={selectedStageData?.icon}
                                                 style={styles.selectedIcon} />
-                                            <AppText type={TextType.DefaultSemiBold}>{selectedStageData?.label}</AppText>
-                                            <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedStageData?.details}</AppText>
+                                            <AppText type={TextType.Default}>{selectedStageData?.label}</AppText>
+                                            <AppText type={TextType.Body} style={{ marginTop: 8 }}>{selectedStageData?.details}</AppText>
                                         </PageColumn>
                                     )
                                 }
@@ -481,7 +481,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                     <FlatList
                                         data={StageArray}
                                         renderItem={renderStage}
-                                        numColumns={4}
+                                        numColumns={3}
                                         keyExtractor={(item, index) => index.toString()}
                                         contentContainerStyle={styles.iconList}
                                     />
@@ -664,8 +664,8 @@ const styles = StyleSheet.create({
         verticalAlign: 'middle',
     },
     selectedIcon: {
-        width: 50,
-        height: 50,
+        width: 32,
+        height: 32,
         opacity: 1,
     },
     iconCard: {

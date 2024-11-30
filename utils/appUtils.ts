@@ -354,7 +354,7 @@ export function mapOneCategoryToText(category: OneCategory): String {
         case OneCategory.Classmate:
             return "Classmate";
         case OneCategory.Roommate:
-            return "Roommate";
+            return "Roomie";
         case OneCategory.Client:
             return "Client";
         case OneCategory.Cashier:

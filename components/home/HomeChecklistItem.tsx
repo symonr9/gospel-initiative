@@ -42,9 +42,11 @@ function HomeDailyTasksItem({ title, subtitle, checked, onClick, iconSrc = null 
             )
           }
           <PageColumn>
-            <AppText type={TextType.DefaultSemiBold}>
-              {title}
-            </AppText>
+            <PageRow style={{ flexShrink: 1, width: '90%' }}>
+              <AppText type={TextType.Subtitle3}>
+                {title}
+              </AppText>
+            </PageRow>
             <PageRow style={{ flexShrink: 1, width: '90%' }}>
               <AppText type={TextType.Body}>
                 {subtitle}

@@ -46,7 +46,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
               <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
               {
                 subtitle && (
-                  <AppText type={TextType.Italic} style={{}}>{subtitle}</AppText>
+                  <AppText type={TextType.Body} style={{}}>{subtitle}</AppText>
                 )
               }
             </PageColumn>

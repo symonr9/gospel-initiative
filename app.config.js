@@ -8,7 +8,7 @@ export default ({ config }) => ({
         scheme: "myapp",
         userInterfaceStyle: "automatic",
         splash: {
-            image: "./assets/images/gospel-initiative/app-splash.png",
+            image: "./assets/images/gospel-initiative/app-logo.png",
             resizeMode: "contain",
             backgroundColor: "#ffffff",
         },

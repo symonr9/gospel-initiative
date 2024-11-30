@@ -71,7 +71,7 @@ export function ItemRowContainer({
                         {iconSrc && (
                             <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                         )}
-                        <AppText type={TextType.Subtitle} style={customStyles?.title}>
+                        <AppText type={TextType.Subtitle3} style={customStyles?.title}>
                             {title}
                         </AppText>
                     </PageRow>

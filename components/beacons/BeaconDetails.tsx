@@ -74,6 +74,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             return (
                 <View style={styles.container}>
                     <AnimatedHeader title='All Beacons Completed'
+                        titleType={TextType.Subtitle3}
                         subtitle='Please check back later for new beacons.' />
 
                     <PageColumn style={{ height: 400 }}>
@@ -134,12 +135,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         <PageRow spaceEvenly style={[{}]}>
             <DetailsSection iconSrc={mapStageToIcon(oneStage)}
                 prefix={"Their One is..."}
-                style={{ marginRight: 24 }}
                 title={mapStageToText(oneStage)} />
-
-            <DetailsSection iconSrc={AppIcon.UserGroup}
-                prefix={"Completed Prayers"}
-                title={completedActivities.length} />
         </PageRow>
     );
 
@@ -325,6 +321,26 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 )
             }
 
+            {
+                showBeaconTags && (
+                    <AnimatedElement element={
+                        <PageColumn style={{ maxHeight: 130 }}>
+                            <FlatList
+                                data={beaconTagArray}
+                                keyExtractor={(item) => item.value.toString()}
+                                renderItem={({ item }) => (
+                                    <PageChip
+                                        title={item.title}
+                                        subtitle={item.details}
+                                        style={{ marginBottom: 12 }}
+                                    />
+                                )}
+                            />
+                        </PageColumn>
+                    } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
+                )
+            }
+
             <PageRow spaceEvenly style={{ marginBottom: 8 }}>
                 {
                     beaconTagArray?.length > 0 && (
@@ -346,26 +362,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     onClick={onPrayClick}
                     customStyles={customPrayButtonStyles} />
             </PageRow>
-
-            {
-                showBeaconTags && (
-                    <AnimatedElement element={
-                        <PageColumn style={{ maxHeight: 130 }}>
-                            <FlatList
-                                data={beaconTagArray}
-                                keyExtractor={(item) => item.value.toString()}
-                                renderItem={({ item }) => (
-                                    <PageChip
-                                        title={item.title}
-                                        subtitle={item.details}
-                                        style={{ marginBottom: 12 }}
-                                    />
-                                )}
-                            />
-                        </PageColumn>
-                    } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
-                )
-            }
         </ScrollLayout>
     );
 }
@@ -396,7 +392,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        height: 400,
+        height: 370,
         flexDirection: 'column',
         padding: 12,
         marginHorizontal: 16,
@@ -410,7 +406,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     invisibleContainer: {
-        height: 350,
+        height: 310,
         padding: 12,
     },
     center: {

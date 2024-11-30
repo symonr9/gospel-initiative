@@ -24,8 +24,8 @@ export function OnesLayoutFirstTime({ setMessage, setActiveLayoutType }: IOnesLa
                 tintColor={Colors.light.darkAlternative}
                 style={{
                     marginVertical: 8,
-                    height: 120,
-                    width: 120,
+                    height: 80,
+                    width: 80,
                     alignSelf: 'center',
                 }} />
 

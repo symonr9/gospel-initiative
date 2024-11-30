@@ -94,7 +94,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
                             0
                         </AppText>
                         <Slider
-                            style={{ width: 220, height: 40 }}
+                            style={{ width: 200, height: 40 }}
                             disabled={readOnly}
                             minimumValue={0}
                             value={gospelStep.rating}

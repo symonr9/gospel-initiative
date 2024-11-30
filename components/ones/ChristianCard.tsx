@@ -113,7 +113,7 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
 const styles = StyleSheet.create({
     section: {
         margin: 4,
-        width: 300,
+        width: 250,
         flexShrink: 1,
         borderBottomColor: 'lightgray',
         borderBottomWidth: 2,

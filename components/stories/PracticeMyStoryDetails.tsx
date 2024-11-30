@@ -170,7 +170,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
 
       practiceTokens.push(
         <PageColumn style={{ gap: 8 }}>
-          <PageColumn style={{ flexShrink: 1, width: 300, marginTop: 8 }}>
+          <PageColumn style={{ flexShrink: 1, width: 250, marginTop: 8 }}>
             <AppText type={TextType.Italic}>
               You can practice your testimony again on {formatDateTime(nextPartitionDate)}.
             </AppText>
@@ -192,24 +192,16 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
     const title = hasNoTokens ? 'Practice Tokens' : `Practice Tokens (${practiceTokens.length})`;
 
     Body.push(
-      <PageColumn style={{ marginVertical: 8, marginHorizontal: 8, gap: 10 }}>
+      <PageColumn style={{ marginVertical: 8, gap: 10 }}>
         <AnimatedHeader title={'Practice your Testimony'}
-          subtitle={''}
+          subtitle={'Practice your story and save to your library.'}
           delay={0} />
-
-        <PageRow style={{ marginStart: 4 }}>
-          <ItemRowContainer iconSrc={AppIcon.Book}
-            title={title}
-            expandedHeight={hasNoTokens ? 80 : 60}
-            customStyles={{ container: { width: 350, backgroundColor: Colors.white } }}
-            itemsToRender={practiceTokens} />
-        </PageRow>
 
         <PageRow>
           <SimpleCard title={`Testimony Practice Info`}
             subtitle={''}
             onClick={() => setShowInfoOnPage1(val => !val)}
-            style={{ width: 350 }}
+            style={{ width: '98%' }}
             detailsView={
               <>
                 {showInfoOnPage1 && (
@@ -231,7 +223,12 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             } />
         </PageRow>
 
-        <PageRow center style={{ marginTop: 16 }}>
+        <PageRow spaceEvenly style={{ gap: 8 }}>
+          <ItemRowContainer iconSrc={AppIcon.Book}
+            title={title}
+            expandedHeight={hasNoTokens ? 80 : 60}
+            customStyles={{ container: { backgroundColor: Colors.white } }}
+            itemsToRender={practiceTokens} />
           <SimpleIconButton iconSrc={AppIcon.ArrowNext}
             title='Start'
             onClick={() => setPageState(PageState.Page2)} />

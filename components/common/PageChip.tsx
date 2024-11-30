@@ -7,6 +7,7 @@ import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
+import { PageRow } from './PageRow';
 
 export type IPageTag = ViewProps & {
     iconSrc?: AppIcon | null;
@@ -40,7 +41,9 @@ export function PageChip({ iconSrc = null, title,
                     <AppText type={textType} style={{}}>{title}</AppText>
                     {
                         subtitle && (
-                            <AppText type={TextType.Smol} style={{}}>{subtitle}</AppText>
+                            <PageRow style={{ flexShrink: 1, width: '95%' }}>
+                                <AppText type={TextType.Smol} style={{}}>{subtitle}</AppText>
+                            </PageRow>
                         )
                     }
                 </PageColumn>

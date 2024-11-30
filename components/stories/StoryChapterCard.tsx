@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { type ViewProps, StyleSheet, TextInput, Alert, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { type ViewProps, StyleSheet, TextInput, Alert, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
@@ -176,27 +176,33 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   if (editing) {
     return (
       <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
-        {Header}
+        <ScrollLayout style={{ }}>
+          <PageColumn style={{ gap: 12 }}>
+            {Header}
 
-        <ChapterTypePicker formChapter={formChapter}
-          setFormChapter={setFormChapter} />
+            <ChapterTypePicker formChapter={formChapter}
+              setFormChapter={setFormChapter} />
 
-        <TextInput
-          style={[formStyles.multiLineTextInput, { maxHeight: 280, marginVertical: 8, marginHorizontal: 8 }]}
-          placeholder="Enter note here..."
-          placeholderTextColor={'gray'}
-          value={formChapter.content}
-          multiline
-          numberOfLines={8}
-          onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
+            <TextInput
+              style={[formStyles.multiLineTextInput, { maxHeight: 280, marginVertical: 8, marginHorizontal: 8 }]}
+              placeholder="Enter note here..."
+              placeholderTextColor={'gray'}
+              value={formChapter.content}
+              multiline
+              numberOfLines={8}
+              onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
 
-        <PageColumn style={{ gap: 8 }}>
-          <AppText type={TextType.Body}>
-            Questions:
-          </AppText>
-          <QuestionsPicker formChapter={formChapter}
-            setFormChapter={setFormChapter} />
-        </PageColumn>
+            <PageColumn style={{ gap: 8, marginTop: 12 }}>
+              <AppText type={TextType.Body}>
+                Questions:
+              </AppText>
+              <QuestionsPicker formChapter={formChapter}
+                setFormChapter={setFormChapter} />
+            </PageColumn>
+
+            <View style={{ height: 200 }} />
+          </PageColumn>
+        </ScrollLayout>
 
         <PageRow center style={{ gap: 64 }}>
           <SimpleButton type={ButtonType.Edit} text={'Back'} onPress={onBackClick} />

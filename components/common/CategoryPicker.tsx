@@ -65,7 +65,7 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                         source={item.icon}
                         style={[styles.icon, selectedCategory === item.category && styles.selected]}
                     />
-                    <AppText style={{ textAlign: 'center' }} type={TextType.Italic}>{item.label}</AppText>
+                    <AppText style={{ textAlign: 'center', flexShrink: 1 }} type={TextType.Body}>{item.label}</AppText>
                 </PageColumn>
             </PageRow>
         </TouchableOpacity>

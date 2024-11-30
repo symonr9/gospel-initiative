@@ -100,7 +100,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
 
                         <PageColumn style={styles.section}>
                             <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                                style={{ width: 240, backgroundColor: Colors.info }}
+                                style={{ width: 300, backgroundColor: Colors.info }}
                                 onClick={() => setShareOwnName(!shareOwnName)}
                                 title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
                         </PageColumn>

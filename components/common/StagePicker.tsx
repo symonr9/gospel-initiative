@@ -90,7 +90,7 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
                             <FlatList
                                 data={StageArray}
                                 renderItem={renderIcon}
-                                numColumns={4}
+                                numColumns={3}
                                 keyExtractor={(item, index) => index.toString()}
                                 contentContainerStyle={styles.iconList}
                             />

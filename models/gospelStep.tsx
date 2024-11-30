@@ -43,7 +43,7 @@ export default class GospelStep implements IGospelStep {
             mapGospelStepTypeToLayoutType(type),
             "",
             "",
-            1,
+            0,
             oneId
         );
     }
