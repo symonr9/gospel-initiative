@@ -161,7 +161,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             <>
                 <DetailsSection iconSrc={AppIcon.User}
                     prefix={"Christians"}
-                    onClick={() => setBodyType(BodyType.Info)}
+                    onClick={() => setBodyType(BodyType.Christians)}
                     title={`${christians.length} In Their Life`} />
             </>
         );

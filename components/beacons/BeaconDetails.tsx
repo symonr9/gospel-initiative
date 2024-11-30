@@ -275,7 +275,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             <Image source={userIcon} style={styles.profileIcon} />
                             {
                                 shareOwnName && (
-                                    <AppText type={TextType.Subtitle3} 
+                                    <AppText type={TextType.Subtitle3}
                                         style={{ alignSelf: 'center' }}>
                                         {userName}
                                     </AppText>
@@ -326,10 +326,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             }
 
             <PageRow spaceEvenly style={{ marginBottom: 8 }}>
-                <SimpleIconButton iconSrc={AppIcon.Tag}
-                    title={showBeaconTags ? 'Hide Tags' : 'Show Tags'}
-                    onClick={() => setShowBeaconTags(val => !val)}
-                    customStyles={customPrayButtonStyles} />
+                {
+                    beaconTagArray?.length > 0 && (
+                        <SimpleIconButton iconSrc={AppIcon.Tag}
+                            title={showBeaconTags ? 'Hide Tags' : 'Show Tags'}
+                            onClick={() => setShowBeaconTags(val => !val)}
+                            customStyles={customPrayButtonStyles} />
+                    )
+                }
 
                 <SimpleIconButton iconSrc={AppIcon.Mail}
                     title={'Leave a Note'}

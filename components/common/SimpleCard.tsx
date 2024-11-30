@@ -43,7 +43,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
               )
             }
             <PageColumn style={{ maxWidth: 300 }}>
-              <AppText type={TextType.Subtitle} style={{}}>{title}</AppText>
+              <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
               {
                 subtitle && (
                   <AppText type={TextType.Italic} style={{}}>{subtitle}</AppText>

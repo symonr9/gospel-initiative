@@ -88,6 +88,7 @@ export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicke
                   <SimpleKeyboardAvoidingView Element={
                     <TextInput
                       style={[formStyles.slimTextInput, { width: 280 }]}
+                      multiline
                       value={item}
                       onChangeText={(text) => updateQuestion(text, index)}
                     />

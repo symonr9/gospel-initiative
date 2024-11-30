@@ -41,7 +41,7 @@ export type IStoryChapterCard = ViewProps & {
 };
 
 function getHeight(expanded: Boolean, editing: Boolean) {
-  if (editing) return 500;
+  if (editing) return undefined;
   if (expanded) return undefined;
   return undefined;
 }
@@ -176,31 +176,29 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   if (editing) {
     return (
       <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
-        <ScrollLayout style={[height !== undefined && { maxHeight: height - 140 }]}>
-          {Header}
+        {Header}
 
-          <ChapterTypePicker formChapter={formChapter}
-            setFormChapter={setFormChapter}/>
+        <ChapterTypePicker formChapter={formChapter}
+          setFormChapter={setFormChapter} />
 
-          <TextInput
-            style={[formStyles.multiLineTextInput, { maxHeight: 240, marginVertical: 8 }]}
-            placeholder="Enter note here..."
-            placeholderTextColor={'gray'}
-            value={formChapter.content}
-            multiline
-            numberOfLines={8}
-            onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
+        <TextInput
+          style={[formStyles.multiLineTextInput, { maxHeight: 280, marginVertical: 8, marginHorizontal: 8 }]}
+          placeholder="Enter note here..."
+          placeholderTextColor={'gray'}
+          value={formChapter.content}
+          multiline
+          numberOfLines={8}
+          onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
 
-          <PageColumn style={{ gap: 8 }}>
-            <AppText type={TextType.Body}>
-              Questions:
-            </AppText>
-            <QuestionsPicker formChapter={formChapter}
-              setFormChapter={setFormChapter} />
-          </PageColumn>
-        </ScrollLayout>
+        <PageColumn style={{ gap: 8 }}>
+          <AppText type={TextType.Body}>
+            Questions:
+          </AppText>
+          <QuestionsPicker formChapter={formChapter}
+            setFormChapter={setFormChapter} />
+        </PageColumn>
 
-        <PageRow spaceEvenly style={{}}>
+        <PageRow center style={{ gap: 64 }}>
           <SimpleButton type={ButtonType.Edit} text={'Back'} onPress={onBackClick} />
           <SimpleButton type={ButtonType.Save} text={'Save'} onPress={onSaveClick} />
         </PageRow>
@@ -252,7 +250,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
             canDiscard && (
               <SimpleIconButton iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}
                 title={shouldKeep ? 'Keeping' : 'Discarding'}
-                onClick={onKeepClick}/>
+                onClick={onKeepClick} />
             )
           }
 

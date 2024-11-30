@@ -53,7 +53,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
         <PageColumn style={[style]}>
             {
                 editing && (
-                    <>
+                    <PageColumn style={{ marginTop: 8 }}>
                         <AppText>
                             Related Names:
                         </AppText>
@@ -63,7 +63,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                                 onClick={() => setModalVisible(true)}
                                 small />
                         </PageRow>
-                    </>
+                    </PageColumn>
                 )
             }
 
