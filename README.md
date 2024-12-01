@@ -73,3 +73,15 @@ Join our community of developers creating universal apps.
 Notes:
 - The phone device you are trying to connect to must be on the same WiFi network as the laptop.
 - The `.env` file doesn't get updated unless you restart the expo server.
+
+## Steps for Deployment
+
+[Link](https://docs.expo.dev/build/setup/)
+
+1. `npm install -g eas-cli` if you haven't already.
+2. `eas whoami` to make sure you are logged in.
+   - If you are not yet logged in, run `eas login`.
+3. Configure project for EAS build: `ease build:configure`.
+   - Choose which platforms to build on.
+4. Run `eas build` when you are ready to create your first build.
+5. Once build is complete, run `eas submit` to upload the app to app stores.
