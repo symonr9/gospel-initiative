@@ -25,8 +25,7 @@ import { BeaconCard } from '../beacons/BeaconCard';
 import { SimpleCard } from '../common/SimpleCard';
 import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
-import { MAX_CHARACTER_LENGTH } from '@/constants/Constants';
-import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
+import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -263,19 +262,16 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <AppText type={TextType.Subtitle2}>
             Your Response
           </AppText>
-          <AppText type={TextType.Body}>
-            Max character length: {MAX_CHARACTER_LENGTH}
-          </AppText>
         </PageColumn>
 
         <TextInput
           style={[formStyles.multiLineTextInput, { height: 240 }]}
-          placeholder="Enter note here..."
+          placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
           placeholderTextColor={'gray'}
           value={response}
           multiline
           numberOfLines={8}
-          maxLength={MAX_CHARACTER_LENGTH}
+          maxLength={MAX_LONG_TEXT_LENGTH}
           onChangeText={(text) => setResponse(text)} />
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>

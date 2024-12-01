@@ -135,10 +135,6 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                 onClick={() => router.replace('/ones?tab=0')}
                 iconSrc={AppIcon.Book2}
                 checked={hasUpdatedOneNoteToday} />
-
-            {
-                showUnlockBtn && <SimpleConfetti />
-            }
         </PageColumn>
     );
 

@@ -12,6 +12,7 @@ import { updateUser } from "@/requests/userRequests";
 import User from "@/models/user";
 import AppError from "@/models/error";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
+import { MAX_SHORT_TEXT_LENGTH } from "@/constants/Constants";
 
 type INewUserCreateAProfile = ViewProps & {
     executor: User;
@@ -69,10 +70,11 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
                 <AppText type={TextType.DefaultSemiBold}>Your Name</AppText>
                 <TextInput
                     style={formStyles.textInput}
-                    placeholder="Enter name here..."
+                    placeholder={`Enter nickname here (Max Chars: ${MAX_SHORT_TEXT_LENGTH})...`}
                     placeholderTextColor={'gray'}
                     value={name}
                     numberOfLines={1}
+                    maxLength={MAX_SHORT_TEXT_LENGTH}
                     onChangeText={(text) => setName(text)}
                 />
                 {

@@ -19,6 +19,7 @@ import { PageRow } from '../common/PageRow';
 import * as Progress from 'react-native-progress';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
+import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 
 
 const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
@@ -318,11 +319,12 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                         </AppText>
                         <TextInput
                             style={[formStyles.multiLineTextInput, { width: '100%' }]}
-                            placeholder="Enter text here..."
+                            placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                             placeholderTextColor={'gray'}
                             value={formNotes || ""}
                             numberOfLines={6}
                             multiline
+                            maxLength={MAX_LONG_TEXT_LENGTH}
                             onChangeText={(text) => setFormNotes(text)}
                         />
 
@@ -331,11 +333,12 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                         </AppText>
                         <TextInput
                             style={[formStyles.multiLineTextInput, { width: '100%' }]}
-                            placeholder="Enter Text here..."
+                            placeholder={`Enter next steps here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                             placeholderTextColor={'gray'}
                             value={formNextSteps || ""}
                             numberOfLines={6}
                             multiline
+                            maxLength={MAX_LONG_TEXT_LENGTH}
                             onChangeText={(text) => setFormNextSteps(text)}
                         />
 

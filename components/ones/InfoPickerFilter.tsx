@@ -17,6 +17,7 @@ import One from '@/models/one';
 import { PickerState } from './InfoPicker';
 import { formStyles } from '@/styles/Styles';
 import { SimpleCard } from '../common/SimpleCard';
+import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 
 export type IInfoPickerFilter = {
     selectedOneId: string | null;
@@ -95,9 +96,10 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
                             <PageRow center style={{ gap: 8, marginHorizontal: 12 }}>
                                 <TextInput
                                     style={[formStyles.slimTextInput, { flexGrow: 1 }]}
-                                    placeholder="Filter by Text"
+                                    placeholder={`Filter by text here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
                                     placeholderTextColor={'gray'}
                                     value={oneNoteTextFilter}
+                                    maxLength={MAX_SHORT_TEXT_LENGTH}
                                     onChangeText={(text) => updateOneNotesFilters(oneNoteTypeFilters, text)}
                                 />
                             </PageRow>

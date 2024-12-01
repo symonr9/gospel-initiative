@@ -22,6 +22,7 @@ import { OneLayoutType } from './OnesLayout';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 import InfoPickerFilter from './InfoPickerFilter';
+import { MAX_LONG_TEXT_LENGTH, MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -241,11 +242,12 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             <SimpleKeyboardAvoidingView Element={
                 <TextInput
                     style={formStyles.multiLineTextInput}
-                    placeholder="Enter text here..."
+                    placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                     placeholderTextColor={'gray'}
                     value={formOneNote.notes}
                     numberOfLines={6}
                     multiline
+                    maxLength={MAX_LONG_TEXT_LENGTH}
                     onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
                 />
             } verticalOffset={200}/>
@@ -433,11 +435,12 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                             </AppText>
                                             <TextInput
                                                 style={formStyles.multiLineTextInput}
-                                                placeholder="Enter text here..."
+                                                placeholder={`Enter notes here... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
                                                 placeholderTextColor={'gray'}
                                                 value={formOneNote.notes}
                                                 numberOfLines={2}
                                                 multiline
+                                                maxLength={MAX_NORMAL_TEXT_LENGTH}
                                                 onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
                                             />
                                         </PageColumn>

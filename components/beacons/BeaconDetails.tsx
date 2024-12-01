@@ -27,6 +27,7 @@ import { SimpleGridCard } from '../common/SimpleGridCard';
 import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { Colors } from '@/constants/Colors';
+import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -51,7 +52,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
 
     const [isModalVisible, setModalVisible] = useState(false);
-    const [showBeaconTags, setShowBeaconTags] = useState(false);
+    const [showBeaconTags, setShowBeaconTags] = useState(true);
     const [selectedNoteIdx, setSelectedNoteIdx] = useState(0);
     const [customNote, setCustomNote] = useState('');
 
@@ -222,10 +223,10 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                         {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
                             <TextInput
                                 style={formStyles.textInput}
-                                placeholder="Enter your custom note"
+                                placeholder={`Enter custom note... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
                                 placeholderTextColor={'lightgray'}
                                 value={customNote}
-                                maxLength={80}
+                                maxLength={MAX_NORMAL_TEXT_LENGTH}
                                 onChangeText={setCustomNote}
                             />
                         )}

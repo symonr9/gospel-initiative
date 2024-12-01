@@ -20,6 +20,7 @@ import User from '@/models/user';
 import AppError from '@/models/error';
 import { SimpleConfetti } from '../common/SimpleConfetti';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -260,10 +261,11 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
             <AppText type={TextType.Default}>Notes</AppText>
             <TextInput
                 style={formStyles.textInput}
-                placeholder="Enter note here..."
+                placeholder={`Enter note here... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
                 placeholderTextColor={'gray'}
                 value={formActionStep.notes}
                 numberOfLines={1}
+                maxLength={MAX_NORMAL_TEXT_LENGTH}
                 onChangeText={(text) => setFormActionStep((prev) => ({ ...prev, notes: text }))}
             />
 

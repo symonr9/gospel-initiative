@@ -19,6 +19,7 @@ import AvatarIconPicker from '../common/AvatarIconPicker';
 import CategoryPicker from '../common/CategoryPicker';
 import { ChristianCard } from './ChristianCard';
 import { getSelectedOne } from '@/utils/appUtils';
+import { MAX_LONG_TEXT_LENGTH, MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 
 export type IChristianPicker = ViewProps & {
     executor: User;
@@ -132,10 +133,11 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                     <AppText type={TextType.DefaultSemiBold}>Name of Christian</AppText>
                     <TextInput
                         style={[formStyles.textInput, { width: 150 }]}
-                        placeholder="Enter name here..."
+                        placeholder={`Enter name here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
                         placeholderTextColor={'gray'}
                         value={formChristian.name}
                         numberOfLines={1}
+                        maxLength={MAX_SHORT_TEXT_LENGTH}
                         onChangeText={(name) => setFormChristian((prev) => ({ ...prev, name }))}
                     />
                 </PageColumn>
@@ -177,11 +179,12 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 <AppText type={TextType.DefaultSemiBold}>Notes</AppText>
                 <TextInput
                     style={formStyles.multiLineTextInput}
-                    placeholder="Enter text here..."
+                    placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                     placeholderTextColor={'gray'}
                     value={formChristian.notes}
                     numberOfLines={4}
                     multiline
+                    maxLength={MAX_LONG_TEXT_LENGTH}
                     onChangeText={(notes) => setFormChristian((prev) => ({ ...prev, notes }))}
                 />
             </PageColumn>
@@ -190,11 +193,12 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 <AppText type={TextType.DefaultSemiBold}>Mutual Interests</AppText>
                 <TextInput
                     style={formStyles.multiLineTextInput}
-                    placeholder="Enter mutual interests here..."
+                    placeholder={`Enter mutual notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                     placeholderTextColor={'gray'}
                     value={formChristian.mutualInterests}
                     numberOfLines={4}
                     multiline
+                    maxLength={MAX_LONG_TEXT_LENGTH}
                     onChangeText={(mutualInterests) => setFormChristian((prev) => ({ ...prev, mutualInterests }))}
                 />
             </PageColumn>

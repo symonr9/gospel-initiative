@@ -17,6 +17,7 @@ import ActionStep from '@/models/actionStep';
 import CategoryPicker from '../common/CategoryPicker';
 import { PageRow } from '../common/PageRow';
 import { formatDateTime, generateActionStepsForStage, generateRandomId, getDaysDifference, getNextWeek, mapActionStepTypeToDetails, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
+import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 
 export type IAddEditOneForm = ViewProps & {
     initialOneForm: OneForm;
@@ -112,10 +113,11 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                     <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
                     <TextInput
                         style={[formStyles.textInput, { width: 150 }]}
-                        placeholder="Enter name here..."
+                        placeholder={`Enter name here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
                         placeholderTextColor={'gray'}
                         value={name}
                         numberOfLines={1}
+                        maxLength={MAX_SHORT_TEXT_LENGTH}
                         onChangeText={(text) => setName(text)}
                     />
                 </PageColumn>

@@ -10,6 +10,7 @@ import { formStyles } from '@/styles/Styles';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageColumn } from '../common/PageColumn';
 import { Colors } from '@/constants/Colors';
+import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 
 type NamesPickerProps = ViewProps & {
     formChapter: StoryChapter;
@@ -92,9 +93,10 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                         <PageRow spaceBetween>
                             <TextInput
                                 style={[formStyles.slimTextInput, { flexGrow: 1 }]}
-                                placeholder="Add a new name"
+                                placeholder={`Enter name here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
                                 placeholderTextColor={'gray'}
                                 value={newName}
+                                maxLength={MAX_SHORT_TEXT_LENGTH}
                                 onChangeText={(text) => setNewName(text)}
                             />
 

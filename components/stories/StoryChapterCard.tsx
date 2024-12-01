@@ -26,6 +26,7 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import AppError from '@/models/error';
 import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -184,12 +185,13 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               setFormChapter={setFormChapter} />
 
             <TextInput
-              style={[formStyles.multiLineTextInput, { maxHeight: 280, marginVertical: 8, marginHorizontal: 8 }]}
-              placeholder="Enter note here..."
+              style={[formStyles.multiLineTextInput, { height: 280, marginVertical: 8, marginHorizontal: 8 }]}
+              placeholder={`Enter note here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
               placeholderTextColor={'gray'}
               value={formChapter.content}
               multiline
               numberOfLines={8}
+              maxLength={MAX_LONG_TEXT_LENGTH}
               onChangeText={(text) => setFormChapter({ ...formChapter, content: text })} />
 
             <PageColumn style={{ gap: 8, marginTop: 12 }}>
