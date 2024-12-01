@@ -42,14 +42,16 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                             )
                         }
                         <PageColumn>
-                            <Animated.Text
-                                entering={FadeInUp.duration(textDuration).delay(textDelay)}
-                                exiting={FadeOutDown.duration(textDuration)}
-                                style={[styles.textContainer]}>
-                                <AppText type={TextType.Default}>
-                                    {text}
-                                </AppText>
-                            </Animated.Text>
+                            <PageRow style={{ flexShrink: 1, width: 300 }}>
+                                <Animated.Text
+                                    entering={FadeInUp.duration(textDuration).delay(textDelay)}
+                                    exiting={FadeOutDown.duration(textDuration)}
+                                    style={[styles.textContainer]}>
+                                    <AppText type={TextType.Default}>
+                                        {text}
+                                    </AppText>
+                                </Animated.Text>
+                            </PageRow>
 
                             {
                                 prefixText && (
@@ -58,9 +60,9 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                                             entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
                                             exiting={FadeOutDown.duration(textDuration)}
                                             style={[styles.textContainer]} >
-                                        <AppText type={TextType.Prefix}>
-                                            {prefixText}
-                                        </AppText>
+                                            <AppText type={TextType.Prefix}>
+                                                {prefixText}
+                                            </AppText>
                                         </Animated.Text>
                                     </PageRow>
                                 )

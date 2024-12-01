@@ -9,21 +9,23 @@ import AddEditOneForm from '../AddEditOneForm';
 import AppError from '@/models/error';
 import One from '@/models/one';
 import User from '@/models/user';
-import { updateOne } from '@/requests/oneRequests';
+import { updateOne, removeOne } from '@/requests/oneRequests';
 
 type IOnesLayoutEditingOne = ViewProps & {
     selectedOne: One,
+    ones: One[],
     oneForm: OneForm,
     setAppError: Function,
     executor: User,
     refreshData: Function,
     setMessage: Function,
     setOneForm: Function,
+    setSelectedOneId: Function,
     revertToInitialLayoutType: Function
 };
 
-export function OnesLayoutEditingOne({ selectedOne, oneForm, setAppError, executor, 
-    refreshData, setMessage, setOneForm, revertToInitialLayoutType }: IOnesLayoutEditingOne) {
+export function OnesLayoutEditingOne({ selectedOne, ones, oneForm, setAppError, executor, 
+    refreshData, setMessage, setOneForm, setSelectedOneId, revertToInitialLayoutType }: IOnesLayoutEditingOne) {
         const onSave = async () => {
             const updatedOne = {
                 ...selectedOne,
@@ -50,6 +52,24 @@ export function OnesLayoutEditingOne({ selectedOne, oneForm, setAppError, execut
             }
         };
 
+        const onRemove = async () => {
+            try {
+                const response = await removeOne(selectedOne);
+                if (response.error) {
+                    setAppError(new AppError('Error removing one: ', response.error));
+                    return;
+                }
+
+                refreshData(RefreshSpec.Ones);
+                setOneForm(OneForm.createDefault());
+                setSelectedOneId(ones.length > 0 ? ones[0].id : null);
+                setMessage("Your One has been successfully removed!");
+                revertToInitialLayoutType();
+            } catch (err: any) {
+                setAppError(new AppError('Error removing one: ', err));
+            }
+        };
+
     return (
         <PageColumn>
             <PageRow spaceEvenly>
@@ -64,6 +84,7 @@ export function OnesLayoutEditingOne({ selectedOne, oneForm, setAppError, execut
             </PageRow>
 
             <AddEditOneForm editing 
+                onRemove={onRemove}
                 initialOneForm={selectedOne} />
         </PageColumn>
     );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ViewProps, StyleSheet, TextInput, FlatList } from 'react-native';
+import { ViewProps, StyleSheet, TextInput, FlatList, Alert } from 'react-native';
 import { Image } from 'expo-image';
 import Checkbox from 'expo-checkbox';
 import One from '@/models/one';
@@ -9,7 +9,7 @@ import { setOneForm } from '@/redux/actions';
 import { formStyles, gridStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { AvatarIcon, OneCategory, OneStage, ActionStepType } from '@/enums/enums';
+import { AvatarIcon, OneCategory, OneStage, ActionStepType, AppIcon } from '@/enums/enums';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import StagePicker from '../common/StagePicker';
@@ -18,15 +18,18 @@ import CategoryPicker from '../common/CategoryPicker';
 import { PageRow } from '../common/PageRow';
 import { formatDateTime, generateActionStepsForStage, generateRandomId, getDaysDifference, getNextWeek, mapActionStepTypeToDetails, mapActionStepTypeToIcon, mapActionStepTypeToTitle } from '@/utils/appUtils';
 import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
+import SimpleIconButton from '../common/SimpleIconButton';
+import { SimpleCard } from '../common/SimpleCard';
+import { clearAll } from '@/utils/storageUtils';
 
 export type IAddEditOneForm = ViewProps & {
     initialOneForm: OneForm;
     editing?: boolean;
-
+    onRemove: Function;
     setOneForm: Function;
 };
 
-function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEditOneForm) {
+function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm }: IAddEditOneForm) {
     const [formData, setFormData] = useState(initialOneForm);
     const [suggestedActionSteps, setSuggestedActionSteps] = useState<ActionStep[]>(generateActionStepsForStage(initialOneForm.stage));
     const [selectedSteps, setSelectedSteps] = useState(suggestedActionSteps.map(() => true));
@@ -48,6 +51,41 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
             actionSteps: filteredActionSteps
         }));
     }, [selectedSteps, targetDates]);
+
+    const onRemoveClick = () => {
+        Alert.alert(
+            'Are you sure?',
+            'Are you sure you want to remove your one? You will lose all data related to your one.',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              { text: 'Yes, I am sure', onPress: confirmFinalRemove },
+            ],
+            { cancelable: true }
+          );
+    };
+
+    const confirmFinalRemove = () => {
+        Alert.alert(
+          'Are you really sure?',
+          'This action cannot be undone. Please confirm that you want to proceed.',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            { text: 'Yes, delete one', onPress: async () => {
+                if (onRemove) {
+                    await onRemove();
+                }
+            }},
+          ],
+          { cancelable: true }
+        );
+      };
+    
 
     const setName = (name: string) => {
         setFormData((prev) => ({
@@ -138,6 +176,21 @@ function AddEditOneForm({ editing = false, initialOneForm, setOneForm }: IAddEdi
                     style={{ height: !editing ? 300 : 290, flex: 1, alignItems: 'center' }}
                     setSelectedCategory={setCategory} />
             </PageRow>
+
+            {
+                editing && (
+                    <PageRow style={{ marginTop: 12 }}>
+                        <SimpleCard title={'Additional Actions'}
+                            detailsView={
+                                <PageRow style={{ marginTop: 12 }}>
+                                    <SimpleIconButton iconSrc={AppIcon.Trash}
+                                        onClick={onRemoveClick}
+                                        title={'Remove your One'} />
+                                </PageRow>
+                            } />
+                    </PageRow>
+                )
+            }
 
             {
                 !editing && (

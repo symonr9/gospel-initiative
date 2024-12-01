@@ -95,9 +95,11 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
             <OnesLayoutEditingOne oneForm={oneForm}
                 setAppError={setAppError}
                 executor={executor}
+                ones={ones}
                 refreshData={refreshData}
                 setMessage={setMessage}
                 setOneForm={setOneForm}
+                setSelectedOneId={setSelectedOneId}
                 revertToInitialLayoutType={revertToInitialLayoutType} 
                 selectedOne={selectedOne} />
         );
