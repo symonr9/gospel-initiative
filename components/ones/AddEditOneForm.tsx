@@ -25,14 +25,14 @@ import { clearAll } from '@/utils/storageUtils';
 export type IAddEditOneForm = ViewProps & {
     initialOneForm: OneForm;
     editing?: boolean;
-    onRemove: Function;
+    onRemove?: Function;
     setOneForm: Function;
 };
 
 function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm }: IAddEditOneForm) {
     const [formData, setFormData] = useState(initialOneForm);
     const [suggestedActionSteps, setSuggestedActionSteps] = useState<ActionStep[]>(generateActionStepsForStage(initialOneForm.stage));
-    const [selectedSteps, setSelectedSteps] = useState(suggestedActionSteps.map(() => true));
+    const [selectedSteps, setSelectedSteps] = useState(suggestedActionSteps.map(() => false));
     const [targetDates, setTargetDates] = useState(suggestedActionSteps.map((step) => step.targetDate));
 
     useEffect(() => {

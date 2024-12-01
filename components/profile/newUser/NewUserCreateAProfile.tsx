@@ -59,7 +59,7 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             <AppText type={TextType.Title}>New Profile</AppText>
 
             <AppText>
-                Time to create a profile! Add a name and picture.
+                Time to create a profile! Add a nickname and picture. You can edit this information later.
             </AppText>
 
             <PageColumn style={styles.section}>
@@ -67,7 +67,7 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             </PageColumn>
 
             <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
-                <AppText type={TextType.DefaultSemiBold}>Your Name</AppText>
+                <AppText type={TextType.DefaultSemiBold}>Your Nickname</AppText>
                 <TextInput
                     style={formStyles.textInput}
                     placeholder={`Enter nickname here (Max Chars: ${MAX_SHORT_TEXT_LENGTH})...`}

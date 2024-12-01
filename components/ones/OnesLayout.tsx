@@ -81,6 +81,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 refreshData={refreshData} 
                 setMessage={setMessage} 
                 setOneForm={setOneForm} 
+                setSelectedOneId={setSelectedOneId}
                 revertToInitialLayoutType={revertToInitialLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.EditingOne) {

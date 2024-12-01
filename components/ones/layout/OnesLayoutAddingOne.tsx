@@ -19,10 +19,11 @@ type IOnesLayoutAddingOne = ViewProps & {
     refreshData: Function,
     setMessage: Function,
     setOneForm: Function,
+    setSelectedOneId: Function,
     revertToInitialLayoutType: Function
 };
 
-export function OnesLayoutAddingOne({ oneForm, setAppError, executor, 
+export function OnesLayoutAddingOne({ oneForm, setAppError, executor, setSelectedOneId,
     refreshData, setMessage, setOneForm, revertToInitialLayoutType }: IOnesLayoutAddingOne) {
     const onSave = async () => {
         const newOne = new One(
@@ -58,6 +59,7 @@ export function OnesLayoutAddingOne({ oneForm, setAppError, executor,
 
             refreshData(RefreshSpec.Ones);
             setOneForm(OneForm.createDefault());
+            setSelectedOneId(response.id);
             setMessage("Your One has been successfully created!");
             revertToInitialLayoutType();
         } catch (err: any) {
