@@ -32,8 +32,14 @@ export default function NewUserTheStoriesPage({ newUserStep, setNewUserStep, sty
                 'Access Gospel resources.']}
             />
 
-            <AppText style={{ marginVertical: 16 }}>
+            <AppText style={{ marginVertical: 0 }}>
+                Every 24 hours, you will be granted a testimony practice token. Completing additional tasks on the app can unlock
+                you an additional token. Tokens are used to help encourage the habit of practicing your testimony a little bit
+                every day!
+            </AppText>
 
+            <AppText style={{ }}>
+                New users, however, will receive <AppText type={TextType.Subtitle3}>5</AppText> free tokens to start off with.
             </AppText>
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

@@ -70,8 +70,7 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                     }
                 </PageRow>
 
-                <StoryDetails activeStory={activeStory} 
-                    activeLayoutType={activeLayoutType} />
+                <StoryDetails activeStory={activeStory} />
 
                 {
                     activeStory === null && (
