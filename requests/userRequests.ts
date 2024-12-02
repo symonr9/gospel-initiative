@@ -1,5 +1,5 @@
 import { postData } from "@/utils/apiUtils";
-import { saveToStorage, isSecureStorageAvailable, saveToSecureStorage, getLocalRefreshToken, getLocalUserId } from "@/utils/storageUtils";
+import { saveToStorage, isSecureStorageAvailable, saveToSecureStorage, getLocalRefreshToken, getLocalUserId, setLocalNewUserStep } from "@/utils/storageUtils";
 import { makeRequest, performRequest, RequestType } from "./Requests";
 import { getUserFromJson, getOnesFromJson, getStoryChaptersFromJson, getBeaconsFromJson } from "@/utils/jsonFunctions";
 import { NewUserStep, RefreshSpec } from "@/enums/enums";
@@ -9,6 +9,7 @@ import { getAvatarIconKey } from "@/utils/appUtils";
 export const createUserAndSaveToLocalStorage = async () => {
     // Plain postData, no makeRequest() here
     const response = await postData(`/users/create`, {});
+
     if (!response) {
         return { error: 'Failed to contact server.' };
     } else if (response.data.error) {
@@ -23,7 +24,7 @@ export const createUserAndSaveToLocalStorage = async () => {
     }
 
     saveToStorage("userId", user.id);
-    saveToStorage("newUserStep", NewUserStep.Splash);
+    setLocalNewUserStep(NewUserStep.Splash);
 
     const isSecureAvailable = await isSecureStorageAvailable();
     if (isSecureAvailable) {

@@ -8,9 +8,9 @@ export default ({ config }) => ({
         scheme: "myapp",
         userInterfaceStyle: "automatic",
         splash: {
-            image: "./assets/images/gospel-initiative/app-logo.png",
+            image: "./assets/images/gospel-initiative/gospel-initiative-green.png",
             resizeMode: "contain",
-            backgroundColor: "#ffffff",
+            backgroundColor: "#d0e0e3",
         },
         ios: {
             supportsTablet: true,

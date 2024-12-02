@@ -13,7 +13,7 @@ export const getLocalNewUserStep = async () => {
 
 export const setLocalNewUserStep = async (newUserStep: NewUserStep) => {
     try {
-        await saveToStorage("newUserStep", newUserStep.toString());
+        await saveToStorage("newUserStep", `${newUserStep.toString()}`);
     } catch (error) {
         console.error('Failed to save local new user step:', error);
     }

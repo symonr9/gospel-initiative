@@ -24,14 +24,11 @@ function hasConstantsLoaded() {
 }
 
 function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData, setAppError }: IDataRefreshManager) {
-    console.log("State: ", state);
-
     useEffect(() => {
         if (!hasConstantsLoaded()) {
             setAppError(new AppError('Invalid Server Configuration', 'Please contact your administrator.'));
             return;
         }
-        console.log("Expo Config: ", Constants.expoConfig);
         loadSettings();
     }, []);
 
