@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, Dimensions, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, FlatList, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
@@ -7,7 +7,7 @@ import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from '
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, FadeDirection, RefreshSpec } from '@/enums/enums';
-import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
@@ -119,8 +119,8 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    const { message, userName, userIcon, oneName, oneIcon, oneStage, activeUntil, tags, completedActivities, shareOwnName } = beacon;
-    if (!userName || !userIcon || !oneName || !oneIcon || !oneStage || !activeUntil || !completedActivities) {
+    const { message, userName, userIcon, oneName, oneIcon, oneStage, oneCategory, activeUntil, tags, completedActivities, shareOwnName } = beacon;
+    if (!userName || !userIcon || !oneName || !oneIcon || !oneStage || !oneCategory || !activeUntil || !completedActivities) {
         console.error("Missing props for beacon...");
         return <></>;
     }
@@ -130,15 +130,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         console.error("missing title...");
         return <></>;
     }
-
-    const rows = [];
-    rows.push(
-        <PageRow spaceEvenly style={[{}]}>
-            <DetailsSection iconSrc={mapStageToIcon(oneStage)}
-                prefix={"Their One is..."}
-                title={mapStageToText(oneStage)} />
-        </PageRow>
-    );
 
     const onNoteClick = () => {
         setModalVisible(true);
@@ -299,69 +290,73 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     style={{ textAlign: 'center' }} />
             </View>
 
-            <AnimatedElement element={
-                <PageColumn>
+            <PageRow spaceEvenly style={{ gap: 8 }}>
+                <PageColumn style={{}}>
+                    <AnimatedElement element={
+                        <PageRow spaceEvenly style={[{ gap: 8 }]}>
+                            <DetailsSection iconSrc={mapOneCategoryToIcon(oneCategory)}
+                                prefix={"Their One is a..."}
+                                title={mapOneCategoryToText(oneCategory)} />
+                            <View style={{ backgroundColor: Colors.info, width: 2 }}/>
+                            <DetailsSection iconSrc={mapStageToIcon(oneStage)}
+                                prefix={"Their One is..."}
+                                title={mapStageToText(oneStage)} />
+                        </PageRow>
+                    } delay={300} style={styles.detailsContainer} />
+
                     {
-                        rows.map((row, index) => (row))
+                        (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
+                            <PageColumn style={styles.myNoteForBeacon}>
+                                <AppText type={TextType.Body}>
+                                    Your Note:
+                                </AppText>
+                                <AppText type={TextType.Default}>
+                                    {userActivityForBeacon.note}
+                                </AppText>
+                            </PageColumn>
+                        )
+                    }
+
+                    {
+                        showBeaconTags && (
+                            <AnimatedElement element={
+                                <FlatList
+                                    data={beaconTagArray}
+                                    keyExtractor={(item) => item.value.toString()}
+                                    renderItem={({ item }) => (
+                                        <PageChip
+                                            title={item.title}
+                                            subtitle={item.details}
+                                            style={{ marginBottom: 12, flexShrink: 1, width: 240 }}
+                                        />
+                                    )}
+                                />
+                            } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
+                        )
                     }
                 </PageColumn>
 
-            } delay={800} style={styles.detailsContainer} />
+                <PageColumn style={{ gap: 12 }}>
+                    {
+                        beaconTagArray?.length > 0 && (
+                            <SimpleIconButton iconSrc={AppIcon.Tag}
+                                title={showBeaconTags ? 'Hide Tags' : 'Show Tags'}
+                                onClick={() => setShowBeaconTags(val => !val)}
+                                customStyles={customPrayButtonStyles} />
+                        )
+                    }
 
-
-            {
-                (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
-                    <PageColumn style={styles.myNoteForBeacon}>
-                        <AppText type={TextType.Body}>
-                            Your Note:
-                        </AppText>
-                        <AppText type={TextType.Default}>
-                            {userActivityForBeacon.note}
-                        </AppText>
-                    </PageColumn>
-                )
-            }
-
-            {
-                showBeaconTags && (
-                    <AnimatedElement element={
-                        <PageColumn style={{ maxHeight: 130 }}>
-                            <FlatList
-                                data={beaconTagArray}
-                                keyExtractor={(item) => item.value.toString()}
-                                renderItem={({ item }) => (
-                                    <PageChip
-                                        title={item.title}
-                                        subtitle={item.details}
-                                        style={{ marginBottom: 12 }}
-                                    />
-                                )}
-                            />
-                        </PageColumn>
-                    } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
-                )
-            }
-
-            <PageRow spaceEvenly style={{ marginBottom: 8 }}>
-                {
-                    beaconTagArray?.length > 0 && (
-                        <SimpleIconButton iconSrc={AppIcon.Tag}
-                            title={showBeaconTags ? 'Hide Tags' : 'Show Tags'}
-                            onClick={() => setShowBeaconTags(val => !val)}
-                            customStyles={customPrayButtonStyles} />
-                    )
-                }
-
-                <SimpleIconButton iconSrc={AppIcon.Mail}
-                    title={'Leave a Note'}
-                    disabled={!hasUserAlreadyPrayed}
-                    onClick={onNoteClick}
-                    customStyles={customPrayButtonStyles} />
-                <SimpleIconButton iconSrc={AppIcon.Prayer}
-                    title={'Pray'}
-                    disabled={hasUserAlreadyPrayed}
-                    onClick={onPrayClick}
-                    customStyles={customPrayButtonStyles} />
+                    <SimpleIconButton iconSrc={AppIcon.Mail}
+                        title={'Give Note'}
+                        disabled={!hasUserAlreadyPrayed}
+                        onClick={onNoteClick}
+                        customStyles={customPrayButtonStyles} />
+                    <SimpleIconButton iconSrc={AppIcon.Prayer}
+                        title={'Pray'}
+                        disabled={hasUserAlreadyPrayed}
+                        onClick={onPrayClick}
+                        customStyles={customPrayButtonStyles} />
+                </PageColumn>
             </PageRow>
         </ScrollLayout>
     );
@@ -393,7 +388,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        height: 370,
+        height: screenHeight - 420,
         flexDirection: 'column',
         padding: 12,
         marginHorizontal: 16,
@@ -407,7 +402,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     invisibleContainer: {
-        height: 310,
+        height: screenHeight - 470,
         padding: 12,
     },
     center: {

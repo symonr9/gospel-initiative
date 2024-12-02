@@ -141,16 +141,6 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                     </View>
                 </View>
             </Modal>
-
-            <PageColumn style={[styles.section, { marginTop: 16 }]}>
-                <AppText type={TextType.Subtitle}>
-                    When you send...
-                </AppText>
-                <AppText type={TextType.Default}>
-                    Your beacon will be delivered to friends in your community and will
-                    be active for 24 hours.
-                </AppText>
-            </PageColumn>
         </PageColumn>
     );
 }

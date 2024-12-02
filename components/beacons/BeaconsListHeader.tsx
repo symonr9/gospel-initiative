@@ -28,7 +28,7 @@ export function BeaconsListHeader({ activeLayoutType, selectedTemplateId, style 
         } else if (selectedTemplateId !== null) {
             return 'Make changes to your beacon before continuing.';
         }
-        return 'Use beacons to ask for prayer from your church community.';
+        return 'Use beacons to ask for prayer from your church community. Your beacon will be delivered to friends in your community and will be active for 24 hours.';
     }
 
     return (
@@ -49,6 +49,5 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         padding: 8,
-        marginBottom: 16,
     },
 });

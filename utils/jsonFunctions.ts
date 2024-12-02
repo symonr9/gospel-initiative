@@ -192,6 +192,8 @@ export function getBeaconsFromJson(json: any[]) {
         beacon.oneName = item?.one?.name;
         beacon.oneIcon = AvatarIcon[item.one.icon as keyof typeof AvatarIcon];
         beacon.oneStage = item?.one?.stage as OneStage;
+        beacon.oneCategory = item?.one?.category as OneCategory;
+        console.log("BEACON: ", beacon, " item - ", item);
         return beacon;
     });
 }

@@ -171,7 +171,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         <PageColumn style={{ gap: 8 }}>
           <PageColumn style={{ flexShrink: 1, width: 250, marginTop: 8 }}>
             <AppText type={TextType.Italic}>
-              You can practice your testimony again on {formatDateTime(nextPartitionDate)}.
+              You can practice again on {formatDateTime(nextPartitionDate)}.
             </AppText>
           </PageColumn>
           <PageRow style={{ gap: 8, marginTop: 8 }}>
@@ -180,10 +180,8 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
                 width={200}
                 borderRadius={8} />
             </View>
-            <AppText type={TextType.Body}>{24 - hoursBetween} hour{hoursBetween !== 1 ? 's' : ''} left</AppText>
+            <AppText type={TextType.Body}>{24 - hoursBetween} hour{(24 - hoursBetween) !== 1 ? 's' : ''} left</AppText>
           </PageRow>
-
-
         </PageColumn>
       );
     }
@@ -191,7 +189,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
     const title = hasNoTokens ? 'Practice Tokens' : `Practice Tokens (${practiceTokens.length})`;
 
     Body.push(
-      <PageColumn style={{ marginVertical: 8, gap: 10 }}>
+      <PageColumn style={{ marginVertical: 8, gap: 12 }}>
         <AnimatedHeader title={'Practice your Testimony'}
           subtitle={'Practice your story and save to your library.'}
           delay={0} />
@@ -228,8 +226,12 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             expandedHeight={hasNoTokens ? 80 : 60}
             customStyles={{ container: { backgroundColor: Colors.white } }}
             itemsToRender={practiceTokens} />
+        </PageRow>
+
+        <PageRow center>
           <SimpleIconButton iconSrc={AppIcon.ArrowNext}
-            title='Start'
+            title={hasNoTokens ? 'Try again later' : 'Start'}
+            disabled={hasNoTokens}
             onClick={() => setPageState(PageState.Page2)} />
         </PageRow>
       </PageColumn>

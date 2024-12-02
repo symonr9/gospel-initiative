@@ -11,6 +11,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
  * Ocean blue: #84b2bd
  * Lighter Ocean blue: #cde0e4
  * Khaki: #f2ecc2
+ * Khaki (2): #f8f5e0
  */
 
 export const Colors = {
@@ -26,7 +27,7 @@ export const Colors = {
     text: '#333',
     header: '#333',
     alternateText: '#ffffff',
-    background: '#f8f5e0',
+    background: '#ffffff',
     primary: '#abceea',
     secondary: '#cde0e4',
     darkAlternative: '#6eaadb'

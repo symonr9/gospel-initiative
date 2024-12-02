@@ -14,6 +14,8 @@ import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import SimpleIconButton from '../common/SimpleIconButton';
+import { AppIcon } from '@/enums/enums';
 
 export type IBeaconTemplatesList = ViewProps & {
     activeLayoutType: OneLayoutType;
@@ -63,24 +65,26 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
             {
                 showBeaconActions && (
+                    <PageRow center>
+                        <SimpleIconButton iconSrc={AppIcon.ArrowNext}
+                            title={'Continue'}
+                            disabled={selectedTemplate === null}
+                            onClick={handleContinue} />
+                    </PageRow>
+                )
+            }
+
+            {
+                showBeaconActions && (
                     <SimpleButton text={'Choose Beacon Type'}
                         onPress={openModal}
-                        type={ButtonType.Edit}/>
+                        type={ButtonType.Edit} />
                 )
             }
 
             {selectedTemplate && (
                 <PageColumn style={{ marginTop: 8 }}>
                     <BeaconTemplateDetails template={selectedTemplate} activeLayoutType={activeLayoutType} />
-                    {
-                        showBeaconActions && (
-                            <PageRow style={{ marginTop: 8 }}>
-                                <SimpleButton text={'Continue'}
-                                    type={ButtonType.Edit} 
-                                    onPress={handleContinue} />
-                            </PageRow>
-                        )
-                    }
                 </PageColumn>
             )}
 
@@ -92,20 +96,20 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Select a Template</Text>
-                        <PageColumn style={{ height: 400 }}>
+                        <AppText type={TextType.Subtitle}>Select a Template</AppText>
+                        <PageColumn style={{ marginTop: 12, height: 400 }}>
                             <FlatList
                                 data={beaconTemplates}
                                 keyExtractor={(item) => item.id}
                                 renderItem={renderItem}
                             />
                         </PageColumn>
-                        <PageRow style={{ marginTop: 8 }}>
-                            <TouchableOpacity
-                                style={modalStyles.closeButton}
-                                onPress={closeModal}>
-                                <AppText>Close</AppText>
-                            </TouchableOpacity>
+                        <PageRow center style={{ marginTop: 8, gap: 64 }}>
+                            <SimpleButton type={ButtonType.Close}
+                                text={'Close'} onPress={closeModal} />
+                            <SimpleButton type={ButtonType.Save}
+                                disabled={tempSelectedTemplateId === null}
+                                text={'Continue'} onPress={closeModal} />
                         </PageRow>
                     </View>
                 </View>

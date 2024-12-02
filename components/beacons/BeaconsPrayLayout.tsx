@@ -69,7 +69,7 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                         type={ItemRowContainerType.Completed}
                         activeType={activeRoadType}
                         setActiveType={setActiveRoadType}
-                        expandedHeight={75}
+                        expandedHeight={60}
                         itemsToRender={completedItemsToRender}
                         customStyles={{ container: { backgroundColor: Colors.light.secondary } }} />
                     <ItemRowContainer title={`Incoming (${incomingCount})`}
@@ -77,7 +77,7 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
                         type={ItemRowContainerType.Incoming}
                         activeType={activeRoadType}
                         isTopPosition={false}
-                        expandedHeight={75}
+                        expandedHeight={60}
                         setActiveType={setActiveRoadType}
                         itemsToRender={incomingItemsToRender}
                         customStyles={{ container: { backgroundColor: Colors.white } }} />

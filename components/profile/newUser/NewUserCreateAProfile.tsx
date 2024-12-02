@@ -67,10 +67,10 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             </PageColumn>
 
             <PageColumn style={[styles.section, styles.nameSection]} spaceEvenly>
-                <AppText type={TextType.DefaultSemiBold}>Your Nickname</AppText>
+                <AppText type={TextType.DefaultSemiBold}>Your Nickname (Max: {MAX_SHORT_TEXT_LENGTH}</AppText>
                 <TextInput
                     style={formStyles.textInput}
-                    placeholder={`Enter nickname here (Max Chars: ${MAX_SHORT_TEXT_LENGTH})...`}
+                    placeholder={`Enter nickname here...`}
                     placeholderTextColor={'gray'}
                     value={name}
                     numberOfLines={1}
