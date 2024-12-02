@@ -89,7 +89,8 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 getTomorrow(),
                 beaconForm.shareOwnName,
                 [],
-                beaconForm.tags
+                beaconForm.tags,
+                false
             );
 
             const response = await createBeacon(newBeacon);

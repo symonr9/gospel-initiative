@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority, GospelStepLayoutType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority, GospelStepLayoutType, GlobalBeaconType } from "@/enums/enums";
 import One from "@/models/one";
 import { shouldKeepChapter } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -188,12 +188,12 @@ export function getBeaconsFromJson(json: any[]) {
     return json.map(item => {
         const beacon = getBeaconFromJson(item);
         beacon.userName = item?.user?.name;
-        beacon.userIcon = AvatarIcon[item.user.icon as keyof typeof AvatarIcon];
+        beacon.userIcon = item?.user?.icon ? AvatarIcon[item.user.icon as keyof typeof AvatarIcon] : null;
         beacon.oneName = item?.one?.name;
-        beacon.oneIcon = AvatarIcon[item.one.icon as keyof typeof AvatarIcon];
+        beacon.oneIcon = item?.one?.icon ? AvatarIcon[item.one.icon as keyof typeof AvatarIcon] : null;
         beacon.oneStage = item?.one?.stage as OneStage;
         beacon.oneCategory = item?.one?.category as OneCategory;
-        console.log("BEACON: ", beacon, " item - ", item);
+        beacon.globalType = item?.type as GlobalBeaconType || null;
         return beacon;
     });
 }
@@ -203,14 +203,15 @@ export function getBeaconFromJson(item: any) {
         item.id,
         item.name,
         item.message,
-        item.oneId,
+        item.oneId || "",
         item.priority as Priority,
-        item.userId,
+        item.userId || "",
         item.type as BeaconType,
         item.activeUntil ? new Date(item.activeUntil) : undefined,
         item.shareOwnName,
         getBeaconActivitiesFromJson(item.activities || []),
-        item.tags ? item.tags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : []
+        item.tags ? item.tags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
+        item.global || false
     );
 }
 
@@ -224,7 +225,8 @@ export function getBeaconActivityFromJson(item: any) {
         item.note,
         item.date,
         item.userId,
-        item.beaconId
+        item.beaconId,
+        item.global || false
     );
     activity.username = item.username || "";
     return activity;

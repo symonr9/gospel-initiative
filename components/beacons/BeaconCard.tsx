@@ -12,7 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import BeaconActivity from '@/models/beaconActivity';
-import { mapBeaconTypeToAppIcon } from '@/utils/appUtils';
+import { mapBeaconTypeToAppIcon, mapGlobalBeaconTypeToAppIcon } from '@/utils/appUtils';
 import { Colors } from '@/constants/Colors';
 
 export type IBeaconCard = {
@@ -29,11 +29,14 @@ export function BeaconCard({ beacon, activeBeaconId, idx, selectedIdx, setActive
     useAnimations = true }: IBeaconCard) {
     const progress = useSharedValue(0);
 
+    const baseColor = beacon.global ? Colors.info : Colors.white;
+    const completedColor = beacon.global ? Colors.success : Colors.success;
+
     const animatedStyle = useAnimatedStyle(() => {
         const backgroundColor = interpolateColor(
             progress.value,
             [0, 1],
-            ['#FFF', '#94e173']
+            [baseColor, completedColor]
         );
 
         return {
@@ -58,14 +61,15 @@ export function BeaconCard({ beacon, activeBeaconId, idx, selectedIdx, setActive
         }
     };
 
+    const icon = beacon.global ? mapGlobalBeaconTypeToAppIcon(beacon.type) : mapBeaconTypeToAppIcon(beacon.type);
+
     return (
         <TouchableOpacity onPress={onCardPress} style={styles.touchable}>
             <Animated.View 
                 entering={ZoomIn}
                 exiting={ZoomOut.duration(250)}
-                style={[styles.iconContainer, useAnimations && animatedStyle]}
-            >
-                <Image source={mapBeaconTypeToAppIcon(beacon.type)} 
+                style={[styles.iconContainer, useAnimations && animatedStyle]}>
+                <Image source={icon} 
                        style={styles.icon} 
                        contentFit="contain" />
             </Animated.View>
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 8,
         flexDirection: 'row',
-        marginEnd: 8
+        marginEnd: 12
     },
     iconContainer: {
         width: 48,

@@ -13,8 +13,8 @@ interface IBeaconActivity {
     date: Date;
     userId: string;
     beaconId: string;
-
     username: string;
+    global: boolean;
 }
 
 export default class BeaconActivity implements IBeaconActivity {
@@ -23,11 +23,11 @@ export default class BeaconActivity implements IBeaconActivity {
     date: Date;
     userId: string;
     beaconId: string;
-
     username: string;
+    global: boolean;
 
     constructor(id: string, note: string, date: Date,
-        userId: string, beaconId: string
+        userId: string, beaconId: string, global: boolean
     ) {
         this.id = id;
         this.note = note;
@@ -35,6 +35,7 @@ export default class BeaconActivity implements IBeaconActivity {
         this.userId = userId;
         this.beaconId = beaconId;
         this.username = "";
+        this.global = global;
     }
 
     static createBeaconActivity(note: string, executor: User,
@@ -45,7 +46,8 @@ export default class BeaconActivity implements IBeaconActivity {
             note,
             getNow(),
             executor.id,
-            beacon.id
+            beacon.id,
+            beacon.global,
         );
     }
 

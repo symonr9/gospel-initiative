@@ -10,6 +10,7 @@ import { AppIcon } from '@/enums/enums';
 import { BeaconCard } from '../beacons/BeaconCard';
 import { SimpleCard } from '../common/SimpleCard';
 import { Colors } from '@/constants/Colors';
+import { EnhancedBeacon } from '@/models/beacon';
 
 export type IHomePrayerCard = ViewProps & {
 
@@ -27,10 +28,9 @@ function HomePrayerCard({ }: IHomePrayerCard) {
         router.replace('/ones?tab=1');
     };
 
-    const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
+    const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
             idx={idx}
-            useAnimations={false}
             activeBeaconId={null}
             onPress={onPrayerClick}
             selectedIdx={null} />

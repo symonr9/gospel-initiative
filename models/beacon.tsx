@@ -1,4 +1,4 @@
-import { AvatarIcon, BeaconTag, BeaconType, OneCategory, OneStage, Priority } from "@/enums/enums";
+import { AvatarIcon, BeaconTag, BeaconType, GlobalBeaconType, OneCategory, OneStage, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity, { ActivityWithUser } from "./beaconActivity";
@@ -19,7 +19,7 @@ interface IBeacon {
     id: string;
     name: string;
     message: string | null;
-    userId: string;
+    userId: string | null;
     oneId: string | null;
     priority: Priority;
     type: BeaconType;
@@ -27,6 +27,7 @@ interface IBeacon {
     shareOwnName: boolean | true;
     activities: BeaconActivity[] | undefined;
     tags: BeaconTag[];
+    global: boolean;
     
     userName: string | null;
     userIcon: AvatarIcon | null;
@@ -40,7 +41,7 @@ export default class Beacon implements IBeacon {
     id: string;
     name: string;
     message: string | null;
-    userId: string;
+    userId: string | null;
     oneId: string | null;
     priority: Priority;
     type: BeaconType;
@@ -48,6 +49,8 @@ export default class Beacon implements IBeacon {
     shareOwnName: boolean | true;
     activities: BeaconActivity[] | undefined;
     tags: BeaconTag[];
+    global: boolean;
+    globalType: GlobalBeaconType | null;
 
     userName: string | null;
     userIcon: AvatarIcon | null;
@@ -57,9 +60,9 @@ export default class Beacon implements IBeacon {
     oneCategory: OneCategory | null;
 
     constructor(id: string, name: string, message: string | null, oneId: string | null,
-        priority: Priority, userId: string, type: BeaconType, activeUntil: Date | undefined,
+        priority: Priority, userId: string | null, type: BeaconType, activeUntil: Date | undefined,
         shareOwnName: boolean | true, activities: BeaconActivity[] | undefined,
-        tags: BeaconTag[]
+        tags: BeaconTag[], global: boolean
     ) {
         this.id = id;
         this.name = name;
@@ -72,6 +75,8 @@ export default class Beacon implements IBeacon {
         this.shareOwnName = shareOwnName;
         this.activities = activities;
         this.tags = tags;
+        this.global = global;
+        this.globalType = null;
 
         this.userName = null;
         this.userIcon = null;
@@ -93,7 +98,8 @@ export default class Beacon implements IBeacon {
             new Date(),
             true,
             [],
-            []
+            [],
+            false
         );
     }
 

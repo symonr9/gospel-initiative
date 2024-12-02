@@ -7,7 +7,7 @@ import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from '
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, FadeDirection, RefreshSpec } from '@/enums/enums';
-import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
+import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText, mapOneCategoryToIcon, mapOneCategoryToText, mapGlobalBeaconTypeToTitleText, mapGlobalBeaconTypeToAppIcon, mapGlobalBeaconTypeToDetailsText } from '@/utils/appUtils';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
@@ -82,7 +82,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                         <FlatList
                             data={completedBeacons}
                             renderItem={({ item }) => {
-                                const title = getTitleText(item) || 'Prayer';
+                                const title = getSubtitleText(item) || 'Prayer';
                                 const onClick = () => {
                                     if (setActiveBeaconId) {
                                         setActiveBeaconId(item.id);
@@ -119,18 +119,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         );
     }
 
-    const { message, userName, userIcon, oneName, oneIcon, oneStage, oneCategory, activeUntil, tags, completedActivities, shareOwnName } = beacon;
-    if (!userName || !userIcon || !oneName || !oneIcon || !oneStage || !oneCategory || !activeUntil || !completedActivities) {
-        console.error("Missing props for beacon...");
-        return <></>;
-    }
-
-    const titleText = getTitleText(beacon);
-    if (!titleText) {
-        console.error("missing title...");
-        return <></>;
-    }
-
     const onNoteClick = () => {
         setModalVisible(true);
     };
@@ -150,12 +138,13 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         })();
 
         if (!note) {
-            console.error('Failed to get note');
+            console.error('Failed to get note.');
             return;
         }
 
         const newActivity = {
             ...userActivityForBeacon,
+            global: beacon.global,
             note: note
         };
 
@@ -192,12 +181,19 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         refreshData(RefreshSpec.Beacons);
     };
 
-    const beaconTagArray = tags ? tags
-        .map((tag, index) => ({
-            value: tag,
-            title: mapBeaconTagToTitleText(tag),
-            details: mapBeaconTagToDetailsText(tag),
-        })) : [];
+    const beaconTagArray = beacon.tags ? beacon.tags.map((tag, index) => ({
+        value: tag,
+        title: mapBeaconTagToTitleText(tag),
+        details: mapBeaconTagToDetailsText(tag),
+    })) : [];
+
+    const showName = beacon.userName && beacon.shareOwnName && !beacon.global;
+    const userIcon = beacon.global ? null : beacon.userIcon;
+    const oneIcon = beacon.oneIcon ? beacon.oneIcon : null;
+
+    const icon = beacon.global ? mapGlobalBeaconTypeToAppIcon(beacon.globalType) : mapBeaconTypeToAppIcon(beacon.type);
+    const title = beacon.global ? mapGlobalBeaconTypeToTitleText(beacon.globalType) : beacon.name;
+    const subtitle = beacon.global ? mapGlobalBeaconTypeToDetailsText(beacon.globalType) : getSubtitleText(beacon);
 
     return (
         <ScrollLayout style={[styles.container, animatedStyle]}>
@@ -205,8 +201,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 transparent={true}
                 animationType='slide'
                 visible={isModalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
+                onRequestClose={() => setModalVisible(false)}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <AppText type={TextType.Subtitle}>Select a note:</AppText>
@@ -251,58 +246,108 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             </Modal>
 
             <View style={[styles.header]}>
-                <View style={styles.timeAgo}>
-                    <AppText type={TextType.Italic}>
-                        Expires {getAppTimeAgoText(activeUntil)}
-                    </AppText>
-                </View>
-
-                <PageRow style={[{ gap: 12 }]}>
-                    <AnimatedElement element={
-                        <PageColumn>
-                            <Image source={userIcon} style={styles.profileIcon} />
-                            {
-                                shareOwnName && (
-                                    <AppText type={TextType.Subtitle3}
-                                        style={{ alignSelf: 'center' }}>
-                                        {userName}
-                                    </AppText>
-                                )
-                            }
-                        </PageColumn>
-                    } delay={300} direction={FadeDirection.Left} />
-                    <AnimatedElement element={
-                        <Image source={mapBeaconTypeToAppIcon(beacon.type)}
-                            style={[styles.profileIcon, { width: 42, height: 42 }]} />
-                    } delay={900} direction={FadeDirection.Up} />
-                    <AnimatedElement element={
-                        <PageColumn>
-                            <Image source={oneIcon} style={styles.profileIcon} />
-                            <AppText style={{ alignSelf: 'center' }}>
-                                Their One
+                {
+                    beacon.activeUntil && (
+                        <View style={styles.timeAgo}>
+                            <AppText type={TextType.Italic}>
+                                Expires {getAppTimeAgoText(beacon.activeUntil)}
                             </AppText>
-                        </PageColumn>
-                    } delay={600} direction={FadeDirection.Right} />
+                        </View>
+                    )
+                }
+
+                {
+                    beacon.global && (
+                        <View style={styles.timeAgo}>
+                            <AppText type={TextType.Italic}>
+                                Global Beacon
+                            </AppText>
+                        </View>
+                    )
+                }
+
+                <PageRow style={[{ gap: 12, marginTop: 8 }]}>
+                    {
+                        userIcon && (
+                            <AnimatedElement element={
+                                <PageColumn>
+                                    <Image source={userIcon} style={styles.profileIcon} />
+                                    {
+                                        showName && (
+                                            <AppText type={TextType.Subtitle3}
+                                                style={{ alignSelf: 'center' }}>
+                                                {beacon.userName}
+                                            </AppText>
+                                        )
+                                    }
+                                </PageColumn>
+                            } delay={300} direction={FadeDirection.Left} />
+                        )
+                    }
+
+                    <AnimatedElement element={
+                        <Image source={icon}
+                            style={[styles.profileIcon, beacon.global ? { width: 60, height: 60 } : { width: 42, height: 42 }]} />
+                    } delay={beacon.global ? 0 : 600} direction={FadeDirection.Up} />
+
+                    {
+                        oneIcon && (
+                            <AnimatedElement element={
+                                <PageColumn>
+                                    <Image source={oneIcon} style={styles.profileIcon} />
+                                    <AppText style={{ alignSelf: 'center' }}>
+                                        Their One
+                                    </AppText>
+                                </PageColumn>
+                            } delay={500} direction={FadeDirection.Right} />
+                        )
+                    }
                 </PageRow>
-                <AnimatedHeader title={beacon.name}
-                    subtitle={titleText}
-                    delay={600}
+                <AnimatedHeader title={title}
+                    subtitle={subtitle}
+                    delay={400}
                     style={{ textAlign: 'center' }} />
             </View>
 
-            <PageRow spaceEvenly style={{ gap: 8 }}>
+            <PageRow spaceEvenly style={{ gap: 8, marginTop: 8 }}>
                 <PageColumn style={{}}>
-                    <AnimatedElement element={
-                        <PageRow spaceEvenly style={[{ gap: 8 }]}>
-                            <DetailsSection iconSrc={mapOneCategoryToIcon(oneCategory)}
-                                prefix={"Their One is a..."}
-                                title={mapOneCategoryToText(oneCategory)} />
-                            <View style={{ backgroundColor: Colors.info, width: 2 }}/>
-                            <DetailsSection iconSrc={mapStageToIcon(oneStage)}
-                                prefix={"Their One is..."}
-                                title={mapStageToText(oneStage)} />
-                        </PageRow>
-                    } delay={300} style={styles.detailsContainer} />
+                    {
+                        ((beacon.oneCategory && beacon.oneStage) || beacon.global) && (
+                            <AnimatedElement element={
+                                <PageRow spaceEvenly style={[{ gap: 8 }]}>
+                                    {
+                                        beacon.oneCategory && (
+                                            <DetailsSection iconSrc={mapOneCategoryToIcon(beacon.oneCategory)}
+                                                prefix={"Their One is a..."}
+                                                title={mapOneCategoryToText(beacon.oneCategory)} />
+                                        )
+                                    }
+
+                                    {
+                                        (beacon.oneCategory && beacon.oneStage) && (
+                                            <View style={{ backgroundColor: Colors.info, width: 2 }} />
+                                        )
+                                    }
+
+                                    {
+                                        beacon.oneStage && (
+                                            <DetailsSection iconSrc={mapStageToIcon(beacon.oneStage)}
+                                                prefix={"Their One is..."}
+                                                title={mapStageToText(beacon.oneStage)} />
+                                        )
+                                    }
+
+                                    {
+                                        beacon.global && (
+                                            <DetailsSection iconSrc={AppIcon.UserGroup}
+                                                prefix={"Total who have prayed"}
+                                                title={`${beacon.completedActivities?.length || 0}`} />
+                                        )
+                                    }
+                                </PageRow>
+                            } delay={300} style={styles.detailsContainer} />
+                        )
+                    }
 
                     {
                         (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
@@ -374,13 +419,11 @@ function getBeacon(incomingCursorIdx: number, completedCursorIdx: number,
     return null;
 }
 
-function getTitleText(beacon: EnhancedBeacon): string | undefined {
-    const { userName, oneName, activeUntil, type, shareOwnName } = beacon;
-    if (!userName || !oneName || !activeUntil) {
-        return undefined;
+function getSubtitleText(beacon: EnhancedBeacon): string | undefined {
+    if (beacon.global && beacon.globalType !== null) {
+        return mapGlobalBeaconTypeToTitleText(beacon.globalType);
     }
-
-    return mapBeaconTypeToTitleText(type, shareOwnName, userName, oneName);
+    return mapBeaconTypeToTitleText(beacon.type, beacon.shareOwnName, beacon.userName);
 }
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');

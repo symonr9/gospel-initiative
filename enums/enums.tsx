@@ -66,6 +66,37 @@ export enum BeaconType {
     FollowedUp = 9
 };
 
+
+// README: If you want to change, please also change enums.js in the gospel-initiative-backend server project.
+export enum GlobalBeaconType {
+    None = 0,
+    NewBelievers = 1,
+    BoldnessToShare = 2,
+    Missionaries = 3,
+    MissionsTrips = 4,
+    OurCity = 5,
+    Neighborhood = 6,
+    Schools = 7,
+    PoorHungry = 8,
+    Families = 9,
+    Parents = 10,
+    Marriages = 11,
+    Nation = 12,
+    Toddlers = 13,
+    ElementarySchoolers = 14,
+    MiddleSchoolers = 15,
+    HighSchoolers = 16,
+    Mosaic = 17,
+    YoungAdults = 18,
+    Elderly = 19,
+    Workplaces = 20,
+    Leaders = 21,
+    Discipleship = 22,
+    ChurchUnity = 23,
+    AddictionRecovery = 24,
+    LeadersInTraining = 25
+}
+
 export enum Location {
     Home = 1,
     Church = 2,

@@ -36,7 +36,7 @@ function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
             selectedIdx={completedCursorIdx} />
     )) : [];
 
-    const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon, idx) => (
+    const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
             idx={idx}
             activeBeaconId={activeBeaconId}

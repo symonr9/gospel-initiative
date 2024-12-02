@@ -1,5 +1,5 @@
 import { MAX_DAILY_TASKS_NEEDED_TO_COMPLETE } from "@/constants/Constants";
-import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GospelChecklistItem, GospelStepLayoutType, GospelStepType, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, BeaconTag, BeaconType, GlobalBeaconType, GospelChecklistItem, GospelStepLayoutType, GospelStepType, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import ActionStep from "@/models/actionStep";
 import Beacon from "@/models/beacon";
 import GospelStep from "@/models/gospelStep";
@@ -68,7 +68,7 @@ export function getDayInFuture(day: number) {
 export function getTheNextDay(date: Date | undefined) {
     if (!date) {
         return null;
-    }    
+    }
     date.setDate(date.getDate() + 1);
     return date;
 }
@@ -710,8 +710,8 @@ export function mapBeaconTypeToAppIcon(type: BeaconType) {
 }
 
 export function mapBeaconTypeToTitleText(type: BeaconType,
-    shareOwnName: boolean, initUserName: string, initOneName: string) {
-    const userName = shareOwnName ? initUserName : 'A User';
+    shareOwnName: boolean, initUserName: string | null) {
+    const userName = (shareOwnName || !initUserName) ? initUserName : 'A User';
     const oneName = 'their One';
     switch (type) {
         case BeaconType.SpiritualConversation:
@@ -733,6 +733,179 @@ export function mapBeaconTypeToTitleText(type: BeaconType,
         case BeaconType.Meeting:
         default:
             return `${userName} is meeting with ${oneName}`;
+    }
+}
+
+export function mapGlobalBeaconTypeToTitleText(type: GlobalBeaconType | null) {
+    if (!type) {
+        return 'Boldness To Share';
+    }
+
+    switch (type) {
+        case GlobalBeaconType.NewBelievers:
+            return 'New Believers';
+        case GlobalBeaconType.BoldnessToShare:
+            return 'Boldness To Share';
+        case GlobalBeaconType.Missionaries:
+            return 'Missionaries';
+        case GlobalBeaconType.MissionsTrips:
+            return 'Missions Trips';
+        case GlobalBeaconType.OurCity:
+            return 'Our City';
+        case GlobalBeaconType.Neighborhood:
+            return 'Neighborhood';
+        case GlobalBeaconType.Schools:
+            return 'Schools';
+        case GlobalBeaconType.PoorHungry:
+            return 'Poor and Hungry';
+        case GlobalBeaconType.Families:
+            return 'Families';
+        case GlobalBeaconType.Parents:
+            return 'Parents';
+        case GlobalBeaconType.Marriages:
+            return 'Marriages';
+        case GlobalBeaconType.Nation:
+            return 'Nation';
+        case GlobalBeaconType.Toddlers:
+            return 'Toddlers';
+        case GlobalBeaconType.ElementarySchoolers:
+            return 'Elementary Schoolers';
+        case GlobalBeaconType.MiddleSchoolers:
+            return 'Middle Schoolers';
+        case GlobalBeaconType.HighSchoolers:
+            return 'High Schoolers';
+        case GlobalBeaconType.Mosaic:
+            return 'Mosaic';
+        case GlobalBeaconType.YoungAdults:
+            return 'Young Adults';
+        case GlobalBeaconType.Elderly:
+            return 'Elderly';
+        case GlobalBeaconType.Workplaces:
+            return 'Workplaces';
+        case GlobalBeaconType.Leaders:
+            return 'Leaders';
+        case GlobalBeaconType.Discipleship:
+            return 'Discipleship';
+        case GlobalBeaconType.ChurchUnity:
+            return 'Church Unity';
+        case GlobalBeaconType.AddictionRecovery:
+            return 'Addiction Recovery';
+        case GlobalBeaconType.LeadersInTraining:
+            return 'Leaders In Training';
+        default:
+            return '';
+    }
+}
+
+export function mapGlobalBeaconTypeToDetailsText(type: GlobalBeaconType | null) {
+    if (!type) {
+        return 'Pray for our community to receive boldness and courage to share their faith with others.';
+    }
+
+    switch (type) {
+        case GlobalBeaconType.NewBelievers:
+            return 'Pray for new believers to grow in their faith and be planted and find support in our community.';
+        case GlobalBeaconType.BoldnessToShare:
+            return 'Pray for our community to receive boldness and courage to share their faith with others.';
+        case GlobalBeaconType.Missionaries:
+            return 'Pray for the missionaries we support to be strengthened in the Lord and given wisdom and provision for their work.';
+        case GlobalBeaconType.MissionsTrips:
+            return 'Pray for our upcoming missions trips to effectively reach the nations and preach the Gospel in word and deed.';
+        case GlobalBeaconType.OurCity:
+            return 'Pray for our church to love our city well, that people will come to know Christ.';
+        case GlobalBeaconType.Neighborhood:
+            return 'Pray for the residents of our neighborhood, that they would experience God’s love and grace.';
+        case GlobalBeaconType.Schools:
+            return 'Pray for the schools in our community, for students, teachers, and staff to experience God’s peace and wisdom.';
+        case GlobalBeaconType.PoorHungry:
+            return 'Pray for the poor and hungry, that they may find provision and care through the body of Christ.';
+        case GlobalBeaconType.Families:
+            return 'Pray for families to be strengthened in love, unity, and faith in Christ.';
+        case GlobalBeaconType.Parents:
+            return 'Pray for parents to have wisdom and grace as they raise their children in the fear of the Lord.';
+        case GlobalBeaconType.Marriages:
+            return 'Pray for marriages to be built on Christ-centered love, respect, and mutual support.';
+        case GlobalBeaconType.Nation:
+            return 'Pray for our nation to turn to God in repentance and humility.';
+        case GlobalBeaconType.Toddlers:
+            return 'Pray for toddlers to grow in health, joy, and in the knowledge of God’s love for them.';
+        case GlobalBeaconType.ElementarySchoolers:
+            return 'Pray for elementary schoolers to develop a love for learning, kindness, and the Gospel.';
+        case GlobalBeaconType.MiddleSchoolers:
+            return 'Pray for middle schoolers to be filled with hope and courage to stand firm in their faith.';
+        case GlobalBeaconType.HighSchoolers:
+            return 'Pray for high schoolers to navigate challenges and find a firm foundation in Christ.';
+        case GlobalBeaconType.Mosaic:
+            return 'Pray for our college students to grow deeply in their relationship with God and with community.';
+        case GlobalBeaconType.YoungAdults:
+            return 'Pray for young adults to discover their purpose in Christ and live out their faith boldly.';
+        case GlobalBeaconType.Elderly:
+            return 'Pray for the elderly to experience peace, comfort, and purpose.';
+        case GlobalBeaconType.Workplaces:
+            return 'Pray for our community to enter into our workplaces as kind-hearted and bold witnesses of Christ.';
+        case GlobalBeaconType.Leaders:
+            return 'Pray for the leaders and volunteers in our church to find rest and joy in the Lord.';
+        case GlobalBeaconType.Discipleship:
+            return 'Pray for intentional discipleship relationships that lead to spiritual growth and transformation.';
+        case GlobalBeaconType.ChurchUnity:
+            return 'Pray for unity in the body of Christ, that we may be one in mission and purpose.';
+        case GlobalBeaconType.AddictionRecovery:
+            return 'Pray for those recovering from addiction to experience freedom and healing in Christ.';
+        case GlobalBeaconType.LeadersInTraining:
+            return 'Pray for God to raise up leaders in our community who will give their lives to full time ministry.';
+        default:
+            return '';
+    }
+}
+
+export function mapGlobalBeaconTypeToAppIcon(type: GlobalBeaconType | null): AppIcon {
+    if (!type) {
+        return AppIcon.Conversation;
+    }
+
+    switch (type) {
+        case GlobalBeaconType.Leaders:
+            return AppIcon.NetworkPeople;
+        case GlobalBeaconType.NewBelievers:
+            return AppIcon.PlantGrow;
+        case GlobalBeaconType.Missionaries:
+        case GlobalBeaconType.MissionsTrips:
+            return AppIcon.Globe;
+        case GlobalBeaconType.OurCity:
+        case GlobalBeaconType.Neighborhood:
+            return AppIcon.NightPark;
+        case GlobalBeaconType.Schools:
+        case GlobalBeaconType.ElementarySchoolers:
+        case GlobalBeaconType.MiddleSchoolers:
+        case GlobalBeaconType.HighSchoolers:
+            return AppIcon.Backpack;
+        case GlobalBeaconType.PoorHungry:
+        case GlobalBeaconType.Families:
+        case GlobalBeaconType.Parents:
+            return AppIcon.UserGroup;
+        case GlobalBeaconType.Marriages:
+            return AppIcon.Heart;
+        case GlobalBeaconType.Nation:
+            return AppIcon.Mountain;
+        case GlobalBeaconType.Toddlers:
+            return AppIcon.Bird;
+        case GlobalBeaconType.Mosaic:
+            return AppIcon.MosaicOrange;
+        case GlobalBeaconType.YoungAdults:
+        case GlobalBeaconType.Elderly:
+            return AppIcon.UserGroup;
+        case GlobalBeaconType.Workplaces:
+            return AppIcon.Employee;
+        case GlobalBeaconType.Discipleship:
+        case GlobalBeaconType.LeadersInTraining:
+            return AppIcon.LightBulb;
+        case GlobalBeaconType.ChurchUnity:
+            return AppIcon.Church;
+        case GlobalBeaconType.AddictionRecovery:
+            return AppIcon.Health;
+        case GlobalBeaconType.BoldnessToShare:
+        default:
+            return AppIcon.Conversation;
     }
 }
 
