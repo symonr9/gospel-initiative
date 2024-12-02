@@ -74,6 +74,12 @@ Notes:
 - The phone device you are trying to connect to must be on the same WiFi network as the laptop.
 - The `.env` file doesn't get updated unless you restart the expo server.
 
+## Dev Build
+
+- `eas build:configure`
+   - Will generate eas.json file if you don't already have it.
+- `eas build --profile development --platform ios`
+
 ## Steps for Deployment
 
 [Link](https://docs.expo.dev/build/setup/)
