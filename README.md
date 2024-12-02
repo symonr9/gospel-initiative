@@ -74,6 +74,10 @@ Notes:
 - The phone device you are trying to connect to must be on the same WiFi network as the laptop.
 - The `.env` file doesn't get updated unless you restart the expo server.
 
+## Publish to Expo Servers
+
+- `eas update`
+
 ## Dev Build
 
 - `eas build:configure`
