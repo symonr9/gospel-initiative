@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 8,
         marginTop: 8,
-        padding: 8
+        padding: 4
     },
     iconDiv: {
         alignItems: 'center',

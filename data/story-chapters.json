@@ -10,7 +10,7 @@
       "When you look at the beauty and complexity of nature, what does it make you think about the Creator?",
       "Do you believe that everything in the world, including your life, has a specific design and purpose?"
     ],
-    "icon": "Book",
+    "icon": "Tree",
     "order": 1,
     "tags": [],
     "names": [],
@@ -28,7 +28,7 @@
       "Do you see evidence of brokenness and suffering in the world around you? What do you think is the cause?",
       "How do you think this separation from God can be mended, if at all?"
     ],
-    "icon": "Book",
+    "icon": "Skull",
     "order": 2,
     "tags": [],
     "names": [],
@@ -45,7 +45,7 @@
       "Why do you think God would choose a specific people to work through? What might that say about His plan for the world?",
       "What do you think it means to be in a covenant relationship with God?"
     ],
-    "icon": "Book",
+    "icon": "Exodus",
     "order": 3,
     "tags": [],
     "names": [],
@@ -56,13 +56,13 @@
     "id": "godsStoryJesus",
     "storyId": "GodsStory2",
     "chapterType": 104,
-    "title": "Jesus",
+    "title": "Christ",
     "content": "God's people waited, and the Messiah finally came in the form of Jesus, who was the Son of God. Jesus was born into humble circumstances, fulfilling the prophecies of old, and brought the light of God's kingdom to earth.",
     "questions": [
       "How do you view Jesus? What do you think about His claim to be the Son of God?",
       "What do you think it means for Jesus to bring God's kingdom to earth?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 4,
     "tags": [],
     "names": [],
@@ -80,7 +80,7 @@
       "How do you think Jesus' actions reflect the nature of God?",
       "What impact do you think Jesus' teachings and acts have on the world today?"
     ],
-    "icon": "Book",
+    "icon": "Sheep",
     "order": 5,
     "tags": [],
     "names": [],
@@ -98,7 +98,7 @@
       "How do you feel about the concept of forgiveness and reconciliation with God through Jesus?",
       "Why do you think the cross is such a central symbol in Christianity?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 6,
     "tags": [],
     "names": [],
@@ -116,7 +116,7 @@
       "How do you understand the concept of eternal life? What does it mean to you?",
       "Why do you think the resurrection is so important to the Christian faith?"
     ],
-    "icon": "Book",
+    "icon": "CrossChurch",
     "order": 7,
     "tags": [],
     "names": [],
@@ -134,7 +134,7 @@
       "How do you see the role of the Church in the world today?",
       "What are your thoughts on the promise of Jesus' return and the restoration of all things?"
     ],
-    "icon": "Book",
+    "icon": "Church",
     "order": 8,
     "tags": [],
     "names": [],
@@ -152,7 +152,7 @@
       "How do you see the role of God in creation?",
       "Have you ever wondered why God created us and what His plan is for humanity?"
     ],
-    "icon": "Book",
+    "icon": "Tree",
     "order": 1,
     "tags": [],
     "names": [],
@@ -169,7 +169,7 @@
       "What do you think are the consequences of this disobedience?", 
       "How does Islam address the issue of sin and reconciliation with God?"
     ],
-    "icon": "Book",
+    "icon": "Skull",
     "order": 2,
     "tags": [],
     "names": [],
@@ -186,7 +186,7 @@
       "How do you view the role of the prophets?",
       "What do you think their ultimate message was?"
     ],
-    "icon": "Book",
+    "icon": "Exodus",
     "order": 3,
     "tags": [],
     "names": [],
@@ -203,7 +203,7 @@
       "What do you believe about Jesus' mission?",
       "Have you ever considered why Christians view Him as more than just a prophet?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 4,
     "tags": [],
     "names": [],
@@ -220,7 +220,7 @@
       "Why do you think Jesus had such a profound impact on the world?",
       "What do you believe was His primary message?"
     ],
-    "icon": "Book",
+    "icon": "Sheep",
     "order": 5,
     "tags": [],
     "names": [],
@@ -237,7 +237,7 @@
       "Why do you think Christians believe in the crucifixion?",
       "How do you understand the concept of atonement in your faith?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 6,
     "tags": [],
     "names": [],
@@ -254,7 +254,7 @@
       "Have you ever thought about the significance of the resurrection?",
       "What do you think will happen when Jesus returns?"
     ],
-    "icon": "Book",
+    "icon": "CrossChurch",
     "order": 7,
     "tags": [],
     "names": [],
@@ -271,7 +271,7 @@
       "What do you think our purpose is in this life?",
       "How do you believe we should prepare for the day of judgment?"
     ],
-    "icon": "Book",
+    "icon": "Church",
     "order": 8,
     "tags": [],
     "names": [],
@@ -289,7 +289,7 @@
       "How do you reconcile pre-earthly existence with the idea that creation was perfect?",
       "How does seeing creation as a reflection of God's goodness affect your view of Him?"
     ],
-    "icon": "Book",
+    "icon": "Tree",
     "order": 1,
     "tags": [],
     "names": [],
@@ -306,7 +306,7 @@
       "How does viewing the Fall as necessary for progression compare to seeing it as separation from God?",
       "What does your faith say about needing a savior to overcome the Fall?"
     ],
-    "icon": "Book",
+    "icon": "Skull",
     "order": 2,
     "tags": [],
     "names": [],
@@ -323,7 +323,7 @@
       "How do modern prophets relate to the revelation given by Jesus and the apostles?",
       "Is ongoing revelation necessary, or is Christ’s message enough?"
     ],
-    "icon": "Book",
+    "icon": "Exodus",
     "order": 3,
     "tags": [],
     "names": [],
@@ -340,7 +340,7 @@
       "How do you view Jesus’ role as both God and Savior in relation to multiple divine beings?",
       "What does recognizing Jesus as the only Savior mean for your understanding of salvation?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 4,
     "tags": [],
     "names": [],
@@ -357,7 +357,7 @@
       "How do Jesus’ miracles and teachings fit with divine progression and salvation?",
       "What is the significance of Jesus’ acts in showing His divine authority?"
     ],
-    "icon": "Book",
+    "icon": "Sheep",
     "order": 5,
     "tags": [],
     "names": [],
@@ -374,7 +374,7 @@
       "How does your faith balance personal works with belief in Jesus’ complete atonement?",
       "What role does Jesus’ sacrifice play in reconciliation with God compared to personal effort?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 6,
     "tags": [],
     "names": [],
@@ -391,7 +391,7 @@
       "How does your belief in resurrection fit with eternal progression and its impact on eternal life?",
       "What does Jesus’ resurrection mean for you in terms of assurance of eternal life?"
     ],
-    "icon": "Book",
+    "icon": "CrossChurch",
     "order": 7,
     "tags": [],
     "names": [],
@@ -408,7 +408,7 @@
       "How do you reconcile the restored Church through Joseph Smith with the belief in a complete Church established by Jesus?",
       "What is your perspective on the Church’s future role given these differing views?"
     ],
-    "icon": "Book",
+    "icon": "Church",
     "order": 8,
     "tags": [],
     "names": [],
@@ -427,7 +427,7 @@
       "How does Hindu creation compare to the Christian view of a single, purposeful Creator?",
       "What does Hindu cyclical creation reveal about the universe's purpose?"
     ],
-    "icon": "Book",
+    "icon": "Tree",
     "order": 1,
     "tags": [],
     "names": [],
@@ -444,7 +444,7 @@
       "How does Hindu karma address suffering compared to Christian sin and redemption?",
       "What role does personal action play in overcoming suffering and achieving spiritual growth?"
     ],
-    "icon": "Book",
+    "icon": "Skull",
     "order": 2,
     "tags": [],
     "names": [],
@@ -461,7 +461,7 @@
       "How do Hindu spiritual teachers compare to Jesus as the final prophet in Christianity?",
       "What is the role of spiritual teachers in guiding us to understand the divine?"
     ],
-    "icon": "Book",
+    "icon": "Exodus",
     "order": 3,
     "tags": [],
     "names": [],
@@ -478,7 +478,7 @@
       "How do you see Jesus’ role in relation to other spiritual figures in Hinduism?",
       "How does Christian salvation compare to Hindu spiritual liberation?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 4,
     "tags": [],
     "names": [],
@@ -495,7 +495,7 @@
       "How do you view Jesus’ miracles compared to other spiritual leaders’ teachings in Hinduism?",
       "What do miracles and divine acts in various traditions say about divine intervention?"
     ],
-    "icon": "Book",
+    "icon": "Sheep",
     "order": 5,
     "tags": [],
     "names": [],
@@ -512,7 +512,7 @@
       "How does Hindu karma address atonement compared to Jesus’ sacrifice in Christianity?",
       "What role do personal effort and spiritual practice play in reconciling with the divine?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 6,
     "tags": [],
     "names": [],
@@ -529,7 +529,7 @@
       "How does Hindu reincarnation compare to Christian resurrection and eternal life?",
       "What does Jesus’ resurrection mean for you in terms of hope for life after death?"
     ],
-    "icon": "Book",
+    "icon": "CrossChurch",
     "order": 7,
     "tags": [],
     "names": [],
@@ -546,7 +546,7 @@
       "How do you compare the role of spiritual paths in Hinduism to the Christian view of the Church’s mission?",
       "What are your thoughts on the future of spiritual guidance and fulfillment of promises?"
     ],
-    "icon": "Book",
+    "icon": "Church",
     "order": 8,
     "tags": [],
     "names": [],
@@ -564,7 +564,7 @@
       "How do you view the idea of a purposeful Creator versus naturalistic origins?",
       "How do you find meaning and purpose in life from a naturalistic perspective?"
     ],
-    "icon": "Book",
+    "icon": "Tree",
     "order": 1,
     "tags": [],
     "names": [],
@@ -581,7 +581,7 @@
       "How do you see morality and human imperfection compared to Christian sin and redemption?",
       "What role do personal responsibility and societal norms play in addressing human shortcomings?"
     ],
-    "icon": "Book",
+    "icon": "Skull",
     "order": 2,
     "tags": [],
     "names": [],
@@ -598,7 +598,7 @@
       "How do you view historical religious figures compared to Jesus as the final prophet?",
       "What criteria do you use to assess the significance of philosophical or spiritual teachings?"
     ],
-    "icon": "Book",
+    "icon": "Exodus",
     "order": 3,
     "tags": [],
     "names": [],
@@ -615,7 +615,7 @@
       "How do you interpret Jesus’ life and teachings compared to His divine role in Christianity?",
       "What are your thoughts on the concept of salvation and its implications for human life?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 4,
     "tags": [],
     "names": [],
@@ -632,7 +632,7 @@
       "What is your view on Jesus’ miracles compared to other extraordinary claims?",
       "How do you interpret teachings and actions of influential figures in terms of human values?"
     ],
-    "icon": "Book",
+    "icon": "Sheep",
     "order": 5,
     "tags": [],
     "names": [],
@@ -649,7 +649,7 @@
       "How do you see concepts of atonement and forgiveness in a secular context?",
       "What role do personal actions and societal values play in addressing human mistakes?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 6,
     "tags": [],
     "names": [],
@@ -666,7 +666,7 @@
       "How does the concept of resurrection compare to secular views on life after death?",
       "What significance do you find in concepts of immortality or continuation of life?"
     ],
-    "icon": "Book",
+    "icon": "CrossChurch",
     "order": 7,
     "tags": [],
     "names": [],
@@ -683,7 +683,7 @@
       "How do you view the role of religious institutions compared to their perceived social functions?",
       "What are your thoughts on the future of spiritual guidance and its impact on society?"
     ],
-    "icon": "Book",
+    "icon": "Church",
     "order": 8,
     "tags": [],
     "names": [],
@@ -701,7 +701,7 @@
       "How do you view the idea of a Creator versus the cyclical nature of the universe?",
       "How does the concept of impermanence shape your understanding of life and the world?"
     ],
-    "icon": "Book",
+    "icon": "Tree",
     "order": 1,
     "tags": [],
     "names": [],
@@ -718,7 +718,7 @@
       "How do you approach the problem of suffering in your life?",
       "What are your thoughts on the Christian perspective of sin as the cause of suffering compared to the Buddhist understanding?"
     ],
-    "icon": "Book",
+    "icon": "Skull",
     "order": 2,
     "tags": [],
     "names": [],
@@ -735,7 +735,7 @@
       "How do you understand the concept of enlightenment compared to salvation?",
       "What practices do you find most helpful in your spiritual journey towards liberation or enlightenment?"
     ],
-    "icon": "Book",
+    "icon": "Exodus",
     "order": 3,
     "tags": [],
     "names": [],
@@ -752,7 +752,7 @@
       "How do you see the role of Jesus compared to the Bodhisattva ideal?",
       "What are your thoughts on the Christian belief in Jesus as the exclusive path to salvation?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 4,
     "tags": [],
     "names": [],
@@ -769,7 +769,7 @@
       "How do you interpret the miracles and teachings of Jesus in comparison to Buddhist teachings?",
       "What significance do you find in miraculous events or extraordinary experiences in your spiritual practice?"
     ],
-    "icon": "Book",
+    "icon": "Sheep",
     "order": 5,
     "tags": [],
     "names": [],
@@ -786,7 +786,7 @@
       "How do you view the Christian concept of atonement compared to the Buddhist understanding of karma?",
       "What role do forgiveness and responsibility play in your spiritual journey?"
     ],
-    "icon": "Book",
+    "icon": "Christ",
     "order": 6,
     "tags": [],
     "names": [],
@@ -803,7 +803,7 @@
       "How do you view the Christian belief in resurrection compared to the Buddhist concept of rebirth?",
       "What are your thoughts on the afterlife and the possibility of eternal life?"
     ],
-    "icon": "Book",
+    "icon": "CrossChurch",
     "order": 7,
     "tags": [],
     "names": [],
@@ -820,7 +820,7 @@
       "How do you view the role of spiritual communities like the Church and the Sangha?",
       "What importance do you place on communal support in your spiritual journey?"
     ],
-    "icon": "Book",
+    "icon": "Church",
     "order": 8,
     "tags": [],
     "names": [],

@@ -107,7 +107,7 @@ function StoryDetails({ activeStory }: IStoryDetails) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 8,
   },
   timelineContainer: {
     position: 'relative',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   timelineContent: {
-    padding: 10,
+    padding: 8,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     maxWidth: '45%',
     backgroundColor: '#FFF',
-    paddingHorizontal: 28,
+    paddingHorizontal: 16,
     marginHorizontal: 4,
     marginRight: 16,
     position: 'relative',
