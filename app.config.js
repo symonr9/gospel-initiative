@@ -13,14 +13,14 @@ export default ({ config }) => ({
             backgroundColor: "#d0e0e3",
         },
         ios: {
-            supportsTablet: true,
+            supportsTablet: true
         },
         android: {
             adaptiveIcon: {
                 foregroundImage: "./assets/images/adaptive-icon.png",
                 backgroundColor: "#ffffff",
             },
-            softwareKeyboardLayoutMode: "pan",
+            softwareKeyboardLayoutMode: "pan"
         },
         web: {
             bundler: "metro",
