@@ -216,7 +216,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   if (expanded) {
     return (
-      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350, gap: 12 }, style]}>
+      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350, gap: 12 }, style]}>
         {Header}
 
         <ScrollLayout style={[height !== undefined && { maxHeight: height - 200 }]}>
@@ -278,7 +278,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   return (
     <TouchableOpacity onPress={onExpandClick}>
-      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
+      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
         {Header}
       </PageColumn>
     </TouchableOpacity>
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.success,
   },
   shouldDiscard: {
-    opacity: 0.4
+    opacity: 0.6
   },
   flexShrink: {
     flexShrink: 1,

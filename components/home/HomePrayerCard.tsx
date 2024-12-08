@@ -11,16 +11,26 @@ import { BeaconCard } from '../beacons/BeaconCard';
 import { SimpleCard } from '../common/SimpleCard';
 import { Colors } from '@/constants/Colors';
 import { EnhancedBeacon } from '@/models/beacon';
+import User from '@/models/user';
 
 export type IHomePrayerCard = ViewProps & {
-
+    executor: User;
 };
 
-function HomePrayerCard({ }: IHomePrayerCard) {
+const getPrayerTitle = (completedBeacons: Array<any>, incomingBeacons: Array<any>) => {
+    if (incomingBeacons.length > 0) {
+        return `Incoming Beacons (${incomingBeacons.length})`;
+    } else if (completedBeacons.length > 0) {
+        return `All Beacons Completed`;
+    }
+    return `No Beacons Available`;
+}
+
+function HomePrayerCard({ executor }: IHomePrayerCard) {
     const router = useRouter();
     const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
-    const prayerTitle = incomingBeacons.length > 0 ? `Incoming Beacons (${incomingBeacons.length})` : `All Beacons Completed`;
+    const prayerTitle = getPrayerTitle(completedBeacons, incomingBeacons);
     const prayerSubtitle = incomingBeacons.length > 0 ? `Tap on a beacon to pray.` : `Check back again later.`
     const prayerIcon = incomingBeacons.length > 0 ? AppIcon.Prayer : AppIcon.Checkmark;
 
@@ -52,6 +62,10 @@ function HomePrayerCard({ }: IHomePrayerCard) {
         backgroundColor: Colors.info
     };
 
+    if (!executor) {
+        return <></>;
+    }
+
     return (
         <SimpleCard iconSrc={prayerIcon}
             style={[styles.card, colorStyle]}
@@ -71,7 +85,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => ({
-
+    executor: state.users.executor,
 });
 
 

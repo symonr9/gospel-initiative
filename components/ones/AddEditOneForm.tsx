@@ -108,7 +108,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
         }));
 
         const newSteps = generateActionStepsForStage(stage);
-        setSelectedSteps(newSteps.map(() => true));
+        setSelectedSteps(newSteps.map(() => false));
         setTargetDates(newSteps.map((step) => step.targetDate));
         setSuggestedActionSteps(newSteps);
     };

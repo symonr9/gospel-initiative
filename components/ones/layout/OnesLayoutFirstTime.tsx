@@ -18,7 +18,7 @@ export function OnesLayoutFirstTime({ setMessage, setActiveLayoutType }: IOnesLa
     return (
         <PageColumn style={{ gap: 8 }}>
             <PageResponse title={'Welcome'}
-                details={'Please add your One on the Overview page to get started.'} />
+                details={'Please add your One on the Ones page to get started.'} />
 
             <Image source={AppIcon.User}
                 tintColor={Colors.light.darkAlternative}

@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     icon: {
         width: 40,
         height: 40,
-        opacity: 0.4,
+        opacity: 0.6,
     },
     selected: {
         opacity: 1,

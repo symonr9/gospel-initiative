@@ -455,7 +455,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                                     <AppText type={TextType.Body}>Previous Stage:</AppText>
                                                     <Image
                                                         source={selectedStageData?.icon}
-                                                        style={[styles.selectedIcon, { opacity: 0.4 }]} />
+                                                        style={[styles.selectedIcon, { opacity: 0.6 }]} />
                                                     <AppText type={TextType.Default}>{selectedStageData?.label}</AppText>
                                                 </PageColumn>
                                                 <PageColumn>

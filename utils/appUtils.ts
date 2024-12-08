@@ -731,8 +731,9 @@ export function mapBeaconTypeToTitleText(type: BeaconType,
         case BeaconType.FollowedUp:
             return `${userName} wants to follow-up on a previous conversation with ${oneName}.`;
         case BeaconType.Meeting:
-        default:
             return `${userName} is meeting with ${oneName}`;
+        default:
+            return '';
     }
 }
 

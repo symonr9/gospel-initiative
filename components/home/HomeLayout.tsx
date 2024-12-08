@@ -11,15 +11,18 @@ import HomePrayerCard from './HomePrayerCard';
 import { PageRow } from '../common/PageRow';
 import { SimpleIcon } from '../common/SimpleIcon';
 import HomeDailyTasksCard from './HomeDailyTasksCard';
+import LoadingLayout from '../common/LoadingLayout';
+import HomeAddOneCard from './HomeAddOneCard';
+import HomePracticeTestimonyCard from './HomePracticeTestimonyCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
 };
 
-
 function HomeLayout({ executor }: IHomeLayout) {
-  const title = executor ? `Hello, ${executor.name}` : `Hello`;
+  const title = executor ? `Hello, ${executor.name}` : `Loading...`;
   const subtitle = executor ? `Welcome to the Gospel Initiative App.` : ``;
+
   return (
     <ScrollLayout style={styles.container}>
       <PageColumn>
@@ -27,9 +30,17 @@ function HomeLayout({ executor }: IHomeLayout) {
           <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large />
           <AnimatedHeader title={title} subtitle={subtitle} style={{ width: 250 }} />
         </PageRow>
+
         <PageColumn style={{ marginHorizontal: 12, gap: 8 }}>
+          {
+            !executor && (
+              <LoadingLayout />
+            )
+          }
+          <HomeAddOneCard />
           <HomePrayerCard />
-          <HomeDailyTasksCard/>
+          <HomePracticeTestimonyCard />
+          <HomeDailyTasksCard />
         </PageColumn>
       </PageColumn>
     </ScrollLayout>

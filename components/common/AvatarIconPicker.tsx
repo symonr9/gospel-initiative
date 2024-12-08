@@ -84,10 +84,13 @@ const styles = StyleSheet.create({
         width: 64,
         height: 64,
         margin: 4,
-        opacity: 0.4,
+        opacity: 0.6,
     },
     selected: {
         opacity: 1,
+        borderColor: 'lightgreen',
+        borderRadius: 36,
+        borderWidth: 4,
     },
     selectedContainer: {
         alignItems: 'center',

@@ -69,6 +69,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         };
     });
 
+    useEffect(() => {
+        if (!executor) {
+            return;
+        }    
+        
+        progress.value = withTiming(0, { duration: 250 });
+    }, [incomingCursorIdx, completedCursorIdx]);
+
     if (!beacon || (incomingCursorIdx === -1 && completedCursorIdx === -1)) {
         const hasCompleted = incomingBeacons.length === 0;
         if (hasCompleted) {
@@ -91,7 +99,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                 return (
                                     <SimpleGridCard iconSrc={item.userIcon}
                                         onClick={onClick}
-                                        title={item.shareOwnName ? `Prayed for ${item.userName}` : `Prayed for a friend`}
+                                        title={item.shareOwnName ? `Prayed for ${item.userName || 'a Beacon'}` : `Prayed for a friend`}
                                         subtitle={title} />
                                 );
                             }}

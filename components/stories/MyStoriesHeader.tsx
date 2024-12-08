@@ -139,7 +139,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                         <PageColumn style={{ maxHeight: 300 }}>
                             <FlatList data={partitionedChapters}
                                 keyExtractor={(key, idx) => `tag-${idx}`}
-                                numColumns={4}
+                                numColumns={3}
                                 renderItem={(props) => {
                                     const { key, items } = props.item;
 

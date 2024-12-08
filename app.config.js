@@ -13,14 +13,16 @@ export default ({ config }) => ({
             backgroundColor: "#d0e0e3",
         },
         ios: {
-            supportsTablet: true
+            supportsTablet: true,
+            bundleIdentifier: "com.syb"
         },
         android: {
             adaptiveIcon: {
                 foregroundImage: "./assets/images/adaptive-icon.png",
                 backgroundColor: "#ffffff",
             },
-            softwareKeyboardLayoutMode: "pan"
+            softwareKeyboardLayoutMode: "pan",
+            package: "com.syborg9.gospelinitiative"
         },
         web: {
             bundler: "metro",
@@ -38,7 +40,7 @@ export default ({ config }) => ({
             typedRoutes: true,
         },
         extra: {
-            serverUrl: process.env.SERVER_URL,
+            serverUrl: "https://gospel-initiative-712601afd046.herokuapp.com",
             production: process.env.PRODUCTION_MODE || false,
             eas: {
                 projectId: "2ae65218-15d2-482e-8975-7143d6fb55aa",
