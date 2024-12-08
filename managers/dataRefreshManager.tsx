@@ -1,5 +1,5 @@
-import { loadServerData, refreshData, setAppError, setNewUserStep } from '@/redux/actions';
-import React, { useEffect, useRef } from 'react';
+import { loadBeaconData, loadServerData, refreshData, setAppError, setNewUserStep } from '@/redux/actions';
+import React, { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 
 import { connect } from 'react-redux';
@@ -9,11 +9,13 @@ import { fetchServerData } from "@/requests/userRequests";
 import { createUserAndSaveToLocalStorage } from "@/requests/userRequests";
 import AppError from '@/models/error';
 import { NewUserStep, RefreshSpec } from '@/enums/enums';
+import { REFRESH_BEACONS_INTERVAL_SEC } from '@/constants/Constants';
 
 export type IDataRefreshManager = {
     state: any,
 
     loadServerData: (data: any) => void,
+    loadBeaconData: (data: any) => void,
     refreshData: Function,
     setNewUserStep: Function,
     setAppError: Function,
@@ -23,7 +25,9 @@ function hasConstantsLoaded() {
     return Constants.expoConfig?.extra?.serverUrl;
 }
 
-function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData, setAppError }: IDataRefreshManager) {
+function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserStep, refreshData, setAppError }: IDataRefreshManager) {
+    const [shouldRefreshBeacons, setShouldRefreshBeacons] = useState(false);
+
     useEffect(() => {
         if (!hasConstantsLoaded()) {
             setAppError(new AppError('Invalid Server Configuration', 'Please contact your administrator.'));
@@ -31,6 +35,14 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
         }
         loadSettings();
     }, []);
+
+    useEffect(() => {
+        if (!shouldRefreshBeacons) {
+            return;
+        }
+        const interval = setInterval(() => { refreshData(RefreshSpec.Beacons); }, REFRESH_BEACONS_INTERVAL_SEC * 1000);
+        return () => clearInterval(interval); // Cleanup
+    }, [shouldRefreshBeacons]);
 
     useEffect(() => {
         if (state.app.refreshSpec === RefreshSpec.None) {
@@ -68,6 +80,7 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
         const userId = await getLocalUserId();
         if (!userId) {
             setAppError(new AppError('Missing User ID...', 'Something went wrong'));
+            setShouldRefreshBeacons(false);
             return;
         }
 
@@ -75,9 +88,19 @@ function DataRefreshManager({ state, loadServerData, setNewUserStep, refreshData
             activeBeacons, expiredBeacons, error } = await fetchServerData(refreshSpec);
         if (error) {
             setAppError(new AppError(error, 'Something went wrong'));
+            setShouldRefreshBeacons(false);
             return;
         }
 
+        if (refreshSpec === RefreshSpec.Beacons) {
+            loadBeaconData({
+                activeBeacons: activeBeacons,
+                expiredBeacons: expiredBeacons,
+            });
+            return;
+        }
+
+        setShouldRefreshBeacons(true);
         loadServerData({
             localEvents: JsonFunctions.getLocalEventsJson(),
             localMinistries: JsonFunctions.getLocalMinistriesJson(),
@@ -107,6 +130,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
     loadServerData,
+    loadBeaconData,
     refreshData,
     setNewUserStep,
     setAppError,

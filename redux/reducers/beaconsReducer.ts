@@ -12,6 +12,7 @@ const initialState = {
 
 export function beaconsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
+        case Action.LoadBeaconData:
         case Action.LoadServerData:
             const { activeBeacons, expiredBeacons, beaconTemplates } = action.payload;
             return update(state, {

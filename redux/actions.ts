@@ -19,6 +19,7 @@ export enum Action {
     SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
 
     LoadServerData = "LOAD_SERVER_DATA",
+    LoadBeaconData = "LOAD_BEACON_DATA",
     LoadPreferences = "LOAD_PREFERENCES",
 
     SetSelectedOneId = "SET_SELECTED_ONE_ID",
