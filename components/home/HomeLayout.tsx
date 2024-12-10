@@ -14,6 +14,8 @@ import HomeDailyTasksCard from './HomeDailyTasksCard';
 import LoadingLayout from '../common/LoadingLayout';
 import HomeAddOneCard from './HomeAddOneCard';
 import HomePracticeTestimonyCard from './HomePracticeTestimonyCard';
+import PromptBanner from '../prompts/PromptBanner';
+import HomePromptCard from './HomePromptCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -37,6 +39,9 @@ function HomeLayout({ executor }: IHomeLayout) {
               <LoadingLayout />
             )
           }
+
+          <HomePromptCard />
+
           <HomeAddOneCard />
           <HomePrayerCard />
           <HomePracticeTestimonyCard />

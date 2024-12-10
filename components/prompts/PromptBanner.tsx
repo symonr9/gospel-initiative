@@ -15,15 +15,10 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { PageRow } from '../common/PageRow';
 
 export type IPromptBanner = ViewProps & {
-    firstPrompt: Prompt,
 };
 
-function PromptBanner({ firstPrompt }: IPromptBanner) {
+function PromptBanner({}: IPromptBanner) {
     const [message, setMessage] = useState<string | null>(null);
-
-    if (!firstPrompt) {
-        return <></>;
-    }
 
     const promptQuestion = getItemForDate(new Date(), PromptQuestions);
 
@@ -101,13 +96,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const executor = state.users.executor;
-    if (!executor)
-        return {};
-
-    const firstPrompt = selectFirstPromptByUserId(state, executor.id);
     return {
-        firstPrompt
+        executor: state.users.executor
     };
 }
 
