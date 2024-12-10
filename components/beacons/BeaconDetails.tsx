@@ -7,7 +7,18 @@ import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from '
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, FadeDirection, RefreshSpec } from '@/enums/enums';
-import { getAppTimeAgoText, mapStageToText, mapStageToIcon, mapBeaconTypeToTitleText, mapBeaconTypeToAppIcon, mapBeaconTagToTitleText, mapBeaconTagToDetailsText, mapOneCategoryToIcon, mapOneCategoryToText, mapGlobalBeaconTypeToTitleText, mapGlobalBeaconTypeToAppIcon, mapGlobalBeaconTypeToDetailsText } from '@/utils/appUtils';
+import { getAppTimeAgoText } from '@/utils/appUtils';
+import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
+import { mapGlobalBeaconTypeToDetailsText } from "@/utils/textUtils";
+import { mapGlobalBeaconTypeToTitleText } from "@/utils/textUtils";
+import { mapBeaconTypeToTitleText } from "@/utils/textUtils";
+import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
+import { mapBeaconTagToDetailsText } from "@/utils/textUtils";
+import { mapBeaconTagToTitleText } from "@/utils/textUtils";
+import { mapOneCategoryToIcon } from "@/utils/iconUtils";
+import { mapOneCategoryToTitle } from "@/utils/textUtils";
+import { mapOneStageToIcon } from "@/utils/iconUtils";
+import { mapOneStageToTitle } from "@/utils/textUtils
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
@@ -199,7 +210,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const userIcon = beacon.global ? null : beacon.userIcon;
     const oneIcon = beacon.oneIcon ? beacon.oneIcon : null;
 
-    const icon = beacon.global ? mapGlobalBeaconTypeToAppIcon(beacon.globalType) : mapBeaconTypeToAppIcon(beacon.type);
+    const icon = beacon.global ? mapGlobalBeaconTypeToIcon(beacon.globalType) : mapBeaconTypeToIcon(beacon.type);
     const title = beacon.global ? mapGlobalBeaconTypeToTitleText(beacon.globalType) : beacon.name;
     const subtitle = beacon.global ? mapGlobalBeaconTypeToDetailsText(beacon.globalType) : getSubtitleText(beacon);
 
@@ -327,7 +338,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         beacon.oneCategory && (
                                             <DetailsSection iconSrc={mapOneCategoryToIcon(beacon.oneCategory)}
                                                 prefix={"Their One is a..."}
-                                                title={mapOneCategoryToText(beacon.oneCategory)} />
+                                                title={mapOneCategoryToTitle(beacon.oneCategory)} />
                                         )
                                     }
 
@@ -339,9 +350,9 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                                     {
                                         beacon.oneStage && (
-                                            <DetailsSection iconSrc={mapStageToIcon(beacon.oneStage)}
+                                            <DetailsSection iconSrc={mapOneStageToIcon(beacon.oneStage)}
                                                 prefix={"Their One is..."}
-                                                title={mapStageToText(beacon.oneStage)} />
+                                                title={mapOneStageToTitle(beacon.oneStage)} />
                                         )
                                     }
 

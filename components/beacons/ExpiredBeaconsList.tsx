@@ -12,7 +12,8 @@ import User from '@/models/user';
 import { selectExpiredBeaconsWithActivities } from '@/redux/selectors/beaconSelectors';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { mapBeaconTypeToAppIcon, getAppTimeAgoText } from '@/utils/appUtils';
+import { getAppTimeAgoText } from '@/utils/appUtils';
+import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 
@@ -38,7 +39,7 @@ function ExpiredBeaconsList({ selectedOneId, executor, setAppError }: IExpiredBe
                 <PageColumn style={{ gap: 8 }}>
                     <PageColumn style={beaconStyles.beaconHeader}>
                         <PageRow>
-                            <Image source={mapBeaconTypeToAppIcon(item.type)}
+                            <Image source={mapBeaconTypeToIcon(item.type)}
                                 style={beaconStyles.icon}
                                 contentFit="contain" />
                             <PageColumn style={{ gap: 4 }}>

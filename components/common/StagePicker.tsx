@@ -2,7 +2,7 @@ import { OneStage } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, FlatList, Modal, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
-import { StageArray } from '@/utils/appUtils';
+import { StageArray } from "@/constants/Datasets";
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';

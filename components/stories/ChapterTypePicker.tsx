@@ -3,7 +3,7 @@ import StoryChapter from '@/models/storyChapter';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { AppText, TextType } from '../common/AppText';
-import { mapStoryChapterTypeToText } from '@/utils/appUtils';
+import { mapStoryChapterTypeToText } from "@/utils/textUtils";
 import { Colors } from '@/constants/Colors';
 
 type IChapterTypePicker = {

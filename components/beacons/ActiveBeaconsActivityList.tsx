@@ -8,7 +8,8 @@ import { AppText, TextType } from '../common/AppText';
 import { BeaconWithActivities } from '@/models/beacon';
 import { PageRow } from '../common/PageRow';
 import ScrollLayout from '../common/ScrollLayout';
-import { getAppTimeAgoText, mapBeaconTypeToAppIcon } from '@/utils/appUtils';
+import { getAppTimeAgoText } from '@/utils/appUtils';
+import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
@@ -72,7 +73,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                     <PageColumn style={beaconStyles.beaconHeader}>
                         <PageRow spaceBetween style={{ paddingBottom: 8, }}>
                             <PageRow>
-                                <Image source={mapBeaconTypeToAppIcon(beaconWithActivity.type)}
+                                <Image source={mapBeaconTypeToIcon(beaconWithActivity.type)}
                                     style={beaconStyles.icon}
                                     contentFit="contain" />
                                 <PageColumn style={{ gap: 4 }}>

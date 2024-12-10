@@ -9,7 +9,6 @@ import { EnhancedStory } from '@/models/story';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { selectPartionedEnhancedStories } from '@/redux/selectors';
 import { StoryCard } from './StoryCard';
-import { mapStoryTypeToText } from '@/utils/appUtils';
 import StoryDetails from './StoryDetails';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
@@ -36,7 +35,7 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
     )) : [];
 
     const title = activeStory !== null ? activeStory.title : 'Stories';
-    const subtitle = activeStory !== null ? mapStoryTypeToText(activeStory.type) : 'Select a story to begin.';
+    const subtitle = activeStory !== null ? "" : 'Select a story to begin.';
 
     return (
         <ScrollLayout>

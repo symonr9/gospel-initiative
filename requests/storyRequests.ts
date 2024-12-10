@@ -1,6 +1,7 @@
 import { StoryChapterType, StoryChapterTag } from "@/enums/enums";
 import StoryChapter from "@/models/storyChapter";
-import { generateRandomId, getAppIconKey, mapStoryChapterTypeToAppIcon } from "@/utils/appUtils";
+import { generateRandomId, getAppIconKey } from "@/utils/appUtils";
+import { mapStoryChapterTypeToIcon } from "@/utils/iconUtils";
 import { getLocalUserId } from "@/utils/storageUtils";
 import { makeRequest } from "./Requests";
 
@@ -56,7 +57,7 @@ export const partition = async (question: string, userResponse: string, controll
             item.title,
             item.details,
             item.questions,
-            mapStoryChapterTypeToAppIcon(item.category as StoryChapterType),
+            mapStoryChapterTypeToIcon(item.category as StoryChapterType),
             1,
             item.tags ? item.tags.split(',').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as StoryChapterTag) : [],
             item.names ? item.names.split(',') : [],

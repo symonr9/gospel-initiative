@@ -3,7 +3,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { getAppTimeAgoText, mapOneNoteTypeToTitle, mapOneNoteTypeToDetails, mapOneNoteTypeToAppIcon, getSelectedOne, mapOneCategoryToIcon, mapOneCategoryToText, mapStageToIcon, mapStageToText, StageArray } from '@/utils/appUtils';
+import { getAppTimeAgoText, getSelectedOne } from '@/utils/appUtils';
+import { mapOneNoteTypeToIcon } from "@/utils/iconUtils";
+import { mapOneNoteTypeToDetails } from "@/utils/textUtils";
+import { mapOneNoteTypeToTitle } from "@/utils/textUtils";
+import { mapOneCategoryToIcon } from "@/utils/iconUtils";
+import { mapOneCategoryToTitle } from "@/utils/textUtils";
+import { mapOneStageToIcon } from "@/utils/iconUtils";
+import { mapOneStageToTitle } from "@/utils/textUtils
+import { StageArray } from "@/constants/Datasets";
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
@@ -30,7 +38,7 @@ const oneNoteTypeArray = Object.keys(OneNoteType)
         value: OneNoteType[key as keyof typeof OneNoteType],
         label: mapOneNoteTypeToTitle(OneNoteType[key as keyof typeof OneNoteType]),
         details: mapOneNoteTypeToDetails(OneNoteType[key as keyof typeof OneNoteType]),
-        icon: mapOneNoteTypeToAppIcon(OneNoteType[key as keyof typeof OneNoteType]),
+        icon: mapOneNoteTypeToIcon(OneNoteType[key as keyof typeof OneNoteType]),
     }));
 
 export type IInfoPicker = ViewProps & {
@@ -313,14 +321,14 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                     <Animated.View entering={FadeInDown.duration(200)}
                         exiting={FadeOutDown.duration(200)}>
                         <PageRow style={{ marginStart: 12, gap: 12 }}>
-                            <DetailsSection iconSrc={mapStageToIcon(selectedOne.stage)}
+                            <DetailsSection iconSrc={mapOneStageToIcon(selectedOne.stage)}
                                 prefix={"Stage"}
                                 style={{ marginRight: 16 }}
-                                title={mapStageToText(selectedOne.stage)} />
+                                title={mapOneStageToTitle(selectedOne.stage)} />
 
                             <DetailsSection iconSrc={mapOneCategoryToIcon(selectedOne.category)}
                                 prefix={"Category"}
-                                title={mapOneCategoryToText(selectedOne.category)} />
+                                title={mapOneCategoryToTitle(selectedOne.category)} />
                         </PageRow>
                     </Animated.View>
                 </PageRow>
@@ -536,7 +544,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                     const type = parseInt(typeAsString) || 0;
                     const title = mapOneNoteTypeToTitle(type);
                     const details = mapOneNoteTypeToDetails(type);
-                    const icon = mapOneNoteTypeToAppIcon(type);
+                    const icon = mapOneNoteTypeToIcon(type);
 
                     const notesToRender = notesArray.filter((note) => hasMatchingText(note));
 

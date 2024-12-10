@@ -2,7 +2,9 @@ import { OneCategory } from '@/enums/enums';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, FlatList, Modal, StyleSheet, ViewProps } from 'react-native';
 import { Image } from 'expo-image';
-import { mapOneCategoryToIcon, mapOneCategoryToText, mapOneCategoryToDetailsText } from '@/utils/appUtils';
+import { mapOneCategoryToIcon } from "@/utils/iconUtils";
+import { mapOneCategoryToDetailsText } from "@/utils/textUtils";
+import { mapOneCategoryToTitle } from "@/utils/textUtils";
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
@@ -36,7 +38,7 @@ const categoryArray = [
 ].map((value: OneCategory) => ({
     category: value,
     icon: mapOneCategoryToIcon(value),
-    label: mapOneCategoryToText(value),
+    label: mapOneCategoryToTitle(value),
     details: mapOneCategoryToDetailsText(value)
 }));
 

@@ -7,7 +7,9 @@ import { AppIcon, OneNoteType } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import DetailsSection from '../common/DetailsSection';
-import { getSelectedOne, mapOneNoteTypeToAppIcon, mapOneNoteTypeToTitle, partitionNotesByType, toggleOneNoteTypeFromFilter } from '@/utils/appUtils';
+import { getSelectedOne, partitionNotesByType, toggleOneNoteTypeFromFilter } from '@/utils/appUtils';
+import { mapOneNoteTypeToIcon } from "@/utils/iconUtils";
+import { mapOneNoteTypeToTitle } from "@/utils/textUtils";
 import { updateOneNotesFilters } from '@/redux/actions';
 import { AppText } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
@@ -118,7 +120,7 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
                                     };
 
                                     return (
-                                        <SimpleCard iconSrc={mapOneNoteTypeToAppIcon(key)} 
+                                        <SimpleCard iconSrc={mapOneNoteTypeToIcon(key)} 
                                             key={key}
                                             onClick={() => onTypeFilterClick(key)}
                                             style={[styles.typeFilterItem, isFiltering && styles.selectedTypeFilter]}

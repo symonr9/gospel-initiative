@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
-import { mapStoryChapterTypeToAppIcon } from '@/utils/appUtils';
+import { mapStoryChapterTypeToIcon } from "@/utils/iconUtils";
 
 export type IStoryDetails = {
   activeStory: EnhancedStory | null;
@@ -49,7 +49,7 @@ function StoryDetails({ activeStory }: IStoryDetails) {
             if (chapter.icon && chapter.icon !== AppIcon.Book) {
               return chapter.icon;
             }
-            return mapStoryChapterTypeToAppIcon(chapter.chapterType);
+            return mapStoryChapterTypeToIcon(chapter.chapterType);
           })();
 
           return (

@@ -5,7 +5,9 @@ import { Image } from 'expo-image';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
-import { mapStoryChapterTypeToAppIcon, mapStoryChapterTypeToText, shouldKeepChapter } from '@/utils/appUtils';
+import { shouldKeepChapter } from '@/utils/appUtils';
+import { mapStoryChapterTypeToIcon } from "@/utils/iconUtils";
+import { mapStoryChapterTypeToText } from "@/utils/textUtils";
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';
@@ -147,7 +149,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
         <PageRow style={{ width: 300 }} spaceBetween>
           <PageRow style={{}}>
             <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
-              <Image source={mapStoryChapterTypeToAppIcon(chapter.chapterType)} style={styles.icon} />
+              <Image source={mapStoryChapterTypeToIcon(chapter.chapterType)} style={styles.icon} />
             </Animated.View>
             <PageColumn style={{ width: 300, flexShrink: 1 }}>
               <AppText type={TextType.Subtitle3}>

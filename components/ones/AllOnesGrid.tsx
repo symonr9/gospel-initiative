@@ -8,7 +8,10 @@ import One from '@/models/one';
 import { PageColumn } from '../common/PageColumn';
 import { OneLayoutType } from './OnesLayout';
 import { gridStyles } from '@/styles/Styles';
-import { mapStageToIcon, mapStageToText, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
+import { mapOneCategoryToIcon } from "@/utils/iconUtils";
+import { mapOneCategoryToTitle } from "@/utils/textUtils";
+import { mapOneStageToIcon } from "@/utils/iconUtils";
+import { mapOneStageToTitle } from "@/utils/textUtils
 import DetailsSection from '../common/DetailsSection';
 import { SimpleGridCard } from '../common/SimpleGridCard';
 
@@ -32,14 +35,14 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
 
         const detailsView = (
             <>
-                <DetailsSection iconSrc={mapStageToIcon(item.stage)}
+                <DetailsSection iconSrc={mapOneStageToIcon(item.stage)}
                     prefix={"Stage"}
                     style={{ marginRight: 16 }}
-                    title={mapStageToText(item.stage)} />
+                    title={mapOneStageToTitle(item.stage)} />
 
                 <DetailsSection iconSrc={mapOneCategoryToIcon(item.category)}
                     prefix={"Category"}
-                    title={mapOneCategoryToText(item.category)} />
+                    title={mapOneCategoryToTitle(item.category)} />
             </>
         );
 

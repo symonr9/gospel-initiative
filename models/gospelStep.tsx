@@ -1,5 +1,6 @@
 import { AppIcon, GospelStepLayoutType, GospelStepType } from "@/enums/enums";
-import { generateRandomId, mapGospelStepTypeToLayoutType } from "@/utils/appUtils";
+import { generateRandomId } from "@/utils/appUtils";
+import { mapGospelStepTypeToLayoutType } from "@/constants/Datasets";
 
 interface IGospelStep {
     id: string;

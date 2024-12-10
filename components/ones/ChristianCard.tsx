@@ -5,7 +5,9 @@ import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
-import { formatDateTimeSimple, getDaysDifference, mapOneCategoryToIcon, mapOneCategoryToText } from '@/utils/appUtils';
+import { formatDateTimeSimple, getDaysDifference } from '@/utils/appUtils';
+import { mapOneCategoryToIcon } from "@/utils/iconUtils";
+import { mapOneCategoryToTitle } from "@/utils/textUtils";
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import Christian from '@/models/christian';
@@ -39,11 +41,11 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
                     <DetailsSection iconSrc={mapOneCategoryToIcon(christian.oneCategory)}
                         prefix={"Relationship with your One"}
                         onClick={handleOnPress}
-                        title={mapOneCategoryToText(christian.oneCategory)} />
+                        title={mapOneCategoryToTitle(christian.oneCategory)} />
                     <DetailsSection iconSrc={mapOneCategoryToIcon(christian.category)}
                         prefix={"Relationship with You"}
                         onClick={handleOnPress}
-                        title={mapOneCategoryToText(christian.category)} />
+                        title={mapOneCategoryToTitle(christian.category)} />
                 </PageRow>
 
                 <PageRow style={styles.section}>

@@ -4,7 +4,10 @@ import { View, TouchableOpacity, FlatList, StyleSheet, ViewProps, TextInput, Mod
 
 import { connect } from 'react-redux';
 import { Image } from 'expo-image';
-import { mapActionStepTypeToIcon, mapActionStepTypeToTitle, mapActionStepTypeToDetails, getSelectedOne } from '@/utils/appUtils';
+import { getSelectedOne } from '@/utils/appUtils';
+import { mapActionStepTypeToDetails } from "@/utils/textUtils";
+import { mapActionStepTypeToTitle } from "@/utils/textUtils";
+import { mapActionStepTypeToIcon } from "@/utils/iconUtils";
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';

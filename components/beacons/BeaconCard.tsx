@@ -12,7 +12,8 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import BeaconActivity from '@/models/beaconActivity';
-import { mapBeaconTypeToAppIcon, mapGlobalBeaconTypeToAppIcon } from '@/utils/appUtils';
+import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
+import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { Colors } from '@/constants/Colors';
 
 export type IBeaconCard = {
@@ -61,7 +62,7 @@ export function BeaconCard({ beacon, activeBeaconId, idx, selectedIdx, setActive
         }
     };
 
-    const icon = beacon.global ? mapGlobalBeaconTypeToAppIcon(beacon.type) : mapBeaconTypeToAppIcon(beacon.type);
+    const icon = beacon.global ? mapGlobalBeaconTypeToIcon(beacon.type) : mapBeaconTypeToIcon(beacon.type);
 
     return (
         <TouchableOpacity onPress={onCardPress} style={styles.touchable}>
