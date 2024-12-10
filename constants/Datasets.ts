@@ -3,7 +3,7 @@ import ActionStep from "@/models/actionStep";
 import { getDayInFuture } from "@/utils/appUtils";
 import { mapOneStageToIcon } from "@/utils/iconUtils";
 import { mapOneStageToDetailsText } from "@/utils/textUtils";
-import { mapOneStageToTitle } from "@/utils/textUtils
+import { mapOneStageToTitle } from "@/utils/textUtils";
 
 export const StageArray = [
     OneStage.Hostile,

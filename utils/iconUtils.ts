@@ -91,21 +91,15 @@ export function mapBeaconTypeToIcon(type: BeaconType) {
     switch (type) {
         case BeaconType.SpiritualConversation:
             return AppIcon.Conversation;
-        case BeaconType.PrayerNeed:
-            return AppIcon.Prayer;
-        case BeaconType.SharingGospel:
+        case BeaconType.GospelConversation:
             return AppIcon.FastResponse;
-        case BeaconType.InvitedToChurch:
-            return AppIcon.Church;
-        case BeaconType.OfferedHelp:
-            return AppIcon.Car;
-        case BeaconType.AttendedEventTogether:
-            return AppIcon.Rapport;
-        case BeaconType.GaveTestimony:
-            return AppIcon.Book;
-        case BeaconType.FollowedUp:
-            return AppIcon.Phone;
-        case BeaconType.Meeting:
+        case BeaconType.CaringForYourOne:
+            return AppIcon.Care;
+        case BeaconType.Invitation:
+            return AppIcon.Invitation;
+        case BeaconType.ConfidenceForMe:
+            return AppIcon.PlantGrow;
+        case BeaconType.GetToKnowThem:
         case BeaconType.Archived:
         default:
             return AppIcon.Coffee;

@@ -1,65 +1,44 @@
 [
     {
         "id": "template1",
-        "name": "Meeting",
-        "message": "You are about to meet with your One.",
+        "name": "Get to Know Them",
+        "message": "You want opportunities to get to know them better and hear about their story.",
         "icon": "Coffee",
         "type": 1
     },
     {
         "id": "template2",
         "name": "Spiritual Conversation",
-        "message": "You want to have a meaningful spiritual conversation with your One.",
+        "message": "You want to have a meaningful spiritual conversation with your One, being able to hear their story and share your own.",
         "icon": "Conversation",
         "type": 2
     },
     {
         "id": "template3",
-        "name": "Prayer Need",
-        "message": "Your One has a specific prayer need.",
-        "icon": "Prayer",
+        "name": "Gospel Conversation",
+        "message": "You want prayer for boldness to share the Gospel with your One.",
+        "icon": "FastResponse",
         "type": 3
     },
     {
         "id": "template4",
-        "name": "Share about Faith",
-        "message": "You want to share an aspect of your faith with your One.",
-        "icon": "FastResponse",
+        "name": "Caring for your One",
+        "message": "You want others to pray for the things going on in your One's life and wisdom for you to find ways to serve your One.",
+        "icon": "Care",
         "type": 4
     },
     {
         "id": "template5",
-        "name": "Invite to Church",
-        "message": "You want to invite your One to church.",
-        "icon": "Church",
+        "name": "Invitation",
+        "message": "You want to invite your One somewhere, maybe outside the context where you know them.",
+        "icon": "Invitation",
         "type": 5
     },
     {
         "id": "template6",
-        "name": "Offer Help",
-        "message": "You want to offer help or assistance to your One.",
-        "icon": "Car",
+        "name": "Confidence",
+        "message": "You want prayer to grow in confidence in sharing your testimony.",
+        "icon": "PlantGrow",
         "type": 6
-    },
-    {
-        "id": "template7",
-        "name": "Build Rapport",
-        "message": "You want to build rapport with your One.",
-        "icon": "Rapport",
-        "type": 7
-    },
-    {
-        "id": "template8",
-        "name": "Give Testimony",
-        "message": "You want to share your personal testimony with your One.",
-        "icon": "Book",
-        "type": 8
-    },
-    {
-        "id": "template10",
-        "name": "Follow Up",
-        "message": "You want to follow up on a previous conversation with your One.",
-        "icon": "Phone",
-        "type": 9
     }
 ]

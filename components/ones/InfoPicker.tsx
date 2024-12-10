@@ -10,7 +10,7 @@ import { mapOneNoteTypeToTitle } from "@/utils/textUtils";
 import { mapOneCategoryToIcon } from "@/utils/iconUtils";
 import { mapOneCategoryToTitle } from "@/utils/textUtils";
 import { mapOneStageToIcon } from "@/utils/iconUtils";
-import { mapOneStageToTitle } from "@/utils/textUtils
+import { mapOneStageToTitle } from "@/utils/textUtils";
 import { StageArray } from "@/constants/Datasets";
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';

@@ -11,7 +11,7 @@ import { gridStyles } from '@/styles/Styles';
 import { mapOneCategoryToIcon } from "@/utils/iconUtils";
 import { mapOneCategoryToTitle } from "@/utils/textUtils";
 import { mapOneStageToIcon } from "@/utils/iconUtils";
-import { mapOneStageToTitle } from "@/utils/textUtils
+import { mapOneStageToTitle } from "@/utils/textUtils";
 import DetailsSection from '../common/DetailsSection';
 import { SimpleGridCard } from '../common/SimpleGridCard';
 

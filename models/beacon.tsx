@@ -94,7 +94,7 @@ export default class Beacon implements IBeacon {
             null,
             Priority.Normal,
             "",
-            BeaconType.Meeting,
+            BeaconType.GetToKnowThem,
             new Date(),
             true,
             [],

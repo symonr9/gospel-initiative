@@ -18,7 +18,7 @@ import { mapBeaconTagToTitleText } from "@/utils/textUtils";
 import { mapOneCategoryToIcon } from "@/utils/iconUtils";
 import { mapOneCategoryToTitle } from "@/utils/textUtils";
 import { mapOneStageToIcon } from "@/utils/iconUtils";
-import { mapOneStageToTitle } from "@/utils/textUtils
+import { mapOneStageToTitle } from "@/utils/textUtils";
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';

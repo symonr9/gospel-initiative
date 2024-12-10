@@ -55,15 +55,12 @@ export enum Role {
 
 export enum BeaconType {
     Archived = 0,
-    Meeting = 1,
+    GetToKnowThem = 1,
     SpiritualConversation = 2,
-    PrayerNeed = 3,
-    SharingGospel = 4,
-    InvitedToChurch = 5,
-    OfferedHelp = 6,
-    AttendedEventTogether = 7,
-    GaveTestimony = 8,
-    FollowedUp = 9
+    GospelConversation = 3,
+    CaringForYourOne = 4,
+    Invitation = 5,
+    ConfidenceForMe = 6,
 };
 
 
@@ -497,6 +494,10 @@ export enum AppIcon {
     StageNewBeliever = require('../assets/images/app-icons/stage-new-believer.png'),
     StageDisciple = require('../assets/images/app-icons/stage-disciple.png'),
     StageHurt = require('../assets/images/app-icons/stage-hurt.png'),
+
+    // To Add
+    Invitation = require('../assets/images/app-icons/stage-hurt.png'),
+    Care = require('../assets/images/app-icons/stage-hurt.png'),
 }
 
 export enum AvatarIcon {

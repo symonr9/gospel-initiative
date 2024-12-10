@@ -335,22 +335,16 @@ export function mapBeaconTypeToTitleText(type: BeaconType,
     switch (type) {
         case BeaconType.SpiritualConversation:
             return `${userName} would like a spiritual conversation with ${oneName}.`;
-        case BeaconType.PrayerNeed:
-            return `${userName} heard about a prayer need from ${oneName}.`;
-        case BeaconType.SharingGospel:
-            return `${userName} would like to share an aspect of their faith with ${oneName}.`;
-        case BeaconType.InvitedToChurch:
-            return `${userName} is planning to invite ${oneName} to church.`;
-        case BeaconType.OfferedHelp:
-            return `${userName} wants to serve ${oneName} in some way.`;
-        case BeaconType.AttendedEventTogether:
-            return `${userName} wants to build rapport with ${oneName}.`;
-        case BeaconType.GaveTestimony:
-            return `${userName} wants to share their personal testimoney with ${oneName}.`;
-        case BeaconType.FollowedUp:
-            return `${userName} wants to follow-up on a previous conversation with ${oneName}.`;
-        case BeaconType.Meeting:
-            return `${userName} is meeting with ${oneName}`;
+        case BeaconType.GospelConversation:
+            return `${userName} wants prayer for boldness to share the Gospel with ${oneName}.`;
+        case BeaconType.CaringForYourOne:
+            return `${userName} wants prayer for the things going on in ${oneName}'s life and for ways to serve them.`;
+        case BeaconType.Invitation:
+            return `${userName} is planning to or has invited ${oneName} somewhere.`;
+        case BeaconType.ConfidenceForMe:
+            return `${userName} wants prayer for them to grow in confidence in sharing their testimony.`;
+        case BeaconType.GetToKnowThem:
+            return `${userName} wants to get to know ${oneName} better.`;
         default:
             return '';
     }

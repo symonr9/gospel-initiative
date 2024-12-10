@@ -429,7 +429,9 @@ export function doesChapterMatchFilter(chapter: StoryChapter, tagFilters: StoryC
 
 export function getHomeDailyTasksData(ones: One[], executor: User, completedBeacons: any, activeBeacons: Beacon[]) {
     const hasPrayedForBeaconToday = completedBeacons.length > 0;
-    const hasSentBeaconToday = activeBeacons.length > 0;
+
+    const sentBeacons = activeBeacons.filter((value) => !value.global);
+    const hasSentBeaconToday = sentBeacons.length > 0;
 
     const numOfRecentActionSteps = countRecentActionSteps(ones);
     const hasUpdatedActionStepToday = numOfRecentActionSteps > 0;

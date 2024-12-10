@@ -81,6 +81,8 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
         !isWithinPast24Hours(executor.lastExtraPartitionGranted)
     );
 
+    const sentBeacons = activeBeacons?.filter((value) => !value.global) || [];
+
     const detailsView = (
         <PageColumn>
             <PageRow style={{ gap: 8 }}>
@@ -122,7 +124,7 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                             checked={hasPrayedForBeaconToday} />
 
                         <HomeChecklistItem title={`Send a Beacon`}
-                            subtitle={`You have sent ${activeBeacons.length} beacon${activeBeacons.length !== 1 ? 's' : ''} today.`}
+                            subtitle={`You have sent ${sentBeacons.length} beacon${sentBeacons.length !== 1 ? 's' : ''} today.`}
                             onClick={() => router.replace('/ones?tab=0')}
                             iconSrc={AppIcon.OpenHands}
                             checked={hasSentBeaconToday} />
