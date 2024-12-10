@@ -98,25 +98,25 @@ export const PromptQuestions = [
     "How do you stay motivated when things get tough?",
     "What's something you've learned about yourself this year?",
     "What are some places you'd like to travel to someday?",
-    "How do you like to spend your time when you're alone?"
+    "How do you like to spend your time when you're alone?",
+    "Hey! I know a bit about you, but I'm just curious and want to know more. What's your story?",
+    "Hey! I've been curious. What do you think about God and the Bible?"
 ];
 
 export const ActivityNoteOptions = [
-    "You are not alone; I'm praying for you.",
-    "Lifting you up in prayer.",
-    "May you find peace and strength.",
-    "May you feel God's presence.",
-    "Praying for comfort and guidance.",
+    "I'm praying for you.",
     "You are in my thoughts and prayers.",
-    "May your faith be strengthened.",
-    "Sending prayers for your well-being.",
-    "Believing for a breakthrough.",
-    "Praying for wisdom and clarity.",
-    "Praying for healing and peace.",
-    "Trusting in God's plan for you.",
-    "May you find hope and courage.",
-    "Asking God to bless you today.",
-    "May you experience God's peace.",
+    "I'm so encouraged by your heart for them.",
+    "This is excellent, I'm so glad. I'm joining you in prayer.",
+
+    "Count me in, I'm praying for them too.",
+    "They will be in my thoughts and prayers.",
+    "Asking for God to work in thir life.",
+
+    "Amen, I am in agreement in prayer.",
+    "This is an important need. I'm praying!",
+    "Believing for a breakthrough!",
+
     "Custom"
 ];
 
@@ -180,5 +180,36 @@ export const PracticeTestimonyQuestions = [
     "How has your relationship with God influenced your understanding of forgiveness?",
     "What spiritual practices help you stay grounded in your faith?",
     "How has your faith helped you find hope in the midst of suffering?",
-    "Have you ever shared your testimony with someone? How did it impact them?"
+    "Have you ever shared your testimony with someone? How did it impact them?",
+
+    "How did you view people before becoming a Christian?",
+    "How has becoming a Christian changed the way you viewed people?",
+    "How has becoming a Christian changed the way you served others?",
+
+    "What was missing in your life before you met Christ?",
+
+    "Before you became a Christian, what was one thing believed about the world? Why did you believe that?",
+    "Before you became a Christian, did you believe in a God or any sort of spiritual reality?",
+    "What was your perception of Christianity as a kid?",
+    "What was an obstacle for you in the past for believing in and trusting in Jesus?",
+
+    "How would you answer this before becoming a Christian: Where do I find my worth?",
+    "How would you answer this before becoming a Christian: Why was I made?",
+    "How would you answer this before becoming a Christian: Who could ever forgive me/How could I ever forgive them?",
+    "When did your faith become your own?",
+    "How would you answer this before becoming a Christian: What can bring me fulfillment in life?",
+    "How would you answer this before becoming a Christian: Where do I find hope and joy?",
+    "How would you answer this before becoming a Christian: Where do I find my identity?",
+    "How would you answer this before becoming a Christian: How do I deal with anxiety?",
+    "Were there other things besides faith that your family focused on?",
+    "Was there ever a recurring sin pattern in your life?",
+
+    "Who told you about Jesus?",
+    "Did someone bring you to church?",
+    "What was the point in which you knew you needed Jesus?",
+
+    "How do you find home and comfort now?",
+    "How do you fight against sin struggles and why do you put the effort into fighting?",
+    "What are some tangible things that God has changed in your life?",
+    "What Bible verses are important to your story?"
 ];
