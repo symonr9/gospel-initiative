@@ -116,13 +116,13 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
                         {chaptersIsLoaded && (
                             <PageRow spaceBetween style={{ gap: 8 }}>
-                                <DetailsSection iconSrc={AppIcon.Rainy}
+                                <DetailsSection iconSrc={AppIcon.BeforeChrist}
                                     prefix="Before Christ"
                                     title={beforeChristChapters.length}
                                     onClick={beforeChristClick}
                                     style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
                                 />
-                                <DetailsSection iconSrc={AppIcon.OpenHands}
+                                <DetailsSection iconSrc={AppIcon.Repentance}
                                     prefix="Salvation Moment"
                                     title={salvationMomentChapters.length}
                                     onClick={salvationMomentClick}

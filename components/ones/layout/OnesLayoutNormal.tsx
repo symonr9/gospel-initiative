@@ -115,7 +115,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
     } else { // Base
         const infoDetailView = (
             <>
-                <DetailsSection iconSrc={AppIcon.Book2}
+                <DetailsSection iconSrc={AppIcon.Note}
                     prefix={"Notes Taken"}
                     onClick={() => setBodyType(BodyType.Info)}
                     title={`${oneNotes.length} Notes`} />
@@ -142,7 +142,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         
         const gospelChecklistDetailView = (
             <>
-                <DetailsSection iconSrc={AppIcon.PlantGrow}
+                <DetailsSection iconSrc={AppIcon.ScriptureOpen}
                     prefix={"Gospel Shared"}
                     onClick={() => setBodyType(BodyType.GospelSteps)}
                     title={`${Math.ceil(completedPercentage * 100)}% shared`} />
@@ -171,19 +171,19 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         BodyLayout.push(
             <>
                 <PageColumn>
-                    <SimpleGridCard iconSrc={AppIcon.Book2}
+                    <SimpleGridCard iconSrc={AppIcon.Note}
                         title={'Info'}
                         detailsView={infoDetailView}
                         horizontal={false}
                         onClick={() => setBodyType(BodyType.Info)} />
 
-                    <SimpleGridCard iconSrc={AppIcon.Coffee}
+                    <SimpleGridCard iconSrc={AppIcon.Checkmark}
                         title={'Action Steps'}
                         detailsView={actionStepsDetailView}
                         horizontal={false}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
 
-                    <SimpleGridCard iconSrc={AppIcon.PlantGrow}
+                    <SimpleGridCard iconSrc={AppIcon.ScriptureOpen}
                         title={'Gospel Steps'}
                         detailsView={gospelChecklistDetailView}
                         horizontal={false}

@@ -27,6 +27,7 @@ export function mapOneStageToIcon(stage: OneStage) {
 export function mapOneCategoryToIcon(category: OneCategory): AppIcon {
     switch (category) {
         case OneCategory.Family:
+            return AppIcon.Family;
         case OneCategory.Roommate:
         case OneCategory.HouseholdHelp:
             return AppIcon.House;
@@ -35,32 +36,38 @@ export function mapOneCategoryToIcon(category: OneCategory): AppIcon {
         case OneCategory.Classmate:
             return AppIcon.Backpack;
         case OneCategory.Coworker:
-        case OneCategory.Client:
             return AppIcon.Employee;
+        case OneCategory.Client:
+            return AppIcon.Client;
         case OneCategory.Cashier:
             return AppIcon.Cashier;
         case OneCategory.Server:
+            return AppIcon.Dinner;
         case OneCategory.Barista:
-            return AppIcon.Coffee;
+            return AppIcon.Barista;
         case OneCategory.Tutor:
-        case OneCategory.Teacher:
             return AppIcon.Book2;
+        case OneCategory.Teacher:
+            return AppIcon.Apple;
         case OneCategory.ClubMember:
+            return AppIcon.Controller;
         case OneCategory.Teammate:
             return AppIcon.Basketball;
         case OneCategory.FellowParent:
-            return AppIcon.Conversation;
+            return AppIcon.Parents;
         case OneCategory.WorkoutPartner:
             return AppIcon.Gym;
         case OneCategory.PersonalCareProfessional:
+            return AppIcon.Makeup;
         case OneCategory.MedicalProf:
             return AppIcon.Health;
         case OneCategory.LongDistanceFriend:
-            return AppIcon.Globe;
+            return AppIcon.Zoom;
         case OneCategory.CloseFriend:
+            return AppIcon.BestFriend;
         case OneCategory.Friend:
         default:
-            return AppIcon.Rapport;
+            return AppIcon.Friend;
     }
 }
 export function mapOneNoteTypeToIcon(type: OneNoteType): AppIcon {
@@ -72,7 +79,7 @@ export function mapOneNoteTypeToIcon(type: OneNoteType): AppIcon {
         case OneNoteType.WhatIsRelationshipLike:
             return AppIcon.Conversation;
         case OneNoteType.InterestsHobbiesGoals:
-            return AppIcon.Popcorn;
+            return AppIcon.TV;
         case OneNoteType.SpiritualBackgroundAndWorldView:
             return AppIcon.Globe;
         case OneNoteType.PerceptionOfChristianity:
@@ -94,15 +101,15 @@ export function mapBeaconTypeToIcon(type: BeaconType) {
         case BeaconType.GospelConversation:
             return AppIcon.FastResponse;
         case BeaconType.CaringForYourOne:
-            return AppIcon.Care;
+            return AppIcon.ShareHeart;
         case BeaconType.Invitation:
-            return AppIcon.Invitation;
+            return AppIcon.Mail;
         case BeaconType.ConfidenceForMe:
-            return AppIcon.PlantGrow;
+            return AppIcon.Dove;
         case BeaconType.GetToKnowThem:
         case BeaconType.Archived:
         default:
-            return AppIcon.Coffee;
+            return AppIcon.Conversation;
     }
 }
 export function mapGlobalBeaconTypeToIcon(type: GlobalBeaconType | null): AppIcon {
@@ -112,7 +119,7 @@ export function mapGlobalBeaconTypeToIcon(type: GlobalBeaconType | null): AppIco
 
     switch (type) {
         case GlobalBeaconType.Leaders:
-            return AppIcon.NetworkPeople;
+            return AppIcon.Leadership;
         case GlobalBeaconType.NewBelievers:
             return AppIcon.PlantGrow;
         case GlobalBeaconType.Missionaries:
@@ -123,29 +130,34 @@ export function mapGlobalBeaconTypeToIcon(type: GlobalBeaconType | null): AppIco
             return AppIcon.NightPark;
         case GlobalBeaconType.Schools:
         case GlobalBeaconType.ElementarySchoolers:
+            return AppIcon.Backpack;
         case GlobalBeaconType.MiddleSchoolers:
+            return AppIcon.SchoolBus;
         case GlobalBeaconType.HighSchoolers:
             return AppIcon.Backpack;
         case GlobalBeaconType.PoorHungry:
+            return AppIcon.Poor;
         case GlobalBeaconType.Families:
+            return AppIcon.Family;
         case GlobalBeaconType.Parents:
-            return AppIcon.UserGroup;
         case GlobalBeaconType.Marriages:
-            return AppIcon.Heart;
+            return AppIcon.Parents;
         case GlobalBeaconType.Nation:
             return AppIcon.Mountain;
         case GlobalBeaconType.Toddlers:
-            return AppIcon.Bird;
+            return AppIcon.Elementary;
         case GlobalBeaconType.Mosaic:
             return AppIcon.MosaicOrange;
         case GlobalBeaconType.YoungAdults:
-        case GlobalBeaconType.Elderly:
             return AppIcon.UserGroup;
+        case GlobalBeaconType.Elderly:
+            return AppIcon.Elderly;
         case GlobalBeaconType.Workplaces:
             return AppIcon.Employee;
         case GlobalBeaconType.Discipleship:
+            return AppIcon.Guide;
         case GlobalBeaconType.LeadersInTraining:
-            return AppIcon.LightBulb;
+            return AppIcon.Leadership;
         case GlobalBeaconType.ChurchUnity:
             return AppIcon.Church;
         case GlobalBeaconType.AddictionRecovery:
@@ -160,20 +172,23 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
         case ActionStepType.ShareGospel:
             return AppIcon.Christ;
         case ActionStepType.ShareTestimony:
-        case ActionStepType.ListenToTestimony:
-        case ActionStepType.AskSpiritualQuestion:
             return AppIcon.Conversation;
+        case ActionStepType.ListenToTestimony:
+            return AppIcon.Chat;
+        case ActionStepType.AskSpiritualQuestion:
+            return AppIcon.ShareHeart;
         case ActionStepType.InviteToEvent:
             return AppIcon.Mail;
         case ActionStepType.AskForPrayerRequest:
             return AppIcon.Prayer;
         case ActionStepType.InviteToGroup:
-            return AppIcon.NetworkPeople;
+            return AppIcon.Mail;
         case ActionStepType.SendEncouragementText:
             return AppIcon.FastResponse;
         case ActionStepType.DiscussScripture:
+            return AppIcon.Scripture;
         case ActionStepType.ShareDevotional:
-            return AppIcon.Book;
+            return AppIcon.ScriptureOpen;
         case ActionStepType.HostAtHome:
             return AppIcon.House;
         case ActionStepType.ProvideBiblicalCounsel:
@@ -185,7 +200,7 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
         case ActionStepType.TakeOutToCoffee:
             return AppIcon.Coffee;
         case ActionStepType.OfferToHelpWithErrands:
-            return AppIcon.Car;
+            return AppIcon.Care;
         case ActionStepType.Other:
         default:
             return AppIcon.Calendar;
@@ -194,28 +209,29 @@ export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
 export function mapGospelStepTypeToIcon(item: GospelStepType): AppIcon {
     switch (item) {
         case GospelStepType.SpiritualConversations:
-        case GospelStepType.GospelConversations:
             return AppIcon.Conversation;
+        case GospelStepType.GospelConversations:
+            return AppIcon.ShareHeart;
         case GospelStepType.GodsExistence:
-            return AppIcon.Church;
+            return AppIcon.Globe;
         case GospelStepType.GodsLoveForThem:
             return AppIcon.Heart;
         case GospelStepType.SeparationFromGod:
-            return AppIcon.Skull;
+            return AppIcon.SnakeSin;
         case GospelStepType.JesusLifeDeath:
-            return AppIcon.Christ;
+            return AppIcon.Jesus;
         case GospelStepType.SalvationByGraceThroughFaith:
-            return AppIcon.PlantGrow;
+            return AppIcon.Cross;
         case GospelStepType.SalvationMoment:
-            return AppIcon.OpenHands;
+            return AppIcon.Repentance;
         case GospelStepType.Bible:
-            return AppIcon.Book;
+            return AppIcon.Scripture;
         case GospelStepType.Prayer:
             return AppIcon.Prayer;
         case GospelStepType.Worship:
             return AppIcon.Music;
         case GospelStepType.Repentance:
-            return AppIcon.LightBulb;
+            return AppIcon.Repentance;
         case GospelStepType.Creation:
             return AppIcon.Globe;
         case GospelStepType.Heaven:
@@ -231,7 +247,7 @@ export function mapGospelStepTypeToIcon(item: GospelStepType): AppIcon {
         case GospelStepType.Community:
             return AppIcon.UserGroup;
         case GospelStepType.Disciple:
-            return AppIcon.PlantGrow;
+            return AppIcon.Leadership;
         case GospelStepType.DiscipleOthers:
             return AppIcon.Christ;
     }
@@ -239,15 +255,15 @@ export function mapGospelStepTypeToIcon(item: GospelStepType): AppIcon {
 export function mapStoryChapterTypeToIcon(type: StoryChapterType): AppIcon {
     switch (type) {
         case StoryChapterType.BeforeChrist:
-            return AppIcon.Rainy;
+            return AppIcon.BeforeChrist;
         case StoryChapterType.SalvationMoment:
-            return AppIcon.OpenHands;
+            return AppIcon.Repentance;
         case StoryChapterType.AfterChrist:
             return AppIcon.PlantGrow;
         case StoryChapterType.Creation:
             return AppIcon.Tree;
         case StoryChapterType.Sin:
-            return AppIcon.Skull;
+            return AppIcon.SnakeSin;
         case StoryChapterType.JesusMinistry:
             return AppIcon.Sheep;
         case StoryChapterType.Jesus:
@@ -259,11 +275,12 @@ export function mapStoryChapterTypeToIcon(type: StoryChapterType): AppIcon {
             return AppIcon.Church;
         case StoryChapterType.ChosenPeople:
             return AppIcon.Exodus;
-        case StoryChapterType.OldTestament:
         case StoryChapterType.ScriptureHighlight:
+            return AppIcon.ScriptureOpen;
+        case StoryChapterType.OldTestament:
         case StoryChapterType.Character:
         default:
-            return AppIcon.Book;
+            return AppIcon.Scripture;
     }
 }
 

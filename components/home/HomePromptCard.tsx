@@ -22,7 +22,7 @@ function HomePromptCard({ executor }: IHomePromptCard) {
     const promptQuestion = getItemForDate(new Date(), PromptQuestions);
 
     return (
-        <SimpleCard iconSrc={AppIcon.StageApathetic}
+        <SimpleCard iconSrc={AppIcon.Note}
             style={[styles.card]}
             title={promptQuestion}
             subtitle={'Prompt of the Day: Try to ask someone this question!'} />

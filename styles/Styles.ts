@@ -236,8 +236,8 @@ export const modalStyles = StyleSheet.create({
   iconList: {
   },
   icon: {
-    width: 28,
-    height: 28,
+    width: 40,
+    height: 40,
     margin: 2,
     verticalAlign: 'middle',
     opacity: 0.7

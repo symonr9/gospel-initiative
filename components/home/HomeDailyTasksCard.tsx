@@ -114,7 +114,7 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                         <HomeChecklistItem title={`Testimony Practice`}
                             subtitle={`You have${hasPracticedTestimonyToday ? '' : ' not yet'} practiced your testimony today.`}
                             onClick={() => router.replace('/stories?tab=1')}
-                            iconSrc={AppIcon.StageApathetic}
+                            iconSrc={AppIcon.Microphone}
                             checked={hasPracticedTestimonyToday} />
 
                         <HomeChecklistItem title={`Pray for a Beacon`}
@@ -132,19 +132,19 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
                         <HomeChecklistItem title={`Update an Action Step`}
                             subtitle={`You have updated ${numOfRecentActionSteps} action step${numOfRecentActionSteps !== 1 ? 's' : ''} today.`}
                             onClick={() => router.replace('/ones?tab=0')}
-                            iconSrc={AppIcon.Coffee}
+                            iconSrc={AppIcon.Checkmark}
                             checked={hasUpdatedActionStepToday} />
 
                         <HomeChecklistItem title={`Update a Gospel Step`}
                             subtitle={`You have updated ${numOfRecentGospelSteps} Gospel step${numOfRecentGospelSteps !== 1 ? 's' : ''} today.`}
                             onClick={() => router.replace('/ones?tab=0')}
-                            iconSrc={AppIcon.PlantGrow}
+                            iconSrc={AppIcon.ScriptureOpen}
                             checked={hasUpdatedGospelStepToday} />
 
                         <HomeChecklistItem title={`Update a One's Notes`}
                             subtitle={`You have updated your One's notes ${numOfRecentOneNotes} time${numOfRecentOneNotes !== 1 ? 's' : ''} today.`}
                             onClick={() => router.replace('/ones?tab=0')}
-                            iconSrc={AppIcon.Book2}
+                            iconSrc={AppIcon.Note}
                             checked={hasUpdatedOneNoteToday} />
                     </>
                 )
@@ -158,7 +158,7 @@ function HomeDailyTasksCard({ beaconActivities, activeBeacons, expiredBeacons, o
         : `Complete tasks below to unlock an additional testimony practice.`;
 
     return (
-        <SimpleCard iconSrc={AppIcon.Chart}
+        <SimpleCard iconSrc={AppIcon.Calendar}
             style={[styles.card]}
             title={'Daily Tasks'}
             subtitle={cardSubtitle}

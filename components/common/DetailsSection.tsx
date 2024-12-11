@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
         padding: 4,
     },
     icon: {
-        width: 28,
-        height: 28,
+        width: 32,
+        height: 32,
         marginRight: 12,
     },
 });

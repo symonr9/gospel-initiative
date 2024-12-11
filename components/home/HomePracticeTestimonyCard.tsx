@@ -32,7 +32,7 @@ function HomePracticeTestimonyCard({ executor, myStoryChapters }: IHomePracticeT
     }
 
     return (
-        <SimpleCard iconSrc={AppIcon.StageApathetic}
+        <SimpleCard iconSrc={AppIcon.Microphone}
             style={[styles.card]}
             title={'Testimony Practice'}
             subtitle={'Tap on this card to go to the Testimony Practice page.'}

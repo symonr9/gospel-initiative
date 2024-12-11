@@ -135,7 +135,7 @@ const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppErr
         <View style={styles.container}>
             <AppText type={TextType.Subtitle} style={styles.title}>Gospel Checklist</AppText>
             <PageRow>
-                <DetailsSection iconSrc={AppIcon.Book}
+                <DetailsSection iconSrc={AppIcon.ScriptureOpen}
                     title={`${completedPercentage}% Shared`}
                     prefix={'Gospel Shared'} />
             </PageRow>

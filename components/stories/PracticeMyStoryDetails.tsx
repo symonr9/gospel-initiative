@@ -26,6 +26,7 @@ import { SimpleCard } from '../common/SimpleCard';
 import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
+import { SimpleIcon } from '../common/SimpleIcon';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -190,9 +191,17 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
 
     Body.push(
       <PageColumn style={{ marginVertical: 8, gap: 12 }}>
-        <AnimatedHeader title={'Practice your Testimony'}
-          subtitle={'Practice your story and save to your library.'}
-          delay={0} />
+
+        <PageRow spaceBetween>
+          <PageColumn style={{ gap: 12 }}>
+            <PageRow>
+              <SimpleIcon iconSrc={AppIcon.Microphone} removeBackground={false} />
+              <AnimatedHeader title={'Practice your Testimony'}
+                style={{ alignItems: 'flex-start', marginStart: 8 }}
+                subtitle='Practice your story and save to your library.' />
+            </PageRow>
+          </PageColumn>
+        </PageRow>
 
         <PageRow>
           <SimpleCard title={`Testimony Practice Info`}
@@ -221,7 +230,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         </PageRow>
 
         <PageRow spaceEvenly style={{ gap: 8 }}>
-          <ItemRowContainer iconSrc={AppIcon.Book}
+          <ItemRowContainer iconSrc={AppIcon.Info}
             title={title}
             expandedHeight={hasNoTokens ? 80 : 60}
             customStyles={{ container: { backgroundColor: Colors.white } }}

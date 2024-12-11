@@ -486,7 +486,7 @@ export function mapActionStepTypeToTitle(type: ActionStepType): string {
         case ActionStepType.InviteToGroup:
             return "Invite to Group";
         case ActionStepType.SendEncouragementText:
-            return "Send Encouragement Text";
+            return "Send Text to Encourage";
         case ActionStepType.DiscussScripture:
             return "Discuss Scripture";
         case ActionStepType.HostAtHome:

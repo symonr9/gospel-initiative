@@ -60,8 +60,8 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
 
 const styles = StyleSheet.create({
   icon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
     marginEnd: 8,
     alignSelf: 'center'
   },
