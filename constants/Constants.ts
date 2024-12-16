@@ -1,7 +1,7 @@
 
 export const MAX_DAILY_TASKS_NEEDED_TO_COMPLETE = 3;
 
-export const MAX_LONG_TEXT_LENGTH = 1000;
+export const MAX_LONG_TEXT_LENGTH = 1800;
 export const MAX_NORMAL_TEXT_LENGTH = 255;
 export const MAX_SHORT_TEXT_LENGTH = 12;
 

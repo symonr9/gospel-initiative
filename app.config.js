@@ -34,7 +34,13 @@ export default ({ config }) => ({
             "expo-asset",
             "expo-secure-store",
             "expo-font",
-            "expo-speech-recognition"
+            "expo-speech-recognition",
+            [
+                "expo-calendar",
+                {
+                    "calendarPermission": "The app needs to access your calendar."
+                }
+            ]
         ],
         experiments: {
             typedRoutes: true,

@@ -41,6 +41,10 @@ export function getNextWeek() {
     return tomorrow;
 }
 
+export function addOneHour(date: Date) {
+    return new Date(date.getTime() + 60 * 60 * 1000);
+}
+
 export function getDayInFuture(day: number) {
     const today = new Date();
     const tomorrow = new Date(today);

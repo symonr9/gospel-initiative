@@ -54,7 +54,6 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
 
     const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
-    const [showConfetti, setShowConfetti] = useState(false);
     const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
@@ -111,6 +110,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
         return (
             <ActionStepCard actionStep={item}
                 selected={isSelected}
+                oneName={selectedOne?.name || 'Your One'}
                 handleOnPress={handleOnPress} />
         );
     };
@@ -127,7 +127,6 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
         }
 
         setPickerState(PickerState.Normal);
-        setShowConfetti(false);
 
         let newActionSteps = actionSteps;
         if (pickerState === PickerState.Removing && selectedStepId) {
@@ -170,7 +169,6 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
     
             refreshData(RefreshSpec.Ones);
             setSelectedStepId(null);
-            setShowConfetti(true);
             setFormSelectedTypeIdx(0);
             setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
         });
@@ -391,9 +389,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
         <View style={styles.container}>
             <AppText type={TextType.Subtitle} style={styles.title}>Action Steps</AppText>
             {Body.map((item) => item)}
-            {
-                showConfetti && <SimpleConfetti/>
-            }
+            <View style={{ height: 300 }}/>
         </View>
     );
 };
