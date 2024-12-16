@@ -27,6 +27,7 @@ export type IActionStepPicker = ViewProps & {
     ones: One[],
     executor: User,
     beaconTemplates: BeaconTemplate[],
+    expiredBeacons: Beacon[],
     beaconForm: BeaconForm,
     selectedTemplateId: String,
     setSelectedTemplateId: Function,
@@ -44,13 +45,13 @@ export enum PickerState {
 }
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
-    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, setAppError }: IActionStepPicker) => {
+    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, 
+    expiredBeacons, setAppError }: IActionStepPicker) => {
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOneId));
-    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOneId));
-
+console.log("selectedTemplateId: ", selectedTemplateId);
     const BodyLayout: any[] = [];
 
     if (activeLayoutType === OneLayoutType.ConfirmBeacon) {
@@ -156,12 +157,14 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             );
         } else {
             BodyLayout.push(
-                <BeaconTemplatesList activeLayoutType={activeLayoutType}
-                    setActiveLayoutType={setActiveLayoutType} />
+                <>
+                    <BeaconTemplatesList activeLayoutType={activeLayoutType}
+                        setActiveLayoutType={setActiveLayoutType} />
+                </>
             );
         }
 
-        if (selectedTemplateId && expiredBeaconsWithActivities.length > 0) {
+        if (selectedTemplateId === null && expiredBeacons.length > 0) {
             BodyLayout.push(
                 <ExpiredBeaconsList />
             );
@@ -237,7 +240,8 @@ const mapStateToProps = (state: any) => {
         executor: state.users.executor,
         beaconForm: state.beacons.beaconForm,
         selectedTemplateId: state.beacons.selectedTemplateId,
-        beaconTemplates: state.beacons.beaconTemplates,
+        beaconTemplates: state.beacons.beaconTemplates,    
+        expiredBeacons: state.beacons.expiredBeacons,
         completedBeacons,
         incomingBeacons,
     };

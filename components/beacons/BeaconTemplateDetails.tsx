@@ -75,7 +75,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
         <PageColumn style={[styles.container]}>
             <BeaconTemplateCard template={template} />
 
-            <PageColumn style={{ maxHeight: 100, marginVertical: 16 }}>
+            <PageColumn style={{ maxHeight: 100, marginVertical: 4 }}>
                 <FlatList
                     data={formData.tags}
                     keyExtractor={(item) => item.toString()}

@@ -30,7 +30,7 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
     headerLayout = <></>, setSelectedTemplateId, activeLayoutType, setActiveLayoutType }: IBeaconTemplatesList) {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [tempSelectedTemplateId, setTempSelectedTemplateId] = useState<string | null>(null);
+    const [tempSelectedTemplateId, setTempSelectedTemplateId] = useState<string | null>(selectedTemplateId);
 
     const renderItem = ({ item }: { item: BeaconTemplate }) => {
         return (
@@ -74,6 +74,12 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                 )
             }
 
+            {selectedTemplate && (
+                <PageColumn>
+                    <BeaconTemplateDetails template={selectedTemplate} activeLayoutType={activeLayoutType} />
+                </PageColumn>
+            )}
+
             {
                 showBeaconActions && (
                     <SimpleButton text={'Choose Beacon Type'}
@@ -81,12 +87,6 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                         type={ButtonType.Edit} />
                 )
             }
-
-            {selectedTemplate && (
-                <PageColumn style={{ marginTop: 8 }}>
-                    <BeaconTemplateDetails template={selectedTemplate} activeLayoutType={activeLayoutType} />
-                </PageColumn>
-            )}
 
             <Modal
                 visible={isModalVisible}

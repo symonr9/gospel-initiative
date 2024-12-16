@@ -40,7 +40,7 @@ export default ({ config }) => ({
             typedRoutes: true,
         },
         extra: {
-            serverUrl: "https://gospel-initiative-712601afd046.herokuapp.com",
+            serverUrl: process.env.SERVER_URL || "https://gospel-initiative-712601afd046.herokuapp.com",
             production: process.env.PRODUCTION_MODE || false,
             eas: {
                 projectId: "2ae65218-15d2-482e-8975-7143d6fb55aa",

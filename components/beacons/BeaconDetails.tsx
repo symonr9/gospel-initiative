@@ -374,9 +374,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                 <AppText type={TextType.Body}>
                                     Your Note:
                                 </AppText>
-                                <AppText type={TextType.Default}>
-                                    {userActivityForBeacon.note}
-                                </AppText>
+                                <PageRow style={{ flexShrink: 1, width: 250 }}>
+                                    <AppText type={TextType.Default}>
+                                        {userActivityForBeacon.note}
+                                    </AppText>
+                                </PageRow>
                             </PageColumn>
                         )
                     }

@@ -7,25 +7,23 @@ import { Image } from 'expo-image';
 
 import { beaconStyles, listStyles } from '@/styles/Styles';
 import { setAppError } from '@/redux/actions';
-import One from '@/models/one';
 import User from '@/models/user';
-import { selectExpiredBeaconsWithActivities } from '@/redux/selectors/beaconSelectors';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { getAppTimeAgoText } from '@/utils/appUtils';
 import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
+import Beacon from '@/models/beacon';
 
 export type IExpiredBeaconsList = ViewProps & {
     selectedOneId: string | null;
     executor: User,
     setAppError: Function,
+    expiredBeacons: Beacon[],
 };
 
-function ExpiredBeaconsList({ selectedOneId, executor, setAppError }: IExpiredBeaconsList) {
-    const expiredBeaconsWithActivities = useSelector(selectExpiredBeaconsWithActivities(selectedOneId));
-
+function ExpiredBeaconsList({ selectedOneId, executor, setAppError, expiredBeacons }: IExpiredBeaconsList) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const onChangeTag = () => {
@@ -33,7 +31,6 @@ function ExpiredBeaconsList({ selectedOneId, executor, setAppError }: IExpiredBe
     };
 
     const renderItem = ({ item, index }: { item: any, index: number }) => {
-
         return (
             <PageRow style={beaconStyles.beaconCard}>
                 <PageColumn style={{ gap: 8 }}>
@@ -71,13 +68,18 @@ function ExpiredBeaconsList({ selectedOneId, executor, setAppError }: IExpiredBe
     };
 
     return (
-        <PageColumn style={[listStyles.container]}>
-            <AppText type={TextType.Subtitle}>
-                Completed Beacons
-            </AppText>
+        <PageColumn style={[listStyles.container, { marginTop: 20 }]}>
+            <PageColumn style={{ marginBottom: 16 }}>
+                <AppText type={TextType.Subtitle}>
+                    Completed Beacons
+                </AppText>
+                <AppText>
+                    These beacons have been completed.
+                </AppText>
+            </PageColumn>
 
             <FlatList
-                data={expiredBeaconsWithActivities}
+                data={expiredBeacons}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
             />
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => ({
     selectedOneId: state.ones.selectedOneId,
     executor: state.users.executor,
+    expiredBeacons: state.beacons.expiredBeacons,
 });
 
 
