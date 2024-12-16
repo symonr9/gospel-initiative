@@ -88,7 +88,6 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
       const data = await createChapters(chapterArray, controller);
       if (!data || data.error) {
         setAppError(new AppError(data.error || 'Something went wrong'));
-        resetPage();
         return;
       }
 
@@ -96,7 +95,6 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
       setPageState(PageState.Page8);
     } catch (err: any) {
       setAppError(new AppError('Error saving chapters: ', err));
-      resetPage();
     }
   };
 
@@ -339,7 +337,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
   } else if (pageState === PageState.Page4) {
     Body.push(
       <SimpleLoadingSection title={'Loading...'}
-        subtitle={'Your compilation is loading, please wait...'} />
+        subtitle={'Your response is processing, please wait...'} />
     );
   } else if (pageState === PageState.Page5 && chapterArray != null) {
     const renderStoryChapter = ({ item }: { item: StoryChapter }) => {
@@ -359,7 +357,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
     Body.push(
       <>
         <AppText type={TextType.Subtitle} style={{}}>
-          Partition successful!
+          Compilation successful!
         </AppText>
         <AppText type={TextType.Body} style={{ marginBottom: 16 }}>
           Your response has been compiled into 'Chapters' below. Take time to look over and edit them as you please.
@@ -431,10 +429,10 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
     Body.push(
       <>
         <AppText type={TextType.Subtitle} style={{}}>
-          Partition successful!
+          Success!
         </AppText>
         <AppText type={TextType.Body} style={{ marginBottom: 16 }}>
-          Your chapters have been saved.
+          Your chapter cards have been saved.
         </AppText>
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>
