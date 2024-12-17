@@ -39,6 +39,7 @@ import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { Colors } from '@/constants/Colors';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
+import LoadingLayout from '../common/LoadingLayout';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -63,8 +64,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
     const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
 
-    console.log("userActivityForBeacon: ", userActivityForBeacon);
-
+    const [loading, setLoading] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [showBeaconTags, setShowBeaconTags] = useState(true);
     const [selectedNoteIdx, setSelectedNoteIdx] = useState(0);
@@ -86,14 +86,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     useEffect(() => {
         if (!executor) {
             return;
-        }    
-        
+        }
+
         progress.value = withTiming(0, { duration: 250 });
     }, [incomingCursorIdx, completedCursorIdx]);
 
     useEffect(() => {
-
-    }, [beaconActivities]);
+        setLoading(false);
+    }, [completedBeacons, incomingBeacons]);
 
     if (!beacon || (incomingCursorIdx === -1 && completedCursorIdx === -1)) {
         const hasCompleted = incomingBeacons.length === 0;
@@ -168,6 +168,8 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             return;
         }
 
+        setLoading(true);
+
         const newActivity = {
             ...userActivityForBeacon,
             global: beacon.global,
@@ -176,6 +178,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         const response = await updateBeaconActivity(newActivity);
         if (response.error) {
+            setLoading(false);
             setAppError(new AppError('Error updating beacon activity: ', response.error));
             return;
         }
@@ -191,6 +194,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         }
 
         progress.value = withTiming(1, { duration: 250 });
+        setLoading(true);
 
         const newActivity = BeaconActivity.createBeaconActivity(
             "",
@@ -200,6 +204,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
         const response = await createBeaconActivity(newActivity);
         if (response.error) {
+            setLoading(false);
             setAppError(new AppError('Error creating beacon activity: ', response.error));
             return;
         }
@@ -376,7 +381,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     }
 
                     {
-                        (hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
+                        loading && <LoadingLayout />
+                    }
+
+                    {
+                        (!loading && hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
                             <PageColumn style={styles.myNoteForBeacon}>
                                 <AppText type={TextType.Body}>
                                     Your Note:
