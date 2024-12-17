@@ -7,7 +7,7 @@ const initialState = {
     beaconTemplates: [],
 
     selectedTemplateId: null,
-    beaconForm: null
+    beaconForm: null,
 };
 
 export function beaconsReducer(state = initialState, action: ActionPackage) {

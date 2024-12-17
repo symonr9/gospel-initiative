@@ -49,6 +49,7 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
             return;
         }
         fetchData(state.app.refreshSpec);
+        refreshData(RefreshSpec.None);
     }, [state.app.refreshSpec]);
 
     const loadSettings = async () => {

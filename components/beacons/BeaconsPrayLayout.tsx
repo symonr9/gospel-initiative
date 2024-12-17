@@ -14,14 +14,13 @@ import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageColumn } from '../common/PageColumn';
 
 export type IBeaconsPrayLayout = ViewProps & {
-
+    completedBeacons: any;
+    incomingBeacons: any;
 };
 
-function BeaconsPrayLayout({ }: IBeaconsPrayLayout) {
+function BeaconsPrayLayout({ completedBeacons, incomingBeacons }: IBeaconsPrayLayout) {
     const [activeBeaconId, setActiveBeaconId] = useState(null);
     const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
-
-    const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
     const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
     const completedCursorIdx = completedBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);

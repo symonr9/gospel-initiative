@@ -51,7 +51,6 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOneId));
-console.log("selectedTemplateId: ", selectedTemplateId);
     const BodyLayout: any[] = [];
 
     if (activeLayoutType === OneLayoutType.ConfirmBeacon) {

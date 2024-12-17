@@ -111,7 +111,7 @@ export const ActivityNoteOptions = [
 
     "Count me in, I'm praying for them too.",
     "They will be in my thoughts and prayers.",
-    "Asking for God to work in thir life.",
+    "Asking for God to work in their life.",
 
     "Amen, I am in agreement in prayer.",
     "This is an important need. I'm praying!",

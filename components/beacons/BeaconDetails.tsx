@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 
 import { AppText, TextType } from '../common/AppText';
-import { EnhancedBeacon } from '@/models/beacon';
+import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, FadeDirection, RefreshSpec } from '@/enums/enums';
 import { getAppTimeAgoText } from '@/utils/appUtils';
 import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
@@ -45,6 +45,7 @@ export type IBeaconDetails = ViewProps & {
     completedCursorIdx: number;
     completedBeacons: EnhancedBeacon[];
     incomingBeacons: EnhancedBeacon[];
+    activeBeacons: Beacon[];
 
     executor: User;
     beaconActivities: BeaconActivity[];
@@ -56,11 +57,13 @@ export type IBeaconDetails = ViewProps & {
 
 function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, refreshData,
-    setActiveBeaconId, beaconActivities, setAppError }: IBeaconDetails) {
+    setActiveBeaconId, beaconActivities, setAppError, activeBeacons }: IBeaconDetails) {
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
     const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
+
+    console.log("userActivityForBeacon: ", userActivityForBeacon);
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [showBeaconTags, setShowBeaconTags] = useState(true);
@@ -87,6 +90,10 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         
         progress.value = withTiming(0, { duration: 250 });
     }, [incomingCursorIdx, completedCursorIdx]);
+
+    useEffect(() => {
+
+    }, [beaconActivities]);
 
     if (!beacon || (incomingCursorIdx === -1 && completedCursorIdx === -1)) {
         const hasCompleted = incomingBeacons.length === 0;
@@ -540,6 +547,7 @@ const customPrayButtonStyles = {
 const mapStateToProps = (state: any) => ({
     executor: state.users.executor,
     beaconActivities: state.activities.beaconActivities,
+    activeBeacons: state.beacons.activeBeacons
 });
 
 const mapDispatchToProps = {

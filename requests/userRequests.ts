@@ -48,8 +48,8 @@ export const updateUser = async (user: User, controller?: AbortController) => {
 
 export const fetchServerData = async (refreshSpec: RefreshSpec): Promise<any> => {
     try {
-        const response = await makeRequest(getServerDataEndpoint(refreshSpec));
-        console.log("fetchServerData: ", response);
+        const endpoint = getServerDataEndpoint(refreshSpec);
+        const response = await makeRequest(endpoint);
         if (!response) {
             return { error: 'Failed to contact server.' };
         } else if (response.data.error) {
