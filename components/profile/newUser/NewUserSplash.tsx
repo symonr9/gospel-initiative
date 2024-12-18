@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image } from 'expo-image';
-import { Button, ViewProps } from "react-native";
+import { Button, View, ViewProps } from "react-native";
 import { AppIcon, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
 import { Colors } from "@/constants/Colors";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
+import { PageRow } from "@/components/common/PageRow";
+import { SimpleCard } from "@/components/common/SimpleCard";
 
 type INewUserSplash = ViewProps & {
     newUserStep: NewUserStep;
@@ -14,40 +16,52 @@ type INewUserSplash = ViewProps & {
 };
 
 export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: INewUserSplash) {
+    const [showGoal1, setShowGoal1] = useState(false);
+    const [showGoal2, setShowGoal2] = useState(false);
+    const [showGoal3, setShowGoal3] = useState(false);
+
     const onLearnGospelInitiative = () => {
         setNewUserStep(NewUserStep.WhatIsTheGospelInitiative);
     };
 
-    const onLearnApp = () => {
-        setNewUserStep(NewUserStep.TheOnesPage);
-    };
-
-    const onSkipToUserCreation = () => {
-        setNewUserStep(NewUserStep.CreateAProfile);
-    };
+    const goal1Subtitle = showGoal1 ? 'To equip us to grow in their confidence in sharing their personal faith journey and God’s redemptive story.' : 'Tap to learn more.';
+    const goal2Subtitle = showGoal2 ? 'To help us intentionally love and engage with people in their lives through structured tools and resources.' : 'Tap to learn more.';
+    const goal3Subtitle = showGoal3 ? ' To connect our community in prayer as we collectively grow in our confidence to share our faith and lives with others.' : 'Tap to learn more.';
 
     return (
-        <PageColumn style={{ gap: 12 }}>
+        <PageColumn style={{ gap: 4 }}>
+            <AppText type={TextType.Title}>The Gospel Initiative</AppText>
+
+            <AppText>
+                The Gospel Initiative App is a tool designed with three main goals in mind.
+            </AppText>
+
             <Image source={AppIcon.AppLogoTransparent}
                 tintColor={Colors.light.darkAlternative}
                 style={styles.logoIcon} />
-            <AppText type={TextType.Subtitle}>Welcome to the Gospel Initiative App!</AppText>
-            <AppText>
-                This app helps you love others intentionally, connect in prayer, and grow in sharing your testimony.
-            </AppText>
-            <AppText style={{}}>
-                Would you like to learn more about the Gospel Initiative or go straight to the app’s main features?
-            </AppText>
+
+            <SimpleCard iconSrc={AppIcon.Conversation}
+                style={[styles.card]}
+                title={'Confidence to Share our Faith'}
+                subtitle={goal1Subtitle}
+                onClick={() => setShowGoal1(val => !val)} />
+
+            <SimpleCard iconSrc={AppIcon.Friend}
+                style={[styles.card]}
+                title={'Engage with Others'}
+                subtitle={goal2Subtitle}
+                onClick={() => setShowGoal2(val => !val)} />
+
+            <SimpleCard iconSrc={AppIcon.Prayer}
+                style={[styles.card]}
+                title={'Connect in Prayer'}
+                subtitle={goal3Subtitle}
+                onClick={() => setShowGoal3(val => !val)} />
+
             <PageColumn style={{ alignSelf: 'center' }}>
                 <SimpleButton type={ButtonType.Edit}
-                    text={'Learn about the Gospel Initiative'}
+                    text={'Continue'}
                     onPress={onLearnGospelInitiative} />
-                <SimpleButton type={ButtonType.Edit}
-                    text={'Learn about the App'}
-                    onPress={onLearnApp} />
-                <SimpleButton type={ButtonType.Edit}
-                    text={'Skip to User Creation'}
-                    onPress={onSkipToUserCreation} />
             </PageColumn>
         </PageColumn>
     );

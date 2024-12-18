@@ -14,7 +14,7 @@ export default ({ config }) => ({
         },
         ios: {
             supportsTablet: true,
-            bundleIdentifier: "com.syb"
+            bundleIdentifier: "com.syborg9.gospelinitiative"
         },
         android: {
             adaptiveIcon: {
@@ -38,7 +38,7 @@ export default ({ config }) => ({
             [
                 "expo-calendar",
                 {
-                    "calendarPermission": "The app needs to access your calendar."
+                    "calendarPermission": "The Gospel Initiative app would like to add your action step event to your default calendar."
                 }
             ]
         ],

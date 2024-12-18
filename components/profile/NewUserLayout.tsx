@@ -10,12 +10,12 @@ import LoadingLayout from '../common/LoadingLayout';
 import NewUserSplash from './newUser/NewUserSplash';
 import NewUserWhatIsTheGospelInitiative from './newUser/NewUserWhatIsTheGospelInitiative';
 import NewUserWhoIsYourOne from './newUser/NewUserWhoIsYourOne';
-import NewUserTheOnesPage from './newUser/NewUserTheOnesPage';
-import NewUserTheStoriesPage from './newUser/NewUserTheStoriesPage';
-import NewUserThingsToKnowAboutTheApp from './newUser/NewUserThingsToKnowAboutTheApp';
+import NewUserStories from './newUser/NewUserStories';
+import NewUserPrayerBeacons from './newUser/NewUserPrayerBeacons';
 import NewUserCreateAProfile from './newUser/NewUserCreateAProfile';
 import NewUserFinished from './newUser/NewUserFinished';
 import { Colors } from '@/constants/Colors';
+import NewUserActionSteps from './newUser/NewUserActionSteps';
 
 export type INewUserLayout = ViewProps & {
     executor: User,
@@ -53,21 +53,21 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep,
                 setNewUserStep={setNewUserStep} 
                 styles={styles}/>
         );
-    } else if (newUserStep == NewUserStep.TheOnesPage) {
-        BodyLayout.push(            
-            <NewUserTheOnesPage newUserStep={newUserStep} 
+    } else if (newUserStep == NewUserStep.Stories) {
+        BodyLayout.push(
+            <NewUserStories newUserStep={newUserStep} 
                 setNewUserStep={setNewUserStep} 
                 styles={styles}/>
         );
-    } else if (newUserStep == NewUserStep.TheStoriesPage) {
+    } else if (newUserStep == NewUserStep.PrayerBeacons) {
         BodyLayout.push(
-            <NewUserTheStoriesPage newUserStep={newUserStep} 
+            <NewUserPrayerBeacons newUserStep={newUserStep} 
                 setNewUserStep={setNewUserStep} 
                 styles={styles}/>
         );
-    } else if (newUserStep == NewUserStep.ThingsToKnowAboutTheApp) {
+    } else if (newUserStep == NewUserStep.ActionSteps) {
         BodyLayout.push(
-            <NewUserThingsToKnowAboutTheApp newUserStep={newUserStep} 
+            <NewUserActionSteps newUserStep={newUserStep} 
                 setNewUserStep={setNewUserStep} 
                 styles={styles}/>
         );
@@ -102,6 +102,12 @@ const styles = StyleSheet.create({
         padding: 12,
         backgroundColor: Colors.light.background,
     },
+    splashIcon: {
+        marginVertical: 8,
+        height: 200,
+        width: 200,
+        alignSelf: 'center',
+    },
     logoIcon: {
         marginVertical: 8,
         height: 120,
@@ -109,8 +115,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     avatarIcon: {
-        height: 100,
-        width: 100
+        height: 64,
+        width: 64
     },
     section: {
         marginVertical: 12,

@@ -24,7 +24,7 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
     };
 
     return (
-        <PageColumn style={{ gap: 16 }}>
+        <PageColumn style={{ gap: 4 }}>
             <AppText type={TextType.Title}>Setup Complete</AppText>
 
             <Image source={AppIcon.AppLogoTransparent}

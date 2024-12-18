@@ -6,9 +6,9 @@ export enum NewUserStep {
     Splash = 1,
     WhatIsTheGospelInitiative = 2,
     WhoIsYourOne = 3,
-    TheOnesPage = 4,
-    TheStoriesPage = 5,
-    ThingsToKnowAboutTheApp = 6,
+    ActionSteps = 4,
+    Stories = 5,
+    PrayerBeacons = 6,
     CreateAProfile = 7,
     Finished = 8,
     Loading = 100,
@@ -524,6 +524,8 @@ export enum AppIcon {
     Friend = require('../assets/images/app-icons/friend.png'),
     BestFriend = require('../assets/images/app-icons/bestFriend.png'),
     Filter = require('../assets/images/app-icons/filter.png'),
+
+    MeetingWithOneSplash = require('../assets/images/gospel-initiative/meeting-with-one-splash.png'),
 }
 
 export enum AvatarIcon {
