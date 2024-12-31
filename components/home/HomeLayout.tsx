@@ -45,7 +45,8 @@ function HomeLayout({ executor }: IHomeLayout) {
           <HomeAddOneCard />
           <HomePrayerCard />
           <HomePracticeTestimonyCard />
-          <HomeDailyTasksCard />
+          {/* TODO: Removing for now */}
+          {/* <HomeDailyTasksCard /> */}
         </PageColumn>
       </PageColumn>
     </ScrollLayout>

@@ -33,7 +33,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={onClick === undefined ? 1 : 0.2}>
       <ThemedView style={[gridStyles.itemCard, { padding: 12 }, style]}>
-        <PageColumn>
+        <PageColumn style={{ gap: 4 }}>
           <PageRow>
             {
               iconSrc && (

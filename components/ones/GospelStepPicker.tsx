@@ -23,6 +23,7 @@ import * as Progress from 'react-native-progress';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
+import { SimpleCard } from '../common/SimpleCard';
 
 
 const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
@@ -70,6 +71,9 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
     const [modalVisible, setModalVisible] = useState(false);
     const [formNotes, setFormNotes] = useState<string | null>(null);
     const [formNextSteps, setFormNextSteps] = useState<string | null>(null);
+
+    const [hasReadNotice1, setHasReadNotice1] = useState(false);
+    const [hasReadNotice2, setHasReadNotice2] = useState(false);
 
     const [showGettingStartedSection, setShowGettingStartedSection] = useState(false);
     const [showCoreGospelMessageSection, setShowCoreGospelMessageSection] = useState(false);
@@ -222,77 +226,111 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
         <PageColumn>
             <AppText type={TextType.Subtitle} style={styles.title}>Gospel Steps</AppText>
 
-            <PageColumn style={{ gap: 12 }}>
-                <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
-                    {CreateTitle('Getting Started', showGettingStartedSection, setShowGettingStartedSection)}
-                    {
-                        showGettingStartedSection && (
-                            <PageColumn style={{ gap: 4 }}>
-                                {gettingStartedSection.map(mapTypesToCards)}
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
+            {
+                (!hasReadNotice1 || !hasReadNotice2) && (
+                    <PageColumn style={{ gap: 16 }}>
+                        <AppText>
+                            Tap the reminders below to open Gospel Steps.
+                        </AppText>
 
-                <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
-                    {CreateTitle('The Core Gospel Message', showCoreGospelMessageSection, setShowCoreGospelMessageSection)}
-                    {CreateProgressBar(coreGospelMessagePercent)}
-                    {
-                        showCoreGospelMessageSection && (
-                            <PageColumn style={{ gap: 4 }}>
-                                {coreGospelMessageSection.map(mapTypesToCards)}
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
+                        <SimpleCard iconSrc={hasReadNotice1 ? AppIcon.Checkmark : AppIcon.Pin}
+                            style={[]}
+                            title={'Track Gospel Sharing with those genuinely interested.'}
+                            detailsView={(
+                                <AppText>
+                                    Use Gospel Steps to track how much you've shared key Gospel concepts with your One. It's most effective after they've shown genuine interest in learning more about faith.
+                                </AppText>
+                            )}
+                            onClick={() => setHasReadNotice1(true)} />
 
-                <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
-                    {CreateTitle('Salvation', showSalvationSection, setShowSalvationSection)}
-                    {
-                        showSalvationSection && (
-                            <PageColumn style={{ gap: 4 }}>
-                                {salvationSection.map(mapTypesToCards)}
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
+                        <SimpleCard iconSrc={hasReadNotice2 ? AppIcon.Checkmark : AppIcon.Pin}
+                            style={[]}
+                            title={'Focus on the relationship! Share your life with them, not just the Gospel.'}
+                            detailsView={(
+                                <AppText>
+                                    If someone isn’t actively seeking the Gospel, focus on building rapport, sharing your testimony, and listening to their story. Treat them as individuals loved by God, not as projects.
+                                </AppText>
+                            )}
+                            onClick={() => setHasReadNotice2(true)} />
+                    </PageColumn>
+                )
+            }
 
-                <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
-                    {CreateTitle('Spiritual Practices', showSpiritualPracticesSection, setShowSpiritualPracticesSection)}
-                    {CreateProgressBar(spiritualPracticesPercent)}
-                    {
-                        showSpiritualPracticesSection && (
-                            <PageColumn style={{ gap: 4 }}>
-                                {spiritualPracticesSection.map(mapTypesToCards)}
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
+            {
+                (hasReadNotice1 && hasReadNotice2) && (
+                    <PageColumn style={{ gap: 12 }}>
+                        <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
+                            {CreateTitle('Getting Started', showGettingStartedSection, setShowGettingStartedSection)}
+                            {
+                                showGettingStartedSection && (
+                                    <PageColumn style={{ gap: 4 }}>
+                                        {gettingStartedSection.map(mapTypesToCards)}
+                                    </PageColumn>
+                                )
+                            }
+                        </PageColumn>
 
-                <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
-                    {CreateTitle('Doctrine', showDoctrineSection, setShowDoctrineSection)}
-                    {CreateProgressBar(doctrinePercent)}
-                    {
-                        showDoctrineSection && (
-                            <PageColumn style={{ gap: 4 }}>
-                                {doctrineSection.map(mapTypesToCards)}
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
+                        <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
+                            {CreateTitle('The Core Gospel Message', showCoreGospelMessageSection, setShowCoreGospelMessageSection)}
+                            {CreateProgressBar(coreGospelMessagePercent)}
+                            {
+                                showCoreGospelMessageSection && (
+                                    <PageColumn style={{ gap: 4 }}>
+                                        {coreGospelMessageSection.map(mapTypesToCards)}
+                                    </PageColumn>
+                                )
+                            }
+                        </PageColumn>
 
-                <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
-                    {CreateTitle('Next Steps', showNextStepsSection, setShowNextStepsSection)}
-                    {CreateProgressBar(nextStepsPercent)}
-                    {
-                        showNextStepsSection && (
-                            <PageColumn style={{ gap: 4 }}>
-                                {nextStepsSection.map(mapTypesToCards)}
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
-            </PageColumn>
+                        <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
+                            {CreateTitle('Salvation', showSalvationSection, setShowSalvationSection)}
+                            {
+                                showSalvationSection && (
+                                    <PageColumn style={{ gap: 4 }}>
+                                        {salvationSection.map(mapTypesToCards)}
+                                    </PageColumn>
+                                )
+                            }
+                        </PageColumn>
+
+                        <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
+                            {CreateTitle('Spiritual Practices', showSpiritualPracticesSection, setShowSpiritualPracticesSection)}
+                            {CreateProgressBar(spiritualPracticesPercent)}
+                            {
+                                showSpiritualPracticesSection && (
+                                    <PageColumn style={{ gap: 4 }}>
+                                        {spiritualPracticesSection.map(mapTypesToCards)}
+                                    </PageColumn>
+                                )
+                            }
+                        </PageColumn>
+
+                        <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
+                            {CreateTitle('Doctrine', showDoctrineSection, setShowDoctrineSection)}
+                            {CreateProgressBar(doctrinePercent)}
+                            {
+                                showDoctrineSection && (
+                                    <PageColumn style={{ gap: 4 }}>
+                                        {doctrineSection.map(mapTypesToCards)}
+                                    </PageColumn>
+                                )
+                            }
+                        </PageColumn>
+
+                        <PageColumn style={[gridStyles.itemCard, styles.gospelStepCard]}>
+                            {CreateTitle('Next Steps', showNextStepsSection, setShowNextStepsSection)}
+                            {CreateProgressBar(nextStepsPercent)}
+                            {
+                                showNextStepsSection && (
+                                    <PageColumn style={{ gap: 4 }}>
+                                        {nextStepsSection.map(mapTypesToCards)}
+                                    </PageColumn>
+                                )
+                            }
+                        </PageColumn>
+                    </PageColumn>
+                )
+            }
 
             <Modal
                 animationType="slide"
@@ -356,7 +394,7 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                                 onPress={onTextChange} />
                         </PageRow>
 
-                        <View style={{ height: 150 }}/>
+                        <View style={{ height: 150 }} />
                     </PageColumn>
                 </View>
             </Modal>
