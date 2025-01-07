@@ -108,6 +108,12 @@ const styles = StyleSheet.create({
         width: 200,
         alignSelf: 'center',
     },
+    splashIconPractice: {
+        marginVertical: 8,
+        height: 270,
+        width: 220,
+        alignSelf: 'center',
+    },
     logoIcon: {
         marginVertical: 8,
         height: 120,

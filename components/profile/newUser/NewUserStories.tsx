@@ -40,7 +40,7 @@ export default function NewUserStories({ newUserStep, setNewUserStep, styles }: 
             
             <PageRow center>
                 <Image source={AppIcon.PracticeTestimonySplash}
-                    style={styles.splashIcon} />
+                    style={styles.splashIconPractice} />
             </PageRow>
 
             <SimpleCard iconSrc={AppIcon.Microphone}
