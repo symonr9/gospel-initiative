@@ -1,8 +1,9 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 type IAnimatedHeader = {
     title: string;
@@ -21,7 +22,7 @@ export function AnimatedHeader({ title, titleType = TextType.Subtitle, subtitle 
             <Animated.Text
                 entering={FadeInUp.duration(duration).delay(delay)}
                 style={[{ marginStart: 4, marginTop: 8 }]} >
-                <PageRow style={{ flexShrink : 1, width: 300 }}>
+                <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
                     <AppText type={titleType}>
                         {title}
                     </AppText>
@@ -33,9 +34,11 @@ export function AnimatedHeader({ title, titleType = TextType.Subtitle, subtitle 
                         entering={FadeInUp.duration(duration).delay(delay + 200)}
                         exiting={FadeOutDown.duration(duration)}
                         style={[{ marginStart: 4 }]} >
-                        <AppText type={TextType.Body}>
-                            {subtitle}
-                        </AppText>
+                        <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
+                            <AppText type={TextType.Body}>
+                                {subtitle}
+                            </AppText>
+                        </PageRow>
                     </Animated.Text>
                 )
             }

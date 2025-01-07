@@ -25,6 +25,7 @@ import GospelStep from '@/models/gospelStep';
 import Slider from '@react-native-community/slider';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import SimpleIconButton from '../common/SimpleIconButton';
+import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IGospelStepCard = ViewProps & {
     gospelStep: GospelStep;
@@ -76,7 +77,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
                         style={[formStyles.checkbox, { alignSelf: 'center', marginStart: 4, marginEnd: 12 }]}
                     />
                     <TouchableOpacity onPress={onBinaryChange}>
-                        <PageRow style={{ width: 200 }}>
+                        <PageRow style={{ width: standardPaddedWidth - 80 }}>
                             <AppText type={TextType.Subtitle2}>
                                 {mapGospelStepBinaryRatingToText(gospelStep.type, completed)}
                             </AppText>
@@ -102,7 +103,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
                             0
                         </AppText>
                         <Slider
-                            style={{ width: 200, height: 40 }}
+                            style={{ width: halfScreenWidth, height: 40 }}
                             disabled={readOnly}
                             minimumValue={0}
                             value={gospelStep.rating}
@@ -148,7 +149,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
             <PageRow style={[gridStyles.itemCard, completed && styles.completed, selected && styles.selected]}>
                 <Image source={icon} style={styles.icon} />
                 <PageColumn style={styles.actionStepTextContainer}>
-                    <PageColumn style={{ flexShrink: 1, width: '100%' }}>
+                    <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth - 50 }}>
                         <AppText type={TextType.Subtitle3} style={{ fontSize: 20 }}>{mapGospelStepTypeToTitle(gospelStep.type)}</AppText>
                         <AppText type={TextType.Italic} style={{}}>{mapGospelStepTypeToDetails(gospelStep.type)}</AppText>
                     </PageColumn>
@@ -165,7 +166,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
                                         <>
                                             {
                                                 gospelStep.notes && (
-                                                    <PageColumn style={{ flexShrink: 1, width: '90%' }}>
+                                                    <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth - 50 }}>
                                                         <AppText type={TextType.Subtitle3}>
                                                             Notes
                                                         </AppText>
@@ -176,7 +177,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
 
                                             {
                                                 gospelStep.nextSteps && (
-                                                    <PageColumn style={{ flexShrink: 1, width: '90%' }}>
+                                                    <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth - 50 }}>
                                                         <AppText type={TextType.Subtitle3}>
                                                             Next Steps
                                                         </AppText>

@@ -16,6 +16,7 @@ import { Colors } from '@/constants/Colors';
 import { clearAll } from '@/utils/storageUtils';
 import { SimpleIcon } from '@/components/common/SimpleIcon';
 import { AppIcon } from '@/enums/enums';
+import { halfScreenWidth, screenWidth } from '@/constants/Dimensions';
 
 LogBox.ignoreAllLogs(true);
 
@@ -89,7 +90,7 @@ export default function RootLayout() {
   const MenuTitle = (
     <View>
       <Image source={AppIcon.GospelInitiativeTransparent} style={{
-        width: 180,
+        width: 200,
         height: 50,
       }}/>
     </View>

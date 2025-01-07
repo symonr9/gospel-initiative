@@ -9,6 +9,7 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { setHomeDailies } from '@/redux/actions';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IHomeDailyTasksItem = ViewProps & {
   title: string;
@@ -42,12 +43,12 @@ function HomeDailyTasksItem({ title, subtitle, checked, onClick, iconSrc = null 
             )
           }
           <PageColumn>
-            <PageRow style={{ flexShrink: 1, width: '90%' }}>
+            <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
               <AppText type={TextType.Subtitle3}>
                 {title}
               </AppText>
             </PageRow>
-            <PageRow style={{ flexShrink: 1, width: '90%' }}>
+            <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
               <AppText type={TextType.Body}>
                 {subtitle}
               </AppText>

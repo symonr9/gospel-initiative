@@ -1,9 +1,10 @@
 import React from 'react';
 import type { PropsWithChildren } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { ThemedView } from '@/components/common/ThemedView';
 import { Colors } from '@/constants/Colors';
+import { screenHeight, screenWidth } from '@/constants/Dimensions';
 
 type Props = PropsWithChildren<{
 
@@ -18,8 +19,6 @@ export default function PageView({
     </ThemedView>
   );
 }
-
-const { width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {

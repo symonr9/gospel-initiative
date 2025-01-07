@@ -1,6 +1,6 @@
 import React from 'react';
 import type { PropsWithChildren } from 'react';
-import { Dimensions, StyleSheet, ViewProps } from 'react-native';
+import { StyleSheet, ViewProps } from 'react-native';
 import Animated, {
     useAnimatedRef,
 } from 'react-native-reanimated';
@@ -25,8 +25,6 @@ export default function ScrollLayout({
         </Animated.ScrollView>
     );
 }
-
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {

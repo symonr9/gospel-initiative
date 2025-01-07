@@ -8,6 +8,7 @@ import DetailsSection from './DetailsSection';
 import { AppIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { ButtonType, SimpleButton } from './SimpleButton';
+import { standardModalHeight } from '@/constants/Dimensions';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 10,
         width: '90%',
-        maxHeight: '80%',
+        maxHeight: standardModalHeight,
     },
     calendarWrapper: {
         padding: 10,

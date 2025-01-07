@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, View, Modal, type ViewProps, TouchableOpacity, Button, TextInput, FlatList } from 'react-native';
 import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 import { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
@@ -40,6 +40,7 @@ import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { Colors } from '@/constants/Colors';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import LoadingLayout from '../common/LoadingLayout';
+import { halfScreenWidth, screenHeight, screenWidth } from '@/constants/Dimensions';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -390,7 +391,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                 <AppText type={TextType.Body}>
                                     Your Note:
                                 </AppText>
-                                <PageRow style={{ flexShrink: 1, width: 250 }}>
+                                <PageRow style={{ flexShrink: 1, width: halfScreenWidth }}>
                                     <AppText type={TextType.Default}>
                                         {userActivityForBeacon.note}
                                     </AppText>
@@ -409,7 +410,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         <PageChip
                                             title={item.title}
                                             subtitle={item.details}
-                                            style={{ marginBottom: 12, flexShrink: 1, width: 240 }}
+                                            style={{ marginBottom: 12, flexShrink: 1, width: halfScreenWidth }}
                                         />
                                     )}
                                 />
@@ -462,8 +463,6 @@ function getSubtitleText(beacon: EnhancedBeacon): string | undefined {
     }
     return mapBeaconTypeToTitleText(beacon.type, beacon.shareOwnName, beacon.userName);
 }
-
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -540,7 +539,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     myNoteForBeacon: {
-        maxWidth: 350,
+        maxWidth: halfScreenWidth,
         flexShrink: 1,
         marginTop: 6,
         marginBottom: 12

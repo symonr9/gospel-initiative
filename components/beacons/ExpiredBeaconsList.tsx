@@ -15,6 +15,7 @@ import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import Beacon from '@/models/beacon';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IExpiredBeaconsList = ViewProps & {
     selectedOneId: string | null;
@@ -57,7 +58,7 @@ function ExpiredBeaconsList({ selectedOneId, executor, setAppError, expiredBeaco
                         </PageRow>
                     </PageColumn>
 
-                    <PageColumn style={{ width: 350 }}>
+                    <PageColumn style={{ width: standardPaddedWidth }}>
                         <AppText>
                             This beacon has been completed!
                         </AppText>

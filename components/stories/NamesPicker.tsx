@@ -11,6 +11,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { PageColumn } from '../common/PageColumn';
 import { Colors } from '@/constants/Colors';
 import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
+import { halfScreenHeight, halfScreenWidth, standardModalHeight } from '@/constants/Dimensions';
 
 type NamesPickerProps = ViewProps & {
     formChapter: StoryChapter;
@@ -108,7 +109,7 @@ export default function NamesPicker({ formChapter, setFormChapter, editing = tru
                             />
                         </PageRow>
 
-                        <PageColumn style={{ maxHeight: 300 }}>
+                        <PageColumn style={{ height: halfScreenHeight - 200 }}>
                             <FlatList
                                 data={[...new Set([...formChapter.names, ...formNames])]}
                                 numColumns={3}
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '80%',
+        width: '90%',
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,

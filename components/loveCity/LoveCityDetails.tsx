@@ -9,6 +9,7 @@ import { formatDateTime, getDatesInRange } from '@/utils/appUtils';
 import EventCalendar, { MarkingType } from '../common/EventCalendar';
 import AddToCalendarButton from '../common/AddToCalendarButton';
 import { PageRow } from '../common/PageRow';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type ILoveCityDetails = {
     localMinistries?: LocalMinistry[];
@@ -34,7 +35,7 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                         Details
                     </AppText>
                     
-                    <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                    <PageRow style={{ flexShrink: 1, width: standardPaddedWidth}}>
                         <AppText type={TextType.Default}>
                             {localMinistry.details}
                         </AppText>
@@ -120,7 +121,7 @@ export function LoveCityDetails({ localMinistries, localEvents, activeItemId, se
                         Details
                     </AppText>
 
-                    <PageRow style={{ flexShrink: 1, width: '90%'}}>
+                    <PageRow style={{ flexShrink: 1, width: standardPaddedWidth}}>
                         <AppText type={TextType.Default}>
                             {localEvent.details}
                         </AppText>

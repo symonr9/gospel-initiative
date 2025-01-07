@@ -20,6 +20,7 @@ import { PickerState } from './InfoPicker';
 import { formStyles } from '@/styles/Styles';
 import { SimpleCard } from '../common/SimpleCard';
 import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IInfoPickerFilter = {
     selectedOneId: string | null;
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '95%',
+        width: standardPaddedWidth,
         backgroundColor: 'white',
         paddingVertical: 16,
         paddingHorizontal: 10,

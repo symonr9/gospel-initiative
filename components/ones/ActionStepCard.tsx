@@ -15,6 +15,7 @@ import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import { gridStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IActionStepCard = ViewProps & {
   actionStep: ActionStep;
@@ -103,7 +104,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, on
         <PageColumn style={styles.actionStepTextContainer}>
           <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
 
-          <PageColumn style={{ flexShrink: 1, width: '100%' }}>
+          <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth }}>
             <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>
               {mapActionStepTypeToTitle(actionStep.type)}
             </AppText>
@@ -113,7 +114,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, on
           </PageColumn>
 
           {actionStep.notes && (
-            <PageRow style={{ flexShrink: 1, width: '90%' }}>
+            <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
               <AppText type={TextType.Default} style={{ marginBottom: 0 }}>
                 {actionStep.notes}
               </AppText>

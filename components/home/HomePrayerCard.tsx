@@ -12,6 +12,7 @@ import { SimpleCard } from '../common/SimpleCard';
 import { Colors } from '@/constants/Colors';
 import { EnhancedBeacon } from '@/models/beacon';
 import User from '@/models/user';
+import { screenWidth } from '@/constants/Dimensions';
 
 export type IHomePrayerCard = ViewProps & {
     executor: User;
@@ -48,7 +49,7 @@ function HomePrayerCard({ executor }: IHomePrayerCard) {
 
     const beaconsDetailView = (
         <PageColumn>
-            <ScrollLayout horizontal style={{ paddingHorizontal: 4, width: 280 }}>
+            <ScrollLayout horizontal style={{ paddingHorizontal: 4, width: screenWidth - 70 }}>
                 {incomingItemsToRender.map((item: any, index: number) => (
                     <View key={index}>{item}</View>
                 ))}

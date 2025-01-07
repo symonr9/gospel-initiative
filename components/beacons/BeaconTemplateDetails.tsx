@@ -20,6 +20,7 @@ import { modalStyles } from '@/styles/Styles';
 import { OneLayoutType } from '../ones/OnesLayout';
 import { Colors } from '@/constants/Colors';
 import { SimpleButton } from '../common/SimpleButton';
+import { screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 
 const beaconTagArray = Object.keys(BeaconTag)
     .filter(key => isNaN(Number(key)))
@@ -92,7 +93,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
             {
                 activeLayoutType === OneLayoutType.ConfirmBeacon && (
                     <>
-                        <PageColumn style={[styles.section, { width: 300, flexShrink: 1 }]}>
+                        <PageColumn style={[styles.section, { width: standardPaddedWidth, flexShrink: 1 }]}>
                             <PageChip iconSrc={AppIcon.Tag}
                                 onClick={onChangeTag}
                                 title={`Add Tags`}
@@ -102,7 +103,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
 
                         <PageColumn style={styles.section}>
                             <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                                style={{ width: 300, backgroundColor: Colors.info }}
+                                style={{ width: standardPaddedWidth, backgroundColor: Colors.info }}
                                 onClick={() => setShareOwnName(!shareOwnName)}
                                 title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
                         </PageColumn>
@@ -120,7 +121,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                     <View style={modalStyles.modalContent}>
                         <AppText type={TextType.Subtitle}>Select Tags</AppText>
 
-                        <PageColumn style={{ height: 400 }}>
+                        <PageColumn style={{ height: standardModalHeight }}>
                             <FlatList
                                 data={beaconTagArray}
                                 keyExtractor={(item) => item.value.toString()}

@@ -31,6 +31,7 @@ import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 import InfoPickerFilter from './InfoPickerFilter';
 import { MAX_LONG_TEXT_LENGTH, MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
+import { halfScreenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -180,7 +181,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: 250, flexShrink: 1 }}>
+                    <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
                         <AppText type={TextType.Default} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Body} style={{}}>{item.details}</AppText>
                     </PageColumn>
@@ -202,7 +203,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                         <TouchableOpacity onPress={toggleNoteTypeModal}>
                                             <PageRow style={[modalStyles.card]}>
                                                 <Image source={selectedOneNoteTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
-                                                <PageColumn style={{ marginStart: 8, width: 250, flexShrink: 1 }}>
+                                                <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
                                                     <AppText type={TextType.Default} style={{}}>{selectedOneNoteTypeData.label}</AppText>
                                                     <AppText type={TextType.Body} style={{}}>{selectedOneNoteTypeData.details}</AppText>
                                                 </PageColumn>
@@ -423,7 +424,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                         visible={isStageModalVisible}
                         onRequestClose={toggleStageModal}>
                         <View style={modalStyles.modalContainer}>
-                            <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                            <View style={[modalStyles.modalContent, {}]}>
                                 <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                                     Your One's Stage
                                 </AppText>
@@ -488,7 +489,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                     )
                                 }
 
-                                <PageColumn style={{ maxHeight: 140 }}>
+                                <PageColumn style={{ maxHeight: halfScreenHeight / 2  }}>
                                     <FlatList
                                         data={StageArray}
                                         renderItem={renderStage}
@@ -554,7 +555,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                 <Image source={icon}
                                     style={[styles.icon, { marginEnd: 8 }]}
                                     contentFit="contain" />
-                                <PageColumn style={{ width: 350, flexShrink: 1, }}>
+                                <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1, }}>
                                     <AppText type={TextType.Subtitle}>
                                         {title}
                                     </AppText>

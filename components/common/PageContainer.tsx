@@ -1,7 +1,7 @@
 
 import React, {  } from 'react';
 
-import { View, ViewProps, StyleSheet, Dimensions } from 'react-native';
+import { View, ViewProps, StyleSheet } from 'react-native';
 
 export type IPageContainer = ViewProps & {
 
@@ -16,8 +16,6 @@ export function PageContainer({ children }: IPageContainer) {
         </View>
     );
 }
-
-const { height: viewportHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {

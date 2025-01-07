@@ -8,6 +8,7 @@ import { cardStyles, flexStyles, gridStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
+import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IBeaconCard = ViewProps & {
   template: BeaconTemplate;
@@ -21,7 +22,7 @@ export function BeaconTemplateCard({ template, isSelected = false }: IBeaconCard
         style={styles.icon}
         contentFit="contain" />
 
-      <PageColumn style={{ width: 250, flexShrink: 1 }}>
+      <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
         <AppText type={TextType.Subtitle3}>
           {template.name}
         </AppText>

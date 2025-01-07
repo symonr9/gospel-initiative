@@ -5,6 +5,7 @@ import { AppText, TextType } from "./AppText";
 import { PageColumn } from "./PageColumn";
 import { AppIcon } from "@/enums/enums";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { halfScreenWidth } from "@/constants/Dimensions";
 
 
 export type IDetailsSection = ViewProps & {
@@ -48,7 +49,7 @@ function DetailsSection({ iconSrc, title, prefix, onClick, style }: IDetailsSect
         <TouchableOpacity onPress={onPress}>
             <PageColumn style={[styles.container, style]}>
                 <Image source={iconSrc} style={styles.icon} />
-                <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: 130 }}>
+                <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: halfScreenWidth - 60 }}>
                     <AppText type={TextType.Body}>{prefix}</AppText>
                     <Animated.Text style={animatedStyle}>
                         <AppText type={TextType.DefaultSemiBold}>{title}</AppText>

@@ -20,6 +20,7 @@ import CategoryPicker from '../common/CategoryPicker';
 import { ChristianCard } from './ChristianCard';
 import { getSelectedOne } from '@/utils/appUtils';
 import { MAX_LONG_TEXT_LENGTH, MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
+import { halfScreenWidth } from '@/constants/Dimensions';
 
 export type IChristianPicker = ViewProps & {
     executor: User;
@@ -132,7 +133,7 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
                 <PageColumn style={[styles.section, gridStyles.itemCard]} spaceEvenly>
                     <AppText type={TextType.DefaultSemiBold}>Name of Christian</AppText>
                     <TextInput
-                        style={[formStyles.textInput, { width: 150 }]}
+                        style={[formStyles.textInput, { width: halfScreenWidth - 50 }]}
                         placeholder={`Enter name here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
                         placeholderTextColor={'gray'}
                         value={formChristian.name}

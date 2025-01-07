@@ -16,6 +16,7 @@ import { AppText } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IMyStoriesHeader = {
     myStoryChapters: StoryChapter[];
@@ -88,7 +89,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
     return (
         <PageColumn>
-            <PageRow style={{ width: 230, flexShrink: 1 }}>
+            <PageRow style={{ width: standardPaddedWidth, flexShrink: 1 }}>
                 <AnimatedHeader title={hasActiveFilter ? `My Stories` : `My Stories (${myStoryChapters.length})`}
                     subtitle="A library of chapters of your testimony." />
                 {

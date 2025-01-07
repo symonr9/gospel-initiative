@@ -24,6 +24,7 @@ import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 import { SimpleCard } from '../common/SimpleCard';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 
 const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
@@ -338,7 +339,7 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                 visible={modalVisible}
                 onRequestClose={toggleModal}>
                 <View style={[modalStyles.modalContainer]}>
-                    <PageColumn style={[modalStyles.modalContent, { width: '90%', gap: 8 }]}>
+                    <PageColumn style={[modalStyles.modalContent, { gap: 8 }]}>
                         {
                             selectedGospelStep && (
                                 <PageRow style={{ marginHorizontal: 12, marginBottom: 8 }}>
@@ -359,7 +360,7 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                             Notes
                         </AppText>
                         <TextInput
-                            style={[formStyles.multiLineTextInput, { width: '100%' }]}
+                            style={[formStyles.multiLineTextInput, { width: standardPaddedWidth }]}
                             placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                             placeholderTextColor={'gray'}
                             value={formNotes || ""}
@@ -373,7 +374,7 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                             Next Steps
                         </AppText>
                         <TextInput
-                            style={[formStyles.multiLineTextInput, { width: '100%' }]}
+                            style={[formStyles.multiLineTextInput, { width: standardPaddedWidth }]}
                             placeholder={`Enter next steps here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
                             placeholderTextColor={'gray'}
                             value={formNextSteps || ""}

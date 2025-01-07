@@ -7,6 +7,7 @@ import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
 import { truncateString } from '@/utils/appUtils';
 import { PageRow } from './PageRow';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IListCard = {
   title: string;
@@ -35,7 +36,7 @@ export function ListCard({ title, details, icon, hide, onClick }: IListCard) {
         <Image source={icon} style={styles.icon} contentFit="contain" />
       </Animated.View>
       <PageColumn style={styles.textContainer}>
-        <PageRow style={{ flexShrink: 1, width: '90%'}}>
+        <PageRow style={{ flexShrink: 1, width: standardPaddedWidth}}>
           <Animated.Text entering={FadeInUp.duration(400).delay(400)}>
             <AppText type={TextType.BodyBold}>
               {title}
@@ -45,7 +46,7 @@ export function ListCard({ title, details, icon, hide, onClick }: IListCard) {
         
         {
           detailsToRender && (
-            <PageRow style={{ flexShrink: 1, width: '90%' }}>
+            <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
                 <Animated.Text entering={FadeInUp.duration(400).delay(600)}>
                   <AppText type={TextType.Prefix}>
                     {detailsToRender}

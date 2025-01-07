@@ -24,6 +24,7 @@ import AppError from '@/models/error';
 import { SimpleConfetti } from '../common/SimpleConfetti';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
+import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -192,7 +193,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: 210 }}>
+                    <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
                         <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Italic} style={{ }}>{item.details}</AppText>
                     </PageColumn>
@@ -214,7 +215,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                                         <TouchableOpacity onPress={toggleModal}>
                                             <PageRow style={[modalStyles.card]}>
                                                 <Image source={selectedActionStepTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
-                                                <PageColumn style={{ marginStart: 8, width: 250 }}>
+                                                <PageColumn style={{ marginStart: 8, width: standardPaddedWidth }}>
                                                     <AppText type={TextType.DefaultSemiBold} style={{}}>{selectedActionStepTypeData.label}</AppText>
                                                     <AppText type={TextType.Italic} style={{}}>{selectedActionStepTypeData.details}</AppText>
                                                 </PageColumn>
@@ -234,12 +235,12 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                             onRequestClose={toggleModal}
                         >
                             <View style={modalStyles.modalContainer}>
-                                <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                                <View style={[modalStyles.modalContent]}>
                                     <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                                         Select a Category
                                     </AppText>
 
-                                    <PageColumn style={{ maxHeight: 300 }}>
+                                    <PageColumn style={{ maxHeight: standardModalHeight }}>
                                         <FlatList
                                             data={actionStepTypeArray}
                                             renderItem={renderTypeItem}

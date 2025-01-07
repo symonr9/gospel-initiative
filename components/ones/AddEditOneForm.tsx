@@ -25,6 +25,7 @@ import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { SimpleCard } from '../common/SimpleCard';
 import { clearAll } from '@/utils/storageUtils';
+import { halfScreenHeight, halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IAddEditOneForm = ViewProps & {
     initialOneForm: OneForm;
@@ -154,7 +155,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
                 <PageColumn style={[styles.section, gridStyles.itemCard]} spaceEvenly>
                     <AppText type={TextType.DefaultSemiBold}>Name of your One</AppText>
                     <TextInput
-                        style={[formStyles.textInput, { width: 150 }]}
+                        style={[formStyles.textInput, { width: halfScreenWidth - 50 }]}
                         placeholder={`Enter name here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
                         placeholderTextColor={'gray'}
                         value={name}
@@ -169,7 +170,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
                 {
                     !editing && (
                         <StagePicker selectedStage={stage}
-                            style={{ height: 300, flex: 1, alignItems: 'center' }}
+                            style={{ height: halfScreenHeight - 150, flex: 1, alignItems: 'center' }}
                             setSelectedStage={setStage} />
                     )
                 }
@@ -177,7 +178,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
 
             <PageRow center>
                 <CategoryPicker selectedCategory={category}
-                    style={{ height: !editing ? 300 : 290, flex: 1, alignItems: 'center' }}
+                    style={{ height: halfScreenHeight - 150, flex: 1, alignItems: 'center' }}
                     setSelectedCategory={setCategory} />
             </PageRow>
 
@@ -222,7 +223,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
                                             style={[styles.icon, {}]} />
                                     </PageColumn>
 
-                                    <PageColumn style={{ marginStart: 8, width: 280 }}>
+                                    <PageColumn style={{ marginStart: 8, width: standardPaddedWidth }}>
                                         <AppText type={TextType.Subtitle3}>{mapActionStepTypeToTitle(item.type)}</AppText>
                                         <AppText type={TextType.Body}>{mapActionStepTypeToDetails(item.type)}</AppText>
 

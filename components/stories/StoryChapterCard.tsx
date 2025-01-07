@@ -29,6 +29,7 @@ import AppError from '@/models/error';
 import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
+import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -146,12 +147,12 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const Header = (
     <PageRow>
       <TouchableOpacity onPress={onExpandClick} activeOpacity={editing ? 1 : 0.2}>
-        <PageRow style={{ width: 300 }} spaceBetween>
+        <PageRow style={{ width: standardPaddedWidth + 15 }} spaceBetween>
           <PageRow style={{}}>
             <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
               <Image source={mapStoryChapterTypeToIcon(chapter.chapterType)} style={styles.icon} />
             </Animated.View>
-            <PageColumn style={{ width: 300, flexShrink: 1 }}>
+            <PageColumn style={{ width: standardPaddedWidth - 20, flexShrink: 1 }}>
               <AppText type={TextType.Subtitle3}>
                 {chapter.title}
               </AppText>
@@ -178,7 +179,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   if (editing) {
     return (
-      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
+      <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: screenWidth - 40 }, style]}>
         <ScrollLayout style={{ }}>
           <PageColumn style={{ gap: 12 }}>
             {Header}
@@ -187,7 +188,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               setFormChapter={setFormChapter} />
 
             <TextInput
-              style={[formStyles.multiLineTextInput, { height: 280, marginVertical: 8, marginHorizontal: 8 }]}
+              style={[formStyles.multiLineTextInput, { height: halfScreenHeight / 2, marginVertical: 8, marginHorizontal: 8 }]}
               placeholder={`Enter note here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
               placeholderTextColor={'gray'}
               value={formChapter.content}
@@ -218,7 +219,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   if (expanded) {
     return (
-      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350, gap: 12 }, style]}>
+      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: screenWidth - 40, gap: 12 }, style]}>
         {Header}
 
         <ScrollLayout style={[height !== undefined && { maxHeight: height - 200 }]}>
@@ -229,7 +230,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               <AppText type={TextType.Body}>
                 Questions:
               </AppText>
-              <PageColumn style={{ gap: 2, flexShrink: 1, width: 320 }}>
+              <PageColumn style={{ gap: 2, flexShrink: 1, width: standardPaddedWidth }}>
                 {
                   chapter.questions.map((question) => (
                     <AppText type={TextType.Italic}>{question}</AppText>
@@ -244,7 +245,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                   <AppText type={TextType.Body}>
                     Original Prompt:
                   </AppText>
-                  <PageColumn style={{ flexShrink: 1, width: 320 }}>
+                  <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth }}>
                     <AppText type={TextType.Italic}>
                       {chapter.originalPrompt}
                     </AppText>
@@ -280,7 +281,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   return (
     <TouchableOpacity onPress={onExpandClick}>
-      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: 350 }, style]}>
+      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: screenWidth - 40 }, style]}>
         {Header}
       </PageColumn>
     </TouchableOpacity>

@@ -11,6 +11,7 @@ import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView
 import { AppText, TextType } from '../common/AppText';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
+import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IQuestionsPicker = {
   formChapter: StoryChapter;
@@ -76,7 +77,7 @@ export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicke
         visible={modalVisible}
         onRequestClose={toggleModal}>
         <View style={modalStyles.modalContainer}>
-          <View style={[modalStyles.modalContent, { width: '90%' }]}>
+          <View style={[modalStyles.modalContent, { }]}>
             {
               formChapter.questions.map((item, index) => (
                 <PageRow style={{ marginBottom: 8 }}>
@@ -90,7 +91,7 @@ export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicke
                     <TextInput
                       placeholder={`Enter question here... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
                       placeholderTextColor={'gray'}
-                      style={[formStyles.slimTextInput, { width: 280 }]}
+                      style={[formStyles.slimTextInput, { width: standardPaddedWidth }]}
                       multiline
                       value={item}
                       maxLength={MAX_NORMAL_TEXT_LENGTH}
@@ -109,9 +110,10 @@ export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicke
                 onClick={addQuestion}
               />
               <TextInput
-                style={[formStyles.slimTextInput, { width: 280 }]}
+                style={[formStyles.slimTextInput, { width: standardPaddedWidth }]}
                 placeholder={`Add new question here... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
                 placeholderTextColor={'gray'}
+                multiline
                 value={newQuestion}
                 maxLength={MAX_NORMAL_TEXT_LENGTH}
                 onChangeText={setNewQuestion}

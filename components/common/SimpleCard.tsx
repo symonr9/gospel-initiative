@@ -11,6 +11,7 @@ import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import { gridStyles } from '@/styles/Styles';
+import { screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type ISimpleCard = ViewProps & {
   iconSrc?: AppIcon | AvatarIcon | null;
@@ -42,7 +43,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
                   contentFit="contain" />
               )
             }
-            <PageColumn style={{ maxWidth: 300 }}>
+            <PageColumn style={{ maxWidth: standardPaddedWidth }}>
               <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
               {
                 subtitle && (

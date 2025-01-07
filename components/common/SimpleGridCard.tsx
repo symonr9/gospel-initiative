@@ -9,6 +9,7 @@ import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import { gridStyles } from '@/styles/Styles';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type ISimpleGridCard = ViewProps & {
     iconSrc: AppIcon | AvatarIcon | null;
@@ -38,7 +39,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                         <Image source={iconSrc} style={gridStyles.img} />
                     )
                 }
-                <PageColumn style={{ width: 250, flexShrink: 1 }}>
+                <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
                     {
                         title && (
                             <AppText type={TextType.Subtitle3} style={{ }}>

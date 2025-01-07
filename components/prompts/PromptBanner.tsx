@@ -13,6 +13,7 @@ import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageRow } from '../common/PageRow';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IPromptBanner = ViewProps & {
 };
@@ -41,13 +42,13 @@ function PromptBanner({}: IPromptBanner) {
                 <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
                     Prompt of the Day
                 </AppText>
-                <View style={{ flexShrink: 1, width: '90%' }}>
+                <View style={{ flexShrink: 1, width: standardPaddedWidth }}>
                     <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
                         {promptQuestion}
                     </AppText>
                 </View>
 
-                <PageRow style={{ flexDirection: 'row-reverse', width: '90%', marginTop: 12 }}>
+                <PageRow style={{ flexDirection: 'row-reverse', width: standardPaddedWidth, marginTop: 12 }}>
                     <SimpleIconButton iconSrc={AppIcon.Checkmark}
                         onClick={onIAskedSomeoneClick}
                         title={'I asked someone'} />

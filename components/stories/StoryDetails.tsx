@@ -6,6 +6,7 @@ import { EnhancedStory } from '@/models/story';
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToIcon } from "@/utils/iconUtils";
+import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IStoryDetails = {
   activeStory: EnhancedStory | null;
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 5,
-    maxWidth: '45%',
+    maxWidth: halfScreenWidth,
     backgroundColor: '#FFF',
     paddingHorizontal: 16,
     marginHorizontal: 4,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eeeeee'
   },
   expandedContent: {
-    maxWidth: '90%',
+    maxWidth: standardPaddedWidth,
   },
   chapterIcon: {
     width: 48,

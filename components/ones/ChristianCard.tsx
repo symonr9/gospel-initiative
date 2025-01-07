@@ -13,6 +13,7 @@ import { PageRow } from '../common/PageRow';
 import Christian from '@/models/christian';
 import DetailsSection from '../common/DetailsSection';
 import { gridStyles } from '@/styles/Styles';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IChristianCard = ViewProps & {
     christian: Christian;
@@ -115,7 +116,7 @@ export function ChristianCard({ christian, handleOnPress, selected = false, styl
 const styles = StyleSheet.create({
     section: {
         margin: 4,
-        width: 250,
+        width: standardPaddedWidth,
         flexShrink: 1,
         borderBottomColor: 'lightgray',
         borderBottomWidth: 2,

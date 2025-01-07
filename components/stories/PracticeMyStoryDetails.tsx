@@ -27,6 +27,7 @@ import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 import { SimpleIcon } from '../common/SimpleIcon';
+import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -168,7 +169,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
 
       practiceTokens.push(
         <PageColumn style={{ gap: 8 }}>
-          <PageColumn style={{ flexShrink: 1, width: 250, marginTop: 8 }}>
+          <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth, marginTop: 8 }}>
             <AppText type={TextType.Italic}>
               You can practice again on {formatDateTime(nextPartitionDate)}.
             </AppText>
@@ -176,7 +177,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <PageRow style={{ gap: 8, marginTop: 8 }}>
             <View style={{ alignSelf: 'center' }}>
               <Progress.Bar progress={timePercent}
-                width={200}
+                width={standardPaddedWidth - 50}
                 borderRadius={8} />
             </View>
             <AppText type={TextType.Body}>{24 - hoursBetween} hour{(24 - hoursBetween) !== 1 ? 's' : ''} left</AppText>
@@ -205,7 +206,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <SimpleCard title={`Testimony Practice Info`}
             subtitle={''}
             onClick={() => setShowInfoOnPage1(val => !val)}
-            style={{ width: '98%' }}
+            style={{ width: screenWidth - 30 }}
             detailsView={
               <>
                 {showInfoOnPage1 && (
@@ -230,7 +231,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         <PageRow spaceEvenly style={{ gap: 8 }}>
           <ItemRowContainer iconSrc={AppIcon.Info}
             title={title}
-            expandedHeight={hasNoTokens ? 80 : 60}
+            expandedHeight={(halfScreenHeight / 5) - 10}
             customStyles={{ container: { backgroundColor: Colors.white } }}
             itemsToRender={practiceTokens} />
         </PageRow>
@@ -261,7 +262,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         <AppText type={TextType.Subtitle2} style={{ marginVertical: 8 }}>
           Your Question
         </AppText>
-        <View style={{ flexShrink: 1, width: 350 }}>
+        <View style={{ flexShrink: 1, width: screenWidth - 20 }}>
           <AppText type={TextType.Subtitle} style={[styles.textLabel]}>
             {question}
           </AppText>
@@ -274,7 +275,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         </PageColumn>
 
         <TextInput
-          style={[formStyles.multiLineTextInput, { height: 240 }]}
+          style={[formStyles.multiLineTextInput, { height: (halfScreenHeight / 2) - 40 }]}
           placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
           placeholderTextColor={'gray'}
           value={response}
@@ -292,6 +293,8 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             title={'Next'}
             onClick={() => setPageState(PageState.Page3)} />
         </PageRow>
+
+        <View style={{ height: 200}}/>
       </>
     );
   } else if (pageState === PageState.Page3) {
@@ -305,7 +308,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
             Your Question
           </AppText>
-          <View style={{ flexShrink: 1, width: '95%' }}>
+          <View style={{ flexShrink: 1, width: screenWidth - 20 }}>
             <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
               {question}
             </AppText>
@@ -314,8 +317,8 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <AppText type={TextType.Subtitle2} style={{ marginVertical: 8, marginTop: 16 }}>
             Your Response
           </AppText>
-          <ScrollView style={{ maxHeight: 300 }}>
-            <View style={{ flexShrink: 1, width: '95%' }}>
+          <ScrollView style={{ maxHeight: halfScreenHeight / 2 }}>
+            <View style={{ flexShrink: 1, width: screenWidth - 20 }}>
               <AppText type={TextType.Default} style={[styles.textLabel]}>
                 {response}
               </AppText>

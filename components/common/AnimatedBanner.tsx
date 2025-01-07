@@ -9,6 +9,7 @@ import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
 import { PageRow } from './PageRow';
 import { Colors } from '@/constants/Colors';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IAnimatedBanner = {
     iconSrc: AppIcon | null;
@@ -42,7 +43,7 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                             )
                         }
                         <PageColumn>
-                            <PageRow style={{ flexShrink: 1, width: 300 }}>
+                            <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
                                 <Animated.Text
                                     entering={FadeInUp.duration(textDuration).delay(textDelay)}
                                     exiting={FadeOutDown.duration(textDuration)}
@@ -55,7 +56,7 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
 
                             {
                                 prefixText && (
-                                    <PageRow style={{ flexShrink: 1, width: 350 }}>
+                                    <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
                                         <Animated.Text
                                             entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
                                             exiting={FadeOutDown.duration(textDuration)}

@@ -11,6 +11,7 @@ import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
 import { gridStyles, modalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from './SimpleButton';
+import { halfScreenWidth, standardModalHeight } from '@/constants/Dimensions';
 
 // Map categories to include icon, label, and details
 const categoryArray = [
@@ -108,7 +109,7 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                 onRequestClose={toggleModal}
             >
                 <View style={modalStyles.modalContainer}>
-                    <View style={[modalStyles.modalContent, { width: '90%' }]}>
+                    <View style={[modalStyles.modalContent]}>
                         <AppText type={TextType.DefaultSemiBold} style={modalStyles.modalTitle}>
                             Select a Category
                         </AppText>
@@ -122,7 +123,7 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                                 <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedCategoryData.details}</AppText>
                             </View>
                         )}
-                        <PageColumn style={{ maxHeight: 300 }}>
+                        <PageColumn style={{ maxHeight: standardModalHeight - 100 }}>
                             <FlatList
                                 data={categoryArray}
                                 renderItem={renderIcon}
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     },
     selectedContainer: {
         alignItems: 'center',
-        width: 170,
+        width: halfScreenWidth,
     },
     selectedIcon: {
         width: 50,
