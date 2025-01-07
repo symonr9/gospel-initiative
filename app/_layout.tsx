@@ -47,7 +47,6 @@ export default function RootLayout() {
       'Options',
       'Choose an option:',
       [
-        { text: 'Settings', onPress: () => console.log('Settings pressed') },
         { text: 'Reset All', onPress: confirmResetAll },
         { text: 'Cancel', style: 'cancel' },
       ],
