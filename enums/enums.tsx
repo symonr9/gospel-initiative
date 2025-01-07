@@ -526,6 +526,7 @@ export enum AppIcon {
     Filter = require('../assets/images/app-icons/filter.png'),
 
     MeetingWithOneSplash = require('../assets/images/gospel-initiative/meeting-with-one-splash.png'),
+    PracticeTestimonySplash = require('../assets/images/gospel-initiative/practice-testimony-splash.png')
 }
 
 export enum AvatarIcon {

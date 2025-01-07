@@ -37,11 +37,10 @@ export default function NewUserStories({ newUserStep, setNewUserStep, styles }: 
             <AppText>
                 Stories help users build confidence in sharing their testimony while creating a library of their journey to reflect on and revisit.
             </AppText>
-
+            
             <PageRow center>
-                <Image source={AppIcon.AppLogoTransparent}
-                    tintColor={Colors.light.darkAlternative}
-                    style={styles.logoIcon} />
+                <Image source={AppIcon.PracticeTestimonySplash}
+                    style={styles.splashIcon} />
             </PageRow>
 
             <SimpleCard iconSrc={AppIcon.Microphone}
