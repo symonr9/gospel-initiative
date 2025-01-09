@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from 'expo-image';
-import { Button, ViewProps } from "react-native";
+import { Button, View, ViewProps } from "react-native";
 import { AppIcon, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
@@ -58,6 +58,8 @@ export default function NewUserPrayerBeacons({ newUserStep, setNewUserStep, styl
                     text={'Continue'}
                     onPress={onContinue} />
             </PageColumn>
+            
+            <View style={{ height: 300 }}/>
         </PageColumn>
     );
 }

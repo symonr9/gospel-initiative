@@ -63,6 +63,9 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
                     text={'Continue'}
                     onPress={onLearnGospelInitiative} />
             </PageColumn>
+
+            
+            <View style={{ height: 300 }}/>
         </PageColumn>
     );
 }

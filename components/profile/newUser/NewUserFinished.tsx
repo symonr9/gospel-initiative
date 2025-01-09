@@ -1,6 +1,6 @@
 import React from "react";
 import { Image } from 'expo-image';
-import { Button, ViewProps } from "react-native";
+import { Button, View, ViewProps } from "react-native";
 import { AppIcon, NewUserStep, RefreshSpec } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
@@ -41,6 +41,9 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
                     text={'Done'}
                     onPress={onDone} />
             </PageColumn>
+
+            
+            <View style={{ height: 300 }}/>
         </PageColumn>
     );
 }

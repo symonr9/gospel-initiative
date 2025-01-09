@@ -95,6 +95,7 @@ Notes:
    - Choose which platforms to build on.
 4. Run `eas build` when you are ready to create your first build.
 5. Once build is complete, run `eas submit` to upload the app to app stores.
+   - For TestFlight: `eas submit --platform ios`.
 
 ## Troubleshooting
 

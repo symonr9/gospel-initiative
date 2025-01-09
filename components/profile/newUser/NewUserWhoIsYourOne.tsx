@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from 'expo-image';
-import { Button, ViewProps } from "react-native";
+import { Button, View, ViewProps } from "react-native";
 import { AppIcon, AvatarIconArray, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
@@ -75,6 +75,8 @@ export default function NewUserWhoIsYourOne({ newUserStep, setNewUserStep, style
                     text={'Continue'}
                     onPress={onContinue} />
             </PageColumn>
+
+            <View style={{ height: 300 }}/>
         </PageColumn>
     );
 }

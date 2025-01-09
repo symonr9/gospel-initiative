@@ -14,7 +14,10 @@ export default ({ config }) => ({
         },
         ios: {
             supportsTablet: true,
-            bundleIdentifier: "com.syborg9.gospelinitiative"
+            bundleIdentifier: "com.redemption.gospelinitiative",
+            infoPlist: {
+                NSPhotoLibraryUsageDescription: "We need access to your photo library to allow you to upload photos."
+            }
         },
         android: {
             adaptiveIcon: {
@@ -22,7 +25,7 @@ export default ({ config }) => ({
                 backgroundColor: "#ffffff",
             },
             softwareKeyboardLayoutMode: "pan",
-            package: "com.syborg9.gospelinitiative"
+            package: "com.redemption.gospelinitiative"
         },
         web: {
             bundler: "metro",
@@ -58,5 +61,10 @@ export default ({ config }) => ({
         updates: {
             url: "https://u.expo.dev/2ae65218-15d2-482e-8975-7143d6fb55aa",
         },
+        build: {
+            preview: {
+                distribution: "internal"
+            }
+        }
     },
 });
