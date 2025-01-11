@@ -37,20 +37,6 @@ export default function NewUserWhoIsYourOne({ newUserStep, setNewUserStep, style
                 Our goal is to love our neighbors genuinely by spending time, listening, serving, and sharing our stories and God’s story.
             </AppText>
 
-            <PageRow center style={{ gap: 24, marginVertical: 8 }}>
-                <Image source={getRandomElement(AvatarIconArray)}
-                    style={styles.avatarIcon} />
-
-                <Image source={getRandomElement(AvatarIconArray)}
-                    style={styles.avatarIcon} />
-
-                <Image source={getRandomElement(AvatarIconArray)}
-                    style={styles.avatarIcon} />
-
-                <Image source={getRandomElement(AvatarIconArray)}
-                    style={styles.avatarIcon} />
-            </PageRow>
-
             <PageRow center>
                 <Image source={AppIcon.MeetingWithOneSplash}
                     style={styles.splashIcon} />
