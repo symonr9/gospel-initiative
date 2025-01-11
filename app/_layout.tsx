@@ -57,7 +57,7 @@ export default function RootLayout() {
   const confirmResetAll = () => {
     Alert.alert(
       'Are you sure?',
-      'Are you sure you want to clear all your data? You will lose all your progress.',
+      'Are you sure you want to clear all your data? You will lose all your progress. If you do this, please close the app and restart it.',
       [
         {
           text: 'Cancel',
@@ -72,7 +72,7 @@ export default function RootLayout() {
   const confirmFinalReset = () => {
     Alert.alert(
       'Are you really sure?',
-      'This action cannot be undone. Please confirm that you want to proceed.',
+      'This action cannot be undone. Please confirm that you want to proceed. Please close the app and restart if you proceed.',
       [
         {
           text: 'Cancel',
