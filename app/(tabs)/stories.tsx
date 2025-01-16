@@ -1,6 +1,6 @@
 import PageView from '@/components/common/PageView';
 import React, { useState, useEffect } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { useGlobalSearchParams } from 'expo-router';
 import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
 import { SceneMap } from 'react-native-tab-view';
@@ -19,8 +19,8 @@ const renderScene = SceneMap({
 });
 
 function Stories({ }: IStories) {
-  const { tab } = useLocalSearchParams();
-  const initialIndex = tab ? parseInt(tab) : 0;
+  const { tab } = useGlobalSearchParams();
+  const initialIndex = tab ? parseInt(tab as string, 10) : 0;
 
   const [index, setIndex] = useState(initialIndex);
   const [routes] = React.useState([

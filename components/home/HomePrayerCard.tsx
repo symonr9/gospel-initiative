@@ -13,9 +13,11 @@ import { Colors } from '@/constants/Colors';
 import { EnhancedBeacon } from '@/models/beacon';
 import User from '@/models/user';
 import { screenWidth } from '@/constants/Dimensions';
+import { setSelectedPrayerId } from '@/redux/actions';
 
 export type IHomePrayerCard = ViewProps & {
     executor: User;
+    setSelectedPrayerId: Function;
 };
 
 const getPrayerTitle = (completedBeacons: Array<any>, incomingBeacons: Array<any>) => {
@@ -27,7 +29,7 @@ const getPrayerTitle = (completedBeacons: Array<any>, incomingBeacons: Array<any
     return `No Beacons Available`;
 }
 
-function HomePrayerCard({ executor }: IHomePrayerCard) {
+function HomePrayerCard({ executor, setSelectedPrayerId }: IHomePrayerCard) {
     const router = useRouter();
     const { completedBeacons = [], incomingBeacons = [] } = useSelector((state: any) => selectPartitionedActiveEnhancedBeacons(state));
 
@@ -42,7 +44,8 @@ function HomePrayerCard({ executor }: IHomePrayerCard) {
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
             idx={idx}
-            activeBeaconId={null}
+            selectedPrayerId={null}
+            setSelectedPrayerId={setSelectedPrayerId}
             onPress={onPrayerClick}
             selectedIdx={null} />
     )) : [];
@@ -91,7 +94,7 @@ const mapStateToProps = (state: any) => ({
 
 
 const mapDispatchToProps = {
-
+    setSelectedPrayerId
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePrayerCard);

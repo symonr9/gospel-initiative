@@ -2,7 +2,7 @@ import PageView from '@/components/common/PageView';
 import React, { useState, useEffect } from 'react';
 import { ViewProps } from 'react-native';
 import { connect } from 'react-redux';
-import { useLocalSearchParams } from 'expo-router';
+import { useGlobalSearchParams } from 'expo-router';
 import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import OnesLayout from '@/components/ones/OnesLayout';
@@ -17,8 +17,8 @@ const renderScene = SceneMap({
 });
 
 function Ones({ }: IOnes) {
-  const { tab } = useLocalSearchParams();
-  const initialIndex = tab ? parseInt(tab) : 0;
+  const { tab } = useGlobalSearchParams();
+  const initialIndex = tab ? parseInt(tab as string, 10) : 0;
 
   const [index, setIndex] = useState(initialIndex);
   const [routes] = useState([

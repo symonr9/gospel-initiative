@@ -12,39 +12,40 @@ import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageColumn } from '../common/PageColumn';
+import { setSelectedPrayerId } from '@/redux/actions';
 
 export type IBeaconsPrayLayout = ViewProps & {
     completedBeacons: any;
     incomingBeacons: any;
+    selectedPrayerId: string | null;
+    setSelectedPrayerId: Function;
 };
 
-function BeaconsPrayLayout({ completedBeacons, incomingBeacons }: IBeaconsPrayLayout) {
-    const [activeBeaconId, setActiveBeaconId] = useState(null);
+function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId, setSelectedPrayerId }: IBeaconsPrayLayout) {
     const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
 
-    const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
-    const completedCursorIdx = completedBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === activeBeaconId);
+    const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === selectedPrayerId);
+    const completedCursorIdx = completedBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === selectedPrayerId);
     const completedCount = completedBeacons.length;
     const incomingCount = incomingBeacons.length;
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
             idx={idx}
-            activeBeaconId={activeBeaconId}
-            setActiveBeaconId={setActiveBeaconId}
+            selectedPrayerId={selectedPrayerId}
+            setSelectedPrayerId={setSelectedPrayerId}
             selectedIdx={completedCursorIdx} />
     )) : [];
 
     const incomingItemsToRender = incomingBeacons ? incomingBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
             idx={idx}
-            activeBeaconId={activeBeaconId}
-            setActiveBeaconId={setActiveBeaconId}
+            selectedPrayerId={selectedPrayerId}
+            setSelectedPrayerId={setSelectedPrayerId}
             selectedIdx={incomingCursorIdx} />
     )) : [];
 
-
-    const showLetsPrayHeader = activeBeaconId === null && incomingItemsToRender.length > 0;
+    const showLetsPrayHeader = selectedPrayerId === null && incomingItemsToRender.length > 0;
 
     return (
         <ScrollLayout>
@@ -57,7 +58,6 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons }: IBeaconsPrayLa
                 }
 
                 <BeaconDetails incomingCursorIdx={incomingCursorIdx}
-                    setActiveBeaconId={setActiveBeaconId}
                     completedCursorIdx={completedCursorIdx}
                     completedBeacons={completedBeacons}
                     incomingBeacons={incomingBeacons} />
@@ -94,11 +94,12 @@ const mapStateToProps = (state: any) => {
     return {
         completedBeacons,
         incomingBeacons,
+        selectedPrayerId: state.beacons.selectedPrayerId,
     };
 }
 
 const mapDispatchToProps = {
-
+    setSelectedPrayerId
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeaconsPrayLayout);

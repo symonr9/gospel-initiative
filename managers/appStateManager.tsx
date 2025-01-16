@@ -13,7 +13,7 @@ export type IAppStateManager = {
     selectedOneId: string | null;
     selectedTemplateId: string | null;
     beaconTemplates: BeaconTemplate[];
-    setSelectedTemplateId: Function;
+    setSelectedBeaconTemplateId: Function;
 };
 
 function AppStateManager({ executor, selectedOneId, selectedTemplateId, beaconTemplates, 

@@ -11,15 +11,17 @@ type IAnimatedHeader = {
     subtitle?: string | null;
     duration?: number;
     delay?: number;
+    key?: string | null;
 
     style?: any;
 };
 
-export function AnimatedHeader({ title, titleType = TextType.Subtitle, subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
-
+export function AnimatedHeader({ title, key = null, titleType = TextType.Subtitle, 
+    subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
     return (
         <View style={[styles.container, style]}>
             <Animated.Text
+                key={`${key}-title`}
                 entering={FadeInUp.duration(duration).delay(delay)}
                 style={[{ marginStart: 4, marginTop: 8 }]} >
                 <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
@@ -31,6 +33,7 @@ export function AnimatedHeader({ title, titleType = TextType.Subtitle, subtitle 
             {
                 subtitle && (
                     <Animated.Text
+                        key={`${key}-subtitle`}
                         entering={FadeInUp.duration(duration).delay(delay + 200)}
                         exiting={FadeOutDown.duration(duration)}
                         style={[{ marginStart: 4 }]} >

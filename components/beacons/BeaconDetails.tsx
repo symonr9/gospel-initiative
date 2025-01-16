@@ -22,7 +22,7 @@ import { mapOneStageToTitle } from "@/utils/textUtils";
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { AnimatedElement } from '../common/AnimatedElement';
-import { setAppError, refreshData } from '@/redux/actions';
+import { setAppError, refreshData, setSelectedPrayerId } from '@/redux/actions';
 import User from '@/models/user';
 import BeaconActivity from '@/models/beaconActivity';
 import { PageRow } from '../common/PageRow';
@@ -52,14 +52,14 @@ export type IBeaconDetails = ViewProps & {
     executor: User;
     beaconActivities: BeaconActivity[];
 
-    setActiveBeaconId?: Function;
+    setSelectedPrayerId: Function;
     refreshData: Function;
     setAppError: Function;
 };
 
 function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, refreshData,
-    setActiveBeaconId, beaconActivities, setAppError, activeBeacons }: IBeaconDetails) {
+    setSelectedPrayerId, beaconActivities, setAppError, activeBeacons }: IBeaconDetails) {
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
@@ -111,9 +111,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             renderItem={({ item }) => {
                                 const title = getSubtitleText(item) || 'Prayer';
                                 const onClick = () => {
-                                    if (setActiveBeaconId) {
-                                        setActiveBeaconId(item.id);
-                                    }
+                                    setSelectedPrayerId(item.id);
                                 }
                                 return (
                                     <SimpleGridCard iconSrc={item.userIcon}
@@ -313,14 +311,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         )
                                     }
                                 </PageColumn>
-                            } delay={300} direction={FadeDirection.Left} />
+                            } delay={300} key={`user-icon-${userIcon}`} direction={FadeDirection.Left} />
                         )
                     }
 
                     <AnimatedElement element={
                         <Image source={icon}
                             style={[styles.profileIcon, beacon.global ? { width: 60, height: 60 } : { width: 42, height: 42 }]} />
-                    } delay={beacon.global ? 0 : 600} direction={FadeDirection.Up} />
+                    } delay={beacon.global ? 0 : 600} key={`icon-${icon}`} direction={FadeDirection.Up} />
 
                     {
                         oneIcon && (
@@ -331,13 +329,14 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         Their One
                                     </AppText>
                                 </PageColumn>
-                            } delay={500} direction={FadeDirection.Right} />
+                            } delay={500} key={`their-one-${oneIcon}`} direction={FadeDirection.Right} />
                         )
                     }
                 </PageRow>
                 <AnimatedHeader title={title}
                     subtitle={subtitle}
                     delay={400}
+                    key={`${title}-header`}
                     style={{ textAlign: 'center' }} />
             </View>
 
@@ -377,7 +376,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         )
                                     }
                                 </PageRow>
-                            } delay={300} style={styles.detailsContainer} />
+                            } delay={300} key={`details-${title}`} style={styles.detailsContainer} />
                         )
                     }
 
@@ -560,7 +559,8 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
     refreshData,
-    setAppError
+    setAppError,
+    setSelectedPrayerId
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeaconDetails);

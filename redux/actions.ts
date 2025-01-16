@@ -23,7 +23,9 @@ export enum Action {
     LoadPreferences = "LOAD_PREFERENCES",
 
     SetSelectedOneId = "SET_SELECTED_ONE_ID",
-    SetSelectedBeaconId = "SET_SELECTED_BEACON_ID",
+
+    SetSelectedBeaconTemplateId = "SET_SELECTED_BEACON_TEMPLATE_ID",
+    SetSelectedBeaconPrayerId = "SET_SELECTED_BEACON_PRAYER_ID",
     
     SetBeaconForm = "SET_BEACON_FORM",
     AddBeaconActivity = "ADD_BEACON_ACTIVITY",

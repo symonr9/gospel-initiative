@@ -6,6 +6,7 @@ const initialState = {
     expiredBeacons: [],
     beaconTemplates: [],
 
+    selectedPrayerId: null,
     selectedTemplateId: null,
     beaconForm: null,
 };
@@ -21,12 +22,17 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
                     expiredBeacons: expiredBeacons || state.expiredBeacons,
                     beaconTemplates: beaconTemplates || state.beaconTemplates,
                     selectedTemplateId: state.selectedTemplateId,
+                    selectedPrayerId: state.selectedPrayerId,
                     beaconForm: state.beaconForm,
                 }
             });
-        case Action.SetSelectedBeaconId:
+        case Action.SetSelectedBeaconTemplateId:
             return update(state, {
                 selectedTemplateId: { $set: action.payload }
+            });
+        case Action.SetSelectedBeaconPrayerId:
+            return update(state, {
+                selectedPrayerId: { $set: action.payload }
             });
         case Action.SetBeaconForm:
             return update(state, {

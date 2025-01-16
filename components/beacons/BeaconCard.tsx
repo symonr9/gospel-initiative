@@ -11,7 +11,6 @@ import Animated, {
     ZoomOut 
 } from 'react-native-reanimated';
 
-import BeaconActivity from '@/models/beaconActivity';
 import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
 import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { Colors } from '@/constants/Colors';
@@ -19,14 +18,14 @@ import { Colors } from '@/constants/Colors';
 export type IBeaconCard = {
     beacon: any;
     idx: number;
-    activeBeaconId: string | null;
+    selectedPrayerId: string | null;
     selectedIdx: number | null;
-    setActiveBeaconId?: Function;
+    setSelectedPrayerId?: Function;
     onPress?: Function;
     useAnimations?: boolean;
 };
 
-export function BeaconCard({ beacon, activeBeaconId, idx, selectedIdx, setActiveBeaconId, onPress,
+export function BeaconCard({ beacon, selectedPrayerId, idx, selectedIdx, setSelectedPrayerId, onPress,
     useAnimations = true }: IBeaconCard) {
     const progress = useSharedValue(0);
 
@@ -54,8 +53,8 @@ export function BeaconCard({ beacon, activeBeaconId, idx, selectedIdx, setActive
     }, [selectedIdx]);
 
     const onCardPress = () => {
-        if (setActiveBeaconId) {
-            setActiveBeaconId(beacon.id === activeBeaconId ? null : beacon.id);
+        if (setSelectedPrayerId) {
+            setSelectedPrayerId(beacon.id === selectedPrayerId ? null : beacon.id);
         }
         if (onPress) {
             onPress();

@@ -3,7 +3,12 @@ import { Action } from "../actions";
 import BeaconForm from "@/models/beaconForm";
 
 export const setSelectedTemplateId = (item: string) => ({
-    type: Action.SetSelectedBeaconId,
+    type: Action.SetSelectedBeaconTemplateId,
+    payload: item,
+});
+
+export const setSelectedPrayerId = (item: string) => ({
+    type: Action.SetSelectedBeaconPrayerId,
     payload: item,
 });
 

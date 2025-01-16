@@ -145,7 +145,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         <BeaconCard beacon={beaconPlaceholder}
           idx={0}
           useAnimations={true}
-          activeBeaconId={null}
+          selectedPrayerId={null}
           onPress={() => { }}
           selectedIdx={null} />
       );
@@ -155,7 +155,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
       practiceTokens.push(
         <BeaconCard beacon={beaconPlaceholder}
           idx={0}
-          activeBeaconId={null}
+          selectedPrayerId={null}
           useAnimations={true}
           onPress={() => { }}
           selectedIdx={null} />

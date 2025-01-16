@@ -4,6 +4,7 @@ import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp, FadeOutDown } 
 
 type IAnimatedElement = {
     element: any;
+    key?: string | null;
     duration?: number;
     delay?: number;
     direction?: FadeDirection;
@@ -11,7 +12,8 @@ type IAnimatedElement = {
     style?: any;
 };
 
-export function AnimatedElement({ element, duration = 400, delay = 0, direction = FadeDirection.Down, style = {} }: IAnimatedElement) {
+export function AnimatedElement({ element, key = null, duration = 400, 
+    delay = 0, direction = FadeDirection.Down, style = {} }: IAnimatedElement) {
     const animation = (() => {
         if (direction === FadeDirection.Up) return FadeInUp;
         else if (direction === FadeDirection.Left) return FadeInLeft;
@@ -21,6 +23,7 @@ export function AnimatedElement({ element, duration = 400, delay = 0, direction 
     
     return (
         <Animated.Text
+            key={key}
             entering={animation.duration(duration).delay(delay)}
             exiting={FadeOutDown.duration(duration)}
             style={[style]} >
