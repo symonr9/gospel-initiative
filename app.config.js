@@ -1,7 +1,7 @@
 export default ({ config }) => ({
     expo: {
-        name: "gospel-initiative",
-        slug: "gospel-initiative",
+        name: "The Gospel Initiative",
+        slug: "the-gospel-initiative",
         version: "1.0.7",
         orientation: "portrait",
         icon: "./assets/images/gospel-initiative/app-logo.png",
