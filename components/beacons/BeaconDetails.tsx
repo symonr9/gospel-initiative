@@ -431,12 +431,12 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                     <SimpleIconButton iconSrc={AppIcon.Mail}
                         title={'Give Note'}
-                        disabled={!hasUserAlreadyPrayed}
+                        disabled={!hasUserAlreadyPrayed || loading}
                         onClick={onNoteClick}
                         customStyles={customPrayButtonStyles} />
                     <SimpleIconButton iconSrc={AppIcon.Prayer}
                         title={'Pray'}
-                        disabled={hasUserAlreadyPrayed}
+                        disabled={hasUserAlreadyPrayed || loading}
                         onClick={onPrayClick}
                         customStyles={customPrayButtonStyles} />
                 </PageColumn>
