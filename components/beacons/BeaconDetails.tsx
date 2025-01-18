@@ -40,7 +40,7 @@ import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { Colors } from '@/constants/Colors';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import LoadingLayout from '../common/LoadingLayout';
-import { halfScreenWidth, screenHeight, screenWidth } from '@/constants/Dimensions';
+import { halfScreenWidth, screenHeight, screenWidth, standardModalHeight } from '@/constants/Dimensions';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -226,54 +226,61 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const subtitle = beacon.global ? mapGlobalBeaconTypeToDetailsText(beacon.globalType) : getSubtitleText(beacon);
 
     return (
-        <ScrollLayout style={[styles.container, animatedStyle]}>
-            <Modal
-                transparent={true}
-                animationType='slide'
-                visible={isModalVisible}
-                onRequestClose={() => setModalVisible(false)}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <AppText type={TextType.Subtitle}>Select a note:</AppText>
+        <View style={[styles.container]}>
+            <View>
+                <Modal
+                    transparent={true}
+                    animationType='slide'
+                    visible={isModalVisible}
+                    onRequestClose={() => setModalVisible(!isModalVisible)}>
+                    <View style={modalStyles.modalContainer}>
+                        <View style={modalStyles.modalContent}>
+                            <AppText type={TextType.Subtitle} style={modalStyles.modalTitle}>Select a Note:</AppText>
 
-                        {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
-                            <TextInput
-                                style={formStyles.textInput}
-                                placeholder={`Enter custom note... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
-                                placeholderTextColor={'lightgray'}
-                                value={customNote}
-                                maxLength={MAX_NORMAL_TEXT_LENGTH}
-                                onChangeText={setCustomNote}
+                            {(ActivityNoteOptions[selectedNoteIdx] || '') === 'Custom' && (
+                                <TextInput
+                                    style={formStyles.textInput}
+                                    placeholder={`Enter custom note... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
+                                    placeholderTextColor={'lightgray'}
+                                    value={customNote}
+                                    maxLength={MAX_NORMAL_TEXT_LENGTH}
+                                    onChangeText={setCustomNote}
+                                />
+                            )}
+
+                            <FlatList
+                                data={ActivityNoteOptions}
+                                renderItem={({ item, index }) => (
+                                    <TouchableOpacity onPress={() => setSelectedNoteIdx(index)} key={`note-options-${index}`}>
+                                        <View
+                                            style={[
+                                                gridStyles.itemCard,
+                                                selectedNoteIdx === index && gridStyles.selected,
+                                            ]}
+                                        >
+                                            <AppText type={TextType.Default}>{item}</AppText>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                                keyExtractor={(item, index) => index.toString()}
+                                style={{ height: 300 }}
+                                contentContainerStyle={styles.defaultNoteOptionsDiv}
+                                showsVerticalScrollIndicator={false}
+                                keyboardShouldPersistTaps="handled" // Important for handling taps on TouchableOpacity
                             />
-                        )}
 
-                        <ScrollLayout style={{ height: 300 }}>
-                            <View style={styles.defaultNoteOptionsDiv}>
-                                {
-                                    ActivityNoteOptions.map((value, idx) => (
-                                        <TouchableOpacity onPress={() => setSelectedNoteIdx(idx)}>
-                                            <View style={[gridStyles.itemCard, selectedNoteIdx === idx && gridStyles.selected]}>
-                                                <AppText type={TextType.Default}>
-                                                    {value}
-                                                </AppText>
-                                            </View>
-                                        </TouchableOpacity>
-                                    ))
-                                }
-                            </View>
-                        </ScrollLayout>
-
-                        <PageRow center style={{ gap: 64 }}>
-                            <SimpleButton text={'Close'}
-                                onPress={() => setModalVisible(false)}
-                                type={ButtonType.Close} />
-                            <SimpleButton text={'Save'}
-                                onPress={onSaveClick}
-                                type={ButtonType.Save} />
-                        </PageRow>
+                            <PageRow center style={{ gap: 64 }}>
+                                <SimpleButton text={'Close'}
+                                    onPress={() => setModalVisible(false)}
+                                    type={ButtonType.Close} />
+                                <SimpleButton text={'Save'}
+                                    onPress={onSaveClick}
+                                    type={ButtonType.Save} />
+                            </PageRow>
+                        </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
+            </View>
 
             <View style={[styles.header]}>
                 {
@@ -440,7 +447,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                         customStyles={customPrayButtonStyles} />
                 </PageColumn>
             </PageRow>
-        </ScrollLayout>
+        </View>
     );
 }
 
@@ -466,10 +473,9 @@ function getSubtitleText(beacon: EnhancedBeacon): string | undefined {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        height: screenHeight - 420,
         flexDirection: 'column',
-        padding: 12,
-        marginHorizontal: 16,
+        padding: 8,
+        marginHorizontal: 12,
         backgroundColor: '#fff',
         borderRadius: 8,
         shadowColor: '#000',
@@ -512,24 +518,6 @@ const styles = StyleSheet.create({
         marginEnd: 16,
         marginBottom: 4
     },
-    modalContainer: {
-        height: screenHeight,
-        width: screenWidth,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        padding: 24,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8
-    },
     defaultNoteOptionsDiv: {
         padding: 8,
         marginHorizontal: 8,
@@ -541,7 +529,6 @@ const styles = StyleSheet.create({
         maxWidth: halfScreenWidth,
         flexShrink: 1,
         marginTop: 6,
-        marginBottom: 12
     },
 });
 

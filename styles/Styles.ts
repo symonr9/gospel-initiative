@@ -176,6 +176,11 @@ export const modalStyles = StyleSheet.create({
     padding: 20,
     marginHorizontal: 20,
     borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5, // Required for Android shadow
   },
   modalTitle: {
     fontSize: 18,
@@ -234,6 +239,10 @@ export const modalStyles = StyleSheet.create({
     borderRadius: 8,
   },
   iconList: {
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   icon: {
     width: 40,

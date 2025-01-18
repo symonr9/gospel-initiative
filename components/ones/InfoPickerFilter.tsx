@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Modal, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import { Image } from 'expo-image';
 
 import { AppIcon, OneNoteType } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
@@ -11,7 +12,7 @@ import { getSelectedOne, partitionNotesByType, toggleOneNoteTypeFromFilter } fro
 import { mapOneNoteTypeToIcon } from "@/utils/iconUtils";
 import { mapOneNoteTypeToTitle } from "@/utils/textUtils";
 import { updateOneNotesFilters } from '@/redux/actions';
-import { AppText } from '../common/AppText';
+import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { Colors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
@@ -86,63 +87,71 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
                 </PageRow>
             </PageRow>
 
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={toggleModalVisibility}>
-                <View style={styles.modalContainer}>
-                    <PageColumn style={[styles.modalContent, { gap: 12, marginHorizontal: 8 }]}>
-                        <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
+            <View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={toggleModalVisibility}>
+                    <View style={styles.modalContainer}>
+                        <PageColumn style={[styles.modalContent, { gap: 12, marginHorizontal: 8 }]}>
+                            <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
 
-                        {chaptersIsLoaded && (
-                            <PageRow center style={{ gap: 8, marginHorizontal: 12 }}>
-                                <TextInput
-                                    style={[formStyles.slimTextInput, { flexGrow: 1 }]}
-                                    placeholder={`Filter by text here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
-                                    placeholderTextColor={'gray'}
-                                    value={oneNoteTextFilter}
-                                    maxLength={MAX_SHORT_TEXT_LENGTH}
-                                    onChangeText={(text) => updateOneNotesFilters(oneNoteTypeFilters, text)}
+                            {chaptersIsLoaded && (
+                                <PageRow center style={{ gap: 8, marginHorizontal: 12 }}>
+                                    <TextInput
+                                        style={[formStyles.slimTextInput, { flexGrow: 1 }]}
+                                        placeholder={`Filter by text here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
+                                        placeholderTextColor={'gray'}
+                                        value={oneNoteTextFilter}
+                                        maxLength={MAX_SHORT_TEXT_LENGTH}
+                                        onChangeText={(text) => updateOneNotesFilters(oneNoteTypeFilters, text)}
+                                    />
+                                </PageRow>
+                            )}
+
+                            <PageColumn style={{ maxHeight: 300 }}>
+                                <FlatList data={partitionedNotes}
+                                    keyExtractor={(key, idx) => `note-${idx}`}
+                                    numColumns={1}
+                                    renderItem={(props) => {
+                                        const { key, items } = props.item;
+                                        const isFiltering = oneNoteTypeFilters.includes(key);
+
+                                        const onTypeFilterClick = (type: OneNoteType) => {
+                                            updateOneNotesFilters(toggleOneNoteTypeFromFilter(type, oneNoteTypeFilters), oneNoteTextFilter);
+                                        };
+
+                                        return (
+                                            <TouchableOpacity onPress={() => onTypeFilterClick(key)} key={key}>
+                                                <PageRow style={[styles.typeFilterItem, isFiltering && styles.selectedTypeFilter]}>
+                                                    <Image
+                                                        source={mapOneNoteTypeToIcon(key)}
+                                                        style={[styles.icon, isFiltering && styles.selected]}
+                                                    />
+                                                    <AppText style={{ textAlign: 'center', flexShrink: 1 }} type={TextType.Subtitle2}>
+                                                        {`${mapOneNoteTypeToTitle(key)} (${items.length})`}
+                                                    </AppText>
+                                                </PageRow>
+                                            </TouchableOpacity>
+                                        );
+                                    }}
                                 />
+                            </PageColumn>
+
+                            <PageRow center style={{ gap: 32 }}>
+                                <SimpleButton type={ButtonType.Edit}
+                                    text={'Close'}
+                                    onPress={() => setModalVisible(false)} />
+                                <SimpleButton type={ButtonType.Close}
+                                    text={'Clear Filter'}
+                                    disabled={!hasActiveFilter}
+                                    onPress={onClearClick} />
                             </PageRow>
-                        )}
-
-                        <PageColumn style={{ maxHeight: 300 }}>
-                            <FlatList data={partitionedNotes}
-                                keyExtractor={(key, idx) => `note-${idx}`}
-                                numColumns={1}
-                                renderItem={(props) => {
-                                    const { key, items } = props.item;
-                                    const isFiltering = oneNoteTypeFilters.includes(key);
-
-                                    const onTypeFilterClick = (type: OneNoteType) => {
-                                        updateOneNotesFilters(toggleOneNoteTypeFromFilter(type, oneNoteTypeFilters), oneNoteTextFilter);
-                                    };
-
-                                    return (
-                                        <SimpleCard iconSrc={mapOneNoteTypeToIcon(key)} 
-                                            key={key}
-                                            onClick={() => onTypeFilterClick(key)}
-                                            style={[styles.typeFilterItem, isFiltering && styles.selectedTypeFilter]}
-                                            title={`${mapOneNoteTypeToTitle(key)} (${items.length})`}/>
-                                    );
-                                }}
-                            />
                         </PageColumn>
-
-                        <PageRow center style={{ gap: 32 }}>
-                            <SimpleButton type={ButtonType.Edit}
-                                text={'Close'}
-                                onPress={() => setModalVisible(false)} />
-                            <SimpleButton type={ButtonType.Close}
-                                text={'Clear Filter'}
-                                disabled={!hasActiveFilter}
-                                onPress={onClearClick} />
-                        </PageRow>
-                    </PageColumn>
-                </View>
-            </Modal>
+                    </View>
+                </Modal>
+            </View>
         </PageColumn>
     );
 }
@@ -172,9 +181,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     typeFilterItem: {
-        padding: 8,
+        padding: 10,
         borderRadius: 8,
-        marginHorizontal: 12,
+        marginHorizontal: 8,
+        marginVertical: 4,
+        gap: 8,
+        textAlign: 'center'
     },
     selectedTypeFilter: {
         backgroundColor: Colors.selected,
@@ -188,6 +200,14 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.error,
         borderRadius: 5,
         alignSelf: 'center',
+    },
+    icon: {
+        width: 40,
+        height: 40,
+        opacity: 0.4,
+    },
+    selected: {
+        opacity: 1,
     },
 });
 

@@ -68,9 +68,9 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
                         </PageColumn>
 
                         <TouchableOpacity
-                            style={modalStyles.closeButton}
+                            style={!selectedIcon ? modalStyles.closeButton : modalStyles.saveButton}
                             onPress={() => setModalVisible(false)}>
-                            <AppText>Close</AppText>
+                            <AppText>{!selectedIcon ? 'Close' : 'Confirm'}</AppText>
                         </TouchableOpacity>
                     </View>
                 </View>

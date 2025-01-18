@@ -8,7 +8,7 @@ import DetailsSection from './DetailsSection';
 import { AppIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { ButtonType, SimpleButton } from './SimpleButton';
-import { standardModalHeight } from '@/constants/Dimensions';
+import { halfScreenWidth, screenWidth, standardModalHeight } from '@/constants/Dimensions';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -119,40 +119,40 @@ function SelectDatePicker({ events, variation = DatePickerVariation.Simple, onDa
         <View>
             {Details}
 
-            <Modal
-                transparent={true}
-                visible={isModalVisible}
-                animationType="slide"
-                onRequestClose={toggleModal}>
-                <View style={styles.overlay}>
-                    <View style={styles.modalContainer}>
-                        <View style={styles.calendarWrapper}>
-                            <AppText type={TextType.BodyBold} style={styles.calendarTitle}>
-                                Select a Date
-                            </AppText>
-
-                            <Calendar
-                                markedDates={markedDates}
-                                markingType={MarkingType.Dot}
-                                onDayPress={onDayPress}
-                                initialDate={getNextWeek()}
-                                minDate={isGoal ? new Date() : null}
-                                maxDate={isKnownSince ? new Date() : null}
-                                current={new Date()}
-                                theme={calendarTheme}
-                                enableSwipeMonths={true}
-                                style={styles.calendar}
-                            />
-
-                            <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
-                                <AppText type={TextType.BodyBold} style={styles.closeButtonText}>
-                                    Close
+            <View>
+                <Modal
+                    transparent={true}
+                    visible={isModalVisible}
+                    animationType="slide"
+                    onRequestClose={toggleModal}>
+                    <View style={styles.overlay}>
+                        <View style={styles.modalContainer}>
+                            <View style={styles.calendarWrapper}>
+                                <AppText type={TextType.BodyBold} style={styles.calendarTitle}>
+                                    Select a Date
                                 </AppText>
-                            </TouchableOpacity>
+
+                                <Calendar
+                                    markedDates={markedDates}
+                                    markingType={MarkingType.Dot}
+                                    onDayPress={onDayPress}
+                                    initialDate={getNextWeek()}
+                                    minDate={isGoal ? new Date() : null}
+                                    maxDate={isKnownSince ? new Date() : null}
+                                    current={new Date()}
+                                    theme={calendarTheme}
+                                    enableSwipeMonths={true}
+                                    style={styles.calendar}
+                                />
+
+                                <SimpleButton text={'Close'}
+                                    onPress={toggleModal}
+                                    type={ButtonType.Close} />
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
+            </View>
         </View>
     );
 }
@@ -190,8 +190,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 16,
         borderRadius: 10,
-        width: '90%',
-        maxHeight: standardModalHeight,
+        width: screenWidth - 50,
+        maxHeight: standardModalHeight + 70,
     },
     calendarWrapper: {
         padding: 10,
@@ -211,15 +211,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 6,
         elevation: 4,
-    },
-    closeButton: {
-        alignItems: 'center',
-        paddingVertical: 12,
-        marginTop: 16,
-    },
-    closeButtonText: {
-        color: '#007aff',
-        fontSize: 16,
     },
 });
 

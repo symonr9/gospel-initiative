@@ -49,18 +49,13 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
 
     return (
         <ScrollLayout>
-            <PageColumn spaceEvenly style={{ gap: 8 }}>
+            <PageColumn spaceEvenly style={{ gap: 12 }}>
                 {
                     showLetsPrayHeader && (
                         <AnimatedHeader title={`Let's Pray!`}
                             subtitle='Select a beacon below to begin.' />
                     )
                 }
-
-                <BeaconDetails incomingCursorIdx={incomingCursorIdx}
-                    completedCursorIdx={completedCursorIdx}
-                    completedBeacons={completedBeacons}
-                    incomingBeacons={incomingBeacons} />
 
                 <PageColumn>
                     <ItemRowContainer title={`Completed (${completedCount})`}
@@ -81,6 +76,11 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
                         itemsToRender={incomingItemsToRender}
                         customStyles={{ container: { backgroundColor: Colors.white } }} />
                 </PageColumn>
+                
+                <BeaconDetails incomingCursorIdx={incomingCursorIdx}
+                    completedCursorIdx={completedCursorIdx}
+                    completedBeacons={completedBeacons}
+                    incomingBeacons={incomingBeacons} />
             </PageColumn>
         </ScrollLayout>
     );

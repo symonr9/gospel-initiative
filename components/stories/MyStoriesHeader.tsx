@@ -89,7 +89,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
     return (
         <PageColumn>
-            <PageRow style={{ width: standardPaddedWidth, flexShrink: 1 }}>
+            <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
                 <AnimatedHeader title={hasActiveFilter ? `My Stories` : `My Stories (${myStoryChapters.length})`}
                     subtitle="A library of chapters of your testimony." />
                 {
@@ -104,78 +104,80 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                         </PageRow>
                     )
                 }
-            </PageRow>
+            </PageColumn>
 
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={toggleModalVisibility}>
-                <View style={styles.modalContainer}>
-                    <PageColumn style={styles.modalContent}>
-                        <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
+            <View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={toggleModalVisibility}>
+                    <View style={styles.modalContainer}>
+                        <PageColumn style={styles.modalContent}>
+                            <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
 
-                        {chaptersIsLoaded && (
-                            <PageRow spaceBetween style={{ gap: 8 }}>
-                                <DetailsSection iconSrc={AppIcon.BeforeChrist}
-                                    prefix="Before Christ"
-                                    title={beforeChristChapters.length}
-                                    onClick={beforeChristClick}
-                                    style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
+                            {chaptersIsLoaded && (
+                                <PageRow spaceBetween style={{ gap: 8 }}>
+                                    <DetailsSection iconSrc={AppIcon.BeforeChrist}
+                                        prefix="Before Christ"
+                                        title={beforeChristChapters.length}
+                                        onClick={beforeChristClick}
+                                        style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
+                                    />
+                                    <DetailsSection iconSrc={AppIcon.Repentance}
+                                        prefix="Salvation Moment"
+                                        title={salvationMomentChapters.length}
+                                        onClick={salvationMomentClick}
+                                        style={[styles.typeFilterItem, isFilteringSalvationMoment && styles.selectedTypeFilter]}
+                                    />
+                                    <DetailsSection iconSrc={AppIcon.PlantGrow}
+                                        prefix="After Christ"
+                                        title={afterChristChapters.length}
+                                        onClick={afterChristClick}
+                                        style={[styles.typeFilterItem, isFilteringAfterChrist && styles.selectedTypeFilter]}
+                                    />
+                                </PageRow>
+                            )}
+
+                            <PageColumn style={{ maxHeight: 300 }}>
+                                <FlatList data={partitionedChapters}
+                                    keyExtractor={(key, idx) => `tag-${idx}`}
+                                    numColumns={3}
+                                    renderItem={(props) => {
+                                        const { key, items } = props.item;
+
+                                        const onClick = () => {
+                                            updateChaptersFilter(toggleTagFromFilter(key, tagFilters), typeFilters);
+                                        };
+                                        const label = mapStoryChapterTagToText(key);
+                                        const isFiltering = tagFilters.includes(key);
+
+                                        return (
+                                            <PageChip
+                                                key={key}
+                                                title={`${label} (${items.length})`}
+                                                onClick={onClick}
+                                                small
+                                                style={[isFiltering && styles.selectedTagFilter]}
+                                            />
+                                        );
+                                    }}
                                 />
-                                <DetailsSection iconSrc={AppIcon.Repentance}
-                                    prefix="Salvation Moment"
-                                    title={salvationMomentChapters.length}
-                                    onClick={salvationMomentClick}
-                                    style={[styles.typeFilterItem, isFilteringSalvationMoment && styles.selectedTypeFilter]}
-                                />
-                                <DetailsSection iconSrc={AppIcon.PlantGrow}
-                                    prefix="After Christ"
-                                    title={afterChristChapters.length}
-                                    onClick={afterChristClick}
-                                    style={[styles.typeFilterItem, isFilteringAfterChrist && styles.selectedTypeFilter]}
-                                />
+                            </PageColumn>
+
+                            <PageRow center style={{ gap: 32 }}>
+                                <SimpleButton type={ButtonType.Edit}
+                                    text={'Close'}
+                                    onPress={toggleModalVisibility} />
+                                <SimpleButton type={ButtonType.Close}
+                                    text={'Clear Filter'}
+                                    disabled={!hasActiveFilter}
+                                    onPress={onClearClick} />
                             </PageRow>
-                        )}
-
-                        <PageColumn style={{ maxHeight: 300 }}>
-                            <FlatList data={partitionedChapters}
-                                keyExtractor={(key, idx) => `tag-${idx}`}
-                                numColumns={3}
-                                renderItem={(props) => {
-                                    const { key, items } = props.item;
-
-                                    const onClick = () => {
-                                        updateChaptersFilter(toggleTagFromFilter(key, tagFilters), typeFilters);
-                                    };
-                                    const label = mapStoryChapterTagToText(key);
-                                    const isFiltering = tagFilters.includes(key);
-
-                                    return (
-                                        <PageChip
-                                            key={key}
-                                            title={`${label} (${items.length})`}
-                                            onClick={onClick}
-                                            small
-                                            style={[isFiltering && styles.selectedTagFilter]}
-                                        />
-                                    );
-                                }}
-                            />
                         </PageColumn>
-
-                        <PageRow center style={{ gap: 32 }}>
-                            <SimpleButton type={ButtonType.Edit}
-                                text={'Close'}
-                                onPress={toggleModalVisibility} />
-                            <SimpleButton type={ButtonType.Close}
-                                text={'Clear Filter'}
-                                disabled={!hasActiveFilter}
-                                onPress={onClearClick} />
-                        </PageRow>
-                    </PageColumn>
-                </View>
-            </Modal>
+                    </View>
+                </Modal>
+            </View>
         </PageColumn>
     );
 }
