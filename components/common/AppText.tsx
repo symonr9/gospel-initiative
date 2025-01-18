@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic'
   },
   body: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'LeagueSpartanLight'
   },
   bodyBold: {

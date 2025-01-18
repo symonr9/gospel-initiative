@@ -891,8 +891,8 @@ export function mapStoryChapterTagToText(tag: StoryChapterTag): string {
             return "Life Transition";
         case StoryChapterTag.Purpose:
             return "Purpose";
-        case StoryChapterTag.LGBTQ:
-            return "LGBTQ+";
+        case StoryChapterTag.Sexuality:
+            return "Sexuality";
         case StoryChapterTag.Military:
             return "Military";
         case StoryChapterTag.Immigrant:
@@ -903,8 +903,8 @@ export function mapStoryChapterTagToText(tag: StoryChapterTag): string {
             return "Service";
         case StoryChapterTag.Workplace:
             return "Workplace";
-        case StoryChapterTag.Racial:
-            return "Racial";
+        case StoryChapterTag.Race:
+            return "Race";
         case StoryChapterTag.Nature:
             return "Nature";
         case StoryChapterTag.Missions:

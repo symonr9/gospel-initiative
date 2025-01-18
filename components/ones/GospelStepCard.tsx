@@ -103,7 +103,6 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
                             0
                         </AppText>
                         <Slider
-                            style={{ width: halfScreenWidth, height: 40 }}
                             disabled={readOnly}
                             minimumValue={0}
                             value={gospelStep.rating}
@@ -111,7 +110,7 @@ export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnR
                             step={1}
                             onSlidingComplete={(value: number) => onRatingChange({ ...gospelStep, rating: value })}
                             minimumTrackTintColor={Colors.sharpGood}
-                            maximumTrackTintColor={Colors.info}
+                            maximumTrackTintColor={Colors.dark.background}
                         />
                         <AppText>
                             5

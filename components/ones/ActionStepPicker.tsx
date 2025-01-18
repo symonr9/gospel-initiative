@@ -216,8 +216,8 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                                             <PageRow style={[modalStyles.card]}>
                                                 <Image source={selectedActionStepTypeData.icon} style={[modalStyles.icon, modalStyles.selected]} />
                                                 <PageColumn style={{ marginStart: 8, width: standardPaddedWidth }}>
-                                                    <AppText type={TextType.DefaultSemiBold} style={{}}>{selectedActionStepTypeData.label}</AppText>
-                                                    <AppText type={TextType.Italic} style={{}}>{selectedActionStepTypeData.details}</AppText>
+                                                    <AppText type={TextType.DefaultSemiBold} style={{ width: standardPaddedWidth - 20, flexShrink: 1 }}>{selectedActionStepTypeData.label}</AppText>
+                                                    <AppText type={TextType.Italic} style={{ width: standardPaddedWidth - 20, flexShrink: 1 }}>{selectedActionStepTypeData.details}</AppText>
                                                 </PageColumn>
                                             </PageRow>
                                         </TouchableOpacity>
@@ -343,7 +343,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
         Body.push(
             <View>
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
-                    Adding new action step
+                    Adding New Action Step
                 </AppText>
                 {Form}
             </View>
@@ -354,7 +354,8 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Editing action step
                 </AppText>
-                <ActionStepCard actionStep={selectedActionStep} selected />
+                <ActionStepCard oneName={selectedOne?.name || 'Your One'}
+                    actionStep={selectedActionStep} selected />
                 {Form}
             </View>
         );
@@ -364,7 +365,8 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Are you sure you want to remove this action step?
                 </AppText>
-                <ActionStepCard actionStep={selectedActionStep} selected />
+                <ActionStepCard oneName={selectedOne?.name || 'Your One'}
+                    actionStep={selectedActionStep} selected />
             </View>
         );
     } else if (pickerState === PickerState.Completing && selectedActionStep) {
@@ -373,7 +375,8 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                 <AppText type={TextType.BodyBold} style={styles.pageHeader}>
                     Complete action?
                 </AppText>
-                <ActionStepCard actionStep={selectedActionStep} selected />
+                <ActionStepCard oneName={selectedOne?.name || 'Your One'}
+                    actionStep={selectedActionStep} selected />
             </View>
         );
     } else {

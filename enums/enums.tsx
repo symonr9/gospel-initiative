@@ -59,8 +59,8 @@ export enum BeaconType {
     SpiritualConversation = 2,
     GospelConversation = 3,
     CaringForYourOne = 4,
-    Invitation = 5,
     ConfidenceForMe = 6,
+    Invitation = 5,
 };
 
 
@@ -270,23 +270,23 @@ export enum MissionalLivingWheelStep {
 
 // Action Steps
 export enum ActionStepType {
-    ShareGospel = 1,
-    ShareTestimony = 2,
-    ListenToTestimony = 3,
+    SendEncouragementText = 8,
+    TakeOutToCoffee = 17,
+    OfferToHelpWithErrands = 15,
     InviteToEvent = 4,
     AskSpiritualQuestion = 5,
-    AskForPrayerRequest = 6,
+    ListenToTestimony = 3,
+    ShareTestimony = 2,
+    ShareGospel = 1,
     InviteToGroup = 7,
-    SendEncouragementText = 8,
-    DiscussScripture = 9,
     HostAtHome = 10,
+    DropOffGiftWithBlessingNote = 14,
+    AskForPrayerRequest = 6,
+    DiscussScripture = 9,
     ShareDevotional = 11,
     ProvideBiblicalCounsel = 12,
     ConnectWithOtherChristians = 13,
-    DropOffGiftWithBlessingNote = 14,
-    OfferToHelpWithErrands = 15,
     Other = 16,
-    TakeOutToCoffee = 17,
 };
 
 // Stories
@@ -332,19 +332,19 @@ export enum StoryChapterTag {
     Community = 12,
     LifeTransition = 13,
     Purpose = 14,
-    LGBTQ = 15,
     Military = 16,
     Immigrant = 17,
     Prison = 18,
     Service = 19,
     Workplace = 20,
-    Racial = 21,
+    Race = 21,
     Nature = 22,
     Missions = 23,
     Finances = 24,
     Atheist = 25,
     Culture = 26,
     Games = 27,
+    Sexuality = 15,
     Spirituality = 28,
     Forgiveness = 29,
     Joy = 30,
@@ -357,7 +357,7 @@ export enum StoryChapterTag {
     Discipleship = 37,
     Scripture = 38,
     Upbringing = 39,
-    Suffering = 40
+    Suffering = 40,
 }
 
 // Prompt

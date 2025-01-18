@@ -105,10 +105,10 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, on
           <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
 
           <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth }}>
-            <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20 }}>
+            <AppText type={TextType.DefaultSemiBold} style={{ fontSize: 20, width: standardPaddedWidth }}>
               {mapActionStepTypeToTitle(actionStep.type)}
             </AppText>
-            <AppText type={TextType.Default} style={{}}>
+            <AppText type={TextType.Default} style={{ width: standardPaddedWidth }}>
               {mapActionStepTypeToDetails(actionStep.type)}
             </AppText>
           </PageColumn>
@@ -123,11 +123,15 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, on
 
           {selected && <AppText type={TextType.Italic}>{formatDateTime(actionStep.targetDate)}</AppText>}
 
-          <PageRow style={{ marginTop: 10 }}>
-            <SimpleButton text={'Add to Calendar'} 
-              type={ButtonType.Save}
-              onPress={addToCalendar} />
-          </PageRow>
+          {
+            !actionStep.isComplete && (
+              <PageRow style={{ marginTop: 10 }}>
+                <SimpleButton text={'Add to Calendar'}
+                  type={ButtonType.Save}
+                  onPress={addToCalendar} />
+              </PageRow>
+            )
+          }
         </PageColumn>
       </PageRow>
     </TouchableOpacity>
