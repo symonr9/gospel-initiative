@@ -25,7 +25,7 @@ export default ({ config }) => ({
                 backgroundColor: "#ffffff",
             },
             softwareKeyboardLayoutMode: "pan",
-            package: "com.redemption.gospelinitiative"
+            package: "com.redemption.gospelinitiative",
         },
         web: {
             bundler: "metro",
@@ -61,9 +61,15 @@ export default ({ config }) => ({
         updates: {
             url: "https://u.expo.dev/2ae65218-15d2-482e-8975-7143d6fb55aa",
         },
+        cli: {
+            appVersionSource: "remote"
+        },
         build: {
             preview: {
                 distribution: "internal"
+            },
+            production: {
+                autoIncrement: true
             }
         }
     },
