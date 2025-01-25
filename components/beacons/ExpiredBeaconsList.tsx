@@ -41,7 +41,7 @@ function ExpiredBeaconsList({ selectedOneId, executor, setAppError, expiredBeaco
                                 style={beaconStyles.icon}
                                 contentFit="contain" />
                             <PageColumn style={{ gap: 4 }}>
-                                <AppText type={TextType.Subtitle} style={beaconStyles.beaconNameText}>
+                                <AppText type={TextType.Subtitle3} style={beaconStyles.beaconNameText}>
                                     {item.name}
                                 </AppText>
                                 {
@@ -56,12 +56,6 @@ function ExpiredBeaconsList({ selectedOneId, executor, setAppError, expiredBeaco
                                 </AppText>
                             </PageColumn>
                         </PageRow>
-                    </PageColumn>
-
-                    <PageColumn style={{ width: standardPaddedWidth }}>
-                        <AppText>
-                            This beacon has been completed!
-                        </AppText>
                     </PageColumn>
                 </PageColumn>
             </PageRow>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Alert } from 'react-native'; // Import Alert
+import { View, StyleSheet, FlatList, Alert, TouchableOpacity } from 'react-native'; // Import Alert
 import { Image } from 'expo-image';
 
 import Animated, { FadeInRight } from 'react-native-reanimated';
@@ -26,7 +26,7 @@ type IActiveBeaconsActivityList = {
     setAppError: Function;
 };
 
-export function ActiveBeaconsActivityList({ activeBeaconsWithActivities, 
+export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
     refreshData, setAppError, style = {} }: IActiveBeaconsActivityList) {
     const duration = 400;
     const delay = 200;
@@ -69,71 +69,70 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
         };
 
         return (
-            <PageRow style={gridStyles.itemCard}>
-                <PageColumn>
-                    <PageColumn style={beaconStyles.beaconHeader}>
-                        <PageRow spaceBetween style={{ paddingBottom: 8, }}>
-                            <PageRow style={{ width: standardPaddedWidth, flexWrap: 'wrap' }}>
-                                <Image source={mapBeaconTypeToIcon(beaconWithActivity.type)}
-                                    style={beaconStyles.icon}
-                                    contentFit="contain" />
-                                <PageColumn style={{ gap: 4 }}>
-                                    <AppText type={TextType.Subtitle3} style={beaconStyles.beaconNameText}>
-                                        {beaconWithActivity.name}
-                                    </AppText>
-                                    {
-                                        beaconWithActivity.message && (
-                                            <AppText type={TextType.Body} style={beaconStyles.beaconDetailsText}>
-                                                {beaconWithActivity.message}
-                                            </AppText>
-                                        )
-                                    }
-                                    <AppText type={TextType.Body}>
-                                        {getAppTimeAgoText(beaconWithActivity.activeUntil, true)}
-                                    </AppText>
+            <TouchableOpacity onPress={onEditClick}>
+                <PageRow style={[gridStyles.itemCard, beaconStyles.beaconCard, { flexWrap: 'wrap' }]}>
+                    <PageColumn>
+                        <PageColumn style={beaconStyles.beaconHeader}>
+                            <PageRow>
+                                <PageRow>
+                                    <PageColumn>
+                                        <Image source={mapBeaconTypeToIcon(beaconWithActivity.type)}
+                                            style={beaconStyles.icon}
+                                            contentFit="contain" />
+                                    </PageColumn>
+                                    <PageColumn style={{ gap: 4, width: standardPaddedWidth, flexWrap: 'wrap' }}>
+                                        <AppText type={TextType.Subtitle3} style={beaconStyles.beaconNameText}>
+                                            {beaconWithActivity.name}
+                                        </AppText>
+                                        {
+                                            beaconWithActivity.message && (
+                                                <AppText type={TextType.Body} style={beaconStyles.beaconDetailsText}>
+                                                    {beaconWithActivity.message}
+                                                </AppText>
+                                            )
+                                        }
+                                        <AppText type={TextType.Body}>
+                                            {getAppTimeAgoText(beaconWithActivity.activeUntil, true)}
+                                        </AppText>
 
-                                    <AppText type={TextType.Body}>
-                                        {numOfPeoplePrayedText}
-                                    </AppText>
+                                        <AppText type={TextType.Body}>
+                                            {numOfPeoplePrayedText}
+                                        </AppText>
+                                    </PageColumn>
+                                </PageRow>
+                            </PageRow>
+
+                        </PageColumn>
+
+                        {
+                            editing && (
+                                <PageRow style={{ marginTop: 12 }}>
+                                    <SimpleIconButton iconSrc={AppIcon.Trash}
+                                        title={'Remove'}
+                                        onClick={onRemoveClick} />
+                                </PageRow>
+                            )
+                        }
+
+                        {
+                            !editing && (
+                                <PageColumn style={{ maxHeight: 200, marginTop: 12 }}>
+                                    <FlatList
+                                        data={activities}
+                                        keyExtractor={(item) => item.id}
+                                        renderItem={({ item }) => (
+                                            <View style={beaconStyles.activityView}>
+                                                <AppText type={TextType.Body}>{item.username} prayed for you.</AppText>
+                                                <AppText type={TextType.Italic}>{item.note}</AppText>
+                                            </View>
+                                        )}
+                                    />
                                 </PageColumn>
-                            </PageRow>
-
-                            <PageRow style={{ marginStart: 16 }}>
-                                <SimpleIconButton iconSrc={AppIcon.Settings}
-                                    title={'Actions'}
-                                    onClick={onEditClick} />
-                            </PageRow>
-                        </PageRow>
+                            )
+                        }
                     </PageColumn>
-
-                    {
-                        editing && (
-                            <PageRow style={{ marginTop: 12 }}>
-                                <SimpleIconButton iconSrc={AppIcon.Trash}
-                                    title={'Remove'} 
-                                    onClick={onRemoveClick}/>
-                            </PageRow>
-                        )
-                    }
-
-                    {
-                        !editing && (
-                            <PageColumn style={{ maxHeight: 200 }}>
-                                <FlatList
-                                    data={activities}
-                                    keyExtractor={(item) => item.id}
-                                    renderItem={({ item }) => (
-                                        <View style={beaconStyles.activityView}>
-                                            <AppText type={TextType.Body}>{item.username}</AppText>
-                                            <AppText type={TextType.Italic}>{item.note}</AppText>
-                                        </View>
-                                    )}
-                                />
-                            </PageColumn>
-                        )
-                    }
-                </PageColumn>
-            </PageRow>
+                </PageRow>
+            </TouchableOpacity>
         )
     });
 

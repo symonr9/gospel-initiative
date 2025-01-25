@@ -280,7 +280,9 @@ export const beaconStyles = StyleSheet.create({
     marginEnd: 8
   },
   activityView: {
-    padding: 8,
-    marginTop: 8
+    padding: 4,
+    marginTop: 4,
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 2
   },
 });
