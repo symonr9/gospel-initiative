@@ -477,12 +477,6 @@ const styles = StyleSheet.create({
         padding: 8,
         marginHorizontal: 12,
         backgroundColor: '#fff',
-        borderRadius: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 4,
         marginBottom: 10
     },
     invisibleContainer: {

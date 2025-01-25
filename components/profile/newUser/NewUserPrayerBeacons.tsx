@@ -32,7 +32,7 @@ export default function NewUserPrayerBeacons({ newUserStep, setNewUserStep, styl
             <AppText type={TextType.Title}>What are Prayer Beacons?</AppText>
 
             <AppText>
-                Prayer Beacons are prayer requests are sent out to the entire app community specifically designed for engaging and serving our Ones. They are active for 24 hours.
+                Prayer Beacons are prayer requests are sent out to the entire app community specifically designed for engaging and serving our Ones. They are active for 7 days.
             </AppText>
 
             <PageRow center>

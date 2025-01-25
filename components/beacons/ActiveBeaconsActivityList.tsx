@@ -16,6 +16,7 @@ import { PageChip } from '../common/PageChip';
 import { deactivateBeacon } from "@/requests/beaconRequests";
 import { beaconStyles, gridStyles } from '@/styles/Styles';
 import AppError from '@/models/error';
+import { standardPaddedWidth } from '@/constants/Dimensions';
 
 type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
@@ -72,7 +73,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                 <PageColumn>
                     <PageColumn style={beaconStyles.beaconHeader}>
                         <PageRow spaceBetween style={{ paddingBottom: 8, }}>
-                            <PageRow>
+                            <PageRow style={{ width: standardPaddedWidth, flexWrap: 'wrap' }}>
                                 <Image source={mapBeaconTypeToIcon(beaconWithActivity.type)}
                                     style={beaconStyles.icon}
                                     contentFit="contain" />
