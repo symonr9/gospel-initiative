@@ -90,6 +90,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 beaconForm.shareOwnName,
                 [],
                 beaconForm.tags,
+                false,
                 false
             );
 

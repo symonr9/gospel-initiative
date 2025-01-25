@@ -25,6 +25,7 @@ import { refreshData, setAppError } from '@/redux/actions';
 import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
+import HomeAutoBeaconCard from './HomeAutoBeaconCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -172,8 +173,11 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           <HomeAddOneCard />
           <HomePrayerCard />
           <HomePracticeTestimonyCard />
+          <HomeAutoBeaconCard/>
           {/* TODO: Removing for now */}
           {/* <HomeDailyTasksCard /> */}
+
+          <View style={{ height: 300}}/>
         </PageColumn>
       </ScrollView>
     </PageColumn>

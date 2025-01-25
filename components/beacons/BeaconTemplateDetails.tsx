@@ -21,14 +21,7 @@ import { OneLayoutType } from '../ones/OnesLayout';
 import { Colors } from '@/constants/Colors';
 import { SimpleButton } from '../common/SimpleButton';
 import { screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
-
-const beaconTagArray = Object.keys(BeaconTag)
-    .filter(key => isNaN(Number(key)))
-    .map((key, index) => ({
-        value: BeaconTag[key as keyof typeof BeaconTag],
-        title: mapBeaconTagToTitleText(BeaconTag[key as keyof typeof BeaconTag]),
-        details: mapBeaconTagToDetailsText(BeaconTag[key as keyof typeof BeaconTag]),
-    }));
+import { beaconTagArray } from '@/constants/Constants';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
@@ -80,7 +73,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                 <FlatList
                     data={formData.tags}
                     keyExtractor={(item) => item.toString()}
-                    numColumns={3}
+                    numColumns={2}
                     renderItem={({ item }) => (
                         <PageChip
                             title={mapBeaconTagToTitleText(item)}

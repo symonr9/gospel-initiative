@@ -143,6 +143,14 @@ export enum BeaconTag {
     EyesToSee = 30,
 }
 
+// Auto Beacons
+
+// README: If you want to change, please also change enums.js in the gospel-initiative-backend server project.
+export enum AutoBeaconType {
+    BlessRelationships = 1,
+    OpportunitiesToShareGospel = 2,
+}
+
 // One
 
 export enum OneCategory {

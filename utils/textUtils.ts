@@ -1,4 +1,4 @@
-import { ActionStepType, BeaconTag, BeaconType, GlobalBeaconType, GospelChecklistItem, GospelStepType, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AutoBeaconType, BeaconTag, BeaconType, GlobalBeaconType, GospelChecklistItem, GospelStepType, OneCategory, OneNoteType, OneStage, Priority, StoryChapterTag, StoryChapterType } from "@/enums/enums";
 
 
 export function mapPriorityToText(priority: Priority) {
@@ -328,6 +328,7 @@ export function mapBeaconTagToDetailsText(type: BeaconTag) {
     }
     return '';
 }
+
 export function mapBeaconTypeToTitleText(type: BeaconType,
     shareOwnName: boolean, initUserName: string | null) {
     const userName = (shareOwnName || !initUserName) ? initUserName : 'A User';
@@ -349,6 +350,7 @@ export function mapBeaconTypeToTitleText(type: BeaconType,
             return '';
     }
 }
+
 export function mapGlobalBeaconTypeToTitleText(type: GlobalBeaconType | null) {
     if (!type) {
         return 'Boldness To Share';
@@ -409,6 +411,7 @@ export function mapGlobalBeaconTypeToTitleText(type: GlobalBeaconType | null) {
             return '';
     }
 }
+
 export function mapGlobalBeaconTypeToDetailsText(type: GlobalBeaconType | null) {
     if (!type) {
         return 'Pray for our community to receive boldness and courage to share their faith with others.';
@@ -469,6 +472,25 @@ export function mapGlobalBeaconTypeToDetailsText(type: GlobalBeaconType | null) 
             return '';
     }
 }
+
+export function mapAutoBeaconTypeToTitleText(type: AutoBeaconType) {
+    switch (type) {
+        case AutoBeaconType.BlessRelationships:
+            return "Bless my Relationships";
+        case AutoBeaconType.OpportunitiesToShareGospel:
+            return "Opportunities to Share";
+    }
+}
+
+export function mapAutoBeaconTypeToDetailsText(type: AutoBeaconType) {
+    switch (type) {
+        case AutoBeaconType.BlessRelationships:
+            return "Pray for my relationships with my family and friends to deepen and that I could represent Christ well for them.";
+        case AutoBeaconType.OpportunitiesToShareGospel:
+            return "Pray for opportunities and boldness to share the Gospel with others.";
+    }
+}
+
 export function mapActionStepTypeToTitle(type: ActionStepType): string {
     switch (type) {
         case ActionStepType.ShareGospel:

@@ -1,4 +1,4 @@
-import { AppIcon, AvatarIcon, Role } from "@/enums/enums";
+import { AppIcon, AutoBeaconType, AvatarIcon, BeaconTag, Role } from "@/enums/enums";
 
 interface IUser {
   id: string;
@@ -10,6 +10,10 @@ interface IUser {
   lastPartitionDate: Date | undefined;
   lastExtraPartitionGranted: Date | undefined;
   extraPartitionCount: number;
+  enableAutoBeacons: boolean;
+  autoBeaconType: AutoBeaconType;
+  autoBeaconTags: BeaconTag[];
+  hasAutoBeaconBeenCreatedThisCycle: boolean;
 
   // Goals Class - measured by action steps, activities, etc.
 }
@@ -24,11 +28,16 @@ export default class User implements IUser {
     lastPartitionDate: Date | undefined;
     lastExtraPartitionGranted: Date | undefined;
     extraPartitionCount: number;
+    enableAutoBeacons: boolean;
+    autoBeaconType: AutoBeaconType;
+    autoBeaconTags: BeaconTag[];
+    hasAutoBeaconBeenCreatedThisCycle: boolean;
   
     constructor(id: string, name: string, email: string, 
       role: Role, icon: AvatarIcon, createdAt: Date | undefined,
       lastPartitionDate: Date | undefined, lastExtraPartitionGranted: Date | undefined,
-      extraPartitionCount: number) {
+      extraPartitionCount: number, enableAutoBeacons: boolean, autoBeaconType: AutoBeaconType,
+      autoBeaconTags: BeaconTag[], hasAutoBeaconBeenCreatedThisCycle: boolean) {
       this.id = id;
       this.name = name;
       this.email = email;
@@ -38,5 +47,9 @@ export default class User implements IUser {
       this.lastPartitionDate = lastPartitionDate;
       this.extraPartitionCount = extraPartitionCount;
       this.lastExtraPartitionGranted = lastExtraPartitionGranted;
+      this.enableAutoBeacons = enableAutoBeacons;
+      this.autoBeaconType = autoBeaconType;
+      this.autoBeaconTags = autoBeaconTags;
+      this.hasAutoBeaconBeenCreatedThisCycle = hasAutoBeaconBeenCreatedThisCycle;
     }
   }

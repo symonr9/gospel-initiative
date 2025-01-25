@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority, GospelStepLayoutType, GlobalBeaconType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AvatarIcon, OneStage, BeaconType, PromptType, StoryChapterType, StoryType, OneCategory, OneNoteType, GospelStepType, BeaconTag, Priority, GospelStepLayoutType, GlobalBeaconType, AutoBeaconType } from "@/enums/enums";
 import One from "@/models/one";
 import { shouldKeepChapter } from "./appUtils";
 import { JournalEntryType } from "@/enums/enums";
@@ -129,7 +129,11 @@ export function getUserFromJson(item: any) {
         item.createdAt ? new Date(item.createdAt) : undefined,
         item.lastPartitionDate ? new Date(item.lastPartitionDate) : undefined,
         item.lastExtraPartitionGranted ? new Date(item.lastExtraPartitionGranted) : undefined,
-        item.extraPartitionCount
+        item.extraPartitionCount,
+        item.enableAutoBeacons,
+        item.autoBeaconType as AutoBeaconType,
+        item.autoBeaconTags ? item.autoBeaconTags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
+        item.hasAutoBeaconBeenCreatedThisCycle
     );
 }
 
@@ -211,7 +215,8 @@ export function getBeaconFromJson(item: any) {
         item.shareOwnName,
         getBeaconActivitiesFromJson(item.activities || []),
         item.tags ? item.tags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
-        item.global || false
+        item.global || false,
+        item.isAutoBeacon || false
     );
 }
 

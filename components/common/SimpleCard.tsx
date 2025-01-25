@@ -43,7 +43,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
                   contentFit="contain" />
               )
             }
-            <PageColumn style={{ maxWidth: standardPaddedWidth }}>
+            <PageColumn style={{ maxWidth: standardPaddedWidth, flexShrink: 1 }}>
               <AppText type={TextType.Subtitle3} style={{}}>{title}</AppText>
               {
                 subtitle && (

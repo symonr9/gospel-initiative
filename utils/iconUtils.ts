@@ -1,4 +1,4 @@
-import { ActionStepType, AppIcon, BeaconType, GlobalBeaconType, GospelStepType, OneCategory, OneNoteType, OneStage, StoryChapterType } from "@/enums/enums";
+import { ActionStepType, AppIcon, AutoBeaconType, BeaconType, GlobalBeaconType, GospelStepType, OneCategory, OneNoteType, OneStage, StoryChapterType } from "@/enums/enums";
 
 export const getShowHideIcon = (show: boolean) => show ? AppIcon.Show : AppIcon.Hide;
 
@@ -167,6 +167,18 @@ export function mapGlobalBeaconTypeToIcon(type: GlobalBeaconType | null): AppIco
             return AppIcon.Conversation;
     }
 }
+
+export function mapAutoBeaconTypeToIcon(type: AutoBeaconType) : AppIcon {
+    switch (type) {
+        case AutoBeaconType.BlessRelationships:
+            return AppIcon.BestFriend;
+        case AutoBeaconType.OpportunitiesToShareGospel:
+        default:
+            return AppIcon.ShareHeart;
+            
+    }
+}
+
 export function mapActionStepTypeToIcon(type: ActionStepType): AppIcon {
     switch (type) {
         case ActionStepType.ShareGospel:

@@ -23,6 +23,8 @@ export const Colors = {
   info: '#eeeeee',
   open: '#f2ecc2',
   white: '#fff',
+  forestGreen: '#6aa84f',
+  red: '#e06666',
   light: {
     text: '#333',
     header: '#333',
