@@ -10,7 +10,7 @@ export type IHome = {
 function Home({ }: IHome) {
     return (
         <PageView>
-            <HomeLayout/>
+            <HomeLayout />
         </PageView>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { type ViewProps, Modal, StyleSheet, TextInput, View } from 'react-native';
+import { type ViewProps, Modal, StyleSheet, TextInput, View, RefreshControl, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import ScrollLayout from '../common/ScrollLayout';
@@ -16,7 +16,7 @@ import HomeAddOneCard from './HomeAddOneCard';
 import HomePracticeTestimonyCard from './HomePracticeTestimonyCard';
 import PromptBanner from '../prompts/PromptBanner';
 import HomePromptCard from './HomePromptCard';
-import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
+import { halfScreenHeight, screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import { formStyles, modalStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { updateUser } from '@/requests/userRequests';
@@ -45,6 +45,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
   const title = executor ? `Hello, ${executor.name}` : `Loading...`;
   const subtitle = executor ? `Welcome to the Gospel Initiative App.` : ``;
 
+  const [refreshing, setRefreshing] = React.useState(false);
   const [name, setName] = useState<string>(executor?.name || '');
   const [icon, setIcon] = useState<AvatarIcon>(executor?.icon || AvatarIcon.Man1);
   const [loading, setLoading] = useState(false);
@@ -57,6 +58,12 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
 
   const isValid = isValidForm(name, icon);
   const shouldShowNameError = name.length > MAX_NAME_LENGTH;
+
+  const onUserIconClick = () => {
+    if (executor) {
+      setModalVisible(true);
+    }
+  }
 
   const onSaveUserClick = async () => {
     if (!executor || !isValid) {
@@ -80,6 +87,14 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
     refreshData(RefreshSpec.User);
     setModalVisible(false);
   }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    refreshData(RefreshSpec.All);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <PageColumn style={styles.container}>
@@ -135,12 +150,16 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
         </Modal>
       </View>
 
-      <PageRow style={{ gap: 10, padding: 8 }}>
-        <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large onClick={() => setModalVisible(true)} />
-        <AnimatedHeader title={title} subtitle={subtitle} style={{ width: standardPaddedWidth }} />
-      </PageRow>
+      <ScrollView style={[{ height: screenHeight }]}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
 
-      <ScrollLayout>
+        <PageRow style={{ gap: 10, padding: 8 }}>
+          <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large onClick={onUserIconClick} />
+          <AnimatedHeader title={title} subtitle={subtitle} style={{ width: standardPaddedWidth }} />
+        </PageRow>
+
         <PageColumn style={{ marginHorizontal: 12, gap: 8 }}>
           {
             !executor && (
@@ -156,7 +175,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           {/* TODO: Removing for now */}
           {/* <HomeDailyTasksCard /> */}
         </PageColumn>
-      </ScrollLayout>
+      </ScrollView>
     </PageColumn>
   );
 }
