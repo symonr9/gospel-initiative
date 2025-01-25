@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ViewProps } from 'react-native';
+import { View, StyleSheet, ViewProps, GestureResponderEvent, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from './AppText';
@@ -11,25 +11,35 @@ export type ISimpleIcon = ViewProps & {
     small?: boolean;
     large?: boolean;
     removeBackground?: boolean;
+    onClick?: Function;
 }
 
-export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false, style }: ISimpleIcon) {
+export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false, onClick, style }: ISimpleIcon) {
     const stylesToUse = large ? largeStyles : (small ? smallStyles : styles);
 
+    const onPress = (e: GestureResponderEvent) => {
+        if (onClick) {
+            e.stopPropagation();
+            onClick();
+        }
+    }
+
     return (
-        <View style={[stylesToUse.container, style]}>
-            <View style={stylesToUse.content}>
-                <View style={[stylesToUse.iconContainer,
-                removeBackground && styles.iconContainerMinimal]}>
-                    {iconSrc && (
-                        <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
-                    )}
+        <TouchableOpacity onPress={onPress}>
+            <View style={[stylesToUse.container, style]}>
+                <View style={stylesToUse.content}>
+                    <View style={[stylesToUse.iconContainer,
+                    removeBackground && styles.iconContainerMinimal]}>
+                        {iconSrc && (
+                            <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
+                        )}
+                    </View>
+                    <AppText type={TextType.Subtitle} style={stylesToUse.title}>
+                        {title}
+                    </AppText>
                 </View>
-                <AppText type={TextType.Subtitle} style={stylesToUse.title}>
-                    {title}
-                </AppText>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -56,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         shadowColor: 'transparent',
         shadowOpacity: 0,
-      },
+    },
     icon: {
         width: 42,
         height: 42,
