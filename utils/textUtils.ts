@@ -473,16 +473,26 @@ export function mapGlobalBeaconTypeToDetailsText(type: GlobalBeaconType | null) 
     }
 }
 
-export function mapAutoBeaconTypeToTitleText(type: AutoBeaconType) {
+// Check textUtils.js if you want to make changes in gospel-initiative-backend!
+export function mapAutoBeaconTypeToTitleText(type: AutoBeaconType | null) {
+    if (!type) {
+        return "My Relationships";
+    }
+
     switch (type) {
         case AutoBeaconType.BlessRelationships:
-            return "Bless my Relationships";
+            return "My Relationships";
         case AutoBeaconType.OpportunitiesToShareGospel:
             return "Opportunities to Share";
     }
 }
 
-export function mapAutoBeaconTypeToDetailsText(type: AutoBeaconType) {
+// Check textUtils.js if you want to make changes in gospel-initiative-backend!
+export function mapAutoBeaconTypeToDetailsText(type: AutoBeaconType | null) {
+    if (!type) {
+        return "Pray for my relationships with my family and friends to deepen and that I could represent Christ well for them.";
+    }
+
     switch (type) {
         case AutoBeaconType.BlessRelationships:
             return "Pray for my relationships with my family and friends to deepen and that I could represent Christ well for them.";

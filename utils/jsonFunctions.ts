@@ -198,6 +198,7 @@ export function getBeaconsFromJson(json: any[]) {
         beacon.oneStage = item?.one?.stage as OneStage;
         beacon.oneCategory = item?.one?.category as OneCategory;
         beacon.globalType = item?.type as GlobalBeaconType || null;
+        beacon.autoType = item?.type as AutoBeaconType || null;
         return beacon;
     });
 }

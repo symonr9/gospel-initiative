@@ -11,7 +11,7 @@ import Animated, {
     ZoomOut 
 } from 'react-native-reanimated';
 
-import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
+import { mapAutoBeaconTypeToIcon, mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
 import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { Colors } from '@/constants/Colors';
 
@@ -29,8 +29,15 @@ export function BeaconCard({ beacon, selectedPrayerId, idx, selectedIdx, setSele
     useAnimations = true }: IBeaconCard) {
     const progress = useSharedValue(0);
 
-    const baseColor = beacon.global ? Colors.info : Colors.white;
-    const completedColor = beacon.global ? Colors.success : Colors.success;
+    let baseColor;
+    if (beacon.isAutoBeacon)
+        baseColor = Colors.open;
+    else if (beacon.global)
+        baseColor = Colors.info;
+    else
+        baseColor = Colors.white;
+
+    const completedColor = Colors.success;
 
     const animatedStyle = useAnimatedStyle(() => {
         const backgroundColor = interpolateColor(
@@ -61,7 +68,13 @@ export function BeaconCard({ beacon, selectedPrayerId, idx, selectedIdx, setSele
         }
     };
 
-    const icon = beacon.global ? mapGlobalBeaconTypeToIcon(beacon.type) : mapBeaconTypeToIcon(beacon.type);
+    let icon;
+    if (beacon.isAutoBeacon)
+        icon = beacon.userIcon;
+    else if (beacon.global)
+        icon = mapGlobalBeaconTypeToIcon(beacon.type);
+    else
+        icon = mapBeaconTypeToIcon(beacon.type);
 
     return (
         <TouchableOpacity onPress={onCardPress} style={styles.touchable}>

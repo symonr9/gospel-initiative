@@ -168,14 +168,17 @@ export function mapGlobalBeaconTypeToIcon(type: GlobalBeaconType | null): AppIco
     }
 }
 
-export function mapAutoBeaconTypeToIcon(type: AutoBeaconType) : AppIcon {
+export function mapAutoBeaconTypeToIcon(type: AutoBeaconType | null) : AppIcon {
+    if (!type) {
+        return AppIcon.BestFriend;
+    }
+
     switch (type) {
         case AutoBeaconType.BlessRelationships:
             return AppIcon.BestFriend;
         case AutoBeaconType.OpportunitiesToShareGospel:
         default:
             return AppIcon.ShareHeart;
-            
     }
 }
 

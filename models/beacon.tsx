@@ -1,4 +1,4 @@
-import { AvatarIcon, BeaconTag, BeaconType, GlobalBeaconType, OneCategory, OneStage, Priority } from "@/enums/enums";
+import { AutoBeaconType, AvatarIcon, BeaconTag, BeaconType, GlobalBeaconType, OneCategory, OneStage, Priority } from "@/enums/enums";
 import One from "./one";
 import User from "./user";
 import BeaconActivity, { ActivityWithUser } from "./beaconActivity";
@@ -53,6 +53,7 @@ export default class Beacon implements IBeacon {
     global: boolean;
     globalType: GlobalBeaconType | null;
     isAutoBeacon: boolean;
+    autoType: AutoBeaconType | null;
 
     userName: string | null;
     userIcon: AvatarIcon | null;
@@ -80,6 +81,7 @@ export default class Beacon implements IBeacon {
         this.global = global;
         this.isAutoBeacon = isAutoBeacon;
         this.globalType = null;
+        this.autoType = null;
 
         this.userName = null;
         this.userIcon = null;

@@ -8,8 +8,8 @@ import { AppText, TextType } from '../common/AppText';
 import Beacon, { EnhancedBeacon } from '@/models/beacon';
 import { AppIcon, FadeDirection, RefreshSpec } from '@/enums/enums';
 import { getAppTimeAgoText } from '@/utils/appUtils';
-import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
-import { mapGlobalBeaconTypeToDetailsText } from "@/utils/textUtils";
+import { mapAutoBeaconTypeToIcon, mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
+import { mapAutoBeaconTypeToDetailsText, mapAutoBeaconTypeToTitleText, mapGlobalBeaconTypeToDetailsText } from "@/utils/textUtils";
 import { mapGlobalBeaconTypeToTitleText } from "@/utils/textUtils";
 import { mapBeaconTypeToTitleText } from "@/utils/textUtils";
 import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
@@ -217,13 +217,31 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         details: mapBeaconTagToDetailsText(tag),
     })) : [];
 
-    const showName = beacon.userName && beacon.shareOwnName && !beacon.global;
-    const userIcon = beacon.global ? null : beacon.userIcon;
+    const showName = beacon.userName && beacon.shareOwnName && (!beacon.global || beacon.isAutoBeacon);
     const oneIcon = beacon.oneIcon ? beacon.oneIcon : null;
 
-    const icon = beacon.global ? mapGlobalBeaconTypeToIcon(beacon.globalType) : mapBeaconTypeToIcon(beacon.type);
-    const title = beacon.global ? mapGlobalBeaconTypeToTitleText(beacon.globalType) : beacon.name;
-    const subtitle = beacon.global ? mapGlobalBeaconTypeToDetailsText(beacon.globalType) : getSubtitleText(beacon);
+    let userIcon;
+    let icon;
+    let title;
+    let subtitle;
+    if (beacon.isAutoBeacon) {
+        userIcon = beacon.userIcon;
+        icon = mapAutoBeaconTypeToIcon(beacon.autoType);
+        title = `${mapAutoBeaconTypeToTitleText(beacon.autoType)}`;
+        subtitle = mapAutoBeaconTypeToDetailsText(beacon.autoType);
+    }
+    else if (beacon.global) {
+        userIcon = null;
+        icon = mapGlobalBeaconTypeToIcon(beacon.globalType);
+        title = mapGlobalBeaconTypeToTitleText(beacon.globalType);
+        subtitle = mapGlobalBeaconTypeToDetailsText(beacon.globalType);
+    }
+    else {
+        userIcon = beacon.userIcon;
+        icon = mapBeaconTypeToIcon(beacon.type);
+        title = beacon.name;
+        subtitle = getSubtitleText(beacon);
+    }
 
     return (
         <View style={[styles.container]}>
@@ -294,10 +312,20 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 }
 
                 {
-                    beacon.global && (
+                    beacon.global && !beacon.isAutoBeacon && (
                         <View style={styles.timeAgo}>
                             <AppText type={TextType.Italic}>
                                 Global Beacon
+                            </AppText>
+                        </View>
+                    )
+                }
+
+                {
+                    beacon.global && beacon.isAutoBeacon && (
+                        <View style={styles.timeAgo}>
+                            <AppText type={TextType.Italic}>
+                                Auto Beacon
                             </AppText>
                         </View>
                     )
