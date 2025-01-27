@@ -476,28 +476,42 @@ export function mapGlobalBeaconTypeToDetailsText(type: GlobalBeaconType | null) 
 // Check textUtils.js if you want to make changes in gospel-initiative-backend!
 export function mapAutoBeaconTypeToTitleText(type: AutoBeaconType | null) {
     if (!type) {
-        return "My Relationships";
+        return "Opportunities";
     }
 
     switch (type) {
-        case AutoBeaconType.BlessRelationships:
-            return "My Relationships";
-        case AutoBeaconType.OpportunitiesToShareGospel:
-            return "Opportunities to Share";
+        case AutoBeaconType.Rest:
+            return "Rest";
+        case AutoBeaconType.Family:
+            return "Family";
+        case AutoBeaconType.Friends:
+            return "Friends";
+        case AutoBeaconType.Workplace:
+            return "Workplace";
+        case AutoBeaconType.Opportunities:
+        default:            
+            return "Opportunities";
     }
 }
 
 // Check textUtils.js if you want to make changes in gospel-initiative-backend!
 export function mapAutoBeaconTypeToDetailsText(type: AutoBeaconType | null) {
     if (!type) {
-        return "Pray for my relationships with my family and friends to deepen and that I could represent Christ well for them.";
+        return "Pray for me to be ready to share the Gospel with those I meet on a daily basis.";
     }
 
     switch (type) {
-        case AutoBeaconType.BlessRelationships:
-            return "Pray for my relationships with my family and friends to deepen and that I could represent Christ well for them.";
-        case AutoBeaconType.OpportunitiesToShareGospel:
-            return "Pray for opportunities and boldness to share the Gospel with others.";
+        case AutoBeaconType.Rest:
+            return "Pray that I would develop and continue patterns of rest in God.";
+        case AutoBeaconType.Family:
+            return "Pray that unity, love, and peace would flourish within my family.";
+        case AutoBeaconType.Friends:
+            return "Pray that I could encourage, support, and share Christ's love with all of my friends.";
+        case AutoBeaconType.Workplace:
+            return "Pray that I could represent Christ well in both my projects and my co-worker/classmate relationships.";
+        case AutoBeaconType.Opportunities:
+        default:            
+            return "Pray for me to be ready to share the Gospel with those I meet on a daily basis.";
     }
 }
 

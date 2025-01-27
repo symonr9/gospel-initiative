@@ -145,10 +145,12 @@ export enum BeaconTag {
 
 // Auto Beacons
 
-// README: If you want to change, please also change enums.js in the gospel-initiative-backend server project.
 export enum AutoBeaconType {
-    BlessRelationships = 1,
-    OpportunitiesToShareGospel = 2,
+    Opportunities = 1,
+    Rest = 2,
+    Family = 3,
+    Friends = 4,
+    Workplace = 5,
 }
 
 // One
@@ -501,6 +503,11 @@ export enum AppIcon {
     Care = require('../assets/images/app-icons/care.png'),
     Music = require('../assets/images/app-icons/music.png'),
     Microphone = require('../assets/images/app-icons/microphone.png'),
+    PlantMature = require('../assets/images/app-icons/plantMature.png'),
+    PlantSeeds = require('../assets/images/app-icons/plantSeeds.png'),
+    PlantSun = require('../assets/images/app-icons/plantSun.png'),
+    PlantWater = require('../assets/images/app-icons/plantWater.png'),
+    Sleep = require('../assets/images/app-icons/sleep.png'),
 
     BeforeChrist = require('../assets/images/app-icons/beforeChrist.png'),
     Repentance = require('../assets/images/app-icons/repentance.png'),

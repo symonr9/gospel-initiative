@@ -170,15 +170,21 @@ export function mapGlobalBeaconTypeToIcon(type: GlobalBeaconType | null): AppIco
 
 export function mapAutoBeaconTypeToIcon(type: AutoBeaconType | null) : AppIcon {
     if (!type) {
-        return AppIcon.BestFriend;
+        return AppIcon.BreadFish;
     }
 
     switch (type) {
-        case AutoBeaconType.BlessRelationships:
+        case AutoBeaconType.Rest:
+            return AppIcon.Sleep;
+        case AutoBeaconType.Family:
+            return AppIcon.Family;
+        case AutoBeaconType.Friends:
             return AppIcon.BestFriend;
-        case AutoBeaconType.OpportunitiesToShareGospel:
+        case AutoBeaconType.Workplace:
+            return AppIcon.Employee;
+        case AutoBeaconType.Opportunities:
         default:
-            return AppIcon.ShareHeart;
+            return AppIcon.BreadFish;
     }
 }
 

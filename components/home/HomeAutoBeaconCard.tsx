@@ -42,7 +42,7 @@ export type IHomeAutoBeaconCard = ViewProps & {
 
 function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBeaconCard) {
 
-    const [selectedType, setSelectedType] = useState(AutoBeaconType.BlessRelationships);
+    const [selectedType, setSelectedType] = useState(AutoBeaconType.Relationships);
     const [selectedTags, setSelectedTags] = useState<BeaconTag[]>([]);
     const [isInfoExpanded, setIsInfoExpanded] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);

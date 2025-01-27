@@ -475,6 +475,8 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                         customStyles={customPrayButtonStyles} />
                 </PageColumn>
             </PageRow>
+
+            <View style={{ height: 200}}/>
         </View>
     );
 }
