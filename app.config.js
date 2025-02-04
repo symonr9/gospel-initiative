@@ -16,7 +16,8 @@ export default ({ config }) => ({
             supportsTablet: true,
             bundleIdentifier: "com.redemption.gospelinitiative",
             infoPlist: {
-                NSPhotoLibraryUsageDescription: "We need access to your photo library to allow you to upload photos."
+                NSPhotoLibraryUsageDescription: "We need access to your photo library to allow you to upload photos.",
+                ITSAppUsesNonExemptEncryption: false,
             }
         },
         android: {
