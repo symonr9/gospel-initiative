@@ -22,7 +22,7 @@ import PageResponse from '../common/PageResponse';
 import ExpiredBeaconsList from '../beacons/ExpiredBeaconsList';
 import AppError from '@/models/error';
 
-export type IActionStepPicker = ViewProps & {
+export type IBeaconPicker = ViewProps & {
     selectedOneId: string | null;
     ones: One[],
     executor: User,
@@ -46,7 +46,7 @@ export enum PickerState {
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, 
-    expiredBeacons, setAppError }: IActionStepPicker) => {
+    expiredBeacons, setAppError }: IBeaconPicker) => {
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 

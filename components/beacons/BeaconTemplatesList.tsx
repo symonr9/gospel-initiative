@@ -32,6 +32,9 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [tempSelectedTemplateId, setTempSelectedTemplateId] = useState<string | null>(selectedTemplateId);
 
+    // TODO: Simplify this, make it much easier, one page, inte
+    // 
+
     const renderItem = ({ item }: { item: BeaconTemplate }) => {
         return (
             <TouchableOpacity onPress={() => setTempSelectedTemplateId(item.id)}>

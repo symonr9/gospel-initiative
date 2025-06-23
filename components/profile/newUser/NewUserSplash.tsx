@@ -26,7 +26,7 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
 
     const goal1Subtitle = showGoal1 ? 'To equip us to grow in their confidence in sharing their personal faith journey and God’s redemptive story.' : 'Tap to learn more.';
     const goal2Subtitle = showGoal2 ? 'To help us intentionally love and engage with people in their lives through structured tools and resources.' : 'Tap to learn more.';
-    const goal3Subtitle = showGoal3 ? ' To connect our community in prayer as we collectively grow in our confidence to share our faith and lives with others.' : 'Tap to learn more.';
+    const goal3Subtitle = showGoal3 ? 'To connect our community in prayer as we collectively grow in our confidence to share our faith and lives with others.' : 'Tap to learn more.';
 
     return (
         <PageColumn style={{ gap: 4 }}>

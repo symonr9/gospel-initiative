@@ -26,6 +26,7 @@ import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import AvatarIconPicker from '../common/AvatarIconPicker';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import HomeAutoBeaconCard from './HomeAutoBeaconCard';
+import HomeQuickBeaconCard from './HomeQuickBeaconCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -169,9 +170,9 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           }
 
           <HomePromptCard />
-
           <HomeAddOneCard />
           <HomePrayerCard />
+          <HomeQuickBeaconCard/>
           <HomePracticeTestimonyCard />
           <HomeAutoBeaconCard/>
           {/* TODO: Removing for now */}
