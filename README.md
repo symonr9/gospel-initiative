@@ -23,6 +23,12 @@ npx expo start
 - Upgrade Expo SDK
    - `npm install expo@latest`
    - `npx expo install --fix`
+- Install NPM Check updates:
+   - `npm install -g npm-check-updates`
+- Upgrade NPM Dependencies to latest versions (uses npm-check-updates)
+   - `ncu -u`
+- Install NPM Dependencies
+   - `npm i `
 
 ### Development Commands
 - Frontend-specific
