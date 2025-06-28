@@ -36,9 +36,6 @@ npx expo start
 - Frontend-specific
    - Start project: `npx expo start`
       - `-c` to clear the cache. You may need this after making updates to .ENV.
-   - Start project for Expo Go: `npx expo start --go`
-      - The development build uses the build as it shows in the App Store/Google Play store, the app itself loads.
-      If you just want it to load for Expo Go, include the `--go` flag.
    - Run on Android: `npm run android`
    - Run on iOS: `npm run ios`
    - Run on Web: `npm run web`
@@ -54,12 +51,12 @@ Notes:
 ### Publish to EAS servers
 - `eas update`: Publishes your latest JavaScript and assets to EAS Update servers for instant delivery to users—no app store review required.
 
-### Create a development build (accessible through Expo Go app)
+### Create a development build
 This command initializes your project for EAS Build by creating an eas.json configuration file if it doesn't already exist. It will prompt you to select which platforms (iOS, Android) you want to configure builds for.
 - `eas build:configure`
 
 - `eas build --profile development --platform ios`
-This command triggers a build on the EAS servers for the iOS platform, accessible through the Expo Go app.
+This command triggers a build on the EAS servers for the iOS platform which will prompt you to install on devices on your profile.
 
 ### Upload to the App Store.
 
@@ -77,10 +74,21 @@ This command triggers a build on the EAS servers for the iOS platform, accessibl
 
 ## Troubleshooting
 
-### No usable found error when trying to scan QR Code
-- I had to use `npx expo start --go` to initiate the server to work with Expo Go.
-
 ### "The Gospel Initiative" Beta Has Expired
 - This happened for me after not using the project for a while.
 - Run `npx expo install expo@latest` to install the latest Expo version.
 - Upgrade dependencies to match new Expo version: `npx expo install --fix`.
+
+
+### App timeout
+- My development build was installed on my iOS device but I wasn't able to connect any way - through QR code, manually, etc. When the development server option
+would show up on the dev build app, nothing would happen and it would timeout the connection.
+- I realized it was because I instal anti-virus software Avast that was doing stuff to my Windows firewall. I had to remove it and restart my computer and
+I was able to connect again.
+- So if you're getting app timeouts, it may be because of something firewall related. Especially if it seems to be working when launching on web.
+
+## Notes
+
+### Expo Go
+Expo Go should only be used for experimental releases. Just use a development build whenever possible. You get more of the native tools and the app itself
+on your phone, and it's the recommended way to develop apps.
