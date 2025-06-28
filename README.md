@@ -29,10 +29,13 @@ npx expo start
    - `ncu -u`
 - Install NPM Dependencies
    - `npm i `
+- Check NPM Versions
+   - `npm ls webpack`
 
 ### Development Commands
 - Frontend-specific
    - Start project: `npx expo start`
+      - `-c` to clear the cache. You may need this after making updates to .ENV.
    - Start project for Expo Go: `npx expo start --go`
       - The development build uses the build as it shows in the App Store/Google Play store, the app itself loads.
       If you just want it to load for Expo Go, include the `--go` flag.
@@ -70,7 +73,7 @@ This command triggers a build on the EAS servers for the iOS platform, accessibl
 4. `eas build`: Initiates a build process on EAS servers for the configured platforms and profiles. This creates the actual app binaries (IPA for iOS, APK or AAB for Android) that you can submit to app stores.
 5. `eas submit`: Upload existing builds on the EAS server (produced by `eas build`) to upload the app to app stores.
    - For TestFlight: `eas submit --platform ios`
-   - For Google Play: `eas submit --plartform android`
+   - For Google Play: `eas submit --platform android`
 
 ## Troubleshooting
 
