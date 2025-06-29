@@ -161,6 +161,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             BodyLayout.push(
                 <>
                     <BeaconTemplatesList activeLayoutType={activeLayoutType}
+                        basicMode={basicMode}
                         setActiveLayoutType={setActiveLayoutType} />
                 </>
             );

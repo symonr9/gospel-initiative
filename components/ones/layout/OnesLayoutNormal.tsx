@@ -149,8 +149,6 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             </>
         );
 
-        console.log("selected one: ", selectedOne);
-
         const showGospelSteps = isChristianStage(selectedOne?.stage);
 
         BodyLayout.push(
