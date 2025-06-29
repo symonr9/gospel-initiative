@@ -32,7 +32,8 @@ export type IBeaconPicker = ViewProps & {
     selectedTemplateId: String,
     setSelectedTemplateId: Function,
     refreshData: Function,
-    setAppError: Function,
+    setAppError: Function, 
+    basicMode?: boolean
 };
 
 export enum PickerState {
@@ -46,7 +47,7 @@ export enum PickerState {
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, 
-    expiredBeacons, setAppError }: IBeaconPicker) => {
+    expiredBeacons, setAppError, basicMode = false }: IBeaconPicker) => {
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
 
@@ -123,6 +124,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
         BodyLayout.push(
             <BeaconTemplatesList activeLayoutType={activeLayoutType}
                 headerLayout={headerLayout}
+                basicMode={basicMode}
                 setActiveLayoutType={setActiveLayoutType} />
         );
     } else if (activeLayoutType === OneLayoutType.SentBeaconResponse) {
@@ -149,7 +151,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             </View>
         );
     } else { // Normal
-        if (!selectedTemplateId && activeBeaconsWithActivities.length > 0) {
+        if (!basicMode && !selectedTemplateId && activeBeaconsWithActivities.length > 0) {
             BodyLayout.push(
                 <ActiveBeaconsActivityList activeBeaconsWithActivities={activeBeaconsWithActivities}
                     refreshData={refreshData}
@@ -164,7 +166,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
             );
         }
 
-        if (selectedTemplateId === null && expiredBeacons.length > 0) {
+        if (!basicMode && selectedTemplateId === null && expiredBeacons.length > 0) {
             BodyLayout.push(
                 <ExpiredBeaconsList />
             );
@@ -182,8 +184,6 @@ const styles = StyleSheet.create({
     container: {
         flexShrink: 1,
         paddingBottom: 8,
-        borderBottomColor: 'lightgray',
-        borderBottomWidth: 2,
         gap: 12
     },
     pageHeader: {

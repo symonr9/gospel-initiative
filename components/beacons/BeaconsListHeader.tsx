@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { Animated, type ViewProps } from 'react-native';
 import { StyleSheet } from 'react-native';
 
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        padding: 8,
+        padding: 4,
     },
 });

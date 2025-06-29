@@ -13,7 +13,6 @@ import React, { useState } from 'react';
 import { View, ViewProps } from "react-native";
 import ActionStepPicker from '../ActionStepPicker';
 import BeaconPicker from '../BeaconPicker';
-import ChristianPicker from '../ChristianPicker';
 import InfoPicker from '../InfoPicker';
 import { OneLayoutType } from '../OnesLayout';
 import Beacon from '@/models/beacon';
@@ -46,7 +45,6 @@ enum BodyType {
     ActionStep,
     GospelSteps,
     Beacons,
-    Christians,
 };
 
 export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError, executor,
@@ -55,7 +53,6 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
 
     const actionSteps = selectedOne?.actionSteps || [];
     const firstActionStep = actionSteps?.length > 0 ? actionSteps.find((value) => !value.isComplete) : null;
-    const christians = selectedOne?.christians || [];
     const oneNotes = selectedOne?.oneNotes || [];
 
     const BodyLayout: any[] = [];
@@ -105,13 +102,6 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                 <BeaconPicker />
             </PageColumn>
         );
-    } else if (bodyType === BodyType.Christians) {
-        BodyLayout.push(
-            <PageColumn>
-                {BodyBackHeader}
-                <ChristianPicker />
-            </PageColumn>
-        )
     } else { // Base
         const infoDetailView = (
             <>
@@ -159,15 +149,6 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             </>
         );
 
-        const christianDetailView = (
-            <>
-                <DetailsSection iconSrc={AppIcon.User}
-                    prefix={"Christians"}
-                    onClick={() => setBodyType(BodyType.Christians)}
-                    title={`${christians.length} In Their Life`} />
-            </>
-        );
-
         BodyLayout.push(
             <>
                 <PageColumn>
@@ -194,12 +175,6 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         detailsView={beaconsDetailView}
                         horizontal={false}
                         onClick={() => setBodyType(BodyType.Beacons)} />
-
-                    <SimpleGridCard iconSrc={AppIcon.UserGroup}
-                        title={'Christians'}
-                        detailsView={christianDetailView}
-                        horizontal={false}
-                        onClick={() => setBodyType(BodyType.Christians)} />
                 </PageColumn>
 
                 <PageRow spaceEvenly style={{ marginTop: 24 }}>

@@ -11,8 +11,7 @@ import ones from '@/app/(tabs)/ones';
 import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { setSelectedTemplateId, refreshData, setAppError } from '@/redux/actions';
-import { OneLayoutType } from '../ones/OnesLayout';
-import BeaconTemplatesList from '../beacons/BeaconTemplatesList';
+import BeaconPicker from '../ones/BeaconPicker';
 
 export type IHomeQuickBeaconCard = ViewProps & {
     executor: User;
@@ -28,20 +27,13 @@ export type IHomeQuickBeaconCard = ViewProps & {
 
 function HomeQuickBeaconCard({ executor, ones, selectedOneId, beaconForm,
     selectedTemplateId, beaconTemplates }: IHomeQuickBeaconCard) {
-    const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Normal);    
-
-    const onClick = () => {
-
-    };
-
     if (!executor || ones.length === 0) {
         return <></>;
     }
 
     const Body = (
         <>
-            <BeaconTemplatesList activeLayoutType={activeLayoutType}
-                setActiveLayoutType={setActiveLayoutType} />
+            <BeaconPicker basicMode={true}/>
         </>
     );
 
@@ -50,8 +42,7 @@ function HomeQuickBeaconCard({ executor, ones, selectedOneId, beaconForm,
             detailsView={Body}
             style={[styles.card]}
             title={'Send Prayer Beacon'}
-            subtitle={'Click on this card to send a prayer beacon for your One.'}
-            onClick={onClick} />
+            subtitle={'Use this card to send a prayer beacon for your One. Your beacon will be active for 7 days.'} />
     );
 }
 

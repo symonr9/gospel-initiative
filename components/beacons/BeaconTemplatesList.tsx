@@ -9,13 +9,10 @@ import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
 import BeaconTemplateDetails from './BeaconTemplateDetails';
 import { OneLayoutType } from '../ones/OnesLayout';
-import ScrollLayout from '../common/ScrollLayout';
 import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
-import SimpleIconButton from '../common/SimpleIconButton';
-import { AppIcon } from '@/enums/enums';
 
 export type IBeaconTemplatesList = ViewProps & {
     activeLayoutType: OneLayoutType;
@@ -24,16 +21,15 @@ export type IBeaconTemplatesList = ViewProps & {
     beaconTemplates: BeaconTemplate[];
     setSelectedTemplateId: Function;
     setActiveLayoutType: Function;
+    basicMode?: boolean;
 };
 
 function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
-    headerLayout = <></>, setSelectedTemplateId, activeLayoutType, setActiveLayoutType }: IBeaconTemplatesList) {
+    headerLayout = <></>, setSelectedTemplateId, activeLayoutType, setActiveLayoutType,
+    basicMode = false }: IBeaconTemplatesList) {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [tempSelectedTemplateId, setTempSelectedTemplateId] = useState<string | null>(selectedTemplateId);
-
-    // TODO: Simplify this, make it much easier, one page, inte
-    // 
 
     const renderItem = ({ item }: { item: BeaconTemplate }) => {
         return (
@@ -49,10 +45,7 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => {
         setIsModalVisible(false);
-    };
-
-    const handleContinue = () => {
-        if (tempSelectedTemplateId) {
+        if (tempSelectedTemplateId !== null) {
             setSelectedTemplateId(tempSelectedTemplateId);
             setActiveLayoutType(OneLayoutType.ConfirmBeacon);
         }
@@ -63,17 +56,20 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
     return (
         <View style={[listStyles.container, styles.container]}>
-            <BeaconsListHeader activeLayoutType={activeLayoutType} selectedTemplateId={selectedTemplateId} />
+            {
+                !basicMode && (
+                    <BeaconsListHeader activeLayoutType={activeLayoutType}
+                        selectedTemplateId={selectedTemplateId} />
+                )
+            }
+
             {headerLayout}
 
             {
-                showBeaconActions && (
-                    <PageRow center>
-                        <SimpleIconButton iconSrc={AppIcon.ArrowNext}
-                            title={'Continue'}
-                            disabled={selectedTemplate === null}
-                            onClick={handleContinue} />
-                    </PageRow>
+                showBeaconActions && !selectedTemplate && (
+                    <SimpleButton text={'Choose Beacon'}
+                        onPress={openModal}
+                        type={ButtonType.Edit} />
                 )
             }
 
@@ -82,14 +78,6 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                     <BeaconTemplateDetails template={selectedTemplate} activeLayoutType={activeLayoutType} />
                 </PageColumn>
             )}
-
-            {
-                showBeaconActions && (
-                    <SimpleButton text={'Choose Beacon Type'}
-                        onPress={openModal}
-                        type={ButtonType.Edit} />
-                )
-            }
 
             <Modal
                 visible={isModalVisible}

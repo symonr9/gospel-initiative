@@ -169,7 +169,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
             )
           }
 
-          <HomePromptCard />
+          {/* <HomePromptCard /> */}
           <HomeAddOneCard />
           <HomePrayerCard />
           <HomeQuickBeaconCard/>

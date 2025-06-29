@@ -4,23 +4,19 @@ import { connect } from 'react-redux';
 
 import { AppText, TextType } from '../common/AppText';
 import { AppIcon, BeaconTag, Priority } from '@/enums/enums'; // Import any enums or constants related to tags
-import { ThemedView } from '../common/ThemedView';
+
 import { PageColumn } from '../common/PageColumn';
 import { PageChip } from '../common/PageChip';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { BeaconTemplateCard } from './BeaconTemplateCard';
-import One from '@/models/one';
 import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
-import { mapBeaconTagToDetailsText } from "@/utils/textUtils";
 import { mapBeaconTagToTitleText } from "@/utils/textUtils";
 import { getShowHideIcon } from "@/utils/iconUtils";
-import ScrollLayout from '../common/ScrollLayout';
 import { modalStyles } from '@/styles/Styles';
 import { OneLayoutType } from '../ones/OnesLayout';
 import { Colors } from '@/constants/Colors';
-import { SimpleButton } from '../common/SimpleButton';
-import { screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
+import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import { beaconTagArray } from '@/constants/Constants';
 
 export type IBeaconTemplateDetails = ViewProps & {
@@ -69,7 +65,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
         <PageColumn style={[styles.container]}>
             <BeaconTemplateCard template={template} />
 
-            <PageColumn style={{ maxHeight: 100, marginVertical: 4 }}>
+            <PageColumn style={{ marginVertical: 4 }}>
                 <FlatList
                     data={formData.tags}
                     keyExtractor={(item) => item.toString()}

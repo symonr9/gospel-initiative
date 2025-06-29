@@ -3,7 +3,6 @@ import { StyleSheet, Image, Platform } from 'react-native';
 
 export const listStyles = StyleSheet.create({
   container: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     overflow: 'scroll',
