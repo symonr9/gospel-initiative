@@ -6,7 +6,7 @@ import SimpleIconButton from '@/components/common/SimpleIconButton';
 import { AppIcon, GospelChecklistItem } from '@/enums/enums';
 import One from '@/models/one';
 import User from '@/models/user';
-import { getAppTimeAgoText, calculatePercent, isGospelStepCompleted, calculatePercentByTotals } from '@/utils/appUtils';
+import { getAppTimeAgoText, calculatePercent, isGospelStepCompleted, calculatePercentByTotals, isChristianStage } from '@/utils/appUtils';
 import { mapActionStepTypeToTitle } from "@/utils/textUtils";
 import { mapActionStepTypeToIcon } from "@/utils/iconUtils";
 import React, { useState } from 'react';
@@ -66,11 +66,11 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                 title={'Back'}
                 onClick={() => setBodyType(BodyType.Base)} />
-                {
-                    bodyType === BodyType.Info && (
-                        <InfoPickerFilter/>
-                    )
-                }
+            {
+                bodyType === BodyType.Info && (
+                    <InfoPickerFilter />
+                )
+            }
         </PageRow>
     );
 
@@ -92,7 +92,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
-                <GospelStepPicker/>
+                <GospelStepPicker />
             </PageColumn>
         );
     } else if (bodyType === BodyType.Beacons) {
@@ -129,7 +129,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         const gospelSteps = selectedOne ? selectedOne.gospelSteps : []; // Set removes dupes.
         const completedGospelSharing = gospelSteps.filter((step) => coreGospelMessageSection.includes(step.type)).reduce((sum, item) => sum + item.rating, 0);
         const completedPercentage = calculatePercentByTotals(completedGospelSharing, coreGospelMessageSection.length * 5);
-        
+
         const gospelChecklistDetailView = (
             <>
                 <DetailsSection iconSrc={AppIcon.ScriptureOpen}
@@ -149,6 +149,10 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             </>
         );
 
+        console.log("selected one: ", selectedOne);
+
+        const showGospelSteps = isChristianStage(selectedOne?.stage);
+
         BodyLayout.push(
             <>
                 <PageColumn>
@@ -164,11 +168,15 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         horizontal={false}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
 
-                    <SimpleGridCard iconSrc={AppIcon.ScriptureOpen}
-                        title={'Gospel Steps'}
-                        detailsView={gospelChecklistDetailView}
-                        horizontal={false}
-                        onClick={() => setBodyType(BodyType.GospelSteps)} />
+                    {
+                        showGospelSteps && (
+                            <SimpleGridCard iconSrc={AppIcon.ScriptureOpen}
+                                title={'Gospel Steps'}
+                                detailsView={gospelChecklistDetailView}
+                                horizontal={false}
+                                onClick={() => setBodyType(BodyType.GospelSteps)} />
+                        )
+                    }
 
                     <SimpleGridCard iconSrc={AppIcon.Prayer}
                         title={'Prayer Beacons'}

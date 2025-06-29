@@ -1,5 +1,5 @@
 import { MAX_DAILY_TASKS_NEEDED_TO_COMPLETE } from "@/constants/Constants";
-import { AppIcon, AvatarIcon, GospelChecklistItem, GospelStepLayoutType, OneNoteType, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
+import { AppIcon, AvatarIcon, GospelChecklistItem, GospelStepLayoutType, OneNoteType, OneStage, StoryChapterTag, StoryChapterType, StoryType } from "@/enums/enums";
 import Beacon from "@/models/beacon";
 import GospelStep from "@/models/gospelStep";
 import One from "@/models/one";
@@ -468,4 +468,8 @@ export function getHomeDailyTasksData(ones: One[], executor: User, completedBeac
         hasPracticedTestimonyToday,
         percentDone
     };
+}
+
+export function isChristianStage(stage: OneStage): boolean {
+    return stage === OneStage.Disciple || stage === OneStage.NewBeliever;
 }
