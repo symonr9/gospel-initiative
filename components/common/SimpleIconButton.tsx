@@ -4,7 +4,6 @@ import { Image } from 'expo-image';
 import { connect } from 'react-redux';
 
 import { AppText, TextType } from './AppText';
-import { useBackgroundThemeColor } from '@/constants/Colors';
 import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
 

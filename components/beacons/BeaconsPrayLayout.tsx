@@ -8,11 +8,11 @@ import { ItemRowContainer } from '../common/ItemRowContainer';
 import { EnhancedBeacon } from '@/models/beacon';
 import { selectPartitionedActiveEnhancedBeacons } from '@/redux/selectors/beaconSelectors';
 import BeaconDetails from './BeaconDetails';
-import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageColumn } from '../common/PageColumn';
 import { setSelectedPrayerId } from '@/redux/actions';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IBeaconsPrayLayout = ViewProps & {
     completedBeacons: any;
@@ -23,6 +23,8 @@ export type IBeaconsPrayLayout = ViewProps & {
 
 function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId, setSelectedPrayerId }: IBeaconsPrayLayout) {
     const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
+
+    const { secondaryColor } = useThemeColors();
 
     const incomingCursorIdx = incomingBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === selectedPrayerId);
     const completedCursorIdx = completedBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === selectedPrayerId);
@@ -65,7 +67,7 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
                         setActiveType={setActiveRoadType}
                         expandedHeight={60}
                         itemsToRender={completedItemsToRender}
-                        customStyles={{ container: { backgroundColor: Colors.light.secondary } }} />
+                        customStyles={{ container: { backgroundColor: secondaryColor } }} />
                     <ItemRowContainer title={`Incoming (${incomingCount})`}
                         iconSrc={AppIcon.Send}
                         type={ItemRowContainerType.Incoming}
@@ -74,7 +76,7 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
                         expandedHeight={60}
                         setActiveType={setActiveRoadType}
                         itemsToRender={incomingItemsToRender}
-                        customStyles={{ container: { backgroundColor: Colors.white } }} />
+                        customStyles={{ container: { backgroundColor: secondaryColor } }} />
                 </PageColumn>
                 
                 <BeaconDetails incomingCursorIdx={incomingCursorIdx}

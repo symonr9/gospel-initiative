@@ -6,7 +6,7 @@ import Checkbox from 'expo-checkbox';
 import One from '@/models/one';
 import OneForm from '@/models/oneForm';
 import { setOneForm } from '@/redux/actions';
-import { formStyles, gridStyles } from '@/styles/Styles';
+import { cardStyles, formStyles, gridStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { AvatarIcon, OneCategory, OneStage, ActionStepType, AppIcon } from '@/enums/enums';

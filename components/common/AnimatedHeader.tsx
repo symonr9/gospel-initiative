@@ -4,6 +4,7 @@ import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 type IAnimatedHeader = {
     title: string;
@@ -12,12 +13,15 @@ type IAnimatedHeader = {
     duration?: number;
     delay?: number;
     key?: string | null;
-
+    overridingTextColor?: string | null;
     style?: any;
 };
 
 export function AnimatedHeader({ title, key = null, titleType = TextType.Subtitle, 
-    subtitle = null, duration = 400, delay = 0, style = {} }: IAnimatedHeader) {
+    subtitle = null, duration = 400, delay = 0, style = {}, overridingTextColor = null }: IAnimatedHeader) {
+        
+    const { textColor } = useThemeColors();
+
     return (
         <View style={[styles.container, style]}>
             <Animated.Text
@@ -25,7 +29,7 @@ export function AnimatedHeader({ title, key = null, titleType = TextType.Subtitl
                 entering={FadeInUp.duration(duration).delay(delay)}
                 style={[{ marginStart: 4, marginTop: 8 }]} >
                 <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
-                    <AppText type={titleType}>
+                    <AppText type={titleType} style={{ color: overridingTextColor || textColor }}>
                         {title}
                     </AppText>
                 </PageRow>
@@ -38,7 +42,7 @@ export function AnimatedHeader({ title, key = null, titleType = TextType.Subtitl
                         exiting={FadeOutDown.duration(duration)}
                         style={[{ marginStart: 4 }]} >
                         <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
-                            <AppText type={TextType.Body}>
+                            <AppText type={TextType.Body} style={{ color: overridingTextColor || textColor }}>
                                 {subtitle}
                             </AppText>
                         </PageRow>

@@ -23,6 +23,7 @@ import { OnesLayoutEditingOne } from './layout/OnesLayoutEditingOne';
 import { OnesLayoutAllOnes } from './layout/OnesLayoutAllOnes';
 import { OnesLayoutNormal } from './layout/OnesLayoutNormal';
 import LoadingLayout from '../common/LoadingLayout';
+import { cardStyles } from '@/styles/Styles';
 
 
 export type IOnesLayout = ViewProps & {
@@ -160,7 +161,9 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                     }
                 </PageColumn>
 
-                {BodyLayout.map((item) => item)}
+                <PageColumn style={[cardStyles.container]}>
+                    {BodyLayout.map((item) => item)}
+                </PageColumn>
             </View>
         </ScrollLayout>
     );

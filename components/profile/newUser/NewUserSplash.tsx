@@ -4,7 +4,7 @@ import { Button, View, ViewProps } from "react-native";
 import { AppIcon, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
-import { Colors } from "@/constants/Colors";
+import { Colors, useThemeColors } from "@/constants/Colors";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { PageRow } from "@/components/common/PageRow";
 import { SimpleCard } from "@/components/common/SimpleCard";
@@ -19,6 +19,8 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
     const [showGoal1, setShowGoal1] = useState(false);
     const [showGoal2, setShowGoal2] = useState(false);
     const [showGoal3, setShowGoal3] = useState(false);
+
+    const { darkAlternativeColor } = useThemeColors();
 
     const onLearnGospelInitiative = () => {
         setNewUserStep(NewUserStep.WhatIsTheGospelInitiative);
@@ -37,7 +39,7 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
             </AppText>
 
             <Image source={AppIcon.AppLogoTransparent}
-                tintColor={Colors.light.darkAlternative}
+                tintColor={darkAlternativeColor}
                 style={styles.logoIcon} />
 
             <SimpleCard iconSrc={AppIcon.Conversation}

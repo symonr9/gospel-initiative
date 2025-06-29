@@ -6,7 +6,7 @@ import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
 import { setLocalNewUserStep } from "@/utils/storageUtils";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
-import { Colors } from "@/constants/Colors";
+import { Colors, useThemeColors } from "@/constants/Colors";
 
 type INewUserFinished = ViewProps & {
     newUserStep: NewUserStep;
@@ -17,6 +17,9 @@ type INewUserFinished = ViewProps & {
 
 export default function NewUserFinished({ newUserStep, setNewUserStep, refreshData,
     styles }: INewUserFinished) {
+        
+    const { darkAlternativeColor } = useThemeColors();
+
     const onDone = async () => {
         refreshData(RefreshSpec.All);
         setNewUserStep(NewUserStep.Completed);
@@ -28,7 +31,7 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
             <AppText type={TextType.Title}>Setup Complete</AppText>
 
             <Image source={AppIcon.AppLogoTransparent}
-                tintColor={Colors.light.darkAlternative}
+                tintColor={darkAlternativeColor}
                 style={styles.logoIcon} />
 
             <AppText>

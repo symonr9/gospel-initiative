@@ -14,7 +14,7 @@ import NewUserStories from './newUser/NewUserStories';
 import NewUserPrayerBeacons from './newUser/NewUserPrayerBeacons';
 import NewUserCreateAProfile from './newUser/NewUserCreateAProfile';
 import NewUserFinished from './newUser/NewUserFinished';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import NewUserActionSteps from './newUser/NewUserActionSteps';
 
 export type INewUserLayout = ViewProps & {
@@ -28,6 +28,7 @@ export type INewUserLayout = ViewProps & {
 function NewUserLayout({ executor, newUserStep, setNewUserStep, 
     refreshData, setAppError }: INewUserLayout) {
     const layout = useWindowDimensions();
+    const { backgroundColor } = useThemeColors();
 
     useEffect(() => {
 
@@ -91,7 +92,7 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep,
     }
 
     return (
-        <ScrollLayout style={[styles.container, { height: layout.height }]}>
+        <ScrollLayout style={[styles.container, { height: layout.height, backgroundColor }]}>
             {BodyLayout.map((item) => item)}
         </ScrollLayout>
     );
@@ -100,7 +101,6 @@ function NewUserLayout({ executor, newUserStep, setNewUserStep,
 const styles = StyleSheet.create({
     container: {
         padding: 12,
-        backgroundColor: Colors.light.background,
     },
     splashIcon: {
         marginVertical: 8,

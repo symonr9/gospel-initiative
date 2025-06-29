@@ -134,8 +134,8 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
   }, [chapterArray]);
 
   if (pageState === PageState.Page1) {
-    const hasFreePractice = !isWithinPast24Hours(executor.lastPartitionDate);
-    const numOfAdditionalPractices = executor.extraPartitionCount;
+    const hasFreePractice = !isWithinPast24Hours(executor.lastPartitionDate) || false;
+    const numOfAdditionalPractices = executor.extraPartitionCount || 0;
     const hasNoTokens = !hasFreePractice && numOfAdditionalPractices === 0;
     const beaconPlaceholder = { type: BeaconType.SpiritualConversation };
 
@@ -232,7 +232,6 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <ItemRowContainer iconSrc={AppIcon.Info}
             title={title}
             expandedHeight={(halfScreenHeight / 5) - 10}
-            customStyles={{ container: { backgroundColor: Colors.white } }}
             itemsToRender={practiceTokens} />
         </PageRow>
 

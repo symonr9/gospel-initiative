@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { ColorSchemeProvider } from '../contexts/ColorSchemeContext';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
 import { setStatusBarStyle } from "expo-status-bar";
@@ -9,14 +10,11 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { Alert, TouchableOpacity, LogBox, View } from 'react-native';
+import { Alert, TouchableOpacity, LogBox, View, useColorScheme } from 'react-native';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { clearAll } from '@/utils/storageUtils';
-import { SimpleIcon } from '@/components/common/SimpleIcon';
 import { AppIcon } from '@/enums/enums';
-import { halfScreenWidth, screenWidth } from '@/constants/Dimensions';
 
 LogBox.ignoreAllLogs(true);
 
@@ -24,7 +22,7 @@ LogBox.ignoreAllLogs(true);
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() || 'light';
   const [loaded] = useFonts({
     LeagueSpartanLight: require('../assets/fonts/LeagueSpartan-Light.ttf'),
     LeagueSpartan: require('../assets/fonts/LeagueSpartan-Regular.ttf'),
@@ -78,9 +76,11 @@ export default function RootLayout() {
           text: 'Cancel',
           style: 'cancel',
         },
-        { text: 'Yes, delete all', onPress: async () => {
-          await clearAll();
-        }},
+        {
+          text: 'Yes, delete all', onPress: async () => {
+            await clearAll();
+          }
+        },
       ],
       { cancelable: true }
     );
@@ -91,7 +91,7 @@ export default function RootLayout() {
       <Image source={AppIcon.GospelInitiativeTransparent} style={{
         width: 200,
         height: 50,
-      }}/>
+      }} />
     </View>
 
   );
@@ -104,24 +104,26 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack
-          screenOptions={{
-            headerTitle: () => MenuTitle,
-            headerRight: () => MenuIcon,
-            headerStyle: {
-              backgroundColor: Colors.light.primary,
-            },
-            headerTintColor: Colors.light.text,
-            headerTitleStyle: {
-              fontWeight: 'bold',
-              color: Colors.light.text,
-            },
-          }}>
-          <Stack.Screen name="(tabs)" options={{}} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </ThemeProvider>
+      <ColorSchemeProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack
+            screenOptions={{
+              headerTitle: () => MenuTitle,
+              headerRight: () => MenuIcon,
+              headerStyle: {
+                backgroundColor: Colors[colorScheme].primary,
+              },
+              headerTintColor: Colors[colorScheme].text,
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: Colors[colorScheme].text,
+              },
+            }}>
+            <Stack.Screen name="(tabs)" options={{}} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </ColorSchemeProvider>
     </Provider>
   );
 }

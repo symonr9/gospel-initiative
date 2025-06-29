@@ -114,7 +114,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                     onRequestClose={toggleModalVisibility}>
                     <View style={styles.modalContainer}>
                         <PageColumn style={styles.modalContent}>
-                            <AnimatedHeader title={'Filter'} subtitle={'Tap items below to filter your stories.'} />
+                            <AnimatedHeader title={'Filter'} overridingTextColor={Colors.light.text} subtitle={'Tap items below to filter your stories.'} />
 
                             {chaptersIsLoaded && (
                                 <PageRow spaceBetween style={{ gap: 8 }}>

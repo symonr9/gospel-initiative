@@ -6,12 +6,12 @@ import { Image } from 'expo-image';
 
 import { AppText, TextType } from './AppText';
 import { ThemedView } from './ThemedView';
-import { useBackgroundThemeColor } from '@/constants/Colors';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import { gridStyles } from '@/styles/Styles';
 import { screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
+import { Colors } from '@/constants/Colors';
 
 export type ISimpleCard = ViewProps & {
   iconSrc?: AppIcon | AvatarIcon | null;

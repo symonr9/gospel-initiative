@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import { AppText, TextType } from './AppText';
 import { PageColumn } from './PageColumn';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 export type ISimpleLoadingSection = ViewProps & {
     title?: string;
@@ -12,6 +12,8 @@ export type ISimpleLoadingSection = ViewProps & {
 }
 
 export function SimpleLoadingSection({ title, subtitle }: ISimpleLoadingSection) {
+    const { headerColor } = useThemeColors();
+
     return (
         <PageColumn>
             {
@@ -32,7 +34,7 @@ export function SimpleLoadingSection({ title, subtitle }: ISimpleLoadingSection)
 
             <ActivityIndicator
                 size="large"
-                color={Colors.light.header}
+                color={headerColor}
             />
         </PageColumn>
     );

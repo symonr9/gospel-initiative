@@ -5,9 +5,9 @@ import React, {  } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
-import { useBackgroundThemeColor } from '@/constants/Colors';
 import Leader from '@/models/leader';
 import { LeaderCard } from './LeaderCard';
+import { useThemeColors } from '@/constants/Colors';
 
 export type ILeadersList = ViewProps & {
     localMinistryLeaders: Leader[];
@@ -16,7 +16,7 @@ export type ILeadersList = ViewProps & {
 
 function LeadersList({ style, localMinistryLeaders, missionsTripLeaders,
     ...otherProps }: ILeadersList) {
-    const backgroundColor = useBackgroundThemeColor();
+    const { backgroundColor } = useThemeColors();
 
     const leaders = localMinistryLeaders.concat(missionsTripLeaders);
 

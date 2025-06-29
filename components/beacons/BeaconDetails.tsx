@@ -37,7 +37,7 @@ import AppError from '@/models/error';
 import { SimpleGridCard } from '../common/SimpleGridCard';
 import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import LoadingLayout from '../common/LoadingLayout';
 import { halfScreenWidth, screenHeight, screenWidth, standardModalHeight } from '@/constants/Dimensions';
@@ -61,6 +61,8 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, refreshData,
     setSelectedPrayerId, beaconActivities, setAppError, activeBeacons }: IBeaconDetails) {
 
+    const { darkAlternativeColor } = useThemeColors();
+
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
     const hasUserAlreadyPrayed = userActivityForBeacon !== undefined;
@@ -72,17 +74,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     const [customNote, setCustomNote] = useState('');
 
     const progress = useSharedValue(0);
-    const animatedStyle = useAnimatedStyle(() => {
-        const backgroundColor = interpolateColor(
-            progress.value,
-            [0, 1],
-            [Colors.white, Colors.success]
-        );
-
-        return {
-            backgroundColor,
-        };
-    });
+    const { textColor } = useThemeColors()
 
     useEffect(() => {
         if (!executor) {
@@ -133,7 +125,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         return (
             <View style={styles.invisibleContainer}>
                 <Image source={AppIcon.Prayer}
-                    tintColor={Colors.light.darkAlternative}
+                    tintColor={darkAlternativeColor}
                     style={{
                         marginVertical: 8,
                         height: 120,
@@ -304,7 +296,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     beacon.activeUntil && (
                         <View style={styles.timeAgo}>
-                            <AppText type={TextType.Italic}>
+                            <AppText type={TextType.Italic} style={{ color: Colors.light.text }}>
                                 Expires {getAppTimeAgoText(beacon.activeUntil)}
                             </AppText>
                         </View>
@@ -314,7 +306,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     beacon.global && !beacon.isAutoBeacon && (
                         <View style={styles.timeAgo}>
-                            <AppText type={TextType.Italic}>
+                            <AppText type={TextType.Italic} style={{ color: Colors.light.text }}>
                                 Global Beacon
                             </AppText>
                         </View>
@@ -324,7 +316,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     beacon.global && beacon.isAutoBeacon && (
                         <View style={styles.timeAgo}>
-                            <AppText type={TextType.Italic}>
+                            <AppText type={TextType.Italic} style={{ color: Colors.light.text }}>
                                 Auto Beacon
                             </AppText>
                         </View>
@@ -340,7 +332,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                     {
                                         showName && (
                                             <AppText type={TextType.Subtitle3}
-                                                style={{ alignSelf: 'center' }}>
+                                                style={{ alignSelf: 'center', color: textColor }}>
                                                 {beacon.userName}
                                             </AppText>
                                         )
@@ -360,7 +352,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             <AnimatedElement element={
                                 <PageColumn>
                                     <Image source={oneIcon} style={styles.profileIcon} />
-                                    <AppText style={{ alignSelf: 'center' }}>
+                                    <AppText style={{ alignSelf: 'center', color: textColor }}>
                                         Their One
                                     </AppText>
                                 </PageColumn>
@@ -372,6 +364,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     subtitle={subtitle}
                     delay={400}
                     key={`${title}-header`}
+                    overridingTextColor={Colors.light.text}
                     style={{ textAlign: 'center' }} />
             </View>
 
@@ -422,11 +415,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     {
                         (!loading && hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
                             <PageColumn style={styles.myNoteForBeacon}>
-                                <AppText type={TextType.Body}>
+                                <AppText type={TextType.Body} style={{ color: Colors.light.text }}>
                                     Your Note:
                                 </AppText>
                                 <PageRow style={{ flexShrink: 1, width: halfScreenWidth }}>
-                                    <AppText type={TextType.Default}>
+                                    <AppText type={TextType.Default} style={{ color: Colors.light.text }}>
                                         {userActivityForBeacon.note}
                                     </AppText>
                                 </PageRow>

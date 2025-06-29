@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, type TextProps, StyleSheet } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 export enum TextType {
   Default = 'default',
@@ -32,13 +32,13 @@ export function AppText({
   type = TextType.Default,
   ...rest
 }: IAppText) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const { textColor } = useThemeColors();
 
   return (
     <Text
       style={[
         { fontFamily: 'LeagueSpartan' },
-        { color },
+        { color: Colors.light.text },
         { flexShrink: 1 },
         type === TextType.Default ? styles.default : undefined,
         type === TextType.Title ? styles.title : undefined,
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 24,
     fontWeight: '700',
-    color: Colors.light.header
   },
   title: {
     fontSize: 30,

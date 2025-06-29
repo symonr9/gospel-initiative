@@ -35,12 +35,53 @@ export const Colors = {
     darkAlternative: '#6eaadb'
   },
   dark: {
-    background: '#abceea'
+    text: '#f5f5f5',
+    header: '#f5f5f5',
+    alternateText: '#222222',
+    background: '#1a2327',
+    primary: '#3a5c6e',
+    secondary: '#22343c',
+    darkAlternative: '#0e1a1f'
   },
 };
 
+export const useThemeColors = () => {
+  const textColor = useThemeColor(
+    { light: Colors.light.text, dark: Colors.dark.text },
+    "text"
+  );
+  const headerColor = useThemeColor(
+    { light: Colors.light.header, dark: Colors.dark.header },
+    "header"
+  );
+  const alternateTextColor = useThemeColor(
+    { light: Colors.light.alternateText, dark: Colors.dark.alternateText },
+    "alternateText"
+  );
+  const backgroundColor = useThemeColor(
+    { light: Colors.light.background, dark: Colors.dark.background },
+    "background"
+  );
+  const primaryColor = useThemeColor(
+    { light: Colors.light.primary, dark: Colors.dark.primary },
+    "primary"
+  );
+  const secondaryColor = useThemeColor(
+    { light: Colors.light.secondary, dark: Colors.dark.secondary },
+    "secondary"
+  );
+  const darkAlternativeColor = useThemeColor(
+    { light: Colors.light.darkAlternative, dark: Colors.dark.darkAlternative },
+    "darkAlternative"
+  );
 
-export const useBackgroundThemeColor = () => useThemeColor({
-  light: Colors.light.background,
-  dark: Colors.dark.background
-}, 'background');
+  return {
+    textColor,
+    headerColor,
+    alternateTextColor,
+    backgroundColor,
+    primaryColor,
+    secondaryColor,
+    darkAlternativeColor,
+  };
+};

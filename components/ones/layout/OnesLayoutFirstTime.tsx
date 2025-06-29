@@ -5,7 +5,7 @@ import { AppIcon } from '@/enums/enums';
 import React from 'react';
 import { ViewProps } from "react-native";
 import { OneLayoutType } from '../OnesLayout';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import PageResponse from '@/components/common/PageResponse';
 
 type IOnesLayoutFirstTime = ViewProps & {
@@ -15,13 +15,15 @@ type IOnesLayoutFirstTime = ViewProps & {
 
 export function OnesLayoutFirstTime({ setMessage, setActiveLayoutType }: IOnesLayoutFirstTime) {
 
+    const { darkAlternativeColor } = useThemeColors();
+
     return (
         <PageColumn style={{ gap: 8 }}>
             <PageResponse title={'Welcome'}
                 details={'Please add your One on the Ones page to get started.'} />
 
             <Image source={AppIcon.User}
-                tintColor={Colors.light.darkAlternative}
+                tintColor={darkAlternativeColor}
                 style={{
                     marginVertical: 8,
                     height: 80,

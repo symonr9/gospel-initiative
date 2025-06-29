@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ThemedView } from '@/components/common/ThemedView';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { screenHeight, screenWidth } from '@/constants/Dimensions';
 
 type Props = PropsWithChildren<{
@@ -13,8 +13,10 @@ type Props = PropsWithChildren<{
 export default function PageView({
   children,
 }: Props) {
+  const { backgroundColor, textColor } = useThemeColors();
+
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor }]}>
         {children}
     </ThemedView>
   );
@@ -25,8 +27,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     height: screenHeight - 170,
     width: screenWidth,
-    backgroundColor: Colors.light.background,
-    color: Colors.light.text,
     flex: 1,
     flexDirection: 'column'
   },

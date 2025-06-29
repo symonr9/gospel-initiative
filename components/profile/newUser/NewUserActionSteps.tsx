@@ -8,7 +8,7 @@ import { SimpleTextList } from "@/components/common/SimpleTextList";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { SimpleCard } from "@/components/common/SimpleCard";
 import { PageRow } from "@/components/common/PageRow";
-import { Colors } from "@/constants/Colors";
+import { Colors, useThemeColors } from "@/constants/Colors";
 
 type INewUserActionSteps = ViewProps & {
     newUserStep: NewUserStep;
@@ -18,6 +18,8 @@ type INewUserActionSteps = ViewProps & {
 
 export default function NewUserActionSteps({ newUserStep, setNewUserStep, styles }: INewUserActionSteps) {
     const [showCalendar, setShowCalendar] = useState(false);
+
+    const { darkAlternativeColor } = useThemeColors();
 
     const onContinue = () => {
         setNewUserStep(NewUserStep.PrayerBeacons);
@@ -35,7 +37,7 @@ export default function NewUserActionSteps({ newUserStep, setNewUserStep, styles
 
             <PageRow center>
                 <Image source={AppIcon.AppLogoTransparent}
-                    tintColor={Colors.light.darkAlternative}
+                    tintColor={darkAlternativeColor}
                     style={styles.logoIcon} />
             </PageRow>
 

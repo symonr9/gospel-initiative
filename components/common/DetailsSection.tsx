@@ -6,6 +6,7 @@ import { PageColumn } from "./PageColumn";
 import { AppIcon } from "@/enums/enums";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { halfScreenWidth } from "@/constants/Dimensions";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 
 export type IDetailsSection = ViewProps & {
@@ -50,9 +51,9 @@ function DetailsSection({ iconSrc, title, prefix, onClick, style }: IDetailsSect
             <PageColumn style={[styles.container, style]}>
                 <Image source={iconSrc} style={styles.icon} />
                 <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: halfScreenWidth - 60 }}>
-                    <AppText type={TextType.Body}>{prefix}</AppText>
+                    <AppText type={TextType.Body} style={{ color: Colors.light.text }}>{prefix}</AppText>
                     <Animated.Text style={animatedStyle}>
-                        <AppText type={TextType.DefaultSemiBold}>{title}</AppText>
+                        <AppText type={TextType.DefaultSemiBold} style={{ color: Colors.light.text }}>{title}</AppText>
                     </Animated.Text>
                 </PageColumn>
             </PageColumn>

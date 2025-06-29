@@ -4,7 +4,7 @@ import { View, useWindowDimensions, StyleSheet } from 'react-native';
 import { TabView, TabBar, SceneRendererProps, Route } from 'react-native-tab-view';
 
 import { AppText } from '@/components/common/AppText';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 export type IAppTabView = {
     title: string,
@@ -16,16 +16,24 @@ export type IAppTabView = {
 
 function AppTabView({ title, index, setIndex, renderScene, routes }: IAppTabView) {
     const layout = useWindowDimensions();
+    
+    const {
+        textColor,
+        headerColor,
+        backgroundColor,
+        primaryColor,
+        secondaryColor,
+    } = useThemeColors();
 
     const renderTabBar = (props: any) => (
         <TabBar
             {...props}
-            indicatorStyle={styles.indicator}
-            style={styles.tabBar}
+            indicatorStyle={[styles.indicator, { backgroundColor: secondaryColor }]}
+            style={[styles.tabBar, { backgroundColor: primaryColor }]}
             scrollEnabled={routes.length >= 4}
             renderLabel={({ route, focused }) => (
-                <View style={[styles.labelContainer, focused && styles.activeTab]}>
-                    <AppText style={[styles.label, focused && styles.activeLabel]}>{route.title}</AppText>
+                <View style={[styles.labelContainer, focused && { backgroundColor: secondaryColor }]}>
+                    <AppText style={[styles.label, { color: textColor }]}>{route.title}</AppText>
                 </View>
             )}
         />
@@ -39,19 +47,16 @@ function AppTabView({ title, index, setIndex, renderScene, routes }: IAppTabView
             renderTabBar={renderTabBar}
             swipeEnabled={true}
             initialLayout={{ width: layout.width }}
-            style={styles.tabViewContainer}
+            style={[styles.tabViewContainer, { backgroundColor: backgroundColor}]}
         />
     );
 }
 
 const styles = StyleSheet.create({
     tabViewContainer: {
-        backgroundColor: Colors.light.background,
-        color: Colors.light.text,
         flex: 1,
     },
     tabBar: {
-        backgroundColor: Colors.white,
         shadowOpacity: 0.2,
         shadowRadius: 6,
         shadowColor: '#000',
@@ -62,7 +67,6 @@ const styles = StyleSheet.create({
         borderBottomEndRadius: 4,
     },
     indicator: {
-        backgroundColor: Colors.light.secondary,
         height: 4,
         borderRadius: 2,
     },
@@ -77,11 +81,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     activeTab: {
-        backgroundColor: Colors.light.secondary,
-
     },
     activeLabel: {
-        color: Colors.light.header,
         fontWeight: 'bold',
     },
 });

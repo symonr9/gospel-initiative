@@ -12,6 +12,7 @@ import { ThemedView } from './ThemedView';
 import { AppIcon, ItemRowContainerType } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import ScrollLayout from './ScrollLayout';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IItemRowContainer = {
     iconSrc: AppIcon | null;
@@ -38,6 +39,7 @@ export function ItemRowContainer({
     setActiveType = null
 }: IItemRowContainer) {
     const heightProgress = useSharedValue(0);
+    const { textColor } = useThemeColors();
 
     const animatedStyle = useAnimatedStyle(() => {
         const height = interpolate(
@@ -71,7 +73,7 @@ export function ItemRowContainer({
                         {iconSrc && (
                             <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                         )}
-                        <AppText type={TextType.Subtitle3} style={customStyles?.title}>
+                        <AppText type={TextType.Subtitle3} style={[{ color: textColor }, customStyles?.title]}>
                             {title}
                         </AppText>
                     </PageRow>

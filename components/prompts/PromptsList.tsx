@@ -4,16 +4,16 @@ import React, {  } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, ViewProps } from 'react-native';
 
-import { useBackgroundThemeColor } from '@/constants/Colors';
 import Prompt from '@/models/prompt';
 import { PromptCard } from './PromptCard';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IPromptsList = ViewProps & {
     prompts: Prompt[];
 };
 
 function PromptsList({ style, prompts, ...otherProps }: IPromptsList) {
-    const backgroundColor = useBackgroundThemeColor();
+  const { backgroundColor } = useThemeColors();
 
     const renderItem = ({ item }: { item: Prompt }) => (
         <PromptCard prompt={item}/>
