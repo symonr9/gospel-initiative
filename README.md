@@ -87,6 +87,9 @@ would show up on the dev build app, nothing would happen and it would timeout th
 I was able to connect again.
 - So if you're getting app timeouts, it may be because of something firewall related. Especially if it seems to be working when launching on web.
 
+### No value was provided for the parameter 'scope'" error when registering for Apple push key
+- My fix: `npm install -g eas-cli`
+
 ## Notes
 
 ### Expo Go
