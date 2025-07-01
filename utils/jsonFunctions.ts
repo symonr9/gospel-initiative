@@ -133,8 +133,10 @@ export function getUserFromJson(item: any) {
         item.enableAutoBeacons,
         item.autoBeaconType as AutoBeaconType,
         item.autoBeaconTags ? item.autoBeaconTags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
-        item.hasAutoBeaconBeenCreatedThisCycle
+        item.hasAutoBeaconBeenCreatedThisCycle,
+        item.isSetupForNotifications || false
     );
+    // TODO: Add more for the beacons settings here...
 }
 
 export function getGodsStoryChaptersFromJson() {

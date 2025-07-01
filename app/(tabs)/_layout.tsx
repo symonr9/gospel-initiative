@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import React, { } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { TabBarIcon } from '@/components/common/TabBarIcon';
@@ -7,13 +7,14 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import DataRefreshManager from '../../managers/dataRefreshManager';
 import AppStateManager from '../../managers/appStateManager';
-import { ViewProps } from 'react-native';
+import { Button, Platform, View, ViewProps } from 'react-native';
 import NewUserLayout from '@/components/profile/NewUserLayout';
 import { AppIcon, NewUserStep } from '@/enums/enums';
 import LoadingLayout from '@/components/common/LoadingLayout';
 import { clearAppError } from '@/redux/actions';
 import AppError from '@/models/error';
 import { AnimatedBanner } from '@/components/common/AnimatedBanner';
+import NotificationManager from '@/managers/notificationManager';
 
 export type ITabLayout = ViewProps & {
   newUserStep: NewUserStep;
@@ -29,7 +30,7 @@ function TabLayout({ newUserStep, error, clearAppError }: ITabLayout) {
     headerShown: false,
   };
 
-  const createTabBarIcon = (color: string, focused: string, iconName: string) =>
+  const createTabBarIcon = (color: string, focused: boolean, iconName: string) =>
     <TabBarIcon name={focused ? iconName : `${iconName}-outline`} color={color} />;
 
   const NormalLayout = (
@@ -64,9 +65,9 @@ function TabLayout({ newUserStep, error, clearAppError }: ITabLayout) {
 
   let Body;
   if (isLoading) {
-    Body = <LoadingLayout/>
+    Body = <LoadingLayout />
   } else if (isNewUser) {
-    Body = <NewUserLayout/>;
+    Body = <NewUserLayout />;
   } else {
     Body = NormalLayout;
   }
@@ -75,6 +76,7 @@ function TabLayout({ newUserStep, error, clearAppError }: ITabLayout) {
     <>
       <DataRefreshManager />
       <AppStateManager />
+      <NotificationManager/>
       {
         error && (
           <AnimatedBanner iconSrc={AppIcon.Info}

@@ -20,7 +20,7 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
     const [showGoal2, setShowGoal2] = useState(false);
     const [showGoal3, setShowGoal3] = useState(false);
 
-    const { darkAlternativeColor } = useThemeColors();
+    const { textColor, darkAlternativeColor } = useThemeColors();
 
     const onLearnGospelInitiative = () => {
         setNewUserStep(NewUserStep.WhatIsTheGospelInitiative);
@@ -32,14 +32,14 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
 
     return (
         <PageColumn style={{ gap: 4 }}>
-            <AppText type={TextType.Title}>The Gospel Initiative</AppText>
+            <AppText type={TextType.Title} style={{ color: textColor }}>The Gospel Initiative</AppText>
 
-            <AppText>
+            <AppText style={{ color: textColor }}>
                 The Gospel Initiative App is a tool designed with three main goals in mind.
             </AppText>
 
             <Image source={AppIcon.AppLogoTransparent}
-                tintColor={darkAlternativeColor}
+                tintColor={textColor}
                 style={styles.logoIcon} />
 
             <SimpleCard iconSrc={AppIcon.Conversation}

@@ -13,6 +13,7 @@ export enum Action {
     RemoveUserData = 'REMOVE_USER_DATA',
     OpenPage = "OPEN_PAGE",
     RefreshData = "REFRESH_DATA",
+    SetIsSetupForNotifications = "SET_IS_SETUP_FOR_NOTIFICATIONS",
 
     UpdateOneNoteFilters = "UPDATE_ONE_NOTE_FILTER",
     UpdateChaptersFilter = "UPDATE_CHAPTERS_FILTER",

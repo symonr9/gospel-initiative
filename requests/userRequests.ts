@@ -159,3 +159,29 @@ export const refreshAccessToken = async () => {
     return {};
 };
 
+export const updatePushToken = async (expoPushToken: string) => {
+    const userId = await getLocalUserId();
+    if (!userId || !expoPushToken) {
+        return { error: 'Invalid configuration.' };
+    }
+
+    console.log('Updating push token:', expoPushToken);
+
+    const response = await postData(`/users/push-token`, { expoPushToken }, {
+        headers: {
+            user_id: userId,
+        },
+    });
+
+    if (!response) {
+        return { error: 'Failed to contact server.' };
+    } else if (response.data.error) {
+        return { error: response.data.error };
+    } else if (response.status !== 200) {
+        return { error: `Response returned error: ${response.status}` };
+    }
+
+    console.log('Push token updated successfully:', response.data);
+
+    return {};
+}

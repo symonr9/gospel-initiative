@@ -3,7 +3,8 @@ import update from 'immutability-helper';
 
 const initialState = {
     executor: null,
-    users: []
+    users: [],
+    isSetupForNotifications: false,
 };
 
 export function usersReducer(state = initialState, action: ActionPackage) {
@@ -14,6 +15,14 @@ export function usersReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     executor: executor || state.executor,
                     users: users || state.users,
+                    isSetupForNotifications: executor?.isSetupForNotifications || state.isSetupForNotifications,
+                }
+            });
+        case Action.SetIsSetupForNotifications:
+            return update(state, {
+                $set: {
+                    ...state,
+                    isSetupForNotifications: true,
                 }
             });
         default:

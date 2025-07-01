@@ -14,6 +14,7 @@ interface IUser {
   autoBeaconType: AutoBeaconType;
   autoBeaconTags: BeaconTag[];
   hasAutoBeaconBeenCreatedThisCycle: boolean;
+  isSetupForNotifications: boolean;
 
   // Goals Class - measured by action steps, activities, etc.
 }
@@ -32,12 +33,14 @@ export default class User implements IUser {
     autoBeaconType: AutoBeaconType;
     autoBeaconTags: BeaconTag[];
     hasAutoBeaconBeenCreatedThisCycle: boolean;
+    isSetupForNotifications: boolean;
   
     constructor(id: string, name: string, email: string, 
       role: Role, icon: AvatarIcon, createdAt: Date | undefined,
       lastPartitionDate: Date | undefined, lastExtraPartitionGranted: Date | undefined,
       extraPartitionCount: number, enableAutoBeacons: boolean, autoBeaconType: AutoBeaconType,
-      autoBeaconTags: BeaconTag[], hasAutoBeaconBeenCreatedThisCycle: boolean) {
+      autoBeaconTags: BeaconTag[], hasAutoBeaconBeenCreatedThisCycle: boolean, 
+      isSetupForNotifications: boolean) {
       this.id = id;
       this.name = name;
       this.email = email;
@@ -51,5 +54,6 @@ export default class User implements IUser {
       this.autoBeaconType = autoBeaconType;
       this.autoBeaconTags = autoBeaconTags;
       this.hasAutoBeaconBeenCreatedThisCycle = hasAutoBeaconBeenCreatedThisCycle;
+      this.isSetupForNotifications = isSetupForNotifications;
     }
   }
