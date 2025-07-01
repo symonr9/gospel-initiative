@@ -41,6 +41,9 @@ npx expo start
    - Run on Web: `npm run web`
 - Backend-specific
    - Run Prisma Studio Editor: `npx prisma studio`.
+- Expo
+   - List out most recent iOS build: `eas build:list --platform ios --limit 1`
+
 
 Notes:
 - The phone device you are trying to connect to must be on the same WiFi network as the laptop.
@@ -90,7 +93,18 @@ I was able to connect again.
 ### No value was provided for the parameter 'scope'" error when registering for Apple push key
 - My fix: `npm install -g eas-cli`
 
+### `cannot find native module ExpoDevice`
+- I tried to install the module with `npx expo install expo-device` along with a bunch of other
+dependencies, but it wouldn't go through. Tried removing node_modules and package-lock.json, tried
+different versions, didn't work.
+- I had to (1) **rebuild the eas development build** and (2) **uninstall and reinstall** the development build app on my phone. I removed it and re-installed the new build with the expo-devices dependency with the QR code I can find when trying to install from the Expo developer website. Then it worked.
+
 ## Notes
+
+### How do I reinstall development builds?
+- If the development build has been deleted, you can find the QR Code to install it again on the
+Expo development website. Go to your profile, go to 'Development Builds', click the most recent
+one, and click the blue `Install` button.
 
 ### Expo Go
 Expo Go should only be used for experimental releases. Just use a development build whenever possible. You get more of the native tools and the app itself
