@@ -21,7 +21,7 @@ export type IDataRefreshManager = {
     setAppError: Function,
 };
 
-function hasConstantsLoaded() {
+function getExpoServerUrl() {
     return Constants.expoConfig?.extra?.serverUrl;
 }
 
@@ -29,10 +29,12 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
     const [shouldRefreshBeacons, setShouldRefreshBeacons] = useState(false);
 
     useEffect(() => {
-        if (!hasConstantsLoaded()) {
+        const expoServerUrl = getExpoServerUrl();
+        if (!expoServerUrl) {
             setAppError(new AppError('Invalid Server Configuration', 'Please contact your administrator.'));
             return;
         }
+        console.log(`Expo Server URL: ${expoServerUrl}`);       
         loadSettings();
     }, []);
 
