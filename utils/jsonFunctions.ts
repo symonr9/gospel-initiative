@@ -120,6 +120,13 @@ export function getChristianFromJson(item: any) {
 }
 
 export function getUserFromJson(item: any) {
+    let preferredNotificationTimes = [];
+    if (item.preferredNotificationTimes && item.preferredNotificationTimes instanceof Array) {
+        preferredNotificationTimes = item.preferredNotificationTimes;
+    } else if (item.preferredNotificationTimes) {
+        preferredNotificationTimes = item.preferredNotificationTimes.split('∫');
+    }
+    
     return new User(
         item.id,
         item.name,
@@ -134,9 +141,12 @@ export function getUserFromJson(item: any) {
         item.autoBeaconType as AutoBeaconType,
         item.autoBeaconTags ? item.autoBeaconTags.split('∫').map((tag: string) => tag.trim()).map((tag: string) => parseInt(tag)).map((tag: number) => tag as BeaconTag) : [],
         item.hasAutoBeaconBeenCreatedThisCycle,
-        item.isSetupForNotifications || false
+        item.isSetupForNotifications || false,
+        item.notifyOnEveryBeacon || false,
+        item.notifyMorningAndEveningOnly || false,
+        item.preferredNotificationTimes,
+        item.lastNotificationSent ? new Date(item.lastNotificationSent) : undefined
     );
-    // TODO: Add more for the beacons settings here...
 }
 
 export function getGodsStoryChaptersFromJson() {
