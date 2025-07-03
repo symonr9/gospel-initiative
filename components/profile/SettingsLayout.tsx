@@ -8,6 +8,8 @@ import { setAppError } from '@/redux/actions';
 import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import User from '@/models/user';
+import SettingsUserPrefs from './settings/SettingsUserPrefs';
+import SettingsBeaconPrefs from './settings/SettingsBeaconPrefs';
 
 export type IProfileLayout = ViewProps & {
     executor: User,
@@ -17,7 +19,10 @@ export type IProfileLayout = ViewProps & {
 function SettingsLayout({ executor, setAppError }: IProfileLayout) {
     const [message, setMessage] = useState<string | null>(null);
 
-    const BodyLayout: any[] = [];
+    const BodyLayout: any[] = [
+        <SettingsUserPrefs/>,
+        <SettingsBeaconPrefs/>
+    ];
 
     return (
         <ScrollLayout>
