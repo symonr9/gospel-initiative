@@ -624,7 +624,12 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
     return (
         <View style={styles.container}>
             <PageRow spaceBetween>
-                <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
+                <PageColumn style={{ marginBottom: 8 }}>
+                    <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
+                    <AppText type={TextType.Body}>
+                        Notes taken about your One will only be seen by you.
+                    </AppText>
+                </PageColumn>
             </PageRow>
             {Body.map((item) => item)}
         </View>

@@ -28,7 +28,7 @@ export function BeaconsListHeader({ activeLayoutType, selectedTemplateId, style 
         } else if (selectedTemplateId !== null) {
             return 'Make changes to your beacon before continuing.';
         }
-        return 'Use beacons to ask for prayer from your church community. Your beacon will be delivered to friends in your community and will be active for 7 days. To begin, tap the card below to choose a beacon type.';
+        return 'Use beacons to share prayer requests with your community. Your beacon will be available to view for 7 days by everyone with the app.';
     }
 
     return (
