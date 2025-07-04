@@ -539,6 +539,7 @@ export enum AppIcon {
     Friend = require('../assets/images/app-icons/friend.png'),
     BestFriend = require('../assets/images/app-icons/bestFriend.png'),
     Filter = require('../assets/images/app-icons/filter.png'),
+    CloseSimple = require('../assets/images/app-icons/closeSimple.png'),
 
     MeetingWithOneSplash = require('../assets/images/gospel-initiative/meeting-with-one-splash.png'),
     PracticeTestimonySplash = require('../assets/images/gospel-initiative/practice.png')

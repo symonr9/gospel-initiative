@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { type ViewProps, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { AppIcon } from '@/enums/enums';
 import { SimpleCard } from '../common/SimpleCard';
@@ -12,6 +12,7 @@ import BeaconForm from '@/models/beaconForm';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { setSelectedTemplateId, refreshData, setAppError } from '@/redux/actions';
 import BeaconPicker from '../ones/BeaconPicker';
+import { selectActiveBeaconsWithActivities } from '@/redux/selectors';
 
 export type IHomeQuickBeaconCard = ViewProps & {
     executor: User;
@@ -27,7 +28,9 @@ export type IHomeQuickBeaconCard = ViewProps & {
 
 function HomeQuickBeaconCard({ executor, ones, selectedOneId, beaconForm,
     selectedTemplateId, beaconTemplates }: IHomeQuickBeaconCard) {
-    if (!executor || ones.length === 0) {
+    const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOneId)) || [];
+
+    if (!executor || ones.length === 0 || activeBeaconsWithActivities.length > 0) {
         return <></>;
     }
 

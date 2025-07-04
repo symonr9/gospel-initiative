@@ -36,39 +36,47 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
         <Animated.View entering={FadeInDown.duration(bannerDuration).delay(bannerDelay)}>
             <TouchableOpacity onPress={onPress}>
                 <ThemedView style={[styles.container]}>
-                    <PageRow>
-                        {
-                            iconSrc && (
-                                <Image source={iconSrc} style={styles.icon} contentFit="contain" />
-                            )
-                        }
-                        <PageColumn>
-                            <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
-                                <Animated.Text
-                                    entering={FadeInUp.duration(textDuration).delay(textDelay)}
-                                    exiting={FadeOutDown.duration(textDuration)}
-                                    style={[styles.textContainer]}>
-                                    <AppText type={TextType.Default}>
-                                        {text}
-                                    </AppText>
-                                </Animated.Text>
-                            </PageRow>
-
+                    <PageRow style={[{}]} spaceBetween>
+                        <PageRow>
                             {
-                                prefixText && (
-                                    <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
-                                        <Animated.Text
-                                            entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
-                                            exiting={FadeOutDown.duration(textDuration)}
-                                            style={[styles.textContainer]} >
-                                            <AppText type={TextType.Prefix}>
-                                                {prefixText}
-                                            </AppText>
-                                        </Animated.Text>
-                                    </PageRow>
+                                iconSrc && (
+                                    <Image source={iconSrc} style={styles.icon} contentFit="contain" />
                                 )
                             }
-                        </PageColumn>
+                            <PageColumn>
+                                <PageRow style={{ flexShrink: 1, width: standardPaddedWidth - 20 }}>
+                                    <Animated.Text
+                                        entering={FadeInUp.duration(textDuration).delay(textDelay)}
+                                        exiting={FadeOutDown.duration(textDuration)}
+                                        style={[styles.textContainer]}>
+                                        <AppText type={TextType.Default}>
+                                            {text}
+                                        </AppText>
+                                    </Animated.Text>
+                                </PageRow>
+
+                                {
+                                    prefixText && (
+                                        <PageRow style={{ flexShrink: 1, width: standardPaddedWidth - 20 }}>
+                                            <Animated.Text
+                                                entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
+                                                exiting={FadeOutDown.duration(textDuration)}
+                                                style={[styles.textContainer]} >
+                                                <AppText type={TextType.Prefix}>
+                                                    {prefixText}
+                                                </AppText>
+                                            </Animated.Text>
+                                        </PageRow>
+                                    )
+                                }
+                            </PageColumn>
+                        </PageRow>
+
+                        <TouchableOpacity onPress={onPress}>
+                            <Image source={AppIcon.CloseSimple}
+                                style={[styles.icon]}
+                                contentFit="contain" />
+                        </TouchableOpacity>
                     </PageRow>
                 </ThemedView>
             </TouchableOpacity>

@@ -136,17 +136,13 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
         )
     });
 
-    if (itemsToRender.length === 0) {
-        return <></>;
-    }
-
     return (
         <Animated.View entering={FadeInRight.duration(duration).delay(delay)} style={[styles.container, style]}>
             <PageRow>
                 <AppText type={TextType.Subtitle}>Beacon Activity</AppText>
             </PageRow>
             <ScrollLayout style={{ marginTop: 12, maxHeight: 350 }}>
-                {itemsToRender.map((item) => item)}
+                {itemsToRender?.map((item) => item)}
             </ScrollLayout>
         </Animated.View>
     );
