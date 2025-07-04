@@ -210,16 +210,16 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             detailsView={
               <>
                 {showInfoOnPage1 && (
-                  <PageColumn style={{ marginTop: 12 }}>
+                  <PageColumn style={{ }}>
                     <PageColumn style={{ marginTop: 8, gap: 16 }}>
                       <AppText type={TextType.Default}>
-                        <AppText type={TextType.Subtitle3}>1.) Respond:</AppText> Answer the question on the next page. You can either type your answer or use your phone's speech-to-text feature.
+                        <AppText type={TextType.Subtitle3}>1.) Respond:</AppText> Answer the question by typing or using speech-to-text.
                       </AppText>
                       <AppText type={TextType.Default}>
-                        <AppText type={TextType.Subtitle3}>2.) Review:</AppText> The app will organize and compile your testimony and provide insights and feedback. Choose which ones to save.
+                        <AppText type={TextType.Subtitle3}>2.) Review:</AppText> Review and select which compiled responses to keep.
                       </AppText>
                       <AppText type={TextType.Default}>
-                        <AppText type={TextType.Subtitle3}>3.) Save:</AppText> When you are done reviewing the compilations, save your changes.
+                        <AppText type={TextType.Subtitle3}>3.) Save:</AppText> Save your selections when finished.
                       </AppText>
                     </PageColumn>
                   </PageColumn>
@@ -229,10 +229,9 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         </PageRow>
 
         <PageRow spaceEvenly style={{ gap: 8 }}>
-          <ItemRowContainer iconSrc={AppIcon.Info}
-            title={title}
-            expandedHeight={(halfScreenHeight / 5) - 10}
-            itemsToRender={practiceTokens} />
+          <AppText type={TextType.Subtitle2} style={{ marginVertical: 8 }}>
+            You have {hasFreePractice ? '1 free practice' : numOfAdditionalPractices} token{numOfAdditionalPractices !== 1 ? 's' : ''} available.
+          </AppText>
         </PageRow>
 
         <PageRow center>
@@ -293,7 +292,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             onClick={() => setPageState(PageState.Page3)} />
         </PageRow>
 
-        <View style={{ height: 200}}/>
+        <View style={{ height: 200 }} />
       </>
     );
   } else if (pageState === PageState.Page3) {

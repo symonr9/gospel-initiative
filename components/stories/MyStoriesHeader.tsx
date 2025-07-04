@@ -117,7 +117,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                             <AnimatedHeader title={'Filter'} overridingTextColor={Colors.light.text} subtitle={'Tap items below to filter your stories.'} />
 
                             {chaptersIsLoaded && (
-                                <PageRow spaceBetween style={{ gap: 8 }}>
+                                <PageRow spaceBetween style={{ gap: 4 }}>
                                     <DetailsSection iconSrc={AppIcon.BeforeChrist}
                                         prefix="Before Christ"
                                         title={beforeChristChapters.length}
@@ -209,6 +209,7 @@ const styles = StyleSheet.create({
     typeFilterItem: {
         padding: 8,
         borderRadius: 8,
+        width: 120,
     },
     selectedTypeFilter: {
         backgroundColor: Colors.selected,

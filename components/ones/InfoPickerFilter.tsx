@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginVertical: 4,
         gap: 8,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     selectedTypeFilter: {
         backgroundColor: Colors.selected,
