@@ -17,7 +17,6 @@ Notifications.setNotificationHandler({
         shouldShowAlert: true,
         shouldPlaySound: true,
         shouldSetBadge: true,
-        // shouldShowBanner and shouldShowList are not part of NotificationBehavior, so they should be removed
     }),
 });
 
