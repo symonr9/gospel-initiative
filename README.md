@@ -84,10 +84,8 @@ This command triggers a build on the EAS servers for the iOS platform which will
 
 
 ### App timeout
-- My development build was installed on my iOS device but I wasn't able to connect any way - through QR code, manually, etc. When the development server option
-would show up on the dev build app, nothing would happen and it would timeout the connection.
-- I realized it was because I instal anti-virus software Avast that was doing stuff to my Windows firewall. I had to remove it and restart my computer and
-I was able to connect again.
+- My development build was installed on my iOS device but I wasn't able to connect any way - through QR code, manually, etc. When the development server option would show up on the dev build app, nothing would happen and it would timeout the connection.
+- I realized it was because I instal anti-virus software Avast that was doing stuff to my Windows firewall. I had to remove it and restart my computer and I was able to connect again.
 - So if you're getting app timeouts, it may be because of something firewall related. Especially if it seems to be working when launching on web.
 
 ### No value was provided for the parameter 'scope'" error when registering for Apple push key
@@ -105,6 +103,9 @@ different versions, didn't work.
 - If the development build has been deleted, you can find the QR Code to install it again on the
 Expo development website. Go to your profile, go to 'Development Builds', click the most recent
 one, and click the blue `Install` button.
+- Once it gets installed, try to run `npx expo start` with the app open. If it doesn't work, try manually
+putting in the server url:8081 into the manual. It will ask if you want to let the app discover devices
+in your network. Allow this and try the manual method again.
 
 ### Expo Go
 Expo Go should only be used for experimental releases. Just use a development build whenever possible. You get more of the native tools and the app itself
