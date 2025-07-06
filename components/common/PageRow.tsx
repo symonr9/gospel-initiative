@@ -9,9 +9,10 @@ export type IPageRow = ViewProps & {
     flexStart?: boolean;
     fillSpace?: boolean;
     center?: boolean;
+    verticalMargins?: boolean;
 };
 
-export function PageRow({ spaceBetween, spaceEvenly, flexStart, fillSpace, center, style, children }: IPageRow) {
+export function PageRow({ spaceBetween, spaceEvenly, flexStart, fillSpace, center, verticalMargins, style, children }: IPageRow) {
     return (
         <View style={[
             styles.rowContainer,
@@ -20,6 +21,7 @@ export function PageRow({ spaceBetween, spaceEvenly, flexStart, fillSpace, cente
             flexStart && styles.flexStart,
             fillSpace && styles.fillSpace,
             center && styles.center,
+            verticalMargins && { marginTop: 12, marginBottom: 12 },
             style
         ]}>
             {children}

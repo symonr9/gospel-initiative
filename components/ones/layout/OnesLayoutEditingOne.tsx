@@ -10,6 +10,7 @@ import AppError from '@/models/error';
 import One from '@/models/one';
 import User from '@/models/user';
 import { updateOne, removeOne } from '@/requests/oneRequests';
+import SimpleIconFormButton from '@/components/common/SimpleIconFormButton';
 
 type IOnesLayoutEditingOne = ViewProps & {
     selectedOne: One,
@@ -24,68 +25,72 @@ type IOnesLayoutEditingOne = ViewProps & {
     revertToInitialLayoutType: Function
 };
 
-export function OnesLayoutEditingOne({ selectedOne, ones, oneForm, setAppError, executor, 
+export function OnesLayoutEditingOne({ selectedOne, ones, oneForm, setAppError, executor,
     refreshData, setMessage, setOneForm, setSelectedOneId, revertToInitialLayoutType }: IOnesLayoutEditingOne) {
-        const onSave = async () => {
-            const updatedOne = {
-                ...selectedOne,
-                name: oneForm.name,
-                icon: oneForm.icon,
-                stage: oneForm.stage,
-                category: oneForm.category,
-                gospelChecklist: oneForm.gospelChecklist
-            };
-
-            try {
-                const response = await updateOne(updatedOne);
-                if (response.error) {
-                    setAppError(new AppError('Error updating one: ', response.error));
-                    return;
-                }
-
-                refreshData(RefreshSpec.Ones);
-                setOneForm(OneForm.createDefault());
-                setMessage("Your One has been successfully updated!");
-                revertToInitialLayoutType();
-            } catch (err: any) {
-                setAppError(new AppError('Error updating one: ', err));
-            }
+    const onSave = async () => {
+        const updatedOne = {
+            ...selectedOne,
+            name: oneForm.name,
+            icon: oneForm.icon,
+            stage: oneForm.stage,
+            category: oneForm.category,
+            gospelChecklist: oneForm.gospelChecklist
         };
 
-        const onRemove = async () => {
-            try {
-                const response = await removeOne(selectedOne);
-                if (response.error) {
-                    setAppError(new AppError('Error removing one: ', response.error));
-                    return;
-                }
-
-                refreshData(RefreshSpec.Ones);
-                setOneForm(OneForm.createDefault());
-                setSelectedOneId(ones.length > 0 ? ones[0].id : null);
-                setMessage("Your One has been successfully removed!");
-                revertToInitialLayoutType();
-            } catch (err: any) {
-                setAppError(new AppError('Error removing one: ', err));
+        try {
+            const response = await updateOne(updatedOne);
+            if (response.error) {
+                setAppError(new AppError('Error updating one: ', response.error));
+                return;
             }
-        };
+
+            refreshData(RefreshSpec.Ones);
+            setOneForm(OneForm.createDefault());
+            setMessage("Your One has been successfully updated!");
+            revertToInitialLayoutType();
+        } catch (err: any) {
+            setAppError(new AppError('Error updating one: ', err));
+        }
+    };
+
+    const onRemove = async () => {
+        try {
+            const response = await removeOne(selectedOne);
+            if (response.error) {
+                setAppError(new AppError('Error removing one: ', response.error));
+                return;
+            }
+
+            refreshData(RefreshSpec.Ones);
+            setOneForm(OneForm.createDefault());
+            setSelectedOneId(ones.length > 0 ? ones[0].id : null);
+            setMessage("Your One has been successfully removed!");
+            revertToInitialLayoutType();
+        } catch (err: any) {
+            setAppError(new AppError('Error removing one: ', err));
+        }
+    };
 
     return (
         <PageColumn>
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    onClick={() => {
-                        revertToInitialLayoutType();
-                    }}
+            <PageRow verticalMargins>
+                <SimpleIconFormButton iconSrc={AppIcon.ArrowBack}
+                    onClick={() => revertToInitialLayoutType()}
+                    info
                     title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Save}
-                    onClick={onSave}
-                    title={'Save'} />
             </PageRow>
 
-            <AddEditOneForm editing 
+            <AddEditOneForm editing
                 onRemove={onRemove}
                 initialOneForm={selectedOne} />
+
+            <PageRow spaceBetween verticalMargins>
+                <PageRow></PageRow>
+                <SimpleIconFormButton iconSrc={AppIcon.Save}
+                    onClick={onSave}
+                    success
+                    title={'Save'} />
+            </PageRow>
         </PageColumn>
     );
 }

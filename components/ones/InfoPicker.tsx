@@ -32,6 +32,7 @@ import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView
 import InfoPickerFilter from './InfoPickerFilter';
 import { MAX_LONG_TEXT_LENGTH, MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
+import SimpleIconFormButton from '../common/SimpleIconFormButton';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -267,13 +268,11 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
 
     if (pickerState !== PickerState.Normal) {
         Body.push(
-            <PageRow spaceEvenly style={{ marginBottom: 8 }}>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    title={'Back'}
-                    onClick={onBackClick} />
-                <SimpleIconButton iconSrc={AppIcon.Checkmark}
-                    title={'Save'}
-                    onClick={onSaveClick} />
+            <PageRow verticalMargins>
+                <SimpleIconFormButton iconSrc={AppIcon.ArrowBack}
+                    onClick={onBackClick}
+                    info
+                    title={'Back'} />
             </PageRow>
         );
     } else {
@@ -618,6 +617,18 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                     Weird state!
                 </AppText>
             </View>
+        );
+    }
+
+    if (pickerState !== PickerState.Normal) {
+        Body.push(
+            <PageRow spaceBetween verticalMargins>
+                <PageRow></PageRow>
+                <SimpleIconFormButton iconSrc={AppIcon.Checkmark}
+                    onClick={onSaveClick}
+                    success
+                    title={'Save'} />
+            </PageRow>
         );
     }
 

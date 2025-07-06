@@ -28,6 +28,7 @@ import { Colors } from '@/constants/Colors';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 import { SimpleIcon } from '../common/SimpleIcon';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
+import SimpleIconFormButton from '../common/SimpleIconFormButton';
 
 export type IPracticeMyStoryDetails = {
   executor: User,
@@ -210,7 +211,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             detailsView={
               <>
                 {showInfoOnPage1 && (
-                  <PageColumn style={{ }}>
+                  <PageColumn style={{}}>
                     <PageColumn style={{ marginTop: 8, gap: 16 }}>
                       <AppText type={TextType.Default}>
                         <AppText type={TextType.Subtitle3}>1.) Respond:</AppText> Answer the question by typing or using speech-to-text.
@@ -392,6 +393,13 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
 
     Body.push(
       <>
+        <PageRow verticalMargins>
+          <SimpleIconFormButton iconSrc={AppIcon.ArrowBack}
+            onClick={() => setPageState(PageState.Page5)}
+            info
+            title={'Back'} />
+        </PageRow>
+
         <AppText type={TextType.Subtitle} style={{}}>
           Save Chapters?
         </AppText>
@@ -406,14 +414,12 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           keyExtractor={(item, index) => index.toString()}
         />
 
-        <PageRow spaceEvenly style={{ marginTop: 16 }}>
-          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-            title='Back'
-            onClick={() => setPageState(PageState.Page5)} />
-
-          <SimpleIconButton iconSrc={AppIcon.Save}
-            title={'Save'}
-            onClick={() => setPageState(PageState.Page7)} />
+        <PageRow spaceBetween verticalMargins>
+          <PageRow></PageRow>
+          <SimpleIconFormButton iconSrc={AppIcon.Checkmark}
+            onClick={() => setPageState(PageState.Page7)}
+            success
+            title={'Save'} />
         </PageRow>
       </>
     );

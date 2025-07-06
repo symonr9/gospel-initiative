@@ -25,6 +25,7 @@ import { SimpleConfetti } from '../common/SimpleConfetti';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
+import SimpleIconFormButton from '../common/SimpleIconFormButton';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -167,7 +168,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                 setAppError(new AppError('Error updating action steps: ', response.error));
                 return;
             }
-    
+
             refreshData(RefreshSpec.Ones);
             setSelectedStepId(null);
             setFormSelectedTypeIdx(0);
@@ -195,10 +196,10 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
                     <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
                         <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
-                        <AppText type={TextType.Italic} style={{ }}>{item.details}</AppText>
+                        <AppText type={TextType.Italic} style={{}}>{item.details}</AppText>
                     </PageColumn>
                 </PageRow>
-            </TouchableOpacity>  
+            </TouchableOpacity>
         );
     };
 
@@ -252,7 +253,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
 
                                     <SimpleButton type={ButtonType.Close}
                                         text={'Close'}
-                                        onPress={toggleModal}/>
+                                        onPress={toggleModal} />
                                 </View>
                             </View>
                         </Modal>
@@ -283,13 +284,11 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
 
     if (pickerState !== PickerState.Normal) {
         Body.push(
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-                    title={'Back'}
-                    onClick={onBackClick} />
-                <SimpleIconButton iconSrc={AppIcon.Checkmark}
-                    title={'Save'}
-                    onClick={onSaveClick} />
+            <PageRow verticalMargins>
+                <SimpleIconFormButton iconSrc={AppIcon.ArrowBack}
+                    onClick={onBackClick}
+                    info
+                    title={'Back'} />
             </PageRow>
         );
     } else {
@@ -389,11 +388,23 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
         );
     }
 
+    if (pickerState !== PickerState.Normal) {
+        Body.push(
+            <PageRow spaceBetween verticalMargins>
+                <PageRow></PageRow>
+                <SimpleIconFormButton iconSrc={AppIcon.Checkmark}
+                    onClick={onSaveClick}
+                    success
+                    title={'Save'} />
+            </PageRow>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <AppText type={TextType.Subtitle} style={styles.title}>Action Steps</AppText>
             {Body.map((item) => item)}
-            <View style={{ height: 300 }}/>
+            <View style={{ height: 300 }} />
         </View>
     );
 };

@@ -11,6 +11,9 @@ import One from '@/models/one';
 import User from '@/models/user';
 import { createOne, updateActionSteps } from '@/requests/oneRequests';
 import { getNow } from '@/utils/appUtils';
+import SimpleIconFormButton from '@/components/common/SimpleIconFormButton';
+import { Colors } from '@/constants/Colors';
+import { View } from 'react-native-reanimated/lib/typescript/Animated';
 
 type IOnesLayoutAddingOne = ViewProps & {
     oneForm: OneForm,
@@ -69,18 +72,24 @@ export function OnesLayoutAddingOne({ oneForm, setAppError, executor, setSelecte
 
     return (
         <PageColumn>
-            <PageRow spaceEvenly>
-                <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+            <PageRow verticalMargins>
+                <SimpleIconFormButton iconSrc={AppIcon.ArrowBack}
                     onClick={() => {
                         revertToInitialLayoutType();
                     }}
+                    info
                     title={'Back'} />
-                <SimpleIconButton iconSrc={AppIcon.Save}
-                    onClick={onSave}
-                    title={'Save'} />
             </PageRow>
 
             <AddEditOneForm initialOneForm={OneForm.createDefault()} />
+
+            <PageRow spaceBetween verticalMargins>
+                <PageRow></PageRow>
+                <SimpleIconFormButton iconSrc={AppIcon.Save}
+                    onClick={onSave}
+                    success
+                    title={'Save'} />
+            </PageRow>
         </PageColumn>
     );
 }
