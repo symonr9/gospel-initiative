@@ -49,7 +49,7 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                                         entering={FadeInUp.duration(textDuration).delay(textDelay)}
                                         exiting={FadeOutDown.duration(textDuration)}
                                         style={[styles.textContainer]}>
-                                        <AppText type={TextType.Default}>
+                                        <AppText type={TextType.Body}>
                                             {text}
                                         </AppText>
                                     </Animated.Text>
@@ -86,10 +86,10 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 16,
+        marginHorizontal: 4,
         marginVertical: 12,
         padding: 8,
-        gap: 8,
+        gap: 4,
         backgroundColor: Colors.white,
         shadowOpacity: 0.2,
         shadowRadius: 4,
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     icon: {
-        width: 32,
-        height: 32,
+        width: 24,
+        height: 24,
         marginEnd: 8,
         alignSelf: 'center',
     },
