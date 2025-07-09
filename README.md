@@ -97,6 +97,18 @@ dependencies, but it wouldn't go through. Tried removing node_modules and packag
 different versions, didn't work.
 - I had to (1) **rebuild the eas development build** and (2) **uninstall and reinstall** the development build app on my phone. I removed it and re-installed the new build with the expo-devices dependency with the QR code I can find when trying to install from the Expo developer website. Then it worked.
 
+### Android Build Error: Define Runtime Version
+- CommandError: You're currently using the bare workflow, where runtime version policies are not supported. You must set your runtime version manually. For example, define your runtime version as "1.0.0", not {"policy": "appVersion"} in your app config. https://docs.expo.dev/eas-update/runtime-versions
+- Solution: Change `app.config.js` to make sure that it's using `runtimeVersion` as a version string and not an object {"policy": "appVersion"} which it was before.
+
+### Android Build Errors
+- `https://github.com/expo/expo/issues/27650`
+- This fixed some bad build errors for me: 
+- `npx expo install --fix`
+- `rm -rf node_modules/ package-lock.json`
+- `npm i`
+- `eas build --platform android`
+
 ## Notes
 
 ### How do I reinstall development builds?

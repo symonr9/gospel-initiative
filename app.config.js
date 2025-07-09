@@ -3,6 +3,7 @@ export default ({ config }) => ({
         name: "The Gospel Initiative",
         slug: "gospel-initiative",
         version: "1.1.0",
+        runtimeVersion: "1.1.0",
         orientation: "portrait",
         icon: "./assets/images/gospel-initiative/app-logo.png",
         scheme: "myapp",
@@ -55,9 +56,6 @@ export default ({ config }) => ({
             eas: {
                 projectId: "2ae65218-15d2-482e-8975-7143d6fb55aa",
             },
-        },
-        runtimeVersion: {
-            policy: "appVersion",
         },
         updates: {
             url: "https://u.expo.dev/2ae65218-15d2-482e-8975-7143d6fb55aa",
