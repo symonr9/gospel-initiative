@@ -10,6 +10,8 @@ import { getRandomElement } from "@/utils/appUtils";
 import { PageRow } from "@/components/common/PageRow";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { SimpleCard } from "@/components/common/SimpleCard";
+import { AnimatedHeader } from "@/components/common/AnimatedHeader";
+import { Colors } from "@/constants/Colors";
 
 type INewUserWhoIsYourOne = ViewProps & {
     newUserStep: NewUserStep;
@@ -28,10 +30,8 @@ export default function NewUserWhoIsYourOne({ newUserStep, setNewUserStep, style
 
     return (
         <PageColumn style={{ gap: 12 }}>
-            <AppText type={TextType.Title}>Who is your One?</AppText>
-            <AppText>
-                Your “One” is someone in your life who hasn’t met Jesus.
-            </AppText>
+            <AnimatedHeader title={"Who is your One?"}
+                subtitle={"Your “One” is someone in your life who hasn’t met Jesus."} />
 
             <AppText>
                 Our goal is to love our neighbors genuinely by spending time, listening, serving, and sharing our stories and God’s story.

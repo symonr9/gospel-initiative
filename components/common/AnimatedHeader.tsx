@@ -4,7 +4,7 @@ import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { standardPaddedWidth } from '@/constants/Dimensions';
-import { useThemeColors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 type IAnimatedHeader = {
     title: string;
@@ -14,13 +14,17 @@ type IAnimatedHeader = {
     delay?: number;
     key?: string | null;
     overridingTextColor?: string | null;
+    useOppositeTextColor?: boolean;
     style?: any;
 };
 
 export function AnimatedHeader({ title, key = null, titleType = TextType.Subtitle, 
-    subtitle = null, duration = 400, delay = 0, style = {}, overridingTextColor = null }: IAnimatedHeader) {
+    subtitle = null, duration = 400, delay = 0, style = {}, overridingTextColor = null, 
+    useOppositeTextColor = false }: IAnimatedHeader) {
         
-    const { textColor } = useThemeColors();
+    const { textColor: themedTextColor } = useThemeColors();
+
+    const textColor = useOppositeTextColor ? (themedTextColor === Colors.light.text ? Colors.dark.text : Colors.light.text) : themedTextColor;
 
     return (
         <View style={[styles.container, style]}>

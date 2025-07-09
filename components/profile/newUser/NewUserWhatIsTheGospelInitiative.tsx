@@ -7,6 +7,7 @@ import { PageColumn } from "@/components/common/PageColumn";
 import { SimpleTextList } from "@/components/common/SimpleTextList";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { SimpleCard } from "@/components/common/SimpleCard";
+import { AnimatedHeader } from "@/components/common/AnimatedHeader";
 
 type INewUserWhatIsTheGospelInitiative = ViewProps & {
     newUserStep: NewUserStep;
@@ -29,10 +30,8 @@ export default function NewUserWhatIsTheGospelInitiative({ newUserStep, setNewUs
 
     return (
         <PageColumn style={{ gap: 4 }}>
-            <AppText type={TextType.Title}>What is the Gospel Initiative?</AppText>
-            <AppText>
-                The Gospel Initiative is a movement started by Redemption Church that empowers Christians to share, live, and spread the Gospel through:
-            </AppText>
+            <AnimatedHeader title={"What is the Gospel Initiative?"}
+                subtitle={"The Gospel Initiative is a movement started by Redemption Church that empowers Christians to share, live, and spread the Gospel through:"} />
 
             <SimpleCard iconSrc={AppIcon.Jesus}
                 style={[styles.card]}

@@ -96,7 +96,7 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
                     <View style={styles.modalContainer}>
                         <PageColumn style={[styles.modalContent, { gap: 12, marginHorizontal: 8 }]}>
                             <AnimatedHeader title={'Filter'} 
-                                overridingTextColor={Colors.light.text}
+                                useOppositeTextColor
                                 subtitle={'Tap items below to filter your stories.'} />
 
                             {chaptersIsLoaded && (

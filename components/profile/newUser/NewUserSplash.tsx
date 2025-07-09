@@ -8,6 +8,7 @@ import { Colors, useThemeColors } from "@/constants/Colors";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { PageRow } from "@/components/common/PageRow";
 import { SimpleCard } from "@/components/common/SimpleCard";
+import { AnimatedHeader } from "@/components/common/AnimatedHeader";
 
 type INewUserSplash = ViewProps & {
     newUserStep: NewUserStep;
@@ -32,11 +33,8 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
 
     return (
         <PageColumn style={{ gap: 4 }}>
-            <AppText type={TextType.Title} style={{ color: textColor }}>The Gospel Initiative</AppText>
-
-            <AppText style={{ color: textColor }}>
-                The Gospel Initiative App is a tool designed with three main goals in mind.
-            </AppText>
+            <AnimatedHeader title={"The Gospel Initiative"}
+                subtitle={"The Gospel Initiative App is a tool designed with three main goals in mind."} />
 
             <Image source={AppIcon.AppLogoTransparent}
                 tintColor={textColor}

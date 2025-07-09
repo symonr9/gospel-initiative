@@ -364,7 +364,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     subtitle={subtitle}
                     delay={400}
                     key={`${title}-header`}
-                    overridingTextColor={Colors.light.text}
+                    useOppositeTextColor
                     style={{ textAlign: 'center' }} />
             </View>
 
