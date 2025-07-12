@@ -44,6 +44,17 @@ npx expo start
 - Expo
    - List out most recent iOS build: `eas build:list --platform ios --limit 1`
 
+### Development Builds
+- For Android development builds (better than Expo Go):
+   - `eas build --platform android --profile development`
+   - Build the device and then use the QR code to install on the app.
+   - It'll take you to the Expo web page and from there, download the
+   APK build and tap it in the Downloads section.
+   - Also login to the development build.
+   - You'll have to run `npx expo start` while the app is open for it to get picked up.
+   - If it doesn't pick up, try putting in the URL manually. This is what fixed it for me.
+   I also had to run `ipconfig` to double check and make sure that the right IP address is
+   being used.
 
 Notes:
 - The phone device you are trying to connect to must be on the same WiFi network as the laptop.
