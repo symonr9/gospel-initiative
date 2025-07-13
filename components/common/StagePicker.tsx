@@ -8,6 +8,7 @@ import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import { useGridStyles, useModalStyles } from '@/styles/Styles';
 import { useThemeColors } from '@/constants/Colors';
+import { ButtonType, SimpleButton } from './SimpleButton';
 
 export type IStagePicker = ViewProps & {
     selectedStage: OneStage;
@@ -65,9 +66,7 @@ const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) =
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={toggleModal} style={modalStyles.editButton}>
-                <AppText>Edit Stage</AppText>
-            </TouchableOpacity>
+            <SimpleButton onPress={toggleModal} type={ButtonType.Edit} text={'Edit Stage'}/>
 
             <Modal
                 animationType="slide"

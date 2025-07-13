@@ -61,7 +61,7 @@ const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconP
             >
                 <View style={modalStyles.modalContainer}>
                     <View style={modalStyles.modalContent}>
-                        <Text style={modalStyles.modalTitle}>Select an Icon</Text>
+                        <AppText style={modalStyles.modalTitle}>Select an Icon</AppText>
 
                         <PageColumn style={{ height: 300 }}>
                             <FlatList
