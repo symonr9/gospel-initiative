@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "889334446376",
+    "project_id": "gospel-initiative",
+    "storage_bucket": "gospel-initiative.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889334446376:android:68b8add18553e80a51f81d",
+        "android_client_info": {
+          "package_name": "com.redemption.gospelinitiative"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFmUPM7SRheSPe6_Q3kiMzTxPrNAfbxiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

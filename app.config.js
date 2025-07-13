@@ -27,7 +27,8 @@ export default ({ config }) => ({
                 backgroundColor: "#ffffff",
             },
             softwareKeyboardLayoutMode: "pan",
-            package: "com.redemption.gospelinitiative",
+            package: "com.redemption.gospelinitiative",    
+            googleServicesFile: process.env.GOOGLE_SERVICES_JSON || './google-services.json'
         },
         web: {
             bundler: "metro",

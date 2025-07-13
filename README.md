@@ -120,6 +120,24 @@ different versions, didn't work.
 - `npm i`
 - `eas build --platform android`
 
+### Native part of reanimated doesnt seem to be initialized worklets
+- Run `npx expo install react-native-reanimated` to install the correct version for our Expo SDK.
+
+### Android Notifications not working
+- After you do all the steps in the docs, and you have google-service.json, you should run `npx expo prebuild`
+so that the JSON file will get into the `android/app` location.
+
+### Can't build with google-service.json... not working on Expo dashboard logs
+- The google-services.json isn't being read... I ran this on command line.
+- `eas secret:create --scope project --name GOOGLE_SERVICES_JSON --type file --value ./android/app/google-services.json`
+   - This should get it working with Expo.
+- Then add to `.env`: `GOOGLE_SERVICES_JSON=./google-services.json`. With google-services.json in the root
+directory.
+- Then `npx expo prebuild`.
+- And then build `eas build --platform android --profile development --clear-cache`.
+- After many attempts at troubleshooting, I found the solution to be to just remove the `google-services.json` entry from my 
+.gitignore LOL. (Link)[https://github.com/expo/expo/issues/9220], (Link)[https://github.com/expo/eas-cli/issues/228].
+
 ## Notes
 
 ### How do I reinstall development builds?
