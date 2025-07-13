@@ -159,7 +159,15 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
         }>
 
         <PageRow style={{ gap: 10, padding: 8 }}>
-          <SimpleIcon iconSrc={executor?.icon || AppIcon.User} large onClick={onUserIconClick} />
+          <PageColumn>
+            <PageRow center style={{ marginBottom: 4}}>
+              <AppText type={TextType.Smol}>Tap to edit</AppText>
+            </PageRow>
+            <SimpleIcon iconSrc={executor?.icon || AppIcon.User}
+              large
+              onClick={onUserIconClick} />
+          </PageColumn>
+
           <AnimatedHeader title={title} subtitle={subtitle} style={{ width: standardPaddedWidth }} />
         </PageRow>
 
@@ -173,13 +181,13 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           {/* <HomePromptCard /> */}
           <HomeAddOneCard />
           <HomePrayerCard />
-          <HomeQuickBeaconCard/>
+          <HomeQuickBeaconCard />
           <HomePracticeTestimonyCard />
-          <HomeAutoBeaconCard/>
+          <HomeAutoBeaconCard />
           {/* TODO: Removing for now */}
           {/* <HomeDailyTasksCard /> */}
 
-          <View style={{ height: 300}}/>
+          <View style={{ height: 300 }} />
         </PageColumn>
       </ScrollView>
     </PageColumn>

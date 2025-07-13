@@ -34,7 +34,7 @@ export function AnimatedHeader({ title, key = null, titleType = TextType.Subtitl
             </PageRow>
             {
                 subtitle && (
-                    <PageRow style={{ flexShrink: 1, width: standardPaddedWidth }}>
+                    <PageRow style={{ flexShrink: 1, width: standardPaddedWidth, marginTop: 4 }}>
                         <AppText type={TextType.Body} style={{ color: overridingTextColor || textColor }}>
                             {subtitle}
                         </AppText>
