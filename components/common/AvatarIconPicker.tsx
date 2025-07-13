@@ -6,8 +6,9 @@ import { AppText, TextType } from './AppText';
 import ScrollLayout from './ScrollLayout';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
-import { gridStyles, modalStyles } from '@/styles/Styles';
+import { useGridStyles, useModalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from './SimpleButton';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IAvatarIconPicker = ViewProps & {
     selectedIcon: AvatarIcon;
@@ -16,6 +17,10 @@ export type IAvatarIconPicker = ViewProps & {
 
 const AvatarIconPicker = ({ selectedIcon, setSelectedIcon, style }: IAvatarIconPicker) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+    const modalStyles = useModalStyles(themeColors);
 
     const handleIconPress = (icon: AvatarIcon) => {
         setSelectedIcon(icon);

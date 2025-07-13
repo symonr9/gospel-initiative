@@ -34,18 +34,21 @@ export default function NewUserWhatIsTheGospelInitiative({ newUserStep, setNewUs
                 style={[styles.card]}
                 title={'Sharing Jesus'}
                 subtitle={shareJesusSubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowShareJesus(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.City}
                 style={[styles.card]}
                 title={'Loving our City'}
                 subtitle={loveCitySubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowLoveCity(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.Globe}
                 style={[styles.card]}
                 title={'Reaching the World'}
                 subtitle={reachWorldSubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowReachWorld(val => !val)} />
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

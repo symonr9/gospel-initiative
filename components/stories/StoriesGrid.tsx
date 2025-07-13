@@ -2,13 +2,14 @@ import React from 'react';
 import { type ViewProps, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import ScrollLayout from '../common/ScrollLayout';
 import { PageColumn } from '../common/PageColumn';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedStory } from '@/models/story';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import { PageRow } from '../common/PageRow';
+import { useThemeColors } from '@/constants/Colors';
+import { StyledImage } from '../common/StyledImage';
 
 export type IStoriesGrid = ViewProps & {
     stories: EnhancedStory[];
@@ -17,6 +18,9 @@ export type IStoriesGrid = ViewProps & {
 };
 
 function StoriesGrid({ stories, activeStoryId = null, setActiveStoryId }: IStoriesGrid) {
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+
     const renderItem = ({ item }: { item: EnhancedStory }) => {
         const onPress = () => {
             if (setActiveStoryId) {
@@ -27,7 +31,7 @@ function StoriesGrid({ stories, activeStoryId = null, setActiveStoryId }: IStori
         return (
             <TouchableOpacity onPress={onPress}>
                 <PageRow style={gridStyles.itemCard}>
-                    <Image source={item.icon} style={gridStyles.img}/>
+                    <StyledImage iconSrc={item.icon} style={[gridStyles.img]} useTextTint={item.useTextTint}/>
                     <AppText type={TextType.DefaultSemiBold}>
                         {item.title}
                     </AppText>
@@ -38,7 +42,7 @@ function StoriesGrid({ stories, activeStoryId = null, setActiveStoryId }: IStori
 
     return (
         <PageColumn>
-            <PageColumn style={{ }}>
+            <PageColumn style={{}}>
                 <FlatList
                     data={stories}
                     renderItem={renderItem}

@@ -12,8 +12,9 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import Christian from '@/models/christian';
 import DetailsSection from '../common/DetailsSection';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IChristianCard = ViewProps & {
     christian: Christian;
@@ -22,6 +23,9 @@ export type IChristianCard = ViewProps & {
 };
 
 export function ChristianCard({ christian, handleOnPress, selected = false, style }: IChristianCard) {
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+
     const onPress = () => {
         if (handleOnPress) {
             handleOnPress();

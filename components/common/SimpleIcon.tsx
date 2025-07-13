@@ -4,6 +4,7 @@ import { Image } from 'expo-image';
 
 import { AppText, TextType } from './AppText';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
+import { StyledImage } from './StyledImage';
 
 export type ISimpleIcon = ViewProps & {
     iconSrc: AppIcon | AvatarIcon | null;

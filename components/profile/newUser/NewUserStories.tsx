@@ -47,18 +47,21 @@ export default function NewUserStories({ newUserStep, setNewUserStep, styles }: 
                 style={[styles.card]}
                 title={'Practice your Testimony'}
                 subtitle={practiceSubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowPractice(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.Settings}
                 style={[styles.card]}
                 title={'Smart AI'}
                 subtitle={aiSubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowAI(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.Book2}
                 style={[styles.card]}
                 title={'Add to your Library'}
                 subtitle={librarySubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowLibrary(val => !val)} />
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

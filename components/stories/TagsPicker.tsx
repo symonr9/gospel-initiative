@@ -8,8 +8,8 @@ import { AppText } from '../common/AppText';
 import ScrollLayout from '../common/ScrollLayout';
 import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
-import { modalStyles } from '@/styles/Styles';
-import { Colors } from '@/constants/Colors';
+import { useModalStyles } from '@/styles/Styles';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 function createTagMap(keys: string[]) {
     return keys
@@ -31,6 +31,9 @@ type TagsPickerProps = ViewProps & {
 
 export default function TagsPicker({ formChapter, setFormChapter, editing = true, style, maxToRender = null }: TagsPickerProps) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     const toggleTag = (tag: StoryChapterTag) => {
         if (setFormChapter) {

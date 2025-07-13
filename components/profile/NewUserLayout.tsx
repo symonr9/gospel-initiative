@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     nameSection: {
         paddingVertical: 8,
         paddingHorizontal: 24,
-        backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',

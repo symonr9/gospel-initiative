@@ -1,10 +1,8 @@
 import React, { } from 'react';
-import { connect } from 'react-redux';
 import { StyleSheet, TouchableOpacity, ViewProps } from 'react-native';
-import Confetti from 'react-native-reanimated-confetti';
-import Svg, { Path } from 'react-native-svg';
-import { modalStyles } from '@/styles/Styles';
+import { useModalStyles } from '@/styles/Styles';
 import { AppText } from './AppText';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 export type ISimpleButton = ViewProps & {
     type?: ButtonType;
@@ -21,6 +19,11 @@ export enum ButtonType {
 };
 
 export function SimpleButton({ style, text, onPress, type = ButtonType.Edit, disabled = false }: ISimpleButton) {
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
+
+    const shouldUseDarkText = [ButtonType.Edit, ButtonType.Open, ButtonType.Close, ButtonType.Save].includes(type);
+
     return (
         <TouchableOpacity onPress={() => onPress()}
             style={[
@@ -32,7 +35,9 @@ export function SimpleButton({ style, text, onPress, type = ButtonType.Edit, dis
                 style
             ]} 
             disabled={disabled}>
-            <AppText>{text}</AppText>
+            <AppText style={[
+                shouldUseDarkText && { color: Colors.light.text},
+            ]}>{text}</AppText>
         </TouchableOpacity>
     );
 }

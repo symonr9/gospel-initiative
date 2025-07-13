@@ -13,9 +13,9 @@ import { setBeaconForm } from '@/redux/actions';
 import BeaconForm from '@/models/beaconForm';
 import { mapBeaconTagToTitleText } from "@/utils/textUtils";
 import { getShowHideIcon } from "@/utils/iconUtils";
-import { modalStyles } from '@/styles/Styles';
+import { useModalStyles } from '@/styles/Styles';
 import { OneLayoutType } from '../ones/OnesLayout';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import { beaconTagArray } from '@/constants/Constants';
 
@@ -28,6 +28,9 @@ export type IBeaconTemplateDetails = ViewProps & {
 function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
     const [modalVisible, setModalVisible] = useState(false);
+    
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     useEffect(() => {
         setBeaconForm(formData);

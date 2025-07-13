@@ -47,12 +47,14 @@ export default function NewUserPrayerBeacons({ newUserStep, setNewUserStep, styl
                 style={[styles.card]}
                 title={'Global Beacons'}
                 subtitle={globalBeaconsSubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowGlobalBeacons(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.ShieldSecure}
                 style={[styles.card]}
                 title={'Privacy'}
                 subtitle={privacySubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowPrivacy(val => !val)} />
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

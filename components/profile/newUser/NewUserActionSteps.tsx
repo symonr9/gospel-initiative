@@ -45,6 +45,7 @@ export default function NewUserActionSteps({ newUserStep, setNewUserStep, styles
                 style={[styles.card]}
                 title={'Add to your iCalendar or Google Calendar'}
                 subtitle={calendarSubtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowCalendar(val => !val)} />
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

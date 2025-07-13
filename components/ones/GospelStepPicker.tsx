@@ -17,7 +17,7 @@ import { AppIcon, GospelStepLayoutType, GospelStepType, RefreshSpec } from '@/en
 import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
 import { SimpleConfetti } from '../common/SimpleConfetti';
-import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
+import { formStyles, useGridStyles, useModalStyles } from '@/styles/Styles';
 import { PageRow } from '../common/PageRow';
 import * as Progress from 'react-native-progress';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
@@ -25,6 +25,7 @@ import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 import { SimpleCard } from '../common/SimpleCard';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 
 const gettingStartedSection = [GospelStepType.SpiritualConversations, GospelStepType.GospelConversations, GospelStepType.GodsExistence];
@@ -82,6 +83,10 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
     const [showSpiritualPracticesSection, setShowSpiritualPracticesSection] = useState(false);
     const [showDoctrineSection, setShowDoctrineSection] = useState(false);
     const [showNextStepsSection, setShowNextStepsSection] = useState(false);
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+    const modalStyles = useModalStyles(themeColors);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const gospelSteps = selectedOne ? [...selectedOne.gospelSteps] : [];

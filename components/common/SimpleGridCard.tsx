@@ -8,8 +8,10 @@ import { AppText, TextType } from './AppText';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
+import { StyledImage } from './StyledImage';
 
 export type ISimpleGridCard = ViewProps & {
     iconSrc: AppIcon | AvatarIcon | null;
@@ -18,11 +20,15 @@ export type ISimpleGridCard = ViewProps & {
     detailsView?: any;
     onClick?: Function;
     horizontal?: boolean;
+    useTextTintForIcon?: boolean;
 }
 
 export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = <></>,
-    onClick, style, horizontal = true
+    onClick, style, horizontal = true, useTextTintForIcon = true,
 }: ISimpleGridCard) {
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     const onPress = (e: GestureResponderEvent) => {
         if (onClick) {
@@ -36,13 +42,13 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
             <PageRow style={{ gap: 8 }}>
                 {
                     iconSrc && (
-                        <Image source={iconSrc} style={gridStyles.img} />
+                        <StyledImage iconSrc={iconSrc} style={[gridStyles.img]} useTextTint={useTextTintForIcon} />
                     )
                 }
                 <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
                     {
                         title && (
-                            <AppText type={TextType.Subtitle3} style={{ }}>
+                            <AppText type={TextType.Subtitle3} style={{}}>
                                 {title}
                             </AppText>
                         )
@@ -50,7 +56,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
 
                     {
                         subtitle && (
-                            <AppText type={TextType.Body} style={{ }}>
+                            <AppText type={TextType.Body} style={{}}>
                                 {subtitle}
                             </AppText>
                         )
@@ -66,7 +72,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                     <PageColumn>
                         {
                             iconSrc && (
-                                <Image source={iconSrc} style={gridStyles.img} />
+                                <StyledImage iconSrc={iconSrc} style={[gridStyles.img]} useTextTint={useTextTintForIcon} />
                             )
                         }
                         {

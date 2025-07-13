@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Modal, Button, Text, TouchableOpacity } from 'react-native';
 
 import { BeaconTemplateCard } from './BeaconTemplateCard';
-import { listStyles, modalStyles } from '@/styles/Styles';
+import { listStyles } from '@/styles/Styles';
 import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';

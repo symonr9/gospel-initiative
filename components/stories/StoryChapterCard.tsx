@@ -7,16 +7,13 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { AppText, TextType } from '../common/AppText';
 import { shouldKeepChapter } from '@/utils/appUtils';
 import { mapStoryChapterTypeToIcon } from "@/utils/iconUtils";
-import { mapStoryChapterTypeToText } from "@/utils/textUtils";
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import StoryChapter from '@/models/storyChapter';
-import { PageChip } from '../common/PageChip';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon, RefreshSpec } from '@/enums/enums';
 import ScrollLayout from '../common/ScrollLayout';
-import { SimpleCard } from '../common/SimpleCard';
-import { formStyles, gridStyles } from '@/styles/Styles';
+import { formStyles, useGridStyles } from '@/styles/Styles';
 import { QuestionsPicker } from './QuestionsPicker';
 import TagsPicker from './TagsPicker';
 import NamesPicker from './NamesPicker';
@@ -26,7 +23,7 @@ import { updateChapter } from "@/requests/storyRequests";
 import ChapterTypePicker from './ChapterTypePicker';
 import { SimpleIcon } from '../common/SimpleIcon';
 import AppError from '@/models/error';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
@@ -57,6 +54,9 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const [formChapter, setFormChapter] = useState(chapter);
   const shouldKeep = shouldKeepChapter(chapter.quality);
   const height = getHeight(expanded, editing);
+
+  const themeColors = useThemeColors();
+  const gridStyles = useGridStyles(themeColors);
 
   const resetPage = () => {
     if (setEditingChapterId) {
@@ -180,7 +180,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   if (editing) {
     return (
       <PageColumn style={[gridStyles.itemCard, !shouldKeep && styles.shouldDiscard, { height: getHeight(expanded, editing), width: screenWidth - 40 }, style]}>
-        <ScrollLayout style={{ }}>
+        <ScrollLayout style={{}}>
           <PageColumn style={{ gap: 12 }}>
             {Header}
 

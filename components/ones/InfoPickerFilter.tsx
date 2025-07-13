@@ -14,11 +14,11 @@ import { mapOneNoteTypeToTitle } from "@/utils/textUtils";
 import { updateOneNotesFilters } from '@/redux/actions';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import One from '@/models/one';
 import { PickerState } from './InfoPicker';
-import { formStyles } from '@/styles/Styles';
+import { formStyles, useModalStyles } from '@/styles/Styles';
 import { SimpleCard } from '../common/SimpleCard';
 import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import { standardPaddedWidth } from '@/constants/Dimensions';
@@ -33,6 +33,9 @@ export type IInfoPickerFilter = {
 
 function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteTextFilter, updateOneNotesFilters }: IInfoPickerFilter) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
 
@@ -93,10 +96,9 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={toggleModalVisibility}>
-                    <View style={styles.modalContainer}>
-                        <PageColumn style={[styles.modalContent, { gap: 12, marginHorizontal: 8 }]}>
+                    <View style={modalStyles.modalContainer}>
+                        <PageColumn style={[modalStyles.modalContent, { gap: 12, marginHorizontal: 8 }]}>
                             <AnimatedHeader title={'Filter'} 
-                                useOppositeTextColor
                                 subtitle={'Tap items below to filter your stories.'} />
 
                             {chaptersIsLoaded && (
@@ -161,26 +163,12 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
 const styles = StyleSheet.create({
     filterButton: {
         padding: 10,
-        backgroundColor: '#e0e0e0',
         marginVertical: 10,
         borderRadius: 5,
         alignSelf: 'center',
     },
     activeFilter: {
         backgroundColor: '#a2c4c9',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        width: standardPaddedWidth,
-        backgroundColor: 'white',
-        paddingVertical: 16,
-        paddingHorizontal: 10,
-        borderRadius: 10,
     },
     typeFilterItem: {
         padding: 10,

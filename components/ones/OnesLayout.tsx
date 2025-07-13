@@ -23,7 +23,8 @@ import { OnesLayoutEditingOne } from './layout/OnesLayoutEditingOne';
 import { OnesLayoutAllOnes } from './layout/OnesLayoutAllOnes';
 import { OnesLayoutNormal } from './layout/OnesLayoutNormal';
 import LoadingLayout from '../common/LoadingLayout';
-import { cardStyles } from '@/styles/Styles';
+import { useCardStyles } from '@/styles/Styles';
+import { useThemeColors } from '@/constants/Colors';
 
 
 export type IOnesLayout = ViewProps & {
@@ -53,6 +54,9 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
     setAppError, oneBeacons, refreshData, setSelectedOneId }: IOnesLayout) {
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
+
+    const themeColors = useThemeColors();
+    const cardStyles = useCardStyles(themeColors);
 
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Loading);
@@ -161,7 +165,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                     }
                 </PageColumn>
 
-                <PageColumn style={[cardStyles.container]}>
+                <PageColumn>
                     {BodyLayout.map((item) => item)}
                 </PageColumn>
             </View>

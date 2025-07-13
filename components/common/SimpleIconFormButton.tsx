@@ -8,7 +8,8 @@ import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
 import { halfScreenWidth } from '@/constants/Dimensions';
 import { PageRow } from './PageRow';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
+import { StyledImage } from './StyledImage';
 
 export type ISimpleIconFormButton = {
     iconSrc: AppIcon | null;
@@ -39,6 +40,9 @@ function SimpleIconFormButton({
     onClick
 }: ISimpleIconFormButton) {
 
+    const themeColors = useThemeColors();
+    const { secondaryColor, textColor } = themeColors;
+
     const onPress = () => {
         if (disabled)
             return;
@@ -66,9 +70,9 @@ function SimpleIconFormButton({
             disabled={disabled} // Disable interaction when disabled
         >
             <PageRow style={[
-                stylesToUse.content, 
+                stylesToUse.content,
                 customStyles.content,
-                info && { backgroundColor: Colors.info },
+                info && { backgroundColor: secondaryColor },
                 success && { backgroundColor: Colors.success },
             ]}>
                 <View
@@ -80,11 +84,9 @@ function SimpleIconFormButton({
                     ]}
                 >
                     {iconSrc && (
-                        <Image
-                            source={iconSrc}
-                            style={[stylesToUse.icon, disabled && styles.disabledIcon]}
-                            contentFit="contain"
-                        />
+                        <StyledImage iconSrc={iconSrc} 
+                            useTextTint={!success}
+                            style={[stylesToUse.icon, disabled && styles.disabledIcon]} />
                     )}
                 </View>
                 {title && (
@@ -92,6 +94,7 @@ function SimpleIconFormButton({
                         type={TextType.Subtitle3}
                         style={[
                             customStyles.title,
+                            success && { color: Colors.light.text },
                             disabled && styles.disabledTitle // Apply disabled title styles
                         ]}
                     >

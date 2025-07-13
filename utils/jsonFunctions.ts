@@ -369,7 +369,8 @@ export function getStoriesFromJson() {
             userId: item.userId,
             type: type,
             title: item.title,
-            icon: icon
+            icon: icon,
+            useTextTint: item.useTextTint
         };
     });
 }

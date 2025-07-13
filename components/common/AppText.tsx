@@ -38,7 +38,7 @@ export function AppText({
     <Text
       style={[
         { fontFamily: 'LeagueSpartan' },
-        { color: Colors.light.text },
+        { color: textColor },
         { flexShrink: 1 },
         type === TextType.Default ? styles.default : undefined,
         type === TextType.Title ? styles.title : undefined,

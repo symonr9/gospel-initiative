@@ -13,6 +13,7 @@ import { AppIcon, ItemRowContainerType } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import ScrollLayout from './ScrollLayout';
 import { useThemeColors } from '@/constants/Colors';
+import { StyledImage } from './StyledImage';
 
 export type IItemRowContainer = {
     iconSrc: AppIcon | null;
@@ -25,6 +26,7 @@ export type IItemRowContainer = {
     type?: ItemRowContainerType;
     activeType?: ItemRowContainerType;
     setActiveType?: Function | null;
+    useTextTintForIcon?: boolean;
 }
 
 export function ItemRowContainer({
@@ -36,7 +38,8 @@ export function ItemRowContainer({
     expandedHeight = 90,
     isTopPosition = true,
     activeType = ItemRowContainerType.Incoming,
-    setActiveType = null
+    setActiveType = null,
+    useTextTintForIcon = true,
 }: IItemRowContainer) {
     const heightProgress = useSharedValue(0);
     const { textColor } = useThemeColors();
@@ -62,7 +65,7 @@ export function ItemRowContainer({
     useEffect(() => {
         heightProgress.value = withTiming(isActive ? 1 : 0, { duration: 50 });
     }, [activeType]);
-    
+
     const navIcon = isTopPosition ? AppIcon.ChevronDown : AppIcon.ChevronUp;
 
     return (
@@ -71,17 +74,17 @@ export function ItemRowContainer({
                 <PageRow spaceBetween>
                     <PageRow>
                         {iconSrc && (
-                            <Image source={iconSrc} style={styles.icon} contentFit="contain" />
+                            <StyledImage iconSrc={iconSrc} style={[styles.icon]} useTextTint={useTextTintForIcon} />
                         )}
                         <AppText type={TextType.Subtitle3} style={[{ color: textColor }, customStyles?.title]}>
                             {title}
                         </AppText>
                     </PageRow>
-                    <Image source={navIcon} style={[styles.icon, isActive && styles.hide]} contentFit="contain"/>
+                    <StyledImage iconSrc={navIcon} style={[styles.icon, isActive && styles.hide]} />
                 </PageRow>
 
                 <ScrollLayout horizontal
-                              style={[{ paddingHorizontal: 4, }, animatedStyle]}>
+                    style={[{ paddingHorizontal: 4, }, animatedStyle]}>
                     {itemsToRender.map((item, index) => (
                         <View key={index}>{item}</View>
                     ))}

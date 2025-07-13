@@ -9,9 +9,10 @@ import { ThemedView } from './ThemedView';
 import { AppIcon, AvatarIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import { screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
+import { StyledImage } from './StyledImage';
 
 export type ISimpleCard = ViewProps & {
   iconSrc?: AppIcon | AvatarIcon | null;
@@ -19,11 +20,16 @@ export type ISimpleCard = ViewProps & {
   subtitle?: string;
   detailsView?: any;
   onClick?: Function;
+  useTextTintForIcon?: boolean;
 }
 
 export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></>,
-  onClick, style
+  onClick, style, useTextTintForIcon = true,
 }: ISimpleCard) {
+
+  const themeColors = useThemeColors();
+  const gridStyles = useGridStyles(themeColors);
+
   const onPress = (e: GestureResponderEvent) => {
     if (onClick) {
       e.stopPropagation();
@@ -38,9 +44,7 @@ export function SimpleCard({ iconSrc = null, title, subtitle, detailsView = <></
           <PageRow>
             {
               iconSrc && (
-                <Image source={iconSrc}
-                  style={styles.icon}
-                  contentFit="contain" />
+                <StyledImage iconSrc={iconSrc} style={[styles.icon]} useTextTint={useTextTintForIcon}/>
               )
             }
             <PageColumn style={{ maxWidth: standardPaddedWidth, flexShrink: 1 }}>

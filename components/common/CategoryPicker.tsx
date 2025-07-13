@@ -9,9 +9,10 @@ import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
-import { gridStyles, modalStyles } from '@/styles/Styles';
+import { useGridStyles, useModalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from './SimpleButton';
 import { halfScreenWidth, standardModalHeight } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 // Map categories to include icon, label, and details
 const categoryArray = [
@@ -51,6 +52,10 @@ export type ICategoryPicker = ViewProps & {
 
 const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCategory, style }: ICategoryPicker) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+    const modalStyles = useModalStyles(themeColors);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);

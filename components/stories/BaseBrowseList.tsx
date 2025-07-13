@@ -3,7 +3,7 @@ import { type ViewProps, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { PageColumn } from '../common/PageColumn';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { AppText, TextType } from '../common/AppText';
@@ -12,6 +12,7 @@ import { refreshData, setAppError, setEditingChapterId } from '@/redux/actions';
 import ScrollLayout from '../common/ScrollLayout';
 import { StoryChapterTag, StoryChapterType } from '@/enums/enums';
 import { countRenderableChapters, doesChapterMatchFilter } from '@/utils/appUtils';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IBaseBrowseList = ViewProps & {
     title?: string;
@@ -28,6 +29,9 @@ export type IBaseBrowseList = ViewProps & {
 function BaseBrowseList({ title, chapters, executor, setAppError, refreshData, tagFilters, typeFilters, editingChapterId, setEditingChapterId }: IBaseBrowseList) {
     const selectedChapterIdx = chapters.findIndex((chapter) => chapter.id === editingChapterId);
     const activeChapter = selectedChapterIdx !== -1 ? chapters[selectedChapterIdx] : null;
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     if (editingChapterId !== null && activeChapter) {
         return (

@@ -20,13 +20,14 @@ import { calculatePercent, getSelectedOne, mapGospelChecklistItemTypeToIcon } fr
 import { mapGospelChecklistItemTypeToVersesAndQuestions } from "@/utils/textUtils";
 import { mapGospelChecklistItemTypeToDetails } from "@/utils/textUtils";
 import { mapGospelChecklistItemTypeToTitle } from "@/utils/textUtils";
-import { formStyles, gridStyles } from '@/styles/Styles';
+import { formStyles, useGridStyles } from '@/styles/Styles';
 import { PageColumn } from '../common/PageColumn';
 import DetailsSection from '../common/DetailsSection';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { updateOne } from "@/requests/oneRequests";
 import User from '@/models/user';
 import AppError from '@/models/error';
+import { useThemeColors } from '@/constants/Colors';
 
 const gospelChecklistItemsArray = Object.keys(GospelChecklistItem)
     .filter(key => isNaN(Number(key)))
@@ -48,6 +49,9 @@ export type IGospelChecklist = ViewProps & {
 
 const GospelChecklist = ({ executor, selectedOneId, ones, refreshData, setAppError }: IGospelChecklist) => {
     const [expandedIndices, setExpandedIndices] = useState<number[]>([]);
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const selectedOneItems = selectedOne ? [...Array.from(new Set(selectedOne.gospelChecklist))] : []; // Set removes dupes.

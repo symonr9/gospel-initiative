@@ -1,13 +1,13 @@
-import React, {  } from 'react';
+import React, { } from 'react';
 import { type ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
-import { cardStyles, flexStyles, gridStyles } from '@/styles/Styles';
+import { flexStyles, useGridStyles } from '@/styles/Styles';
 import BeaconTemplate from '@/models/beaconTemplate';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 
 export type IBeaconCard = ViewProps & {
@@ -16,6 +16,9 @@ export type IBeaconCard = ViewProps & {
 };
 
 export function BeaconTemplateCard({ template, isSelected = false }: IBeaconCard) {
+  const themeColors = useThemeColors();
+  const gridStyles = useGridStyles(themeColors);
+
   return (
     <PageRow style={[gridStyles.itemCard, flexStyles.row, isSelected && styles.selected]}>
       <Image source={template.icon}

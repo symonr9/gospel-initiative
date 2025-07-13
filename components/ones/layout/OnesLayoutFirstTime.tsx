@@ -7,6 +7,7 @@ import { ViewProps } from "react-native";
 import { OneLayoutType } from '../OnesLayout';
 import { Colors, useThemeColors } from '@/constants/Colors';
 import PageResponse from '@/components/common/PageResponse';
+import { StyledImage } from '@/components/common/StyledImage';
 
 type IOnesLayoutFirstTime = ViewProps & {
     setMessage: Function;
@@ -22,14 +23,12 @@ export function OnesLayoutFirstTime({ setMessage, setActiveLayoutType }: IOnesLa
             <PageResponse title={'Welcome'}
                 details={'Please add your One on the Ones page to get started.'} />
 
-            <Image source={AppIcon.User}
-                tintColor={darkAlternativeColor}
-                style={{
-                    marginVertical: 8,
-                    height: 80,
-                    width: 80,
-                    alignSelf: 'center',
-                }} />
+            <StyledImage iconSrc={AppIcon.User} tintColor={darkAlternativeColor} style={{
+                marginVertical: 8,
+                height: 80,
+                width: 80,
+                alignSelf: 'center',
+            }} />
 
             <SimpleIconButton iconSrc={AppIcon.Plus}
                 small

@@ -14,7 +14,7 @@ export const listStyles = StyleSheet.create({
   }
 });
 
-export const cardStyles = StyleSheet.create({
+export const useCardStyles = ({ secondaryColor, textColor }: any) => (StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -22,7 +22,8 @@ export const cardStyles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     marginVertical: 6,
-    backgroundColor: '#fff',
+    backgroundColor: secondaryColor,
+    color: textColor,
     shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowColor: '#000',
@@ -36,7 +37,7 @@ export const cardStyles = StyleSheet.create({
     borderBottomWidth: 2,
     marginVertical: 4,
   },
-});
+}));
 
 export const formStyles = StyleSheet.create({
   container: {
@@ -123,7 +124,7 @@ export const tabStyles = StyleSheet.create({
   },
 });
 
-export const gridStyles = StyleSheet.create({
+export const useGridStyles = ({ secondaryColor, textColor, primaryColor }: any) => (StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
@@ -138,7 +139,8 @@ export const gridStyles = StyleSheet.create({
     marginVertical: 8,
     padding: 8,
     gap: 8,
-    backgroundColor: '#ffffff',
+    backgroundColor: secondaryColor,
+    color: 'white',
     shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowColor: '#000',
@@ -160,17 +162,16 @@ export const gridStyles = StyleSheet.create({
     width: 42,
     margin: 4,
   },
-});
+}));
 
-
-export const modalStyles = StyleSheet.create({
+export const useModalStyles = ({ backgroundColor, secondaryColor, textColor}: any) => (StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: backgroundColor,
     alignItems: 'center',
     padding: 20,
     marginHorizontal: 20,
@@ -215,7 +216,7 @@ export const modalStyles = StyleSheet.create({
     alignSelf: 'center',
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: secondaryColor,
     shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowColor: '#000',
@@ -229,7 +230,7 @@ export const modalStyles = StyleSheet.create({
     marginHorizontal: 10
   },
   selectedCard: {
-    backgroundColor: '#bbeccc',
+    backgroundColor: Colors.success,
     shadowOpacity: 0.2,
     shadowRadius: 8,
     shadowColor: '#000',
@@ -253,7 +254,7 @@ export const modalStyles = StyleSheet.create({
   selected: {
     opacity: 1,
   },
-});
+}));
 
 export const beaconStyles = StyleSheet.create({
   beaconNameText: {

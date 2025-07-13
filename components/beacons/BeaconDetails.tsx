@@ -35,7 +35,7 @@ import { createBeaconActivity } from "@/requests/beaconRequests";
 import { PageChip } from '../common/PageChip';
 import AppError from '@/models/error';
 import { SimpleGridCard } from '../common/SimpleGridCard';
-import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
+import { formStyles, useModalStyles, useGridStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { Colors, useThemeColors } from '@/constants/Colors';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
@@ -61,7 +61,10 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     completedBeacons, incomingBeacons, executor, refreshData,
     setSelectedPrayerId, beaconActivities, setAppError, activeBeacons }: IBeaconDetails) {
 
-    const { darkAlternativeColor } = useThemeColors();
+    const themeColors = useThemeColors();
+    const { darkAlternativeColor } = themeColors;
+    const gridStyles = useGridStyles(themeColors);
+    const modalStyles = useModalStyles(themeColors);
 
     const beacon = getBeacon(incomingCursorIdx, completedCursorIdx, completedBeacons, incomingBeacons);
     const userActivityForBeacon = beaconActivities.find((activity) => activity.userId === executor.id && activity.beaconId === beacon?.id);
@@ -125,7 +128,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
         return (
             <View style={styles.invisibleContainer}>
                 <Image source={AppIcon.Prayer}
-                    tintColor={darkAlternativeColor}
+                    tintColor={textColor}
                     style={{
                         marginVertical: 8,
                         height: 120,
@@ -296,7 +299,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     beacon.activeUntil && (
                         <View style={styles.timeAgo}>
-                            <AppText type={TextType.Italic} style={{ color: Colors.light.text }}>
+                            <AppText type={TextType.Italic}>
                                 Expires {getAppTimeAgoText(beacon.activeUntil)}
                             </AppText>
                         </View>
@@ -306,7 +309,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     beacon.global && !beacon.isAutoBeacon && (
                         <View style={styles.timeAgo}>
-                            <AppText type={TextType.Italic} style={{ color: Colors.light.text }}>
+                            <AppText type={TextType.Italic}>
                                 Global Beacon
                             </AppText>
                         </View>
@@ -316,7 +319,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 {
                     beacon.global && beacon.isAutoBeacon && (
                         <View style={styles.timeAgo}>
-                            <AppText type={TextType.Italic} style={{ color: Colors.light.text }}>
+                            <AppText type={TextType.Italic}>
                                 Auto Beacon
                             </AppText>
                         </View>
@@ -326,37 +329,31 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 <PageRow style={[{ gap: 12, marginTop: 8 }]}>
                     {
                         userIcon && (
-                            <AnimatedElement element={
-                                <PageColumn>
-                                    <Image source={userIcon} style={styles.profileIcon} />
-                                    {
-                                        showName && (
-                                            <AppText type={TextType.Subtitle3}
-                                                style={{ alignSelf: 'center', color: textColor }}>
-                                                {beacon.userName}
-                                            </AppText>
-                                        )
-                                    }
-                                </PageColumn>
-                            } delay={300} key={`user-icon-${userIcon}`} direction={FadeDirection.Left} />
+                            <PageColumn>
+                                <Image source={userIcon} style={styles.profileIcon} />
+                                {
+                                    showName && (
+                                        <AppText type={TextType.Subtitle3}
+                                            style={{ alignSelf: 'center', color: textColor }}>
+                                            {beacon.userName}
+                                        </AppText>
+                                    )
+                                }
+                            </PageColumn>
                         )
                     }
 
-                    <AnimatedElement element={
-                        <Image source={icon}
-                            style={[styles.profileIcon, beacon.global ? { width: 60, height: 60 } : { width: 42, height: 42 }]} />
-                    } delay={beacon.global ? 0 : 600} key={`icon-${icon}`} direction={FadeDirection.Up} />
+                    <Image source={icon}
+                        style={[styles.profileIcon, beacon.global ? { width: 60, height: 60 } : { width: 42, height: 42 }]} />
 
                     {
                         oneIcon && (
-                            <AnimatedElement element={
-                                <PageColumn>
-                                    <Image source={oneIcon} style={styles.profileIcon} />
-                                    <AppText style={{ alignSelf: 'center', color: textColor }}>
-                                        Their One
-                                    </AppText>
-                                </PageColumn>
-                            } delay={500} key={`their-one-${oneIcon}`} direction={FadeDirection.Right} />
+                            <PageColumn>
+                                <Image source={oneIcon} style={styles.profileIcon} />
+                                <AppText style={{ alignSelf: 'center', color: textColor }}>
+                                    Their One
+                                </AppText>
+                            </PageColumn>
                         )
                     }
                 </PageRow>
@@ -364,7 +361,6 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     subtitle={subtitle}
                     delay={400}
                     key={`${title}-header`}
-                    useOppositeTextColor
                     style={{ textAlign: 'center' }} />
             </View>
 
@@ -372,7 +368,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 <PageColumn style={{}}>
                     {
                         ((beacon.oneCategory && beacon.oneStage) || beacon.global) && (
-                            <AnimatedElement element={
+                            <View style={styles.detailsContainer}>
                                 <PageRow spaceEvenly style={[{ gap: 8 }]}>
                                     {
                                         beacon.oneCategory && (
@@ -404,7 +400,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         )
                                     }
                                 </PageRow>
-                            } delay={300} key={`details-${title}`} style={styles.detailsContainer} />
+                            </View>
                         )
                     }
 
@@ -415,11 +411,11 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     {
                         (!loading && hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
                             <PageColumn style={styles.myNoteForBeacon}>
-                                <AppText type={TextType.Body} style={{ color: Colors.light.text }}>
+                                <AppText type={TextType.Body}>
                                     Your Note:
                                 </AppText>
                                 <PageRow style={{ flexShrink: 1, width: halfScreenWidth }}>
-                                    <AppText type={TextType.Default} style={{ color: Colors.light.text }}>
+                                    <AppText type={TextType.Default}>
                                         {userActivityForBeacon.note}
                                     </AppText>
                                 </PageRow>
@@ -429,7 +425,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
 
                     {
                         showBeaconTags && (
-                            <AnimatedElement element={
+                            <PageColumn style={{ marginVertical: 12 }}>
                                 <FlatList
                                     data={beaconTagArray}
                                     keyExtractor={(item) => item.value.toString()}
@@ -441,7 +437,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         />
                                     )}
                                 />
-                            } delay={200} direction={FadeDirection.Up} style={{ marginVertical: 12 }} />
+                            </PageColumn>
                         )
                     }
                 </PageColumn>
@@ -469,7 +465,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                 </PageColumn>
             </PageRow>
 
-            <View style={{ height: 200}}/>
+            <View style={{ height: 200 }} />
         </View>
     );
 }
@@ -499,7 +495,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 8,
         marginHorizontal: 12,
-        backgroundColor: '#fff',
         marginBottom: 10
     },
     invisibleContainer: {

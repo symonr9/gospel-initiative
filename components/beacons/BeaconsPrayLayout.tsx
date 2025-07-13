@@ -67,6 +67,7 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
                         setActiveType={setActiveRoadType}
                         expandedHeight={60}
                         itemsToRender={completedItemsToRender}
+                        useTextTintForIcon={false}
                         customStyles={{ container: { backgroundColor: secondaryColor } }} />
                     <ItemRowContainer title={`Incoming (${incomingCount})`}
                         iconSrc={AppIcon.Send}
@@ -78,7 +79,7 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
                         itemsToRender={incomingItemsToRender}
                         customStyles={{ container: { backgroundColor: secondaryColor } }} />
                 </PageColumn>
-                
+
                 <BeaconDetails incomingCursorIdx={incomingCursorIdx}
                     completedCursorIdx={completedCursorIdx}
                     completedBeacons={completedBeacons}

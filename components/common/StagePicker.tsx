@@ -6,8 +6,8 @@ import { StageArray } from "@/constants/Datasets";
 import { AppText, TextType } from './AppText';
 import { PageRow } from './PageRow';
 import { PageColumn } from './PageColumn';
-import ScrollLayout from './ScrollLayout';
-import { gridStyles, modalStyles } from '@/styles/Styles';
+import { useGridStyles, useModalStyles } from '@/styles/Styles';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IStagePicker = ViewProps & {
     selectedStage: OneStage;
@@ -16,6 +16,10 @@ export type IStagePicker = ViewProps & {
 
 const StagePicker = ({ selectedStage, setSelectedStage, style }: IStagePicker) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+    const modalStyles = useModalStyles(themeColors);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);

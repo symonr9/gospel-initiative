@@ -7,6 +7,7 @@ import { PageColumn } from "@/components/common/PageColumn";
 import { setLocalNewUserStep } from "@/utils/storageUtils";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { Colors, useThemeColors } from "@/constants/Colors";
+import { StyledImage } from "@/components/common/StyledImage";
 
 type INewUserFinished = ViewProps & {
     newUserStep: NewUserStep;
@@ -30,9 +31,7 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
         <PageColumn style={{ gap: 4 }}>
             <AppText type={TextType.Title}>Setup Complete</AppText>
 
-            <Image source={AppIcon.AppLogoTransparent}
-                tintColor={darkAlternativeColor}
-                style={styles.logoIcon} />
+            <StyledImage iconSrc={AppIcon.AppLogoTransparent} tintColor={darkAlternativeColor} style={styles.logoIcon}/>
 
             <AppText>
                 Thank you for downloading our app and we hope that it is helpful as you share your life

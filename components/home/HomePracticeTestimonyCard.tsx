@@ -35,6 +35,7 @@ function HomePracticeTestimonyCard({ executor, myStoryChapters }: IHomePracticeT
         <SimpleCard iconSrc={AppIcon.Microphone}
             style={[styles.card]}
             title={'Testimony Practice'}
+            useTextTintForIcon={false}
             subtitle={'Tap on this card to go to the Testimony Practice page.'}
             onClick={onClick} />
     );

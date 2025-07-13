@@ -8,7 +8,7 @@ import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { formStyles, gridStyles } from '@/styles/Styles';
+import { formStyles, useGridStyles } from '@/styles/Styles';
 import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
 import { refreshData, setAppError } from '@/redux/actions';
 import { createChristian, removeChristian, updateChristian } from "@/requests/oneRequests";
@@ -21,6 +21,7 @@ import { ChristianCard } from './ChristianCard';
 import { getSelectedOne } from '@/utils/appUtils';
 import { MAX_LONG_TEXT_LENGTH, MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IChristianPicker = ViewProps & {
     executor: User;
@@ -44,6 +45,9 @@ const ChristianPicker = ({ executor, selectedOneId, ones, refreshData, setAppErr
     const [selectedChristianId, setSelectedChristianId] = useState<string | null>(null);
     const [formChristian, setFormChristian] = useState<Christian>(Christian.createDefault(selectedOneId || ""));
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const christians = selectedOne ? [...selectedOne.christians] : [];
@@ -326,7 +330,6 @@ const styles = StyleSheet.create({
     },
     nameSection: {
         padding: 8,
-        backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',

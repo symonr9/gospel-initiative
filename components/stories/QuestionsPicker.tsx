@@ -5,13 +5,13 @@ import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { AppIcon } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
-import { formStyles, gridStyles, modalStyles } from '@/styles/Styles';
-import ScrollLayout from '../common/ScrollLayout';
+import { formStyles, useModalStyles } from '@/styles/Styles';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
 import { AppText, TextType } from '../common/AppText';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IQuestionsPicker = {
   formChapter: StoryChapter;
@@ -21,6 +21,9 @@ export type IQuestionsPicker = {
 export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicker) => {
   const [newQuestion, setNewQuestion] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+
+  const themeColors = useThemeColors();
+  const modalStyles = useModalStyles(themeColors);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -77,7 +80,7 @@ export const QuestionsPicker = ({ formChapter, setFormChapter }: IQuestionsPicke
         visible={modalVisible}
         onRequestClose={toggleModal}>
         <View style={modalStyles.modalContainer}>
-          <View style={[modalStyles.modalContent, { }]}>
+          <View style={[modalStyles.modalContent, {}]}>
             {
               formChapter.questions.map((item, index) => (
                 <PageRow style={{ marginBottom: 8 }}>

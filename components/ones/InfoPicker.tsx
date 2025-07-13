@@ -17,7 +17,7 @@ import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { cardStyles, formStyles, gridStyles, modalStyles } from '@/styles/Styles';
+import { useCardStyles, formStyles, useGridStyles, useModalStyles } from '@/styles/Styles';
 import { refreshData, setAppError } from '@/redux/actions';
 import { createOneNote, removeOneNote, updateOne, updateOneNote } from "@/requests/oneRequests";
 import User from '@/models/user';
@@ -33,6 +33,7 @@ import InfoPickerFilter from './InfoPickerFilter';
 import { MAX_LONG_TEXT_LENGTH, MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
+import { useThemeColors } from '@/constants/Colors';
 
 const oneNoteTypeArray = Object.keys(OneNoteType)
     .filter(key => isNaN(Number(key)))
@@ -72,6 +73,11 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
 
     const [isNoteTypeModalVisible, setIsNoteTypeModalVisible] = useState(false);
     const [isStageModalVisible, setIsStageModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const cardStyles = useCardStyles(themeColors);
+    const gridStyles = useGridStyles(themeColors);
+    const modalStyles = useModalStyles(themeColors);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const oneNotes = selectedOne ? [...selectedOne.oneNotes] : [];
@@ -125,7 +131,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
 
         return (
             <TouchableOpacity onPress={handleOnPress}>
-                <PageColumn style={[gridStyles.itemCard, { backgroundColor: '#f3f6f4' }, isSelected && gridStyles.selected]}>
+                <PageColumn style={[gridStyles.itemCard, isSelected && gridStyles.selected]}>
                     <AppText type={TextType.Default}>
                         {item.notes}
                     </AppText>
@@ -260,9 +266,9 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                     maxLength={MAX_LONG_TEXT_LENGTH}
                     onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
                 />
-            } verticalOffset={200}/>
+            } verticalOffset={200} />
 
-            <View style={{ height: 300 }}/>
+            <View style={{ height: 300 }} />
         </PageColumn>
     );
 
@@ -430,7 +436,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                 <AppText type={TextType.Body}>
                                     Make changes to your One's stage.
                                 </AppText>
-                                
+
                                 {
                                     formStage === OneStage.NewBeliever && (
                                         <PageColumn style={{ marginVertical: 8 }}>
@@ -488,7 +494,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                     )
                                 }
 
-                                <PageColumn style={{ maxHeight: halfScreenHeight / 2  }}>
+                                <PageColumn style={{ maxHeight: halfScreenHeight / 2 }}>
                                     <FlatList
                                         data={StageArray}
                                         renderItem={renderStage}
@@ -525,18 +531,18 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             );
         }
 
-        const hasMatchingType = (typeAsString: string) => oneNoteTypeFilters.length === 0 
-        || oneNoteTypeFilters.includes(parseInt(typeAsString));
+        const hasMatchingType = (typeAsString: string) => oneNoteTypeFilters.length === 0
+            || oneNoteTypeFilters.includes(parseInt(typeAsString));
 
-        const hasMatchingText = (item: OneNote) => oneNoteTextFilter.length === 0 
-        || item.notes.includes(oneNoteTextFilter);
+        const hasMatchingText = (item: OneNote) => oneNoteTextFilter.length === 0
+            || item.notes.includes(oneNoteTextFilter);
         const noteArrHasMatchingText = (items: OneNote[]) => items.map((item) => hasMatchingText(item)).find((value) => value);
 
         const partitionedNotes = OneNote.partitionNotes(oneNotes);
         const filteredPartitionedNotes = Object.entries(partitionedNotes)
-            .filter(([typeAsString, items]: [string, OneNote[]]) => 
+            .filter(([typeAsString, items]: [string, OneNote[]]) =>
                 hasMatchingType(typeAsString) && noteArrHasMatchingText(items)
-        );
+            );
 
         Body.push(
             <PageColumn>
@@ -668,7 +674,6 @@ const styles = StyleSheet.create({
     buttonRow: {
     },
     noteCard: {
-        backgroundColor: '#FAF7DC',
         shadowOpacity: 0.2,
         shadowRadius: 4,
         shadowColor: '#000',

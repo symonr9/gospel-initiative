@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { AppText, TextType } from './AppText';
 import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
+import { useThemeColors } from '@/constants/Colors';
 
 export type ISimpleIconButton = {
   iconSrc: AppIcon | null;
@@ -31,9 +32,10 @@ function SimpleIconButton({
   openPage,
   onClick
 }: ISimpleIconButton) {
+  const { primaryColor, textColor } = useThemeColors();
 
   const onPress = () => {
-    if (disabled) 
+    if (disabled)
       return;
 
     if (onClick) {
@@ -62,6 +64,7 @@ function SimpleIconButton({
         <View
           style={[
             stylesToUse.iconContainer,
+            { backgroundColor: textColor },
             customStyles.iconContainer,
             disabled && styles.disabledIconContainer, // Apply disabled icon styles
             removeBackground && styles.iconContainerMinimal
@@ -80,6 +83,7 @@ function SimpleIconButton({
             type={TextType.Prefix}
             style={[
               stylesToUse.title,
+              { color: textColor },
               customStyles.title,
               disabled && styles.disabledTitle // Apply disabled title styles
             ]}

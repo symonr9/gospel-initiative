@@ -158,12 +158,14 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         title={'Info'}
                         detailsView={infoDetailView}
                         horizontal={false}
+                        useTextTintForIcon={false}
                         onClick={() => setBodyType(BodyType.Info)} />
 
                     <SimpleGridCard iconSrc={AppIcon.Checkmark}
                         title={'Action Steps'}
                         detailsView={actionStepsDetailView}
                         horizontal={false}
+                        useTextTintForIcon={false}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
 
                     {
@@ -172,6 +174,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                                 title={'Gospel Steps'}
                                 detailsView={gospelChecklistDetailView}
                                 horizontal={false}
+                                useTextTintForIcon={false}
                                 onClick={() => setBodyType(BodyType.GospelSteps)} />
                         )
                     }

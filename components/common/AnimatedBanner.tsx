@@ -3,7 +3,6 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import Animated, { FadeInUp, FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { AppText, TextType } from './AppText';
-import { flexStyles, gridStyles } from '@/styles/Styles';
 import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';

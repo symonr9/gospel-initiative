@@ -12,8 +12,8 @@ import { mapActionStepTypeToTitle } from "@/utils/textUtils";
 import { mapActionStepTypeToIcon } from "@/utils/iconUtils";
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
-import { gridStyles } from '@/styles/Styles';
+import { Colors, useThemeColors } from '@/constants/Colors';
+import { useGridStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { standardPaddedWidth } from '@/constants/Dimensions';
 
@@ -25,6 +25,9 @@ export type IActionStepCard = ViewProps & {
 };
 
 export function ActionStepCard({ actionStep, handleOnPress, selected = false, oneName, style }: IActionStepCard) {
+  const themeColors = useThemeColors();
+  const gridStyles = useGridStyles(themeColors);
+
   const onPress = () => {
     if (handleOnPress) {
       handleOnPress();

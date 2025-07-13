@@ -60,19 +60,13 @@ function HomePrayerCard({ executor, setSelectedPrayerId }: IHomePrayerCard) {
         </PageColumn>
     );
 
-    const colorStyle = incomingBeacons.length > 0 ? {
-        backgroundColor: Colors.white
-    } : {
-        backgroundColor: Colors.info
-    };
-
     if (!executor) {
         return <></>;
     }
 
     return (
         <SimpleCard iconSrc={prayerIcon}
-            style={[styles.card, colorStyle]}
+            style={[styles.card]}
             title={prayerTitle}
             subtitle={prayerSubtitle}
             detailsView={beaconsDetailView}

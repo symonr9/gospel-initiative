@@ -4,42 +4,48 @@
       "title": "The Gospel",
       "userId": "user1",
       "type": 2,
-      "icon": "Book"
+      "icon": "Book",
+      "useTextTint": false
     },
     {
       "id": "GospelWithMuslim",
       "title": "The Gospel for Muslims",
       "userId": "user1",
       "type": 2,
-      "icon": "Muslim"
+      "icon": "Muslim",
+      "useTextTint": true
     },
     {
       "id": "GospelWithMormon",
       "title": "The Gospel for Mormons",
       "userId": "user1",
       "type": 2,
-      "icon": "Mormon"
+      "icon": "Mormon",
+      "useTextTint": true
     },
     {
       "id": "GospelWithHindu",
       "title": "The Gospel for Hindus",
       "userId": "user1",
       "type": 2,
-      "icon": "Hindu"
+      "icon": "Hindu",
+      "useTextTint": true
     },
     {
       "id": "GospelWithBuddhist",
       "title": "The Gospel for Buddhists",
       "userId": "user1",
       "type": 2,
-      "icon": "Buddhist"
+      "icon": "Buddhist",
+      "useTextTint": false
     },
     {
       "id": "GospelWithAtheist",
       "title": "The Gospel for Atheists",
       "userId": "user1",
       "type": 2,
-      "icon": "Atheist"
+      "icon": "Atheist",
+      "useTextTint": false
     }
   ]
   

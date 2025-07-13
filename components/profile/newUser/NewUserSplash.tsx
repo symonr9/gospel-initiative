@@ -44,12 +44,14 @@ export default function NewUserSplash({ newUserStep, setNewUserStep, styles }: I
                 style={[styles.card]}
                 title={'Confidence to Share our Faith'}
                 subtitle={goal1Subtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowGoal1(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.Friend}
                 style={[styles.card]}
                 title={'Engage with Others'}
                 subtitle={goal2Subtitle}
+                useTextTintForIcon={false}
                 onClick={() => setShowGoal2(val => !val)} />
 
             <SimpleCard iconSrc={AppIcon.Prayer}

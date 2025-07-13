@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { type ViewProps, FlatList, Modal, StyleSheet, Switch, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
 import { connect } from 'react-redux';
-import { Image } from 'expo-image';
 
 import { AppIcon, AutoBeaconType, BeaconTag, RefreshSpec } from '@/enums/enums';
 import { SimpleCard } from '../common/SimpleCard';
 import User from '@/models/user';
-import StoryChapter from '@/models/storyChapter';
-import { isWithinPast24Hours } from '@/utils/appUtils';
 import { refreshData, setAppError } from '@/redux/actions';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { AppText, TextType } from '../common/AppText';
 import AppError from '@/models/error';
 import { updateUser } from '@/requests/userRequests';
 import { mapAutoBeaconTypeToDetailsText, mapAutoBeaconTypeToTitleText, mapBeaconTagToTitleText } from '@/utils/textUtils';
 import { mapAutoBeaconTypeToIcon } from '@/utils/iconUtils';
 import { screenWidth, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
-import { modalStyles } from '@/styles/Styles';
+import { useModalStyles } from '@/styles/Styles';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import { beaconTagArray } from '@/constants/Constants';
 import { PageChip } from '../common/PageChip';
+import { StyledImage } from '../common/StyledImage';
 
 const autoBeaconTypeArray = Object.keys(AutoBeaconType)
     .filter(key => isNaN(Number(key)))
@@ -47,6 +44,9 @@ function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBea
     const [isInfoExpanded, setIsInfoExpanded] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     useEffect(() => {
         if (executor) {
@@ -118,7 +118,9 @@ function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBea
         return (
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, selectedType === item.value && modalStyles.selectedCard]}>
-                    <Image source={item.icon} style={[modalStyles.icon, selectedType === item.value && modalStyles.selected]} />
+                    <StyledImage iconSrc={item.icon} 
+                        useTextTint={false}
+                        style={[modalStyles.icon, selectedType === item.value && modalStyles.selected]}/>
                     <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
                         <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Italic} style={{}}>{item.details}</AppText>
@@ -141,7 +143,7 @@ function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBea
         <PageColumn style={{ gap: 8 }}>
             <PageRow style={{ gap: 8 }}>
                 <Switch
-                    trackColor={{ false: Colors.info, true: Colors.info }}
+                    trackColor={{ false: Colors.info, true: Colors.light.secondary }}
                     thumbColor={enabled ? Colors.forestGreen : Colors.red}
                     ios_backgroundColor={Colors.info}
                     onValueChange={toggleSwitch}
@@ -210,6 +212,7 @@ function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBea
                             iconSrc={mapAutoBeaconTypeToIcon(type)}
                             onClick={onAutoBeaconTypeCardClick}
                             subtitle={mapAutoBeaconTypeToDetailsText(type)}
+                            useTextTintForIcon={false}
                             detailsView={
                                 <PageColumn style={{ maxHeight: 100, marginVertical: 4 }}>
                                     <FlatList

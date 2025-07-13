@@ -2,18 +2,18 @@ import React from 'react';
 import { type ViewProps, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import ScrollLayout from '../common/ScrollLayout';
 import { setSelectedOneId } from '@/redux/actions';
 import One from '@/models/one';
 import { PageColumn } from '../common/PageColumn';
 import { OneLayoutType } from './OnesLayout';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import { mapOneCategoryToIcon } from "@/utils/iconUtils";
 import { mapOneCategoryToTitle } from "@/utils/textUtils";
 import { mapOneStageToIcon } from "@/utils/iconUtils";
 import { mapOneStageToTitle } from "@/utils/textUtils";
 import DetailsSection from '../common/DetailsSection';
 import { SimpleGridCard } from '../common/SimpleGridCard';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IAllOnesGrid = ViewProps & {
     ones: One[];
@@ -23,6 +23,9 @@ export type IAllOnesGrid = ViewProps & {
 
 
 function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGrid) {
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+
     const renderItem = ({ item }: { item: One }) => {
         const onPress = () => {
             if (setSelectedOneId) {
@@ -47,11 +50,11 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
         );
 
         return (
-            <SimpleGridCard title={item.name} 
-                detailsView={detailsView} 
+            <SimpleGridCard title={item.name}
+                detailsView={detailsView}
                 horizontal={false}
-                onClick={onPress} 
-                iconSrc={item.icon}/>
+                onClick={onPress}
+                iconSrc={item.icon} />
         );
     };
 

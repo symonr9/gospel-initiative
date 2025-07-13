@@ -7,8 +7,9 @@ import { PageColumn } from '../common/PageColumn';
 import { Image } from 'expo-image';
 import { AppText, TextType } from '../common/AppText';
 import { EnhancedStory } from '@/models/story';
-import { gridStyles } from '@/styles/Styles';
+import { useGridStyles } from '@/styles/Styles';
 import { PageRow } from '../common/PageRow';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IStoryChaptersList = ViewProps & {
     stories: EnhancedStory[];
@@ -17,6 +18,9 @@ export type IStoryChaptersList = ViewProps & {
 };
 
 function StoryChaptersList({ stories, activeStoryId = null, setActiveStoryId }: IStoryChaptersList) {
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
+
     const renderItem = ({ item }: { item: EnhancedStory }) => {
         const onPress = () => {
             if (setActiveStoryId) {

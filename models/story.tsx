@@ -5,6 +5,7 @@ import User from "./user";
 export type EnhancedStory = Story & {
     chapters: StoryChapter[];
     user: User;
+    useTextTint: boolean;
 }
 
 interface IStory {

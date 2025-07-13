@@ -14,9 +14,10 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
 import { deactivateBeacon } from "@/requests/beaconRequests";
-import { beaconStyles, gridStyles } from '@/styles/Styles';
+import { beaconStyles, useGridStyles } from '@/styles/Styles';
 import AppError from '@/models/error';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
@@ -30,6 +31,9 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
     refreshData, setAppError, style = {} }: IActiveBeaconsActivityList) {
     const duration = 400;
     const delay = 200;
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     const itemsToRender = activeBeaconsWithActivities.map((beaconWithActivity) => {
         const activities = beaconWithActivity.activities;

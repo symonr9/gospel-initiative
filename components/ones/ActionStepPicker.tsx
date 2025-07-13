@@ -15,17 +15,16 @@ import ActionStep from '@/models/actionStep';
 import { ActionStepCard } from './ActionStepCard';
 import SimpleIconButton from '../common/SimpleIconButton';
 import One from '@/models/one';
-import { formStyles, modalStyles } from '@/styles/Styles';
+import { formStyles, useModalStyles } from '@/styles/Styles';
 import SelectDatePicker, { DatePickerVariation } from '../common/SelectDatePicker';
 import { refreshData, setAppError } from '@/redux/actions';
 import { updateActionSteps } from "@/requests/oneRequests";
-import User from '@/models/user';
 import AppError from '@/models/error';
-import { SimpleConfetti } from '../common/SimpleConfetti';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
+import { useThemeColors } from '@/constants/Colors';
 
 const actionStepTypeArray = Object.keys(ActionStepType)
     .filter(key => isNaN(Number(key)))
@@ -60,6 +59,9 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
     const actionSteps = selectedOne ? [...selectedOne.actionSteps] : [];

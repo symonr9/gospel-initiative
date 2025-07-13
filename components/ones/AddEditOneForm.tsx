@@ -6,7 +6,7 @@ import Checkbox from 'expo-checkbox';
 import One from '@/models/one';
 import OneForm from '@/models/oneForm';
 import { setOneForm } from '@/redux/actions';
-import { cardStyles, formStyles, gridStyles } from '@/styles/Styles';
+import { formStyles, useGridStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { PageColumn } from '../common/PageColumn';
 import { AvatarIcon, OneCategory, OneStage, ActionStepType, AppIcon } from '@/enums/enums';
@@ -26,6 +26,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { SimpleCard } from '../common/SimpleCard';
 import { clearAll } from '@/utils/storageUtils';
 import { halfScreenHeight, halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IAddEditOneForm = ViewProps & {
     initialOneForm: OneForm;
@@ -39,6 +40,9 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
     const [suggestedActionSteps, setSuggestedActionSteps] = useState<ActionStep[]>(generateActionStepsForStage(initialOneForm.stage));
     const [selectedSteps, setSelectedSteps] = useState(suggestedActionSteps.map(() => false));
     const [targetDates, setTargetDates] = useState(suggestedActionSteps.map((step) => step.targetDate));
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     useEffect(() => {
         setOneForm(formData);
@@ -62,35 +66,37 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
             'Are you sure?',
             'Are you sure you want to remove your one? You will lose all data related to your one.',
             [
-              {
-                text: 'Cancel',
-                style: 'cancel',
-              },
-              { text: 'Yes, I am sure', onPress: confirmFinalRemove },
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                { text: 'Yes, I am sure', onPress: confirmFinalRemove },
             ],
             { cancelable: true }
-          );
+        );
     };
 
     const confirmFinalRemove = () => {
         Alert.alert(
-          'Are you really sure?',
-          'This action cannot be undone. Please confirm that you want to proceed.',
-          [
-            {
-              text: 'Cancel',
-              style: 'cancel',
-            },
-            { text: 'Yes, delete one', onPress: async () => {
-                if (onRemove) {
-                    await onRemove();
-                }
-            }},
-          ],
-          { cancelable: true }
+            'Are you really sure?',
+            'This action cannot be undone. Please confirm that you want to proceed.',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Yes, delete one', onPress: async () => {
+                        if (onRemove) {
+                            await onRemove();
+                        }
+                    }
+                },
+            ],
+            { cancelable: true }
         );
-      };
-    
+    };
+
 
     const setName = (name: string) => {
         setFormData((prev) => ({

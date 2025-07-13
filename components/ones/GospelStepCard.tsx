@@ -18,8 +18,8 @@ import { mapActionStepTypeToTitle } from "@/utils/textUtils";
 import { mapActionStepTypeToIcon } from "@/utils/iconUtils";
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
-import { formStyles, gridStyles } from '@/styles/Styles';
+import { Colors, useThemeColors } from '@/constants/Colors';
+import { formStyles, useGridStyles } from '@/styles/Styles';
 import GospelStep from '@/models/gospelStep';
 
 import Slider from '@react-native-community/slider';
@@ -39,6 +39,9 @@ export type IGospelStepCard = ViewProps & {
 
 export function GospelStepCard({ gospelStep, threshold, handleOnPress, handleOnRatingChange,
     handleOnEdit, selected = false, showNotes = true, style }: IGospelStepCard) {
+
+    const themeColors = useThemeColors();
+    const gridStyles = useGridStyles(themeColors);
 
     const readOnly = !handleOnPress && !handleOnRatingChange && !handleOnEdit;
 

@@ -51,9 +51,9 @@ function DetailsSection({ iconSrc, title, prefix, onClick, style }: IDetailsSect
             <PageColumn style={[styles.container, style]}>
                 <Image source={iconSrc} style={styles.icon} />
                 <PageColumn style={{ marginTop: 6, flexShrink: 1, maxWidth: halfScreenWidth - 60 }}>
-                    <AppText type={TextType.Body} style={{ color: Colors.light.text }}>{prefix}</AppText>
+                    <AppText type={TextType.Body}>{prefix}</AppText>
                     <Animated.Text style={animatedStyle}>
-                        <AppText type={TextType.DefaultSemiBold} style={{ color: Colors.light.text }}>{title}</AppText>
+                        <AppText type={TextType.DefaultSemiBold}>{title}</AppText>
                     </Animated.Text>
                 </PageColumn>
             </PageColumn>

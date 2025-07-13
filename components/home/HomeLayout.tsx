@@ -10,14 +10,11 @@ import { AppIcon, AvatarIcon, RefreshSpec } from '@/enums/enums';
 import HomePrayerCard from './HomePrayerCard';
 import { PageRow } from '../common/PageRow';
 import { SimpleIcon } from '../common/SimpleIcon';
-import HomeDailyTasksCard from './HomeDailyTasksCard';
 import LoadingLayout from '../common/LoadingLayout';
 import HomeAddOneCard from './HomeAddOneCard';
 import HomePracticeTestimonyCard from './HomePracticeTestimonyCard';
-import PromptBanner from '../prompts/PromptBanner';
-import HomePromptCard from './HomePromptCard';
-import { halfScreenHeight, screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
-import { formStyles, modalStyles } from '@/styles/Styles';
+import { screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
+import { formStyles, useModalStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
 import { updateUser } from '@/requests/userRequests';
 import AppError from '@/models/error';
@@ -27,6 +24,7 @@ import AvatarIconPicker from '../common/AvatarIconPicker';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import HomeAutoBeaconCard from './HomeAutoBeaconCard';
 import HomeQuickBeaconCard from './HomeQuickBeaconCard';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -52,6 +50,9 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
   const [icon, setIcon] = useState<AvatarIcon>(executor?.icon || AvatarIcon.Man1);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const themeColors = useThemeColors();
+  const modalStyles = useModalStyles(themeColors);
 
   useEffect(() => {
     setName(executor?.name || '');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Modal, TouchableOpacity, FlatList } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import { useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { AppIcon, StoryChapterTag, StoryChapterType } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
@@ -14,9 +14,10 @@ import { mapStoryChapterTagToText } from "@/utils/textUtils";
 import { updateChaptersFilter } from '@/redux/actions';
 import { AppText } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { useModalStyles } from '@/styles/Styles';
 
 export type IMyStoriesHeader = {
     myStoryChapters: StoryChapter[];
@@ -29,6 +30,9 @@ export type IMyStoriesHeader = {
 
 function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFilters, updateChaptersFilter }: IMyStoriesHeader) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     const chapters = myStoryChapters ? [...myStoryChapters] : [];
     const chaptersIsLoaded = chapters !== null;
@@ -68,10 +72,6 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
     // Reanimated shared value and animation styles
     const scale = useSharedValue(1);
 
-    const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: scale.value }],
-    }));
-
     useEffect(() => {
         if (hasActiveFilter) {
             scale.value = withRepeat(
@@ -95,12 +95,10 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                 {
                     editingChapterId === null && (
                         <PageRow>
-                            <Animated.View style={animatedStyle}>
-                                <TouchableOpacity style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
-                                    onPress={toggleModalVisibility}>
-                                    <AppText>{openFilterBtnText}</AppText>
-                                </TouchableOpacity>
-                            </Animated.View>
+                            <SimpleButton text={openFilterBtnText}
+                                onPress={toggleModalVisibility}
+                                style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
+                                type={ButtonType.Open} />
                         </PageRow>
                     )
                 }
@@ -112,10 +110,9 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={toggleModalVisibility}>
-                    <View style={styles.modalContainer}>
-                        <PageColumn style={styles.modalContent}>
+                    <View style={[modalStyles.modalContainer, styles.modalContainer]}>
+                        <PageColumn style={[modalStyles.modalContent, styles.modalContent]}>
                             <AnimatedHeader title={'Filter'}
-                                useOppositeTextColor
                                 subtitle={'Tap items below to filter your stories.'} />
 
                             {chaptersIsLoaded && (
@@ -141,7 +138,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                                 </PageRow>
                             )}
 
-                            <PageColumn style={{ maxHeight: 300 }}>
+                            <PageColumn style={{ maxHeight: 150 }}>
                                 <FlatList data={partitionedChapters}
                                     keyExtractor={(key, idx) => `tag-${idx}`}
                                     numColumns={3}
@@ -187,7 +184,6 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 const styles = StyleSheet.create({
     filterButton: {
         padding: 10,
-        backgroundColor: '#e0e0e0',
         marginVertical: 10,
         borderRadius: 5,
         alignSelf: 'center',
@@ -199,11 +195,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
         width: '95%',
-        backgroundColor: 'white',
         paddingVertical: 16,
         paddingHorizontal: 10,
         borderRadius: 10,
