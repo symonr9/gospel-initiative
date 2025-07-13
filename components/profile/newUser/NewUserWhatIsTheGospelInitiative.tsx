@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { Image } from 'expo-image';
 import { Button, View, ViewProps } from "react-native";
 import { AppIcon, NewUserStep } from "@/enums/enums";
-import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
-import { SimpleTextList } from "@/components/common/SimpleTextList";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { SimpleCard } from "@/components/common/SimpleCard";
 import { AnimatedHeader } from "@/components/common/AnimatedHeader";
