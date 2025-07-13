@@ -57,7 +57,6 @@ async function registerForPushNotificationsAsync() {
                     projectId,
                 })
             ).data;
-            console.log(pushTokenString);
             return pushTokenString;
         } catch (e: unknown) {
             handleRegistrationError(`${e}`);
@@ -108,8 +107,9 @@ function NotificationManager({ newUserStep, isSetupForNotifications, setAppError
         if (!expoPushToken
             || newUserStep !== NewUserStep.Completed
             || !executor
-            || isSetupForNotifications)
+            || isSetupForNotifications) {
             return;
+        }
 
         const updateToken = async () => {
             const { error } = await updatePushToken(expoPushToken);
@@ -118,12 +118,11 @@ function NotificationManager({ newUserStep, isSetupForNotifications, setAppError
                 return;
             }
 
-            console.log('Push token updated successfully:', expoPushToken);
             setIsSetupForNotifications();
         };
 
         updateToken();
-    }, [expoPushToken]);
+    }, [expoPushToken, executor]);
 
     return <></>;
 }
