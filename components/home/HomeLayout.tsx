@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { type ViewProps, Modal, StyleSheet, TextInput, View, RefreshControl, ScrollView } from 'react-native';
+import { type ViewProps, Modal, StyleSheet, TextInput, Switch, View, RefreshControl, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import ScrollLayout from '../common/ScrollLayout';
@@ -24,7 +24,7 @@ import AvatarIconPicker from '../common/AvatarIconPicker';
 import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import HomeAutoBeaconCard from './HomeAutoBeaconCard';
 import HomeQuickBeaconCard from './HomeQuickBeaconCard';
-import { useThemeColors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -48,6 +48,8 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [name, setName] = useState<string>(executor?.name || '');
   const [icon, setIcon] = useState<AvatarIcon>(executor?.icon || AvatarIcon.Man1);
+  const [notifyOnEveryBeacon, setNotifyOnEveryBeacon] = useState<boolean>(executor?.notifyOnEveryBeacon || false);
+  const [notifyMorningAndEveningOnly, setNotifyMorningAndEveningOnly] = useState<boolean>(executor?.notifyMorningAndEveningOnly || false);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -57,6 +59,8 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
   useEffect(() => {
     setName(executor?.name || '');
     setIcon(executor?.icon || AvatarIcon.Man1);
+    setNotifyOnEveryBeacon(executor?.notifyOnEveryBeacon || false);
+    setNotifyMorningAndEveningOnly(executor?.notifyMorningAndEveningOnly || false);
   }, [executor]);
 
   const isValid = isValidForm(name, icon);
@@ -76,7 +80,9 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
     const updatedUser = {
       ...executor,
       name,
-      icon
+      icon,
+      notifyOnEveryBeacon,
+      notifyMorningAndEveningOnly
     };
 
     setLoading(true);
@@ -133,6 +139,32 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
                 }
               </PageColumn>
 
+              <PageRow style={{ gap: 8 }}>
+                <Switch
+                  trackColor={{ false: Colors.info, true: Colors.light.secondary }}
+                  thumbColor={notifyOnEveryBeacon ? Colors.forestGreen : Colors.red}
+                  ios_backgroundColor={Colors.info}
+                  onValueChange={() => setNotifyOnEveryBeacon(!notifyOnEveryBeacon)}
+                  value={notifyOnEveryBeacon}
+                />
+                <AppText type={TextType.Body} style={{ marginVertical: 'auto' }}>
+                  {notifyOnEveryBeacon ? 'Notifications enabled for every beacon' : 'Notifications disabled for every beacon'}
+                </AppText>
+              </PageRow>
+
+              <PageRow style={{ gap: 8 }}>
+                <Switch
+                  trackColor={{ false: Colors.info, true: Colors.light.secondary }}
+                  thumbColor={notifyMorningAndEveningOnly ? Colors.forestGreen : Colors.red}
+                  ios_backgroundColor={Colors.info}
+                  onValueChange={() => setNotifyMorningAndEveningOnly(!notifyMorningAndEveningOnly)}
+                  value={notifyMorningAndEveningOnly}
+                />
+                <AppText type={TextType.Body} style={{ marginVertical: 'auto' }}>
+                  {notifyMorningAndEveningOnly ? 'Notifications enabled for morning and evening' : 'Notifications disabled for morning and evening'}
+                </AppText>
+              </PageRow>
+
               {
                 loading && <LoadingLayout />
               }
@@ -160,9 +192,13 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
 
         <PageRow style={{ gap: 10, padding: 8 }}>
           <PageColumn>
-            <PageRow center style={{ marginBottom: 4}}>
-              <AppText type={TextType.Smol}>Tap to edit</AppText>
-            </PageRow>
+            {
+              executor && (
+                <PageRow center style={{ marginBottom: 4 }}>
+                  <AppText type={TextType.Smol}>Tap to edit</AppText>
+                </PageRow>
+              )
+            }
             <SimpleIcon iconSrc={executor?.icon || AppIcon.User}
               large
               onClick={onUserIconClick} />
