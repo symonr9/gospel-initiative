@@ -143,7 +143,7 @@ function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBea
         <PageColumn style={{ gap: 8 }}>
             <PageRow style={{ gap: 8 }}>
                 <Switch
-                    trackColor={{ false: Colors.info, true: Colors.light.secondary }}
+                    trackColor={{ false: Colors.info, true: Colors.info }}
                     thumbColor={enabled ? Colors.forestGreen : Colors.red}
                     ios_backgroundColor={Colors.info}
                     onValueChange={toggleSwitch}
