@@ -12,8 +12,6 @@ import User from '@/models/user';
 import { createOne, updateActionSteps } from '@/requests/oneRequests';
 import { getNow } from '@/utils/appUtils';
 import SimpleIconFormButton from '@/components/common/SimpleIconFormButton';
-import { Colors } from '@/constants/Colors';
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
 
 type IOnesLayoutAddingOne = ViewProps & {
     oneForm: OneForm,

@@ -23,9 +23,6 @@ import { OnesLayoutEditingOne } from './layout/OnesLayoutEditingOne';
 import { OnesLayoutAllOnes } from './layout/OnesLayoutAllOnes';
 import { OnesLayoutNormal } from './layout/OnesLayoutNormal';
 import LoadingLayout from '../common/LoadingLayout';
-import { useCardStyles } from '@/styles/Styles';
-import { useThemeColors } from '@/constants/Colors';
-
 
 export type IOnesLayout = ViewProps & {
     selectedOneId: string | null,
@@ -35,7 +32,8 @@ export type IOnesLayout = ViewProps & {
     oneForm: OneForm,
     setAppError: Function,
     refreshData: Function,
-    setSelectedOneId: Function
+    setSelectedOneId: Function,
+    dataRefreshLoading: boolean,
 };
 
 
@@ -51,12 +49,9 @@ export enum OneLayoutType {
 }
 
 function OnesLayout({ selectedOneId, ones, oneForm, executor,
-    setAppError, oneBeacons, refreshData, setSelectedOneId }: IOnesLayout) {
+    setAppError, oneBeacons, refreshData, setSelectedOneId, dataRefreshLoading }: IOnesLayout) {
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
-
-    const themeColors = useThemeColors();
-    const cardStyles = useCardStyles(themeColors);
 
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Loading);
@@ -74,7 +69,11 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
         setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
     };
 
-    if (activeLayoutType === OneLayoutType.FirstTime) {
+    if (dataRefreshLoading) {
+        BodyLayout.push(
+            <LoadingLayout/>
+        );
+    } else if (activeLayoutType === OneLayoutType.FirstTime) {
         BodyLayout.push(
             <OnesLayoutFirstTime setMessage={setMessage} setActiveLayoutType={setActiveLayoutType}/>
         );
@@ -191,7 +190,7 @@ const mapStateToProps = (state: any) => {
         ones: state.ones.ones,
         executor,
         oneForm: state.ones.oneForm,
-
+        dataRefreshLoading: state.app.dataRefreshLoading,
     };
 };
 

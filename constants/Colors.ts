@@ -27,7 +27,7 @@ export const Colors = {
   red: '#e06666',
   light: {
     text: '#333',
-    header: '#7D7D7D',
+    header: '#BBBBBB',
     alternateText: '#ffffff',
     background: '#ffffff',
     primary: '#abceea',

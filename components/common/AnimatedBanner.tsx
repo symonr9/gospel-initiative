@@ -9,6 +9,7 @@ import { PageColumn } from './PageColumn';
 import { PageRow } from './PageRow';
 import { Colors } from '@/constants/Colors';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { StyledImage } from './StyledImage';
 
 export type IAnimatedBanner = {
     iconSrc: AppIcon | null;
@@ -24,9 +25,8 @@ export type IAnimatedBanner = {
 export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClick,
     bannerDuration = 200, bannerDelay = 0, textDuration = 200, textDelay = 400
 }: IAnimatedBanner) {
-    const onPress = (e) => {
+    const onPress = () => {
         if (onClick) {
-            e.stopPropagation();
             onClick();
         }
     }
@@ -44,38 +44,26 @@ export function AnimatedBanner({ iconSrc = null, prefixText = null, text, onClic
                             }
                             <PageColumn>
                                 <PageRow style={{ flexShrink: 1, width: standardPaddedWidth - 20 }}>
-                                    <Animated.Text
-                                        entering={FadeInUp.duration(textDuration).delay(textDelay)}
-                                        exiting={FadeOutDown.duration(textDuration)}
-                                        style={[styles.textContainer]}>
-                                        <AppText type={TextType.Body}>
-                                            {text}
-                                        </AppText>
-                                    </Animated.Text>
+                                    <AppText type={TextType.Body}>
+                                        {text}
+                                    </AppText>
                                 </PageRow>
 
                                 {
                                     prefixText && (
                                         <PageRow style={{ flexShrink: 1, width: standardPaddedWidth - 20 }}>
-                                            <Animated.Text
-                                                entering={FadeInUp.duration(textDuration).delay(textDelay - 50)}
-                                                exiting={FadeOutDown.duration(textDuration)}
-                                                style={[styles.textContainer]} >
-                                                <AppText type={TextType.Prefix}>
-                                                    {prefixText}
-                                                </AppText>
-                                            </Animated.Text>
+                                            <AppText type={TextType.Prefix}>
+                                                {prefixText}
+                                            </AppText>
                                         </PageRow>
                                     )
                                 }
                             </PageColumn>
                         </PageRow>
 
-                        <TouchableOpacity onPress={onPress}>
-                            <Image source={AppIcon.CloseSimple}
-                                style={[styles.icon]}
-                                contentFit="contain" />
-                        </TouchableOpacity>
+                        <StyledImage iconSrc={AppIcon.CloseSimple}
+                            onClick={onPress}
+                            style={[styles.icon]} />
                     </PageRow>
                 </ThemedView>
             </TouchableOpacity>
@@ -89,7 +77,6 @@ const styles = StyleSheet.create({
         marginVertical: 12,
         padding: 8,
         gap: 4,
-        backgroundColor: Colors.white,
         shadowOpacity: 0.2,
         shadowRadius: 4,
         shadowColor: '#000',

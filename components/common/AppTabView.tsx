@@ -28,7 +28,7 @@ function AppTabView({ title, index, setIndex, renderScene, routes }: IAppTabView
     const renderTabBar = (props: any) => (
         <TabBar
             {...props}
-            indicatorStyle={[styles.indicator, { backgroundColor: textColor }]}
+            indicatorStyle={[styles.indicator, { backgroundColor: secondaryColor }]}
             style={[styles.tabBar, { backgroundColor: headerColor }]}
             scrollEnabled={routes.length >= 4}
             renderLabel={({ route, focused }) => (

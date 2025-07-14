@@ -3,6 +3,7 @@ import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
 
 const initialState = {
+    dataRefreshLoading: false,
     page: Page.ShareChrist,
     refreshSpec: RefreshSpec.None,
     newUserStep: NewUserStep.Loading,
@@ -43,6 +44,13 @@ export function appReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     ...state,
                     newUserStep: action.payload,
+                }
+            });
+        case Action.SetDataRefreshLoading:
+            return update(state, {
+                $set: {
+                    ...state,
+                    dataRefreshLoading: action.payload,
                 }
             });
         default:

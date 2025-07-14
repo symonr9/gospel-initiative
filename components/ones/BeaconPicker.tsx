@@ -201,7 +201,6 @@ const styles = StyleSheet.create({
     buttonRow: {
     },
     iconCard: {
-        backgroundColor: '#fff',
         shadowOpacity: 0.2,
         shadowRadius: 8,
         shadowColor: '#000',

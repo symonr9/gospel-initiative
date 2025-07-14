@@ -16,6 +16,7 @@ export type IMyStoriesLayout = ViewProps & {
     myStoryChapters: StoryChapter[];
     error: Error;
     editingChapterId: string;
+    dataRefreshLoading: boolean;
 };
 
 export enum StoryLayoutType {
@@ -27,7 +28,7 @@ export enum StoryLayoutType {
     Adding
 };
 
-function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error }: IMyStoriesLayout) {
+function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error, dataRefreshLoading }: IMyStoriesLayout) {
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Loading);
     const [message, setMessage] = useState<string | null>(null);
 
@@ -42,7 +43,7 @@ function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error }:
 
     if (activeLayoutType === StoryLayoutType.Loading) {
         return (
-            <LoadingLayout/>
+            <LoadingLayout />
         );
     }
 
@@ -55,11 +56,18 @@ function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error }:
                         prefixText={'Info'}
                         onClick={() => setMessage(null)} />
                 )}
-            <PageColumn style={styles.container}>
-                <MyStoriesHeader />
-                <BaseBrowseList chapters={sortedChapters} />
-            </PageColumn>
-        </PageColumn>
+
+            {
+                dataRefreshLoading ? (
+                    <LoadingLayout />
+                ) : (
+                    <PageColumn style={styles.container}>
+                        <MyStoriesHeader />
+                        <BaseBrowseList chapters={sortedChapters} />
+                    </PageColumn>
+                )
+            }
+        </PageColumn >
     );
 }
 
@@ -82,12 +90,12 @@ const mapStateToProps = (state: any) => {
         executor: state.users.executor,
         myStoryChapters: state.stories.myStoryChapters,
         error: state.errors.error,
-        editingChapterId: state.stories.editingChapterId
+        editingChapterId: state.stories.editingChapterId,
+        dataRefreshLoading: state.app.dataRefreshLoading,
     };
 }
 
 const mapDispatchToProps = {
-
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyStoriesLayout);

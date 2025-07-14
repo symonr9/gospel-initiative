@@ -8,6 +8,7 @@ import { ThemedView } from './ThemedView';
 import { AppIcon } from '@/enums/enums';
 import { PageColumn } from './PageColumn';
 import { PageRow } from './PageRow';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IPageTag = ViewProps & {
     iconSrc?: AppIcon | null;
@@ -19,6 +20,9 @@ export type IPageTag = ViewProps & {
 
 export function PageChip({ iconSrc = null, title,
     subtitle, small = false, onClick, style }: IPageTag) {
+
+    const { primaryColor } = useThemeColors();
+
     const onPress = (e: GestureResponderEvent) => {
         if (onClick) {
             e.stopPropagation();
@@ -30,7 +34,7 @@ export function PageChip({ iconSrc = null, title,
 
     return (
         <TouchableOpacity onPress={onPress}>
-            <ThemedView style={[styles.container, small && styles.smallContainer, style]}>
+            <ThemedView style={[styles.container, { backgroundColor: primaryColor }, small && styles.smallContainer, style]}>
                 {
                     iconSrc && (
                         <Image source={iconSrc} style={styles.icon} contentFit="contain" />
@@ -57,7 +61,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         flex: 1,
-        backgroundColor: '#fbfbfb',
         borderRadius: 4,
         paddingHorizontal: 4,
         paddingVertical: 6,
@@ -70,7 +73,6 @@ const styles = StyleSheet.create({
         minHeight: 20,
     },
     smallContainer: {
-        backgroundColor: '#fbfbfb',
         elevation: 4,
         minHeight: 23,
     },

@@ -1,4 +1,4 @@
-import { loadBeaconData, loadServerData, refreshData, setAppError, setNewUserStep } from '@/redux/actions';
+import { loadBeaconData, loadServerData, refreshData, setAppError, setDataRefreshLoading, setNewUserStep } from '@/redux/actions';
 import React, { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 
@@ -19,13 +19,15 @@ export type IDataRefreshManager = {
     refreshData: Function,
     setNewUserStep: Function,
     setAppError: Function,
+    setDataRefreshLoading: Function,
 };
 
 function getExpoServerUrl() {
     return Constants.expoConfig?.extra?.serverUrl;
 }
 
-function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserStep, refreshData, setAppError }: IDataRefreshManager) {
+function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserStep, refreshData, 
+    setAppError, setDataRefreshLoading }: IDataRefreshManager) {
     const [shouldRefreshBeacons, setShouldRefreshBeacons] = useState(false);
 
     useEffect(() => {
@@ -87,8 +89,10 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
             return;
         }
 
+        setDataRefreshLoading(true);
         const { user, ones, myStoryChapters, 
             activeBeacons, expiredBeacons, error } = await fetchServerData(refreshSpec);
+        setDataRefreshLoading(false);
         if (error) {
             setAppError(new AppError(error, 'Something went wrong'));
             setShouldRefreshBeacons(false);
@@ -137,6 +141,7 @@ const mapDispatchToProps = {
     refreshData,
     setNewUserStep,
     setAppError,
+    setDataRefreshLoading
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataRefreshManager);

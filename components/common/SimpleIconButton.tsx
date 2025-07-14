@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { AppText, TextType } from './AppText';
 import { AppIcon, Page } from '@/enums/enums';
 import { openPage } from '@/redux/actions';
-import { useThemeColors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 
 export type ISimpleIconButton = {
   iconSrc: AppIcon | null;
@@ -64,7 +64,6 @@ function SimpleIconButton({
         <View
           style={[
             stylesToUse.iconContainer,
-            { backgroundColor: textColor },
             customStyles.iconContainer,
             disabled && styles.disabledIconContainer, // Apply disabled icon styles
             removeBackground && styles.iconContainerMinimal

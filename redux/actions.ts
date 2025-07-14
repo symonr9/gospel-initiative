@@ -38,7 +38,8 @@ export enum Action {
     SetNewUserStep = 'SET_NEW_USER_STEP',
     SetHomeDailies = 'SET_HOME_DAILIES',
     SetAppError = "SET_APP_ERROR",
-    ClearAppError = "CLEAR_APP_ERROR"
+    ClearAppError = "CLEAR_APP_ERROR",
+    SetDataRefreshLoading = "SET_DATA_REFRESH_LOADING"
 };
 
 export class ActionPackage {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FlatList, View, ViewProps, StyleSheet, Modal, Button, Text, TouchableOpacity } from 'react-native';
 
 import { BeaconTemplateCard } from './BeaconTemplateCard';
-import { listStyles } from '@/styles/Styles';
+import { listStyles, useModalStyles } from '@/styles/Styles';
 import { setSelectedTemplateId } from '@/redux/actions';
 import { BeaconsListHeader } from './BeaconsListHeader';
 import BeaconTemplate from '@/models/beaconTemplate';
@@ -13,6 +13,7 @@ import { PageColumn } from '../common/PageColumn';
 import { AppText, TextType } from '../common/AppText';
 import { PageRow } from '../common/PageRow';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IBeaconTemplatesList = ViewProps & {
     activeLayoutType: OneLayoutType;
@@ -30,6 +31,9 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [tempSelectedTemplateId, setTempSelectedTemplateId] = useState<string | null>(selectedTemplateId);
+
+    const themeColors = useThemeColors();
+    const modalStyles = useModalStyles(themeColors);
 
     const renderItem = ({ item }: { item: BeaconTemplate }) => {
         return (
@@ -85,8 +89,8 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
                 animationType="slide"
                 onRequestClose={closeModal}
             >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
+                <View style={modalStyles.modalContainer}>
+                    <View style={modalStyles.modalContent}>
                         <AppText type={TextType.Subtitle}>Select a Template</AppText>
                         <PageColumn style={{ marginTop: 12, height: 400 }}>
                             <FlatList
@@ -112,18 +116,6 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: 'white',
-        margin: 20,
-        padding: 20,
-        borderRadius: 10,
-        elevation: 5,
     },
     modalTitle: {
         fontSize: 18,

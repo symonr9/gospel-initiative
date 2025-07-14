@@ -49,3 +49,8 @@ export const clearAppError = () => ({
     type: Action.ClearAppError,
     payload: null
 });
+
+export const setDataRefreshLoading = (data: any) => ({
+    type: Action.SetDataRefreshLoading,
+    payload: data
+});

@@ -127,13 +127,11 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
 const styles = StyleSheet.create({
     chip: {
         padding: 10,
-        backgroundColor: '#e0e0e0',
         margin: 5,
         borderRadius: 20,
     },
     tagOption: {
         padding: 8,
-        backgroundColor: '#f0f0f0',
         marginVertical: 5,
         borderRadius: 4,
         marginHorizontal: 4
