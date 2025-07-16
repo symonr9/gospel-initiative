@@ -23,8 +23,8 @@ export default ({ config }) => ({
         },
         android: {
             adaptiveIcon: {
-                foregroundImage: "./assets/images/adaptive-icon.png",
-                backgroundColor: "#ffffff",
+                foregroundImage: "./assets/images/gospel-initiative/app-logo.png",
+                backgroundColor: "#d0e0e3",
             },
             softwareKeyboardLayoutMode: "pan",
             package: "com.redemption.gospelinitiative",    

@@ -84,7 +84,7 @@ This command triggers a build on the EAS servers for the iOS platform which will
 4. `eas build`: Initiates a build process on EAS servers for the configured platforms and profiles. This creates the actual app binaries (IPA for iOS, APK or AAB for Android) that you can submit to app stores.
 5. `eas submit`: Upload existing builds on the EAS server (produced by `eas build`) to upload the app to app stores.
    - For TestFlight: `eas submit --platform ios`
-   - For Google Play: `eas submit --platform android`
+   - For Google Play: `eas submit --platform android` 
 
 ## Troubleshooting
 
