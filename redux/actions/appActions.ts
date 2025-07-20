@@ -54,3 +54,8 @@ export const setDataRefreshLoading = (data: any) => ({
     type: Action.SetDataRefreshLoading,
     payload: data
 });
+
+export const clearAllData = () => ({
+    type: Action.ClearAllData,
+    payload: null
+})

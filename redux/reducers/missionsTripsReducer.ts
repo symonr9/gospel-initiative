@@ -16,6 +16,8 @@ export function missionsTripsReducer(state = initialState, action: ActionPackage
                     missionsTripLeaders: missionsTripLeaders || state.missionsTripLeaders,
                 }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

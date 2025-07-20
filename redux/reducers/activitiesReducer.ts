@@ -14,13 +14,15 @@ export function activitiesReducer(state = initialState, action: ActionPackage) {
             const activeBeaconActivities = activeBeacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || null;
             const expiredBeaconActivities = expiredBeacons?.flatMap((beacon: any) => beacon.activities ? beacon.activities : []) || null;
             const needsUpdate = activeBeaconActivities && expiredBeaconActivities;
-            const beaconActivities = needsUpdate ? activeBeaconActivities.concat(expiredBeaconActivities) : state.beaconActivities;            
+            const beaconActivities = needsUpdate ? activeBeaconActivities.concat(expiredBeaconActivities) : state.beaconActivities;
             return update(state, {
                 $set: {
                     beaconActivities: beaconActivities || state.beaconActivities,
                     storyActivities: storyActivities || state.storyActivities
                 }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

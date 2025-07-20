@@ -74,7 +74,7 @@ export async function isSecureStorageAvailable() {
     return await SecureStore.isAvailableAsync();
 }
 
-export const clearAll = async () => {
+export const clearAllLocalStorage = async () => {
     try {
         await AsyncStorage.clear();
 

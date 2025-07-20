@@ -17,10 +17,12 @@ export function preferencesReducer(state = initialState, action: ActionPackage) 
             });
         case Action.LoadPreferences:
             return update(state, {
-				$set: {
-					preferences: action.payload
-				}
-			});
+                $set: {
+                    preferences: action.payload
+                }
+            });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

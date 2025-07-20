@@ -75,7 +75,7 @@ export const selectActiveBeaconsWithActivities = (oneId: string | null) =>
         [selectAllActiveBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
         (beacons, executor, beaconActivities, users) => {
             return beacons
-                .filter((beacon: any) => beacon.userId === executor.id && beacon.oneId === oneId)
+                .filter((beacon: any) => beacon.userId === executor?.id && beacon.oneId === oneId)
                 .map((beacon: any) => {
                     const activities = beaconActivities
                         .filter((activity) => activity.beaconId === beacon.id)
@@ -99,7 +99,7 @@ export const selectExpiredBeaconsWithActivities = (oneId: string | null) =>
         [selectAllExpiredBeacons, selectExecutor, selectAllBeaconActivities, selectAllUsers],
         (beacons, executor, beaconActivities, users) => {
             return beacons
-                .filter((beacon: any) => beacon.userId === executor.id && beacon.oneId === oneId)
+                .filter((beacon: any) => beacon.userId === executor?.id && beacon.oneId === oneId)
                 .map((beacon: any) => {
                     const activities = beaconActivities
                         .filter((activity) => activity.beaconId === beacon.id)
@@ -136,12 +136,12 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
                 const hasExecutorActivity = activitiesForBeacon.some(
-                    (activity) => activity.userId === executor.id
+                    (activity) => activity.userId === executor?.id
                 );
 
                 const partitionedActivities = activitiesForBeacon.reduce(
                     (acc: any, activity: BeaconActivity) => {
-                        if (activity.userId === executor.id) {
+                        if (activity.userId === executor?.id) {
                             acc.withExecutor.push(activity);
                         } else {
                             acc.withoutExecutor.push(activity);

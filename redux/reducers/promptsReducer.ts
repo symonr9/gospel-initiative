@@ -14,6 +14,8 @@ export function promptsReducer(state = initialState, action: ActionPackage) {
                     prompts: prompts || state.prompts,
                 }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

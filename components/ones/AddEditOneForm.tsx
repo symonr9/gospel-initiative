@@ -24,7 +24,6 @@ import { mapActionStepTypeToIcon } from "@/utils/iconUtils";
 import { MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { SimpleCard } from '../common/SimpleCard';
-import { clearAll } from '@/utils/storageUtils';
 import { halfScreenHeight, halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 import { useThemeColors } from '@/constants/Colors';
 

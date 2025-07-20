@@ -38,6 +38,8 @@ export function onesReducer(state = initialState, action: ActionPackage) {
                     $set: oneNoteTextFilter
                 },
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

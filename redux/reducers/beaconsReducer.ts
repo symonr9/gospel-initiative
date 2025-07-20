@@ -38,6 +38,8 @@ export function beaconsReducer(state = initialState, action: ActionPackage) {
             return update(state, {
                 beaconForm: { $set: action.payload }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

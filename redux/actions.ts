@@ -39,7 +39,8 @@ export enum Action {
     SetHomeDailies = 'SET_HOME_DAILIES',
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR",
-    SetDataRefreshLoading = "SET_DATA_REFRESH_LOADING"
+    SetDataRefreshLoading = "SET_DATA_REFRESH_LOADING",
+    ClearAllData = "CLEAR_ALL_DATA"
 };
 
 export class ActionPackage {

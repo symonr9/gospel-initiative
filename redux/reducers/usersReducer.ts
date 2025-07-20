@@ -25,6 +25,8 @@ export function usersReducer(state = initialState, action: ActionPackage) {
                     isSetupForNotifications: true,
                 }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

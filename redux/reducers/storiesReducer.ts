@@ -38,6 +38,8 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
                     $set: typeFilters || state.typeFilters
                 },
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

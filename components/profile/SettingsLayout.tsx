@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { AppIcon } from '@/enums/enums';
 import { setAppError } from '@/redux/actions';
-import { AnimatedBanner } from '../common/AnimatedBanner';
 import ScrollLayout from '../common/ScrollLayout';
 import User from '@/models/user';
 import SettingsUserPrefs from './settings/SettingsUserPrefs';

@@ -31,6 +31,9 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
     const [shouldRefreshBeacons, setShouldRefreshBeacons] = useState(false);
 
     useEffect(() => {
+        if (state.app.newUserStep !== NewUserStep.Loading)
+            return;
+
         const expoServerUrl = getExpoServerUrl();
         if (!expoServerUrl) {
             setAppError(new AppError('Invalid Server Configuration', 'Please contact your administrator.'));
@@ -38,7 +41,7 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
         }
         console.log(`Expo Server URL: ${expoServerUrl}`);       
         loadSettings();
-    }, []);
+    }, [state.app.newUserStep]);
 
     useEffect(() => {
         if (!shouldRefreshBeacons) {

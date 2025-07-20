@@ -18,6 +18,8 @@ export function localMinistriesReducer(state = initialState, action: ActionPacka
                     localMinistryLeaders: localMinistryLeaders || state.localMinistryLeaders
                 }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

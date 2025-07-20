@@ -7,14 +7,16 @@ const initialState = {
 
 export function errorsReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
-        case Action.SetAppError:            
+        case Action.SetAppError:
             return update(state, {
-				$set: {
-					error: action.payload
-				}
-			});
+                $set: {
+                    error: action.payload
+                }
+            });
         case Action.ClearAppError:
-			return initialState;
+            return initialState;
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }

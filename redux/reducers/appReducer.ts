@@ -53,6 +53,8 @@ export function appReducer(state = initialState, action: ActionPackage) {
                     dataRefreshLoading: action.payload,
                 }
             });
+        case Action.ClearAllData:
+            return initialState;
         default:
             return state;
     }
