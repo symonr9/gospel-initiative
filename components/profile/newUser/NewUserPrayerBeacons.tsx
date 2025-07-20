@@ -20,7 +20,7 @@ export default function NewUserPrayerBeacons({ newUserStep, setNewUserStep, styl
     const [showGlobalBeacons, setShowGlobalBeacons] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
     
-    const { darkAlternativeColor } = useThemeColors();
+    const { darkAlternativeColor, textColor } = useThemeColors();
 
     const onContinue = () => {
         setNewUserStep(NewUserStep.Stories);
@@ -39,7 +39,7 @@ export default function NewUserPrayerBeacons({ newUserStep, setNewUserStep, styl
 
             <PageRow center>
                 <Image source={AppIcon.AppLogoTransparent}
-                    tintColor={darkAlternativeColor}
+                    tintColor={textColor}
                     style={styles.logoIcon} />
             </PageRow>
 

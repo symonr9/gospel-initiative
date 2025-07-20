@@ -19,7 +19,7 @@ type INewUserFinished = ViewProps & {
 export default function NewUserFinished({ newUserStep, setNewUserStep, refreshData,
     styles }: INewUserFinished) {
         
-    const { darkAlternativeColor } = useThemeColors();
+    const { darkAlternativeColor, textColor } = useThemeColors();
 
     const onDone = async () => {
         refreshData(RefreshSpec.All);
@@ -31,7 +31,9 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
         <PageColumn style={{ gap: 4 }}>
             <AppText type={TextType.Title}>Setup Complete</AppText>
 
-            <StyledImage iconSrc={AppIcon.AppLogoTransparent} tintColor={darkAlternativeColor} style={styles.logoIcon}/>
+            <StyledImage iconSrc={AppIcon.AppLogoTransparent} 
+                tintColor={textColor} 
+                style={styles.logoIcon}/>
 
             <AppText>
                 Thank you for downloading our app and we hope that it is helpful as you share your life

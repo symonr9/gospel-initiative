@@ -19,7 +19,7 @@ type INewUserActionSteps = ViewProps & {
 export default function NewUserActionSteps({ newUserStep, setNewUserStep, styles }: INewUserActionSteps) {
     const [showCalendar, setShowCalendar] = useState(false);
 
-    const { darkAlternativeColor } = useThemeColors();
+    const { darkAlternativeColor, textColor } = useThemeColors();
 
     const onContinue = () => {
         setNewUserStep(NewUserStep.PrayerBeacons);
@@ -37,7 +37,7 @@ export default function NewUserActionSteps({ newUserStep, setNewUserStep, styles
 
             <PageRow center>
                 <Image source={AppIcon.AppLogoTransparent}
-                    tintColor={darkAlternativeColor}
+                    tintColor={textColor}
                     style={styles.logoIcon} />
             </PageRow>
 
