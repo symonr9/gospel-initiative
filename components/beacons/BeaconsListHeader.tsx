@@ -28,7 +28,7 @@ export function BeaconsListHeader({ activeLayoutType, selectedTemplateId, style 
         } else if (selectedTemplateId !== null) {
             return 'Make changes to your beacon before continuing.';
         }
-        return 'Use beacons to share prayer requests with your community. Your beacon will be available to view for 7 days by everyone with the app.';
+        return 'Use beacons to share prayer requests with your community. Your beacon will be available to view for 24 hours by everyone with the app.';
     }
 
     return (

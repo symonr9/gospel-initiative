@@ -31,8 +31,7 @@ export default function NewUserFinished({ newUserStep, setNewUserStep, refreshDa
         <PageColumn style={{ gap: 4 }}>
             <AppText type={TextType.Title}>Setup Complete</AppText>
 
-            <StyledImage iconSrc={AppIcon.AppLogoTransparent} 
-                tintColor={textColor} 
+            <Image source={AppIcon.Checkmark} 
                 style={styles.logoIcon}/>
 
             <AppText>
