@@ -36,8 +36,7 @@ export default function NewUserActionSteps({ newUserStep, setNewUserStep, styles
             </AppText>
 
             <PageRow center>
-                <Image source={AppIcon.AppLogoTransparent}
-                    tintColor={textColor}
+                <Image source={AppIcon.Care}
                     style={styles.logoIcon} />
             </PageRow>
 

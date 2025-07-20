@@ -38,7 +38,7 @@ export default function NewUserPrayerBeacons({ newUserStep, setNewUserStep, styl
             </AppText>
 
             <PageRow center>
-                <Image source={AppIcon.AppLogoTransparent}
+                <Image source={AppIcon.LightHouse}
                     tintColor={textColor}
                     style={styles.logoIcon} />
             </PageRow>

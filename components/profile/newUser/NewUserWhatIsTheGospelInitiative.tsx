@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { Image } from 'expo-image';
 import { Button, View, ViewProps } from "react-native";
 import { AppIcon, NewUserStep } from "@/enums/enums";
 import { PageColumn } from "@/components/common/PageColumn";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { SimpleCard } from "@/components/common/SimpleCard";
 import { AnimatedHeader } from "@/components/common/AnimatedHeader";
+import { PageRow } from "@/components/common/PageRow";
 
 type INewUserWhatIsTheGospelInitiative = ViewProps & {
     newUserStep: NewUserStep;
@@ -29,6 +31,11 @@ export default function NewUserWhatIsTheGospelInitiative({ newUserStep, setNewUs
         <PageColumn style={{ gap: 4 }}>
             <AnimatedHeader title={"What is the Gospel Initiative?"}
                 subtitle={"The Gospel Initiative is a movement started by Redemption Church that empowers Christians to share, live, and spread the Gospel through:"} />
+
+            <PageRow center>
+                <Image source={AppIcon.Globe}
+                    style={styles.logoIcon} />
+            </PageRow>
 
             <SimpleCard iconSrc={AppIcon.Jesus}
                 style={[styles.card]}
