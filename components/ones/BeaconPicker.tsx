@@ -49,7 +49,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
     selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, 
     expiredBeacons, setAppError, basicMode = false }: IBeaconPicker) => {
     const [message, setMessage] = useState<string | null>(null);
-    const [activeLayoutType, setActiveLayoutType] = useState(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+    const [activeLayoutType, setActiveLayoutType] = useState(selectedTemplateId ? OneLayoutType.ConfirmBeacon : (ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime));
 
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOneId));
     const BodyLayout: any[] = [];
