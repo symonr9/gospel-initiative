@@ -219,8 +219,8 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           <HomePrayerCard />
           <HomeQuickBeaconCard />
           <HomePracticeTestimonyCard />
-          <HomeAutoBeaconCard />
-          {/* TODO: Removing for now */}
+          {/* These features are omitted but may be added in the future */}
+          {/* <HomeAutoBeaconCard /> */}
           {/* <HomeDailyTasksCard /> */}
 
           <View style={{ height: 300 }} />

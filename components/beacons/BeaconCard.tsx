@@ -11,7 +11,7 @@ import Animated, {
     ZoomOut 
 } from 'react-native-reanimated';
 
-import { mapAutoBeaconTypeToIcon, mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
+import { mapGlobalBeaconTypeToIcon } from "@/utils/iconUtils";
 import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { Colors } from '@/constants/Colors';
 

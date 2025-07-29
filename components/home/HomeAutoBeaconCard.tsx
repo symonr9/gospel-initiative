@@ -37,6 +37,7 @@ export type IHomeAutoBeaconCard = ViewProps & {
     setAppError: Function;
 };
 
+// NOTE: Auto beacons are not currently used in the app, but this component is set up for future use.
 function HomeAutoBeaconCard({ executor, refreshData, setAppError }: IHomeAutoBeaconCard) {
 
     const [selectedType, setSelectedType] = useState(AutoBeaconType.Opportunities);
