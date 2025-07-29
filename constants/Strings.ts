@@ -42,7 +42,7 @@ export const PromptQuestions = [
     "What's the most important thing you want to achieve in your life?",
     "What's a book or quote that's really influenced you?",
     "What's a quality you admire in other people?",
-    "What do you think is the most importat thing in a person's character?",
+    "What do you think is the most important thing in a person's character?",
     "What's something that's given you a sense of purpose?",
     "What's something you feel deeply grateful for?",
     "What's something you've been learning or growing in lately?",

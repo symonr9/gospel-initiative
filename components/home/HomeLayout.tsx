@@ -25,6 +25,7 @@ import { SimpleButton, ButtonType } from '../common/SimpleButton';
 import HomeAutoBeaconCard from './HomeAutoBeaconCard';
 import HomeQuickBeaconCard from './HomeQuickBeaconCard';
 import { Colors, useThemeColors } from '@/constants/Colors';
+import HomePromptCard from './HomePromptCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -214,7 +215,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
             )
           }
 
-          {/* <HomePromptCard /> */}
+          <HomePromptCard />
           <HomeAddOneCard />
           <HomePrayerCard />
           <HomeQuickBeaconCard />

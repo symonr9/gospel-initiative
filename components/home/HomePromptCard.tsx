@@ -25,6 +25,7 @@ function HomePromptCard({ executor }: IHomePromptCard) {
         <SimpleCard iconSrc={AppIcon.Note}
             style={[styles.card]}
             title={promptQuestion}
+            useTextTintForIcon={false}
             subtitle={'Prompt of the Day: Try to ask someone this question!'} />
     );
 }

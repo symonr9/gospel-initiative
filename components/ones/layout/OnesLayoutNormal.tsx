@@ -168,7 +168,8 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         useTextTintForIcon={false}
                         onClick={() => setBodyType(BodyType.ActionStep)} />
 
-                    {
+                    {/* NOTE: Gospel Steps are currently omitted but may be added in future versions */}
+                    {/* {
                         showGospelSteps && (
                             <SimpleGridCard iconSrc={AppIcon.ScriptureOpen}
                                 title={'Gospel Steps'}
@@ -177,7 +178,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                                 useTextTintForIcon={false}
                                 onClick={() => setBodyType(BodyType.GospelSteps)} />
                         )
-                    }
+                    } */}
 
                     <SimpleGridCard iconSrc={AppIcon.Prayer}
                         title={'Prayer Beacons'}
