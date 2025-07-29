@@ -22,10 +22,6 @@ export default ({ config }) => ({
             }
         },
         android: {
-            adaptiveIcon: {
-                foregroundImage: "./assets/images/gospel-initiative/app-logo.png",
-                backgroundColor: "#d0e0e3",
-            },
             softwareKeyboardLayoutMode: "pan",
             package: "com.redemption.gospelinitiative",    
             googleServicesFile: process.env.GOOGLE_SERVICES_JSON || './google-services.json'
