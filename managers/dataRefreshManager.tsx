@@ -1,4 +1,4 @@
-import { loadBeaconData, loadServerData, refreshData, setAppError, setDataRefreshLoading, setNewUserStep } from '@/redux/actions';
+import { loadBeaconData, loadServerData, refreshData, setAppError, setDataRefreshLoading, setNewUserStep, setShouldRefreshBeacons } from '@/redux/actions';
 import React, { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 
@@ -28,8 +28,6 @@ function getExpoServerUrl() {
 
 function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserStep, refreshData, 
     setAppError, setDataRefreshLoading }: IDataRefreshManager) {
-    const [shouldRefreshBeacons, setShouldRefreshBeacons] = useState(false);
-
     useEffect(() => {
         if (state.app.newUserStep !== NewUserStep.Loading)
             return;
@@ -44,12 +42,12 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
     }, [state.app.newUserStep]);
 
     useEffect(() => {
-        if (!shouldRefreshBeacons) {
+        if (!state.app.shouldRefreshBeacons) {
             return;
         }
         const interval = setInterval(() => { refreshData(RefreshSpec.Beacons); }, REFRESH_BEACONS_INTERVAL_SEC * 1000);
         return () => clearInterval(interval); // Cleanup
-    }, [shouldRefreshBeacons]);
+    }, [state.app.shouldRefreshBeacons]);
 
     useEffect(() => {
         if (state.app.refreshSpec === RefreshSpec.None) {
@@ -144,7 +142,8 @@ const mapDispatchToProps = {
     refreshData,
     setNewUserStep,
     setAppError,
-    setDataRefreshLoading
+    setDataRefreshLoading,
+    setShouldRefreshBeacons
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataRefreshManager);

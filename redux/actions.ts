@@ -36,6 +36,7 @@ export enum Action {
     SetOneForm = "SET_ONE_FORM",
 
     SetNewUserStep = 'SET_NEW_USER_STEP',
+    SetShouldRefreshBeacons = 'SET_SHOULD_REFRESH_BEEACONS',
     SetHomeDailies = 'SET_HOME_DAILIES',
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR",

@@ -32,6 +32,11 @@ export const setNewUserStep = (item: NewUserStep) => ({
     payload: item,
 });
 
+export const setShouldRefreshBeacons = (shouldRefresh: boolean) => ({
+    type: Action.SetShouldRefreshBeacons,
+    payload: shouldRefresh,
+});
+
 /**
  * By default, refresh all server data.
  */

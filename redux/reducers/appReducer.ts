@@ -7,6 +7,7 @@ const initialState = {
     page: Page.ShareChrist,
     refreshSpec: RefreshSpec.None,
     newUserStep: NewUserStep.Loading,
+    shouldRefreshBeacons: false,
     homeDailies: {
         actionSteps: false,
         gospelChecklist: false,
@@ -44,6 +45,13 @@ export function appReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     ...state,
                     newUserStep: action.payload,
+                }
+            });
+        case Action.SetShouldRefreshBeacons:
+            return update(state, {
+                $set: {
+                    ...state,
+                    shouldRefreshBeacons: action.payload,
                 }
             });
         case Action.SetDataRefreshLoading:
