@@ -11,24 +11,27 @@ import DetailsSection from '../common/DetailsSection';
 import { PageChip } from '../common/PageChip';
 import { partitionChaptersByTag, toggleTagFromFilter, toggleTypeFromFilter } from '@/utils/appUtils';
 import { mapStoryChapterTagToText } from "@/utils/textUtils";
-import { updateChaptersFilter } from '@/redux/actions';
-import { AppText } from '../common/AppText';
+import { setAddingStory, updateChaptersFilter } from '@/redux/actions';
 import { PageRow } from '../common/PageRow';
 import { Colors, useThemeColors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { standardPaddedWidth } from '@/constants/Dimensions';
 import { useModalStyles } from '@/styles/Styles';
+import SimpleIconButton from '../common/SimpleIconButton';
 
 export type IMyStoriesHeader = {
     myStoryChapters: StoryChapter[];
     tagFilters: StoryChapterTag[];
     typeFilters: StoryChapterType[];
+    addingStory: boolean;
+    setAddingStory: Function;
     error: Error;
     editingChapterId: string;
     updateChaptersFilter: Function;
 };
 
-function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFilters, updateChaptersFilter }: IMyStoriesHeader) {
+function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFilters,
+    updateChaptersFilter, addingStory, setAddingStory }: IMyStoriesHeader) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const themeColors = useThemeColors();
@@ -89,19 +92,25 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
 
     return (
         <PageColumn>
-            <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
+            <PageColumn style={{}}>
                 <AnimatedHeader title={hasActiveFilter ? `My Stories` : `My Stories (${myStoryChapters.length})`}
-                    subtitle="A library of chapters of your testimony." />
-                {
-                    editingChapterId === null && (
-                        <PageRow>
+                    subtitle="A library of chapters of your story." />
+
+                <PageRow spaceBetween>
+                    <SimpleIconButton iconSrc={AppIcon.Plus}
+                        onClick={() => setAddingStory(true)}
+                        title={'Add New'}
+                        />
+
+                    {
+                        editingChapterId === null && (
                             <SimpleButton text={openFilterBtnText}
                                 onPress={toggleModalVisibility}
                                 style={[styles.filterButton, hasActiveFilter && styles.activeFilter]}
                                 type={ButtonType.Open} />
-                        </PageRow>
-                    )
-                }
+                        )
+                    }
+                </PageRow>
             </PageColumn>
 
             <View>
@@ -116,29 +125,31 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
                                 subtitle={'Tap items below to filter your stories.'} />
 
                             {chaptersIsLoaded && (
-                                <PageRow spaceBetween style={{ gap: 4 }}>
-                                    <DetailsSection iconSrc={AppIcon.BeforeChrist}
-                                        prefix="Before Christ"
-                                        title={beforeChristChapters.length}
-                                        onClick={beforeChristClick}
-                                        style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
-                                    />
-                                    <DetailsSection iconSrc={AppIcon.Repentance}
-                                        prefix="Salvation Moment"
-                                        title={salvationMomentChapters.length}
-                                        onClick={salvationMomentClick}
-                                        style={[styles.typeFilterItem, isFilteringSalvationMoment && styles.selectedTypeFilter]}
-                                    />
+                                <PageColumn spaceBetween style={{ gap: 4, marginBottom: 8 }}>
+                                    <PageRow center style={{ gap: 8 }}>
+                                        <DetailsSection iconSrc={AppIcon.BeforeChrist}
+                                            prefix="Before Christ"
+                                            title={beforeChristChapters.length}
+                                            onClick={beforeChristClick}
+                                            style={[styles.typeFilterItem, isFilteringBeforeChrist && styles.selectedTypeFilter]}
+                                        />
+                                        <DetailsSection iconSrc={AppIcon.Repentance}
+                                            prefix="Salvation Moment"
+                                            title={salvationMomentChapters.length}
+                                            onClick={salvationMomentClick}
+                                            style={[styles.typeFilterItem, isFilteringSalvationMoment && styles.selectedTypeFilter]}
+                                        />
+                                    </PageRow>
                                     <DetailsSection iconSrc={AppIcon.PlantGrow}
                                         prefix="After Christ"
                                         title={afterChristChapters.length}
                                         onClick={afterChristClick}
                                         style={[styles.typeFilterItem, isFilteringAfterChrist && styles.selectedTypeFilter]}
                                     />
-                                </PageRow>
+                                </PageColumn>
                             )}
 
-                            <PageColumn style={{ maxHeight: 150 }}>
+                            <PageColumn style={{ maxHeight: 100 }}>
                                 <FlatList data={partitionedChapters}
                                     keyExtractor={(key, idx) => `tag-${idx}`}
                                     numColumns={3}
@@ -227,11 +238,13 @@ const mapStateToProps = (state: any) => ({
     editingChapterId: state.stories.editingChapterId,
     tagFilters: state.stories.tagFilters,
     typeFilters: state.stories.typeFilters,
+    addingStory: state.stories.addingStory,
     error: state.errors.error,
 });
 
 const mapDispatchToProps = {
     updateChaptersFilter,
+    setAddingStory,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyStoriesHeader);

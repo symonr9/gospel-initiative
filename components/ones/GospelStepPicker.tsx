@@ -254,7 +254,7 @@ function GospelStepPicker({ selectedOneId, ones, refreshData, setAppError }: IGo
                             title={'Focus on the relationship! Share your life with them, not just the Gospel.'}
                             detailsView={(
                                 <AppText>
-                                    If someone isn’t actively seeking the Gospel, focus on building rapport, sharing your testimony, and listening to their story. Treat them as individuals loved by God, not as projects.
+                                    If someone isn’t actively seeking the Gospel, focus on building rapport, sharing your story, and listening to their story. Treat them as individuals loved by God, not as projects.
                                 </AppText>
                             )}
                             onClick={() => setHasReadNotice2(true)} />

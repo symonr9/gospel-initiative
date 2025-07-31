@@ -12,7 +12,7 @@ import { PageRow } from '../common/PageRow';
 import { SimpleIcon } from '../common/SimpleIcon';
 import LoadingLayout from '../common/LoadingLayout';
 import HomeAddOneCard from './HomeAddOneCard';
-import HomePracticeTestimonyCard from './HomePracticeTestimonyCard';
+import HomeAddStoryCard from './HomeAddStoryCard';
 import { screenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import { formStyles, useModalStyles } from '@/styles/Styles';
 import { AppText, TextType } from '../common/AppText';
@@ -219,7 +219,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           <HomeAddOneCard />
           <HomePrayerCard />
           <HomeQuickBeaconCard />
-          <HomePracticeTestimonyCard />
+          <HomeAddStoryCard />
           {/* These features are omitted but may be added in the future */}
           {/* <HomeAutoBeaconCard /> */}
 

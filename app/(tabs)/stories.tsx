@@ -7,14 +7,12 @@ import { SceneMap } from 'react-native-tab-view';
 import AppTabView from '@/components/common/AppTabView';
 import MyStoriesLayout from '@/components/stories/MyStoriesLayout';
 import GodsStoriesLayout from '@/components/stories/GodsStoriesLayout';
-import PracticeMyStoryDetails from '@/components/stories/PracticeMyStoryDetails';
 
 export type IStories = ViewProps & {
 };
 
 const renderScene = SceneMap({
   myStories: MyStoriesLayout,
-  practice: PracticeMyStoryDetails,
   GodsStories: GodsStoriesLayout,
 });
 
@@ -25,7 +23,6 @@ function Stories({ }: IStories) {
   const [index, setIndex] = useState(initialIndex);
   const [routes] = React.useState([
     { key: 'myStories', title: 'My Stories' },
-    { key: 'practice', title: 'Practice' },
     { key: 'GodsStories', title: `God's Stories` }
   ]);
 
@@ -35,7 +32,7 @@ function Stories({ }: IStories) {
 
   return (
     <PageView>
-      <AppTabView title={'Beacons'}
+      <AppTabView title={'Stories'}
         renderScene={renderScene}
         index={index}
         setIndex={setIndex}

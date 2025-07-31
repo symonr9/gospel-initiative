@@ -11,7 +11,7 @@ import SimpleIconButton from '../common/SimpleIconButton';
 import { createChapters } from "@/requests/storyRequests";
 import { partition } from "@/requests/storyRequests";
 import User from '@/models/user';
-import { setAppError, refreshData } from '@/redux/actions';
+import { setAppError, refreshData, setAddingStory } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
 import { formatDateTime, getHoursLeft, getRandomString, getTheNextDay, getTimePercentage, isWithinPast24Hours, shouldKeepChapter } from '@/utils/appUtils';
@@ -20,27 +20,25 @@ import { formStyles } from '@/styles/Styles';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleLoadingSection } from '../common/SimpleLoadingSection';
 import AppError from '@/models/error';
-import { ItemRowContainer } from '../common/ItemRowContainer';
-import { BeaconCard } from '../beacons/BeaconCard';
 import { SimpleCard } from '../common/SimpleCard';
-import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 import { MAX_LONG_TEXT_LENGTH, MAX_TESTIMONY_LENGTH, MIN_TESTIMONY_LENGTH } from '@/constants/Constants';
 import { SimpleIcon } from '../common/SimpleIcon';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
 
-export type IPracticeMyStoryDetails = {
+export type IAddMyStoryForm = {
   executor: User,
   myStoryChapters: StoryChapter[],
+  addingStory: boolean,
   setAppError: Function,
-  refreshData: Function
+  refreshData: Function,
+  setAddingStory: Function
 };
 
 enum PageState {
   Page1,
   Page2,
-  Page3,
   Page4,
   Page5,
   Page6,
@@ -48,7 +46,7 @@ enum PageState {
   Page8
 };
 
-function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refreshData }: IPracticeMyStoryDetails) {
+function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, addingStory, setAddingStory }: IAddMyStoryForm) {
   const [pageState, setPageState] = useState(PageState.Page1);
   const [question, setQuestion] = useState(getRandomString(PracticeTestimonyQuestions));
   const [response, setResponse] = useState("");
@@ -141,15 +139,15 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <PageColumn style={{ gap: 12 }}>
             <PageRow>
               <SimpleIcon iconSrc={AppIcon.Microphone} removeBackground={false} />
-              <AnimatedHeader title={'Practice your Testimony'}
+              <AnimatedHeader title={'Add New Story'}
                 style={{ alignItems: 'flex-start', marginStart: 8 }}
-                subtitle='Practice your story and save to your library.' />
+                subtitle='Add to your story by reflecting on a thought-provoking question.' />
             </PageRow>
           </PageColumn>
         </PageRow>
 
         <PageRow>
-          <SimpleCard title={`Testimony Practice Info`}
+          <SimpleCard title={`How does this work?`}
             subtitle={''}
             onClick={() => setShowInfoOnPage1(val => !val)}
             style={{ width: screenWidth - 30 }}
@@ -165,7 +163,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
                         <AppText type={TextType.Subtitle3}>2.) Review:</AppText> Review and select which compiled responses to keep.
                       </AppText>
                       <AppText type={TextType.Default}>
-                        <AppText type={TextType.Subtitle3}>3.) Save:</AppText> Save your selections when finished.
+                        <AppText type={TextType.Subtitle3}>3.) Save:</AppText> Save your story cards to your library.
                       </AppText>
                     </PageColumn>
                   </PageColumn>
@@ -174,7 +172,11 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             } />
         </PageRow>
 
-        <PageRow center>
+        <PageRow spaceBetween style={{ marginLeft: 8, marginRight: 8 }}>
+          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
+            title='Exit'
+            onClick={() => setAddingStory(false)} />
+
           <SimpleIconButton iconSrc={AppIcon.ArrowNext}
             title={'Start'}
             onClick={() => setPageState(PageState.Page2)} />
@@ -186,15 +188,14 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
 
     Body.push(
       <>
-        <AppText type={TextType.Subtitle} style={{ marginVertical: 8 }}>
-          Practice your Testimony
-        </AppText>
-
-        <PageRow spaceBetween style={{ marginRight: 8 }}>
-          <View />
+        <PageRow spaceBetween style={{ marginRight: 8, }}>
+          <AppText type={TextType.Subtitle} style={{ marginVertical: 8 }}>
+            Add New Story
+          </AppText>
           <SimpleIconButton iconSrc={AppIcon.Refresh}
             title='New Question'
             onClick={() => setQuestion(getRandomString(PracticeTestimonyQuestions))}
+            customStyles={{ container: { marginTop: 8 } }}
             small />
         </PageRow>
 
@@ -208,9 +209,6 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         </View>
 
         <PageColumn style={{ marginVertical: 8, marginTop: 16 }}>
-          <AppText type={TextType.Subtitle2}>
-            Your Response
-          </AppText>
           <AppText type={TextType.Body} style={{ marginVertical: 8, color: isPastMinLength ? Colors.success : Colors.red }}>
             {isPastMinLength ? 'Minimum length reached' : `Minimum length not yet reached: ${response.length} / ${MIN_TESTIMONY_LENGTH}`}
           </AppText>
@@ -218,7 +216,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
 
         <TextInput
           style={[formStyles.multiLineTextInput, { height: (halfScreenHeight / 2) - 40 }]}
-          placeholder={`Enter text here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
+          placeholder={`Enter response here...`}
           placeholderTextColor={'gray'}
           value={response}
           multiline
@@ -226,57 +224,18 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           maxLength={MAX_TESTIMONY_LENGTH}
           onChangeText={(text) => setResponse(text)} />
 
-        <PageRow spaceEvenly style={{ marginTop: 16 }}>
+        <PageRow spaceEvenly style={{ marginTop: 16, marginBottom: 200 }}>
           <SimpleIconButton iconSrc={AppIcon.ArrowBack}
             title='Back'
             onClick={() => setPageState(PageState.Page1)} />
 
           <SimpleIconButton iconSrc={AppIcon.Checkmark}
-            title={'Next'}
-            onClick={() => setPageState(PageState.Page3)} />
-        </PageRow>
-
-        <View style={{ height: 200 }} />
-      </>
-    );
-  } else if (pageState === PageState.Page3) {
-    Body.push(
-      <>
-        <AppText type={TextType.Subtitle} style={{ marginVertical: 8 }}>
-          Confirm Response?
-        </AppText>
-
-        <PageColumn>
-          <AppText type={TextType.Body} style={{ marginVertical: 8 }}>
-            Your Question
-          </AppText>
-          <View style={{ flexShrink: 1, width: screenWidth - 20 }}>
-            <AppText type={TextType.BodyBold} style={[styles.textLabel]}>
-              {question}
-            </AppText>
-          </View>
-
-          <AppText type={TextType.Subtitle2} style={{ marginVertical: 8, marginTop: 16 }}>
-            Your Response
-          </AppText>
-          <ScrollView style={{ maxHeight: halfScreenHeight / 2 }}>
-            <View style={{ flexShrink: 1, width: screenWidth - 20 }}>
-              <AppText type={TextType.Default} style={[styles.textLabel]}>
-                {response}
-              </AppText>
-            </View>
-          </ScrollView>
-        </PageColumn>
-
-        <PageRow spaceEvenly style={{ marginTop: 16 }}>
-          <SimpleIconButton iconSrc={AppIcon.ArrowBack}
-            title='Back'
-            onClick={() => setPageState(PageState.Page2)} />
-
-          <SimpleIconButton iconSrc={AppIcon.ArrowNext}
-            title={'Next'}
+            title={'Submit'}
+            disabled={!isPastMinLength}
             onClick={() => setPageState(PageState.Page4)} />
         </PageRow>
+
+        <View style={{ height: 400 }} />
       </>
     );
   } else if (pageState === PageState.Page4) {
@@ -373,7 +332,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
     );
   } else if (pageState === PageState.Page8) {
     const onCompleteClick = () => {
-      resetPage();
+      setAddingStory(false);
     };
 
     Body.push(
@@ -422,11 +381,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: any) => ({
   executor: state.users.executor,
   myStoryChapters: state.stories.myStoryChapters,
+  addingStory: state.stories.addingStory,
 });
 
 const mapDispatchToProps = {
   setAppError,
-  refreshData
+  refreshData,
+  setAddingStory
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PracticeMyStoryDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMyStoryForm);

@@ -8,35 +8,31 @@ import { SimpleCard } from '../common/SimpleCard';
 import User from '@/models/user';
 import StoryChapter from '@/models/storyChapter';
 import { isWithinPast24Hours } from '@/utils/appUtils';
+import { setAddingStory } from '@/redux/actions';
 
-export type IHomePracticeTestimonyCard = ViewProps & {
+export type IHomeAddStoryCard = ViewProps & {
     executor: User;
     myStoryChapters: StoryChapter[];
+    setAddingStory: Function;
 };
 
-function HomePracticeTestimonyCard({ executor, myStoryChapters }: IHomePracticeTestimonyCard) {
+function HomeAddStoryCard({ executor, myStoryChapters, setAddingStory }: IHomeAddStoryCard) {
     const router = useRouter();
 
     const onClick = () => {
-        router.replace('/stories?tab=1');
+        setAddingStory(true);
+        router.replace('/stories?tab=0');
     };
 
-    if (!executor) {
+    if (!executor)
         return <></>;
-    }
-
-    const hasPracticedTestimonyToday = isWithinPast24Hours(executor.lastPartitionDate);
-    
-    if (hasPracticedTestimonyToday && executor.extraPartitionCount === 0) {
-        return <></>;
-    }
 
     return (
         <SimpleCard iconSrc={AppIcon.Microphone}
             style={[styles.card]}
-            title={'Testimony Practice'}
+            title={'Add New Story'}
             useTextTintForIcon={false}
-            subtitle={'Tap on this card to go to the Testimony Practice page.'}
+            subtitle={'Tap on this card to go to add a new Story.'}
             onClick={onClick} />
     );
 }
@@ -56,7 +52,7 @@ const mapStateToProps = (state: any) => ({
 
 
 const mapDispatchToProps = {
-
+    setAddingStory,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePracticeTestimonyCard);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeAddStoryCard);

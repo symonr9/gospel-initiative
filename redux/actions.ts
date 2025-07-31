@@ -18,6 +18,7 @@ export enum Action {
     UpdateOneNoteFilters = "UPDATE_ONE_NOTE_FILTER",
     UpdateChaptersFilter = "UPDATE_CHAPTERS_FILTER",
     SetEditingChapterId = "UPDATE_EDITING_CHAPTER_ID",
+    SetAddingStory = "SET_ADDING_STORY",
 
     LoadServerData = "LOAD_SERVER_DATA",
     LoadBeaconData = "LOAD_BEACON_DATA",

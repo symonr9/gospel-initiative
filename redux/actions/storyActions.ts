@@ -12,3 +12,8 @@ export const setEditingChapterId = (item: string) => ({
     type: Action.SetEditingChapterId,
     payload: item
 });
+
+export const setAddingStory = (adding: boolean) => ({
+    type: Action.SetAddingStory,
+    payload: adding
+});

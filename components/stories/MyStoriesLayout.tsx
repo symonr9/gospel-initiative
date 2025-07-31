@@ -10,6 +10,8 @@ import MyStoriesHeader from './MyStoriesHeader';
 import BaseBrowseList from './BaseBrowseList';
 import LoadingLayout from '../common/LoadingLayout';
 import User from '@/models/user';
+import { setAddingStory } from '@/redux/actions';
+import AddMyStoryForm from './AddMyStoryForm';
 
 export type IMyStoriesLayout = ViewProps & {
     executor: User;
@@ -17,6 +19,8 @@ export type IMyStoriesLayout = ViewProps & {
     error: Error;
     editingChapterId: string;
     dataRefreshLoading: boolean;
+    addingStory: boolean;
+    setAddingStory: Function;
 };
 
 export enum StoryLayoutType {
@@ -28,7 +32,7 @@ export enum StoryLayoutType {
     Adding
 };
 
-function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error, dataRefreshLoading }: IMyStoriesLayout) {
+function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error, dataRefreshLoading, addingStory, setAddingStory }: IMyStoriesLayout) {
     const [activeLayoutType, setActiveLayoutType] = useState(StoryLayoutType.Loading);
     const [message, setMessage] = useState<string | null>(null);
 
@@ -45,6 +49,10 @@ function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error, d
         return (
             <LoadingLayout />
         );
+    }
+
+    if (addingStory) {
+        return <AddMyStoryForm />;
     }
 
     return (
@@ -89,6 +97,7 @@ const mapStateToProps = (state: any) => {
     return {
         executor: state.users.executor,
         myStoryChapters: state.stories.myStoryChapters,
+        addingStory: state.stories.addingStory,
         error: state.errors.error,
         editingChapterId: state.stories.editingChapterId,
         dataRefreshLoading: state.app.dataRefreshLoading,
@@ -96,6 +105,7 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = {
+    setAddingStory,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyStoriesLayout);

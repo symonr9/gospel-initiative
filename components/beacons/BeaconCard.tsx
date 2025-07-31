@@ -106,9 +106,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 2,
+        shadowOpacity: 0.9,
+        shadowRadius: 6,
+        elevation: 12,
         zIndex: 0,
     },
     icon: {

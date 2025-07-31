@@ -113,9 +113,9 @@ const styles = StyleSheet.create({
     marginBottom: 4, // Space between the icon and the title
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 4,
+    shadowOpacity: 0.7,
+    shadowRadius: 10,
+    elevation: 6,
   },
   iconContainerMinimal: {
     backgroundColor: 'transparent',

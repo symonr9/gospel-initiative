@@ -45,7 +45,7 @@ export default function NewUserStories({ newUserStep, setNewUserStep, styles }: 
 
             <SimpleCard iconSrc={AppIcon.Microphone}
                 style={[styles.card]}
-                title={'Practice your Testimony'}
+                title={'Compile your Story'}
                 subtitle={practiceSubtitle}
                 useTextTintForIcon={false}
                 onClick={() => setShowPractice(val => !val)} />

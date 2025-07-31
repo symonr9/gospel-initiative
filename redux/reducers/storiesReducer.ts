@@ -7,7 +7,8 @@ const initialState = {
     stories: [],
     myStoryChapters: [],
     GodsStoryChapters: [],
-    editingChapterId: null
+    editingChapterId: null,
+    addingStory: false,
 };
 
 export function storiesReducer(state = initialState, action: ActionPackage) {
@@ -21,12 +22,17 @@ export function storiesReducer(state = initialState, action: ActionPackage) {
                     GodsStoryChapters: GodsStoryChapters || state.GodsStoryChapters,
                     tagFilters: state.tagFilters,
                     typeFilters: state.typeFilters,
-                    editingChapterId: state.editingChapterId
+                    editingChapterId: state.editingChapterId,
+                    addingStory: state.addingStory,
                 }
             });
         case Action.SetEditingChapterId:
             return update(state, {
                 editingChapterId: { $set: action.payload }
+            });
+        case Action.SetAddingStory:
+            return update(state, {
+                addingStory: { $set: action.payload }
             });
         case Action.UpdateChaptersFilter:
             const { tagFilters, typeFilters } = action.payload;
