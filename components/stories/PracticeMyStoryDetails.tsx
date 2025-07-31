@@ -25,7 +25,7 @@ import { BeaconCard } from '../beacons/BeaconCard';
 import { SimpleCard } from '../common/SimpleCard';
 import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
-import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
+import { MAX_LONG_TEXT_LENGTH, MAX_TESTIMONY_LENGTH, MIN_TESTIMONY_LENGTH } from '@/constants/Constants';
 import { SimpleIcon } from '../common/SimpleIcon';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
@@ -135,63 +135,8 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
   }, [chapterArray]);
 
   if (pageState === PageState.Page1) {
-    const hasFreePractice = !isWithinPast24Hours(executor?.lastPartitionDate) || false;
-    const numOfAdditionalPractices = executor?.extraPartitionCount || 0;
-    const hasNoTokens = !hasFreePractice && numOfAdditionalPractices === 0;
-    const beaconPlaceholder = { type: BeaconType.SpiritualConversation };
-
-    const practiceTokens = [];
-    if (hasFreePractice) {
-      practiceTokens.push(
-        <BeaconCard beacon={beaconPlaceholder}
-          idx={0}
-          useAnimations={true}
-          selectedPrayerId={null}
-          onPress={() => { }}
-          selectedIdx={null} />
-      );
-    }
-
-    for (let i = 0; i < numOfAdditionalPractices; i++) {
-      practiceTokens.push(
-        <BeaconCard beacon={beaconPlaceholder}
-          idx={0}
-          selectedPrayerId={null}
-          useAnimations={true}
-          onPress={() => { }}
-          selectedIdx={null} />
-      );
-    }
-
-    if (hasNoTokens) {
-      const nextPartitionDate = getTheNextDay(executor.lastPartitionDate);
-      const hoursBetween = getHoursLeft(nextPartitionDate);
-      const timePercent = hoursBetween / 24;
-
-      practiceTokens.push(
-        <PageColumn style={{ gap: 8 }}>
-          <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth, marginTop: 8 }}>
-            <AppText type={TextType.Italic}>
-              You can practice again on {formatDateTime(nextPartitionDate)}.
-            </AppText>
-          </PageColumn>
-          <PageRow style={{ gap: 8, marginTop: 8 }}>
-            <View style={{ alignSelf: 'center' }}>
-              <Progress.Bar progress={timePercent}
-                width={standardPaddedWidth - 50}
-                borderRadius={8} />
-            </View>
-            <AppText type={TextType.Body}>{24 - hoursBetween} hour{(24 - hoursBetween) !== 1 ? 's' : ''} left</AppText>
-          </PageRow>
-        </PageColumn>
-      );
-    }
-
-    const title = hasNoTokens ? 'Practice Tokens' : `Practice Tokens (${practiceTokens.length})`;
-
     Body.push(
       <PageColumn style={{ marginVertical: 8, gap: 12 }}>
-
         <PageRow spaceBetween>
           <PageColumn style={{ gap: 12 }}>
             <PageRow>
@@ -229,21 +174,16 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
             } />
         </PageRow>
 
-        <PageRow spaceEvenly style={{ gap: 8 }}>
-          <AppText type={TextType.Subtitle2} style={{ marginVertical: 8 }}>
-            You have {hasFreePractice ? '1 free practice' : numOfAdditionalPractices} token{numOfAdditionalPractices !== 1 ? 's' : ''} available.
-          </AppText>
-        </PageRow>
-
         <PageRow center>
           <SimpleIconButton iconSrc={AppIcon.ArrowNext}
-            title={hasNoTokens ? 'Try again later' : 'Start'}
-            disabled={hasNoTokens}
+            title={'Start'}
             onClick={() => setPageState(PageState.Page2)} />
         </PageRow>
       </PageColumn>
     );
   } else if (pageState === PageState.Page2) {
+    const isPastMinLength = response.length >= MIN_TESTIMONY_LENGTH;
+
     Body.push(
       <>
         <AppText type={TextType.Subtitle} style={{ marginVertical: 8 }}>
@@ -253,7 +193,7 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
         <PageRow spaceBetween style={{ marginRight: 8 }}>
           <View />
           <SimpleIconButton iconSrc={AppIcon.Refresh}
-            title='Refresh'
+            title='New Question'
             onClick={() => setQuestion(getRandomString(PracticeTestimonyQuestions))}
             small />
         </PageRow>
@@ -271,16 +211,19 @@ function PracticeMyStoryDetails({ executor, myStoryChapters, setAppError, refres
           <AppText type={TextType.Subtitle2}>
             Your Response
           </AppText>
+          <AppText type={TextType.Body} style={{ marginVertical: 8, color: isPastMinLength ? Colors.success : Colors.red }}>
+            {isPastMinLength ? 'Minimum length reached' : `Minimum length not yet reached: ${response.length} / ${MIN_TESTIMONY_LENGTH}`}
+          </AppText>
         </PageColumn>
 
         <TextInput
           style={[formStyles.multiLineTextInput, { height: (halfScreenHeight / 2) - 40 }]}
-          placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
+          placeholder={`Enter text here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
           placeholderTextColor={'gray'}
           value={response}
           multiline
           numberOfLines={8}
-          maxLength={MAX_LONG_TEXT_LENGTH}
+          maxLength={MAX_TESTIMONY_LENGTH}
           onChangeText={(text) => setResponse(text)} />
 
         <PageRow spaceEvenly style={{ marginTop: 16 }}>

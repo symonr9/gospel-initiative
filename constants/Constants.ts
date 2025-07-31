@@ -7,6 +7,9 @@ export const MAX_LONG_TEXT_LENGTH = 1800;
 export const MAX_NORMAL_TEXT_LENGTH = 255;
 export const MAX_SHORT_TEXT_LENGTH = 32;
 
+export const MIN_TESTIMONY_LENGTH = 100;
+export const MAX_TESTIMONY_LENGTH = 2400;
+
 export const REFRESH_BEACONS_INTERVAL_SEC = 30;
 
 export const beaconTagArray = Object.keys(BeaconTag)

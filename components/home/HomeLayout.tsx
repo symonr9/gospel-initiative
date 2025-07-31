@@ -222,7 +222,6 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           <HomePracticeTestimonyCard />
           {/* These features are omitted but may be added in the future */}
           {/* <HomeAutoBeaconCard /> */}
-          {/* <HomeDailyTasksCard /> */}
 
           <View style={{ height: 300 }} />
         </PageColumn>
