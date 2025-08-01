@@ -80,7 +80,9 @@ export function ItemRowContainer({
                             {title}
                         </AppText>
                     </PageRow>
-                    <StyledImage iconSrc={navIcon} style={[styles.icon, isActive && styles.hide]} />
+                    <StyledImage iconSrc={navIcon} 
+                        onClick={onPress}
+                        style={[styles.icon, isActive && styles.hide]} />
                 </PageRow>
 
                 <ScrollLayout horizontal
