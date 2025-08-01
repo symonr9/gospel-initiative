@@ -14,7 +14,7 @@ import { PageColumn } from '../common/PageColumn';
 import SimpleIconButton from '../common/SimpleIconButton';
 import { PageChip } from '../common/PageChip';
 import { deactivateBeacon } from "@/requests/beaconRequests";
-import { beaconStyles, useGridStyles } from '@/styles/Styles';
+import { useBeaconStyles, useGridStyles } from '@/styles/Styles';
 import AppError from '@/models/error';
 import { standardPaddedWidth } from '@/constants/Dimensions';
 import { useThemeColors } from '@/constants/Colors';
@@ -34,6 +34,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
 
     const themeColors = useThemeColors();
     const gridStyles = useGridStyles(themeColors);
+    const beaconStyles = useBeaconStyles(themeColors);
 
     const itemsToRender = activeBeaconsWithActivities.map((beaconWithActivity) => {
         const activities = beaconWithActivity.activities;

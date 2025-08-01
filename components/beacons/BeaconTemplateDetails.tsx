@@ -30,6 +30,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
     const [modalVisible, setModalVisible] = useState(false);
     
     const themeColors = useThemeColors();
+    const { secondaryColor, backgroundColor } = themeColors;
     const modalStyles = useModalStyles(themeColors);
 
     useEffect(() => {
@@ -89,13 +90,13 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                             <PageChip iconSrc={AppIcon.Tag}
                                 onClick={onChangeTag}
                                 title={`Add Tags`}
-                                style={{ backgroundColor: Colors.info }}
+                                style={{ backgroundColor: secondaryColor }}
                                 subtitle={'Tags give others more details on how they can be praying for you.'} />
                         </PageColumn>
 
                         <PageColumn style={styles.section}>
                             <PageChip iconSrc={getShowHideIcon(shareOwnName)}
-                                style={{ width: standardPaddedWidth, backgroundColor: Colors.info }}
+                                style={{ width: standardPaddedWidth, backgroundColor: secondaryColor }}
                                 onClick={() => setShareOwnName(!shareOwnName)}
                                 title={shareOwnName ? `Your own name will be shared.` : `Your own name will be hidden.`} />
                         </PageColumn>

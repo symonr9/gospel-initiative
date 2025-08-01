@@ -161,8 +161,8 @@ export const selectPartitionedActiveEnhancedBeacons = createSelector(
                 };
             });
 
-        const completedBeacons = partitionedBeacons.filter((beacon) => beacon.hasExecutorActivity);
-        const incomingBeacons = partitionedBeacons.filter((beacon) => !beacon.hasExecutorActivity);
+        const completedBeacons = partitionedBeacons.filter((beacon) => beacon.hasExecutorActivity && beacon.userId !== executor?.id);
+        const incomingBeacons = partitionedBeacons.filter((beacon) => !beacon.hasExecutorActivity && beacon.userId !== executor?.id);
         return {
             completedBeacons,
             incomingBeacons,

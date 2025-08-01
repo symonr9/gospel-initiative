@@ -5,7 +5,7 @@ import { connect, useSelector } from 'react-redux';
 import { FlatList, ViewProps, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 
-import { beaconStyles, listStyles } from '@/styles/Styles';
+import { useBeaconStyles, listStyles } from '@/styles/Styles';
 import { setAppError } from '@/redux/actions';
 import User from '@/models/user';
 import { AppText, TextType } from '../common/AppText';
@@ -13,9 +13,10 @@ import { PageColumn } from '../common/PageColumn';
 import { getAppTimeAgoText } from '@/utils/appUtils';
 import { mapBeaconTypeToIcon } from "@/utils/iconUtils";
 import { PageRow } from '../common/PageRow';
-import { Colors } from '@/constants/Colors';
+import { Colors, useThemeColors } from '@/constants/Colors';
 import Beacon from '@/models/beacon';
 import { standardPaddedWidth } from '@/constants/Dimensions';
+import { BeaconCard } from './BeaconCard';
 
 export type IExpiredBeaconsList = ViewProps & {
     selectedOneId: string | null;
@@ -26,6 +27,9 @@ export type IExpiredBeaconsList = ViewProps & {
 
 function ExpiredBeaconsList({ selectedOneId, executor, setAppError, expiredBeacons }: IExpiredBeaconsList) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const themeColors = useThemeColors();
+    const beaconStyles = useBeaconStyles(themeColors);
 
     const onChangeTag = () => {
         setModalVisible(!modalVisible);

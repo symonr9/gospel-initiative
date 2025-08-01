@@ -256,7 +256,7 @@ export const useModalStyles = ({ backgroundColor, secondaryColor, textColor}: an
   },
 }));
 
-export const beaconStyles = StyleSheet.create({
+export const useBeaconStyles = ({ backgroundColor, secondaryColor, textColor}: any) => (StyleSheet.create({
   beaconNameText: {
   },
   beaconDetailsText: {
@@ -269,7 +269,7 @@ export const beaconStyles = StyleSheet.create({
   },
   beaconCard: {
     padding: 16,
-    backgroundColor: '#f3f3f3',
+    backgroundColor: secondaryColor,
     borderRadius: 4,
     marginBottom: 8
   },
@@ -282,7 +282,7 @@ export const beaconStyles = StyleSheet.create({
   activityView: {
     padding: 4,
     marginTop: 4,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: backgroundColor,
     borderBottomWidth: 2
   },
-});
+}));

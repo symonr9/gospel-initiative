@@ -13,15 +13,17 @@ import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageColumn } from '../common/PageColumn';
 import { setSelectedPrayerId } from '@/redux/actions';
 import { useThemeColors } from '@/constants/Colors';
+import User from '@/models/user';
 
 export type IBeaconsPrayLayout = ViewProps & {
     completedBeacons: any;
     incomingBeacons: any;
     selectedPrayerId: string | null;
     setSelectedPrayerId: Function;
+    executor: User;
 };
 
-function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId, setSelectedPrayerId }: IBeaconsPrayLayout) {
+function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId, setSelectedPrayerId, executor }: IBeaconsPrayLayout) {
     const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
 
     const { secondaryColor } = useThemeColors();
@@ -98,6 +100,7 @@ const mapStateToProps = (state: any) => {
         completedBeacons,
         incomingBeacons,
         selectedPrayerId: state.beacons.selectedPrayerId,
+        executor: state.users.executor,
     };
 }
 
