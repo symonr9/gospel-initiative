@@ -36,10 +36,12 @@ type IOnesLayoutNormal = ViewProps & {
     setSelectedOneId: Function,
     setActiveLayoutType: Function,
     revertToInitialLayoutType: Function,
-    styles: any
+    styles: any,
+    activeOnesLayoutNormalBodyType: OnesLayoutNormalBodyType,
+    setActiveOnesLayoutNormalBodyType: Function
 };
 
-enum BodyType {
+export enum OnesLayoutNormalBodyType {
     Base,
     Info,
     ActionStep,
@@ -48,9 +50,9 @@ enum BodyType {
 };
 
 export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError, executor,
-    refreshData, setMessage, setOneForm, revertToInitialLayoutType, styles, oneBeacons, setActiveLayoutType, setSelectedOneId }: IOnesLayoutNormal) {
-    const [bodyType, setBodyType] = useState(BodyType.Base);
-
+    refreshData, setMessage, setOneForm, revertToInitialLayoutType, styles, oneBeacons, setActiveLayoutType, setSelectedOneId,
+    setActiveOnesLayoutNormalBodyType, activeOnesLayoutNormalBodyType }: IOnesLayoutNormal) {
+        
     const actionSteps = selectedOne?.actionSteps || [];
     const firstActionStep = actionSteps?.length > 0 ? actionSteps.find((value) => !value.isComplete) : null;
     const oneNotes = selectedOne?.oneNotes || [];
@@ -65,37 +67,37 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         <PageRow spaceBetween style={{ marginVertical: 10, marginHorizontal: 16 }}>
             <SimpleIconButton iconSrc={AppIcon.ArrowBack}
                 title={'Back'}
-                onClick={() => setBodyType(BodyType.Base)} />
+                onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Base)} />
             {
-                bodyType === BodyType.Info && (
+                activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.Info && (
                     <InfoPickerFilter />
                 )
             }
         </PageRow>
     );
 
-    if (bodyType === BodyType.Info) {
+    if (activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.Info) {
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
                 <InfoPicker setActiveLayoutType={setActiveLayoutType} />
             </PageColumn>
         );
-    } else if (bodyType === BodyType.ActionStep) {
+    } else if (activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.ActionStep) {
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
                 <ActionStepPicker />
             </PageColumn>
         );
-    } else if (bodyType === BodyType.GospelSteps) {
+    } else if (activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.GospelSteps) {
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
                 <GospelStepPicker />
             </PageColumn>
         );
-    } else if (bodyType === BodyType.Beacons) {
+    } else if (activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.Beacons) {
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
@@ -107,7 +109,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             <>
                 <DetailsSection iconSrc={AppIcon.Note}
                     prefix={"Notes Taken"}
-                    onClick={() => setBodyType(BodyType.Info)}
+                    onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Info)}
                     title={`${oneNotes.length} Notes`} />
             </>
         );
@@ -118,7 +120,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                 <PageColumn>
                     <DetailsSection iconSrc={mapActionStepTypeToIcon(firstActionStep.type)}
                         prefix={getAppTimeAgoText(firstActionStep.targetDate)}
-                        onClick={() => setBodyType(BodyType.ActionStep)}
+                        onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.ActionStep)}
                         title={mapActionStepTypeToTitle(firstActionStep.type)} />
                 </PageColumn>
             );
@@ -134,7 +136,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             <>
                 <DetailsSection iconSrc={AppIcon.ScriptureOpen}
                     prefix={"Gospel Shared"}
-                    onClick={() => setBodyType(BodyType.GospelSteps)}
+                    onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.GospelSteps)}
                     title={`${Math.ceil(completedPercentage * 100)}% shared`} />
             </>
         );
@@ -144,7 +146,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
             <>
                 <DetailsSection iconSrc={AppIcon.Star}
                     prefix={beaconsDetailText}
-                    onClick={() => setBodyType(BodyType.Beacons)}
+                    onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Beacons)}
                     title={`${oneBeacons.length} Active`} />
             </>
         );
@@ -159,14 +161,14 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         detailsView={infoDetailView}
                         horizontal={false}
                         useTextTintForIcon={false}
-                        onClick={() => setBodyType(BodyType.Info)} />
+                        onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Info)} />
 
                     <SimpleGridCard iconSrc={AppIcon.Checkmark}
                         title={'Action Steps'}
                         detailsView={actionStepsDetailView}
                         horizontal={false}
                         useTextTintForIcon={false}
-                        onClick={() => setBodyType(BodyType.ActionStep)} />
+                        onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.ActionStep)} />
 
                     {/* NOTE: Gospel Steps are currently omitted but may be added in future versions */}
                     {/* {
@@ -184,7 +186,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                         title={'Prayer Beacons'}
                         detailsView={beaconsDetailView}
                         horizontal={false}
-                        onClick={() => setBodyType(BodyType.Beacons)} />
+                        onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Beacons)} />
                 </PageColumn>
 
                 <PageRow spaceEvenly style={{ marginTop: 24 }}>

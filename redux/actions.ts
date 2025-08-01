@@ -42,6 +42,8 @@ export enum Action {
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR",
     SetDataRefreshLoading = "SET_DATA_REFRESH_LOADING",
+    SetActiveOnesLayoutType = "SET_ACTIVE_ONES_LAYOUT_TYPE",
+    SetActiveOnesLayoutNormalBodyType = "SET_ACTIVE_ONES_LAYOUT_NORMAL_BODY_TYPE",
     ClearAllData = "CLEAR_ALL_DATA"
 };
 

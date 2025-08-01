@@ -9,7 +9,7 @@ import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { SimpleIcon } from '../common/SimpleIcon';
-import { setOneForm, setSelectedOneId, setAppError, refreshData } from '@/redux/actions';
+import { setOneForm, setSelectedOneId, setAppError, refreshData, setActiveOnesLayoutType, setActiveOnesLayoutNormalBodyType } from '@/redux/actions';
 import PageResponse from '../common/PageResponse';
 import User from '@/models/user';
 import { getSelectedOne } from '@/utils/appUtils';
@@ -21,7 +21,7 @@ import { OnesLayoutFirstTime } from './layout/OnesLayoutFirstTime';
 import { OnesLayoutAddingOne } from './layout/OnesLayoutAddingOne';
 import { OnesLayoutEditingOne } from './layout/OnesLayoutEditingOne';
 import { OnesLayoutAllOnes } from './layout/OnesLayoutAllOnes';
-import { OnesLayoutNormal } from './layout/OnesLayoutNormal';
+import { OnesLayoutNormal, OnesLayoutNormalBodyType } from './layout/OnesLayoutNormal';
 import LoadingLayout from '../common/LoadingLayout';
 
 export type IOnesLayout = ViewProps & {
@@ -34,6 +34,10 @@ export type IOnesLayout = ViewProps & {
     refreshData: Function,
     setSelectedOneId: Function,
     dataRefreshLoading: boolean,
+    activeOnesLayoutType: OneLayoutType,
+    setActiveOnesLayoutType: Function
+    activeOnesLayoutNormalBodyType: OnesLayoutNormalBodyType,
+    setActiveOnesLayoutNormalBodyType: Function
 };
 
 
@@ -48,13 +52,13 @@ export enum OneLayoutType {
     Loading,
 }
 
-function OnesLayout({ selectedOneId, ones, oneForm, executor,
-    setAppError, oneBeacons, refreshData, setSelectedOneId, dataRefreshLoading }: IOnesLayout) {
+function OnesLayout({ selectedOneId, ones, oneForm, executor, activeOnesLayoutType, setActiveOnesLayoutType,
+    setAppError, oneBeacons, refreshData, setSelectedOneId, dataRefreshLoading, activeOnesLayoutNormalBodyType, 
+    setActiveOnesLayoutNormalBodyType }: IOnesLayout) {
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
 
     const [message, setMessage] = useState<string | null>(null);
-    const [activeLayoutType, setActiveLayoutType] = useState(OneLayoutType.Loading);
 
     const BodyLayout: any[] = [];
 
@@ -66,18 +70,18 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
     }, [executor]);
 
     const revertToInitialLayoutType = () => {        
-        setActiveLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
+        setActiveOnesLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
     };
 
     if (dataRefreshLoading) {
         BodyLayout.push(
             <LoadingLayout/>
         );
-    } else if (activeLayoutType === OneLayoutType.FirstTime) {
+    } else if (activeOnesLayoutType === OneLayoutType.FirstTime) {
         BodyLayout.push(
-            <OnesLayoutFirstTime setMessage={setMessage} setActiveLayoutType={setActiveLayoutType}/>
+            <OnesLayoutFirstTime setMessage={setMessage} setActiveLayoutType={setActiveOnesLayoutType}/>
         );
-    } else if (activeLayoutType === OneLayoutType.AddingOne) {
+    } else if (activeOnesLayoutType === OneLayoutType.AddingOne) {
         BodyLayout.push(
             <OnesLayoutAddingOne oneForm={oneForm} 
                 setAppError={setAppError} 
@@ -88,7 +92,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 setSelectedOneId={setSelectedOneId}
                 revertToInitialLayoutType={revertToInitialLayoutType} />
         );
-    } else if (activeLayoutType === OneLayoutType.EditingOne) {
+    } else if (activeOnesLayoutType === OneLayoutType.EditingOne) {
         if (!selectedOne) {
             return (
                 <PageResponse details={'Invalid page state (missing selectedOne).'}
@@ -108,13 +112,13 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 revertToInitialLayoutType={revertToInitialLayoutType} 
                 selectedOne={selectedOne} />
         );
-    } else if (activeLayoutType === OneLayoutType.AllOnes) {
+    } else if (activeOnesLayoutType === OneLayoutType.AllOnes) {
         BodyLayout.push(
             <OnesLayoutAllOnes setMessage={setMessage} 
-                setActiveLayoutType={setActiveLayoutType} 
+                setActiveLayoutType={setActiveOnesLayoutType} 
                 revertToInitialLayoutType={revertToInitialLayoutType}/>
         );
-    } else if (activeLayoutType === OneLayoutType.Loading) {
+    } else if (activeOnesLayoutType === OneLayoutType.Loading) {
         BodyLayout.push(
             <LoadingLayout/>
         );
@@ -130,13 +134,15 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor,
                 setMessage={setMessage} 
                 setOneForm={setOneForm} 
                 setSelectedOneId={setSelectedOneId} 
-                setActiveLayoutType={setActiveLayoutType}
+                setActiveLayoutType={setActiveOnesLayoutType}
+                activeOnesLayoutNormalBodyType={activeOnesLayoutNormalBodyType}
+                setActiveOnesLayoutNormalBodyType={setActiveOnesLayoutNormalBodyType}
                 styles={styles}
                 revertToInitialLayoutType={revertToInitialLayoutType}/>
         );
     }
 
-    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeLayoutType) && selectedOne;
+    const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeOnesLayoutType) && selectedOne;
 
     return (
         <ScrollLayout>
@@ -191,13 +197,17 @@ const mapStateToProps = (state: any) => {
         executor,
         oneForm: state.ones.oneForm,
         dataRefreshLoading: state.app.dataRefreshLoading,
+        activeOnesLayoutType: state.app.activeOnesLayoutType,
+        activeOnesLayoutNormalBodyType: state.app.activeOnesLayoutNormalBodyType,
     };
 };
 
 const mapDispatchToProps = {
     setSelectedOneId,
     refreshData,
-    setAppError
+    setAppError,
+    setActiveOnesLayoutType,
+    setActiveOnesLayoutNormalBodyType
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnesLayout);

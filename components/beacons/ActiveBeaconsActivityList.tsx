@@ -18,6 +18,7 @@ import { useBeaconStyles, useGridStyles } from '@/styles/Styles';
 import AppError from '@/models/error';
 import { standardPaddedWidth } from '@/constants/Dimensions';
 import { useThemeColors } from '@/constants/Colors';
+import { SimpleIcon } from '../common/SimpleIcon';
 
 type IActiveBeaconsActivityList = {
     activeBeaconsWithActivities: BeaconWithActivities[];
@@ -74,9 +75,9 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
         };
 
         return (
-            <TouchableOpacity onPress={onEditClick}>
-                <PageRow style={[gridStyles.itemCard, beaconStyles.beaconCard, { flexWrap: 'wrap' }]}>
-                    <PageColumn>
+            <PageRow style={[gridStyles.itemCard, beaconStyles.beaconCard, { flexWrap: 'wrap' }]}>
+                <PageColumn>
+                    <TouchableOpacity onPress={onEditClick}>
                         <PageColumn style={beaconStyles.beaconHeader}>
                             <PageRow>
                                 <PageRow>
@@ -106,38 +107,38 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                                     </PageColumn>
                                 </PageRow>
                             </PageRow>
-
                         </PageColumn>
+                    </TouchableOpacity>
 
-                        {
-                            editing && (
-                                <PageRow style={{ marginTop: 12 }}>
-                                    <SimpleIconButton iconSrc={AppIcon.Trash}
-                                        title={'Remove'}
-                                        onClick={onRemoveClick} />
-                                </PageRow>
-                            )
-                        }
+                    {
+                        editing && (
+                            <PageRow style={{ marginTop: 12 }}>
+                                <SimpleIconButton iconSrc={AppIcon.Trash}
+                                    title={'Remove'}
+                                    onClick={onRemoveClick} />
+                            </PageRow>
+                        )
+                    }
 
-                        {
-                            !editing && (
-                                <PageColumn style={{ maxHeight: 200, marginTop: 12 }}>
-                                    <FlatList
-                                        data={activities}
-                                        keyExtractor={(item) => item.id}
-                                        renderItem={({ item }) => (
-                                            <View style={beaconStyles.activityView}>
+                    {
+                        !editing && (
+                            <PageColumn style={{ marginTop: 12 }}>
+                                {
+                                    activities.map((item) => (
+                                        <PageRow style={[beaconStyles.activityView, { gap: 8 }]}>
+                                            <SimpleIcon iconSrc={AppIcon.Prayer} small />
+                                            <PageColumn center>
                                                 <AppText type={TextType.Body}>{item.username} prayed for you.</AppText>
-                                                <AppText type={TextType.Italic}>{item.note}</AppText>
-                                            </View>
-                                        )}
-                                    />
-                                </PageColumn>
-                            )
-                        }
-                    </PageColumn>
-                </PageRow>
-            </TouchableOpacity>
+                                                <AppText type={TextType.Default}>{item.note}</AppText>
+                                            </PageColumn>
+                                        </PageRow>
+                                    ))
+                                }
+                            </PageColumn>
+                        )
+                    }
+                </PageColumn>
+            </PageRow>
         )
     });
 

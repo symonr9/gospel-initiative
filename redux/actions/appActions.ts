@@ -1,5 +1,7 @@
 import { NewUserStep, Page, RefreshSpec } from "@/enums/enums";
 import { Action } from "../actions";
+import { OneLayoutType } from "@/components/ones/OnesLayout";
+import { OnesLayoutNormalBodyType } from "@/components/ones/layout/OnesLayoutNormal";
 
 export const loadServerData = (data: any) => {
     return {
@@ -64,3 +66,13 @@ export const clearAllData = () => ({
     type: Action.ClearAllData,
     payload: null
 })
+
+export const setActiveOnesLayoutType = (type: OneLayoutType) => ({
+    type: Action.SetActiveOnesLayoutType,
+    payload: type
+});
+
+export const setActiveOnesLayoutNormalBodyType = (type: OnesLayoutNormalBodyType) => ({
+    type: Action.SetActiveOnesLayoutNormalBodyType,
+    payload: type
+});

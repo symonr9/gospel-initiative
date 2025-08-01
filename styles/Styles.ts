@@ -280,9 +280,8 @@ export const useBeaconStyles = ({ backgroundColor, secondaryColor, textColor}: a
     marginEnd: 8
   },
   activityView: {
-    padding: 4,
+    padding: 8,
     marginTop: 4,
-    borderBottomColor: backgroundColor,
-    borderBottomWidth: 2
+    marginBottom: 4,
   },
 }));

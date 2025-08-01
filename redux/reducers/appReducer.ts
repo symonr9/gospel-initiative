@@ -1,6 +1,8 @@
 import { NewUserStep, Page, RefreshSpec } from "@/enums/enums";
 import { Action, ActionPackage } from "../actions";
 import update from 'immutability-helper';
+import { OneLayoutType } from "@/components/ones/OnesLayout";
+import { OnesLayoutNormalBodyType } from "@/components/ones/layout/OnesLayoutNormal";
 
 const initialState = {
     dataRefreshLoading: false,
@@ -8,6 +10,8 @@ const initialState = {
     refreshSpec: RefreshSpec.None,
     newUserStep: NewUserStep.Loading,
     shouldRefreshBeacons: false,
+    activeOnesLayoutType: OneLayoutType.Loading,
+    activeOnesLayoutNormalBodyType: OnesLayoutNormalBodyType.Base,
     homeDailies: {
         actionSteps: false,
         gospelChecklist: false,
@@ -19,6 +23,13 @@ const initialState = {
 
 export function appReducer(state = initialState, action: ActionPackage) {
     switch (action.type) {
+        case Action.LoadServerData:
+            return update(state, {
+                $set: {
+                    ...state,
+                    activeOnesLayoutType: OneLayoutType.Normal,
+                }
+            });
         case Action.OpenPage:
             return update(state, {
                 $set: {
@@ -59,6 +70,20 @@ export function appReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     ...state,
                     dataRefreshLoading: action.payload,
+                }
+            });
+        case Action.SetActiveOnesLayoutType:
+            return update(state, {
+                $set: {
+                    ...state,
+                    activeOnesLayoutType: action.payload,
+                }
+            });
+        case Action.SetActiveOnesLayoutNormalBodyType:
+            return update(state, {
+                $set: {
+                    ...state,
+                    activeOnesLayoutNormalBodyType: action.payload,
                 }
             });
         case Action.ClearAllData:
