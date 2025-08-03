@@ -41,11 +41,11 @@
     },
     {
       "id": "GospelWithAtheist",
-      "title": "The Gospel for Atheists",
+      "title": "The Gospel for Agnostics and Atheists",
       "userId": "user1",
       "type": 2,
-      "icon": "Atheist",
-      "useTextTint": false
+      "icon": "Question",
+      "useTextTint": true
     }
   ]
   

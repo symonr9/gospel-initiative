@@ -15,6 +15,7 @@ import { Colors } from '@/constants/Colors';
 import ScrollLayout from '../common/ScrollLayout';
 import StoriesGrid from './StoriesGrid';
 import { StoryLayoutType } from './MyStoriesLayout';
+import { StyledImage } from '../common/StyledImage';
 
 export type IGodsStoriesLayout = ViewProps & {
     GodsStories: EnhancedStory[];
@@ -36,6 +37,7 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
 
     const title = activeStory !== null ? activeStory.title : 'Stories';
     const subtitle = activeStory !== null ? "" : 'Select a story to begin.';
+    const useTextTint = activeStory?.useTextTint || false;
 
     return (
         <ScrollLayout>
@@ -43,7 +45,7 @@ function GodsStoriesLayout({ GodsStories }: IGodsStoriesLayout) {
                 {
                     activeStory && (
                         <View style={styles.iconDiv}>
-                            <Image source={activeStory.icon} style={styles.icon} />
+                            <StyledImage iconSrc={activeStory.icon} style={[styles.icon]} useTextTint={useTextTint} />
                         </View>
                     )
                 }

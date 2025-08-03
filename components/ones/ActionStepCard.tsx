@@ -103,7 +103,7 @@ export function ActionStepCard({ actionStep, handleOnPress, selected = false, on
   return (
     <TouchableOpacity onPress={onPress}>
       <PageRow style={[gridStyles.itemCard, actionStep.isComplete && styles.completed, selected && styles.selected, style]}>
-        <Image source={icon} style={styles.icon} />
+        <Image source={icon} style={styles.icon}/>
         <PageColumn style={styles.actionStepTextContainer}>
           <AppText type={TextType.Prefix}>{getAppTimeAgoText(actionStep.targetDate)}</AppText>
 
