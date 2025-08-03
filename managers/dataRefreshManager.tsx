@@ -26,7 +26,7 @@ function getExpoServerUrl() {
     return Constants.expoConfig?.extra?.serverUrl;
 }
 
-function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserStep, refreshData, 
+function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserStep, refreshData,
     setAppError, setDataRefreshLoading }: IDataRefreshManager) {
     useEffect(() => {
         if (state.app.newUserStep !== NewUserStep.Loading)
@@ -37,7 +37,7 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
             setAppError(new AppError('Invalid Server Configuration', 'Please contact your administrator.'));
             return;
         }
-        console.log(`Expo Server URL: ${expoServerUrl}`);       
+        console.log(`Expo Server URL: ${expoServerUrl}`);
         loadSettings();
     }, [state.app.newUserStep]);
 
@@ -74,7 +74,7 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
         if (newUserStep !== NewUserStep.Completed) {
             return; // Not done with onboarding!
         }
-        
+
         fetchData(RefreshSpec.All);
     }
 
@@ -91,7 +91,7 @@ function DataRefreshManager({ state, loadServerData, loadBeaconData, setNewUserS
         }
 
         setDataRefreshLoading(true);
-        const { user, ones, myStoryChapters, 
+        const { user, ones, myStoryChapters,
             activeBeacons, expiredBeacons, error } = await fetchServerData(refreshSpec);
         setDataRefreshLoading(false);
         if (error) {

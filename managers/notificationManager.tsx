@@ -1,5 +1,5 @@
-import { setAppError, setIsSetupForNotifications } from '@/redux/actions';
-import React, { useEffect, useState } from 'react';
+import { setActiveOnesLayoutNormalBodyType, setActiveOnesLayoutType, setAppError, setIsSetupForNotifications, setSelectedPrayerId } from '@/redux/actions';
+import React, { useEffect, useState, useRef } from 'react';
 import Constants from 'expo-constants';
 
 import { connect } from 'react-redux';
@@ -11,6 +11,9 @@ import { AppText } from '@/components/common/AppText';
 import { Platform, AppState } from 'react-native';
 import { updatePushToken } from '@/requests/userRequests';
 import User from '@/models/user';
+import { OneLayoutType } from '@/components/ones/OnesLayout';
+import { OnesLayoutNormalBodyType } from '@/components/ones/layout/OnesLayoutNormal';
+import { useRouter } from 'expo-router';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -71,15 +74,24 @@ export type INotificationManager = {
     isSetupForNotifications: boolean,
     setAppError: Function,
     setIsSetupForNotifications: Function,
-    executor: User
+    executor: User,
+    activeOnesLayoutType: OneLayoutType,
+    activeOnesLayoutNormalBodyType: OnesLayoutNormalBodyType,
+    setActiveOnesLayoutType: Function,
+    setActiveOnesLayoutNormalBodyType: Function,
+    setSelectedPrayerId: Function,
 };
 
 function NotificationManager({ newUserStep, isSetupForNotifications, setAppError,
-    setIsSetupForNotifications, executor }: INotificationManager) {
+    setIsSetupForNotifications, executor, setActiveOnesLayoutType, setActiveOnesLayoutNormalBodyType,
+    activeOnesLayoutType, activeOnesLayoutNormalBodyType, setSelectedPrayerId }: INotificationManager) {
     const [expoPushToken, setExpoPushToken] = useState('');
-    const [notification, setNotification] = useState<Notifications.Notification | undefined>(
-        undefined
-    );
+    const [notification, setNotification] = useState<Notifications.Notification | undefined>(undefined);
+
+    const notificationListener = useRef<Notifications.EventSubscription>();
+    const responseListener = useRef<Notifications.EventSubscription>();
+    const router = useRouter();
+
 
     useEffect(() => {
         if (newUserStep !== NewUserStep.Completed && !isSetupForNotifications)
@@ -89,17 +101,34 @@ function NotificationManager({ newUserStep, isSetupForNotifications, setAppError
             .then(token => setExpoPushToken(token ?? ''))
             .catch((error: any) => setExpoPushToken(`${error}`));
 
-        const notificationListener = Notifications.addNotificationReceivedListener(notification => {
+
+        console.log('NotificationManager mounted');
+
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             setNotification(notification);
         });
 
-        const responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            const responseData = response?.notification?.request?.content?.data || null;
+
+            if (responseData?.sendBeaconNotification || responseData?.morningEveningNotifications) {
+                const beaconId = responseData?.beaconId;
+                if (beaconId)
+                    setSelectedPrayerId(beaconId);
+
+                router.replace('/ones?tab=1');
+            } else if (responseData?.sendPrayerNotification) {
+                router.replace('/ones?tab=0');
+                setActiveOnesLayoutType(OneLayoutType.Normal);
+                setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Beacons);
+            }
         });
 
         return () => {
-            notificationListener.remove();
-            responseListener.remove();
+            if (notificationListener.current)
+                Notifications.removeNotificationSubscription(notificationListener.current);
+            if (responseListener.current)
+                Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, [newUserStep]);
 
@@ -131,11 +160,16 @@ const mapStateToProps = (state: any) => ({
     newUserStep: state.app.newUserStep,
     isSetupForNotifications: state.users.isSetupForNotifications,
     executor: state.users.executor,
+    activeOnesLayoutType: state.app.activeOnesLayoutType,
+    activeOnesLayoutNormalBodyType: state.app.activeOnesLayoutNormalBodyType,
 });
 
 const mapDispatchToProps = {
     setAppError,
-    setIsSetupForNotifications
+    setIsSetupForNotifications,
+    setActiveOnesLayoutType,
+    setActiveOnesLayoutNormalBodyType,
+    setSelectedPrayerId
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationManager);
