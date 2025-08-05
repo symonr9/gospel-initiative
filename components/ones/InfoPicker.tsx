@@ -644,7 +644,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                 <PageColumn style={{ marginBottom: 8 }}>
                     <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
                     <AppText type={TextType.Body}>
-                        Notes taken about your One will only be seen by you.
+                        Note: All notes are private and will not be publicly shared with anyone else.
                     </AppText>
                 </PageColumn>
             </PageRow>

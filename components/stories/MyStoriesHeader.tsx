@@ -94,7 +94,7 @@ function MyStoriesHeader({ myStoryChapters, editingChapterId, tagFilters, typeFi
         <PageColumn>
             <PageColumn style={{}}>
                 <AnimatedHeader title={hasActiveFilter ? `My Stories` : `My Stories (${myStoryChapters.length})`}
-                    subtitle="A library of chapters of your story." />
+                    subtitle="All story cards are private and will not be publicly shared with anyone else." />
 
                 <PageRow spaceBetween>
                     <SimpleIconButton iconSrc={AppIcon.Plus}

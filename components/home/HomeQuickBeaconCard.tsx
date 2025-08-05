@@ -45,7 +45,7 @@ function HomeQuickBeaconCard({ executor, ones, selectedOneId, beaconForm,
             detailsView={Body}
             style={[styles.card]}
             title={'Send Prayer Beacon'}
-            subtitle={'Use this card to send a prayer beacon for your One. Your beacon will be active for 24 hours.'} />
+            subtitle={'Use beacons to share prayer requests. Everyone using the app will receive a notification.'} />
     );
 }
 
