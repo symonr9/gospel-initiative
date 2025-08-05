@@ -41,6 +41,7 @@ import { Colors, useThemeColors } from '@/constants/Colors';
 import { MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import LoadingLayout from '../common/LoadingLayout';
 import { halfScreenWidth, screenHeight, screenWidth, standardModalHeight } from '@/constants/Dimensions';
+import { SimpleModal } from '../common/SimpleModal';
 
 export type IBeaconDetails = ViewProps & {
     incomingCursorIdx: number;
@@ -241,11 +242,8 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     return (
         <View style={[styles.container]}>
             <View>
-                <Modal
-                    transparent={true}
-                    animationType='slide'
-                    visible={isModalVisible}
-                    onRequestClose={() => setModalVisible(!isModalVisible)}>
+                <SimpleModal visible={isModalVisible}
+                    onRequestClose={() => setModalVisible(false)}>
                     <View style={modalStyles.modalContainer}>
                         <View style={modalStyles.modalContent}>
                             <AppText type={TextType.Subtitle} style={modalStyles.modalTitle}>Select a Note:</AppText>
@@ -292,7 +290,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                             </PageRow>
                         </View>
                     </View>
-                </Modal>
+                </SimpleModal>
             </View>
 
             <View style={[styles.header]}>

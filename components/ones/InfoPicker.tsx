@@ -449,7 +449,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
                                             </AppText>
                                             <TextInput
                                                 style={formStyles.multiLineTextInput}
-                                                placeholder={`Enter notes here... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
+                                                placeholder={`Enter notes here...`}
                                                 placeholderTextColor={'gray'}
                                                 value={formOneNote.notes}
                                                 numberOfLines={2}
