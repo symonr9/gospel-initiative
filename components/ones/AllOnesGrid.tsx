@@ -26,49 +26,35 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
     const themeColors = useThemeColors();
     const gridStyles = useGridStyles(themeColors);
 
-    const renderItem = ({ item }: { item: One }) => {
-        const onPress = () => {
-            if (setSelectedOneId) {
-                setSelectedOneId(item.id);
-            }
-            if (setActiveLayoutType) {
-                setActiveLayoutType(OneLayoutType.Normal);
-            }
-        };
-
-        const detailsView = (
-            <>
-                <DetailsSection iconSrc={mapOneStageToIcon(item.stage)}
-                    prefix={"Stage"}
-                    style={{ marginRight: 16 }}
-                    title={mapOneStageToTitle(item.stage)} />
-
-                <DetailsSection iconSrc={mapOneCategoryToIcon(item.category)}
-                    prefix={"Category"}
-                    title={mapOneCategoryToTitle(item.category)} />
-            </>
-        );
-
-        return (
-            <SimpleGridCard title={item.name}
-                detailsView={detailsView}
-                horizontal={false}
-                onClick={onPress}
-                iconSrc={item.icon} />
-        );
-    };
-
     return (
         <PageColumn>
 
             <PageColumn style={{ maxHeight: 500 }}>
-                <FlatList
-                    data={ones}
-                    renderItem={renderItem}
-                    numColumns={1}
-                    keyExtractor={(item, index) => index.toString()}
-                    contentContainerStyle={gridStyles.itemList}
-                />
+                {
+                    ones.map((one) => (
+                        <SimpleGridCard key={one.id}
+                            title={one.name}
+                            iconSrc={one.icon}
+                            onClick={() => {
+                                setSelectedOneId(one.id);
+                                if (setActiveLayoutType)
+                                    setActiveLayoutType(OneLayoutType.Normal);
+                            }}
+                            useTextTintForIcon={false}
+                            detailsView={
+                                <>
+                                    <DetailsSection iconSrc={mapOneStageToIcon(one.stage)}
+                                        prefix={"Stage"}
+                                        style={{ marginRight: 16 }}
+                                        title={mapOneStageToTitle(one.stage)} />
+
+                                    <DetailsSection iconSrc={mapOneCategoryToIcon(one.category)}
+                                        prefix={"Category"}
+                                        title={mapOneCategoryToTitle(one.category)} />
+                                </>
+                            } />
+                    ))
+                }
             </PageColumn>
 
         </PageColumn>

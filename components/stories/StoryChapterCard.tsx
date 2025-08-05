@@ -27,6 +27,7 @@ import { Colors, useThemeColors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
+import { StyledImage } from '../common/StyledImage';
 
 export type IStoryChapterCard = ViewProps & {
   chapter: StoryChapter;
@@ -168,7 +169,8 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           </PageRow>
           {
             !editing && (
-              <Image source={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
+              <StyledImage iconSrc={expanded ? AppIcon.ChevronUp : AppIcon.ChevronDown}
+                onClick={onExpandClick}
                 style={{ height: 30, width: 30 }} />
             )
           }

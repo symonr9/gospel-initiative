@@ -42,7 +42,10 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
             <PageRow style={{ gap: 8 }}>
                 {
                     iconSrc && (
-                        <StyledImage iconSrc={iconSrc} style={[gridStyles.img]} useTextTint={useTextTintForIcon} />
+                        <StyledImage iconSrc={iconSrc}
+                            style={[gridStyles.img]}
+                            onClick={onPress}
+                            useTextTint={useTextTintForIcon} />
                     )
                 }
                 <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
@@ -72,7 +75,10 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                     <PageColumn>
                         {
                             iconSrc && (
-                                <StyledImage iconSrc={iconSrc} style={[gridStyles.img]} useTextTint={useTextTintForIcon} />
+                                <StyledImage iconSrc={iconSrc}
+                                    style={[gridStyles.img]}
+                                    onClick={onPress}
+                                    useTextTint={useTextTintForIcon} />
                             )
                         }
                         {
