@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView } from 'react-native';
+import { FlatList, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView, Switch } from 'react-native';
 
 
 import { connect } from 'react-redux';
@@ -26,6 +26,7 @@ import { MAX_LONG_TEXT_LENGTH, MAX_TESTIMONY_LENGTH, MIN_TESTIMONY_LENGTH } from
 import { SimpleIcon } from '../common/SimpleIcon';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
+import Checkbox from 'expo-checkbox';
 
 export type IAddMyStoryForm = {
   executor: User,
@@ -53,6 +54,7 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
   const [showInfoOnPage1, setShowInfoOnPage1] = useState(true);
   const [chapterArray, setChapterArray] = useState<StoryChapter[] | null>(null);
   const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
+  const [useSmartPartition, setUseSmartPartition] = useState(false);
 
   const Body = [];
 
@@ -224,7 +226,7 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
           maxLength={MAX_TESTIMONY_LENGTH}
           onChangeText={(text) => setResponse(text)} />
 
-        <PageRow spaceEvenly style={{ marginTop: 16, marginBottom: 200 }}>
+        <PageRow spaceEvenly style={{ marginTop: 16 }}>
           <SimpleIconButton iconSrc={AppIcon.ArrowBack}
             title='Back'
             onClick={() => setPageState(PageState.Page1)} />
@@ -233,6 +235,19 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
             title={'Submit'}
             disabled={!isPastMinLength}
             onClick={() => setPageState(PageState.Page4)} />
+        </PageRow>
+
+        <PageRow style={{ gap: 8, marginTop: 16, marginBottom: 200 }}>
+          <Switch
+            trackColor={{ false: Colors.info, true: Colors.light.secondary }}
+            thumbColor={useSmartPartition ? Colors.forestGreen : Colors.info}
+            ios_backgroundColor={Colors.info}
+            onValueChange={() => setUseSmartPartition(!useSmartPartition)}
+            value={useSmartPartition}
+          />
+          <AppText type={TextType.Body} style={{ marginVertical: 'auto' }}>
+            {useSmartPartition ? 'Use Smart AI to synergize Story and autotomatically add relevant tags' : 'Use original text for Story'}
+          </AppText>
         </PageRow>
 
         <View style={{ height: 400 }} />
