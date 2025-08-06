@@ -18,6 +18,8 @@ import { OneLayoutType } from '../ones/OnesLayout';
 import { Colors, useThemeColors } from '@/constants/Colors';
 import { standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import { beaconTagArray } from '@/constants/Constants';
+import { PageSubHeader } from '../common/PageSubHeader';
+import { ButtonType, SimpleButton } from '../common/SimpleButton';
 
 export type IBeaconTemplateDetails = ViewProps & {
     template: BeaconTemplate;
@@ -28,9 +30,9 @@ export type IBeaconTemplateDetails = ViewProps & {
 function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IBeaconTemplateDetails) {
     const [formData, setFormData] = useState(new BeaconForm(true, null, Priority.Normal, []));
     const [modalVisible, setModalVisible] = useState(false);
-    
+
     const themeColors = useThemeColors();
-    const { secondaryColor, backgroundColor } = themeColors;
+    const { textColor, secondaryColor, backgroundColor } = themeColors;
     const modalStyles = useModalStyles(themeColors);
 
     useEffect(() => {
@@ -128,12 +130,9 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                                 )}
                             />
                         </PageColumn>
-                        <TouchableOpacity
-                            style={modalStyles.closeButton}
-                            onPress={() => setModalVisible(false)}
-                        >
-                            <AppText>Close</AppText>
-                        </TouchableOpacity>
+
+                        <SimpleButton type={ButtonType.Close}
+                            text={'Close'} onPress={() => setModalVisible(false)} />
                     </View>
                 </View>
             </Modal>

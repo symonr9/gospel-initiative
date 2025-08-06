@@ -25,7 +25,7 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import AppError from '@/models/error';
 import { Colors, useThemeColors } from '@/constants/Colors';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
-import { MAX_LONG_TEXT_LENGTH } from '@/constants/Constants';
+import { MAX_LONG_TEXT_LENGTH, MAX_SHORT_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 import { StyledImage } from '../common/StyledImage';
 
@@ -154,9 +154,25 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
               <Image source={mapStoryChapterTypeToIcon(chapter.chapterType)} style={styles.icon} />
             </Animated.View>
             <PageColumn style={{ width: standardPaddedWidth - 20, flexShrink: 1 }}>
-              <AppText type={TextType.Subtitle3}>
-                {chapter.title}
-              </AppText>
+              <PageRow style={{ marginBottom: editing ? 16 : 8 }}>
+                {
+                  editing ? (
+                    <TextInput
+                      style={[formStyles.textInput, { width: 250 }]}
+                      placeholder={`Enter title here...`}
+                      placeholderTextColor={'gray'}
+                      value={formChapter.title}
+                      numberOfLines={1}
+                      maxLength={MAX_SHORT_TEXT_LENGTH}
+                      onChangeText={(text) => setFormChapter({ ...formChapter, title: text })}
+                    />
+                  ) : (
+                    <AppText type={TextType.Subtitle3}>
+                      {chapter.title}
+                    </AppText>
+                  )
+                }
+              </PageRow>
               <TagsPicker formChapter={formChapter}
                 editing={editing}
                 maxToRender={expanded || editing ? null : 3}

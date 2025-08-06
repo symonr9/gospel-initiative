@@ -4,7 +4,7 @@ import { FlatList, StyleSheet, View, ScrollView, TextInput, KeyboardAvoidingView
 
 import { connect } from 'react-redux';
 import { AppText, TextType } from '../common/AppText';
-import { AppIcon, BeaconType, RefreshSpec } from '@/enums/enums';
+import { AppIcon, BeaconType, RefreshSpec, StoryChapterType } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import SimpleIconButton from '../common/SimpleIconButton';
@@ -14,7 +14,7 @@ import User from '@/models/user';
 import { setAppError, refreshData, setAddingStory } from '@/redux/actions';
 import StoryChapter from '@/models/storyChapter';
 import { StoryChapterCard } from './StoryChapterCard';
-import { formatDateTime, getHoursLeft, getRandomString, getTheNextDay, getTimePercentage, isWithinPast24Hours, shouldKeepChapter } from '@/utils/appUtils';
+import { formatDateTime, generateRandomId, getHoursLeft, getRandomString, getTheNextDay, getTimePercentage, isWithinPast24Hours, shouldKeepChapter } from '@/utils/appUtils';
 import { PracticeTestimonyQuestions } from '@/constants/Strings';
 import { formStyles } from '@/styles/Styles';
 import { AnimatedHeader } from '../common/AnimatedHeader';
@@ -27,6 +27,7 @@ import { SimpleIcon } from '../common/SimpleIcon';
 import { halfScreenHeight, screenWidth, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
 import Checkbox from 'expo-checkbox';
+import { mapStoryChapterTypeToIcon } from '@/utils/iconUtils';
 
 export type IAddMyStoryForm = {
   executor: User,
@@ -46,6 +47,27 @@ enum PageState {
   Page7,
   Page8
 };
+
+const getNewStoryChapter = (question: string, response: string, userId: string): StoryChapter => {
+  return new StoryChapter(
+    generateRandomId(9),
+    "myTestimony",
+    StoryChapterType.BeforeChrist,
+    'My Story Card',
+    response,
+    [],
+    mapStoryChapterTypeToIcon(StoryChapterType.BeforeChrist),
+    1,
+    [],
+    [],
+    7,
+    userId,
+    false,
+    question,
+    new Date(),
+    new Date()
+  );
+}
 
 function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, addingStory, setAddingStory }: IAddMyStoryForm) {
   const [pageState, setPageState] = useState(PageState.Page1);
@@ -107,11 +129,15 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
         return;
       }
 
-      const controller = new AbortController();
-      partitionResponse(controller);
-      return () => {
-        controller.abort();
-      };
+      if (useSmartPartition) {
+        const controller = new AbortController();
+        partitionResponse(controller);
+        return () => {
+          controller.abort();
+        };
+      } else {
+        setChapterArray([getNewStoryChapter(question, response, executor.id)]);
+      }
     } else if (pageState === PageState.Page7) {
       if (!chapterArray || chapterArray.length === 0) {
         console.log("No chapters to save...");
