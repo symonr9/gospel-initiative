@@ -76,7 +76,7 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
   const [showInfoOnPage1, setShowInfoOnPage1] = useState(true);
   const [chapterArray, setChapterArray] = useState<StoryChapter[] | null>(null);
   const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
-  const [useSmartPartition, setUseSmartPartition] = useState(false);
+  const [useSmartPartition, setUseSmartPartition] = useState(true);
 
   const Body = [];
 
@@ -272,7 +272,7 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
             value={useSmartPartition}
           />
           <AppText type={TextType.Body} style={{ marginVertical: 'auto' }}>
-            {useSmartPartition ? 'Use Smart AI to synergize Story and autotomatically add relevant tags' : 'Use original text for Story'}
+            Use Smart AI to synergize Story and autotomatically add relevant tags
           </AppText>
         </PageRow>
 
