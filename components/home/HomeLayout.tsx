@@ -27,6 +27,7 @@ import HomeQuickBeaconCard from './HomeQuickBeaconCard';
 import { Colors, useThemeColors } from '@/constants/Colors';
 import HomePromptCard from './HomePromptCard';
 import HomeActiveBeaconCard from './HomeActiveBeaconCard';
+import { UserPreferencesSection } from '../common/UserPreferencesSection';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -75,28 +76,32 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
   }
 
   const onSaveUserClick = async () => {
-    if (!executor || !isValid) {
+    if (loading || !executor || !isValid) {
       return;
     }
-
-    const updatedUser = {
-      ...executor,
-      name,
-      icon,
-      notifyOnEveryBeacon,
-      notifyMorningAndEveningOnly
-    };
 
     setLoading(true);
-    const response = await updateUser(updatedUser);
-    setLoading(false);
-    if (response.error) {
-      setAppError(new AppError('Error Updating User', response.error));
-      return;
-    }
 
-    refreshData(RefreshSpec.User);
-    setModalVisible(false);
+    try {
+      const updatedUser = {
+        ...executor,
+        name,
+        icon,
+        notifyOnEveryBeacon,
+        notifyMorningAndEveningOnly
+      };
+
+      const response = await updateUser(updatedUser);
+      if (response.error) {
+        setAppError(new AppError('Error Updating User', response.error));
+        return;
+      }
+
+      refreshData(RefreshSpec.User);
+      setModalVisible(false);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const onRefresh = React.useCallback(() => {
@@ -140,32 +145,12 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
                   )
                 }
               </PageColumn>
-
-              <PageRow style={{ gap: 8 }}>
-                <Switch
-                  trackColor={{ false: Colors.info, true: Colors.light.secondary }}
-                  thumbColor={notifyOnEveryBeacon ? Colors.forestGreen : Colors.red}
-                  ios_backgroundColor={Colors.info}
-                  onValueChange={() => setNotifyOnEveryBeacon(!notifyOnEveryBeacon)}
-                  value={notifyOnEveryBeacon}
-                />
-                <AppText type={TextType.Body} style={{ marginVertical: 'auto' }}>
-                  {notifyOnEveryBeacon ? 'Notifications enabled for every beacon' : 'Notifications disabled for every beacon'}
-                </AppText>
-              </PageRow>
-
-              <PageRow style={{ gap: 8 }}>
-                <Switch
-                  trackColor={{ false: Colors.info, true: Colors.light.secondary }}
-                  thumbColor={notifyMorningAndEveningOnly ? Colors.forestGreen : Colors.red}
-                  ios_backgroundColor={Colors.info}
-                  onValueChange={() => setNotifyMorningAndEveningOnly(!notifyMorningAndEveningOnly)}
-                  value={notifyMorningAndEveningOnly}
-                />
-                <AppText type={TextType.Body} style={{ marginVertical: 'auto' }}>
-                  {notifyMorningAndEveningOnly ? 'Notifications enabled for morning and evening' : 'Notifications disabled for morning and evening'}
-                </AppText>
-              </PageRow>
+              
+              <UserPreferencesSection
+                notifyMorningAndEveningOnly={notifyMorningAndEveningOnly}
+                notifyOnEveryBeacon={notifyOnEveryBeacon}
+                setNotifyMorningAndEveningOnly={setNotifyMorningAndEveningOnly}
+                setNotifyOnEveryBeacon={setNotifyOnEveryBeacon} />
 
               {
                 loading && <LoadingLayout />
@@ -218,7 +203,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
 
           <HomePromptCard />
           <HomeAddOneCard />
-          <HomeActiveBeaconCard/>
+          <HomeActiveBeaconCard />
           <HomePrayerCard />
           <HomeQuickBeaconCard />
           <HomeAddStoryCard />

@@ -13,7 +13,7 @@ export type ILoadingLayout = ViewProps & {
 
 function LoadingLayout({ }: ILoadingLayout) {
     return (
-        <PageColumn style={{ marginVertical: 32 }}>
+        <PageColumn style={{ marginVertical: 12 }}>
             <SimpleLoadingSection />
         </PageColumn>
     );

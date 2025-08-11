@@ -13,6 +13,7 @@ import User from "@/models/user";
 import AppError from "@/models/error";
 import { SimpleButton, ButtonType } from "@/components/common/SimpleButton";
 import { MAX_SHORT_TEXT_LENGTH } from "@/constants/Constants";
+import { UserPreferencesSection } from "@/components/common/UserPreferencesSection";
 
 type INewUserCreateAProfile = ViewProps & {
     executor: User;
@@ -35,6 +36,8 @@ const isValidForm = (name: string, icon: AvatarIcon) => {
 export default function NewUserCreateAProfile({ executor, newUserStep, setNewUserStep, setAppError, styles }: INewUserCreateAProfile) {
     const [name, setName] = useState<string>("");
     const [icon, setIcon] = useState<AvatarIcon>(getRandomElement(AvatarIconArray));
+    const [notifyOnEveryBeacon, setNotifyOnEveryBeacon] = useState<boolean>(true);
+    const [notifyMorningAndEveningOnly, setNotifyMorningAndEveningOnly] = useState<boolean>(true);
 
     const isValid = isValidForm(name, icon);
     const shouldShowNameError = name.length > MAX_NAME_LENGTH;
@@ -84,6 +87,11 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
                 }
             </PageColumn>
 
+            <UserPreferencesSection notifyMorningAndEveningOnly={notifyMorningAndEveningOnly}
+                notifyOnEveryBeacon={notifyOnEveryBeacon}
+                setNotifyMorningAndEveningOnly={setNotifyMorningAndEveningOnly}
+                setNotifyOnEveryBeacon={setNotifyOnEveryBeacon}/>
+
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
                 <SimpleButton type={ButtonType.Edit}
                     text={'Continue'}
@@ -92,6 +100,6 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             </PageColumn>
 
             <View style={{ height: 300 }} />
-        </PageColumn>
+        </PageColumn >
     );
 }
