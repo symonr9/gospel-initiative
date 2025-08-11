@@ -7,6 +7,8 @@ import { AppText, TextType } from '../common/AppText';
 import { AppIcon } from '@/enums/enums';
 import { mapStoryChapterTypeToIcon } from "@/utils/iconUtils";
 import { halfScreenWidth, standardPaddedWidth } from '@/constants/Dimensions';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { useThemeColors } from '@/constants/Colors';
 
 export type IStoryDetails = {
   activeStory: EnhancedStory | null;
@@ -15,6 +17,9 @@ export type IStoryDetails = {
 function StoryDetails({ activeStory }: IStoryDetails) {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [openedChapterIds, setOpenedChapterIds] = useState<string[]>([]);
+
+  const themeColors = useThemeColors();
+  const { backgroundColor, secondaryColor } = themeColors;
 
   useEffect(() => {
     if (!activeStory) {
@@ -68,23 +73,23 @@ function StoryDetails({ activeStory }: IStoryDetails) {
                 onPress={() => toggleExpand(chapter.id)}
                 style={[
                   styles.timelineContent,
-                  hasBeenOpened && !isExpanded ? styles.openedContent : null,
+                  { backgroundColor: secondaryColor },
                   isExpanded ? styles.expandedContent : null,
                 ]}
               >
                 <Image source={icon} style={styles.chapterIcon} />
-                <AppText type={TextType.BodyBold} style={styles.chapterTitle}>
+                <AppText type={TextType.Subtitle}>
                   {chapter.title}
                 </AppText>
                 {
                   isExpanded ? (
                     <>
-                      <AppText type={TextType.Body} style={[styles.chapterContent, { marginBottom: 12 }]}>
+                      <AppText type={TextType.Default} style={[{ marginBottom: 12 }]}>
                         {chapter.content}
                       </AppText>
                       {
                         chapter.questions.map((question) => (
-                          <AppText type={TextType.Italic} style={styles.questionsContent}>
+                          <AppText type={TextType.Italic} style={{ marginBottom: 8 }}>
                             {question}
                           </AppText>
                         ))
@@ -126,7 +131,6 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
     maxWidth: halfScreenWidth,
-    backgroundColor: '#FFF',
     paddingHorizontal: 16,
     marginHorizontal: 4,
     marginRight: 16,
@@ -143,11 +147,6 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     marginBottom: 8,
-  },
-  chapterTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
   },
   chapterContent: {
     fontSize: 16,
