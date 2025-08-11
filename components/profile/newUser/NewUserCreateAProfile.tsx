@@ -46,7 +46,9 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
         const updatedUser = {
             ...executor,
             name,
-            icon
+            icon,
+            notifyOnEveryBeacon,
+            notifyMorningAndEveningOnly
         };
 
         const response = await updateUser(updatedUser);
@@ -90,13 +92,13 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             <UserPreferencesSection notifyMorningAndEveningOnly={notifyMorningAndEveningOnly}
                 notifyOnEveryBeacon={notifyOnEveryBeacon}
                 setNotifyMorningAndEveningOnly={setNotifyMorningAndEveningOnly}
-                setNotifyOnEveryBeacon={setNotifyOnEveryBeacon}/>
+                setNotifyOnEveryBeacon={setNotifyOnEveryBeacon} />
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>
                 <SimpleButton type={ButtonType.Edit}
                     text={'Continue'}
                     disabled={!isValid}
-                    onPress={onContinue}/>
+                    onPress={onContinue} />
             </PageColumn>
 
             <View style={{ height: 300 }} />
