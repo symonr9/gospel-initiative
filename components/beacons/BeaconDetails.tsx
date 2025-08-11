@@ -85,7 +85,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
             return;
         }
 
-        progress.value = withTiming(0, { duration: 250 });
+        progress.value = withTiming(0, { duration: 1000 });
     }, [incomingCursorIdx, completedCursorIdx]);
 
     useEffect(() => {
@@ -145,66 +145,76 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
     };
 
     const onSaveClick = async () => {
-        setModalVisible(false);
-        if (!hasUserAlreadyPrayed && !userActivityForBeacon) {
+        if (loading)
             return;
-        }
-
-        const note = (() => {
-            if (customNote !== '')
-                return customNote;
-            if (selectedNoteIdx >= 0 && selectedNoteIdx < ActivityNoteOptions.length)
-                return ActivityNoteOptions[selectedNoteIdx];
-            return null;
-        })();
-
-        if (!note) {
-            console.error('Failed to get note.');
-            return;
-        }
 
         setLoading(true);
 
-        const newActivity = {
-            ...userActivityForBeacon,
-            global: beacon.global,
-            note: note
-        };
+        try {
+            setModalVisible(false);
+            if (!hasUserAlreadyPrayed && !userActivityForBeacon) {
+                return;
+            }
 
-        const response = await updateBeaconActivity(newActivity);
-        if (response.error) {
+            const note = (() => {
+                if (customNote !== '')
+                    return customNote;
+                if (selectedNoteIdx >= 0 && selectedNoteIdx < ActivityNoteOptions.length)
+                    return ActivityNoteOptions[selectedNoteIdx];
+                return null;
+            })();
+
+            if (!note) {
+                console.error('Failed to get note.');
+                return;
+            }
+
+            const newActivity = {
+                ...userActivityForBeacon,
+                global: beacon.global,
+                note: note
+            };
+
+            const response = await updateBeaconActivity(newActivity);
+            if (response.error) {
+                setAppError(new AppError('Error updating beacon activity: ', response.error));
+                return;
+            }
+
+            refreshData(RefreshSpec.Beacons);
+            setCustomNote('');
+            setSelectedNoteIdx(0);
+        } finally {
             setLoading(false);
-            setAppError(new AppError('Error updating beacon activity: ', response.error));
-            return;
         }
-
-        refreshData(RefreshSpec.Beacons);
-        setCustomNote('');
-        setSelectedNoteIdx(0);
     };
 
     const onPrayClick = async () => {
-        if (hasUserAlreadyPrayed) {
+        if (loading || hasUserAlreadyPrayed) {
             return;
         }
 
-        progress.value = withTiming(1, { duration: 250 });
         setLoading(true);
 
-        const newActivity = BeaconActivity.createBeaconActivity(
-            "",
-            executor,
-            beacon
-        );
+        try {
+            progress.value = withTiming(1, { duration: 1000 });
 
-        const response = await createBeaconActivity(newActivity);
-        if (response.error) {
+            const newActivity = BeaconActivity.createBeaconActivity(
+                "",
+                executor,
+                beacon
+            );
+
+            const response = await createBeaconActivity(newActivity);
+            if (response.error) {
+                setAppError(new AppError('Error creating beacon activity: ', response.error));
+                return;
+            }
+
+            refreshData(RefreshSpec.Beacons);
+        } finally {
             setLoading(false);
-            setAppError(new AppError('Error creating beacon activity: ', response.error));
-            return;
         }
-
-        refreshData(RefreshSpec.Beacons);
     };
 
     const beaconTagArray = beacon.tags ? beacon.tags.map((tag, index) => ({
@@ -286,6 +296,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                     type={ButtonType.Close} />
                                 <SimpleButton text={'Save'}
                                     onPress={onSaveClick}
+                                    disabled={loading}
                                     type={ButtonType.Save} />
                             </PageRow>
                         </View>

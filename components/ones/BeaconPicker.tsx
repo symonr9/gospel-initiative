@@ -32,7 +32,7 @@ export type IBeaconPicker = ViewProps & {
     selectedTemplateId: String,
     setSelectedTemplateId: Function,
     refreshData: Function,
-    setAppError: Function, 
+    setAppError: Function,
     basicMode?: boolean
 };
 
@@ -46,10 +46,11 @@ export enum PickerState {
 }
 
 const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
-    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId, 
+    selectedTemplateId, setSelectedTemplateId, refreshData, selectedOneId,
     expiredBeacons, setAppError, basicMode = false }: IBeaconPicker) => {
     const [message, setMessage] = useState<string | null>(null);
     const [activeLayoutType, setActiveLayoutType] = useState(selectedTemplateId ? OneLayoutType.ConfirmBeacon : (ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime));
+    const [loading, setLoading] = useState(false);
 
     const activeBeaconsWithActivities = useSelector(selectActiveBeaconsWithActivities(selectedOneId));
     const BodyLayout: any[] = [];
@@ -63,6 +64,9 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
         }
 
         const onConfirm = async () => {
+            if (loading)
+                return;
+
             const shouldAddBeacon = selectedTemplateId != null
                 && executor != null && selectedOneId != null;
             if (!shouldAddBeacon) {
@@ -79,32 +83,38 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                 return;
             }
 
-            const newBeacon = new Beacon(
-                generateRandomId(),
-                selectedTemplate.name,
-                beaconForm.notes || null,
-                selectedOneId,
-                Priority.Normal,
-                executor.id,
-                selectedTemplate.type,
-                getTomorrow(),
-                beaconForm.shareOwnName,
-                [],
-                beaconForm.tags,
-                false,
-                false
-            );
+            setLoading(true);
 
-            const response = await createBeacon(newBeacon);
-            if (response.error) {
-                setAppError(new AppError('Error creating beacon: ', response.error));
-                return;
+            try {
+                const newBeacon = new Beacon(
+                    generateRandomId(),
+                    selectedTemplate.name,
+                    beaconForm.notes || null,
+                    selectedOneId,
+                    Priority.Normal,
+                    executor.id,
+                    selectedTemplate.type,
+                    getTomorrow(),
+                    beaconForm.shareOwnName,
+                    [],
+                    beaconForm.tags,
+                    false,
+                    false
+                );
+
+                const response = await createBeacon(newBeacon);
+                if (response.error) {
+                    setAppError(new AppError('Error creating beacon: ', response.error));
+                    return;
+                }
+
+                refreshData(RefreshSpec.Beacons);
+                setMessage(null);
+                setSelectedTemplateId(null);
+                setActiveLayoutType(OneLayoutType.SentBeaconResponse);
+            } finally {
+                setLoading(false);
             }
-
-            refreshData(RefreshSpec.Beacons);
-            setMessage(null);
-            setSelectedTemplateId(null);
-            setActiveLayoutType(OneLayoutType.SentBeaconResponse);
         };
 
         const headerLayout = (
@@ -117,6 +127,7 @@ const BeaconPicker = ({ ones, executor, beaconTemplates, beaconForm,
                     title={'Back'} />
                 <SimpleIconButton iconSrc={AppIcon.Checkmark}
                     onClick={onConfirm}
+                    disabled={loading}
                     title={'Confirm'} />
             </PageRow>
         );
@@ -240,7 +251,7 @@ const mapStateToProps = (state: any) => {
         executor: state.users.executor,
         beaconForm: state.beacons.beaconForm,
         selectedTemplateId: state.beacons.selectedTemplateId,
-        beaconTemplates: state.beacons.beaconTemplates,    
+        beaconTemplates: state.beacons.beaconTemplates,
         expiredBeacons: state.beacons.expiredBeacons,
         completedBeacons,
         incomingBeacons,

@@ -29,7 +29,6 @@ import { SimpleConfetti } from '../common/SimpleConfetti';
 import { OneLayoutType } from './OnesLayout';
 import { ButtonType, SimpleButton } from '../common/SimpleButton';
 import { SimpleKeyboardAvoidingView } from '../common/SimpleKeyboardAvoidingView';
-import InfoPickerFilter from './InfoPickerFilter';
 import { MAX_LONG_TEXT_LENGTH, MAX_NORMAL_TEXT_LENGTH } from '@/constants/Constants';
 import { halfScreenHeight, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import SimpleIconFormButton from '../common/SimpleIconFormButton';
@@ -53,6 +52,8 @@ export type IInfoPicker = ViewProps & {
     refreshData: Function;
     setAppError: Function;
     setActiveLayoutType: Function
+    pickerState: PickerState;
+    setPickerState: Function;
 };
 
 export enum PickerState {
@@ -62,14 +63,15 @@ export enum PickerState {
     Removing,
 }
 
-const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNoteTextFilter, refreshData, setActiveLayoutType, setAppError }: IInfoPicker) => {
+const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNoteTextFilter,
+    refreshData, setActiveLayoutType, setAppError, pickerState, setPickerState }: IInfoPicker) => {
     const isFirstRender = useRef(false);
 
-    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
     const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
     const [formOneNote, setFormOneNote] = useState<OneNote>(OneNote.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
     const [formStage, setFormStage] = useState<OneStage | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const [isNoteTypeModalVisible, setIsNoteTypeModalVisible] = useState(false);
     const [isStageModalVisible, setIsStageModalVisible] = useState(false);
@@ -149,19 +151,27 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
     };
 
     const onSaveClick = async () => {
-        let response;
-        if (adding) {
-            await createOneNote(formOneNote).then((response) => {
-                handleResponse(response);
-            });
-        } else if (removing) {
-            await removeOneNote(formOneNote).then((response) => {
-                handleResponse(response);
-            });
-        } else {
-            await updateOneNote(formOneNote).then((response) => {
-                handleResponse(response);
-            });
+        if (loading)
+            return;
+
+        setLoading(true);
+
+        try {
+            if (adding) {
+                await createOneNote(formOneNote).then((response) => {
+                    handleResponse(response);
+                });
+            } else if (removing) {
+                await removeOneNote(formOneNote).then((response) => {
+                    handleResponse(response);
+                });
+            } else {
+                await updateOneNote(formOneNote).then((response) => {
+                    handleResponse(response);
+                });
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -258,17 +268,17 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             <SimpleKeyboardAvoidingView Element={
                 <TextInput
                     style={formStyles.multiLineTextInput}
-                    placeholder={`Enter notes here... (Max Chars: ${MAX_LONG_TEXT_LENGTH})`}
+                    placeholder={`Enter notes here...`}
                     placeholderTextColor={'gray'}
                     value={formOneNote.notes}
-                    numberOfLines={6}
+                    numberOfLines={10}
                     multiline
                     maxLength={MAX_LONG_TEXT_LENGTH}
                     onChangeText={(text) => setFormOneNote((prev) => ({ ...prev, notes: text }))}
                 />
             } verticalOffset={200} />
 
-            <View style={{ height: 300 }} />
+            <View style={{ height: 50 }} />
         </PageColumn>
     );
 
@@ -355,43 +365,52 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             };
 
             const onSaveNewStage = async () => {
-                if (!formStage || !selectedOne) {
-                    console.error('Woah something went wrong!');
+                if (loading)
                     return;
-                }
 
-                const updatedOne = {
-                    ...selectedOne,
-                    stage: formStage
-                };
+                setLoading(true);
 
                 try {
-                    const stageResponse = await updateOne(updatedOne);
-                    if (stageResponse.error) {
-                        setAppError(new AppError('Error updating one: ', stageResponse.error));
+                    if (!formStage || !selectedOne) {
+                        console.error('Woah something went wrong!');
                         return;
                     }
 
-                    if (formStage === OneStage.NewBeliever && formOneNote.notes.length > 0) {
-                        const updatedFormNote = {
-                            ...formOneNote,
-                            notes: `[Salvation Moment] ${formOneNote.notes}`,
-                            type: OneNoteType.PerceptionOfChristianity
-                        };
+                    const updatedOne = {
+                        ...selectedOne,
+                        stage: formStage
+                    };
 
-                        const noteResponse = await createOneNote(updatedFormNote);
-                        if (noteResponse.error) {
-                            setAppError(new AppError('Error saving note: ', noteResponse.error));
+                    try {
+                        const stageResponse = await updateOne(updatedOne);
+                        if (stageResponse.error) {
+                            setAppError(new AppError('Error updating one: ', stageResponse.error));
+                            return;
                         }
+
+                        if (formStage === OneStage.NewBeliever && formOneNote.notes.length > 0) {
+                            const updatedFormNote = {
+                                ...formOneNote,
+                                notes: `[Salvation Moment] ${formOneNote.notes}`,
+                                type: OneNoteType.PerceptionOfChristianity
+                            };
+
+                            const noteResponse = await createOneNote(updatedFormNote);
+                            if (noteResponse.error) {
+                                setAppError(new AppError('Error saving note: ', noteResponse.error));
+                            }
+                        }
+
+                        refreshData(RefreshSpec.Ones);
+                    } catch (err: any) {
+                        setAppError(new AppError('Error updating one: ', err));
                     }
 
-                    refreshData(RefreshSpec.Ones);
-                } catch (err: any) {
-                    setAppError(new AppError('Error updating one: ', err));
+                    setFormOneNote(OneNote.createDefault(selectedOneId || ""));
+                    setIsStageModalVisible(false);
+                } finally {
+                    setLoading(false);
                 }
-
-                setFormOneNote(OneNote.createDefault(selectedOneId || ""));
-                setIsStageModalVisible(false);
             };
 
             const renderStage = ({ item }: { item: { stage: OneStage, icon: any, label: string } }) => (
@@ -519,7 +538,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
 
                                     <TouchableOpacity
                                         style={modalStyles.saveButton}
-                                        disabled={!formStage}
+                                        disabled={!formStage || loading}
                                         onPress={onSaveNewStage}>
                                         <AppText>Save</AppText>
                                     </TouchableOpacity>
@@ -628,13 +647,17 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
 
     if (pickerState !== PickerState.Normal) {
         Body.push(
-            <PageRow spaceBetween verticalMargins>
-                <PageRow></PageRow>
-                <SimpleIconFormButton iconSrc={AppIcon.Checkmark}
-                    onClick={onSaveClick}
-                    success
-                    title={'Save'} />
-            </PageRow>
+            <PageColumn>
+                <PageRow spaceBetween verticalMargins>
+                    <PageRow></PageRow>
+                    <SimpleIconFormButton iconSrc={AppIcon.Checkmark}
+                        onClick={onSaveClick}
+                        disabled={loading}
+                        success
+                        title={'Save'} />
+                </PageRow>
+                <View style={{ height: 300 }} />
+            </PageColumn>
         );
     }
 

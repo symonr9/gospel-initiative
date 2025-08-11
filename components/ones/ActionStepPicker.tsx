@@ -57,6 +57,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
     const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
     const [formActionStep, setFormActionStep] = useState<ActionStep>(ActionStep.createDefault(selectedOneId || ""));
     const [formSelectedTypeIdx, setFormSelectedTypeIdx] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -125,57 +126,66 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
     };
 
     const onSaveClick = async () => {
-        if (!selectedOneId) {
-            setAppError(new AppError('Error updating action steps, invalid state...'));
+        if (loading)
             return;
-        }
 
-        setPickerState(PickerState.Normal);
+        setLoading(true);
 
-        let newActionSteps = actionSteps;
-        if (pickerState === PickerState.Removing && selectedStepId) {
-            newActionSteps = actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
-                return {
-                    ...actionStep,
-                    oneId: selectedOneId
-                };
-            });
-        } else if (pickerState === PickerState.Completing && selectedStepId) {
-            newActionSteps = actionSteps.map((actionStep) => {
-                if (actionStep.id === selectedStepId) {
-                    return { ...actionStep, isComplete: true };
-                }
-                return {
-                    ...actionStep,
-                    oneId: selectedOneId
-                };
-            });
-        } else if (pickerState === PickerState.Editing && selectedStepId) {
-            newActionSteps = actionSteps.map((actionStep) => {
-                if (actionStep.id === formActionStep.id) {
-                    return { ...formActionStep };
-                }
-                return {
-                    ...actionStep,
-                    oneId: selectedOneId
-                };
-            });
-        } else if (pickerState === PickerState.Adding) {
-            formActionStep.oneId = selectedOneId;
-            newActionSteps.push(formActionStep);
-        }
-
-        await updateActionSteps(newActionSteps, selectedOneId).then((response) => {
-            if (response.error) {
-                setAppError(new AppError('Error updating action steps: ', response.error));
+        try {
+            if (!selectedOneId) {
+                setAppError(new AppError('Error updating action steps, invalid state...'));
                 return;
             }
 
-            refreshData(RefreshSpec.Ones);
-            setSelectedStepId(null);
-            setFormSelectedTypeIdx(0);
-            setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
-        });
+            setPickerState(PickerState.Normal);
+
+            let newActionSteps = actionSteps;
+            if (pickerState === PickerState.Removing && selectedStepId) {
+                newActionSteps = actionSteps.filter((step) => step.id !== formActionStep.id).map((actionStep) => {
+                    return {
+                        ...actionStep,
+                        oneId: selectedOneId
+                    };
+                });
+            } else if (pickerState === PickerState.Completing && selectedStepId) {
+                newActionSteps = actionSteps.map((actionStep) => {
+                    if (actionStep.id === selectedStepId) {
+                        return { ...actionStep, isComplete: true };
+                    }
+                    return {
+                        ...actionStep,
+                        oneId: selectedOneId
+                    };
+                });
+            } else if (pickerState === PickerState.Editing && selectedStepId) {
+                newActionSteps = actionSteps.map((actionStep) => {
+                    if (actionStep.id === formActionStep.id) {
+                        return { ...formActionStep };
+                    }
+                    return {
+                        ...actionStep,
+                        oneId: selectedOneId
+                    };
+                });
+            } else if (pickerState === PickerState.Adding) {
+                formActionStep.oneId = selectedOneId;
+                newActionSteps.push(formActionStep);
+            }
+
+            await updateActionSteps(newActionSteps, selectedOneId).then((response) => {
+                if (response.error) {
+                    setAppError(new AppError('Error updating action steps: ', response.error));
+                    return;
+                }
+
+                refreshData(RefreshSpec.Ones);
+                setSelectedStepId(null);
+                setFormSelectedTypeIdx(0);
+                setFormActionStep(ActionStep.createDefault(selectedOneId || ""));
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const onDateSelected = (date: Date) => {
@@ -266,7 +276,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
             <AppText type={TextType.Default}>Notes</AppText>
             <TextInput
                 style={formStyles.textInput}
-                placeholder={`Enter note here... (Max Chars: ${MAX_NORMAL_TEXT_LENGTH})`}
+                placeholder={`Enter note here...`}
                 placeholderTextColor={'gray'}
                 value={formActionStep.notes}
                 numberOfLines={1}
@@ -396,6 +406,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
                 <PageRow></PageRow>
                 <SimpleIconFormButton iconSrc={AppIcon.Checkmark}
                     onClick={onSaveClick}
+                    disabled={loading}
                     success
                     title={'Save'} />
             </PageRow>

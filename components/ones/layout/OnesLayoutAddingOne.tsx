@@ -3,7 +3,7 @@ import { PageRow } from '@/components/common/PageRow';
 import SimpleIconButton from '@/components/common/SimpleIconButton';
 import { AppIcon, RefreshSpec } from '@/enums/enums';
 import OneForm from '@/models/oneForm';
-import React from 'react';
+import React, { useState } from 'react';
 import { ViewProps } from "react-native";
 import AddEditOneForm from '../AddEditOneForm';
 import AppError from '@/models/error';
@@ -26,45 +26,56 @@ type IOnesLayoutAddingOne = ViewProps & {
 
 export function OnesLayoutAddingOne({ oneForm, setAppError, executor, setSelectedOneId,
     refreshData, setMessage, setOneForm, revertToInitialLayoutType }: IOnesLayoutAddingOne) {
+    const [loading, setLoading] = useState(false);
+
     const onSave = async () => {
-        const newOne = new One(
-            "",
-            oneForm.name,
-            oneForm.icon,
-            oneForm.stage,
-            oneForm.category,
-            getNow(),
-            [],
-            false,
-            executor.id,
-            [],
-            [],
-            [],
-            []
-        );
+        if (loading)
+            return;
+
+        setLoading(true);
 
         try {
-            const response = await createOne(newOne);
-            if (response.error) {
-                setAppError(new AppError('Error adding one: ', response.error));
-                return;
-            }
+            const newOne = new One(
+                "",
+                oneForm.name,
+                oneForm.icon,
+                oneForm.stage,
+                oneForm.category,
+                getNow(),
+                [],
+                false,
+                executor.id,
+                [],
+                [],
+                [],
+                []
+            );
 
-            if (oneForm.actionSteps?.length > 0) {
-                const actionStepResponse = await updateActionSteps(oneForm.actionSteps, response.id);
-                if (actionStepResponse.error) {
-                    setAppError(new AppError('Error adding action steps: ', response.error));
+            try {
+                const response = await createOne(newOne);
+                if (response.error) {
+                    setAppError(new AppError('Error adding one: ', response.error));
                     return;
                 }
-            }
 
-            refreshData(RefreshSpec.Ones);
-            setOneForm(OneForm.createDefault());
-            setSelectedOneId(response.id);
-            setMessage("Your One has been successfully created!");
-            revertToInitialLayoutType();
-        } catch (err: any) {
-            setAppError(new AppError('Error adding one: ', err));
+                if (oneForm.actionSteps?.length > 0) {
+                    const actionStepResponse = await updateActionSteps(oneForm.actionSteps, response.id);
+                    if (actionStepResponse.error) {
+                        setAppError(new AppError('Error adding action steps: ', response.error));
+                        return;
+                    }
+                }
+
+                refreshData(RefreshSpec.Ones);
+                setOneForm(OneForm.createDefault());
+                setSelectedOneId(response.id);
+                setMessage("Your One has been successfully created!");
+                revertToInitialLayoutType();
+            } catch (err: any) {
+                setAppError(new AppError('Error adding one: ', err));
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -85,6 +96,7 @@ export function OnesLayoutAddingOne({ oneForm, setAppError, executor, setSelecte
                 <PageRow></PageRow>
                 <SimpleIconFormButton iconSrc={AppIcon.Save}
                     onClick={onSave}
+                    disabled={loading}
                     success
                     title={'Save'} />
             </PageRow>

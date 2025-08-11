@@ -9,6 +9,9 @@ import { AppIcon } from '@/enums/enums';
 import { PageRow } from './PageRow';
 import { ButtonType, SimpleButton } from './SimpleButton';
 import { halfScreenWidth, screenWidth, standardModalHeight } from '@/constants/Dimensions';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { useThemeColors } from '@/constants/Colors';
+import { useModalStyles } from '@/styles/Styles';
 
 export enum MarkingType {
     MultiDot = 'multi-dot',
@@ -49,6 +52,10 @@ function SelectDatePicker({ events, variation = DatePickerVariation.Simple, onDa
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date>(getNextWeek());
     const markedDates = createSimpleMarkedDates(events);
+
+    const themeColors = useThemeColors();
+    const { backgroundColor, textColor } = themeColors;
+    const modalStyles = useModalStyles(themeColors);
 
     const toggleModal = () => setModalVisible(!isModalVisible);
 
@@ -125,30 +132,28 @@ function SelectDatePicker({ events, variation = DatePickerVariation.Simple, onDa
                     visible={isModalVisible}
                     animationType="slide"
                     onRequestClose={toggleModal}>
-                    <View style={styles.overlay}>
-                        <View style={styles.modalContainer}>
-                            <View style={styles.calendarWrapper}>
-                                <AppText type={TextType.BodyBold} style={styles.calendarTitle}>
-                                    Select a Date
-                                </AppText>
+                    <View style={modalStyles.modalContainer}>
+                        <View style={modalStyles.modalContent}>
+                            <AppText type={TextType.Subtitle2}>
+                                Select a Date
+                            </AppText>
 
-                                <Calendar
-                                    markedDates={markedDates}
-                                    markingType={MarkingType.Dot}
-                                    onDayPress={onDayPress}
-                                    initialDate={getNextWeek()}
-                                    minDate={isGoal ? new Date() : null}
-                                    maxDate={isKnownSince ? new Date() : null}
-                                    current={new Date()}
-                                    theme={calendarTheme}
-                                    enableSwipeMonths={true}
-                                    style={styles.calendar}
-                                />
+                            <Calendar
+                                markedDates={markedDates}
+                                markingType={MarkingType.Dot}
+                                onDayPress={onDayPress}
+                                initialDate={getNextWeek()}
+                                minDate={isGoal ? new Date() : null}
+                                maxDate={isKnownSince ? new Date() : null}
+                                current={new Date()}
+                                theme={calendarTheme}
+                                enableSwipeMonths={true}
+                                style={styles.calendar}
+                            />
 
-                                <SimpleButton text={'Close'}
-                                    onPress={toggleModal}
-                                    type={ButtonType.Close} />
-                            </View>
+                            <SimpleButton text={'Close'}
+                                onPress={toggleModal}
+                                type={ButtonType.Close} />
                         </View>
                     </View>
                 </Modal>
@@ -187,7 +192,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalContainer: {
-        backgroundColor: 'white',
         padding: 16,
         borderRadius: 10,
         width: screenWidth - 50,
@@ -204,7 +208,6 @@ const styles = StyleSheet.create({
     },
     calendar: {
         borderWidth: 1,
-        borderColor: 'gray',
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

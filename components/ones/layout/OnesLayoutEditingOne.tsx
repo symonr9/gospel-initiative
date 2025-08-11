@@ -27,47 +27,68 @@ type IOnesLayoutEditingOne = ViewProps & {
 
 export function OnesLayoutEditingOne({ selectedOne, ones, oneForm, setAppError, executor,
     refreshData, setMessage, setOneForm, setSelectedOneId, revertToInitialLayoutType }: IOnesLayoutEditingOne) {
+
+    const [loading, setLoading] = React.useState(false);
+
     const onSave = async () => {
-        const updatedOne = {
-            ...selectedOne,
-            name: oneForm.name,
-            icon: oneForm.icon,
-            stage: oneForm.stage,
-            category: oneForm.category,
-            gospelChecklist: oneForm.gospelChecklist
-        };
+        if (loading)
+            return;
+
+        setLoading(true);
 
         try {
-            const response = await updateOne(updatedOne);
-            if (response.error) {
-                setAppError(new AppError('Error updating one: ', response.error));
-                return;
-            }
+            const updatedOne = {
+                ...selectedOne,
+                name: oneForm.name,
+                icon: oneForm.icon,
+                stage: oneForm.stage,
+                category: oneForm.category,
+                gospelChecklist: oneForm.gospelChecklist
+            };
 
-            refreshData(RefreshSpec.Ones);
-            setOneForm(OneForm.createDefault());
-            setMessage("Your One has been successfully updated!");
-            revertToInitialLayoutType();
-        } catch (err: any) {
-            setAppError(new AppError('Error updating one: ', err));
+            try {
+                const response = await updateOne(updatedOne);
+                if (response.error) {
+                    setAppError(new AppError('Error updating one: ', response.error));
+                    return;
+                }
+
+                refreshData(RefreshSpec.Ones);
+                setOneForm(OneForm.createDefault());
+                setMessage("Your One has been successfully updated!");
+                revertToInitialLayoutType();
+            } catch (err: any) {
+                setAppError(new AppError('Error updating one: ', err));
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
     const onRemove = async () => {
-        try {
-            const response = await removeOne(selectedOne);
-            if (response.error) {
-                setAppError(new AppError('Error removing one: ', response.error));
-                return;
-            }
+        if (loading)
+            return;
 
-            refreshData(RefreshSpec.Ones);
-            setOneForm(OneForm.createDefault());
-            setSelectedOneId(ones.length > 0 ? ones[0].id : null);
-            setMessage("Your One has been successfully removed!");
-            revertToInitialLayoutType();
-        } catch (err: any) {
-            setAppError(new AppError('Error removing one: ', err));
+        setLoading(true);
+
+        try {
+            try {
+                const response = await removeOne(selectedOne);
+                if (response.error) {
+                    setAppError(new AppError('Error removing one: ', response.error));
+                    return;
+                }
+
+                refreshData(RefreshSpec.Ones);
+                setOneForm(OneForm.createDefault());
+                setSelectedOneId(ones.length > 0 ? ones[0].id : null);
+                setMessage("Your One has been successfully removed!");
+                revertToInitialLayoutType();
+            } catch (err: any) {
+                setAppError(new AppError('Error removing one: ', err));
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -88,6 +109,7 @@ export function OnesLayoutEditingOne({ selectedOne, ones, oneForm, setAppError, 
                 <PageRow></PageRow>
                 <SimpleIconFormButton iconSrc={AppIcon.Save}
                     onClick={onSave}
+                    disabled={loading}
                     success
                     title={'Save'} />
             </PageRow>

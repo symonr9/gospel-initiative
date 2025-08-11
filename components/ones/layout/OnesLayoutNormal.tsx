@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { View, ViewProps } from "react-native";
 import ActionStepPicker from '../ActionStepPicker';
 import BeaconPicker from '../BeaconPicker';
-import InfoPicker from '../InfoPicker';
+import InfoPicker, { PickerState } from '../InfoPicker';
 import { OneLayoutType } from '../OnesLayout';
 import Beacon from '@/models/beacon';
 import GospelStepPicker, { coreGospelMessageSection, getThreshold } from '../GospelStepPicker';
@@ -52,7 +52,9 @@ export enum OnesLayoutNormalBodyType {
 export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError, executor,
     refreshData, setMessage, setOneForm, revertToInitialLayoutType, styles, oneBeacons, setActiveLayoutType, setSelectedOneId,
     setActiveOnesLayoutNormalBodyType, activeOnesLayoutNormalBodyType }: IOnesLayoutNormal) {
-        
+
+    const [pickerState, setPickerState] = useState<PickerState>(PickerState.Normal);
+
     const actionSteps = selectedOne?.actionSteps || [];
     const firstActionStep = actionSteps?.length > 0 ? actionSteps.find((value) => !value.isComplete) : null;
     const oneNotes = selectedOne?.oneNotes || [];
@@ -69,7 +71,7 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
                 title={'Back'}
                 onClick={() => setActiveOnesLayoutNormalBodyType(OnesLayoutNormalBodyType.Base)} />
             {
-                activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.Info && (
+                activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.Info && pickerState === PickerState.Normal && (
                     <InfoPickerFilter />
                 )
             }
@@ -80,7 +82,9 @@ export function OnesLayoutNormal({ ones, selectedOne, selectedOneId, setAppError
         BodyLayout.push(
             <PageColumn>
                 {BodyBackHeader}
-                <InfoPicker setActiveLayoutType={setActiveLayoutType} />
+                <InfoPicker setActiveLayoutType={setActiveLayoutType}
+                    pickerState={pickerState}
+                    setPickerState={setPickerState} />
             </PageColumn>
         );
     } else if (activeOnesLayoutNormalBodyType === OnesLayoutNormalBodyType.ActionStep) {

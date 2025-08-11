@@ -229,7 +229,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
                                     </PageColumn>
 
                                     <PageColumn style={{ marginStart: 8, width: standardPaddedWidth }}>
-                                        <AppText type={TextType.Subtitle3}>{mapActionStepTypeToTitle(item.type)}</AppText>
+                                        <AppText type={TextType.Subtitle}>{mapActionStepTypeToTitle(item.type)}</AppText>
                                         <AppText type={TextType.Body}>{mapActionStepTypeToDetails(item.type)}</AppText>
 
                                         {
@@ -237,9 +237,6 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
                                                 <>
                                                     <AppText type={TextType.DefaultSemiBold}>
                                                         Goal: Complete in {getDaysDifference(new Date(), targetDates[index])} days
-                                                    </AppText>
-                                                    <AppText type={TextType.Body}>
-                                                        {formatDateTime(targetDates[index])}
                                                     </AppText>
                                                 </>
                                             )

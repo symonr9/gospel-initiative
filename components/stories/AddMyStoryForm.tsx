@@ -77,6 +77,7 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
   const [chapterArray, setChapterArray] = useState<StoryChapter[] | null>(null);
   const [editingChapterId, setEditingChapterId] = useState<string | null>(null);
   const [useSmartPartition, setUseSmartPartition] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const Body = [];
 
@@ -90,35 +91,53 @@ function AddMyStoryForm({ executor, myStoryChapters, setAppError, refreshData, a
   };
 
   const partitionResponse = async (controller: AbortController) => {
+    if (loading)
+      return;
+
+    setLoading(true);
+
     try {
-      const data = await partition(question, response, controller);
+      try {
+        const data = await partition(question, response, controller);
 
-      if (!data || data.error) {
-        setAppError(new AppError(data.error.toString() || 'Something went wrong'));
+        if (!data || data.error) {
+          setAppError(new AppError(data.error.toString() || 'Something went wrong'));
+          resetPage();
+          return;
+        }
+
+        refreshData(RefreshSpec.User);
+        setChapterArray(data);
+      } catch (err: any) {
+        setAppError(new AppError('Error partioning data: ', err));
         resetPage();
-        return;
       }
-
-      refreshData(RefreshSpec.User);
-      setChapterArray(data);
-    } catch (err: any) {
-      setAppError(new AppError('Error partioning data: ', err));
-      resetPage();
+    } finally {
+      setLoading(false);
     }
   };
 
   const saveChapters = async (controller: AbortController) => {
-    try {
-      const data = await createChapters(chapterArray, controller);
-      if (!data || data.error) {
-        setAppError(new AppError(data.error || 'Something went wrong'));
-        return;
-      }
+    if (loading)
+      return;
 
-      refreshData(RefreshSpec.Stories);
-      setPageState(PageState.Page8);
-    } catch (err: any) {
-      setAppError(new AppError('Error saving chapters: ', err));
+    setLoading(true);
+
+    try {
+      try {
+        const data = await createChapters(chapterArray, controller);
+        if (!data || data.error) {
+          setAppError(new AppError(data.error || 'Something went wrong'));
+          return;
+        }
+
+        refreshData(RefreshSpec.Stories);
+        setPageState(PageState.Page8);
+      } catch (err: any) {
+        setAppError(new AppError('Error saving chapters: ', err));
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
