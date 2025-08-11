@@ -121,7 +121,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           visible={isModalVisible}
           onRequestClose={() => setModalVisible(!isModalVisible)}>
           <View style={modalStyles.modalContainer}>
-            <View style={[modalStyles.modalContent, { height: standardModalHeight * 1.3, gap: 8 }]}>
+            <View style={[modalStyles.modalContent]}>
               <AppText type={TextType.Subtitle} style={modalStyles.modalTitle}>Update Your Name and Icon</AppText>
 
               <PageColumn style={{ height: 200 }}>

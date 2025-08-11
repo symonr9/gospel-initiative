@@ -442,7 +442,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         <PageChip
                                             title={item.title}
                                             subtitle={item.details}
-                                            style={{ marginBottom: 12, flexShrink: 1, width: halfScreenWidth }}
+                                            style={{ marginBottom: 12, flexShrink: 1, width: halfScreenWidth * 1}}
                                         />
                                     )}
                                 />

@@ -206,7 +206,7 @@ const ActionStepPicker = ({ selectedOneId, ones, refreshData, setAppError }: IAc
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
+                    <PageColumn style={{ marginStart: 4, flexShrink: 1 }}>
                         <AppText type={TextType.DefaultSemiBold} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Italic} style={{}}>{item.details}</AppText>
                     </PageColumn>

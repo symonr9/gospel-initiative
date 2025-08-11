@@ -105,7 +105,7 @@ function InfoPickerFilter({ selectedOneId, ones, oneNoteTypeFilters, oneNoteText
                                 <PageRow center style={{ gap: 8, marginHorizontal: 12 }}>
                                     <TextInput
                                         style={[formStyles.slimTextInput, { flexGrow: 1 }]}
-                                        placeholder={`Filter by text here... (Max Chars: ${MAX_SHORT_TEXT_LENGTH})`}
+                                        placeholder={`Type here...`}
                                         placeholderTextColor={'gray'}
                                         value={oneNoteTextFilter}
                                         maxLength={MAX_SHORT_TEXT_LENGTH}

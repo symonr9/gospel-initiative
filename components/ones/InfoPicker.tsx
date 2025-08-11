@@ -198,7 +198,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
             <TouchableOpacity onPress={handlePress}>
                 <PageRow style={[modalStyles.card, formSelectedTypeIdx === index && modalStyles.selectedCard]}>
                     <Image source={item.icon} style={[modalStyles.icon, formSelectedTypeIdx === index && modalStyles.selected]} />
-                    <PageColumn style={{ marginStart: 8, width: standardPaddedWidth, flexShrink: 1 }}>
+                    <PageColumn style={{ marginStart: 4, flexShrink: 1 }}>
                         <AppText type={TextType.Default} style={{}}>{item.label}</AppText>
                         <AppText type={TextType.Body} style={{}}>{item.details}</AppText>
                     </PageColumn>
@@ -664,7 +664,7 @@ const InfoPicker = ({ executor, selectedOneId, ones, oneNoteTypeFilters, oneNote
     return (
         <View style={styles.container}>
             <PageRow spaceBetween>
-                <PageColumn style={{ marginBottom: 8 }}>
+                <PageColumn style={{ marginBottom: 8, flex: 1 }}>
                     <AppText type={TextType.Subtitle} style={styles.title}>Info</AppText>
                     <AppText type={TextType.Body}>
                         Note: All notes are private and will not be publicly shared with anyone else.

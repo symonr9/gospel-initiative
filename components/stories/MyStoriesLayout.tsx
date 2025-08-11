@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, type ViewProps } from 'react-native';
+import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { AppIcon } from '@/enums/enums';
 import StoryChapter from '@/models/storyChapter';
@@ -56,7 +56,7 @@ function MyStoriesLayout({ executor, myStoryChapters, editingChapterId, error, d
     }
 
     return (
-        <PageColumn>
+        <PageColumn style={{ marginBottom: 20 }}>
             {
                 message && (
                     <AnimatedBanner iconSrc={AppIcon.Info}

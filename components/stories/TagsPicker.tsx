@@ -10,6 +10,7 @@ import { PageRow } from '../common/PageRow';
 import { PageColumn } from '../common/PageColumn';
 import { useModalStyles } from '@/styles/Styles';
 import { Colors, useThemeColors } from '@/constants/Colors';
+import { halfScreenHeight } from '@/constants/Dimensions';
 
 function createTagMap(keys: string[]) {
     return keys
@@ -93,24 +94,26 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                     <View style={modalStyles.modalContent}>
                         <Text style={modalStyles.modalTitle}>Select Tags</Text>
 
-                        <PageColumn style={{ height: 300 }}>
+                        <ScrollLayout style={{ flexShrink: 1, height: halfScreenHeight }}>
                             <FlatList
                                 data={tagArray}
                                 numColumns={3}
                                 keyExtractor={(item) => item.label}
                                 renderItem={({ item }) => (
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.tagOption,
-                                            formChapter.tags.includes(item.value) && styles.selectedTagOption,
-                                        ]}
-                                        onPress={() => toggleTag(item.value)}>
-                                        <AppText>
-                                            {item.label}
-                                        </AppText>
-                                    </TouchableOpacity>
+                                    <PageChip title={item.label}
+                                        onClick={() => toggleTag(item.value)} />
+                                    // <TouchableOpacity
+                                    //     style={[
+                                    //         styles.tagOption,
+                                    //         formChapter.tags.includes(item.value) && styles.selectedTagOption,
+                                    //     ]}
+                                    //     onPress={() => toggleTag(item.value)}>
+                                    //     <AppText>
+                                    //         {item.label}
+                                    //     </AppText>
+                                    // </TouchableOpacity>
                                 )} />
-                        </PageColumn>
+                        </ScrollLayout>
 
                         <TouchableOpacity
                             style={modalStyles.closeButton}

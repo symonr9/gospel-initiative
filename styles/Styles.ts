@@ -225,7 +225,6 @@ export const useModalStyles = ({ backgroundColor, secondaryColor, textColor}: an
     borderRadius: 4,
     flex: 1,
     paddingVertical: 8,
-    paddingHorizontal: 10,
     marginVertical: 8,
     marginHorizontal: 10
   },

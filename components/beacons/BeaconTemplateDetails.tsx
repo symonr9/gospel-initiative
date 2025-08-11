@@ -124,6 +124,7 @@ function BeaconTemplateDetails({ template, activeLayoutType, setBeaconForm }: IB
                                     <PageChip
                                         title={item.title}
                                         subtitle={item.details}
+                                        iconSrc={formData.tags.includes(item.value) ? AppIcon.Checkmark : null}
                                         onClick={() => onTagSelect(item.value)}
                                         style={[{ marginBottom: 12 }, formData.tags.includes(item.value) && styles.selectedTag]}
                                     />
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     selectedTag: {
-        backgroundColor: Colors.selected,
+        backgroundColor: Colors.success,
     },
 });
 

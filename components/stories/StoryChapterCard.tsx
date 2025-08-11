@@ -148,12 +148,12 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
   const Header = (
     <PageRow>
       <TouchableOpacity onPress={onExpandClick} activeOpacity={editing ? 1 : 0.2}>
-        <PageRow style={{ width: standardPaddedWidth + 15 }} spaceBetween>
+        <PageRow style={{ width: standardPaddedWidth }} spaceBetween>
           <PageRow style={{}}>
             <Animated.View entering={FadeInUp.duration(200)} style={{ marginBottom: 8 }}>
               <Image source={mapStoryChapterTypeToIcon(chapter.chapterType)} style={styles.icon} />
             </Animated.View>
-            <PageColumn style={{ width: standardPaddedWidth - 20, flexShrink: 1 }}>
+            <PageColumn style={{ flexShrink: 1 }}>
               <PageRow style={{ marginBottom: editing ? 16 : 8 }}>
                 {
                   editing ? (
@@ -237,7 +237,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
 
   if (expanded) {
     return (
-      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), width: screenWidth - 40, gap: 12 }, style]}>
+      <PageColumn style={[gridStyles.itemCard, (!shouldKeep && editing) && styles.shouldDiscard, { height: getHeight(expanded, editing), gap: 6 }, style]}>
         {Header}
 
         <ScrollLayout style={[height !== undefined && { maxHeight: height - 200 }]}>
@@ -263,7 +263,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
                   <AppText type={TextType.Body}>
                     Original Prompt:
                   </AppText>
-                  <PageColumn style={{ flexShrink: 1, width: standardPaddedWidth }}>
+                  <PageColumn style={{ flexShrink: 1 }}>
                     <AppText type={TextType.Italic}>
                       {chapter.originalPrompt}
                     </AppText>
@@ -274,7 +274,7 @@ export function StoryChapterCard({ chapter, setChapterArray, setEditingChapterId
           </PageColumn>
         </ScrollLayout>
 
-        <PageRow style={[]} spaceEvenly>
+        <PageRow style={[{ gap: 32 }]} center>
           {
             canDiscard && (
               <SimpleIconButton iconSrc={shouldKeep ? AppIcon.Star : AppIcon.Trash}

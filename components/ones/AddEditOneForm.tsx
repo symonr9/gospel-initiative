@@ -175,7 +175,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
                 {
                     !editing && (
                         <StagePicker selectedStage={stage}
-                            style={{ height: halfScreenHeight - 150, flex: 1, alignItems: 'center' }}
+                            style={{ flex: 1, alignItems: 'center' }}
                             setSelectedStage={setStage} />
                     )
                 }
@@ -183,7 +183,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
 
             <PageRow center>
                 <CategoryPicker selectedCategory={category}
-                    style={{ height: halfScreenHeight - 150, flex: 1, alignItems: 'center' }}
+                    style={{ flex: 1, alignItems: 'center' }}
                     setSelectedCategory={setCategory} />
             </PageRow>
 
@@ -204,7 +204,7 @@ function AddEditOneForm({ editing = false, initialOneForm, onRemove, setOneForm 
 
             {
                 !editing && (
-                    <PageColumn style={styles.section}>
+                    <PageColumn style={[styles.section, { marginTop: 12 }]}>
                         {
                             suggestedActionSteps.length > 0 && (
                                 <PageColumn style={{ marginBottom: 8, alignItems: 'center' }}>

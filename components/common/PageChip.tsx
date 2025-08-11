@@ -41,13 +41,11 @@ export function PageChip({ iconSrc = null, title,
                     )
                 }
 
-                <PageColumn>
+                <PageColumn style={{ flexShrink: 1 }}>
                     <AppText type={textType} style={{}}>{title}</AppText>
                     {
                         subtitle && (
-                            <PageRow style={{ flexShrink: 1, width: '95%' }}>
-                                <AppText type={TextType.Smol} style={{}}>{subtitle}</AppText>
-                            </PageRow>
+                            <AppText type={TextType.Smol} style={{}}>{subtitle}</AppText>
                         )
                     }
                 </PageColumn>
