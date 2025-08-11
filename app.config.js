@@ -2,8 +2,8 @@ export default ({ config }) => ({
     expo: {
         name: "The Gospel Initiative",
         slug: "gospel-initiative",
-        version: "1.2.0",
-        runtimeVersion: "1.2.0",
+        version: "1.2.1",
+        runtimeVersion: "1.2.1",
         orientation: "portrait",
         icon: "./assets/images/gospel-initiative/app-logo.png",
         scheme: "myapp",
@@ -23,8 +23,12 @@ export default ({ config }) => ({
         },
         android: {
             softwareKeyboardLayoutMode: "pan",
-            package: "com.redemption.gospelinitiative",    
-            googleServicesFile: process.env.GOOGLE_SERVICES_JSON || './google-services.json'
+            package: "com.redemption.gospelinitiative",
+            googleServicesFile: process.env.GOOGLE_SERVICES_JSON || './google-services.json',
+            adaptiveIcon: {
+                foregroundImage: "./assets/images/gospel-initiative/app-logo.png",
+                "backgroundColor": "#7ca7b9"
+            }
         },
         web: {
             bundler: "metro",
