@@ -143,7 +143,8 @@ export function getUserFromJson(item: any) {
         item.hasAutoBeaconBeenCreatedThisCycle,
         item.isSetupForNotifications || false,
         item.notifyOnEveryBeacon || false,
-        item.notifyMorningAndEveningOnly || false,
+        item.notifyMorning || false,
+        item.notifyEvening || false,
         item.preferredNotificationTimes,
         item.lastNotificationSent ? new Date(item.lastNotificationSent) : undefined
     );

@@ -16,7 +16,8 @@ interface IUser {
   hasAutoBeaconBeenCreatedThisCycle: boolean;
   isSetupForNotifications: boolean;
   notifyOnEveryBeacon: boolean;
-  notifyMorningAndEveningOnly: boolean;
+  notifyMorning: boolean;
+  notifyEvening: boolean;
   preferredNotificationTimes: string[];
   lastNotificationSent: Date | undefined;
 
@@ -39,7 +40,8 @@ export default class User implements IUser {
   hasAutoBeaconBeenCreatedThisCycle: boolean;
   isSetupForNotifications: boolean;
   notifyOnEveryBeacon: boolean;
-  notifyMorningAndEveningOnly: boolean;
+  notifyMorning: boolean;
+  notifyEvening: boolean;
   preferredNotificationTimes: string[];
   lastNotificationSent: Date | undefined;
 
@@ -49,7 +51,7 @@ export default class User implements IUser {
     extraPartitionCount: number, enableAutoBeacons: boolean, autoBeaconType: AutoBeaconType,
     autoBeaconTags: BeaconTag[], hasAutoBeaconBeenCreatedThisCycle: boolean,
     isSetupForNotifications: boolean, notifyOnEveryBeacon: boolean, 
-  notifyMorningAndEveningOnly: boolean, preferredNotificationTimes: string[],
+    notifyMorning: boolean, notifyEvening: boolean, preferredNotificationTimes: string[],
     lastNotificationSent: Date | undefined) {
     this.id = id;
     this.name = name;
@@ -66,7 +68,8 @@ export default class User implements IUser {
     this.hasAutoBeaconBeenCreatedThisCycle = hasAutoBeaconBeenCreatedThisCycle;
     this.isSetupForNotifications = isSetupForNotifications;
     this.notifyOnEveryBeacon = notifyOnEveryBeacon;
-    this.notifyMorningAndEveningOnly = notifyMorningAndEveningOnly;
+    this.notifyMorning = notifyMorning;
+    this.notifyEvening = notifyEvening;
     this.preferredNotificationTimes = preferredNotificationTimes;
     this.lastNotificationSent = lastNotificationSent;
   }

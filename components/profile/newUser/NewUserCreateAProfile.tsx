@@ -4,7 +4,6 @@ import { Button, TextInput, View, ViewProps } from "react-native";
 import { AppIcon, AvatarIcon, AvatarIconArray, NewUserStep } from "@/enums/enums";
 import { AppText, TextType } from "@/components/common/AppText";
 import { PageColumn } from "@/components/common/PageColumn";
-import { SimpleTextList } from "@/components/common/SimpleTextList";
 import AvatarIconPicker from "@/components/common/AvatarIconPicker";
 import { formStyles } from "@/styles/Styles";
 import { getRandomElement } from "@/utils/appUtils";
@@ -37,7 +36,8 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
     const [name, setName] = useState<string>("");
     const [icon, setIcon] = useState<AvatarIcon>(getRandomElement(AvatarIconArray));
     const [notifyOnEveryBeacon, setNotifyOnEveryBeacon] = useState<boolean>(true);
-    const [notifyMorningAndEveningOnly, setNotifyMorningAndEveningOnly] = useState<boolean>(true);
+    const [notifyMorning, setNotifyMorning] = useState<boolean>(true);
+    const [notifyEvening, setNotifyEvening] = useState<boolean>(true);
 
     const isValid = isValidForm(name, icon);
     const shouldShowNameError = name.length > MAX_NAME_LENGTH;
@@ -48,7 +48,8 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
             name,
             icon,
             notifyOnEveryBeacon,
-            notifyMorningAndEveningOnly
+            notifyMorning,
+            notifyEvening
         };
 
         const response = await updateUser(updatedUser);
@@ -89,9 +90,11 @@ export default function NewUserCreateAProfile({ executor, newUserStep, setNewUse
                 }
             </PageColumn>
 
-            <UserPreferencesSection notifyMorningAndEveningOnly={notifyMorningAndEveningOnly}
+            <UserPreferencesSection notifyMorning={notifyMorning}
+                notifyEvening={notifyEvening}
                 notifyOnEveryBeacon={notifyOnEveryBeacon}
-                setNotifyMorningAndEveningOnly={setNotifyMorningAndEveningOnly}
+                setNotifyMorning={setNotifyMorning}
+                setNotifyEvening={setNotifyEvening}
                 setNotifyOnEveryBeacon={setNotifyOnEveryBeacon} />
 
             <PageColumn style={{ alignSelf: 'center', gap: 32 }}>

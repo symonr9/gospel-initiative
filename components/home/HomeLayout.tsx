@@ -52,7 +52,8 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
   const [name, setName] = useState<string>(executor?.name || '');
   const [icon, setIcon] = useState<AvatarIcon>(executor?.icon || AvatarIcon.Man1);
   const [notifyOnEveryBeacon, setNotifyOnEveryBeacon] = useState<boolean>(executor?.notifyOnEveryBeacon || false);
-  const [notifyMorningAndEveningOnly, setNotifyMorningAndEveningOnly] = useState<boolean>(executor?.notifyMorningAndEveningOnly || false);
+  const [notifyMorning, setNotifyMorning] = useState<boolean>(executor?.notifyMorning || false);
+  const [notifyEvening, setNotifyEvening] = useState<boolean>(executor?.notifyEvening || false);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -63,7 +64,8 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
     setName(executor?.name || '');
     setIcon(executor?.icon || AvatarIcon.Man1);
     setNotifyOnEveryBeacon(executor?.notifyOnEveryBeacon || false);
-    setNotifyMorningAndEveningOnly(executor?.notifyMorningAndEveningOnly || false);
+    setNotifyMorning(executor?.notifyMorning || false);
+    setNotifyEvening(executor?.notifyEvening || false);
   }, [executor]);
 
   const isValid = isValidForm(name, icon);
@@ -88,7 +90,8 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
         name,
         icon,
         notifyOnEveryBeacon,
-        notifyMorningAndEveningOnly
+        notifyMorning,
+        notifyEvening
       };
 
       const response = await updateUser(updatedUser);
@@ -145,11 +148,13 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
                   )
                 }
               </PageColumn>
-              
+
               <UserPreferencesSection
-                notifyMorningAndEveningOnly={notifyMorningAndEveningOnly}
+                notifyMorning={notifyMorning}
+                notifyEvening={notifyEvening}
                 notifyOnEveryBeacon={notifyOnEveryBeacon}
-                setNotifyMorningAndEveningOnly={setNotifyMorningAndEveningOnly}
+                setNotifyMorning={setNotifyMorning}
+                setNotifyEvening={setNotifyEvening}
                 setNotifyOnEveryBeacon={setNotifyOnEveryBeacon} />
 
               {
