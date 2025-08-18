@@ -14,6 +14,8 @@ import { mapOneStageToTitle } from "@/utils/textUtils";
 import DetailsSection from '../common/DetailsSection';
 import { SimpleGridCard } from '../common/SimpleGridCard';
 import { useThemeColors } from '@/constants/Colors';
+import ScrollLayout from '../common/ScrollLayout';
+import { screenHeight } from '@/constants/Dimensions';
 
 export type IAllOnesGrid = ViewProps & {
     ones: One[];
@@ -23,40 +25,40 @@ export type IAllOnesGrid = ViewProps & {
 
 
 function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGrid) {
-    const themeColors = useThemeColors();
-    const gridStyles = useGridStyles(themeColors);
-
     return (
-        <PageColumn>
+        <PageColumn> 
+            {
+                ones.map((one) => {
+                    const onClick = () => {
+                        setSelectedOneId(one.id);
+                        if (setActiveLayoutType)
+                            setActiveLayoutType(OneLayoutType.Normal);
+                    };
 
-            <PageColumn style={{ maxHeight: 500 }}>
-                {
-                    ones.map((one) => (
+                    return (
                         <SimpleGridCard key={one.id}
                             title={one.name}
                             iconSrc={one.icon}
-                            onClick={() => {
-                                setSelectedOneId(one.id);
-                                if (setActiveLayoutType)
-                                    setActiveLayoutType(OneLayoutType.Normal);
-                            }}
+                            onClick={onClick}
                             useTextTintForIcon={false}
                             detailsView={
                                 <>
                                     <DetailsSection iconSrc={mapOneStageToIcon(one.stage)}
                                         prefix={"Stage"}
                                         style={{ marginRight: 16 }}
+                                        onClick={onClick}
                                         title={mapOneStageToTitle(one.stage)} />
 
                                     <DetailsSection iconSrc={mapOneCategoryToIcon(one.category)}
                                         prefix={"Category"}
+                                        onClick={onClick}
                                         title={mapOneCategoryToTitle(one.category)} />
                                 </>
-                            } />
-                    ))
-                }
-            </PageColumn>
-
+                            } 
+                        />
+                    );
+                })
+            }
         </PageColumn>
     );
 }
