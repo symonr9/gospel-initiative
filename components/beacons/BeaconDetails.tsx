@@ -442,7 +442,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                         <PageChip
                                             title={item.title}
                                             subtitle={item.details}
-                                            style={{ marginBottom: 12, flexShrink: 1, width: halfScreenWidth * 1}}
+                                            style={{ marginBottom: 12, flexShrink: 1, width: halfScreenWidth * 1 }}
                                         />
                                     )}
                                 />
@@ -461,11 +461,16 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                         )
                     }
 
-                    <SimpleIconButton iconSrc={AppIcon.Mail}
-                        title={'Give Note'}
-                        disabled={!hasUserAlreadyPrayed || loading}
-                        onClick={onNoteClick}
-                        customStyles={customPrayButtonStyles} />
+                    {
+                        !beacon.global && (
+                            <SimpleIconButton iconSrc={AppIcon.Mail}
+                                title={'Give Note'}
+                                disabled={!hasUserAlreadyPrayed || loading}
+                                onClick={onNoteClick}
+                                customStyles={customPrayButtonStyles} />
+                        )
+                    }
+
                     <SimpleIconButton iconSrc={AppIcon.Prayer}
                         title={'Pray'}
                         disabled={hasUserAlreadyPrayed || loading}
