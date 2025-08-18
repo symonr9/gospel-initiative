@@ -46,6 +46,16 @@ export default ({ config }) => ({
                 {
                     "calendarPermission": "The Gospel Initiative app would like to add your action step event to your default calendar."
                 }
+            ],
+            [
+                "expo-build-properties",
+                {
+                    "android": {
+                        "compileSdkVersion": 35,
+                        "targetSdkVersion": 35,
+                        "buildToolsVersion": "35.0.0"
+                    },
+                }
             ]
         ],
         experiments: {
