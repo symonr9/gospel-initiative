@@ -71,9 +71,11 @@ function BeaconTemplatesList({ selectedTemplateId, beaconTemplates,
 
             {
                 showBeaconActions && !selectedTemplate && (
-                    <SimpleButton text={'Choose Beacon'}
-                        onPress={openModal}
-                        type={ButtonType.Edit} />
+                    <PageRow center>
+                        <SimpleButton text={'Choose Beacon'}
+                            onPress={openModal}
+                            type={ButtonType.Edit} />
+                    </PageRow>
                 )
             }
 
