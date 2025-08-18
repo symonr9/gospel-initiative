@@ -93,8 +93,8 @@ const largeStyles = StyleSheet.create({
     },
     icon: {
         ...styles.icon,
-        width: 54,
-        height: 54,
+        width: 46,
+        height: 46,
     },
     title: {
         ...styles.title,
