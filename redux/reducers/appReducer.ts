@@ -10,6 +10,7 @@ const initialState = {
     refreshSpec: RefreshSpec.None,
     newUserStep: NewUserStep.Loading,
     shouldRefreshBeacons: false,
+    showingBadgesAtHome: false,
     activeOnesLayoutType: OneLayoutType.Loading,
     activeOnesLayoutNormalBodyType: OnesLayoutNormalBodyType.Base,
     homeDailies: {
@@ -63,6 +64,13 @@ export function appReducer(state = initialState, action: ActionPackage) {
                 $set: {
                     ...state,
                     shouldRefreshBeacons: action.payload,
+                }
+            });
+        case Action.SetShowingBadgesAtHome:
+            return update(state, {
+                $set: {
+                    ...state,
+                    showingBadgesAtHome: action.payload,
                 }
             });
         case Action.SetDataRefreshLoading:

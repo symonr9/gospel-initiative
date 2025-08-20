@@ -7,7 +7,6 @@ import { AppIcon } from '@/enums/enums';
 import { SimpleCard } from '../common/SimpleCard';
 import User from '@/models/user';
 import StoryChapter from '@/models/storyChapter';
-import { isWithinPast24Hours } from '@/utils/appUtils';
 import { setAddingStory } from '@/redux/actions';
 
 export type IHomeAddStoryCard = ViewProps & {

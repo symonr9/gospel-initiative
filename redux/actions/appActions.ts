@@ -39,6 +39,11 @@ export const setShouldRefreshBeacons = (shouldRefresh: boolean) => ({
     payload: shouldRefresh,
 });
 
+export const setShowingBadgesAtHome = (showingBadgesAtHome: boolean) => ({
+    type: Action.SetShowingBadgesAtHome,
+    payload: showingBadgesAtHome,
+});
+
 /**
  * By default, refresh all server data.
  */

@@ -38,6 +38,7 @@ export enum Action {
 
     SetNewUserStep = 'SET_NEW_USER_STEP',
     SetShouldRefreshBeacons = 'SET_SHOULD_REFRESH_BEEACONS',
+    SetShowingBadgesAtHome = 'SET_SHOWING_BADGES_AT_HOME',
     SetHomeDailies = 'SET_HOME_DAILIES',
     SetAppError = "SET_APP_ERROR",
     ClearAppError = "CLEAR_APP_ERROR",

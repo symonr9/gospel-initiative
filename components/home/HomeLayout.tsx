@@ -28,6 +28,7 @@ import { Colors, useThemeColors } from '@/constants/Colors';
 import HomePromptCard from './HomePromptCard';
 import HomeActiveBeaconCard from './HomeActiveBeaconCard';
 import { UserPreferencesSection } from '../common/UserPreferencesSection';
+import HomeBadgesCard from './HomeBadgesCard';
 
 export type IHomeLayout = ViewProps & {
   executor: User;
@@ -212,6 +213,7 @@ function HomeLayout({ executor, refreshData, setAppError }: IHomeLayout) {
           <HomePrayerCard />
           <HomeQuickBeaconCard />
           <HomeAddStoryCard />
+          <HomeBadgesCard/>
           {/* These features are omitted but may be added in the future */}
           {/* <HomeAutoBeaconCard /> */}
 
