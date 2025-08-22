@@ -13,9 +13,10 @@ export type ISimpleIcon = ViewProps & {
     large?: boolean;
     removeBackground?: boolean;
     onClick?: Function;
+    titleStyles?: any;
 }
 
-export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false, onClick, style }: ISimpleIcon) {
+export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBackground = false, onClick, style, titleStyles = {} }: ISimpleIcon) {
     const stylesToUse = large ? largeStyles : (small ? smallStyles : styles);
 
     const onPress = (e: GestureResponderEvent) => {
@@ -35,7 +36,8 @@ export function SimpleIcon({ iconSrc = null, title = '', small, large, removeBac
                             <Image source={iconSrc} style={stylesToUse.icon} contentFit="contain" />
                         )}
                     </View>
-                    <AppText type={TextType.Subtitle} style={stylesToUse.title}>
+                    <AppText type={TextType.Subtitle} 
+                        style={[stylesToUse.title, titleStyles]}>
                         {title}
                     </AppText>
                 </View>

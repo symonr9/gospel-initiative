@@ -324,7 +324,7 @@ export function calculatePercent(arr1: any[], arr2: any[]): number {
 }
 
 export function calculatePercentByTotals(value: number, total: number): number {
-    return value / total;
+    return Math.ceil((value / total) * 100);
 }
 
 export function getRandomString(strings: string[]): string {

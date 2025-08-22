@@ -146,7 +146,8 @@ export function getUserFromJson(item: any) {
         item.notifyMorning || false,
         item.notifyEvening || false,
         item.preferredNotificationTimes,
-        item.lastNotificationSent ? new Date(item.lastNotificationSent) : undefined
+        item.lastNotificationSent ? new Date(item.lastNotificationSent) : undefined,
+        item.activityCount || 0,
     );
 }
 

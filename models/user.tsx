@@ -20,6 +20,7 @@ interface IUser {
   notifyEvening: boolean;
   preferredNotificationTimes: string[];
   lastNotificationSent: Date | undefined;
+  activityCount: number;
 
   // Goals Class - measured by action steps, activities, etc.
 }
@@ -44,6 +45,7 @@ export default class User implements IUser {
   notifyEvening: boolean;
   preferredNotificationTimes: string[];
   lastNotificationSent: Date | undefined;
+  activityCount: number;
 
   constructor(id: string, name: string, email: string,
     role: Role, icon: AvatarIcon, createdAt: Date | undefined,
@@ -52,7 +54,7 @@ export default class User implements IUser {
     autoBeaconTags: BeaconTag[], hasAutoBeaconBeenCreatedThisCycle: boolean,
     isSetupForNotifications: boolean, notifyOnEveryBeacon: boolean, 
     notifyMorning: boolean, notifyEvening: boolean, preferredNotificationTimes: string[],
-    lastNotificationSent: Date | undefined) {
+    lastNotificationSent: Date | undefined, activityCount: number) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -72,5 +74,6 @@ export default class User implements IUser {
     this.notifyEvening = notifyEvening;
     this.preferredNotificationTimes = preferredNotificationTimes;
     this.lastNotificationSent = lastNotificationSent;
+    this.activityCount = activityCount;
   }
 }
