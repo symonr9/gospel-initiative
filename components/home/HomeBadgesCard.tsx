@@ -85,13 +85,16 @@ function HomeBadgesCard({ executor, showingBadgesAtHome, expiredBeacons, myStory
     }, [expiredBeacons]);
 
     const prayerBadges = useMemo(() => {
+        if (!executor)
+            return [];
+
         return getCountBadges((threshold: number) => `Time${threshold === 1 ? '' : 's'} Prayed`, executor.activityCount, AppIcon.Prayer, (threshold: number, achieved: boolean) => {
             if (achieved)
                 return `You have prayed ${threshold} time${threshold === 1 ? '' : 's'} for a beacon.`;
             else
                 return `Pray ${threshold} time${threshold === 1 ? '' : 's'} to achieve this badge.`;
         });
-    }, [executor.activityCount]);
+    }, [executor]);
 
     const storyBadges = useMemo(() => {
         return getCountBadges((threshold: number) => `Story Card${threshold === 1 ? '' : 's'}`, myStoryChapters.length, AppIcon.Book, (threshold: number, achieved: boolean) => {
