@@ -43,7 +43,7 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
 
         const [editing, setEditing] = useState(false);
 
-        const numOfPeoplePrayedText = numOfPeoplePrayed === 1 ? '1 person has prayed for this beacon.' : `${numOfPeoplePrayed} people have prayed for this beacon.`;
+        const numOfPeoplePrayedText = numOfPeoplePrayed === 1 ? '1 person has prayed.' : `${numOfPeoplePrayed} people have prayed.`;
 
         const onEditClick = () => {
             setEditing((val) => !val);
