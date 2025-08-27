@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setStatusBarStyle } from "expo-status-bar";
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import * as Application from 'expo-application';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -49,10 +50,10 @@ function AppLayout({ executor, clearAllData }: IAppLayout) {
 
     const showMenuOptions = () => {
         Alert.alert(
-            'Options',
+            `The Gospel Initiative App v${Application.nativeApplicationVersion} (${Application.nativeBuildVersion})`,
             'Choose an option:',
             [
-                { text: 'Reset All', onPress: confirmResetAll },
+                { text: 'Reset All Data', onPress: confirmResetAll },
                 { text: 'Cancel', style: 'cancel' },
             ],
             { cancelable: true }
