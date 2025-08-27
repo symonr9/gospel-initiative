@@ -97,21 +97,12 @@ export default function TagsPicker({ formChapter, setFormChapter, editing = true
                         <ScrollLayout style={{ flexShrink: 1, height: halfScreenHeight }}>
                             <FlatList
                                 data={tagArray}
-                                numColumns={3}
+                                numColumns={2}
                                 keyExtractor={(item) => item.label}
                                 renderItem={({ item }) => (
                                     <PageChip title={item.label}
+                                        style={[styles.tagOption, formChapter.tags.includes(item.value) && styles.selectedTagOption]}
                                         onClick={() => toggleTag(item.value)} />
-                                    // <TouchableOpacity
-                                    //     style={[
-                                    //         styles.tagOption,
-                                    //         formChapter.tags.includes(item.value) && styles.selectedTagOption,
-                                    //     ]}
-                                    //     onPress={() => toggleTag(item.value)}>
-                                    //     <AppText>
-                                    //         {item.label}
-                                    //     </AppText>
-                                    // </TouchableOpacity>
                                 )} />
                         </ScrollLayout>
 

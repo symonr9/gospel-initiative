@@ -418,7 +418,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                     }
 
                     {
-                        (!loading && hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0) && (
+                        (!loading && hasUserAlreadyPrayed && userActivityForBeacon.note?.length > 0 && !beacon.global) && (
                             <PageColumn style={styles.myNoteForBeacon}>
                                 <AppText type={TextType.Body}>
                                     Your Note:

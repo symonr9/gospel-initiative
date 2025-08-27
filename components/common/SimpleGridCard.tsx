@@ -51,7 +51,7 @@ export function SimpleGridCard({ iconSrc = null, title, subtitle, detailsView = 
                 <PageColumn style={{ width: standardPaddedWidth, flexShrink: 1 }}>
                     {
                         title && (
-                            <AppText type={TextType.Subtitle3} style={{}}>
+                            <AppText type={TextType.Subtitle} style={{}}>
                                 {title}
                             </AppText>
                         )

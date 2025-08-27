@@ -38,17 +38,12 @@ function AllOnesGrid({ ones, setSelectedOneId, setActiveLayoutType }: IAllOnesGr
                     return (
                         <SimpleGridCard key={one.id}
                             title={one.name}
+                            subtitle={'Your One'}
                             iconSrc={one.icon}
                             onClick={onClick}
                             useTextTintForIcon={false}
                             detailsView={
                                 <>
-                                    <DetailsSection iconSrc={mapOneStageToIcon(one.stage)}
-                                        prefix={"Stage"}
-                                        style={{ marginRight: 16 }}
-                                        onClick={onClick}
-                                        title={mapOneStageToTitle(one.stage)} />
-
                                     <DetailsSection iconSrc={mapOneCategoryToIcon(one.category)}
                                         prefix={"Category"}
                                         onClick={onClick}

@@ -11,7 +11,7 @@ import { PageColumn } from './PageColumn';
 import ScrollLayout from './ScrollLayout';
 import { useGridStyles, useModalStyles } from '@/styles/Styles';
 import { ButtonType, SimpleButton } from './SimpleButton';
-import { halfScreenWidth, standardModalHeight } from '@/constants/Dimensions';
+import { halfScreenWidth, standardModalHeight, standardPaddedWidth } from '@/constants/Dimensions';
 import { useThemeColors } from '@/constants/Colors';
 
 // Map categories to include icon, label, and details
@@ -67,14 +67,12 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
 
     const renderIcon = ({ item }: { item: { category: OneCategory, icon: any, label: String } }) => (
         <TouchableOpacity onPress={() => handleCategorySelect(item.category)}>
-            <PageRow style={styles.iconCard}>
-                <PageColumn>
-                    <Image
-                        source={item.icon}
-                        style={[styles.icon, selectedCategory === item.category && styles.selected]}
-                    />
-                    <AppText style={{ textAlign: 'center', flexShrink: 1 }} type={TextType.Body}>{item.label}</AppText>
-                </PageColumn>
+            <PageRow style={styles.iconCard} center>
+                <Image
+                    source={item.icon}
+                    style={[styles.icon, selectedCategory === item.category && styles.selected]}
+                />
+                <AppText style={{ marginStart: 8 }} type={TextType.Subtitle2}>{item.label}</AppText>
             </PageRow>
         </TouchableOpacity>
     );
@@ -128,11 +126,11 @@ const CategoryPicker = ({ title = 'Category', selectedCategory, setSelectedCateg
                                 <AppText type={TextType.Italic} style={{ marginTop: 8 }}>{selectedCategoryData.details}</AppText>
                             </View>
                         )}
-                        <PageColumn style={{ maxHeight: standardModalHeight - 100 }}>
+                        <PageColumn style={{ maxHeight: standardModalHeight - 100, width: standardPaddedWidth }}>
                             <FlatList
                                 data={categoryArray}
                                 renderItem={renderIcon}
-                                numColumns={3}
+                                numColumns={1}
                                 keyExtractor={(item, index) => index.toString()}
                                 contentContainerStyle={styles.iconList}
                             />
@@ -154,7 +152,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     iconCard: {
-        width: 80,
         margin: 4,
         alignItems: 'center',
     },
