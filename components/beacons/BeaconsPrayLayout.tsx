@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { StyleSheet, View, type ViewProps } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, View, type ViewProps } from 'react-native';
 
-import { AppIcon, ItemRowContainerType } from '@/enums/enums';
+import { AppIcon, ItemRowContainerType, RefreshSpec } from '@/enums/enums';
 import { BeaconCard } from './BeaconCard';
 import { ItemRowContainer } from '../common/ItemRowContainer';
 import { EnhancedBeacon } from '@/models/beacon';
@@ -11,7 +11,7 @@ import BeaconDetails from './BeaconDetails';
 import ScrollLayout from '../common/ScrollLayout';
 import { AnimatedHeader } from '../common/AnimatedHeader';
 import { PageColumn } from '../common/PageColumn';
-import { setSelectedPrayerId } from '@/redux/actions';
+import { refreshData, setSelectedPrayerId } from '@/redux/actions';
 import { useThemeColors } from '@/constants/Colors';
 import User from '@/models/user';
 
@@ -21,10 +21,12 @@ export type IBeaconsPrayLayout = ViewProps & {
     selectedPrayerId: string | null;
     setSelectedPrayerId: Function;
     executor: User;
+    refreshData: Function;
 };
 
-function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId, setSelectedPrayerId, executor }: IBeaconsPrayLayout) {
+function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId, setSelectedPrayerId, executor, refreshData }: IBeaconsPrayLayout) {
     const [activeRoadType, setActiveRoadType] = useState(ItemRowContainerType.Incoming);
+    const [refreshing, setRefreshing] = useState(false);
 
     const { secondaryColor } = useThemeColors();
 
@@ -32,6 +34,14 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
     const completedCursorIdx = completedBeacons.findIndex((beacon: EnhancedBeacon) => beacon.id === selectedPrayerId);
     const completedCount = completedBeacons.length;
     const incomingCount = incomingBeacons.length;
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        refreshData(RefreshSpec.All);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     const completedItemsToRender = completedBeacons ? completedBeacons.map((beacon: EnhancedBeacon, idx: number) => (
         <BeaconCard beacon={beacon}
@@ -52,7 +62,8 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
     const showLetsPrayHeader = selectedPrayerId === null && incomingItemsToRender.length > 0;
 
     return (
-        <ScrollLayout>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <PageColumn spaceEvenly style={{ gap: 12 }}>
                 {
                     showLetsPrayHeader && (
@@ -87,7 +98,7 @@ function BeaconsPrayLayout({ completedBeacons, incomingBeacons, selectedPrayerId
                     completedBeacons={completedBeacons}
                     incomingBeacons={incomingBeacons} />
             </PageColumn>
-        </ScrollLayout>
+        </ScrollView>
     );
 }
 
@@ -105,7 +116,8 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = {
-    setSelectedPrayerId
+    setSelectedPrayerId,
+    refreshData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BeaconsPrayLayout);

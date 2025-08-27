@@ -125,9 +125,10 @@ export function ActiveBeaconsActivityList({ activeBeaconsWithActivities,
                             <PageColumn style={{ marginTop: 12 }}>
                                 {
                                     activities.map((item) => (
-                                        <PageRow style={[beaconStyles.activityView, { gap: 8 }]}>
+                                        <PageRow style={[beaconStyles.activityView, { gap: 8, width: standardPaddedWidth }]} 
+                                            key={item.id}>
                                             <SimpleIcon iconSrc={AppIcon.Prayer} small />
-                                            <PageColumn center>
+                                            <PageColumn>
                                                 <AppText type={TextType.Body}>{item.username} prayed for you.</AppText>
                                                 <AppText type={TextType.Default}>{item.note}</AppText>
                                             </PageColumn>

@@ -1,10 +1,10 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
-import { View, ViewProps, StyleSheet } from 'react-native';
+import { View, ViewProps, StyleSheet, RefreshControl, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import One from '@/models/one';
-import { AppIcon } from '@/enums/enums';
+import { AppIcon, RefreshSpec } from '@/enums/enums';
 import { PageColumn } from '../common/PageColumn';
 import { PageRow } from '../common/PageRow';
 import { AnimatedHeader } from '../common/AnimatedHeader';
@@ -53,12 +53,13 @@ export enum OneLayoutType {
 }
 
 function OnesLayout({ selectedOneId, ones, oneForm, executor, activeOnesLayoutType, setActiveOnesLayoutType,
-    setAppError, oneBeacons, refreshData, setSelectedOneId, dataRefreshLoading, activeOnesLayoutNormalBodyType, 
+    setAppError, oneBeacons, refreshData, setSelectedOneId, dataRefreshLoading, activeOnesLayoutNormalBodyType,
     setActiveOnesLayoutNormalBodyType }: IOnesLayout) {
 
     const selectedOne = getSelectedOne(selectedOneId, ones);
 
     const [message, setMessage] = useState<string | null>(null);
+    const [refreshing, setRefreshing] = useState(false);
 
     const BodyLayout: any[] = [];
 
@@ -69,26 +70,36 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor, activeOnesLayoutTy
         revertToInitialLayoutType();
     }, [executor]);
 
-    const revertToInitialLayoutType = () => {        
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        refreshData(RefreshSpec.All);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
+
+    const revertToInitialLayoutType = () => {
+        setRefreshing(false);
         setActiveOnesLayoutType(ones.length > 0 ? OneLayoutType.Normal : OneLayoutType.FirstTime);
     };
 
     if (dataRefreshLoading) {
         BodyLayout.push(
-            <LoadingLayout/>
+            <LoadingLayout />
         );
     } else if (activeOnesLayoutType === OneLayoutType.FirstTime) {
         BodyLayout.push(
-            <OnesLayoutFirstTime setMessage={setMessage} setActiveLayoutType={setActiveOnesLayoutType}/>
+            <OnesLayoutFirstTime setMessage={setMessage} setActiveLayoutType={setActiveOnesLayoutType} />
         );
     } else if (activeOnesLayoutType === OneLayoutType.AddingOne) {
         BodyLayout.push(
-            <OnesLayoutAddingOne oneForm={oneForm} 
-                setAppError={setAppError} 
-                executor={executor} 
-                refreshData={refreshData} 
-                setMessage={setMessage} 
-                setOneForm={setOneForm} 
+            <OnesLayoutAddingOne oneForm={oneForm}
+                setAppError={setAppError}
+                executor={executor}
+                refreshData={refreshData}
+                setMessage={setMessage}
+                setOneForm={setOneForm}
                 setSelectedOneId={setSelectedOneId}
                 revertToInitialLayoutType={revertToInitialLayoutType} />
         );
@@ -109,43 +120,44 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor, activeOnesLayoutTy
                 setMessage={setMessage}
                 setOneForm={setOneForm}
                 setSelectedOneId={setSelectedOneId}
-                revertToInitialLayoutType={revertToInitialLayoutType} 
+                revertToInitialLayoutType={revertToInitialLayoutType}
                 selectedOne={selectedOne} />
         );
     } else if (activeOnesLayoutType === OneLayoutType.AllOnes) {
         BodyLayout.push(
-            <OnesLayoutAllOnes setMessage={setMessage} 
-                setActiveLayoutType={setActiveOnesLayoutType} 
-                revertToInitialLayoutType={revertToInitialLayoutType}/>
+            <OnesLayoutAllOnes setMessage={setMessage}
+                setActiveLayoutType={setActiveOnesLayoutType}
+                revertToInitialLayoutType={revertToInitialLayoutType} />
         );
     } else if (activeOnesLayoutType === OneLayoutType.Loading) {
         BodyLayout.push(
-            <LoadingLayout/>
+            <LoadingLayout />
         );
     } else { // Normal
         BodyLayout.push(
-            <OnesLayoutNormal selectedOneId={selectedOneId} 
-                selectedOne={selectedOne} 
-                ones={ones} 
-                setAppError={setAppError} 
-                executor={executor} 
+            <OnesLayoutNormal selectedOneId={selectedOneId}
+                selectedOne={selectedOne}
+                ones={ones}
+                setAppError={setAppError}
+                executor={executor}
                 oneBeacons={oneBeacons}
-                refreshData={refreshData} 
-                setMessage={setMessage} 
-                setOneForm={setOneForm} 
-                setSelectedOneId={setSelectedOneId} 
+                refreshData={refreshData}
+                setMessage={setMessage}
+                setOneForm={setOneForm}
+                setSelectedOneId={setSelectedOneId}
                 setActiveLayoutType={setActiveOnesLayoutType}
                 activeOnesLayoutNormalBodyType={activeOnesLayoutNormalBodyType}
                 setActiveOnesLayoutNormalBodyType={setActiveOnesLayoutNormalBodyType}
                 styles={styles}
-                revertToInitialLayoutType={revertToInitialLayoutType}/>
+                revertToInitialLayoutType={revertToInitialLayoutType} />
         );
     }
 
     const showYourSelectedOne = ![OneLayoutType.AddingOne, OneLayoutType.EditingOne, OneLayoutType.AllOnes].includes(activeOnesLayoutType) && selectedOne;
 
     return (
-        <ScrollLayout>
+        <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View style={styles.container}>
                 {
                     message && (
@@ -159,7 +171,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor, activeOnesLayoutTy
                             <PageRow spaceBetween>
                                 <PageColumn style={{ gap: 12 }}>
                                     <PageRow>
-                                        <SimpleIcon iconSrc={selectedOne.icon} large removeBackground={false}/>
+                                        <SimpleIcon iconSrc={selectedOne.icon} large removeBackground={false} />
                                         <AnimatedHeader title={selectedOne.name}
                                             style={{ alignItems: 'flex-start', marginStart: 8 }}
                                             subtitle='Your One' />
@@ -174,7 +186,7 @@ function OnesLayout({ selectedOneId, ones, oneForm, executor, activeOnesLayoutTy
                     {BodyLayout.map((item) => item)}
                 </PageColumn>
             </View>
-        </ScrollLayout>
+        </ScrollView>
     );
 }
 

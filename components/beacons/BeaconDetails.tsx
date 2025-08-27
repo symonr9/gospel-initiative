@@ -112,6 +112,7 @@ function BeaconDetails({ incomingCursorIdx, completedCursorIdx,
                                 return (
                                     <SimpleGridCard iconSrc={item.userIcon}
                                         onClick={onClick}
+                                        useTextTintForIcon={false}
                                         title={item.shareOwnName ? `Prayed for ${item.userName || 'a Beacon'}` : `Prayed for a friend`}
                                         subtitle={title} />
                                 );
