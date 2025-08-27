@@ -2,8 +2,8 @@ export default ({ config }) => ({
     expo: {
         name: "The Gospel Initiative",
         slug: "gospel-initiative",
-        version: "1.2.3",
-        runtimeVersion: "1.2.3",
+        version: "1.2.4",
+        runtimeVersion: "1.2.4",
         orientation: "portrait",
         icon: "./assets/images/gospel-initiative/app-logo.png",
         scheme: "myapp",
